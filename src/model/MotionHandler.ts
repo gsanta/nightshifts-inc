@@ -1,4 +1,5 @@
 import { Mesh, Vector3 } from 'babylonjs';
+import { Movable } from './Creature';
 
 export enum Direction {
     FORWARD, BACKWARD, LEFT, RIGHT
@@ -6,12 +7,12 @@ export enum Direction {
 
 export class MotionHandler {
     public static readonly DEFAULT_SPEED: number = 2;
-    private player: Mesh;
+    private player: Movable;
     private speed: number;
     private directions: Direction[] = [];
     private vectorDirection: Vector3 = new Vector3(0, 0, 0);
 
-    constructor(player: Mesh, speed: number) {
+    constructor(player: Movable, speed: number) {
         this.player = player;
         this.speed = speed;
     }
@@ -37,9 +38,9 @@ export class MotionHandler {
     private static directionToUnitVector(direction: Direction) {
         switch(direction) {
             case Direction.FORWARD:
-                return new Vector3(0, 1, 0);
+                return new Vector3(0, 0, 1);
             case Direction.BACKWARD:
-                return new Vector3(0, -1, 0);
+                return new Vector3(0, 0, -1);
             case Direction.LEFT:
                 return new Vector3(-1, 0, 0);
             case Direction.RIGHT:

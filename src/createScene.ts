@@ -2,21 +2,27 @@ import { Engine, Vector3, MeshBuilder } from "babylonjs";
 import { Field } from "./model/Field";
 
 export const createScene = function (engine: Engine, canvas: HTMLCanvasElement) {
-    var scene = new BABYLON.Scene(engine);
-    var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 5, BABYLON.Vector3.Zero(), scene);
-    camera.attachControl(canvas, true);
+	var scene = new BABYLON.Scene(engine);
+	scene.collisionsEnabled = true;
+	var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 120, BABYLON.Vector3.Zero(), scene);
+    // camera.attachControl(canvas, true);
 
-	//Light direction is directly down from a position one unit up, slow decay
-	var light = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(-1, 1, -1), new BABYLON.Vector3(0, -1, 0), Math.PI / 2, 10, scene);
-	light.diffuse = new BABYLON.Color3(1, 0, 0);
-	light.specular = new BABYLON.Color3(0, 1, 0);
+	// //Light direction is directly down from a position one unit up, slow decay
+	// var light = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(-1, 1, -1), new BABYLON.Vector3(0, -1, 0), Math.PI / 2, 10, scene);
+	// light.diffuse = new BABYLON.Color3(1, 0, 0);
+	// light.specular = new BABYLON.Color3(0, 1, 0);
 
-	//Light direction is directly down from a position one unit up, fast decay
-	var light1 = new BABYLON.SpotLight("spotLight1", new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(0, -1, 0), Math.PI / 2, 50, scene);
-	light1.diffuse = new BABYLON.Color3(0, 1, 0);
-	light1.specular = new BABYLON.Color3(0, 1, 0);
+	// //Light direction is directly down from a position one unit up, fast decay
+	// var light1 = new BABYLON.SpotLight("spotLight1", new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(0, 1, 5), Math.PI / 4, 1, scene);
+	// light1.diffuse = new BABYLON.Color3(0, 1, 0);
+	// light1.specular = new BABYLON.Color3(0, 1, 0);
 
-	var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 4, height: 4}, scene);
+	// var light3 = new BABYLON.SpotLight("spotLight3", new BABYLON.Vector3(0, 1, 0), new BABYLON.Vector3(0, 1, 1), Math.PI / 2, 50, scene);
+	// light3.diffuse = new BABYLON.Color3(0, 0, 1);
+	// light3.specular = new BABYLON.Color3(0, 0, 1);
+
+
+	var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
 
     return scene;
 };

@@ -1,10 +1,10 @@
 import { MotionHandler, Direction } from './MotionHandler';
 
 export enum Keys {
-     FORWARD = 87,
-     BACKWARD = 83,
-     LEFT = 65,
-     RIGHT = 68
+     FORWARD = 38,
+     BACKWARD = 40,
+     LEFT = 37,
+     RIGHT = 39
 }
 
 export class KeyboardHandler {
@@ -47,6 +47,8 @@ export class KeyboardHandler {
                     this.motionHandler.removeDirection(Direction.RIGHT);
                     break;
             }
+
+            event.preventDefault()
         });
     }
 
