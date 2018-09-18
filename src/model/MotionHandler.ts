@@ -21,6 +21,11 @@ export class MotionHandler {
         this.player.translate(this.convertToVectorDirection(), 0.1);
     }
 
+    public reverseMove() {
+        const directionVector = this.convertToVectorDirection().multiply(new Vector3(-1, -1, -1));
+        this.player.translate(directionVector, 0.1);
+    }
+
     public addDirection(direction: Direction) {
         this.directions.push(direction);
     }
@@ -30,9 +35,12 @@ export class MotionHandler {
     }
 
     private convertToVectorDirection() {
-        return this.directions
-            .map(direction => MotionHandler.directionToUnitVector(direction))
-            .reduce((accum: Vector3, next: Vector3) => accum.add(next), new Vector3(0, 0, 0));
+        const unitVectors = this.directions.map(direction => MotionHandler.directionToUnitVector(direction));
+        return this.createCombinedDirectionVectorFromBaseVectors(unitVectors);
+    }
+
+    private createCombinedDirectionVectorFromBaseVectors(vectors: Vector3[]) {
+        return vectors.reduce((accum: Vector3, next: Vector3) => accum.add(next), new Vector3(0, 0, 0));
     }
 
     private static directionToUnitVector(direction: Direction) {

@@ -26,4 +26,8 @@ export class Creature implements Movable {
         this.light.position.x = this.body.getAbsolutePosition().x;
         this.light.position.z = this.body.getAbsolutePosition().z;
     }
+
+    public getBody(): Mesh {
+        return this.body;
+    }
 }

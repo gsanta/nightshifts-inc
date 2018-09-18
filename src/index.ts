@@ -26,6 +26,12 @@ const keyboardHandler = new KeyboardHandler(motionHandler);
 keyboardHandler.subscribe();
 var renderLoop = function () {
     motionHandler.move();
+
+    if (creature.getBody().intersectsMesh(obstacle.getBody())) {
+        console.log('intersection')
+        motionHandler.reverseMove();
+    }
+
     scene.render();
 };
 engine.runRenderLoop(renderLoop);
