@@ -4,7 +4,7 @@ import { Field } from "./model/Field";
 export const createScene = function (engine: Engine, canvas: HTMLCanvasElement) {
 	var scene = new BABYLON.Scene(engine);
 	scene.collisionsEnabled = true;
-	var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 120, BABYLON.Vector3.Zero(), scene);
+	var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
     // camera.attachControl(canvas, true);
 
 	// //Light direction is directly down from a position one unit up, slow decay

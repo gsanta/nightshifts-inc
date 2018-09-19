@@ -1,5 +1,6 @@
+import { Obstacle } from './Obstacle';
 
 
 export class Field {
-    walls: BABYLON.Mesh[];
+    walls: Obstacle[];
 }

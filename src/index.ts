@@ -9,6 +9,7 @@ import { KeyboardHandler } from './model/KeyboardHandler';
 import { createScene } from './createScene';
 import { Creature } from './model/Creature';
 import { Obstacle } from './model/Obstacle';
+import { createLevel1 } from './level1/createLevel1';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);
@@ -18,16 +19,28 @@ const scene = createScene(engine, canvas);
 // redMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
 // const player = MeshBuilder.CreateSphere("player", { diameter: 1 }, scene);
 // player.material = redMat;
-const obstacle = new Obstacle(1, scene);
+const field = createLevel1(scene);
 const creature = new Creature(scene);
 
 const motionHandler = new MotionHandler(creature, 0.1);
 const keyboardHandler = new KeyboardHandler(motionHandler);
 keyboardHandler.subscribe();
+
+let previousTime = Date.now();
+
 var renderLoop = function () {
     motionHandler.move();
+    
 
-    if (creature.getBody().intersectsMesh(obstacle.getBody())) {
+    let intersects = false;
+
+    for (let i = 0; i < field.walls.length; i++) {
+        if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {
+            intersects = true;
+        }
+    }
+
+    if (intersects) {
         console.log('intersection')
         motionHandler.reverseMove();
     }
