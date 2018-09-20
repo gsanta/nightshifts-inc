@@ -16,18 +16,24 @@ export class KeyboardHandler {
 
     public subscribe() {
         document.addEventListener('keydown', (event) => {
+            const addDirectionIfDoesNotAlreadyHave = (direction: Direction) => {
+                if (!this.motionHandler.hasDirection(direction)) {
+                    this.motionHandler.addDirection(direction);
+                }
+            }
+
             switch(event.keyCode) {
                 case Keys.FORWARD:
-                    this.motionHandler.addDirection(Direction.FORWARD);
+                    addDirectionIfDoesNotAlreadyHave(Direction.FORWARD);
                     break;
                 case Keys.BACKWARD:
-                    this.motionHandler.addDirection(Direction.BACKWARD);
+                    addDirectionIfDoesNotAlreadyHave(Direction.BACKWARD);
                     break;
                 case Keys.LEFT:
-                    this.motionHandler.addDirection(Direction.LEFT);
+                    this.motionHandler.setRotationDirection(Direction.LEFT);
                     break;
                 case Keys.RIGHT:
-                    this.motionHandler.addDirection(Direction.RIGHT);
+                    this.motionHandler.setRotationDirection(Direction.RIGHT);
                     break;
             }
         });
@@ -42,8 +48,10 @@ export class KeyboardHandler {
                     break;
                 case Keys.LEFT:
                     this.motionHandler.removeDirection(Direction.LEFT);
+                    this.motionHandler.setRotationDirection(null);
                     break;
                 case Keys.RIGHT:
+                    this.motionHandler.setRotationDirection(null);
                     this.motionHandler.removeDirection(Direction.RIGHT);
                     break;
             }

@@ -8,30 +8,50 @@ export enum Direction {
 export class MotionHandler {
     public static readonly DEFAULT_SPEED: number = 2;
     private player: Movable;
-    private speed: number;
     private directions: Direction[] = [];
-    private vectorDirection: Vector3 = new Vector3(0, 0, 0);
+    private rotationDirection: Direction = null;
 
-    constructor(player: Movable, speed: number) {
+    private interval = 1000;
+    private distanceByInterval = 10;
+
+    constructor(player: Movable) {
         this.player = player;
-        this.speed = speed;
     }
 
-    public move() {
-        this.player.translate(this.convertToVectorDirection(), 0.1);
+    public move(elapsedTime: number) {
+        let distance = elapsedTime / this.interval * this.distanceByInterval;
+        this.player.translate(this.convertToVectorDirection(), distance);
     }
 
-    public reverseMove() {
+    public reverseMove(elapsedTime: number) {
+        let distance = elapsedTime / this.interval * this.distanceByInterval;
         const directionVector = this.convertToVectorDirection().multiply(new Vector3(-1, -1, -1));
-        this.player.translate(directionVector, 0.1);
+        this.player.translate(directionVector, distance);
+    }
+
+    public rotate(elapsedTime: number) {
+        let distance = elapsedTime / this.interval;
+        if (this.rotationDirection === Direction.RIGHT) {
+            this.player.rotate(Math.PI * 2 * distance);
+        } else if (this.rotationDirection === Direction.LEFT) {
+            this.player.rotate(-1 * Math.PI * 2 * distance);
+        }
     }
 
     public addDirection(direction: Direction) {
         this.directions.push(direction);
     }
 
+    public hasDirection(direction: Direction) {
+        return this.directions.indexOf(direction) !== -1;
+    }
+
     public removeDirection(direction: Direction) {
         this.directions = this.directions.filter((dir) => dir !== direction);
+    }
+
+    public setRotationDirection(direction: Direction) {
+        this.rotationDirection = direction;
     }
 
     private convertToVectorDirection() {
@@ -56,5 +76,3 @@ export class MotionHandler {
         }
     }
 }
-
-// this.gameObject.meshObject.translate(BABYLON.Vector3.Up(), this.movementSpeed * Tools.getDeltaTime());

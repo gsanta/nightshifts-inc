@@ -22,15 +22,20 @@ const scene = createScene(engine, canvas);
 const field = createLevel1(scene);
 const creature = new Creature(scene);
 
-const motionHandler = new MotionHandler(creature, 0.1);
+const motionHandler = new MotionHandler(creature);
 const keyboardHandler = new KeyboardHandler(motionHandler);
 keyboardHandler.subscribe();
 
 let previousTime = Date.now();
 
 var renderLoop = function () {
-    motionHandler.move();
-    
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - previousTime;
+    previousTime = currentTime;
+
+    motionHandler.move(elapsedTime);
+    motionHandler.rotate(elapsedTime);
+
 
     let intersects = false;
 
@@ -42,7 +47,7 @@ var renderLoop = function () {
 
     if (intersects) {
         console.log('intersection')
-        motionHandler.reverseMove();
+        motionHandler.reverseMove(elapsedTime);
     }
 
     scene.render();

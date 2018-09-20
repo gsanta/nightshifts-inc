@@ -3,6 +3,7 @@ import { Mesh, SpotLight, MeshBuilder, Scene, Vector3 } from 'babylonjs';
 
 export interface Movable {
     translate(axis: Vector3, distance: number);
+    rotate(distance: number);
 }
 
 export class Creature implements Movable {
@@ -19,12 +20,17 @@ export class Creature implements Movable {
         this.light = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(0, 1, 5), Math.PI / 4, 1, scene);
         this.light.diffuse = new BABYLON.Color3(0, 1, 0);
         this.light.specular = new BABYLON.Color3(0, 1, 0);
+        this.light.parent = this.body;
     }
 
     public translate(axis: Vector3, distance: number) {
         this.body.translate(axis, distance);
-        this.light.position.x = this.body.getAbsolutePosition().x;
-        this.light.position.z = this.body.getAbsolutePosition().z;
+        // this.light.position.x = this.body.getAbsolutePosition().x;
+        // this.light.position.z = this.body.getAbsolutePosition().z;
+    }
+
+    public rotate(distance: number) {
+        this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.LOCAL);
     }
 
     public getBody(): Mesh {
