@@ -18,6 +18,29 @@ export class MotionHandler {
         this.player = player;
     }
 
+    public getPosition() {
+        return this.player.getPosition();
+    }
+
+    public setPosition(position: Vector3) {
+        this.player.setPotision(position);
+    }
+
+    public shouldMove() {
+        return this.directions.length > 0;
+    }
+
+    public getMoveDelta(elapsedTime: number) {
+        let distance = elapsedTime / this.interval * this.distanceByInterval;
+        const position = this.player.getPosition();
+        const translation = this.convertToVectorDirection().scale(distance);
+        return translation;
+    }
+
+    public translate(v: Vector3) {
+        this.player.translate(v, 1);
+    }
+
     public move(elapsedTime: number) {
         let distance = elapsedTime / this.interval * this.distanceByInterval;
         this.player.translate(this.convertToVectorDirection(), distance);

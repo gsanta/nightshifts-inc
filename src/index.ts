@@ -10,6 +10,7 @@ import { createScene } from './createScene';
 import { Creature } from './model/Creature';
 import { Obstacle } from './model/Obstacle';
 import { createLevel1 } from './level1/createLevel1';
+import { CollisionHandler } from './model/CollisionHandler';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);
@@ -28,12 +29,29 @@ keyboardHandler.subscribe();
 
 let previousTime = Date.now();
 
+const collisionHandler = new CollisionHandler(creature.getBody())
+
 var renderLoop = function () {
     const currentTime = Date.now();
     const elapsedTime = currentTime - previousTime;
     previousTime = currentTime;
 
-    motionHandler.move(elapsedTime);
+    let previousRotation: BABYLON.Quaternion = null;
+    if (creature.getBody().rotationQuaternion) {
+        previousRotation = creature.getBody().rotationQuaternion.clone();
+    }
+
+    let previousPosition: Vector3 = null;
+    if (creature.getBody().absolutePosition) {
+        previousPosition = creature.getBody().absolutePosition.clone();
+    }
+
+    // const prevMatrix = creature.getBody().getWorldMatrix().clone();
+    let delta = new Vector3(0, 0, 0);
+    if (motionHandler.shouldMove()) {
+        delta = motionHandler.getMoveDelta(elapsedTime);
+        motionHandler.translate(delta);
+    }
     motionHandler.rotate(elapsedTime);
 
 
@@ -41,13 +59,21 @@ var renderLoop = function () {
 
     for (let i = 0; i < field.walls.length; i++) {
         if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {
+            motionHandler.setPosition(previousPosition);
+            creature.getBody().rotationQuaternion = previousRotation;
+            console.log(delta)
+            const adjustedDelta = collisionHandler.getAdjustedPositionDelta(delta, field.walls[i].getBody());
+            motionHandler.translate(adjustedDelta);
+            break;
             intersects = true;
         }
     }
 
     if (intersects) {
-        console.log('intersection')
-        motionHandler.reverseMove(elapsedTime);
+        // console.log('intersection')
+        // motionHandler.setPosition(previousPosition);
+        // creature.getBody().rotationQuaternion = previousRotation;
+        // creature.getBody()._worldMatrix = prevMatrix;
     }
 
     scene.render();

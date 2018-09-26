@@ -4,6 +4,8 @@ import { Mesh, SpotLight, MeshBuilder, Scene, Vector3 } from 'babylonjs';
 export interface Movable {
     translate(axis: Vector3, distance: number);
     rotate(distance: number);
+    getPosition(): Vector3;
+    setPotision(position: Vector3);
 }
 
 export class Creature implements Movable {
@@ -35,5 +37,13 @@ export class Creature implements Movable {
 
     public getBody(): Mesh {
         return this.body;
+    }
+
+    public getPosition(): Vector3 {
+        return this.body.position;
+    }
+
+    public setPotision(position: Vector3) {
+        this.body.position = position;
     }
 }
