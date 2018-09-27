@@ -1,15 +1,15 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { Movable } from './Creature';
 
-export enum Direction {
+export enum Movement {
     FORWARD, BACKWARD, LEFT, RIGHT
 }
 
 export class MotionHandler {
     public static readonly DEFAULT_SPEED: number = 2;
     private player: Movable;
-    private directions: Direction[] = [];
-    private rotationDirection: Direction = null;
+    private directions: Movement[] = [];
+    private rotationDirection: Movement = null;
 
     private interval = 1000;
     private distanceByInterval = 10;
@@ -54,26 +54,26 @@ export class MotionHandler {
 
     public rotate(elapsedTime: number) {
         let distance = elapsedTime / this.interval;
-        if (this.rotationDirection === Direction.RIGHT) {
+        if (this.rotationDirection === Movement.RIGHT) {
             this.player.rotate(Math.PI * 2 * distance);
-        } else if (this.rotationDirection === Direction.LEFT) {
+        } else if (this.rotationDirection === Movement.LEFT) {
             this.player.rotate(-1 * Math.PI * 2 * distance);
         }
     }
 
-    public addDirection(direction: Direction) {
+    public addDirection(direction: Movement) {
         this.directions.push(direction);
     }
 
-    public hasDirection(direction: Direction) {
+    public hasDirection(direction: Movement) {
         return this.directions.indexOf(direction) !== -1;
     }
 
-    public removeDirection(direction: Direction) {
+    public removeDirection(direction: Movement) {
         this.directions = this.directions.filter((dir) => dir !== direction);
     }
 
-    public setRotationDirection(direction: Direction) {
+    public setRotationDirection(direction: Movement) {
         this.rotationDirection = direction;
     }
 
@@ -86,15 +86,15 @@ export class MotionHandler {
         return vectors.reduce((accum: Vector3, next: Vector3) => accum.add(next), new Vector3(0, 0, 0));
     }
 
-    private static directionToUnitVector(direction: Direction) {
+    private static directionToUnitVector(direction: Movement) {
         switch(direction) {
-            case Direction.FORWARD:
+            case Movement.FORWARD:
                 return new Vector3(0, 0, 1);
-            case Direction.BACKWARD:
+            case Movement.BACKWARD:
                 return new Vector3(0, 0, -1);
-            case Direction.LEFT:
+            case Movement.LEFT:
                 return new Vector3(-1, 0, 0);
-            case Direction.RIGHT:
+            case Movement.RIGHT:
                 return new Vector3(1, 0, 0);
         }
     }

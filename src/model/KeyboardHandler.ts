@@ -1,4 +1,4 @@
-import { MotionHandler, Direction } from './MotionHandler';
+import { MotionHandler, Movement } from './MotionHandler';
 
 export enum Keys {
      FORWARD = 38,
@@ -16,7 +16,7 @@ export class KeyboardHandler {
 
     public subscribe() {
         document.addEventListener('keydown', (event) => {
-            const addDirectionIfDoesNotAlreadyHave = (direction: Direction) => {
+            const addDirectionIfDoesNotAlreadyHave = (direction: Movement) => {
                 if (!this.motionHandler.hasDirection(direction)) {
                     this.motionHandler.addDirection(direction);
                 }
@@ -24,16 +24,16 @@ export class KeyboardHandler {
 
             switch(event.keyCode) {
                 case Keys.FORWARD:
-                    addDirectionIfDoesNotAlreadyHave(Direction.FORWARD);
+                    addDirectionIfDoesNotAlreadyHave(Movement.FORWARD);
                     break;
                 case Keys.BACKWARD:
-                    addDirectionIfDoesNotAlreadyHave(Direction.BACKWARD);
+                    addDirectionIfDoesNotAlreadyHave(Movement.BACKWARD);
                     break;
                 case Keys.LEFT:
-                    this.motionHandler.setRotationDirection(Direction.LEFT);
+                    this.motionHandler.setRotationDirection(Movement.LEFT);
                     break;
                 case Keys.RIGHT:
-                    this.motionHandler.setRotationDirection(Direction.RIGHT);
+                    this.motionHandler.setRotationDirection(Movement.RIGHT);
                     break;
             }
         });
@@ -41,18 +41,18 @@ export class KeyboardHandler {
         document.addEventListener('keyup', (event) => {
             switch(event.keyCode) {
                 case Keys.FORWARD:
-                    this.motionHandler.removeDirection(Direction.FORWARD);
+                    this.motionHandler.removeDirection(Movement.FORWARD);
                     break;
                 case Keys.BACKWARD:
-                    this.motionHandler.removeDirection(Direction.BACKWARD);
+                    this.motionHandler.removeDirection(Movement.BACKWARD);
                     break;
                 case Keys.LEFT:
-                    this.motionHandler.removeDirection(Direction.LEFT);
+                    this.motionHandler.removeDirection(Movement.LEFT);
                     this.motionHandler.setRotationDirection(null);
                     break;
                 case Keys.RIGHT:
                     this.motionHandler.setRotationDirection(null);
-                    this.motionHandler.removeDirection(Direction.RIGHT);
+                    this.motionHandler.removeDirection(Movement.RIGHT);
                     break;
             }
 

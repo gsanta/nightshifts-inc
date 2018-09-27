@@ -56,14 +56,19 @@ var renderLoop = function () {
 
 
     let intersects = false;
+    // console.log((<any>motionHandler).directions.length)
 
     for (let i = 0; i < field.walls.length; i++) {
         if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {
             motionHandler.setPosition(previousPosition);
             creature.getBody().rotationQuaternion = previousRotation;
-            console.log(delta)
+            if ((<any>motionHandler).directions.length > 0) {
+                1;
+                debugger;
+            }
             const adjustedDelta = collisionHandler.getAdjustedPositionDelta(delta, field.walls[i].getBody());
             motionHandler.translate(adjustedDelta);
+
             break;
             intersects = true;
         }

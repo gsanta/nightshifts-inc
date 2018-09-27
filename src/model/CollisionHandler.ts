@@ -1,5 +1,12 @@
 import { Mesh, Vector3 } from 'babylonjs';
-import { Direction } from './MotionHandler';
+import { Movement } from './MotionHandler';
+
+export enum Direction {
+    NORTH,
+    SOUTH,
+    WEST,
+    EAST
+}
 
 export class CollisionHandler {
     private player: Mesh;
@@ -13,34 +20,73 @@ export class CollisionHandler {
             positionDelta.z = 0;
             return positionDelta;
         }
+
+        return positionDelta;
     }
 
     private doesCollideVertically(positionDelta: Vector3, obstacle: Mesh) {
         const direction = this.getVerticalDirection(positionDelta);
-        const offsettedPlayerPos = this.player.getAbsolutePosition().z + positionDelta.z;
+        let playerPos = this.player.getAbsolutePosition().z + positionDelta.z;
 
-        if (direction === Direction.FORWARD) {
+        if (direction === Movement.FORWARD) {
             const obstaclePos = obstacle.getAbsolutePosition().z;
-            if (offsettedPlayerPos > obstaclePos) {
+            if (playerPos < obstaclePos) {
                 return true;
             }
         } else {
-            const obstacleHeight = obstacle.getBoundingInfo().boundingBox.extendSize.scale(2).z;
-            const obstaclePos = obstacle.getAbsolutePosition().z + obstacleHeight;
-            if (offsettedPlayerPos < obstaclePos) {
-                return true;
+            if (obstacle.getBoundingInfo().boundingBox.extendSize) {
+                if (this.getObstacleOrientation(obstacle) === Direction.NORTH) {
+                    if (this.getBottom(obstacle) < this.getTop(this.player)) {
+                        return true;
+                    }
+                } else {
+                    if (this.getTop(obstacle) > this.getBottom(this.player)) {
+                        return true;
+                    }
+                    return false;
+                }
+
             }
         }
-        this.player.getAbsolutePosition().z
-        return positionDelta.z;
+        return false;
     }
 
     private getVerticalDirection(positionDelta: Vector3) {
         if (positionDelta.z > 0) {
-            return Direction.FORWARD;
+            return Movement.FORWARD;
         } else {
-            return Direction.BACKWARD;
+            return Movement.BACKWARD;
         }
+    }
+
+    private getObstacleOrientation(obstacle: Mesh): Direction {
+        let obstacleTop = this.getTop(obstacle);
+        let playerTop = this.getTop(this.player);
+        if (playerTop < obstacleTop) {
+            return Direction.NORTH;
+        } else {
+            return Direction.SOUTH;
+        }
+    }
+
+    private getTop(obstacle: Mesh) {
+        if (obstacle.getAbsolutePosition().z < 0) {
+            return obstacle.getAbsolutePosition().z;
+        } else {
+            return obstacle.getAbsolutePosition().z + this.getHeight(obstacle);
+        }
+    }
+
+    private getBottom(mesh: Mesh) {
+        if (mesh.getAbsolutePosition().z < 0) {
+            return mesh.getAbsolutePosition().z - this.getHeight(mesh);
+        } else {
+            return mesh.getAbsolutePosition().z;
+        }
+    }
+
+    private getHeight(obstacle: Mesh) {
+        return obstacle.getBoundingInfo().boundingBox.extendSize.scale(2).z;
     }
 
     private doesCollideHorizontally(positionDelta: Vector3) {
