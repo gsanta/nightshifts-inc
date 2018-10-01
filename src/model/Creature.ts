@@ -32,7 +32,7 @@ export class Creature implements Movable {
     }
 
     public rotate(distance: number) {
-        this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.LOCAL);
+        this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public getBody(): Mesh {

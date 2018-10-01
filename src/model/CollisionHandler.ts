@@ -16,12 +16,25 @@ export class CollisionHandler {
     }
 
     public getAdjustedPositionDelta(positionDelta: Vector3, obstacle: Mesh) {
-        if (this.doesCollideVertically(positionDelta, obstacle)) {
-            positionDelta.z = 0;
+        if (!this.player.rotationQuaternion) {
             return positionDelta;
         }
 
-        return positionDelta;
+        const rotation = this.player.rotationQuaternion.toEulerAngles().y;
+        const horizontalDirection = Math.sin(rotation) * positionDelta.z;
+        const verticalDirection = Math.cos(rotation) * positionDelta.z;
+
+        const normalizedPositionDelta = new Vector3(horizontalDirection, 0, verticalDirection);
+        console.log('distance: ' + positionDelta.z + ' vdistance: ' + verticalDirection + ' hdistance: ' + horizontalDirection)
+        if (this.doesCollideVertically(normalizedPositionDelta, obstacle)) {
+            normalizedPositionDelta.z = 0;
+        }
+
+        if (this.doesCollideHorizontally(normalizedPositionDelta, obstacle)) {
+            normalizedPositionDelta.x = 0;
+        }
+
+        return normalizedPositionDelta;
     }
 
     private doesCollideVertically(positionDelta: Vector3, obstacle: Mesh) {
@@ -49,6 +62,28 @@ export class CollisionHandler {
             }
         }
         return false;
+    }
+
+    public doesCollideHorizontally(positionDelta: Vector3, obstacle: Mesh) {
+        const direction = this.getHorizontalDirection(positionDelta);
+        let playerPos = this.player.getAbsolutePosition().x + positionDelta.x;
+
+        if (direction === Movement.RIGHT) {
+            const obstaclePos = obstacle.getAbsolutePosition().x;
+            if (playerPos < obstaclePos) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private getHorizontalDirection(positionDelta: Vector3) {
+        if (positionDelta.x > 0) {
+            return Movement.RIGHT;
+        } else {
+            return Movement.LEFT;
+        }
     }
 
     private getVerticalDirection(positionDelta: Vector3) {
@@ -89,7 +124,4 @@ export class CollisionHandler {
         return obstacle.getBoundingInfo().boundingBox.extendSize.scale(2).z;
     }
 
-    private doesCollideHorizontally(positionDelta: Vector3) {
-        return positionDelta.z;
-    }
 }

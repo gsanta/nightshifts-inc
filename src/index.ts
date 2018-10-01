@@ -53,8 +53,10 @@ var renderLoop = function () {
         motionHandler.translate(delta);
     }
     motionHandler.rotate(elapsedTime);
-
-
+    // console.log(delta)
+    // if (creature.getBody().rotationQuaternion) {
+    //     console.log(creature.getBody().rotationQuaternion.toEulerAngles())
+    // }
     let intersects = false;
     // console.log((<any>motionHandler).directions.length)
 
@@ -62,10 +64,7 @@ var renderLoop = function () {
         if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {
             motionHandler.setPosition(previousPosition);
             creature.getBody().rotationQuaternion = previousRotation;
-            if ((<any>motionHandler).directions.length > 0) {
-                1;
-                debugger;
-            }
+            
             const adjustedDelta = collisionHandler.getAdjustedPositionDelta(delta, field.walls[i].getBody());
             motionHandler.translate(adjustedDelta);
 

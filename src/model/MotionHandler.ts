@@ -33,7 +33,7 @@ export class MotionHandler {
     public getMoveDelta(elapsedTime: number) {
         let distance = elapsedTime / this.interval * this.distanceByInterval;
         const position = this.player.getPosition();
-        const translation = this.convertToVectorDirection().scale(distance);
+        const translation = new Vector3(0, 0, 1).scale(distance);
         return translation;
     }
 
@@ -43,7 +43,7 @@ export class MotionHandler {
 
     public move(elapsedTime: number) {
         let distance = elapsedTime / this.interval * this.distanceByInterval;
-        this.player.translate(this.convertToVectorDirection(), distance);
+        this.player.translate(new Vector3(0, 0, 1), distance);
     }
 
     public reverseMove(elapsedTime: number) {
