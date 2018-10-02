@@ -53,23 +53,25 @@ var renderLoop = function () {
         motionHandler.translate(delta);
     }
     motionHandler.rotate(elapsedTime);
-    // console.log(delta)
+    console.log(delta)
     // if (creature.getBody().rotationQuaternion) {
     //     console.log(creature.getBody().rotationQuaternion.toEulerAngles())
     // }
     let intersects = false;
     // console.log((<any>motionHandler).directions.length)
+    console.log(motionHandler.isIdle())
+    if (!motionHandler.isIdle()) {
+        for (let i = 0; i < field.walls.length; i++) {
+            if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {
+                motionHandler.setPosition(previousPosition);
+                creature.getBody().rotationQuaternion = previousRotation;
 
-    for (let i = 0; i < field.walls.length; i++) {
-        if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {
-            motionHandler.setPosition(previousPosition);
-            creature.getBody().rotationQuaternion = previousRotation;
-            
-            const adjustedDelta = collisionHandler.getAdjustedPositionDelta(delta, field.walls[i].getBody());
-            motionHandler.translate(adjustedDelta);
+                const adjustedDelta = collisionHandler.getAdjustedPositionDelta(delta, field.walls[i].getBody());
+                motionHandler.translate(adjustedDelta);
 
-            break;
-            intersects = true;
+                break;
+                intersects = true;
+            }
         }
     }
 

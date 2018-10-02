@@ -33,7 +33,17 @@ export class MotionHandler {
     public getMoveDelta(elapsedTime: number) {
         let distance = elapsedTime / this.interval * this.distanceByInterval;
         const position = this.player.getPosition();
-        const translation = new Vector3(0, 0, 1).scale(distance);
+
+        let vec: Vector3;
+        if (this.directions.length > 0) {
+            if (this.directions[0] === Movement.FORWARD) {
+                vec = new Vector3(0, 0, 1);
+            } else if (this.directions[0] === Movement.BACKWARD) {
+                vec = new Vector3(0, 0, -1);
+            }
+        }
+
+        const translation = vec.scale(distance);
         return translation;
     }
 
@@ -43,7 +53,17 @@ export class MotionHandler {
 
     public move(elapsedTime: number) {
         let distance = elapsedTime / this.interval * this.distanceByInterval;
-        this.player.translate(new Vector3(0, 0, 1), distance);
+
+        let vec: Vector3;
+        if (this.directions.length > 0) {
+            if (this.directions[0] === Movement.FORWARD) {
+                vec = new Vector3(0, 0, 1);
+            } else if (this.directions[0] === Movement.BACKWARD) {
+                vec = new Vector3(0, 0, -1);
+            }
+        }
+
+        this.player.translate(vec, distance);
     }
 
     public reverseMove(elapsedTime: number) {
@@ -59,6 +79,10 @@ export class MotionHandler {
         } else if (this.rotationDirection === Movement.LEFT) {
             this.player.rotate(-1 * Math.PI * 2 * distance);
         }
+    }
+
+    public isIdle() {
+        return this.directions.length === 0;
     }
 
     public addDirection(direction: Movement) {
@@ -86,6 +110,7 @@ export class MotionHandler {
         return vectors.reduce((accum: Vector3, next: Vector3) => accum.add(next), new Vector3(0, 0, 0));
     }
 
+    private static directionToUni
     private static directionToUnitVector(direction: Movement) {
         switch(direction) {
             case Movement.FORWARD:

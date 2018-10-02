@@ -25,7 +25,6 @@ export class CollisionHandler {
         const verticalDirection = Math.cos(rotation) * positionDelta.z;
 
         const normalizedPositionDelta = new Vector3(horizontalDirection, 0, verticalDirection);
-        console.log('distance: ' + positionDelta.z + ' vdistance: ' + verticalDirection + ' hdistance: ' + horizontalDirection)
         if (this.doesCollideVertically(normalizedPositionDelta, obstacle)) {
             normalizedPositionDelta.z = 0;
         }
@@ -39,26 +38,20 @@ export class CollisionHandler {
 
     private doesCollideVertically(positionDelta: Vector3, obstacle: Mesh) {
         const direction = this.getVerticalDirection(positionDelta);
-        let playerPos = this.player.getAbsolutePosition().z + positionDelta.z;
 
         if (direction === Movement.FORWARD) {
-            const obstaclePos = obstacle.getAbsolutePosition().z;
-            if (playerPos < obstaclePos) {
+            let playerPos = this.getTop(this.player) + positionDelta.z;
+            const obstaclePos = this.getBottom(obstacle);
+
+            if (playerPos > obstaclePos) {
                 return true;
             }
-        } else {
-            if (obstacle.getBoundingInfo().boundingBox.extendSize) {
-                if (this.getObstacleOrientation(obstacle) === Direction.NORTH) {
-                    if (this.getBottom(obstacle) < this.getTop(this.player)) {
-                        return true;
-                    }
-                } else {
-                    if (this.getTop(obstacle) > this.getBottom(this.player)) {
-                        return true;
-                    }
-                    return false;
-                }
+        } else if (direction === Movement.BACKWARD) {
+            let playerPos = this.getBottom(this.player) + positionDelta.z;
+            const obstaclePos = this.getTop(obstacle);
 
+            if (playerPos < obstaclePos) {
+                return true;
             }
         }
         return false;
@@ -66,10 +59,16 @@ export class CollisionHandler {
 
     public doesCollideHorizontally(positionDelta: Vector3, obstacle: Mesh) {
         const direction = this.getHorizontalDirection(positionDelta);
-        let playerPos = this.player.getAbsolutePosition().x + positionDelta.x;
 
         if (direction === Movement.RIGHT) {
-            const obstaclePos = obstacle.getAbsolutePosition().x;
+            let playerPos = this.getLeft(this.player) + this.getWidth(this.player) + positionDelta.x;
+            const obstaclePos = this.getLeft(obstacle);
+            if (playerPos > obstaclePos) {
+                return true;
+            }
+        } else if (direction === Movement.LEFT) {
+            let playerPos = this.getLeft(this.player) + positionDelta.x;
+            const obstaclePos = this.getLeft(obstacle) + this.getWidth(obstacle);
             if (playerPos < obstaclePos) {
                 return true;
             }
@@ -120,8 +119,19 @@ export class CollisionHandler {
         }
     }
 
+    private getLeft(mesh: Mesh) {
+        if (mesh.getAbsolutePosition().x < 0) {
+            return mesh.getAbsolutePosition().x - this.getWidth(mesh);
+        } else {
+            return mesh.getAbsolutePosition().x;
+        }
+    }
+
     private getHeight(obstacle: Mesh) {
         return obstacle.getBoundingInfo().boundingBox.extendSize.scale(2).z;
     }
 
+    private getWidth(obstacle: Mesh) {
+        return obstacle.getBoundingInfo().boundingBox.extendSize.scale(2).x;
+    }
 }
