@@ -53,13 +53,12 @@ var renderLoop = function () {
         motionHandler.translate(delta);
     }
     motionHandler.rotate(elapsedTime);
-    console.log(delta)
     // if (creature.getBody().rotationQuaternion) {
     //     console.log(creature.getBody().rotationQuaternion.toEulerAngles())
     // }
     let intersects = false;
+    console.log(creature.getBody().getAbsolutePosition().x)
     // console.log((<any>motionHandler).directions.length)
-    console.log(motionHandler.isIdle())
     if (!motionHandler.isIdle()) {
         for (let i = 0; i < field.walls.length; i++) {
             if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {

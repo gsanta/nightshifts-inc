@@ -39,39 +39,32 @@ export class CollisionHandler {
     private doesCollideVertically(positionDelta: Vector3, obstacle: Mesh) {
         const direction = this.getVerticalDirection(positionDelta);
 
-        if (direction === Movement.FORWARD) {
-            let playerPos = this.getTop(this.player) + positionDelta.z;
-            const obstaclePos = this.getBottom(obstacle);
+        const playerTop = this.getTop(this.player) + positionDelta.z;
+        const playerBottom = this.getBottom(this.player) + positionDelta.z;
 
-            if (playerPos > obstaclePos) {
-                return true;
-            }
-        } else if (direction === Movement.BACKWARD) {
-            let playerPos = this.getBottom(this.player) + positionDelta.z;
-            const obstaclePos = this.getTop(obstacle);
+        const obstacleTop = this.getTop(obstacle);
+        const obstacleBottom = this.getBottom(obstacle);
 
-            if (playerPos < obstaclePos) {
-                return true;
-            }
+        if (obstacleTop > playerTop && obstacleBottom < playerTop ||
+            obstacleTop > playerBottom && obstacleBottom < playerBottom) {
+            return true;
         }
+
         return false;
     }
 
     public doesCollideHorizontally(positionDelta: Vector3, obstacle: Mesh) {
-        const direction = this.getHorizontalDirection(positionDelta);
 
-        if (direction === Movement.RIGHT) {
-            let playerPos = this.getLeft(this.player) + this.getWidth(this.player) + positionDelta.x;
-            const obstaclePos = this.getLeft(obstacle);
-            if (playerPos > obstaclePos) {
-                return true;
-            }
-        } else if (direction === Movement.LEFT) {
-            let playerPos = this.getLeft(this.player) + positionDelta.x;
-            const obstaclePos = this.getLeft(obstacle) + this.getWidth(obstacle);
-            if (playerPos < obstaclePos) {
-                return true;
-            }
+
+        const playerLeft = this.getLeft(this.player) + positionDelta.x;
+        const playerRight = this.getRight(this.player) + positionDelta.x;
+
+        const obstacleLeft = this.getLeft(obstacle);
+        const obstacleRight = this.getRight(obstacle);
+
+        if (obstacleLeft < playerLeft && obstacleRight > playerLeft ||
+            obstacleLeft < playerRight && obstacleRight > playerRight) {
+            return true;
         }
 
         return false;
@@ -124,6 +117,14 @@ export class CollisionHandler {
             return mesh.getAbsolutePosition().x - this.getWidth(mesh);
         } else {
             return mesh.getAbsolutePosition().x;
+        }
+    }
+
+    private getRight(mesh: Mesh) {
+        if (mesh.getAbsolutePosition().x < 0) {
+            return mesh.getAbsolutePosition().x;
+        } else {
+            return mesh.getAbsolutePosition().x + this.getWidth(mesh);
         }
     }
 
