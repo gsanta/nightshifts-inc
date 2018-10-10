@@ -1,5 +1,4 @@
 import { Mesh, Vector3 } from 'babylonjs';
-import { Movement } from './MotionHandler';
 
 export enum Direction {
     NORTH,
@@ -37,8 +36,6 @@ export class CollisionHandler {
     }
 
     private doesCollideVertically(positionDelta: Vector3, obstacle: Mesh) {
-        const direction = this.getVerticalDirection(positionDelta);
-
         const playerTop = this.getTop(this.player) + positionDelta.z;
         const playerBottom = this.getBottom(this.player) + positionDelta.z;
 
@@ -68,32 +65,6 @@ export class CollisionHandler {
         }
 
         return false;
-    }
-
-    private getHorizontalDirection(positionDelta: Vector3) {
-        if (positionDelta.x > 0) {
-            return Movement.RIGHT;
-        } else {
-            return Movement.LEFT;
-        }
-    }
-
-    private getVerticalDirection(positionDelta: Vector3) {
-        if (positionDelta.z > 0) {
-            return Movement.FORWARD;
-        } else {
-            return Movement.BACKWARD;
-        }
-    }
-
-    private getObstacleOrientation(obstacle: Mesh): Direction {
-        let obstacleTop = this.getTop(obstacle);
-        let playerTop = this.getTop(this.player);
-        if (playerTop < obstacleTop) {
-            return Direction.NORTH;
-        } else {
-            return Direction.SOUTH;
-        }
     }
 
     private getTop(obstacle: Mesh) {
