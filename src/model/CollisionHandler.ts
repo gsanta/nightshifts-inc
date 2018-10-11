@@ -19,6 +19,7 @@ export class CollisionHandler {
             return positionDelta;
         }
 
+
         const rotation = this.player.rotationQuaternion.toEulerAngles().y;
         const horizontalDirection = Math.sin(rotation) * positionDelta.z;
         const verticalDirection = Math.cos(rotation) * positionDelta.z;

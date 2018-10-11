@@ -63,6 +63,47 @@ var renderLoop = function () {
         }
     }
 
+    castRay();
+
     scene.render();
 };
+
+function vecToLocal(vector, mesh){
+    var m = mesh.getWorldMatrix();
+    var v = BABYLON.Vector3.TransformCoordinates(vector, m);
+    return v;		 
+}
+
+let prevRayHelper: BABYLON.RayHelper = null;
+
+function castRay(){       
+    var origin = creature.getBody().position.clone();
+    origin.y += 1;
+
+    var forward = new BABYLON.Vector3(0,1,1);
+    forward = vecToLocal(forward, creature.getBody());
+
+    var direction = forward.subtract(origin);
+    direction = BABYLON.Vector3.Normalize(direction);
+
+    var length = 40;
+
+    var ray = new BABYLON.Ray(origin, direction, length);
+
+    let rayHelper = new BABYLON.RayHelper(ray);
+    rayHelper.show(scene, new BABYLON.Color3(0.5, 0.5, 0.5));
+
+    var hit = scene.pickWithRay(ray, null);
+
+    if (prevRayHelper) {
+        prevRayHelper.dispose();
+    }
+
+    prevRayHelper = rayHelper;
+
+    if (hit.pickedMesh) {
+        console.log('name: ' + hit.getNormal());
+    }
+}
+
 engine.runRenderLoop(renderLoop);
