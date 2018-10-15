@@ -1,5 +1,5 @@
 import { Vector3 } from 'babylonjs';
-import { Movable } from './Creature';
+import { Movable } from './creature/Creature';
 
 export class MotionHandler {
     public static readonly DEFAULT_SPEED: number = 2;
