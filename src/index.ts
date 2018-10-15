@@ -45,25 +45,57 @@ var renderLoop = function () {
     // }
     // motionHandler.rotate(elapsedTime);
 
-    if (!motionHandler.isIdle()) {
+    if (!motionHandler.isIdle() && creature.getBody().rotationQuaternion) {
         delta = motionHandler.getMoveDelta(elapsedTime);
-        motionHandler.translate(delta);
-        motionHandler.rotate(elapsedTime);
 
-        for (let i = 0; i < field.walls.length; i++) {
-            if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {
-                motionHandler.setPosition(previousPosition);
-                creature.getBody().rotationQuaternion = previousRotation;
+        let rotation = creature.getBody().rotationQuaternion.toEulerAngles().y;
+        const verticalDirection = Math.sin(rotation) * delta.z;
+        const horizontalDirection = Math.cos(rotation) * delta.z;
 
-                const adjustedDelta = collisionHandler.getAdjustedPositionDelta(delta, field.walls[i].getBody());
-                motionHandler.translate(adjustedDelta);
+        let rotatedDelta = new Vector3(verticalDirection, 0, horizontalDirection);
 
-                break;
+        const pickingInfo = castRay(previousPosition, rotatedDelta);
+
+        if (pickingInfo.pickedMesh) {
+            if (pickingInfo.pickedMesh.name !== 'ray') {
+                let invNormal = pickingInfo.getNormal().negate();
+                invNormal = invNormal.scale(rotatedDelta.multiply(pickingInfo.getNormal()).length()); // Change normal to direction's length and normal's axis
+                let wallDir = rotatedDelta.subtract(invNormal);
+
+                // let projected = pickingInfo.getNormal().clone().scale((Vector3.Dot(rotatedDelta, pickingInfo.getNormal())));
+
+                // rotatedDelta = rotatedDelta.subtract(projected).negate();
+
+                const newPos = creature.getBody().position.add(wallDir);
+                creature.getBody().setAbsolutePosition(newPos);
+                1
+                // var m = new BABYLON.Matrix();
+                // // creature.getBody().rotationQuaternion.toRotationMatrix(m);
+                // creature.getBody().getWorldMatrix().invertToRef(m);
+                // var v2 = BABYLON.Vector3.TransformCoordinates(wallDir, m);
+                // motionHandler.translate(v2);
             }
+        } else {
+            console.log('wrong branch')
+
+            motionHandler.translate(delta);
         }
+
+
+        // for (let i = 0; i < field.walls.length; i++) {
+        //     if (creature.getBody().intersectsMesh(field.walls[i].getBody())) {
+        //         motionHandler.setPosition(previousPosition);
+        //         creature.getBody().rotationQuaternion = previousRotation;
+
+        //         const adjustedDelta = collisionHandler.getAdjustedPositionDelta(delta, field.walls[i].getBody());
+        //         motionHandler.translate(adjustedDelta);
+
+        //         break;
+        //     }
+        // }
     }
 
-    castRay();
+    motionHandler.rotate(elapsedTime);
 
     scene.render();
 };
@@ -76,19 +108,14 @@ function vecToLocal(vector, mesh){
 
 let prevRayHelper: BABYLON.RayHelper = null;
 
-function castRay(){       
-    var origin = creature.getBody().position.clone();
+function castRay(currentPos: BABYLON.Vector3, delta: BABYLON.Vector3):  BABYLON.PickingInfo {
+    var origin = currentPos.clone();
     origin.y += 1;
 
     var forward = new BABYLON.Vector3(0,1,1);
     forward = vecToLocal(forward, creature.getBody());
 
-    var direction = forward.subtract(origin);
-    direction = BABYLON.Vector3.Normalize(direction);
-
-    var length = 40;
-
-    var ray = new BABYLON.Ray(origin, direction, length);
+    var ray = new BABYLON.Ray(origin, delta, 30);
 
     let rayHelper = new BABYLON.RayHelper(ray);
     rayHelper.show(scene, new BABYLON.Color3(0.5, 0.5, 0.5));
@@ -102,8 +129,9 @@ function castRay(){
     prevRayHelper = rayHelper;
 
     if (hit.pickedMesh) {
-        console.log('name: ' + hit.getNormal());
+        // console.log('name: ' + hit.pickedMesh.name + ', ' + hit.getNormal());
     }
+    return hit;
 }
 
 engine.runRenderLoop(renderLoop);
