@@ -8,6 +8,7 @@ import { createLevel1 } from './level1/createLevel1';
 import { Enemy } from './model/creature/Enemy';
 import { Player } from './model/creature/Player';
 import { CollisionHandler } from './model/motion/CollisionHandler';
+import { VectorModel } from './model/core/VectorModel';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);
@@ -38,9 +39,9 @@ var renderLoop = function () {
         const verticalDirection = Math.sin(rotation) * delta.z;
         const horizontalDirection = Math.cos(rotation) * delta.z;
 
-        let rotatedDelta = new Vector3(verticalDirection, 0, horizontalDirection);
+        let rotatedDelta = new VectorModel(verticalDirection, 0, horizontalDirection);
 
-        creature.getBody().setAbsolutePosition(collisionHandler.getAdjustedDelta(rotatedDelta));
+        creature.setPosition(creature.getPosition().add(collisionHandler.getAdjustedDelta(rotatedDelta)));
 
     }
 

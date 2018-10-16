@@ -1,6 +1,11 @@
 import { Creature } from '../creature/Creature';
-import { Vector3, Scene } from 'babylonjs';
+import { Vector3, Scene, Mesh, AbstractMesh } from 'babylonjs';
+import { VectorModel } from '../core/VectorModel';
 
+interface CollisionInfo {
+    mesh: AbstractMesh;
+    normal: VectorModel;
+}
 
 export class CollisionHandler {
     private prevRayHelper: BABYLON.RayHelper = null;
@@ -12,26 +17,24 @@ export class CollisionHandler {
         this.scene = scene;
     }
 
-    public getAdjustedDelta(delta: Vector3): Vector3 {
-        const pickingInfo = this.castRay(delta);
+    public getAdjustedDelta(delta: VectorModel): VectorModel {
+        const collisionInfo = this.castRay(new BABYLON.Vector3(delta.x(), delta.y(), delta.z()));
 
-        if (pickingInfo.pickedMesh) {
-            if (pickingInfo.pickedMesh.name !== 'ray') {
-                let invNormal = pickingInfo.getNormal().negate();
-                invNormal = invNormal.scale(delta.multiply(pickingInfo.getNormal()).length()); // Change normal to direction's length and normal's axis
-                let wallDir = delta.subtract(invNormal);
+        if (collisionInfo.mesh) {
+            if (collisionInfo.mesh.name !== 'ray') {
+                let invNormal = collisionInfo.normal.negate();
+                invNormal = invNormal.scale(delta.multiply(collisionInfo.normal).length()); // Change normal to direction's length and normal's axis
+                let adjustedDelta = delta.subtract(invNormal);
 
-                const newPos = this.creature.getBody().position.add(wallDir);
-
-                return newPos;
+                return adjustedDelta;
             }
         } else {
-            return this.creature.getBody().getAbsolutePosition().clone().add(delta);
+            return delta;
         }
     }
 
 
-    private  castRay(delta: BABYLON.Vector3):  BABYLON.PickingInfo {
+    private  castRay(delta: BABYLON.Vector3):  CollisionInfo {
         var origin = this.creature.getBody().getAbsolutePosition().clone();
         origin.y += 1;
 
@@ -51,7 +54,11 @@ export class CollisionHandler {
 
         // prevRayHelper = rayHelper;
 
-        return hit;
+        const normal = hit.getNormal();
+        return {
+            mesh: hit.pickedMesh,
+            normal: normal ? new VectorModel(normal.x, normal.y, normal.z) : null
+        };
     }
 
     private vecToLocal(vector, mesh){

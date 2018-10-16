@@ -18,10 +18,6 @@ export class MotionHandler {
         return this.player.getPosition();
     }
 
-    public setPosition(position: Vector3) {
-        this.player.setPotision(position);
-    }
-
     public getMoveDelta(elapsedTime: number) {
         let distance = elapsedTime / this.interval * this.distanceByInterval;
         const position = this.player.getPosition();

@@ -1,5 +1,5 @@
 import { Creature } from "./Creature";
-import { Scene, SpotLight, MeshBuilder, Vector3, Mesh } from "babylonjs";
+import { Scene, MeshBuilder, Vector3, Mesh } from "babylonjs";
 
 export class Enemy extends Creature {
     constructor(scene: Scene) {
@@ -25,13 +25,5 @@ export class Enemy extends Creature {
 
     public getBody(): Mesh {
         return this.body;
-    }
-
-    public getPosition(): Vector3 {
-        return this.body.position;
-    }
-
-    public setPotision(position: Vector3) {
-        this.body.position = position;
     }
 }

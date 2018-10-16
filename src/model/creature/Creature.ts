@@ -1,11 +1,12 @@
-import { Mesh, SpotLight, MeshBuilder, Scene, Vector3 } from 'babylonjs';
+import { Mesh, Vector3 } from 'babylonjs';
+import { VectorModel } from '../core/VectorModel';
 
 
 export interface Movable {
     translate(axis: Vector3, distance: number);
     rotate(distance: number);
-    getPosition(): Vector3;
-    setPotision(position: Vector3);
+    getPosition(): VectorModel;
+    setPosition(position: VectorModel);
 }
 
 export class Creature implements Movable {
@@ -23,11 +24,11 @@ export class Creature implements Movable {
         return this.body;
     }
 
-    public getPosition(): Vector3 {
-        return this.body.position;
+    public getPosition(): VectorModel {
+        return new VectorModel(this.body.position.x, this.body.position.y, this.body.position.z);
     }
 
-    public setPotision(position: Vector3) {
-        this.body.position = position;
+    public setPosition(position: VectorModel) {
+        this.body.position = new Vector3(position.x(), position.y(), position.z());
     }
 }

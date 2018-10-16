@@ -34,12 +34,4 @@ export class Player extends Creature {
     public getBody(): Mesh {
         return this.body;
     }
-
-    public getPosition(): Vector3 {
-        return this.body.position;
-    }
-
-    public setPotision(position: Vector3) {
-        this.body.position = position;
-    }
 }
