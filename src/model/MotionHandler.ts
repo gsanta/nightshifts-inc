@@ -20,9 +20,7 @@ export class MotionHandler {
 
     public getMoveDelta(elapsedTime: number) {
         let distance = elapsedTime / this.interval * this.distanceByInterval;
-        const position = this.player.getPosition();
 
-        let vec: Vector3;
         if (this.direction === 'forward') {
             return new Vector3(0, 0, 1).scale(distance);
         } else if (this.direction === 'backward') {
