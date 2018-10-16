@@ -1,7 +1,9 @@
 import { Vector3 } from 'babylonjs';
-import { Movable } from './creature/Creature';
+import { Movable } from '../../creature/Creature';
+import { PathFindingStrategy } from './PathFindingStrategy';
+import { VectorModel } from '../../core/VectorModel';
 
-export class MotionHandler {
+export class ManuallyControlledPathFindingStrategy implements PathFindingStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
     private player: Movable;
     private rotationDirection: 'left' | 'right' = null;
@@ -18,16 +20,16 @@ export class MotionHandler {
         return this.player.getPosition();
     }
 
-    public getMoveDelta(elapsedTime: number) {
+    public getNextPosition(elapsedTime: number) {
         let distance = elapsedTime / this.interval * this.distanceByInterval;
 
         if (this.direction === 'forward') {
-            return new Vector3(0, 0, 1).scale(distance);
+            return new VectorModel(0, 0, 1).scale(distance);
         } else if (this.direction === 'backward') {
-            return new Vector3(0, 0, -1).scale(distance);
+            return new VectorModel(0, 0, -1).scale(distance);
         }
 
-        return new Vector3(0, 0, 0);
+        return new VectorModel(0, 0, 0);
     }
 
     public translate(v: Vector3) {
