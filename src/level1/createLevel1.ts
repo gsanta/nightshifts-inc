@@ -6,12 +6,15 @@ import { Field } from '../model/Field';
 export function createLevel1(scene: Scene): Field {
 
     const groundMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
-    groundMaterial.emissiveColor = new BABYLON.Color3(0.56, 0.41, 0.25);
+	groundMaterial.diffuseTexture = new BABYLON.Texture("../models/floor_texture.jpg", scene);
+
+    // groundMaterial.emissiveColor = new BABYLON.Color3(0.56, 0.41, 0.25);
     const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
+
     ground.material = groundMaterial;
 
     const wallMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
-    wallMaterial.emissiveColor = new BABYLON.Color3(0.24, 0.24, 0.23);
+    // wallMaterial.emissiveColor = new BABYLON.Color3(0, 0, 0);
 
     const field = new Field();
     field.walls = [

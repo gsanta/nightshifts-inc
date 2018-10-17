@@ -13,9 +13,13 @@ import { SceneModel } from './model/core/SceneModel';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);
+engine.enableOfflineSupport = false;
 
 const scene = new BABYLON.Scene(engine);
 scene.collisionsEnabled = true;
+var light = new BABYLON.PointLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+light.diffuse = new BABYLON.Color3(1, 0, 0);
+light.specular = new BABYLON.Color3(0, 1, 0);
 const sceneModel = new SceneModel(scene);
 
 new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
@@ -34,6 +38,7 @@ const enemyCollisionHandler = new CollisionHandler(enemies[0], scene);
 let previousTime = Date.now();
 
 var renderLoop = function () {
+
     const currentTime = Date.now();
     const elapsedTime = currentTime - previousTime;
     previousTime = currentTime;

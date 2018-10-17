@@ -15,8 +15,8 @@ export class Player extends Creature {
         this.body.checkCollisions = true;
 
         this.light = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(0, 1, 5), Math.PI / 4, 1, scene);
-        this.light.diffuse = new BABYLON.Color3(0, 1, 0);
-        this.light.specular = new BABYLON.Color3(0, 1, 0);
+        this.light.diffuse = new BABYLON.Color3(1, 1, 0.6);
+        this.light.specular = new BABYLON.Color3(1, 1, 0.6);
         this.light.parent = this.body;
 
         var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
