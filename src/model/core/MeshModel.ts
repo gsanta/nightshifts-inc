@@ -1,12 +1,17 @@
 import { Mesh, Scene, MeshBuilder, Vector3 } from 'babylonjs';
 import * as BABYLON from 'babylonjs';
+import { VectorModel } from './VectorModel';
 
 
-export class Obstacle {
+export class MeshModel {
     private mesh: Mesh;
 
     constructor(mesh: Mesh) {
         this.mesh = mesh;
+    }
+
+    public intersectsPoint(vector: VectorModel) {
+        return this.mesh.intersectsPoint(new Vector3(vector.x(), vector.y(), vector.z()));
     }
 
     public static createBox(id: number, scene: Scene, translate: Vector3, dimensions: Vector3) {
@@ -22,7 +27,7 @@ export class Obstacle {
         mesh.translate(translate, 1);
         mesh.checkCollisions = true;
 
-        return new Obstacle(mesh);
+        return new MeshModel(mesh);
     }
 
     public static createBox2(id: number, scene: Scene, translate: Vector3, dimensions: Vector3) {
@@ -39,7 +44,7 @@ export class Obstacle {
         mesh.rotate(BABYLON.Axis.Y, 0.2);
         mesh.checkCollisions = true;
 
-        return new Obstacle(mesh);
+        return new MeshModel(mesh);
     }
 
     public static createLine(id: number, scene: Scene, coord1: Vector3, coord2: Vector3) {
@@ -54,7 +59,7 @@ export class Obstacle {
 
         mesh.material = blueMat;
         // mesh.checkCollisions = true;
-        return new Obstacle(mesh);
+        return new MeshModel(mesh);
     }
 
     public getBody(): Mesh {

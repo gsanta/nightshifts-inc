@@ -33,6 +33,11 @@ export class VectorModel {
         return new VectorModel(vector3.x, vector3.y, vector3.z);
     }
 
+    public normalize() {
+        const vector3 = this.vector3.normalize();
+        return new VectorModel(vector3.x, vector3.y, vector3.z);
+    }
+
     public length() {
         return this.vector3.length();
     }

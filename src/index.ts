@@ -3,19 +3,21 @@ import {Vector3} from 'babylonjs';
 
 import { ManuallyControlledPathFindingStrategy } from './model/motion/path_finding/ManuallyControlledPathFindingStrategy';
 import { KeyboardHandler } from './model/KeyboardHandler';
-import { createScene } from './createScene';
 import { createLevel1 } from './level1/createLevel1';
 import { Enemy } from './model/creature/Enemy';
 import { Player } from './model/creature/Player';
 import { CollisionHandler } from './model/motion/CollisionHandler';
 import { VectorModel } from './model/core/VectorModel';
 import { AutomaticPathFindingStartegy } from './model/motion/path_finding/AutomaticPathFindingStrategy';
+import { SceneModel } from './model/core/SceneModel';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);
 
 const scene = new BABYLON.Scene(engine);
 scene.collisionsEnabled = true;
+const sceneModel = new SceneModel(scene);
+
 new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
 
 const field = createLevel1(scene);
@@ -23,7 +25,7 @@ const creature = new Player(scene);
 const enemies = [new Enemy(scene)]
 
 const motionHandler = new ManuallyControlledPathFindingStrategy(creature);
-const automaticPathFindingStrategy = new AutomaticPathFindingStartegy();
+const automaticPathFindingStrategy = new AutomaticPathFindingStartegy(enemies[0], sceneModel, field.walls);
 const keyboardHandler = new KeyboardHandler(motionHandler);
 keyboardHandler.subscribe();
 const collisionHandler = new CollisionHandler(creature, scene);

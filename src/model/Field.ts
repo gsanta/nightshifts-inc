@@ -1,6 +1,6 @@
-import { Obstacle } from './Obstacle';
+import { MeshModel } from './core/MeshModel';
 
 
 export class Field {
-    walls: Obstacle[];
+    walls: MeshModel[];
 }
