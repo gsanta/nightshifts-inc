@@ -27,7 +27,7 @@ const sceneModel = new SceneModel(scene);
 
 new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
 
-const spotLight = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(1, 5, 1), new BABYLON.Vector3(0, -1, 5), Math.PI / 4, 1, scene);
+const spotLight = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(0, -1, 5), Math.PI / 4, 1, scene);
 spotLight.diffuse = new BABYLON.Color3(1, 1, 0.6);
 spotLight.specular = new BABYLON.Color3(1, 1, 0.6);
 
@@ -36,6 +36,7 @@ var shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);
 shadowGenerator.usePoissonSampling = true;
 
 const field = createLevel1(scene, shadowGenerator);
+
 const creature = new Player(scene, spotLight);
 const enemies = [new Enemy(scene)]
 
