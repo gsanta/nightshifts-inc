@@ -1,16 +1,16 @@
-import { Scene, Vector3 } from 'babylonjs';
+import { Scene, Vector3, ShadowGenerator } from 'babylonjs';
 import { MeshModel } from '../model/core/MeshModel';
 import { Field } from '../model/Field';
 
 
-export function createLevel1(scene: Scene): Field {
+export function createLevel1(scene: Scene, shadowGenerator: ShadowGenerator): Field {
 
     const groundMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
 	groundMaterial.diffuseTexture = new BABYLON.Texture("../models/floor_texture.jpg", scene);
 
     // groundMaterial.emissiveColor = new BABYLON.Color3(0.56, 0.41, 0.25);
     const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
-
+    ground.receiveShadows = true;
     ground.material = groundMaterial;
 
     const wallMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
@@ -27,14 +27,19 @@ export function createLevel1(scene: Scene): Field {
 
     field.walls[0].getBody().isPickable = true;
     field.walls[0].getBody().material = wallMaterial;
+    shadowGenerator.getShadowMap().renderList.push(field.walls[0].getBody());
     field.walls[1].getBody().isPickable = true;
     field.walls[1].getBody().material = wallMaterial;
+    shadowGenerator.getShadowMap().renderList.push(field.walls[1].getBody());
     field.walls[2].getBody().isPickable = true;
     field.walls[2].getBody().material = wallMaterial;
+    shadowGenerator.getShadowMap().renderList.push(field.walls[2].getBody());
     field.walls[3].getBody().isPickable = true;
     field.walls[3].getBody().material = wallMaterial;
+    shadowGenerator.getShadowMap().renderList.push(field.walls[3].getBody());
     field.walls[4].getBody().isPickable = true;
     field.walls[4].getBody().material = wallMaterial;
+    shadowGenerator.getShadowMap().renderList.push(field.walls[4].getBody());
 
     return field;
 }

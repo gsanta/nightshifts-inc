@@ -1,11 +1,11 @@
 import { Creature } from "./Creature";
-import { Scene, SpotLight, MeshBuilder, Vector3, Mesh } from "babylonjs";
+import { Scene, SpotLight, MeshBuilder, Vector3, Mesh, Light } from "babylonjs";
 
 
 export class Player extends Creature {
-    private light: SpotLight;
+    private light: Light;
 
-    constructor(scene: Scene) {
+    constructor(scene: Scene, light: Light) {
         super();
 
         var redMat = new BABYLON.StandardMaterial("redMat", scene);
@@ -14,9 +14,7 @@ export class Player extends Creature {
         this.body.material = redMat;
         this.body.checkCollisions = true;
 
-        this.light = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(0, 1, 5), Math.PI / 4, 1, scene);
-        this.light.diffuse = new BABYLON.Color3(1, 1, 0.6);
-        this.light.specular = new BABYLON.Color3(1, 1, 0.6);
+        this.light = light;
         this.light.parent = this.body;
 
         var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
