@@ -24,9 +24,9 @@ export class ManuallyControlledPathFindingStrategy implements PathFindingStrateg
         let distance = elapsedTime / this.interval * this.distanceByInterval;
 
         if (this.direction === 'forward') {
-            return new VectorModel(0, 0, 1).scale(distance);
-        } else if (this.direction === 'backward') {
             return new VectorModel(0, 0, -1).scale(distance);
+        } else if (this.direction === 'backward') {
+            return new VectorModel(0, 0, 1).scale(distance);
         }
 
         return new VectorModel(0, 0, 0);
