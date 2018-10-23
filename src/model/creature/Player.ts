@@ -7,19 +7,22 @@ import { CreatureAnimationMesh } from '../mesh/CreatureAnimationMesh';
 
 export class Player extends Creature {
     private light: Light;
+    private scene: Scene;
     private modelLoader: ModelLoader;
     private creatureAnimationMesh: CreatureAnimationMesh;
+    private animatedModel: AnimatedModel;
 
     constructor(scene: Scene, light: Light) {
         super();
 
         this.modelLoader = new ModelLoader("../models/dude/", scene);
         this.light = light;
-
+        this.scene = scene;
         const that: any = this;
 
         this.modelLoader.load("Dude.babylon")
             .then((animatedModel: AnimatedModel) => {
+                this.animatedModel = animatedModel;
                 that.creatureAnimationMesh = new CreatureAnimationMesh(
                     animatedModel,
                     {
@@ -33,7 +36,6 @@ export class Player extends Creature {
                 )
                 animatedModel.meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
                 // meshes[0].rotation.y = Math.PI * 3 / 2;
-                scene.beginAnimation(animatedModel.skeletons[0], 0, 100, true, 1.0);
                 that.body = animatedModel.meshes[0];
                 that.body.checkCollisions = true;
                 var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, Math.PI / 2);
@@ -56,18 +58,16 @@ export class Player extends Creature {
     }
 
     public walk() {
-
+        console.log('walk')
+        this.scene.stopAnimation(this.animatedModel.skeletons[0]);
+        this.scene.beginAnimation(this.animatedModel.skeletons[0], 0, 100, true, 1.0);
     }
 
     public idle() {
-
+        this.scene.stopAnimation(this.animatedModel.skeletons[0]);
     }
 
     public getBody(): Mesh {
         return this.body;
-    }
-
-    private animate() {
-
     }
 }

@@ -42,6 +42,10 @@ export class VectorModel {
         return this.vector3.length();
     }
 
+    public clone(): VectorModel {
+        return new VectorModel(this.x(), this.y(), this.z());
+    }
+
     public x() {
         return this.vector3.x;
     }
@@ -52,5 +56,17 @@ export class VectorModel {
 
     public z() {
         return this.vector3.z;
+    }
+
+    public setX(x: number) {
+        this.vector3.x += x;
+    }
+
+    public setY(y: number) {
+        this.vector3.y += y;
+    }
+
+    public setZ(z: number) {
+        this.vector3.z += z;
     }
 }

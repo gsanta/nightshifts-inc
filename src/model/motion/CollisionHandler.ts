@@ -1,6 +1,7 @@
 import { Creature } from '../creature/Creature';
 import { Vector3, Scene, Mesh, AbstractMesh } from 'babylonjs';
 import { VectorModel } from '../core/VectorModel';
+import * as BABYLON from 'babylonjs';
 
 interface CollisionInfo {
     mesh: AbstractMesh;
@@ -35,13 +36,13 @@ export class CollisionHandler {
 
 
     private  castRay(delta: BABYLON.Vector3):  CollisionInfo {
-        var origin = this.creature.getBody().getAbsolutePosition().clone();
-        origin.y += 1;
+        var origin = this.creature.getPosition().clone();
+        origin.setY(origin.y() + 1);
 
         var forward = new BABYLON.Vector3(0,1,1);
-        forward = this.vecToLocal(forward, this.creature.getBody());
+        forward = this.vecToLocal(forward, this.creature);
 
-        var ray = new BABYLON.Ray(origin, delta, 3);
+        var ray = new BABYLON.Ray(new Vector3(origin.x(), origin.y(), origin.z()), delta, 3);
 
         var hit = this.scene.pickWithRay(ray, null);
 
@@ -61,8 +62,8 @@ export class CollisionHandler {
         };
     }
 
-    private vecToLocal(vector, mesh){
-        var m = mesh.getWorldMatrix();
+    private vecToLocal(vector, creature: Creature){
+        var m = BABYLON.Matrix.FromArray(creature.getWorldMatrixArray());
         var v = BABYLON.Vector3.TransformCoordinates(vector, m);
         return v;
     }

@@ -2,14 +2,7 @@ import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../core/VectorModel';
 
 
-export interface Movable {
-    translate(axis: Vector3, distance: number);
-    rotate(distance: number);
-    getPosition(): VectorModel;
-    setPosition(position: VectorModel);
-}
-
-export class Creature implements Movable {
+export abstract class Creature {
     protected body: Mesh;
 
     public translate(axis: Vector3, distance: number) {
@@ -31,4 +24,11 @@ export class Creature implements Movable {
     public setPosition(position: VectorModel) {
         this.body.position = new Vector3(position.x(), position.y(), position.z());
     }
+
+    public getWorldMatrixArray(): Float32Array {
+        return this.body.getWorldMatrix().toArray();
+    }
+
+    public abstract walk();
+    public abstract idle();
 }

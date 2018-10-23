@@ -26,4 +26,11 @@ export class Enemy extends Creature {
     public getBody(): Mesh {
         return this.body;
     }
+
+    public walk() {
+        throw new Error("Method not implemented.");
+    }
+    public idle() {
+        throw new Error("Method not implemented.");
+    }
 }

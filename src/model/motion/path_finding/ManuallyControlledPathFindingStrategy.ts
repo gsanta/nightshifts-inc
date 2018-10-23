@@ -1,18 +1,18 @@
 import { Vector3 } from 'babylonjs';
-import { Movable } from '../../creature/Creature';
+import { Creature } from '../../creature/Creature';
 import { PathFindingStrategy } from './PathFindingStrategy';
 import { VectorModel } from '../../core/VectorModel';
 
 export class ManuallyControlledPathFindingStrategy implements PathFindingStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
-    private player: Movable;
+    private player: Creature;
     private rotationDirection: 'left' | 'right' = null;
     private direction: 'forward' | 'backward' = null;
 
     private interval = 1000;
     private distanceByInterval = 10;
 
-    constructor(player: Movable) {
+    constructor(player: Creature) {
         this.player = player;
     }
 
@@ -50,10 +50,24 @@ export class ManuallyControlledPathFindingStrategy implements PathFindingStrateg
     }
 
     public setDirection(direction: 'forward' | 'backward') {
-        this.direction = direction;
+        if (this.direction !== direction) {
+            this.direction = direction;
+            this.setAnimation();
+        }
     }
 
     public setRotationDirection(direction: 'left' | 'right') {
-        this.rotationDirection = direction;
+        if (this.rotationDirection !== direction) {
+            this.rotationDirection = direction;
+            this.setAnimation();
+        }
+    }
+
+    private setAnimation() {
+        if (this.direction || this.rotationDirection) {
+            this.player.walk();
+        } else {
+            this.player.idle();
+        }
     }
 }

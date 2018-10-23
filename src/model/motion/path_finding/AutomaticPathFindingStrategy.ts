@@ -57,8 +57,6 @@ export class AutomaticPathFindingStartegy implements PathFindingStrategy {
             return false;
         }
 
-        console.log(this.previousSteps[0].subtract(this.previousSteps[9]).length());
-
         if (this.previousSteps[0].subtract(this.previousSteps[9]).length() < 1) {
             return true;
         }
