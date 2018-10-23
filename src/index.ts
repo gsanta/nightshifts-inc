@@ -10,6 +10,7 @@ import { CollisionHandler } from './model/motion/CollisionHandler';
 import { VectorModel } from './model/core/VectorModel';
 import { AutomaticPathFindingStartegy } from './model/motion/path_finding/AutomaticPathFindingStrategy';
 import { SceneModel } from './model/core/SceneModel';
+import { EnemyVisibilityDetector } from './model/motion/EnemyVisibilityDetector';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);
@@ -37,15 +38,16 @@ shadowGenerator.usePoissonSampling = true;
 
 const field = createLevel1(scene, shadowGenerator);
 
-const creature = new Player(scene, spotLight);
+const player = new Player(scene, spotLight);
 const enemies = [new Enemy(scene)]
 
-const motionHandler = new ManuallyControlledPathFindingStrategy(creature);
+const motionHandler = new ManuallyControlledPathFindingStrategy(player);
 const automaticPathFindingStrategy = new AutomaticPathFindingStartegy(enemies[0], sceneModel, field.walls);
 const keyboardHandler = new KeyboardHandler(motionHandler);
 keyboardHandler.subscribe();
-const collisionHandler = new CollisionHandler(creature, scene);
+const collisionHandler = new CollisionHandler(player, scene);
 const enemyCollisionHandler = new CollisionHandler(enemies[0], scene);
+const enemyVisibilityDetector = new EnemyVisibilityDetector(player, scene);
 
 let previousTime = Date.now();
 
@@ -57,20 +59,28 @@ var renderLoop = function () {
 
     let delta = new VectorModel(0, 0, 0);
 
+    if (player.getBody()) {
+        enemyVisibilityDetector.canSee(enemies[0]);
+    }
+
     if (!motionHandler.isIdle()) {
         delta = motionHandler.getNextPosition(elapsedTime);
 
-        let rotation = creature.getBody().rotationQuaternion.toEulerAngles().y;
+        let rotation = player.getBody().rotationQuaternion.toEulerAngles().y;
         const verticalDirection = Math.sin(rotation) * delta.z();
         const horizontalDirection = Math.cos(rotation) * delta.z();
 
         let rotatedDelta = new VectorModel(verticalDirection, 0, horizontalDirection);
 
-        creature.setPosition(creature.getPosition().add(collisionHandler.getAdjustedDelta(rotatedDelta)));
+        player.setPosition(player.getPosition().add(collisionHandler.getAdjustedDelta(rotatedDelta)));
     }
 
     const enemyDelta = automaticPathFindingStrategy.getNextPosition(elapsedTime);
-    enemies[0].setPosition(enemies[0].getPosition().add(enemyCollisionHandler.getAdjustedDelta(enemyDelta)));
+
+    const adjustedDelta = enemyCollisionHandler.getAdjustedDelta(enemyDelta);
+    if (adjustedDelta) {
+        enemies[0].setPosition(enemies[0].getPosition().add(adjustedDelta));
+    }
 
     motionHandler.rotate(elapsedTime);
 

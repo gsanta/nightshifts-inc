@@ -3,7 +3,7 @@ import { Vector3, Scene, Mesh, AbstractMesh } from 'babylonjs';
 import { VectorModel } from '../core/VectorModel';
 import * as BABYLON from 'babylonjs';
 
-interface CollisionInfo {
+export interface CollisionInfo {
     mesh: AbstractMesh;
     normal: VectorModel;
 }
@@ -39,12 +39,11 @@ export class CollisionHandler {
         var origin = this.creature.getPosition().clone();
         origin.setY(origin.y() + 1);
 
-        var forward = new BABYLON.Vector3(0,1,1);
-        forward = this.vecToLocal(forward, this.creature);
-
         var ray = new BABYLON.Ray(new Vector3(origin.x(), origin.y(), origin.z()), delta, 3);
 
-        var hit = this.scene.pickWithRay(ray, null);
+        var hit = this.scene.pickWithRay(ray, (mesh: AbstractMesh) => {
+            return ['ray', 'ground'].indexOf(mesh.name) === -1;
+        });
 
         // let rayHelper = new BABYLON.RayHelper(ray);
         // rayHelper.show(scene, new BABYLON.Color3(0.5, 0.5, 0.5));
