@@ -14,8 +14,14 @@ export class EnemyVisibilityDetector {
         this.scene = scene;
     }
 
-    public canSee(enemy: Enemy) {
-        this.castRay(enemy.getPosition());
+    public testVisibility(enemy: Enemy) {
+        const collisionInfo = this.castRay(enemy.getPosition());
+
+        if (collisionInfo.mesh === enemy.getBody()) {
+            enemy.setIsVisible(true);
+        } else {
+            enemy.setIsVisible(false);
+        }
     }
 
     private  castRay(delta: VectorModel):  CollisionInfo {
@@ -25,7 +31,6 @@ export class EnemyVisibilityDetector {
 
         const origin = new Vector3(originVector3.x(), originVector3.y(), originVector3.z());
         const direction = new Vector3(delta.x(), delta.y(), delta.z());
-        const adjustedOrigin = origin.add(direction.normalize().scale(10));
 
         var ray = new BABYLON.Ray(origin, direction, 100);
 
@@ -39,7 +44,6 @@ export class EnemyVisibilityDetector {
         }
 
         this.prevRayHelper = rayHelper;
-        console.log(hit.pickedMesh);
         const normal = hit.getNormal();
         return {
             mesh: hit.pickedMesh,

@@ -60,7 +60,7 @@ var renderLoop = function () {
     let delta = new VectorModel(0, 0, 0);
 
     if (player.getBody()) {
-        enemyVisibilityDetector.canSee(enemies[0]);
+        enemyVisibilityDetector.testVisibility(enemies[0]);
     }
 
     if (!motionHandler.isIdle()) {

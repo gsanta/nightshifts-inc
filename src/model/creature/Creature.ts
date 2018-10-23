@@ -31,4 +31,5 @@ export abstract class Creature {
 
     public abstract walk();
     public abstract idle();
+    public setIsVisible(isVisible: boolean) {};
 }
