@@ -41,7 +41,7 @@ export class Player extends Creature {
                 // meshes[0].rotation.y = Math.PI * 3 / 2;
                 that.body = animatedModel.meshes[0];
                 that.body.checkCollisions = true;
-                var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, Math.PI / 2);
+                var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
                 that.body.rotationQuaternion = quaternion;
                 that.light.parent = that.body;
             });
@@ -66,5 +66,13 @@ export class Player extends Creature {
 
     public getBody(): Mesh {
         return this.body;
+    }
+
+    public getRotationAngle(): number {
+        return this.getRotation().y;
+    }
+
+    public getRotation(): Vector3 {
+        return this.body.rotationQuaternion.toEulerAngles();
     }
 }

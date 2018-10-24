@@ -52,7 +52,6 @@ const enemyVisibilityDetector = new EnemyVisibilityDetector(player, scene);
 let previousTime = Date.now();
 
 var renderLoop = function () {
-
     const currentTime = Date.now();
     const elapsedTime = currentTime - previousTime;
     previousTime = currentTime;

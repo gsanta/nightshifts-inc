@@ -3,6 +3,7 @@ import { Enemy } from '../creature/Enemy';
 import { CollisionInfo } from './CollisionHandler';
 import { Vector3, Scene, RayHelper } from 'babylonjs';
 import { VectorModel } from '../core/VectorModel';
+import * as BABYLON from 'babylonjs';
 
 export class EnemyVisibilityDetector {
     private player: Player;
@@ -34,6 +35,20 @@ export class EnemyVisibilityDetector {
         if (this.prevRayHelper) {
             this.prevRayHelper.dispose();
         }
+
+        const angle = BABYLON.Vector3.GetAngleBetweenVectors(
+            new Vector3(0, 0, -1),
+            direction.subtract(origin),
+            new Vector3(0, 1, 0)
+        )
+
+        const angle2 = BABYLON.Vector3.GetAngleBetweenVectors(
+            new Vector3(1, 0, 0),
+            this.player.getRotation(),
+            new Vector3(0, 1, 0)
+        )
+        console.log(this.player.getRotationAngle());
+        // console.log(angle);
 
         var ray = new BABYLON.Ray(origin, direction.subtract(origin), 100);
         var hit = this.scene.pickWithRay(ray, null);
