@@ -27,6 +27,11 @@ export class CollisionHandler {
                 invNormal = invNormal.scale(delta.multiply(collisionInfo.normal).length()); // Change normal to direction's length and normal's axis
                 let adjustedDelta = delta.subtract(invNormal);
 
+                const collisionInfo2 = this.castRay(new BABYLON.Vector3(adjustedDelta.x(), adjustedDelta.y(), adjustedDelta.z()));
+
+                if (collisionInfo2.mesh) {
+                    return new VectorModel(0, 0, 0);
+                }
                 return adjustedDelta;
             }
         } else {
@@ -59,11 +64,5 @@ export class CollisionHandler {
             mesh: hit.pickedMesh,
             normal: normal ? new VectorModel(normal.x, normal.y, normal.z) : null
         };
-    }
-
-    private vecToLocal(vector, creature: Creature){
-        var m = BABYLON.Matrix.FromArray(creature.getWorldMatrixArray());
-        var v = BABYLON.Vector3.TransformCoordinates(vector, m);
-        return v;
     }
 }

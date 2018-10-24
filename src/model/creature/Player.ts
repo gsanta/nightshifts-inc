@@ -34,6 +34,9 @@ export class Player extends Creature {
                     },
                     that.scene
                 )
+
+                animatedModel.meshes.forEach(mesh => mesh.isPickable = false);
+
                 animatedModel.meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
                 // meshes[0].rotation.y = Math.PI * 3 / 2;
                 that.body = animatedModel.meshes[0];
@@ -42,11 +45,6 @@ export class Player extends Creature {
                 that.body.rotationQuaternion = quaternion;
                 that.light.parent = that.body;
             });
-
-        // var redMat = new BABYLON.StandardMaterial("redMat", scene);
-        // redMat.emissiveColor = new BABYLON.Color3(1, 0, 0);
-        // this.body = MeshBuilder.CreateSphere("player", { diameter: 1 }, scene);
-        // this.body.material = redMat;
     }
 
     public translate(axis: Vector3, distance: number) {
@@ -58,7 +56,6 @@ export class Player extends Creature {
     }
 
     public walk() {
-        console.log('walk')
         this.scene.stopAnimation(this.animatedModel.skeletons[0]);
         this.scene.beginAnimation(this.animatedModel.skeletons[0], 0, 100, true, 1.0);
     }

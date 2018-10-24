@@ -18,7 +18,8 @@ export abstract class Creature {
     }
 
     public getPosition(): VectorModel {
-        return new VectorModel(this.body.position.x, this.body.position.y, this.body.position.z);
+        const position = this.body.getAbsolutePosition();
+        return new VectorModel(position.x, position.y, position.z);
     }
 
     public setPosition(position: VectorModel) {
