@@ -9,7 +9,7 @@ import { Player } from './model/creature/Player';
 import { CollisionHandler } from './model/motion/CollisionHandler';
 import { VectorModel } from './model/core/VectorModel';
 import { AutomaticPathFindingStartegy } from './model/motion/path_finding/AutomaticPathFindingStrategy';
-import { SceneModel } from './model/core/SceneModel';
+import { SceneModel, Rectangle } from './model/core/SceneModel';
 import { EnemyVisibilityDetector } from './model/motion/EnemyVisibilityDetector';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
@@ -24,7 +24,7 @@ light.diffuse = new BABYLON.Color3(0.27, 0.37, 0.41);
 // light.isEnabled(false);
 // light.specular = new BABYLON.Color3(0, 0, 0);
 // light.specular = null;
-const sceneModel = new SceneModel(scene);
+const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
 
 new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
 

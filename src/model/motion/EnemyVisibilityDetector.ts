@@ -44,7 +44,6 @@ export class EnemyVisibilityDetector {
         this.prevRayHelper = rayHelper;
         const normal = hit.getNormal();
 
-        console.log(hit.pickedMesh.name)
         return {
             mesh: hit.pickedMesh,
             normal: normal ? new VectorModel(normal.x, normal.y, normal.z) : null
