@@ -72,6 +72,10 @@ export class Player extends Creature {
         return this.getRotation().y;
     }
 
+    public getFieldOfViewInRadian() {
+        return Math.PI / 4;
+    }
+
     public getRotation(): Vector3 {
         return this.body.rotationQuaternion.toEulerAngles();
     }

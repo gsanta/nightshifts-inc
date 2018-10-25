@@ -64,4 +64,30 @@ export class EnemyVisibilityDetector {
             normal: normal ? new VectorModel(normal.x, normal.y, normal.z) : null
         };
     }
+
+    public static isAngleBetweenFieldOfView(fieldOfViewCenter: number, fieldOfViewExtent: number, angle: number) {
+        const segments: [number, number][] = [];
+        const fieldOfViewExtentHalf = fieldOfViewExtent / 2;
+
+        if (fieldOfViewCenter + fieldOfViewExtentHalf > Math.PI) {
+            segments.push([fieldOfViewCenter, Math.PI]);
+            segments.push([-Math.PI, -Math.PI + (fieldOfViewCenter + fieldOfViewExtentHalf - Math.PI)]);
+        } else {
+            segments.push([fieldOfViewCenter, fieldOfViewCenter + fieldOfViewExtentHalf]);
+        }
+
+        if (fieldOfViewCenter - fieldOfViewExtentHalf < -Math.PI) {
+            segments.push([-Math.PI, fieldOfViewCenter]);
+            segments.push([Math.PI - (Math.PI - fieldOfViewCenter - fieldOfViewExtentHalf) , Math.PI]);
+        } else {
+            segments.push([fieldOfViewCenter - fieldOfViewExtentHalf, fieldOfViewCenter]);
+        }
+
+        for (let i = 0; i < segments.length; i++) {
+            if (segments[i][0] < angle && segments[i][1] > angle) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
