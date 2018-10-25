@@ -80,6 +80,33 @@ describe('EnemyVisibilityDetector', () => {
                 const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.true;
             });
+
+            it ('returns true if angle is inside FOV (angle is biggern than -PI)', () => {
+                const center = -3;
+                const fow = 1;
+                const angle = -2.8;
+
+                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                expect(isBetween).to.true;
+            });
+
+            it ('returns false if angle is above FOV', () => {
+                const center = -3;
+                const fow = 1;
+                const angle = -2.5;
+
+                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                expect(isBetween).to.false;
+            });
+
+            it ('returns false if angle is below FOV', () => {
+                const center = -3;
+                const fow = 1;
+                const angle = 2.5;
+
+                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                expect(isBetween).to.false;
+            });
         });
     });
 });
