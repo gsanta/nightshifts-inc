@@ -1,5 +1,6 @@
 import { Creature } from "./Creature";
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
+declare const DEBUG; 
 
 export class Enemy extends Creature {
     private visibleMaterial: StandardMaterial = null;
@@ -10,6 +11,8 @@ export class Enemy extends Creature {
     constructor(scene: Scene) {
         super();
         this.scene = scene;
+
+        console.log('debug: ' + DEBUG)
 
         this.initMaterials();
         this.body = MeshBuilder.CreateSphere("enemy", { diameter: 3 }, scene);

@@ -91,9 +91,6 @@ export class EnemyVisibilityDetector {
             segments.push([fieldOfViewCenter - fieldOfViewExtentHalf, fieldOfViewCenter]);
         }
 
-        console.log(segments);
-        console.log(angle)
-
         for (let i = 0; i < segments.length; i++) {
             if (segments[i][0] < angle && segments[i][1] > angle) {
                 return true;
