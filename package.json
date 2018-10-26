@@ -4,7 +4,9 @@
   "description": "The best game ever.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.test.ts"
+    "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.test.ts",
+    "watch": "./node_modules/.bin/webpack-dev-server",
+    "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug"
   },
   "author": "",
   "license": "ISC",

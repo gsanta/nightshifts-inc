@@ -63,6 +63,11 @@ export class Enemy extends Creature {
 
         this.inVisibleMaterial = new StandardMaterial("enemy-non-visible-material", this.scene);
         this.inVisibleMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);
-        this.inVisibleMaterial.alpha = 0;
+
+        if (DEBUG) {
+            this.inVisibleMaterial.alpha = 0.1;
+        } else {
+            this.inVisibleMaterial.alpha = 0;
+        }
     }
 }

@@ -72,7 +72,7 @@ export class Player extends Creature {
         return this.getRotation().y;
     }
 
-    public getFieldOfViewInRadian() {
+    public getFieldOfViewAngle() {
         return Math.PI / 4;
     }
 

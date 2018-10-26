@@ -1,6 +1,8 @@
 import { Vector3 } from 'babylonjs';
 
-
+export const toVector3 = (vectorModel: VectorModel) => {
+    return new Vector3(vectorModel.x(), vectorModel.y(), vectorModel.z());
+}
 export class VectorModel {
     private vector3: Vector3;
 
@@ -68,5 +70,13 @@ export class VectorModel {
 
     public setZ(z: number) {
         this.vector3.z += z;
+    }
+
+    public getAngleToVectorOnXZPlane(otherVector: VectorModel) {
+        return BABYLON.Vector3.GetAngleBetweenVectors(
+            new Vector3(this.x(), this.y(), this.z()),
+            new Vector3(otherVector.x(), otherVector.y(), otherVector.z()),
+            new Vector3(0, 1, 0)
+        );
     }
 }
