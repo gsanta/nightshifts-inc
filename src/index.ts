@@ -1,16 +1,6 @@
 import * as BABYLON from 'babylonjs';
-import {Vector3} from 'babylonjs';
-
-import { ManuallyControlledPathFindingStrategy } from './model/motion/path_finding/ManuallyControlledPathFindingStrategy';
-import { KeyboardHandler } from './model/KeyboardHandler';
-import { createLevel1 } from './level1/createLevel1';
-import { Enemy } from './model/creature/Enemy';
-import { Player } from './model/creature/Player';
-import { CollisionHandler } from './model/motion/CollisionHandler';
 import { VectorModel } from './model/core/VectorModel';
-import { AutomaticPathFindingStartegy } from './model/motion/path_finding/AutomaticPathFindingStrategy';
-import { SceneModel, Rectangle } from './model/core/SceneModel';
-import { EnemyVisibilityDetector } from './model/motion/EnemyVisibilityDetector';
+import { createLevel1FieldMap } from './levels/createLevel1FieldMap';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);
@@ -19,8 +9,7 @@ engine.enableOfflineSupport = false;
 const scene = new BABYLON.Scene(engine);
 scene.collisionsEnabled = true;
 
-
-new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
+const fieldMap = createLevel1FieldMap(scene);
 
 let previousTime = Date.now();
 
@@ -30,12 +19,13 @@ var renderLoop = function () {
     previousTime = currentTime;
     let delta = new VectorModel(0, 0, 0);
 
-    if (player.getBody()) {
-        enemyVisibilityDetector.testVisibility(enemies[0]);
+    if (fieldMap.getPlayer().getBody()) {
+        fieldMap.getVisibilityDetector().testVisibility(fieldMap.getEnemies()[0]);
     }
 
-    if (!motionHandler.isIdle()) {
-        delta = motionHandler.getNextPosition(elapsedTime);
+    const player = fieldMap.getPlayer();
+    if (!fieldMap.getPathFindingStrategy(player).isIdle()) {
+        delta = fieldMap.getPathFindingStrategy(player).getNextPosition(elapsedTime);
 
         let rotation = player.getBody().rotationQuaternion.toEulerAngles().y;
         const verticalDirection = Math.sin(rotation) * delta.z();
@@ -43,17 +33,18 @@ var renderLoop = function () {
 
         let rotatedDelta = new VectorModel(verticalDirection, 0, horizontalDirection);
 
-        player.setPosition(player.getPosition().add(collisionHandler.getAdjustedDelta(rotatedDelta)));
+        player.setPosition(player.getPosition().add(fieldMap.getCollisionHandler(player).getAdjustedDelta(rotatedDelta)));
     }
 
-    const enemyDelta = automaticPathFindingStrategy.getNextPosition(elapsedTime);
+    const enemy = fieldMap.getEnemies()[0];
+    const enemyDelta = fieldMap.getPathFindingStrategy(enemy).getNextPosition(elapsedTime);
 
-    const adjustedDelta = enemyCollisionHandler.getAdjustedDelta(enemyDelta);
+    const adjustedDelta = fieldMap.getCollisionHandler(enemy).getAdjustedDelta(enemyDelta);
     if (adjustedDelta) {
-        enemies[0].setPosition(enemies[0].getPosition().add(adjustedDelta));
+        enemy.setPosition(enemy.getPosition().add(adjustedDelta));
     }
 
-    motionHandler.rotate(elapsedTime);
+    fieldMap.getPathFindingStrategy(player).rotate(elapsedTime);
 
     scene.render();
 };

@@ -15,6 +15,7 @@ import { EnemyVisibilityDetector } from '../model/motion/EnemyVisibilityDetector
 export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
 
+    createCamera(scene);
     createHemisphericLight(scene);
     const spotLight = <SpotLight> createSpotLight(scene);
     createGround(scene);
@@ -41,8 +42,9 @@ export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     fieldMapBuilder.addPathFindingStrategy(automaticPathFindingStrategy, enemies[0]);
     fieldMapBuilder.addCollisionHandler(collisionHandler, player);
     fieldMapBuilder.addCollisionHandler(enemyCollisionHandler, enemies[0]);
+    fieldMapBuilder.addVisibilityDetector(enemyVisibilityDetector);
 
-    return fieldMapBuilder;
+    return fieldMapBuilder.build();
 }
 
 const createHemisphericLight = (scene: Scene): Light => {
@@ -100,4 +102,8 @@ const createWalls = (meshFactory: MeshFactory) => {
         meshFactory.createWall(new VectorModel(0, 5, 20), new VectorModel(15, 10, 2)),
         meshFactory.createWall(new VectorModel(-15, 5, -15), new VectorModel(10, 10, 2))
     ]
+}
+
+const createCamera = (scene: Scene) => {
+    return new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
 }

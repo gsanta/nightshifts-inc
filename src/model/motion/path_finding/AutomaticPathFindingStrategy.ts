@@ -33,6 +33,14 @@ export class AutomaticPathFindingStartegy implements PathFindingStrategy {
         return direction.scale(distance);
     }
 
+    public isIdle(): boolean {
+        throw new Error("Method not implemented.");
+    }
+
+    public rotate(elapsedTime: number) {
+        throw new Error("Method not implemented.");
+    }
+
     private chooseNextDestination() {
         const nextX = this.sceneModel.getMinX() + 5 + Math.random() * this.sceneModel.getWidth() - 10;
         const nextZ = this.sceneModel.getMinZ() + 5 + Math.random() * this.sceneModel.getDepth() - 10;

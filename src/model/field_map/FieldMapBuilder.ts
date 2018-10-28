@@ -5,6 +5,7 @@ import { Player } from '../creature/Player';
 import { PathFindingStrategy } from '../motion/path_finding/PathFindingStrategy';
 import { Creature } from '../creature/Creature';
 import { CollisionHandler } from '../motion/CollisionHandler';
+import { EnemyVisibilityDetector } from '../motion/EnemyVisibilityDetector';
 
 export class FieldMapBuilder extends FieldMap {
 
@@ -26,6 +27,10 @@ export class FieldMapBuilder extends FieldMap {
 
     public addCollisionHandler(collisionHandler: CollisionHandler, collisionUser: Creature) {
         this.collisionHandlerMap = this.collisionHandlerMap.set(collisionUser, collisionHandler);
+    }
+
+    public addVisibilityDetector(visibilityDetector: EnemyVisibilityDetector) {
+        this.visibilityDetector = visibilityDetector;
     }
 
     public build() {
