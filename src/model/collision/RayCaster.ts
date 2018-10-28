@@ -1,5 +1,5 @@
 import { Creature } from '../creature/Creature';
-import { toVector3 } from '../core/VectorModel';
+import { toVector3, VectorModel } from '../core/VectorModel';
 import { Scene } from 'babylonjs';
 import * as BABYLON from 'babylonjs';
 declare const DEBUG: boolean;
@@ -12,9 +12,9 @@ export class RayCaster {
         this.scene = scene;
     }
 
-    testCollision(from: Creature, to: Creature) {
-        const fromPosition = toVector3(from.getPosition())
-        const toPosition = toVector3(to.getPosition());
+    public testCollision(from: VectorModel, to: VectorModel, creatureToTestForCollision: Creature) {
+        const fromPosition = toVector3(from)
+        const toPosition = toVector3(to);
 
         if (this.prevRayHelper) {
             this.prevRayHelper.dispose();
@@ -30,6 +30,10 @@ export class RayCaster {
             this.prevRayHelper = rayHelper;
         }
 
-        return hit.pickedMesh === to.getBody();
+        return hit.pickedMesh === creatureToTestForCollision.getBody();
+    }
+
+    public getCollidingBody() {
+
     }
 }

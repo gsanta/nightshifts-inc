@@ -26,21 +26,21 @@ export class EnemyVisibilityDetector {
     }
 
     private isInsideVisibleRange(enemy: Enemy): boolean {
-        const playerPosition = this.player.getPosition();
-        const enemyPosition = enemy.getPosition();
-        const enemyPositionFromPlayerPosition = enemyPosition.subtract(playerPosition);
+        const playerVector = this.player.getPosition();
+        const enemyVector = enemy.getPosition();
+        const playerToEnemyVector = enemyVector.subtract(playerVector);
         const negativeZUnitVector = new VectorModel(0, 0, -1);
 
-        const angle = negativeZUnitVector.getAngleToVectorOnXZPlane(enemyPositionFromPlayerPosition);
+        const angle = negativeZUnitVector.getAngleToVectorOnXZPlane(playerToEnemyVector);
 
         return EnemyVisibilityDetector.isAngleBetweenFieldOfView(this.player.getRotationAngle(), this.player.getFieldOfViewAngle(), angle);
     }
 
     private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: Enemy):  boolean {
-        return this.rayCaster.testCollision(this.player, enemy);
+        return this.rayCaster.testCollision(this.player.getPosition(), enemy.getPosition(), enemy);
     }
 
-    public static isAngleBetweenFieldOfView(fieldOfViewCenter: number, fieldOfViewAngle: number, angle: number) {
+    public static isAngleBetweenFieldOfView(fieldOfViewCenter: number, fieldOfViewAngle: number, angleToTest: number) {
         const segments: [number, number][] = [];
         const fieldOfViewExtentHalf = fieldOfViewAngle / 2;
 
@@ -59,7 +59,7 @@ export class EnemyVisibilityDetector {
         }
 
         for (let i = 0; i < segments.length; i++) {
-            if (segments[i][0] < angle && segments[i][1] > angle) {
+            if (segments[i][0] < angleToTest && segments[i][1] > angleToTest) {
                 return true;
             }
         }

@@ -18,36 +18,9 @@ engine.enableOfflineSupport = false;
 
 const scene = new BABYLON.Scene(engine);
 scene.collisionsEnabled = true;
-var light = new BABYLON.HemisphericLight("HemiLight", new BABYLON.Vector3(0, 1, 0), scene);
-light.diffuse = new BABYLON.Color3(0.27, 0.37, 0.41);
-// light.diffuse = new BABYLON.Color3(0, 0, 0);
-// light.isEnabled(false);
-// light.specular = new BABYLON.Color3(0, 0, 0);
-// light.specular = null;
-const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
+
 
 new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
-
-const spotLight = new BABYLON.SpotLight("spotLight", new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(0, -1, -5), Math.PI / 4, 1, scene);
-spotLight.diffuse = new BABYLON.Color3(1, 1, 0.6);
-spotLight.specular = new BABYLON.Color3(1, 1, 0.6);
-
-
-var shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);
-shadowGenerator.usePoissonSampling = true;
-
-const field = createLevel1(scene, shadowGenerator);
-
-const player = new Player(scene, spotLight);
-const enemies = [new Enemy(scene)]
-
-const motionHandler = new ManuallyControlledPathFindingStrategy(player);
-const automaticPathFindingStrategy = new AutomaticPathFindingStartegy(enemies[0], sceneModel, field.walls);
-const keyboardHandler = new KeyboardHandler(motionHandler);
-keyboardHandler.subscribe();
-const collisionHandler = new CollisionHandler(player, scene);
-const enemyCollisionHandler = new CollisionHandler(enemies[0], scene);
-const enemyVisibilityDetector = new EnemyVisibilityDetector(player, scene);
 
 let previousTime = Date.now();
 
@@ -55,7 +28,6 @@ var renderLoop = function () {
     const currentTime = Date.now();
     const elapsedTime = currentTime - previousTime;
     previousTime = currentTime;
-
     let delta = new VectorModel(0, 0, 0);
 
     if (player.getBody()) {
