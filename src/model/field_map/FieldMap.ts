@@ -5,7 +5,7 @@ import { Creature } from '../creature/Creature';
 import { PathFindingStrategy } from '../motion/path_finding/PathFindingStrategy';
 import {Map} from 'immutable';
 import { CollisionHandler } from '../motion/CollisionHandler';
-import { EnemyVisibilityDetector } from '../motion/EnemyVisibilityDetector';
+import { EnemyVisibilityDetector } from '../sensor/EnemyVisibilityDetector';
 
 export class FieldMap {
     protected obstacles: MeshModel[];

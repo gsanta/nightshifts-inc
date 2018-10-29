@@ -14,13 +14,16 @@ const fieldMap = createLevel1FieldMap(scene);
 let previousTime = Date.now();
 
 var renderLoop = function () {
+    if (!fieldMap.getPlayer().getBody()) {
+        return
+    }
     const currentTime = Date.now();
     const elapsedTime = currentTime - previousTime;
     previousTime = currentTime;
     let delta = new VectorModel(0, 0, 0);
 
     if (fieldMap.getPlayer().getBody()) {
-        fieldMap.getVisibilityDetector().testVisibility(fieldMap.getEnemies()[0]);
+        fieldMap.getVisibilityDetector().testIsWithinRange(fieldMap.getEnemies()[0]);
     }
 
     const player = fieldMap.getPlayer();
@@ -37,6 +40,7 @@ var renderLoop = function () {
     }
 
     const enemy = fieldMap.getEnemies()[0];
+    enemy.getSensor().testIsWithinRange(player);
     const enemyDelta = fieldMap.getPathFindingStrategy(enemy).getNextPosition(elapsedTime);
 
     const adjustedDelta = fieldMap.getCollisionHandler(enemy).getAdjustedDelta(enemyDelta);

@@ -1,9 +1,11 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../core/VectorModel';
+import { Sensor } from '../sensor/Sensor';
 
 
 export abstract class Creature {
     protected body: Mesh;
+    protected sensor: Sensor;
 
     public translate(axis: Vector3, distance: number) {
         this.body.translate(axis, distance);
@@ -28,6 +30,10 @@ export abstract class Creature {
 
     public getWorldMatrixArray(): Float32Array {
         return this.body.getWorldMatrix().toArray();
+    }
+
+    public getSensor(): Sensor {
+        return this.sensor;
     }
 
     public abstract walk();

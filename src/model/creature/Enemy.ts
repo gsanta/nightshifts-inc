@@ -1,6 +1,7 @@
 import { Creature } from "./Creature";
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
-declare const DEBUG; 
+import { HearingSensor } from '../sensor/HearingSensor';
+declare const DEBUG;
 
 export class Enemy extends Creature {
     private visibleMaterial: StandardMaterial = null;
@@ -16,12 +17,13 @@ export class Enemy extends Creature {
 
         this.initMaterials();
         this.body = MeshBuilder.CreateSphere("enemy", { diameter: 3 }, scene);
-
         this.body.material = this.visibleMaterial;
         this.body.checkCollisions = true;
         this.body.position = new Vector3(20, 0, 30);
         var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
         this.body.rotationQuaternion = quaternion;
+
+    this.sensor = new HearingSensor(this, scene);
     }
 
     public translate(axis: Vector3, distance: number) {
@@ -59,10 +61,10 @@ export class Enemy extends Creature {
 
     private initMaterials() {
         this.visibleMaterial = new StandardMaterial("enemy-visible-material", this.scene);
-        this.visibleMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        this.visibleMaterial.emissiveColor = new BABYLON.Color3(0, 0, 1);
 
         this.inVisibleMaterial = new StandardMaterial("enemy-non-visible-material", this.scene);
-        this.inVisibleMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        this.inVisibleMaterial.emissiveColor = new BABYLON.Color3(0, 0, 1);
 
         if (DEBUG) {
             this.inVisibleMaterial.alpha = 0.1;

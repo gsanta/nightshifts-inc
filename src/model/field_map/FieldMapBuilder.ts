@@ -5,7 +5,7 @@ import { Player } from '../creature/Player';
 import { PathFindingStrategy } from '../motion/path_finding/PathFindingStrategy';
 import { Creature } from '../creature/Creature';
 import { CollisionHandler } from '../motion/CollisionHandler';
-import { EnemyVisibilityDetector } from '../motion/EnemyVisibilityDetector';
+import { EnemyVisibilityDetector } from '../sensor/EnemyVisibilityDetector';
 
 export class FieldMapBuilder extends FieldMap {
 

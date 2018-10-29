@@ -79,4 +79,8 @@ export class VectorModel {
             new Vector3(0, 1, 0)
         );
     }
+
+    public static Distance(vectorModel1: VectorModel, vectorModel2: VectorModel) {
+        return Vector3.Distance(toVector3(vectorModel1), toVector3(vectorModel2));
+    }
 }

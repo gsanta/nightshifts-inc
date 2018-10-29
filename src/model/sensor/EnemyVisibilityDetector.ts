@@ -3,8 +3,9 @@ import { Enemy } from '../creature/Enemy';
 import { Scene } from 'babylonjs';
 import { VectorModel } from '../core/VectorModel';
 import { RayCaster } from '../collision/RayCaster';
+import { Sensor } from './Sensor';
 
-export class EnemyVisibilityDetector {
+export class EnemyVisibilityDetector implements Sensor {
     private player: Player;
     private rayCaster: RayCaster;
 
@@ -13,7 +14,7 @@ export class EnemyVisibilityDetector {
         this.rayCaster = new RayCaster(scene);
     }
 
-    public testVisibility(enemy: Enemy) {
+    public testIsWithinRange(enemy: Enemy) {
         if (this.isVisible(enemy)) {
             enemy.setIsVisible(true);
         } else {

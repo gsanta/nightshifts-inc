@@ -10,7 +10,7 @@ import { AutomaticPathFindingStartegy } from '../model/motion/path_finding/Autom
 import { SceneModel, Rectangle } from '../model/core/SceneModel';
 import { KeyboardHandler } from '../model/KeyboardHandler';
 import { CollisionHandler } from '../model/motion/CollisionHandler';
-import { EnemyVisibilityDetector } from '../model/motion/EnemyVisibilityDetector';
+import { EnemyVisibilityDetector } from '../model/sensor/EnemyVisibilityDetector';
 
 export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
