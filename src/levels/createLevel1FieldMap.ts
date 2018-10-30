@@ -27,22 +27,11 @@ export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     const walls = createWalls(meshFactory);
     const enemies = createEnemies(scene, sceneModel, walls);
 
-    const manualPathFindingStrategy = new ManualMotionStrategy(player);
-    const keyboardHandler = new KeyboardHandler(manualPathFindingStrategy);
-    keyboardHandler.subscribe();
-
-    const collisionHandler = new CollisionHandler(player, scene);
-    const enemyCollisionHandler = new CollisionHandler(enemies[0], scene);
-    const enemyVisibilityDetector = new EyeSensor(player, scene);
 
     const fieldMapBuilder = new FieldMapBuilder();
     fieldMapBuilder.addObstacles(walls);
     fieldMapBuilder.addPlayer(player);
     fieldMapBuilder.addEnemies(enemies);
-    fieldMapBuilder.addPathFindingStrategy(manualPathFindingStrategy, player);
-    fieldMapBuilder.addCollisionHandler(collisionHandler, player);
-    fieldMapBuilder.addCollisionHandler(enemyCollisionHandler, enemies[0]);
-    fieldMapBuilder.addVisibilityDetector(enemyVisibilityDetector);
 
     return fieldMapBuilder.build();
 }
@@ -81,7 +70,17 @@ const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
 }
 
 const createPlayer = (scene: Scene, spotLight: SpotLight) => {
-    return new Player(scene, spotLight);
+    const player = new Player(scene, spotLight);
+
+    const manualMotionStrategy = new ManualMotionStrategy(player);
+    const keyboardHandler = new KeyboardHandler(manualMotionStrategy);
+    keyboardHandler.subscribe();
+
+    player.setMotionStrategy(manualMotionStrategy)
+    player.setSensor(new EyeSensor(player, scene));
+    player.setCollisionHandler(new CollisionHandler(player, scene));
+
+    return player;
 }
 
 const createEnemies = (scene: Scene, sceneModel: SceneModel, walls: MeshModel[]) => {
@@ -89,7 +88,9 @@ const createEnemies = (scene: Scene, sceneModel: SceneModel, walls: MeshModel[])
 
     enemies.forEach(enemy => {
         enemy.setSensor(new HearingSensor(enemy, scene));
-        enemy.setMotionStrategy(new WanderingMotionStrategy(enemies[0], sceneModel, walls))
+        enemy.setMotionStrategy(new WanderingMotionStrategy(enemies[0], sceneModel, walls));
+        enemy.setCollisionHandler(new CollisionHandler(enemies[0], scene));
+
     });
 
     return enemies;

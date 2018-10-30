@@ -2,12 +2,14 @@ import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
 import { MotionStrategy } from '../motion/MotionStrategy';
 import { Sensor } from '../sensor/Sensor';
+import { CollisionHandler } from '../collision/CollisionHandler';
 
 
 export abstract class Creature {
     protected body: Mesh;
     protected sensor: Sensor;
     protected motionStrategy: MotionStrategy;
+    protected collisionHandler: CollisionHandler;
 
     public translate(axis: Vector3, distance: number) {
         this.body.translate(axis, distance);
@@ -40,6 +42,14 @@ export abstract class Creature {
 
     public setSensor(sensor: Sensor) {
         this.sensor = sensor;
+    }
+
+    public setCollisionHandler(collisionHandler: CollisionHandler) {
+        this.collisionHandler = collisionHandler;
+    }
+
+    public getCollisionHandler(): CollisionHandler {
+        return this.collisionHandler;
     }
 
     public getMotionStrategy(): MotionStrategy {
