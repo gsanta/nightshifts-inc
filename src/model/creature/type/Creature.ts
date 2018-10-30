@@ -1,7 +1,7 @@
 import { Mesh, Vector3 } from 'babylonjs';
-import { VectorModel } from '../core/VectorModel';
+import { VectorModel } from '../../core/VectorModel';
+import { MotionStrategy } from '../motion/MotionStrategy';
 import { Sensor } from '../sensor/Sensor';
-import { MotionStrategy } from '../motion/path_finding/MotionStrategy';
 
 
 export abstract class Creature {

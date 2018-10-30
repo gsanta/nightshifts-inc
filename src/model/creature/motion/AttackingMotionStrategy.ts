@@ -1,6 +1,6 @@
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../core/VectorModel';
-import { Creature } from '../../creature/Creature';
+import { Creature } from '../type/Creature';
 
 export class AttackingMotionStrategy implements MotionStrategy {
     private attacker: Creature;

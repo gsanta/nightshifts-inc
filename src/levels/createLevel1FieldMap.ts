@@ -1,18 +1,18 @@
-import { FieldMap } from '../model/field_map/FieldMap';
 import { Scene, Light, Mesh, ShadowGenerator, SpotLight } from 'babylonjs';
-import { Player } from '../model/creature/Player';
-import { Enemy } from '../model/creature/Enemy';
+import { Enemy } from '../model/creature/type/Enemy';
 import { MeshFactory } from '../model/core/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
-import { FieldMapBuilder } from '../model/field_map/FieldMapBuilder';
-import { ManualMotionStrategy } from '../model/motion/path_finding/ManualMotionStrategy';
-import { WanderingMotionStrategy } from '../model/motion/path_finding/WanderingMotionStrategy';
+import { ManualMotionStrategy } from '../model/creature/motion/ManualMotionStrategy';
+import { WanderingMotionStrategy } from '../model/creature/motion/WanderingMotionStrategy';
 import { SceneModel, Rectangle } from '../model/core/SceneModel';
 import { KeyboardHandler } from '../model/KeyboardHandler';
-import { CollisionHandler } from '../model/motion/CollisionHandler';
-import { EyeSensor } from '../model/sensor/EyeSensor';
-import { HearingSensor } from '../model/sensor/HearingSensor';
 import { MeshModel } from '../model/core/MeshModel';
+import { EyeSensor } from '../model/creature/sensor/EyeSensor';
+import { HearingSensor } from '../model/creature/sensor/HearingSensor';
+import { Player } from '../model/creature/type/Player';
+import { FieldMap } from '../model/field/FieldMap';
+import { CollisionHandler } from '../model/creature/collision/CollisionHandler';
+import { FieldMapBuilder } from '../model/field/FieldMapBuilder';
 
 export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));

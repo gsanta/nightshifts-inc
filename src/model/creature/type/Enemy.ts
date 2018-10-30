@@ -1,7 +1,5 @@
 import { Creature } from "./Creature";
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
-import { HearingSensor } from '../sensor/HearingSensor';
-import { FieldMap } from '../field_map/FieldMap';
 declare const DEBUG;
 
 export class Enemy extends Creature {

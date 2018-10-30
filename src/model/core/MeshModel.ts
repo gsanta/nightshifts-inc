@@ -1,5 +1,4 @@
-import { Mesh, Scene, MeshBuilder, Vector3 } from 'babylonjs';
-import * as BABYLON from 'babylonjs';
+import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from './VectorModel';
 
 

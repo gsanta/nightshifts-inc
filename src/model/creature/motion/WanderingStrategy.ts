@@ -1,10 +1,10 @@
 import { MotionStrategy } from "./MotionStrategy";
 import { VectorModel } from '../../core/VectorModel';
 import { SceneModel } from '../../core/SceneModel';
-import { Creature } from '../../creature/Creature';
+import { Creature } from '../type/Creature';
 import { MeshModel } from "../../core/MeshModel";
 
-export class WanderingMotionStrategy implements MotionStrategy {
+export class AutomaticPathFindingStartegy implements MotionStrategy {
     private speed = 100;
     private sceneModel: SceneModel;
     private creature: Creature;

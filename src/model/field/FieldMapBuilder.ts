@@ -1,11 +1,11 @@
 import { FieldMap } from './FieldMap';
 import { MeshModel } from '../core/MeshModel';
-import { Enemy } from '../creature/Enemy';
-import { Player } from '../creature/Player';
-import { MotionStrategy } from '../motion/path_finding/MotionStrategy';
-import { Creature } from '../creature/Creature';
-import { CollisionHandler } from '../motion/CollisionHandler';
-import { EyeSensor } from '../sensor/EyeSensor';
+import { Enemy } from '../creature/type/Enemy';
+import { MotionStrategy } from '../creature/motion/MotionStrategy';
+import { Creature } from '../creature/type/Creature';
+import { Player } from '../creature/type/Player';
+import { EyeSensor } from '../creature/sensor/EyeSensor';
+import { CollisionHandler } from '../creature/collision/CollisionHandler';
 
 export class FieldMapBuilder extends FieldMap {
 

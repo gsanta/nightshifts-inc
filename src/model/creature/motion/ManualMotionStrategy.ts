@@ -1,5 +1,5 @@
 import { Vector3 } from 'babylonjs';
-import { Creature } from '../../creature/Creature';
+import { Creature } from '../type/Creature';
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../core/VectorModel';
 

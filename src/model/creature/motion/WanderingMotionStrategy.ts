@@ -1,11 +1,10 @@
 import { MotionStrategy } from "./MotionStrategy";
 import { VectorModel } from '../../core/VectorModel';
 import { SceneModel } from '../../core/SceneModel';
-import { Creature } from '../../creature/Creature';
-import { Vector3 } from 'babylonjs';
+import { Creature } from '../type/Creature';
 import { MeshModel } from "../../core/MeshModel";
 
-export class AutomaticPathFindingStartegy implements MotionStrategy {
+export class WanderingMotionStrategy implements MotionStrategy {
     private speed = 100;
     private sceneModel: SceneModel;
     private creature: Creature;

@@ -1,7 +1,7 @@
-import { Creature } from '../creature/Creature';
-import { toVector3, VectorModel } from '../core/VectorModel';
 import { Scene } from 'babylonjs';
 import * as BABYLON from 'babylonjs';
+import { VectorModel, toVector3 } from '../../core/VectorModel';
+import { Creature } from '../type/Creature';
 declare const DEBUG: boolean;
 
 export class RayCaster {

@@ -1,4 +1,4 @@
-import { ManualMotionStrategy } from './motion/path_finding/ManualMotionStrategy';
+import { ManualMotionStrategy } from './creature/motion/ManualMotionStrategy';
 
 export enum Keys {
      FORWARD = 38,

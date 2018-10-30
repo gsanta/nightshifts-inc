@@ -1,9 +1,9 @@
-import { Player } from '../creature/Player';
-import { Enemy } from '../creature/Enemy';
 import { Scene } from 'babylonjs';
-import { VectorModel } from '../core/VectorModel';
-import { RayCaster } from '../collision/RayCaster';
 import { Sensor } from './Sensor';
+import { Player } from '../type/Player';
+import { Enemy } from '../type/Enemy';
+import { VectorModel } from '../../core/VectorModel';
+import { RayCaster } from '../collision/RayCaster';
 
 export class EyeSensor implements Sensor {
     private player: Player;

@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import { VectorModel } from './model/core/VectorModel';
 import { createLevel1FieldMap } from './levels/createLevel1FieldMap';
-import { AttackingMotionStrategy } from './model/motion/path_finding/AttackingMotionStrategy';
+import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);

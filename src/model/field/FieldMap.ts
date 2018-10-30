@@ -1,11 +1,11 @@
 import { MeshModel } from '../core/MeshModel';
-import { Enemy } from '../creature/Enemy';
-import { Player } from '../creature/Player';
-import { Creature } from '../creature/Creature';
-import { MotionStrategy } from '../motion/path_finding/MotionStrategy';
+import { Enemy } from '../creature/type/Enemy';
+import { Creature } from '../creature/type/Creature';
+import { MotionStrategy } from '../creature/motion/MotionStrategy';
 import {Map} from 'immutable';
-import { CollisionHandler } from '../motion/CollisionHandler';
-import { EyeSensor } from '../sensor/EyeSensor';
+import { EyeSensor } from '../creature/sensor/EyeSensor';
+import { Player } from '../creature/type/Player';
+import { CollisionHandler } from '../creature/collision/CollisionHandler';
 
 export class FieldMap {
     protected obstacles: MeshModel[];

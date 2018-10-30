@@ -1,7 +1,7 @@
-import { Creature } from '../creature/Creature';
 import { Vector3, Scene, Mesh, AbstractMesh } from 'babylonjs';
-import { VectorModel } from '../core/VectorModel';
 import * as BABYLON from 'babylonjs';
+import { VectorModel } from '../../core/VectorModel';
+import { Creature } from '../type/Creature';
 
 export interface CollisionInfo {
     mesh: AbstractMesh;
