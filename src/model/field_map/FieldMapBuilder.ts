@@ -2,10 +2,10 @@ import { FieldMap } from './FieldMap';
 import { MeshModel } from '../core/MeshModel';
 import { Enemy } from '../creature/Enemy';
 import { Player } from '../creature/Player';
-import { PathFindingStrategy } from '../motion/path_finding/PathFindingStrategy';
+import { MotionStrategy } from '../motion/path_finding/MotionStrategy';
 import { Creature } from '../creature/Creature';
 import { CollisionHandler } from '../motion/CollisionHandler';
-import { EnemyVisibilityDetector } from '../sensor/EnemyVisibilityDetector';
+import { EyeSensor } from '../sensor/EyeSensor';
 
 export class FieldMapBuilder extends FieldMap {
 
@@ -21,7 +21,7 @@ export class FieldMapBuilder extends FieldMap {
         this.player = player;
     }
 
-    public addPathFindingStrategy(strategy: PathFindingStrategy, strategyUser: Creature) {
+    public addPathFindingStrategy(strategy: MotionStrategy, strategyUser: Creature) {
         this.pathFindingStrategyMap = this.pathFindingStrategyMap.set(strategyUser, strategy);
     }
 
@@ -29,7 +29,7 @@ export class FieldMapBuilder extends FieldMap {
         this.collisionHandlerMap = this.collisionHandlerMap.set(collisionUser, collisionHandler);
     }
 
-    public addVisibilityDetector(visibilityDetector: EnemyVisibilityDetector) {
+    public addVisibilityDetector(visibilityDetector: EyeSensor) {
         this.visibilityDetector = visibilityDetector;
     }
 

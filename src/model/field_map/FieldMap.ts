@@ -2,18 +2,18 @@ import { MeshModel } from '../core/MeshModel';
 import { Enemy } from '../creature/Enemy';
 import { Player } from '../creature/Player';
 import { Creature } from '../creature/Creature';
-import { PathFindingStrategy } from '../motion/path_finding/PathFindingStrategy';
+import { MotionStrategy } from '../motion/path_finding/MotionStrategy';
 import {Map} from 'immutable';
 import { CollisionHandler } from '../motion/CollisionHandler';
-import { EnemyVisibilityDetector } from '../sensor/EnemyVisibilityDetector';
+import { EyeSensor } from '../sensor/EyeSensor';
 
 export class FieldMap {
     protected obstacles: MeshModel[];
     protected enemies: Enemy[];
     protected player: Player;
-    protected pathFindingStrategyMap: Map<Creature, PathFindingStrategy> = Map();
+    protected pathFindingStrategyMap: Map<Creature, MotionStrategy> = Map();
     protected collisionHandlerMap: Map<Creature, CollisionHandler> = Map();
-    protected visibilityDetector: EnemyVisibilityDetector;
+    protected visibilityDetector: EyeSensor;
 
     public getObstacles(): MeshModel[] {
         return this.obstacles;
@@ -27,7 +27,7 @@ export class FieldMap {
         return this.player;
     }
 
-    public getPathFindingStrategy(creature: Creature): PathFindingStrategy {
+    public getPathFindingStrategy(creature: Creature): MotionStrategy {
         return this.pathFindingStrategyMap.get(creature);
     }
 
@@ -35,7 +35,7 @@ export class FieldMap {
         return this.collisionHandlerMap.get(creature);
     }
 
-    public getVisibilityDetector(): EnemyVisibilityDetector {
+    public getVisibilityDetector(): EyeSensor {
         return this.visibilityDetector;
     }
 

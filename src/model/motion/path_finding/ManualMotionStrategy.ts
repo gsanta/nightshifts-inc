@@ -1,9 +1,9 @@
 import { Vector3 } from 'babylonjs';
 import { Creature } from '../../creature/Creature';
-import { PathFindingStrategy } from './PathFindingStrategy';
+import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../core/VectorModel';
 
-export class ManuallyControlledPathFindingStrategy implements PathFindingStrategy {
+export class ManualMotionStrategy implements MotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
     private player: Creature;
     private rotationDirection: 'left' | 'right' = null;

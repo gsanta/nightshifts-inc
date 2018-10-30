@@ -1,7 +1,7 @@
 import {expect} from 'chai';
-import { EnemyVisibilityDetector } from './EnemyVisibilityDetector';
+import { EyeSensor } from './EyeSensor';
 
-describe('EnemyVisibilityDetector', () => {
+describe('EyeSensor', () => {
 
     describe('isAngleBetweenFieldOfView', () => {
         describe('for cases when FOV does not extend beyond [-PI, PI]', () => {
@@ -10,7 +10,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = 2.3;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.true;
             });
 
@@ -19,7 +19,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = 1.4;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.false;
             });
 
@@ -28,7 +28,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = 2.6;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.false;
             });
         });
@@ -39,7 +39,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = -3;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.true;
             });
 
@@ -48,7 +48,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = 2.8;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.true;
             });
 
@@ -57,7 +57,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = 2.4;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.false;
             });
 
@@ -66,7 +66,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = -2.5;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.false;
             });
         });
@@ -77,7 +77,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = 3;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.true;
             });
 
@@ -86,7 +86,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = -2.8;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.true;
             });
 
@@ -95,7 +95,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = -2.5;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.false;
             });
 
@@ -104,7 +104,7 @@ describe('EnemyVisibilityDetector', () => {
                 const fow = 1;
                 const angle = 2.5;
 
-                const isBetween = EnemyVisibilityDetector.isAngleBetweenFieldOfView(center, fow, angle);
+                const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
                 expect(isBetween).to.false;
             });
         });

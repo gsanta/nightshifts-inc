@@ -28,7 +28,10 @@ export class HearingSensor implements Sensor {
         const testingCreaturePos = testingCreature.getPosition();
 
         const distance = VectorModel.Distance(hearingCreaturePos, testingCreaturePos);
-        console.log(distance);
+        if (distance < this.range) {
+            return true;
+        }
+        return false;
     }
 
     private initMaterial() {

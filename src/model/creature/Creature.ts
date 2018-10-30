@@ -1,11 +1,13 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../core/VectorModel';
 import { Sensor } from '../sensor/Sensor';
+import { MotionStrategy } from '../motion/path_finding/MotionStrategy';
 
 
 export abstract class Creature {
     protected body: Mesh;
     protected sensor: Sensor;
+    protected motionStrategy: MotionStrategy;
 
     public translate(axis: Vector3, distance: number) {
         this.body.translate(axis, distance);
@@ -34,6 +36,18 @@ export abstract class Creature {
 
     public getSensor(): Sensor {
         return this.sensor;
+    }
+
+    public setSensor(sensor: Sensor) {
+        this.sensor = sensor;
+    }
+
+    public getMotionStrategy(): MotionStrategy {
+        return this.motionStrategy;
+    }
+
+    public setMotionStrategy(motionStrategy: MotionStrategy) {
+        this.motionStrategy = motionStrategy;
     }
 
     public abstract walk();

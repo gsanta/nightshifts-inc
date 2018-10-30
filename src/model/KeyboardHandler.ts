@@ -1,4 +1,4 @@
-import { ManuallyControlledPathFindingStrategy } from './motion/path_finding/ManuallyControlledPathFindingStrategy';
+import { ManualMotionStrategy } from './motion/path_finding/ManualMotionStrategy';
 
 export enum Keys {
      FORWARD = 38,
@@ -8,9 +8,9 @@ export enum Keys {
 }
 
 export class KeyboardHandler {
-    private motionHandler: ManuallyControlledPathFindingStrategy;
+    private motionHandler: ManualMotionStrategy;
 
-    constructor(motionHandler: ManuallyControlledPathFindingStrategy) {
+    constructor(motionHandler: ManualMotionStrategy) {
         this.motionHandler = motionHandler;
     }
 

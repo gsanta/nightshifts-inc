@@ -5,7 +5,7 @@ import { VectorModel } from '../core/VectorModel';
 import { RayCaster } from '../collision/RayCaster';
 import { Sensor } from './Sensor';
 
-export class EnemyVisibilityDetector implements Sensor {
+export class EyeSensor implements Sensor {
     private player: Player;
     private rayCaster: RayCaster;
 
@@ -34,7 +34,7 @@ export class EnemyVisibilityDetector implements Sensor {
 
         const angle = negativeZUnitVector.getAngleToVectorOnXZPlane(playerToEnemyVector);
 
-        return EnemyVisibilityDetector.isAngleBetweenFieldOfView(this.player.getRotationAngle(), this.player.getFieldOfViewAngle(), angle);
+        return EyeSensor.isAngleBetweenFieldOfView(this.player.getRotationAngle(), this.player.getFieldOfViewAngle(), angle);
     }
 
     private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: Enemy):  boolean {

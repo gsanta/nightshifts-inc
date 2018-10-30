@@ -1,11 +1,11 @@
-import { PathFindingStrategy } from "./PathFindingStrategy";
+import { MotionStrategy } from "./MotionStrategy";
 import { VectorModel } from '../../core/VectorModel';
 import { SceneModel } from '../../core/SceneModel';
 import { Creature } from '../../creature/Creature';
 import { Vector3 } from 'babylonjs';
 import { MeshModel } from "../../core/MeshModel";
 
-export class AutomaticPathFindingStartegy implements PathFindingStrategy {
+export class AutomaticPathFindingStartegy implements MotionStrategy {
     private speed = 100;
     private sceneModel: SceneModel;
     private creature: Creature;

@@ -5,12 +5,14 @@ import { Enemy } from '../model/creature/Enemy';
 import { MeshFactory } from '../model/core/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import { FieldMapBuilder } from '../model/field_map/FieldMapBuilder';
-import { ManuallyControlledPathFindingStrategy } from '../model/motion/path_finding/ManuallyControlledPathFindingStrategy';
-import { AutomaticPathFindingStartegy } from '../model/motion/path_finding/AutomaticPathFindingStrategy';
+import { ManualMotionStrategy } from '../model/motion/path_finding/ManualMotionStrategy';
+import { WanderingMotionStrategy } from '../model/motion/path_finding/WanderingMotionStrategy';
 import { SceneModel, Rectangle } from '../model/core/SceneModel';
 import { KeyboardHandler } from '../model/KeyboardHandler';
 import { CollisionHandler } from '../model/motion/CollisionHandler';
-import { EnemyVisibilityDetector } from '../model/sensor/EnemyVisibilityDetector';
+import { EyeSensor } from '../model/sensor/EyeSensor';
+import { HearingSensor } from '../model/sensor/HearingSensor';
+import { MeshModel } from '../model/core/MeshModel';
 
 export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
@@ -21,25 +23,23 @@ export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     createGround(scene);
     const shadowGenerator = createShadow(scene, spotLight);
     const player = createPlayer(scene, spotLight);
-    const enemies = createEnemies(scene);
     const meshFactory = createMeshFactory(scene, shadowGenerator);
     const walls = createWalls(meshFactory);
+    const enemies = createEnemies(scene, sceneModel, walls);
 
-    const manualPathFindingStrategy = new ManuallyControlledPathFindingStrategy(player);
-    const automaticPathFindingStrategy = new AutomaticPathFindingStartegy(enemies[0], sceneModel, walls);
+    const manualPathFindingStrategy = new ManualMotionStrategy(player);
     const keyboardHandler = new KeyboardHandler(manualPathFindingStrategy);
     keyboardHandler.subscribe();
 
     const collisionHandler = new CollisionHandler(player, scene);
     const enemyCollisionHandler = new CollisionHandler(enemies[0], scene);
-    const enemyVisibilityDetector = new EnemyVisibilityDetector(player, scene);
+    const enemyVisibilityDetector = new EyeSensor(player, scene);
 
     const fieldMapBuilder = new FieldMapBuilder();
     fieldMapBuilder.addObstacles(walls);
     fieldMapBuilder.addPlayer(player);
     fieldMapBuilder.addEnemies(enemies);
     fieldMapBuilder.addPathFindingStrategy(manualPathFindingStrategy, player);
-    fieldMapBuilder.addPathFindingStrategy(automaticPathFindingStrategy, enemies[0]);
     fieldMapBuilder.addCollisionHandler(collisionHandler, player);
     fieldMapBuilder.addCollisionHandler(enemyCollisionHandler, enemies[0]);
     fieldMapBuilder.addVisibilityDetector(enemyVisibilityDetector);
@@ -84,8 +84,15 @@ const createPlayer = (scene: Scene, spotLight: SpotLight) => {
     return new Player(scene, spotLight);
 }
 
-const createEnemies = (scene: Scene) => {
-    return [new Enemy(scene)];
+const createEnemies = (scene: Scene, sceneModel: SceneModel, walls: MeshModel[]) => {
+    const enemies = [new Enemy(scene)];
+
+    enemies.forEach(enemy => {
+        enemy.setSensor(new HearingSensor(enemy, scene));
+        enemy.setMotionStrategy(new WanderingMotionStrategy(enemies[0], sceneModel, walls))
+    });
+
+    return enemies;
 }
 
 const createMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator) => {

@@ -1,6 +1,7 @@
 import { Creature } from "./Creature";
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
 import { HearingSensor } from '../sensor/HearingSensor';
+import { FieldMap } from '../field_map/FieldMap';
 declare const DEBUG;
 
 export class Enemy extends Creature {
@@ -13,8 +14,6 @@ export class Enemy extends Creature {
         super();
         this.scene = scene;
 
-        console.log('debug: ' + DEBUG)
-
         this.initMaterials();
         this.body = MeshBuilder.CreateSphere("enemy", { diameter: 3 }, scene);
         this.body.material = this.visibleMaterial;
@@ -22,8 +21,6 @@ export class Enemy extends Creature {
         this.body.position = new Vector3(20, 0, 30);
         var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
         this.body.rotationQuaternion = quaternion;
-
-    this.sensor = new HearingSensor(this, scene);
     }
 
     public translate(axis: Vector3, distance: number) {

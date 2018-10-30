@@ -1,6 +1,7 @@
 import * as BABYLON from 'babylonjs';
 import { VectorModel } from './model/core/VectorModel';
 import { createLevel1FieldMap } from './levels/createLevel1FieldMap';
+import { AttackingMotionStrategy } from './model/motion/path_finding/AttackingMotionStrategy';
 
 const canvas = <HTMLCanvasElement> document.getElementById('render-canvas');
 const engine = new BABYLON.Engine(canvas);
@@ -40,8 +41,10 @@ var renderLoop = function () {
     }
 
     const enemy = fieldMap.getEnemies()[0];
-    enemy.getSensor().testIsWithinRange(player);
-    const enemyDelta = fieldMap.getPathFindingStrategy(enemy).getNextPosition(elapsedTime);
+    if (enemy.getSensor().testIsWithinRange(player)) {
+        enemy.setMotionStrategy(new AttackingMotionStrategy(enemy, player));
+    }
+    const enemyDelta = enemy.getMotionStrategy().getNextPosition(elapsedTime);
 
     const adjustedDelta = fieldMap.getCollisionHandler(enemy).getAdjustedDelta(enemyDelta);
     if (adjustedDelta) {
