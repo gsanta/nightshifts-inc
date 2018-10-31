@@ -1,7 +1,7 @@
 import { VectorModel } from '../../core/VectorModel';
 
 export interface MotionStrategy {
-    getNextPosition(elapsedTime: number): VectorModel;
+    calcNextPositionDelta(elapsedTime: number): VectorModel;
+    calcNextRotationDelta(elapsedTime: number): number;
     isIdle(): boolean;
-    rotate(elapsedTime: number);
 }

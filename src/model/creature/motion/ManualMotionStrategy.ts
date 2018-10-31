@@ -1,8 +1,7 @@
-import { Vector3 } from 'babylonjs';
 import { Creature } from '../type/Creature';
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../core/VectorModel';
-import { KeyboardHandler, MoveDirection, RotationDirection } from '../../KeyboardHandler';
+import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';
 
 export class ManualMotionStrategy implements MotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
@@ -13,13 +12,13 @@ export class ManualMotionStrategy implements MotionStrategy {
     private interval = 1000;
     private distanceByInterval = 10;
 
-    constructor(player: Creature, keyBoardHandler: KeyboardHandler) {
+    constructor(player: Creature, keyBoardHandler: UserInputEventEmitter) {
         this.player = player;
 
         this.subscribeToUserInputs(keyBoardHandler);
     }
 
-    public getNextPosition(elapsedTime: number) {
+    public calcNextPositionDelta(elapsedTime: number) {
         const distance = elapsedTime / this.interval * this.distanceByInterval;
 
         let delta = new VectorModel(0, 0, 0)
@@ -32,27 +31,29 @@ export class ManualMotionStrategy implements MotionStrategy {
         return this.calcNextPositionConsideringRotation(delta);
     }
 
-    public rotate(elapsedTime: number) {
+    public calcNextRotationDelta(elapsedTime: number): number {
         let distance = elapsedTime / this.interval;
         if (this.rotationDirection === 'RIGHT') {
-            this.player.rotate(Math.PI * 2 * distance);
+            return Math.PI * 2 * distance;
         } else if (this.rotationDirection === 'LEFT') {
-            this.player.rotate(-1 * Math.PI * 2 * distance);
+            return -1 * Math.PI * 2 * distance;
         }
+
+        return 0;
     }
 
     public isIdle() {
         return !(this.direction || this.rotationDirection);
     }
 
-    public setDirection(direction: MoveDirection) {
+    private setDirection(direction: MoveDirection) {
         if (this.direction !== direction) {
             this.direction = direction;
             this.setAnimation();
         }
     }
 
-    public setRotationDirection(direction: RotationDirection) {
+    private setRotationDirection(direction: RotationDirection) {
         if (this.rotationDirection !== direction) {
             this.rotationDirection = direction;
             this.setAnimation();
@@ -75,7 +76,7 @@ export class ManualMotionStrategy implements MotionStrategy {
         return new VectorModel(verticalDirection, 0, horizontalDirection);
     }
 
-    private subscribeToUserInputs(keyBoardHandler: KeyboardHandler) {
+    private subscribeToUserInputs(keyBoardHandler: UserInputEventEmitter) {
         keyBoardHandler.onMove((direction) => this.setDirection(direction));
         keyBoardHandler.onMoveEnd(() => this.setDirection(null));
         keyBoardHandler.onTurn((direction) => this.setRotationDirection(direction));

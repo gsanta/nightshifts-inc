@@ -1,8 +1,8 @@
-import { MotionStrategy } from "./MotionStrategy";
+import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../core/VectorModel';
 import { SceneModel } from '../../core/SceneModel';
 import { Creature } from '../type/Creature';
-import { MeshModel } from "../../core/MeshModel";
+import { MeshModel } from '../../core/MeshModel';
 
 export class WanderingMotionStrategy implements MotionStrategy {
     private speed = 100;
@@ -19,7 +19,7 @@ export class WanderingMotionStrategy implements MotionStrategy {
         this.currentDestination = this.chooseNextDestination();
     }
 
-    public getNextPosition(elapsedTime: number): VectorModel {
+    public calcNextPositionDelta(elapsedTime: number): VectorModel {
         let distance = elapsedTime / this.speed;
 
         const direction = this.currentDestination.subtract(this.creature.getPosition()).normalize();
@@ -33,11 +33,11 @@ export class WanderingMotionStrategy implements MotionStrategy {
     }
 
     public isIdle(): boolean {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
 
-    public rotate(elapsedTime: number) {
-        throw new Error("Method not implemented.");
+    public calcNextRotationDelta(elapsedTime: number): number {
+        throw new Error('Method not implemented.');
     }
 
     private chooseNextDestination() {

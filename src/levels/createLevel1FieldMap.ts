@@ -5,7 +5,7 @@ import { VectorModel } from '../model/core/VectorModel';
 import { ManualMotionStrategy } from '../model/creature/motion/ManualMotionStrategy';
 import { WanderingMotionStrategy } from '../model/creature/motion/WanderingMotionStrategy';
 import { SceneModel, Rectangle } from '../model/core/SceneModel';
-import { KeyboardHandler } from '../model/KeyboardHandler';
+import { UserInputEventEmitter } from '../model/creature/motion/UserInputEventEmitter';
 import { MeshModel } from '../model/core/MeshModel';
 import { EyeSensor } from '../model/creature/sensor/EyeSensor';
 import { HearingSensor } from '../model/creature/sensor/HearingSensor';
@@ -72,7 +72,7 @@ const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
 const createPlayer = (scene: Scene, spotLight: SpotLight) => {
     const player = new Player(scene, spotLight);
 
-    const keyboardHandler = new KeyboardHandler();
+    const keyboardHandler = new UserInputEventEmitter();
     const manualMotionStrategy = new ManualMotionStrategy(player, keyboardHandler);
     keyboardHandler.subscribe();
 

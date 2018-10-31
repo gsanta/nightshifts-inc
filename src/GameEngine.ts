@@ -60,17 +60,18 @@ export class GameEngine {
         const player = this.fieldMap.getPlayer();
 
         if (!player.getMotionStrategy().isIdle()) {
-            const delta = player.getMotionStrategy().getNextPosition(elapsedTime);
+            const delta = player.getMotionStrategy().calcNextPositionDelta(elapsedTime);
             const deltaWithCollision = player.getCollisionHandler().getAdjustedDelta(delta);
             player.setPosition(player.getPosition().add(deltaWithCollision));
         }
 
-        player.getMotionStrategy().rotate(elapsedTime);
+        const rotationDelta = player.getMotionStrategy().calcNextRotationDelta(elapsedTime);
+        player.rotate(rotationDelta);
     }
 
     private moveEnemies(elapsedTime: number) {
         this.fieldMap.getEnemies().forEach(enemy => {
-            const enemyDelta = enemy.getMotionStrategy().getNextPosition(elapsedTime);
+            const enemyDelta = enemy.getMotionStrategy().calcNextPositionDelta(elapsedTime);
 
             const adjustedDelta = enemy.getCollisionHandler().getAdjustedDelta(enemyDelta);
             if (adjustedDelta) {

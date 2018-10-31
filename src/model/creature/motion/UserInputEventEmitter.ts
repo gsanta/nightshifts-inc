@@ -1,4 +1,3 @@
-import { ManualMotionStrategy } from './creature/motion/ManualMotionStrategy';
 import { EventEmitter } from 'events';
 
 export enum Keys {
@@ -11,25 +10,23 @@ export enum Keys {
 export type MoveDirection = 'FORWARD' | 'BACKWARD';
 export type RotationDirection = 'LEFT' | 'RIGHT';
 
-export class KeyboardHandler extends EventEmitter {
+export class UserInputEventEmitter extends EventEmitter {
     public subscribe() {
         document.addEventListener('keydown', (event) => {
             switch(event.keyCode) {
                 case Keys.FORWARD:
                     this.emitMove('FORWARD');
-                    // this.motionHandler.setDirection('forward')
                     break;
                 case Keys.BACKWARD:
                     this.emitMove('BACKWARD');
-                    // this.motionHandler.setDirection('backward')
                     break;
                 case Keys.LEFT:
                     this.emitTurn('LEFT');
-                    // this.motionHandler.setRotationDirection('left');
                     break;
                 case Keys.RIGHT:
                     this.emitTurn('RIGHT');
-                    // this.motionHandler.setRotationDirection('right');
+                    break;
+                default:
                     break;
             }
         });
@@ -39,16 +36,15 @@ export class KeyboardHandler extends EventEmitter {
                 case Keys.FORWARD:
                 case Keys.BACKWARD:
                     this.emitMoveEnd();
-                    // this.motionHandler.setDirection(null);
                     break;
                 case Keys.LEFT:
                 case Keys.RIGHT:
                     this.emitTurnEnd();
-                    // this.motionHandler.setRotationDirection(null);
                     break;
-            }
+                default:
+                    break;            }
 
-            event.preventDefault()
+            event.preventDefault();
         });
     }
 

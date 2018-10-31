@@ -12,7 +12,7 @@ export class AttackingMotionStrategy implements MotionStrategy {
         this.target = target;
     }
 
-    public getNextPosition(elapsedTime: number): VectorModel {
+    public calcNextPositionDelta(elapsedTime: number): VectorModel {
         let distance = elapsedTime / this.speed;
         const destination = this.target.getPosition();
         const currentPosition = this.attacker.getPosition();
@@ -23,10 +23,10 @@ export class AttackingMotionStrategy implements MotionStrategy {
     }
 
     public isIdle(): boolean {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
 
-    public rotate(elapsedTime: number) {
-        throw new Error("Method not implemented.");
+    public calcNextRotationDelta(elapsedTime: number): number {
+        throw new Error('Method not implemented.');
     }
 }
