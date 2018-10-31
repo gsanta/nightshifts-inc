@@ -2,19 +2,21 @@ import { Creature } from '../type/Creature';
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';
+import { CollisionDetector } from '../collision/CollisionDetector';
 
 export class ManualMotionStrategy implements MotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
     private player: Creature;
+    private collisionDetector: CollisionDetector;
     private rotationDirection: RotationDirection = null;
     private direction: MoveDirection = null;
 
     private interval = 1000;
     private distanceByInterval = 10;
 
-    constructor(player: Creature, keyBoardHandler: UserInputEventEmitter) {
+    constructor(player: Creature, collisionDetector: CollisionDetector, keyBoardHandler: UserInputEventEmitter) {
         this.player = player;
-
+        this.collisionDetector = collisionDetector;
         this.subscribeToUserInputs(keyBoardHandler);
     }
 
@@ -28,7 +30,8 @@ export class ManualMotionStrategy implements MotionStrategy {
             delta = new VectorModel(0, 0, 1).scale(distance);
         }
 
-        return this.calcNextPositionConsideringRotation(delta);
+        delta = this.calcNextPositionDeltaConsideringRotation(delta);
+        return this.collisionDetector.getAdjustedDelta(delta);
     }
 
     public calcNextRotationDelta(elapsedTime: number): number {
@@ -62,13 +65,13 @@ export class ManualMotionStrategy implements MotionStrategy {
 
     private setAnimation() {
         if (this.direction || this.rotationDirection) {
-            this.player.walk();
+            this.player.playWalkingAnimation();
         } else {
-            this.player.idle();
+            this.player.playIdleAnimation();
         }
     }
 
-    private calcNextPositionConsideringRotation(delta: VectorModel) {
+    private calcNextPositionDeltaConsideringRotation(delta: VectorModel) {
         let rotation = this.player.getBody().rotationQuaternion.toEulerAngles().y;
         const verticalDirection = Math.sin(rotation) * delta.z();
         const horizontalDirection = Math.cos(rotation) * delta.z();

@@ -1,4 +1,4 @@
-import { Creature } from "./Creature";
+import { Creature } from './Creature';
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
 declare const DEBUG;
 
@@ -13,19 +13,14 @@ export class Enemy extends Creature {
         this.scene = scene;
 
         this.initMaterials();
-        this.body = MeshBuilder.CreateSphere("enemy", { diameter: 3 }, scene);
+        this.body = MeshBuilder.CreateSphere('enemy', { diameter: 3 }, scene);
         this.body.material = this.visibleMaterial;
         this.body.checkCollisions = true;
         this.body.position = new Vector3(20, 0, 30);
-        var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
-        this.body.rotationQuaternion = quaternion;
+        this.body.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
     }
 
-    public translate(axis: Vector3, distance: number) {
-        this.body.translate(axis, distance);
-    }
-
-    public rotate(distance: number) {
+    public setRotation(distance: number) {
         this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
@@ -33,11 +28,11 @@ export class Enemy extends Creature {
         return this.body;
     }
 
-    public walk() {
-        throw new Error("Method not implemented.");
+    public playWalkingAnimation() {
+        throw new Error('Method not implemented.');
     }
-    public idle() {
-        throw new Error("Method not implemented.");
+    public playIdleAnimation() {
+        throw new Error('Method not implemented.');
     }
 
     public setIsVisible(isVisible: boolean) {
@@ -55,10 +50,10 @@ export class Enemy extends Creature {
     }
 
     private initMaterials() {
-        this.visibleMaterial = new StandardMaterial("enemy-visible-material", this.scene);
+        this.visibleMaterial = new StandardMaterial('enemy-visible-material', this.scene);
         this.visibleMaterial.emissiveColor = new BABYLON.Color3(0, 0, 1);
 
-        this.inVisibleMaterial = new StandardMaterial("enemy-non-visible-material", this.scene);
+        this.inVisibleMaterial = new StandardMaterial('enemy-non-visible-material', this.scene);
         this.inVisibleMaterial.emissiveColor = new BABYLON.Color3(0, 0, 1);
 
         if (DEBUG) {

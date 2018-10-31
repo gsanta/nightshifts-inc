@@ -8,8 +8,7 @@ export interface CollisionInfo {
     normal: VectorModel;
 }
 
-export class CollisionHandler {
-    private prevRayHelper: BABYLON.RayHelper = null;
+export class CollisionDetector {
     private creature: Creature;
     private scene: Scene;
 
@@ -41,23 +40,14 @@ export class CollisionHandler {
 
 
     private  castRay(delta: BABYLON.Vector3):  CollisionInfo {
-        var origin = this.creature.getPosition().clone();
+        const origin = this.creature.getPosition().clone();
         origin.setY(origin.y() + 1);
 
-        var ray = new BABYLON.Ray(new Vector3(origin.x(), origin.y(), origin.z()), delta, 3);
+        const ray = new BABYLON.Ray(new Vector3(origin.x(), origin.y(), origin.z()), delta, 3);
 
-        var hit = this.scene.pickWithRay(ray, (mesh: AbstractMesh) => {
+        const hit = this.scene.pickWithRay(ray, (mesh: AbstractMesh) => {
             return ['ray', 'ground'].indexOf(mesh.name) === -1;
         });
-
-        // let rayHelper = new BABYLON.RayHelper(ray);
-        // rayHelper.show(scene, new BABYLON.Color3(0.5, 0.5, 0.5));
-
-        // if (prevRayHelper) {
-        //     prevRayHelper.dispose();
-        // }
-
-        // prevRayHelper = rayHelper;
 
         const normal = hit.getNormal();
         return {

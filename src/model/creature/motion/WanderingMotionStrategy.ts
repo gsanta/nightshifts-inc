@@ -3,19 +3,22 @@ import { VectorModel } from '../../core/VectorModel';
 import { SceneModel } from '../../core/SceneModel';
 import { Creature } from '../type/Creature';
 import { MeshModel } from '../../core/MeshModel';
+import { CollisionDetector } from '../collision/CollisionDetector';
 
 export class WanderingMotionStrategy implements MotionStrategy {
     private speed = 100;
     private sceneModel: SceneModel;
     private creature: Creature;
-    private obstacles: MeshModel[]
+    private obstacles: MeshModel[];
+    private collisionDetector: CollisionDetector;
     private currentDestination: VectorModel = null;
     private previousSteps: VectorModel[] = [];
 
-    constructor(creature: Creature, sceneModel: SceneModel, obstacles: MeshModel[]) {
+    constructor(creature: Creature, sceneModel: SceneModel, obstacles: MeshModel[], collisionDetector: CollisionDetector) {
         this.sceneModel = sceneModel;
         this.creature = creature;
         this.obstacles = obstacles;
+        this.collisionDetector = collisionDetector;
         this.currentDestination = this.chooseNextDestination();
     }
 
@@ -29,7 +32,9 @@ export class WanderingMotionStrategy implements MotionStrategy {
         if (this.isDestinationReached() || this.noProgressHappening()) {
             this.currentDestination = this.chooseNextDestination();
         }
-        return direction.scale(distance);
+
+        const delta = direction.scale(distance);
+        return this.collisionDetector.getAdjustedDelta(delta);
     }
 
     public isIdle(): boolean {

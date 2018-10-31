@@ -5,7 +5,7 @@ import { MotionStrategy } from '../creature/motion/MotionStrategy';
 import { Creature } from '../creature/type/Creature';
 import { Player } from '../creature/type/Player';
 import { EyeSensor } from '../creature/sensor/EyeSensor';
-import { CollisionHandler } from '../creature/collision/CollisionHandler';
+import { CollisionDetector } from '../creature/collision/CollisionDetector';
 
 export class FieldMapBuilder extends FieldMap {
 
@@ -25,7 +25,7 @@ export class FieldMapBuilder extends FieldMap {
         this.pathFindingStrategyMap = this.pathFindingStrategyMap.set(strategyUser, strategy);
     }
 
-    public addCollisionHandler(collisionHandler: CollisionHandler, collisionUser: Creature) {
+    public addCollisionHandler(collisionHandler: CollisionDetector, collisionUser: Creature) {
         this.collisionHandlerMap = this.collisionHandlerMap.set(collisionUser, collisionHandler);
     }
 

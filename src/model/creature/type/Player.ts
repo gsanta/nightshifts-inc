@@ -71,20 +71,16 @@ export class Player extends Creature {
             });
     }
 
-    public translate(axis: Vector3, distance: number) {
-        this.body.translate(axis, distance);
-    }
-
-    public rotate(distance: number) {
+    public setRotation(distance: number) {
         this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
-    public walk() {
+    public playWalkingAnimation() {
         this.scene.stopAnimation(this.animatedModel.skeletons[0]);
         this.scene.beginAnimation(this.animatedModel.skeletons[0], 0, 100, true, 1.0);
     }
 
-    public idle() {
+    public playIdleAnimation() {
         this.scene.stopAnimation(this.animatedModel.skeletons[0]);
     }
 

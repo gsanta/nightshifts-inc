@@ -2,25 +2,20 @@ import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
 import { MotionStrategy } from '../motion/MotionStrategy';
 import { Sensor } from '../sensor/Sensor';
-import { CollisionHandler } from '../collision/CollisionHandler';
-
+import { CollisionDetector } from '../collision/CollisionDetector';
 
 export abstract class Creature {
     protected body: Mesh;
     protected sensor: Sensor;
     protected motionStrategy: MotionStrategy;
-    protected collisionHandler: CollisionHandler;
-
-    public translate(axis: Vector3, distance: number) {
-        this.body.translate(axis, distance);
-    }
-
-    public rotate(distance: number) {
-        this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
-    }
+    protected collisionDetector: CollisionDetector;
 
     public getBody(): Mesh {
         return this.body;
+    }
+
+    public setRotation(distance: number) {
+        this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public getPosition(): VectorModel {
@@ -32,24 +27,12 @@ export abstract class Creature {
         this.body.position = new Vector3(position.x(), position.y(), position.z());
     }
 
-    public getWorldMatrixArray(): Float32Array {
-        return this.body.getWorldMatrix().toArray();
-    }
-
     public getSensor(): Sensor {
         return this.sensor;
     }
 
     public setSensor(sensor: Sensor) {
         this.sensor = sensor;
-    }
-
-    public setCollisionHandler(collisionHandler: CollisionHandler) {
-        this.collisionHandler = collisionHandler;
-    }
-
-    public getCollisionHandler(): CollisionHandler {
-        return this.collisionHandler;
     }
 
     public getMotionStrategy(): MotionStrategy {
@@ -60,7 +43,7 @@ export abstract class Creature {
         this.motionStrategy = motionStrategy;
     }
 
-    public abstract walk();
-    public abstract idle();
-    public setIsVisible(isVisible: boolean) {};
+    public abstract playWalkingAnimation();
+    public abstract playIdleAnimation();
+    public setIsVisible(isVisible: boolean) {}
 }

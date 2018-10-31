@@ -5,14 +5,14 @@ import { MotionStrategy } from '../creature/motion/MotionStrategy';
 import {Map} from 'immutable';
 import { EyeSensor } from '../creature/sensor/EyeSensor';
 import { Player } from '../creature/type/Player';
-import { CollisionHandler } from '../creature/collision/CollisionHandler';
+import { CollisionDetector } from '../creature/collision/CollisionDetector';
 
 export class FieldMap {
     protected obstacles: MeshModel[];
     protected enemies: Enemy[];
     protected player: Player;
     protected pathFindingStrategyMap: Map<Creature, MotionStrategy> = Map();
-    protected collisionHandlerMap: Map<Creature, CollisionHandler> = Map();
+    protected collisionHandlerMap: Map<Creature, CollisionDetector> = Map();
     protected visibilityDetector: EyeSensor;
 
     public getObstacles(): MeshModel[] {
@@ -31,7 +31,7 @@ export class FieldMap {
         return this.pathFindingStrategyMap.get(creature);
     }
 
-    public getCollisionHandler(creature: Creature): CollisionHandler {
+    public getCollisionHandler(creature: Creature): CollisionDetector {
         return this.collisionHandlerMap.get(creature);
     }
 
