@@ -14,12 +14,8 @@ export class EyeSensor implements Sensor {
         this.rayCaster = new RayCaster(scene);
     }
 
-    public testIsWithinRange(enemy: Enemy) {
-        if (this.isVisible(enemy)) {
-            enemy.setIsVisible(true);
-        } else {
-            enemy.setIsVisible(false);
-        }
+    public testIsWithinRange(enemy: Enemy): boolean {
+        return this.isVisible(enemy);
     }
 
     private isVisible(enemy: Enemy) {

@@ -1,7 +1,6 @@
 import { Scene, Engine } from 'babylonjs';
 import { FieldMap } from './model/field/FieldMap';
 import { createLevel1FieldMap } from './levels/createLevel1FieldMap';
-import { VectorModel } from './model/core/VectorModel';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 
 
@@ -31,40 +30,62 @@ export class GameEngine {
         if (!this.fieldMap.getPlayer().getBody()) {
             return
         }
+
         const currentTime = Date.now();
         const elapsedTime = currentTime - this.previousTime;
         this.previousTime = currentTime;
-        let delta = new VectorModel(0, 0, 0);
 
+        this.movePlayer(elapsedTime);
+        this.moveEnemies(elapsedTime);
+        this.testAndSetEnemyVisibility();
+        this.attackPlayerIfWithinSensorRange();
+
+        this.scene.render();
+    }
+
+    private testAndSetEnemyVisibility() {
         const player = this.fieldMap.getPlayer();
 
-        player.getSensor().testIsWithinRange(this.fieldMap.getEnemies()[0]);
+        this.fieldMap.getEnemies().forEach(enemy => {
+            const isVisible = player.getSensor().testIsWithinRange(this.fieldMap.getEnemies()[0]);
+            if (isVisible) {
+                enemy.setIsVisible(true);
+            } else {
+                enemy.setIsVisible(false);
+            }
+        });
+    }
+
+    private movePlayer(elapsedTime: number) {
+        const player = this.fieldMap.getPlayer();
 
         if (!player.getMotionStrategy().isIdle()) {
-            delta = player.getMotionStrategy().getNextPosition(elapsedTime);
-
-            let rotation = player.getBody().rotationQuaternion.toEulerAngles().y;
-            const verticalDirection = Math.sin(rotation) * delta.z();
-            const horizontalDirection = Math.cos(rotation) * delta.z();
-
-            let rotatedDelta = new VectorModel(verticalDirection, 0, horizontalDirection);
-
-            player.setPosition(player.getPosition().add(player.getCollisionHandler().getAdjustedDelta(rotatedDelta)));
-        }
-
-        const enemy = this.fieldMap.getEnemies()[0];
-        if (enemy.getSensor().testIsWithinRange(player)) {
-            enemy.setMotionStrategy(new AttackingMotionStrategy(enemy, player));
-        }
-        const enemyDelta = enemy.getMotionStrategy().getNextPosition(elapsedTime);
-
-        const adjustedDelta = enemy.getCollisionHandler().getAdjustedDelta(enemyDelta);
-        if (adjustedDelta) {
-            enemy.setPosition(enemy.getPosition().add(adjustedDelta));
+            const delta = player.getMotionStrategy().getNextPosition(elapsedTime);
+            const deltaWithCollision = player.getCollisionHandler().getAdjustedDelta(delta);
+            player.setPosition(player.getPosition().add(deltaWithCollision));
         }
 
         player.getMotionStrategy().rotate(elapsedTime);
+    }
 
-        this.scene.render();
+    private moveEnemies(elapsedTime: number) {
+        this.fieldMap.getEnemies().forEach(enemy => {
+            const enemyDelta = enemy.getMotionStrategy().getNextPosition(elapsedTime);
+
+            const adjustedDelta = enemy.getCollisionHandler().getAdjustedDelta(enemyDelta);
+            if (adjustedDelta) {
+                enemy.setPosition(enemy.getPosition().add(adjustedDelta));
+            }
+        });
+    }
+
+    private attackPlayerIfWithinSensorRange() {
+        const player = this.fieldMap.getPlayer();
+
+        this.fieldMap.getEnemies().forEach(enemy => {
+            if (enemy.getSensor().testIsWithinRange(player)) {
+                enemy.setMotionStrategy(new AttackingMotionStrategy(enemy, player));
+            }
+        });
     }
 }

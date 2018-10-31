@@ -72,8 +72,8 @@ const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
 const createPlayer = (scene: Scene, spotLight: SpotLight) => {
     const player = new Player(scene, spotLight);
 
-    const manualMotionStrategy = new ManualMotionStrategy(player);
-    const keyboardHandler = new KeyboardHandler(manualMotionStrategy);
+    const keyboardHandler = new KeyboardHandler();
+    const manualMotionStrategy = new ManualMotionStrategy(player, keyboardHandler);
     keyboardHandler.subscribe();
 
     player.setMotionStrategy(manualMotionStrategy)
