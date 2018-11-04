@@ -41,6 +41,7 @@ export class Enemy extends Creature {
         }
 
         this.isVisible = isVisible;
+        this.sensor.setIsVisible(this.isVisible);
 
         if (isVisible) {
             this.body.material = this.visibleMaterial;

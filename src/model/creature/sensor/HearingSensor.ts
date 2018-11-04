@@ -9,6 +9,7 @@ export class HearingSensor implements Sensor {
     private scene: Scene;
     private enemySensorRangeMaterial: StandardMaterial = null;
     private range = 20;
+    private isVisible = false;
 
     constructor(creature: Creature, scene: Scene) {
         this.hearingCreature = creature;
@@ -32,6 +33,16 @@ export class HearingSensor implements Sensor {
             return true;
         }
         return false;
+    }
+
+    public setIsVisible(isVisible: boolean) {
+        this.isVisible = isVisible;
+
+        if (isVisible) {
+            this.enemySensorRangeMaterial.alpha = 1;
+        } else {
+            this.enemySensorRangeMaterial.alpha = 0;
+        }
     }
 
     private initMaterial() {

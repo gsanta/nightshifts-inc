@@ -6,7 +6,9 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.test.ts",
     "watch": "./node_modules/.bin/webpack-dev-server",
-    "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug"
+    "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug",
+    "compile-server": "tsc --project tsconfig-server.json",
+    "run-server": "node ./dist/server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,10 +27,23 @@
     "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
+    "@types/express": "^4.16.0",
     "@types/immutable": "^3.8.7",
+    "@types/jsonwebtoken": "^8.3.0",
+    "@types/mongoose": "^5.3.0",
     "@types/node": "^10.12.1",
+    "@types/passport": "^0.4.7",
+    "@types/passport-facebook": "^2.1.8",
+    "@types/passport-local": "^1.0.33",
     "babylonjs": "^3.2.0",
+    "crypto": "^1.0.1",
     "es6-promise": "^4.2.5",
-    "immutable": "^3.8.2"
+    "express": "^4.16.4",
+    "immutable": "^3.8.2",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.9",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0"
   }
 }

@@ -15,10 +15,14 @@ export class EyeSensor implements Sensor {
     }
 
     public testIsWithinRange(enemy: Enemy): boolean {
-        return this.isVisible(enemy);
+        return this.isEnemyVisible(enemy);
     }
 
-    private isVisible(enemy: Enemy) {
+    public setIsVisible(isVisible: boolean) {
+        throw new Error('Unimplemented method');
+    }
+
+    private isEnemyVisible(enemy: Enemy) {
         return this.isInsideVisibleRange(enemy) && this.thereIsNoObstacleBetweenEnemyAndPlayer(enemy);
     }
 
