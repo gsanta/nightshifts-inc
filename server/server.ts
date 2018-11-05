@@ -5,6 +5,10 @@ import { UsersSchema } from './model/UserModel';
 mongoose.connect('mongodb://localhost/thegame');
 mongoose.set('debug', true);
 mongoose.model('Users', UsersSchema);
+require('./auth/passport');
+import {router} from './routes/users';
+
+app.use('/users', router);
 
 const server = app.listen(app.get('port'), () => {
     console.log(
