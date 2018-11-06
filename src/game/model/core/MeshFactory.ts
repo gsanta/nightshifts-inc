@@ -15,10 +15,10 @@ export class MeshFactory {
     }
 
     public createWall(translate: VectorModel, dimensions: VectorModel) {
-        var blueMat = new BABYLON.StandardMaterial("blueMat", this.scene);
+        const blueMat = new BABYLON.StandardMaterial('blueMat', this.scene);
         blueMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
         const mesh = MeshBuilder.CreateBox(
-            "wall-" + this.idCounter++,
+            'wall-' + this.idCounter++,
             { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() },
             this.scene
         );
@@ -31,7 +31,10 @@ export class MeshFactory {
         const meshModel = new MeshModel(mesh);
         meshModel.translate(translate);
 
-        this.shadowGenerator.getShadowMap().renderList.push(mesh);
+        const shadowMap = this.shadowGenerator.getShadowMap();
+        if (shadowMap && shadowMap.renderList) {
+            shadowMap.renderList.push(mesh);
+        }
 
         return meshModel;
     }

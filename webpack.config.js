@@ -3,13 +3,13 @@ const webpack = require('webpack');
 
 module.exports = env => {
   return {
-    entry: './src/index.ts',
+    entry: './src/gui/index.tsx',
     module: {
       rules: [
         {
           test: /\.tsx?$/,
           use: 'ts-loader',
-          exclude: /node_modules/
+          exclude: [/node_modules/, /src\/server/]
         }
       ]
     },

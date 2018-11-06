@@ -3,11 +3,11 @@
       "moduleResolution": "node",
       "target": "es6",
       "module": "commonjs",
-      "outDir": "dist/server",
+      "outDir": "build/server",
       "sourceMap": true
     },
     "include": [
-      "server/**/*.ts"
+      "src/server/**/*.ts"
     ],
     "exclude": [
       "node_modules"

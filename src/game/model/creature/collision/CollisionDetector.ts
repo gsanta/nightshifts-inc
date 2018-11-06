@@ -4,8 +4,8 @@ import { VectorModel } from '../../core/VectorModel';
 import { Creature } from '../type/Creature';
 
 export interface CollisionInfo {
-    mesh: AbstractMesh;
-    normal: VectorModel;
+    mesh: AbstractMesh | null;
+    normal: VectorModel | null;
 }
 
 export class CollisionDetector {
@@ -22,8 +22,8 @@ export class CollisionDetector {
 
         if (collisionInfo.mesh) {
             if (collisionInfo.mesh.name !== 'ray') {
-                let invNormal = collisionInfo.normal.negate();
-                invNormal = invNormal.scale(delta.multiply(collisionInfo.normal).length()); // Change normal to direction's length and normal's axis
+                let invNormal = collisionInfo.normal!.negate();
+                invNormal = invNormal.scale(delta.multiply(collisionInfo.normal!).length()); // Change normal to direction's length and normal's axis
                 let adjustedDelta = delta.subtract(invNormal);
 
                 const collisionInfo2 = this.castRay(new BABYLON.Vector3(adjustedDelta.x(), adjustedDelta.y(), adjustedDelta.z()));
@@ -33,9 +33,9 @@ export class CollisionDetector {
                 }
                 return adjustedDelta;
             }
-        } else {
-            return delta;
         }
+
+        return delta;
     }
 
 
@@ -49,9 +49,15 @@ export class CollisionDetector {
             return ['ray', 'ground'].indexOf(mesh.name) === -1;
         });
 
-        const normal = hit.getNormal();
+        let normal: Vector3 | null = null;
+        let mesh: AbstractMesh | null = null;
+        if (hit) {
+            normal = hit.getNormal();
+            mesh = hit.pickedMesh;
+        }
+
         return {
-            mesh: hit.pickedMesh,
+            mesh: mesh,
             normal: normal ? new VectorModel(normal.x, normal.y, normal.z) : null
         };
     }
