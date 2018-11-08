@@ -1,5 +1,6 @@
-import { withStyles, TextField } from '@material-ui/core';
+import { withStyles, TextField, InputLabel } from '@material-ui/core';
 import * as React from 'react';
+import styled from 'styled-components';
 
 const styles = {
     input: {
@@ -12,30 +13,31 @@ const styles = {
     }
 };
 
+const Label = styled.span`
+  font-size: 15px;
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+`;
 
 const TextFieldStyled = (props: TextFieldProps) => {
-    console.log(props.classes.input)
     return (
-        <TextField
-            style={{marginTop: props.topMargined ? '10px' : '0px'}}
-            value={props.value}
-            onChange={(event) => props.onChange(event.target.value)}
-            variant="outlined"
-            label={props.label}
-            type={props.type}
-            InputLabelProps={{
-                className: props.classes.inputLabel,
-                margin: 'dense'
-            } as any}
-            inputProps={{
-                className: props.classes.input
-            }}
-        />
+        <Wrapper>
+            <TextField
+                label={props.label}
+                value={props.value}
+                onChange={(event) => props.onChange(event.target.value)}
+                variant="outlined"
+                type={props.type}
+            />
+        </Wrapper>
     );
 };
 
 export interface TextFieldProps {
-    topMargined?: boolean;
     value: string;
     onChange: (newValue: string) => void;
     label: string;

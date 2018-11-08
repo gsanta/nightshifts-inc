@@ -35,9 +35,9 @@ const Footer = styled.div`
 `;
 
 
-class Login extends React.Component<LoginProps, LoginState> {
+class Signup extends React.Component<SignupProps, SignupState> {
 
-    constructor(props: LoginProps) {
+    constructor(props: SignupProps) {
         super(props);
 
         this.state = {
@@ -65,7 +65,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         label="Password"
                         type="password"
                     />
-                    <Button text="Sign in"/>
+                    <Button text="Sign up"/>
                     {this.renderFooter()}
                 </div>
             </Modal>
@@ -75,21 +75,20 @@ class Login extends React.Component<LoginProps, LoginState> {
     private renderFooter() {
         return (
             <Footer>
-                <div>Forgot password?</div>
-                <div>No account? <Link to={`/signup`}>Sign up</Link>.</div>
+                <div>Already have an account <Link to={`/login`}>Sign in</Link>.</div>
             </Footer>
         );
     }
 }
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(Signup);
 
-export interface LoginState {
+export interface SignupState {
     email: string;
     password: string;
 }
 
-export interface LoginProps {
+export interface SignupProps {
     classes: {
         paper: any;
     };
