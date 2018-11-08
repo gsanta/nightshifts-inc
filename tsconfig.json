@@ -9,7 +9,7 @@
     },
     "include": [
       "src/game/**/*.ts",
-      "src/gui/**/*.tsx?", "src/gui/index.tsx"
+      "src/gui/**/*.tsx?", "src/gui/index.tsx", "src/gui/form/TextField.tsx"
     ],
     "exclude": [
       "node_modules"

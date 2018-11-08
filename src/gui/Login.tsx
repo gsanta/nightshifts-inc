@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Modal, withStyles} from '@material-ui/core';
-import { TextField } from '@material-ui/core';
+import TextField from './form/TextField';
+require('./Login.scss');
 
 function getModalStyle() {
     const top = 50;
@@ -24,15 +25,36 @@ const styles = theme => ({
 });
 
 
-class Login extends React.Component<LoginProps, {}> {
+class Login extends React.Component<LoginProps, LoginState> {
+
+    constructor(props: LoginProps) {
+        super(props);
+
+        this.state = {
+            email: '',
+            password: ''
+        };
+    }
 
     public render() {
         return (
-            <Modal open={true}>
+            <Modal open={true} className="the-game-modal">
                 <div style={getModalStyle()} className={this.props.classes.paper}>
                 <TextField
-                    id="outlined-name"
-                    value={'abcd'}
+                    value={this.state.email}
+                    onChange={(email: string) => {
+                        this.setState({email});
+                    }}
+                    label="Email"
+                />
+                <TextField
+                    topMargined
+                    value={this.state.password}
+                    onChange={(password: string) => {
+                        this.setState({password});
+                    }}
+                    label="Password"
+                    type="password"
                 />
                 </div>
             </Modal>
@@ -41,6 +63,11 @@ class Login extends React.Component<LoginProps, {}> {
 }
 
 export default withStyles(styles)(Login);
+
+export interface LoginState {
+    email: string;
+    password: string;
+}
 
 export interface LoginProps {
     classes: {
