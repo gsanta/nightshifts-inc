@@ -8,7 +8,7 @@ mongoose.model('Users', UsersSchema);
 require('./auth/passport');
 import {router} from './routes/users';
 
-app.use('/users', router);
+app.use('/api', router);
 
 const server = app.listen(app.get('port'), () => {
     console.log(

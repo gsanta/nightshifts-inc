@@ -8,7 +8,7 @@
     "watch": "./node_modules/.bin/webpack-dev-server",
     "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug",
     "compile-server": "tsc --project tsconfig-server.json",
-    "run-server": "node ./dist/server/server.js"
+    "run-server": "node ./build/server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^3.4.0",
+    "@types/axios": "^0.14.0",
     "@types/classnames": "^2.2.6",
     "@types/express": "^4.16.0",
     "@types/express-jwt": "0.0.40",
@@ -48,6 +49,7 @@
     "@types/react-dom": "^16.0.9",
     "@types/react-router-dom": "^4.3.1",
     "@types/styled-components": "^4.0.3",
+    "axios": "^0.18.0",
     "babylonjs": "^3.2.0",
     "classnames": "^2.2.6",
     "crypto": "^1.0.1",

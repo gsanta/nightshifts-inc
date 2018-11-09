@@ -65,7 +65,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         label="Password"
                         type="password"
                     />
-                    <Button text="Sign in"/>
+                    <Button text="Sign in" onClick={() => null}/>
                     {this.renderFooter()}
                 </div>
             </Modal>

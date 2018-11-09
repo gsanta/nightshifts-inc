@@ -3,7 +3,9 @@ import {Modal, withStyles} from '@material-ui/core';
 import TextField from './form/TextField';
 import Button from './form/Button';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { UserModel } from './stores/UserModel';
 require('./Login.scss');
 
 function getModalStyle() {
@@ -40,6 +42,8 @@ class Signup extends React.Component<SignupProps, SignupState> {
     constructor(props: SignupProps) {
         super(props);
 
+        this.signUp = this.signUp.bind(this);
+
         this.state = {
             email: '',
             password: ''
@@ -47,6 +51,10 @@ class Signup extends React.Component<SignupProps, SignupState> {
     }
 
     public render() {
+        if (this.props.user) {
+            return <Redirect to="/"/>;
+        }
+
         return (
             <Modal open={true} className="the-game-modal">
                 <div style={getModalStyle()} className={this.props.classes.paper}>
@@ -65,7 +73,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
                         label="Password"
                         type="password"
                     />
-                    <Button text="Sign up"/>
+                    <Button text="Sign up" onClick={this.signUp}/>
                     {this.renderFooter()}
                 </div>
             </Modal>
@@ -78,6 +86,21 @@ class Signup extends React.Component<SignupProps, SignupState> {
                 <div>Already have an account <Link to={`/login`}>Sign in</Link>.</div>
             </Footer>
         );
+    }
+
+    private signUp() {
+        axios.post('/api/signup', {
+            user: {
+                email: this.state.email,
+                password: this.state.password
+            }
+        })
+        .then((response) => {
+            this.props.setUser(new UserModel());
+        })
+        .catch((e) => {
+            console.log(e);
+        });
     }
 }
 
@@ -92,4 +115,6 @@ export interface SignupProps {
     classes: {
         paper: any;
     };
+    user: UserModel;
+    setUser(user: UserModel): void;
 }

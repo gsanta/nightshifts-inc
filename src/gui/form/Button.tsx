@@ -14,7 +14,14 @@ const styles = {
 
 const ButtonStyled = (props: ButtonProps) => {
     return (
-            <Button variant="contained" color="primary" className={props.classes.root}>{props.text}</Button>
+            <Button
+                variant="contained"
+                color="primary"
+                className={props.classes.root}
+                onClick={props.onClick}
+            >
+                {props.text}
+            </Button>
     );
 };
 
@@ -23,6 +30,7 @@ export interface ButtonProps {
     classes: {
         root: any;
     };
+    onClick(event: React.SyntheticEvent<any>): void;
 }
 
 export default withStyles(styles)(ButtonStyled);
