@@ -3,8 +3,9 @@ import { Game } from './Game';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
-import { UserStore } from './stores/UserStore';
-import { UserModel } from './stores/UserModel';
+import { UserStore } from '../stores/UserStore';
+import { UserModel } from '../stores/UserModel';
+import { Header } from './header/Header';
 
 export class App extends React.Component<any, AppState> {
     private userStore: UserStore;
@@ -34,6 +35,7 @@ export class App extends React.Component<any, AppState> {
         return (
             <Router>
                 <div>
+                    <Header/>
                     <Game/>
                     <Route path="/login" exact render={(props) => <Login {...props} user={this.state.user} setUser={this.setUser}/>}/>
                     <Route

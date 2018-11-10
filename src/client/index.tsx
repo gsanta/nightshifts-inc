@@ -1,4 +1,4 @@
-import { App } from './App';
+import { App } from './gui/App';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 

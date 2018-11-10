@@ -5,8 +5,7 @@ import Button from './form/Button';
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { UserModel } from './stores/UserModel';
-require('./Login.scss');
+import { UserModel } from '../stores/UserModel';
 
 function getModalStyle() {
     const top = 50;

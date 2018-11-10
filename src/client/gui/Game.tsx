@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GameEngine } from '../game/GameEngine';
+import { GameEngine } from '../../game/GameEngine';
 
 export class Game extends React.Component<{}, {}> {
     private ref: React.RefObject<HTMLCanvasElement>;
