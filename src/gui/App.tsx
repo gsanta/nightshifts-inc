@@ -35,7 +35,7 @@ export class App extends React.Component<any, AppState> {
             <Router>
                 <div>
                     <Game/>
-                    <Route path="/login" exact component={Login} />
+                    <Route path="/login" exact render={(props) => <Login {...props} user={this.state.user} setUser={this.setUser}/>}/>
                     <Route
                         path="/signup"
                         exact

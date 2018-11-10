@@ -3,7 +3,9 @@ import {Modal, withStyles} from '@material-ui/core';
 import TextField from './form/TextField';
 import Button from './form/Button';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { UserModel } from './stores/UserModel';
 require('./Login.scss');
 
 function getModalStyle() {
@@ -40,13 +42,20 @@ class Login extends React.Component<LoginProps, LoginState> {
     constructor(props: LoginProps) {
         super(props);
 
+        this.login = this.login.bind(this);
+
         this.state = {
             email: '',
             password: ''
         };
+
     }
 
     public render() {
+        if (this.props.user) {
+            return <Redirect to="/"/>;
+        }
+
         return (
             <Modal open={true} className="the-game-modal">
                 <div style={getModalStyle()} className={this.props.classes.paper}>
@@ -65,7 +74,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         label="Password"
                         type="password"
                     />
-                    <Button text="Sign in" onClick={() => null}/>
+                    <Button text="Sign in" onClick={this.login}/>
                     {this.renderFooter()}
                 </div>
             </Modal>
@@ -80,6 +89,21 @@ class Login extends React.Component<LoginProps, LoginState> {
             </Footer>
         );
     }
+
+    private login() {
+        axios.post('/api/login', {
+            user: {
+                email: this.state.email,
+                password: this.state.password
+            }
+        })
+        .then((response) => {
+            this.props.setUser(new UserModel());
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }
 }
 
 export default withStyles(styles)(Login);
@@ -93,4 +117,6 @@ export interface LoginProps {
     classes: {
         paper: any;
     };
+    user: UserModel;
+    setUser(user: UserModel): void;
 }
