@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { UserModel } from '../stores/UserModel';
+import { UserQuery } from '../query/user/UserQuery';
+import * as passport from 'passport';
 
 function getModalStyle() {
     const top = 50;
@@ -90,12 +92,9 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     private login() {
-        axios.post('/api/login', {
-            user: {
-                email: this.state.email,
-                password: this.state.password
-            }
-        })
+        const userQuery = new UserQuery();
+
+        userQuery.login({ email: this.state.email, password: this.state.password})
         .then((response) => {
             this.props.setUser(new UserModel());
         })
