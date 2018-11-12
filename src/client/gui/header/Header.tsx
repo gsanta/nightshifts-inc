@@ -3,7 +3,7 @@ import * as React from 'react';
 import { colors } from '../styles';
 import { UserModel } from '../../stores/UserModel';
 import { Menu, MenuItem, Button, withStyles } from '@material-ui/core';
-import ArrayDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import MenuIcon from '@material-ui/icons/Menu';
 import { GlobalContext, GlobalProps } from '../App';
 
 const HeaderDiv = styled.div`
@@ -13,7 +13,13 @@ const HeaderDiv = styled.div`
 `;
 
 const ProfileSection = styled.div`
-    float: right;
+    padding: 5px 10px;
+`;
+
+const StyledMenuIcon = styled(MenuIcon)`
+    color: white;
+    width: 30px;
+    cursor: pointer;
 `;
 
 const styles = theme => ({
@@ -25,13 +31,13 @@ const styles = theme => ({
 });
 
 class Header extends React.Component<GlobalProps & HeaderProps, HeaderState> {
-
     constructor(props: GlobalProps & HeaderProps) {
         super(props);
 
         this.handleClick = this.handleClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleSignOut = this.handleSignOut.bind(this);
+        this.handleOpenSettings = this.handleOpenSettings.bind(this);
 
         this.state = {
             anchorElement: null
@@ -44,23 +50,24 @@ class Header extends React.Component<GlobalProps & HeaderProps, HeaderState> {
         const getProfileSection = () => {
             return (
                 <ProfileSection>
-                        <Button
+                    <StyledMenuIcon onClick={this.props.openSidebar}/>
+
+                        {/* <Button
                             className={this.props.classes.menuButton}
                             aria-haspopup="true"
                             onClick={this.handleClick}
                         >
                             {user.getEmail()}
-                            <ArrayDropDownIcon/>
                         </Button>
                         <Menu
                             anchorEl={this.state.anchorElement}
                             open={!!this.state.anchorElement}
                             onClose={this.handleClose}
                         >
-                            <MenuItem onClick={this.handleClose}>Settings</MenuItem>
+                            <MenuItem onClick={this.handleOpenSettings}>Settings</MenuItem>
                             <MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
-                        </Menu>
-                    </ProfileSection>
+                        </Menu> */}
+                </ProfileSection>
             );
         };
 
@@ -79,6 +86,13 @@ class Header extends React.Component<GlobalProps & HeaderProps, HeaderState> {
         this.setState({ anchorElement: null });
     }
 
+    private handleOpenSettings() {
+        this.props.history.push({
+            pathname: '/settings'
+        });
+        this.setState({ anchorElement: null });
+    }
+
     private handleSignOut() {
         this.props.userActions.signOut();
         this.setState({ anchorElement: null });
@@ -87,9 +101,9 @@ class Header extends React.Component<GlobalProps & HeaderProps, HeaderState> {
 
 const StyledHeader = withStyles(styles)(Header);
 
-export default () => (
+export default (props: any) => (
     <GlobalContext.Consumer>
-        {(globalProps: GlobalProps) => <StyledHeader {...globalProps}/>}
+        {(globalProps: GlobalProps) => <StyledHeader {...globalProps} {...props}/>}
     </GlobalContext.Consumer>
 );
 
@@ -99,4 +113,6 @@ export interface HeaderState {
 
 export interface HeaderProps {
     classes: any;
+    history: any;
+    openSidebar(): void;
 }
