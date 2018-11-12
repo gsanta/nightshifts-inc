@@ -95,8 +95,8 @@ class Login extends React.Component<LoginProps, LoginState> {
         const userQuery = new UserQuery();
 
         userQuery.login({ email: this.state.email, password: this.state.password})
-        .then((response) => {
-            this.props.setUser(new UserModel());
+        .then((user: UserModel) => {
+            this.props.setUser(user);
         })
         .catch((e) => {
             console.log(e);

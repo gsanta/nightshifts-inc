@@ -6,7 +6,7 @@ export class UserStore extends EventEmitter {
 
     public setModel(userModel: UserModel) {
         this.userModel = userModel;
-        this.emit('change');
+        this.emitChange();
     }
 
     public getModel() {
