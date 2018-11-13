@@ -4,16 +4,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import InputIcon from '@material-ui/icons/Input';
 import { GlobalContext, GlobalProps } from './App';
 import styled from 'styled-components';
-import { colors } from './styles';
 import { Link } from 'react-router-dom';
-
-const ListItemIconStyled = styled(ListItemIcon)`
-    margin-right: 0;
-`;
-
-const DrawerStyled = styled(Drawer)`
-    background: green;
-`;
 
 const SidebarHeader = styled.div`
     height: 100px;
@@ -23,9 +14,8 @@ const SidebarHeader = styled.div`
     align-items: center;
 `;
 
-const SidebarContent = styled.div`
-    width: 250px;
-    margin: 10px;
+const LinkStyled = styled(Link)`
+    text-decoration: none;
 `;
 
 const styles = theme => ({
@@ -40,6 +30,12 @@ const styles = theme => ({
 
 
 class Sidebar extends React.Component<GlobalProps & SidebarProps, {}> {
+
+    public componentDidUpdate(prevProps: any) {
+        if ((this.props as any) as any !== prevProps.location) {
+            console.log('location changed: ' + (this.props as any).location);
+        }
+    }
 
     public render() {
         if (!this.props.userStore.getModel()) {
@@ -65,14 +61,14 @@ class Sidebar extends React.Component<GlobalProps & SidebarProps, {}> {
                     >
                         <Divider/>
                         <List component="nav">
-                                <Link to="/settings">
-                            <ListItem button>
-                                    <ListItemIcon>
-                                        <SettingsIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Settings"/>
-                            </ListItem>
-                                </Link>
+                            <LinkStyled to="/settings">
+                                <ListItem button>
+                                        <ListItemIcon>
+                                            <SettingsIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Settings"/>
+                                </ListItem>
+                            </LinkStyled>
                             <ListItem button>
                                 <ListItemIcon>
                                     <InputIcon/>

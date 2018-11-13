@@ -11,6 +11,8 @@ import { UserQuery } from '../query/user/UserQuery';
 import { Settings } from './routes/settings/Settings';
 import Sidebar from './Sidebar';
 import { Game } from './Game';
+import { withRouter } from 'react-router-dom';
+require('bootstrap/dist/css/bootstrap.css');
 
 export const GlobalContext = React.createContext<GlobalProps>({
     userStore: null,
@@ -22,9 +24,10 @@ export interface GlobalProps {
     userActions: UserActions | null;
 }
 
-export class App extends React.Component<any, AppState> {
+class App extends React.Component<any, AppState> {
     private userStore: UserStore;
     private userActions: UserActions;
+    private unlisten: any;
 
     constructor(props: any) {
         super(props);
@@ -44,17 +47,20 @@ export class App extends React.Component<any, AppState> {
     }
 
     public componentDidMount() {
+        this.unlisten = this.props.history.listen((location, action) => {
+            console.log('on route change');
+        });
         this.userStore.onChange(this.onUserStoreChange);
     }
 
     public componentWillUnmount() {
+        this.unlisten();
         this.userStore.offChange(this.onUserStoreChange);
     }
 
     public render() {
         return (
             <GlobalContext.Provider value={{userStore: this.userStore, userActions: this.userActions}}>
-                <Router>
                     <div>
                         <Header openSidebar={this.openSidebar}/>
                         <Switch>
@@ -70,7 +76,6 @@ export class App extends React.Component<any, AppState> {
                             render={(props) => <Signup {...props} user={this.state.user} setUser={this.setUser}/>}
                         />
                     </div>
-                </Router>
             </GlobalContext.Provider>
         );
     }
@@ -97,6 +102,8 @@ export class App extends React.Component<any, AppState> {
         });
     }
 }
+
+export default withRouter(App);
 
 export interface AppState {
     user: UserModel | null;
