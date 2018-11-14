@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 export class RootRoute extends React.Component<RootRouteProps, {}> {
 
     public render() {
-        if (!this.props.user) {
+        if (this.props.user === UserModel.NULL_USER_MODEL) {
             return <Redirect to="/login"/>;
         }
 

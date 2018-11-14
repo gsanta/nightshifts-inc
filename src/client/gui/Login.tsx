@@ -53,7 +53,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     public render() {
-        if (this.props.user) {
+        if (this.props.user !== UserModel.NULL_USER_MODEL) {
             return <Redirect to="/"/>;
         }
 

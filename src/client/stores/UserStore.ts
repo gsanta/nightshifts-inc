@@ -4,6 +4,11 @@ import { EventEmitter } from 'events';
 export class UserStore extends EventEmitter {
     private userModel: UserModel;
 
+    constructor() {
+        super();
+        this.userModel = UserModel.NULL_USER_MODEL;
+    }
+
     public setModel(userModel: UserModel) {
         this.userModel = userModel;
         this.emitChange();

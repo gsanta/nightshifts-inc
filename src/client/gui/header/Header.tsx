@@ -9,7 +9,7 @@ import { GlobalContext, GlobalProps } from '../App';
 const HeaderDiv = styled.div`
     width: 100%;
     height: 36px;
-    background: ${colors.Black};
+    background: ${colors.Gray2};
 `;
 
 const ProfileSection = styled.div`

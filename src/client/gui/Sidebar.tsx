@@ -2,9 +2,11 @@ import * as React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, withStyles, Divider, Avatar } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import InputIcon from '@material-ui/icons/Input';
+import GamesIcon from '@material-ui/icons/Games';
 import { GlobalContext, GlobalProps } from './App';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { UserModel } from '../stores/UserModel';
 
 const SidebarHeader = styled.div`
     height: 100px;
@@ -16,6 +18,10 @@ const SidebarHeader = styled.div`
 
 const LinkStyled = styled(Link)`
     text-decoration: none;
+
+    &:active, &:hover {
+        text-decoration: none;
+    }
 `;
 
 const styles = theme => ({
@@ -30,13 +36,6 @@ const styles = theme => ({
 
 
 class Sidebar extends React.Component<GlobalProps & SidebarProps, {}> {
-
-    public componentDidUpdate(prevProps: any) {
-        if ((this.props as any) as any !== prevProps.location) {
-            console.log('location changed: ' + (this.props as any).location);
-        }
-    }
-
     public render() {
         if (!this.props.userStore.getModel()) {
             return null;
@@ -47,6 +46,7 @@ class Sidebar extends React.Component<GlobalProps & SidebarProps, {}> {
                 <Drawer
                     open={this.props.isOpen}
                     onClose={this.props.close}
+                    variant={this.props.isPermanent ? 'permanent' : 'temporary'}
                     className={this.props.classes.drawer}
                     classes={{
                         paper: this.props.classes.drawerPaper,
@@ -61,6 +61,14 @@ class Sidebar extends React.Component<GlobalProps & SidebarProps, {}> {
                     >
                         <Divider/>
                         <List component="nav">
+                            <LinkStyled to="/">
+                                <ListItem button>
+                                        <ListItemIcon>
+                                            <GamesIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText primary="Game"/>
+                                </ListItem>
+                            </LinkStyled>
                             <LinkStyled to="/settings">
                                 <ListItem button>
                                         <ListItemIcon>
@@ -69,7 +77,7 @@ class Sidebar extends React.Component<GlobalProps & SidebarProps, {}> {
                                         <ListItemText primary="Settings"/>
                                 </ListItem>
                             </LinkStyled>
-                            <ListItem button>
+                            <ListItem button onClick={() => this.props.userStore.setModel(UserModel.NULL_USER_MODEL)}>
                                 <ListItemIcon>
                                     <InputIcon/>
                                 </ListItemIcon>
@@ -83,7 +91,7 @@ class Sidebar extends React.Component<GlobalProps & SidebarProps, {}> {
     }
 
     private getCapitalizedFirstLetterOfEmail() {
-        return this.props.userStore.getModel().getEmail()[0].toUpperCase();
+        return this.props.userStore.getModel().getEmail() && this.props.userStore.getModel().getEmail()[0].toUpperCase();
     }
 }
 
@@ -99,4 +107,5 @@ export interface SidebarProps {
     isOpen: boolean;
     close(): void;
     classes?: any;
+    isPermanent: boolean;
 }

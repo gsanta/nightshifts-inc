@@ -8,7 +8,7 @@ import Header from './header/Header';
 import { RootRoute } from './routes/root/RootRoute';
 import { UserActions } from '../stores/UserActions';
 import { UserQuery } from '../query/user/UserQuery';
-import { Settings } from './routes/settings/Settings';
+import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
 import { Game } from './Game';
 import { withRouter } from 'react-router-dom';
@@ -41,8 +41,9 @@ class App extends React.Component<any, AppState> {
         this.userActions = new UserActions(this.userStore, new UserQuery());
 
         this.state = {
-            user: null,
-            isSidebarOpen: props.history.location.pathname === '/settings' ? true : false
+            user: this.userStore.getModel(),
+            isSidebarOpen: false,
+            isSidebarPermanent: props.history.location.pathname === '/settings' ? true : false
         };
     }
 
@@ -50,7 +51,12 @@ class App extends React.Component<any, AppState> {
         this.unlisten = this.props.history.listen((location, action) => {
             if (location.pathname === '/settings') {
                 this.setState({
-                    isSidebarOpen: true
+                    isSidebarOpen: true,
+                    isSidebarPermanent: true
+                });
+            } else {
+                this.setState({
+                    isSidebarPermanent: false
                 });
             }
         });
@@ -71,7 +77,7 @@ class App extends React.Component<any, AppState> {
                             <Route exact path="/settings" component={Settings}/>
                             <Route component={Game}/>
                         </Switch>
-                        <Sidebar isOpen={this.state.isSidebarOpen} close={this.closeSidebar}/>
+                        <Sidebar isOpen={this.state.isSidebarOpen} isPermanent={this.state.isSidebarPermanent} close={this.closeSidebar}/>
                         <Route path="/" exact render={(props) => <RootRoute {...props} user={this.state.user}/>}/>
                         <Route path="/login" exact render={(props) => <Login {...props} user={this.state.user} setUser={this.setUser}/>}/>
                         <Route
@@ -95,9 +101,11 @@ class App extends React.Component<any, AppState> {
     }
 
     private closeSidebar() {
-        this.setState({
-            isSidebarOpen: false
-        });
+        if (this.props.history.location.pathname !== '/settings') {
+            this.setState({
+                isSidebarOpen: false
+            });
+        }
     }
 
     private openSidebar() {
@@ -112,4 +120,5 @@ export default withRouter(App);
 export interface AppState {
     user: UserModel | null;
     isSidebarOpen: boolean;
+    isSidebarPermanent: boolean;
 }
