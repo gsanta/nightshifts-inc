@@ -42,13 +42,17 @@ class App extends React.Component<any, AppState> {
 
         this.state = {
             user: null,
-            isSidebarOpen: false
+            isSidebarOpen: props.history.location.pathname === '/settings' ? true : false
         };
     }
 
     public componentDidMount() {
         this.unlisten = this.props.history.listen((location, action) => {
-            console.log('on route change');
+            if (location.pathname === '/settings') {
+                this.setState({
+                    isSidebarOpen: true
+                });
+            }
         });
         this.userStore.onChange(this.onUserStoreChange);
     }
