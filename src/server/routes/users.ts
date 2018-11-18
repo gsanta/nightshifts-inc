@@ -66,7 +66,7 @@ router.post('/login', auth.optional, (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/current', auth.required, (req, res, next) => {
+router.get('/user', auth.required, (req, res, next) => {
   const { payload: { id } } = req;
 
   return Users.findById(id)

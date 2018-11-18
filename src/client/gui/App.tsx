@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import { UserStore } from '../stores/UserStore';
@@ -12,6 +12,7 @@ import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
 import { Game } from './Game';
 import { withRouter } from 'react-router-dom';
+import { AppStore } from '../stores/app/AppStore';
 require('bootstrap/dist/css/bootstrap.css');
 
 export const GlobalContext = React.createContext<GlobalProps>({
@@ -26,7 +27,9 @@ export interface GlobalProps {
 
 class App extends React.Component<any, AppState> {
     private userStore: UserStore;
+    private appStore: AppStore;
     private userActions: UserActions;
+    private userQuery: UserQuery;
     private unlisten: any;
 
     constructor(props: any) {
@@ -36,9 +39,12 @@ class App extends React.Component<any, AppState> {
         this.setUser = this.setUser.bind(this);
         this.closeSidebar = this.closeSidebar.bind(this);
         this.openSidebar = this.openSidebar.bind(this);
+        this.onAppStoreChange = this.onAppStoreChange.bind(this);
 
         this.userStore = new UserStore();
-        this.userActions = new UserActions(this.userStore, new UserQuery());
+        this.appStore = new AppStore();
+        this.userActions = new UserActions(this.userStore, this.appStore, new UserQuery());
+        this.userQuery = new UserQuery();
 
         this.state = {
             user: this.userStore.getModel(),
@@ -61,14 +67,21 @@ class App extends React.Component<any, AppState> {
             }
         });
         this.userStore.onChange(this.onUserStoreChange);
+        this.appStore.onChange(this.onAppStoreChange);
+        this.userActions.loadUser();
     }
 
     public componentWillUnmount() {
         this.unlisten();
         this.userStore.offChange(this.onUserStoreChange);
+        this.appStore.offChange(this.onAppStoreChange);
     }
 
     public render() {
+        if (this.shouldRedirectToLoginPage()) {
+            return <Redirect to="/login"/>;
+        }
+
         return (
             <GlobalContext.Provider value={{userStore: this.userStore, userActions: this.userActions}}>
                     <div>
@@ -90,10 +103,20 @@ class App extends React.Component<any, AppState> {
         );
     }
 
+    private shouldRedirectToLoginPage() {
+        return this.appStore.getModel().getAppState() !== 'loading' &&
+            this.userStore.getModel() === UserModel.NULL_USER_MODEL &&
+            this.props.history.location.pathname !== '/login';
+    }
+
     private onUserStoreChange() {
         this.setState({
             user: this.userStore.getModel()
         });
+    }
+
+    private onAppStoreChange() {
+        this.forceUpdate();
     }
 
     private setUser(user: UserModel) {
