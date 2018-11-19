@@ -77,7 +77,7 @@ class Sidebar extends React.Component<GlobalProps & SidebarProps, {}> {
                                         <ListItemText primary="Settings"/>
                                 </ListItem>
                             </LinkStyled>
-                            <ListItem button onClick={() => this.props.userStore.setModel(UserModel.NULL_USER_MODEL)}>
+                            <ListItem button onClick={() => this.props.appActions.signout()}>
                                 <ListItemIcon>
                                     <InputIcon/>
                                 </ListItemIcon>

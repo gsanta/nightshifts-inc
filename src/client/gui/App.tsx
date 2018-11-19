@@ -13,23 +13,27 @@ import Sidebar from './Sidebar';
 import { Game } from './Game';
 import { withRouter } from 'react-router-dom';
 import { AppStore } from '../stores/app/AppStore';
+import { AppActions } from '../stores/app/AppActions';
+import { TokenHandler } from '../query/TokenHandler';
 require('bootstrap/dist/css/bootstrap.css');
 
 export const GlobalContext = React.createContext<GlobalProps>({
     userStore: null,
-    userActions: null
+    userActions: null,
+    appActions: null
 });
 
 export interface GlobalProps {
     userStore: UserStore | null;
     userActions: UserActions | null;
+    appActions: AppActions | null;
 }
 
 class App extends React.Component<any, AppState> {
     private userStore: UserStore;
     private appStore: AppStore;
     private userActions: UserActions;
-    private userQuery: UserQuery;
+    private appActions: AppActions;
     private unlisten: any;
 
     constructor(props: any) {
@@ -44,7 +48,7 @@ class App extends React.Component<any, AppState> {
         this.userStore = new UserStore();
         this.appStore = new AppStore();
         this.userActions = new UserActions(this.userStore, this.appStore, new UserQuery());
-        this.userQuery = new UserQuery();
+        this.appActions = new AppActions(this.userStore, new TokenHandler());
 
         this.state = {
             user: this.userStore.getModel(),
@@ -59,6 +63,11 @@ class App extends React.Component<any, AppState> {
                 this.setState({
                     isSidebarOpen: true,
                     isSidebarPermanent: true
+                });
+            } else if (location.pathname === '/login') {
+                this.setState({
+                    isSidebarPermanent: false,
+                    isSidebarOpen: false,
                 });
             } else {
                 this.setState({
@@ -83,7 +92,7 @@ class App extends React.Component<any, AppState> {
         }
 
         return (
-            <GlobalContext.Provider value={{userStore: this.userStore, userActions: this.userActions}}>
+            <GlobalContext.Provider value={{userStore: this.userStore, userActions: this.userActions, appActions: this.appActions}}>
                     <div>
                         <Header openSidebar={this.openSidebar}/>
                         <Switch>

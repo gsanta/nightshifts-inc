@@ -7,4 +7,8 @@ export class TokenHandler {
     public loadToken(): string {
         return localStorage.getItem('jwt' );
     }
+
+    public deleteToken() {
+        localStorage.removeItem('jwt');
+    }
 }
