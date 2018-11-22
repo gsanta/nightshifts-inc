@@ -4,10 +4,9 @@ import TextField from './form/TextField';
 import Button from './form/Button';
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios';
 import { UserModel } from '../stores/UserModel';
 import { UserQuery } from '../query/user/UserQuery';
-import * as passport from 'passport';
+import FacebookLogin from 'react-facebook-login';
 
 function getModalStyle() {
     const top = 50;
@@ -44,6 +43,8 @@ class Login extends React.Component<LoginProps, LoginState> {
         super(props);
 
         this.login = this.login.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.onCallback = this.onCallback.bind(this);
 
         this.state = {
             email: '',
@@ -76,10 +77,27 @@ class Login extends React.Component<LoginProps, LoginState> {
                         type="password"
                     />
                     <Button text="Sign in" onClick={this.login}/>
+                    <FacebookLogin
+                        appId="1908610379223081"
+                        autoLoad={true}
+                        fields="name,email,picture"
+                        onClick={this.onClick}
+                        callback={this.onCallback}
+                    />
                     {this.renderFooter()}
                 </div>
             </Modal>
         );
+    }
+
+    private onClick(e) {
+        1;
+    }
+
+    private onCallback(e) {
+        const userQuery = new UserQuery();
+
+        userQuery.loginFacebook(e.accessToken);
     }
 
     private renderFooter() {

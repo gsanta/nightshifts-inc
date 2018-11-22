@@ -31,7 +31,7 @@ module.exports = env => {
         },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: "app.css",
+            filename: "app.css",
                 allChunks: true
             }),
             new webpack.DefinePlugin({
@@ -52,7 +52,8 @@ module.exports = env => {
                     target: 'http://localhost:3000',
                     secure: false
                 }
-            }
+            },
+            port: 8765
         }
     }
 };

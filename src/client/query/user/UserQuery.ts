@@ -32,6 +32,20 @@ export class UserQuery {
         });
     }
 
+    public loginFacebook(accessToken): Promise<UserModel> {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/signin/facebook', {
+                accessToken: accessToken
+            })
+            .then((response: { data: { user: UserDto }}) => {
+                console.log('fb login successful');
+            })
+            .catch((e) => {
+                console.log('fb login error: ' + e);
+            });
+        });
+    }
+
     public fetchUser(): Promise<UserModel> {
         return new Promise((resolve, reject) => {
             const token = this.tokenHandler.loadToken();
