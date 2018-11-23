@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 import * as jwt from 'jsonwebtoken';
 
-const JWT_SECRET = 'GSANTA';
+export const JWT_SECRET = 'GSANTA';
 
 export class UserModel {
     public email: string;
@@ -9,6 +9,7 @@ export class UserModel {
     public accessToken: string;
     public hash: string;
     public salt: string;
+    public jwtToken: string;
 
 
     public generateJWT() {
@@ -28,7 +29,7 @@ export class UserModel {
     public toJSON() {
         return {
             email: this.email,
-            jwtToken: this.generateJWT(),
+            jwtToken: this.jwtToken,
         };
     }
 

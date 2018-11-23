@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { User } from '../stores/User';
+import { UserQuery } from '../query/user/UserQuery';
 
 function getModalStyle() {
     const top = 50;
@@ -88,14 +89,11 @@ class Signup extends React.Component<SignupProps, SignupState> {
     }
 
     private signUp() {
-        axios.post('/api/signup', {
-            user: {
-                email: this.state.email,
-                password: this.state.password
-            }
-        })
-        .then((response) => {
-            this.props.setUser(new User());
+        const userQuery = new UserQuery();
+
+        userQuery.signup({ email: this.state.email, password: this.state.password})
+        .then((user: User) => {
+            this.props.setUser(user);
         })
         .catch((e) => {
             console.log(e);

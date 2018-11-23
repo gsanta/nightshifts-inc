@@ -115,7 +115,8 @@ class App extends React.Component<any, AppState> {
     private shouldRedirectToLoginPage() {
         return this.appStore.getModel().getAppState() !== 'loading' &&
             this.userStore.getModel() === User.NULL_USER_MODEL &&
-            this.props.history.location.pathname !== '/login';
+            this.props.history.location.pathname !== '/login' &&
+            this.props.history.location.pathname !== '/signup';
     }
 
     private onUserStoreChange() {

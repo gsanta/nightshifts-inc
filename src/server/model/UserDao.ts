@@ -27,6 +27,7 @@ export class UserDao {
         userModel.authStrategy = schema.authStrategy;
         userModel.hash = schema.hash;
         userModel.salt = schema.salt;
+        userModel.jwtToken = schema.jwtToken;
 
         return userModel;
     }

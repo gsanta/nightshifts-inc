@@ -1,6 +1,11 @@
 import * as passport from 'passport';
 import { UserDao } from '../model/UserDao';
+import { UserAuthenticator } from './UserAuthenticator';
+import { JWT_SECRET } from '../model/UserModel';
 const LocalStrategy = require('passport-local');
+const passportJWT = require('passport-jwt');
+const JWTStrategy   = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 
 passport.use(new LocalStrategy(
     {
@@ -8,15 +13,30 @@ passport.use(new LocalStrategy(
         passwordField: 'user[password]',
     },
     (email, password, done) => {
-        const userDao = new UserDao();
-        userDao.findByEmail(email)
-            .then((user) => {
-                if (!user || !user.validatePassword(password)) {
-                    return done(null, false, { errors: { 'email or password': 'is invalid' } });
-                }
+        const userAuthenticator = new UserAuthenticator(new UserDao());
 
-                return done(null, user);
+        userAuthenticator.login(email, password)
+            .then(user => {
+                done(null, user);
             })
             .catch(done);
     }
 ));
+
+// passport.use(new JWTStrategy(
+//     {
+//         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+//         secretOrKey   : JWT_SECRET
+//     },
+//     function (jwtPayload, cb) {
+
+//         //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
+//         return UserModel.findOneById(jwtPayload.id)
+//             .then(user => {
+//                 return cb(null, user);
+//             })
+//             .catch(err => {
+//                 return cb(err);
+//             });
+//     }
+// ));

@@ -6,9 +6,10 @@ const Users = mongoose.model('Users');
 import * as request from 'request';
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
+import { UserAuthenticator } from '../auth/UserAuthenticator';
 
 router.post('/signup', auth.optional, (req, res, next) => {
-    const { body: { userJson } } = req;
+    const { body: { user: userJson } } = req;
 
     if (!userJson.email) {
         return res.status(400).json({
@@ -26,19 +27,12 @@ router.post('/signup', auth.optional, (req, res, next) => {
         });
     }
 
-    const userModel = UserModel.fromJSON(userJson);
-    const userDao = new UserDao();
-
-    userDao.save(userModel)
-
-    const finalUser = new Users(userJson);
-
-    finalUser.setPassword(userJson.password);
-
-    return finalUser.save()
-        .then((user: UserModel) => {
-            return res.json({ user: user.toJSON() });
-        });
+    const userAuthenticator = new UserAuthenticator(new UserDao());
+    userAuthenticator.signup(userJson.email, userJson.password)
+        .then(user => {
+            res.json({ user: user.toJSON() });
+        })
+        .catch(e => console.log(e));
 });
 
 router.post('/login', auth.optional, (req, res, next) => {
@@ -76,35 +70,28 @@ router.post('/login', auth.optional, (req, res, next) => {
 });
 
 router.get('/user', auth.required, (req, res, next) => {
-    const { payload: { id } } = req;
+    const { payload: { email } } = req;
 
-    return Users.findById(id)
+
+    const userDao = new UserDao();
+
+    userDao.findByEmail(email)
         .then((user) => {
             if (!user) {
                 return res.sendStatus(400);
             }
 
-            return res.json({ user: user.toAuthJSON() });
+            return res.json({ user: user.toJSON() });
     });
 });
 
 router.post('/signin/facebook', auth.optional, (req, res) => {
     request(`https://graph.facebook.com/me?fields=email&access_token=${req.body.accessToken}`, (err, response, body) => {
         const profileData = JSON.parse(body);
-        const userDao = new UserDao();
 
-        userDao.findByEmail(profileData.email)
-            .then((result) => {
-                if (result === null) {
-                    const newUser = new UserModel();
-                    newUser.email = profileData.email;
-                    newUser.authStrategy = 'facebook';
-                    newUser.accessToken = req.body.accessToken;
-                    return userDao.save(newUser);
-                } else {
-                    return result;
-                }
-            })
+        const userAuthenticator = new UserAuthenticator(new UserDao());
+        userAuthenticator
+            .signupFacebook(profileData.email, req.body.accessToken)
             .then((user: UserModel) => {
                 return res.json({ user: user.toJSON() });
             });

@@ -97,7 +97,13 @@ class Login extends React.Component<LoginProps, LoginState> {
     private onCallback(e) {
         const userQuery = new UserQuery();
 
-        userQuery.loginFacebook(e.accessToken);
+        userQuery.loginFacebook(e.accessToken)
+            .then((user: User) => {
+                this.props.setUser(user);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
 
     private renderFooter() {

@@ -21,7 +21,27 @@ export class UserQuery {
                 }
             })
             .then((response: { data: { user: UserDto }}) => {
-                this.tokenHandler.saveToken(response.data.user.token);
+                this.tokenHandler.saveToken(response.data.user.jwtToken);
+                const userModel = new User();
+                userModel.setEmail(response.data.user.email);
+                resolve(userModel);
+            })
+            .catch((e) => {
+                reject(e);
+            });
+        });
+    }
+
+    public signup(userLoginDto: UserLoginDto): Promise<User> {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/signup', {
+                user: {
+                    email: userLoginDto.email,
+                    password: userLoginDto.password
+                }
+            })
+            .then((response: { data: { user: UserDto }}) => {
+                this.tokenHandler.saveToken(response.data.user.jwtToken);
                 const userModel = new User();
                 userModel.setEmail(response.data.user.email);
                 resolve(userModel);
@@ -38,7 +58,10 @@ export class UserQuery {
                 accessToken: accessToken
             })
             .then((response: { data: { user: UserDto }}) => {
-                console.log('fb login successful');
+                this.tokenHandler.saveToken(response.data.user.jwtToken);
+                const userModel = new User();
+                userModel.setEmail(response.data.user.email);
+                resolve(userModel);
             })
             .catch((e) => {
                 console.log('fb login error: ' + e);
