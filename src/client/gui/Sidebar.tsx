@@ -6,7 +6,6 @@ import GamesIcon from '@material-ui/icons/Games';
 import { GlobalContext, GlobalProps } from './App';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { UserModel } from '../stores/UserModel';
 
 const SidebarHeader = styled.div`
     height: 100px;

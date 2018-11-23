@@ -4,39 +4,48 @@ const passport = require('passport');
 export const router = require('express').Router();
 const Users = mongoose.model('Users');
 import * as request from 'request';
+import { UserDao } from '../model/UserDao';
+import { UserModel } from '../model/UserModel';
 
 router.post('/signup', auth.optional, (req, res, next) => {
-    const { body: { user } } = req;
+    const { body: { userJson } } = req;
 
-    if (!user.email) {
-        return res.status(422).json({
+    if (!userJson.email) {
+        return res.status(400).json({
             errors: {
                 email: 'is required',
             },
         });
     }
 
-    if (!user.password) {
-        return res.status(422).json({
+    if (!userJson.password) {
+        return res.status(400).json({
             errors: {
                 password: 'is required',
             },
         });
     }
 
-    const finalUser = new Users(user);
+    const userModel = UserModel.fromJSON(userJson);
+    const userDao = new UserDao();
 
-    finalUser.setPassword(user.password);
+    userDao.save(userModel)
+
+    const finalUser = new Users(userJson);
+
+    finalUser.setPassword(userJson.password);
 
     return finalUser.save()
-        .then(() => res.json({ user: finalUser.toAuthJSON() }));
+        .then((user: UserModel) => {
+            return res.json({ user: user.toJSON() });
+        });
 });
 
 router.post('/login', auth.optional, (req, res, next) => {
     const { body: { user } } = req;
 
     if (!user.email) {
-        return res.status(422).json({
+        return res.status(400).json({
             errors: {
                 email: 'is required',
             },
@@ -44,23 +53,22 @@ router.post('/login', auth.optional, (req, res, next) => {
     }
 
     if (!user.password) {
-        return res.status(422).json({
+        return res.status(400).json({
             errors: {
                 password: 'is required',
             },
         });
     }
 
-    return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
+    return passport.authenticate('local', { session: false }, (err, user: UserModel, info) => {
         if (err) {
             return next(err);
         }
 
-        if (passportUser) {
-            const user = passportUser;
-            user.token = passportUser.generateJWT();
+        if (user) {
+            user.accessToken = user.generateJWT();
 
-            return res.json({ user: user.toAuthJSON() });
+            return res.json({ user: user.toJSON() });
         }
 
         return res.status(400).info;
@@ -80,16 +88,25 @@ router.get('/user', auth.required, (req, res, next) => {
     });
 });
 
-router.post('/signin/facebook', auth.optional, req => {
-    console.log(req.body.accessToken)
+router.post('/signin/facebook', auth.optional, (req, res) => {
     request(`https://graph.facebook.com/me?fields=email&access_token=${req.body.accessToken}`, (err, response, body) => {
         const profileData = JSON.parse(body);
-        console.log(profileData)
-        const query = Users.find({ email: profileData.email });
-        query.exec()
+        const userDao = new UserDao();
+
+        userDao.findByEmail(profileData.email)
             .then((result) => {
-                console.log('resulttt');
-                console.log(result);
+                if (result === null) {
+                    const newUser = new UserModel();
+                    newUser.email = profileData.email;
+                    newUser.authStrategy = 'facebook';
+                    newUser.accessToken = req.body.accessToken;
+                    return userDao.save(newUser);
+                } else {
+                    return result;
+                }
+            })
+            .then((user: UserModel) => {
+                return res.json({ user: user.toJSON() });
             });
     });
 });

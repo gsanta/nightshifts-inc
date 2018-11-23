@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { colors } from '../styles';
-import { UserModel } from '../../stores/UserModel';
+import { User } from '../../stores/User';
 import { Menu, MenuItem, Button, withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { GlobalContext, GlobalProps } from '../App';

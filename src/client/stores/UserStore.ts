@@ -1,15 +1,15 @@
-import { UserModel } from './UserModel';
+import { User } from './User';
 import { EventEmitter } from 'events';
 
 export class UserStore extends EventEmitter {
-    private userModel: UserModel;
+    private userModel: User;
 
     constructor() {
         super();
-        this.userModel = UserModel.NULL_USER_MODEL;
+        this.userModel = User.NULL_USER_MODEL;
     }
 
-    public setModel(userModel: UserModel) {
+    public setModel(userModel: User) {
         this.userModel = userModel;
         this.emitChange();
     }

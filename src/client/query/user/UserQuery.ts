@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { UserLoginDto } from './UserLoginDto';
-import { UserModel } from '../../stores/UserModel';
+import { User } from '../../stores/User';
 import { Promise } from 'es6-promise';
 import { UserDto } from './UserDto';
 import { TokenHandler } from '../TokenHandler';
@@ -12,7 +12,7 @@ export class UserQuery {
         this.tokenHandler = tokenHandler;
     }
 
-    public login(userLoginDto: UserLoginDto): Promise<UserModel> {
+    public login(userLoginDto: UserLoginDto): Promise<User> {
         return new Promise((resolve, reject) => {
             axios.post('/api/login', {
                 user: {
@@ -22,7 +22,7 @@ export class UserQuery {
             })
             .then((response: { data: { user: UserDto }}) => {
                 this.tokenHandler.saveToken(response.data.user.token);
-                const userModel = new UserModel();
+                const userModel = new User();
                 userModel.setEmail(response.data.user.email);
                 resolve(userModel);
             })
@@ -32,7 +32,7 @@ export class UserQuery {
         });
     }
 
-    public loginFacebook(accessToken): Promise<UserModel> {
+    public loginFacebook(accessToken): Promise<User> {
         return new Promise((resolve, reject) => {
             axios.post('/api/signin/facebook', {
                 accessToken: accessToken
@@ -46,7 +46,7 @@ export class UserQuery {
         });
     }
 
-    public fetchUser(): Promise<UserModel> {
+    public fetchUser(): Promise<User> {
         return new Promise((resolve, reject) => {
             const token = this.tokenHandler.loadToken();
             axios.get(
@@ -56,7 +56,7 @@ export class UserQuery {
                 }
             )
             .then((response: { data: { user: UserDto }}) => {
-                const userModel = new UserModel();
+                const userModel = new User();
                 userModel.setEmail(response.data.user.email);
                 resolve(userModel);
             })

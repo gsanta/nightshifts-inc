@@ -1,6 +1,6 @@
 import { UserStore } from '../UserStore';
 import { TokenHandler } from '../../query/TokenHandler';
-import { UserModel } from '../UserModel';
+import { User } from '../User';
 
 export class AppActions {
     private userStore: UserStore;
@@ -13,6 +13,6 @@ export class AppActions {
 
     signout() {
         this.tokenHandler.deleteToken();
-        this.userStore.setModel(UserModel.NULL_USER_MODEL);
+        this.userStore.setModel(User.NULL_USER_MODEL);
     }
 }

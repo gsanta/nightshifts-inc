@@ -4,7 +4,7 @@ import TextField from './form/TextField';
 import Button from './form/Button';
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
-import { UserModel } from '../stores/UserModel';
+import { User } from '../stores/User';
 import { UserQuery } from '../query/user/UserQuery';
 import FacebookLogin from 'react-facebook-login';
 
@@ -54,7 +54,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     public render() {
-        if (this.props.user !== UserModel.NULL_USER_MODEL) {
+        if (this.props.user !== User.NULL_USER_MODEL) {
             return <Redirect to="/"/>;
         }
 
@@ -113,7 +113,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         const userQuery = new UserQuery();
 
         userQuery.login({ email: this.state.email, password: this.state.password})
-        .then((user: UserModel) => {
+        .then((user: User) => {
             this.props.setUser(user);
         })
         .catch((e) => {
@@ -133,6 +133,6 @@ export interface LoginProps {
     classes: {
         paper: any;
     };
-    user: UserModel;
-    setUser(user: UserModel): void;
+    user: User;
+    setUser(user: User): void;
 }

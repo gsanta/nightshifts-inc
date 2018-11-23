@@ -3,7 +3,6 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import Login from './Login';
 import Signup from './Signup';
 import { UserStore } from '../stores/UserStore';
-import { UserModel } from '../stores/UserModel';
 import Header from './header/Header';
 import { RootRoute } from './routes/root/RootRoute';
 import { UserActions } from '../stores/UserActions';
@@ -15,6 +14,7 @@ import { withRouter } from 'react-router-dom';
 import { AppStore } from '../stores/app/AppStore';
 import { AppActions } from '../stores/app/AppActions';
 import { TokenHandler } from '../query/TokenHandler';
+import { User } from '../stores/User';
 require('bootstrap/dist/css/bootstrap.css');
 
 export const GlobalContext = React.createContext<GlobalProps>({
@@ -114,7 +114,7 @@ class App extends React.Component<any, AppState> {
 
     private shouldRedirectToLoginPage() {
         return this.appStore.getModel().getAppState() !== 'loading' &&
-            this.userStore.getModel() === UserModel.NULL_USER_MODEL &&
+            this.userStore.getModel() === User.NULL_USER_MODEL &&
             this.props.history.location.pathname !== '/login';
     }
 
@@ -128,7 +128,7 @@ class App extends React.Component<any, AppState> {
         this.forceUpdate();
     }
 
-    private setUser(user: UserModel) {
+    private setUser(user: User) {
         this.userStore.setModel(user);
     }
 
@@ -150,7 +150,7 @@ class App extends React.Component<any, AppState> {
 export default withRouter(App);
 
 export interface AppState {
-    user: UserModel | null;
+    user: User | null;
     isSidebarOpen: boolean;
     isSidebarPermanent: boolean;
 }

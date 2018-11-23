@@ -5,7 +5,7 @@ import Button from './form/Button';
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { UserModel } from '../stores/UserModel';
+import { User } from '../stores/User';
 
 function getModalStyle() {
     const top = 50;
@@ -50,7 +50,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
     }
 
     public render() {
-        if (this.props.user !== UserModel.NULL_USER_MODEL) {
+        if (this.props.user !== User.NULL_USER_MODEL) {
             return <Redirect to="/"/>;
         }
 
@@ -95,7 +95,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
             }
         })
         .then((response) => {
-            this.props.setUser(new UserModel());
+            this.props.setUser(new User());
         })
         .catch((e) => {
             console.log(e);
@@ -114,6 +114,6 @@ export interface SignupProps {
     classes: {
         paper: any;
     };
-    user: UserModel;
-    setUser(user: UserModel): void;
+    user: User;
+    setUser(user: User): void;
 }

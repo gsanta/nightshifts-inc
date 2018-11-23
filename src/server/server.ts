@@ -1,6 +1,6 @@
 import app from './app';
 import * as mongoose from 'mongoose';
-import { UsersSchema } from './model/UserModel';
+import { UsersSchema } from './model/UsersSchema';
 
 mongoose.connect('mongodb://localhost/thegame');
 mongoose.set('debug', true);

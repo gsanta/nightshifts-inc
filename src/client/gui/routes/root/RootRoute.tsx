@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UserModel } from '../../../stores/UserModel';
+import { User } from '../../../stores/User';
 import { Redirect } from 'react-router-dom';
 
 
@@ -11,5 +11,5 @@ export class RootRoute extends React.Component<RootRouteProps, {}> {
 }
 
 export interface RootRouteProps {
-    user: UserModel | null;
+    user: User | null;
 }

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { colors } from '../../styles';
 import { SmallButton } from '../../form/SmallButton';
-import { UserModel } from '../../../stores/UserModel';
+import { User } from '../../../stores/User';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -129,7 +129,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
 }
 
 export interface SettingsState {
-    user: UserModel;
+    user: User;
 }
 
 export default () => (

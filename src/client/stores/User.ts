@@ -1,8 +1,8 @@
 
-export class UserModel {
+export class User {
     private email: string;
 
-    public static NULL_USER_MODEL = new UserModel();
+    public static NULL_USER_MODEL = new User();
 
     public setEmail(email: string) {
         this.email = email;
@@ -12,8 +12,8 @@ export class UserModel {
         return this.email;
     }
 
-    clone(): UserModel {
-        const clone = new UserModel();
+    clone(): User {
+        const clone = new User();
         clone.email = this.email;
         return clone;
     }
