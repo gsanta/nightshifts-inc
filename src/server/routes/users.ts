@@ -2,7 +2,6 @@ import { auth } from '../auth/auth';
 const mongoose = require('mongoose');
 const passport = require('passport');
 export const router = require('express').Router();
-const Users = mongoose.model('Users');
 import * as request from 'request';
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
@@ -92,6 +91,19 @@ router.get('/user', auth.required, (req, res, next) => {
     const userDao = new UserDao();
 
     userDao.findByEmail(email)
+        .then((user) => {
+            if (!user) {
+                return res.sendStatus(400);
+            }
+
+            return res.json({ user: user.toJSON() });
+    });
+});
+
+router.put('/users', auth.required, (req, res, next) => {
+    const userDao = new UserDao();
+
+    userDao.save(UserModel.fromJSON(req.payload))
         .then((user) => {
             if (!user) {
                 return res.sendStatus(400);

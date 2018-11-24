@@ -5,6 +5,7 @@ import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { colors } from '../../styles';
 import { SmallButton } from '../../form/SmallButton';
 import { User } from '../../../stores/User';
+import { UserQuery } from '../../../query/user/UserQuery';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -64,6 +65,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
         super(props);
 
         this.changeEmail = this.changeEmail.bind(this);
+        this.saveChanges = this.saveChanges.bind(this);
 
         this.state = {
             user: props.userStore.getModel()
@@ -74,7 +76,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
         return (
             <SettingsRoot>
                 <SettingsLeftColumn>
-                    <SmallButton onClick={() => null}>Save changes</SmallButton>
+                    <SmallButton onClick={this.saveChanges}>Save changes</SmallButton>
                 </SettingsLeftColumn>
                 <SettingsRightColumn>
                     <FormGroup
@@ -125,6 +127,15 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
         this.setState({
             user: clone
         });
+    }
+
+    private saveChanges() {
+        const userQuery = new UserQuery();
+
+        userQuery.updateUser(this.state.user)
+            .then((user) => {
+                console.log(user);
+            });
     }
 }
 

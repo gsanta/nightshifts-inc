@@ -67,6 +67,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
                             this.setState({email});
                         }}
                         label="Email"
+                        classes=""
                         errorMessage={this.getErrorMessage('email')}
                     />
                     <TextField
@@ -74,8 +75,10 @@ class Signup extends React.Component<SignupProps, SignupState> {
                         onChange={(password: string) => {
                             this.setState({password});
                         }}
+                        classes=""
                         label="Password"
                         type="password"
+                        errorMessage={this.getErrorMessage('password')}
                     />
                     <Button text="Sign up" onClick={this.signUp}/>
                     <FacebookLoginButton

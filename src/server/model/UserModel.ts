@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken';
 export const JWT_SECRET = 'GSANTA';
 
 export class UserModel {
+    public id: string;
     public email: string;
     public authStrategy: 'local' | 'facebook';
     public accessToken: string;
@@ -28,16 +29,19 @@ export class UserModel {
 
     public toJSON() {
         return {
+            id: this.id,
             email: this.email,
             jwtToken: this.jwtToken,
         };
     }
 
     public static fromJSON(json: {
+        id?: string;
         email: string;
         password: string;
     }): UserModel {
         const userModel = new UserModel();
+        userModel.id = json.id;
         userModel.email = json.email;
         userModel.setPassword(json.password);
         userModel.authStrategy = 'local';

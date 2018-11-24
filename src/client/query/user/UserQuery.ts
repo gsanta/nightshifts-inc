@@ -88,4 +88,24 @@ export class UserQuery {
             });
         });
     }
+
+    public updateUser(user: User): Promise<User> {
+        return new Promise((resolve, reject) => {
+            const token = this.tokenHandler.loadToken();
+            axios.post(
+                '/api/users',
+                {
+                    headers: {Authorization: `Token ${token}`}
+                }
+            )
+            .then((response: { data: { user: UserDto }}) => {
+                const userModel = new User();
+                userModel.setEmail(response.data.user.email);
+                resolve(userModel);
+            })
+            .catch((e) => {
+                reject(e);
+            });
+        });
+    }
 }

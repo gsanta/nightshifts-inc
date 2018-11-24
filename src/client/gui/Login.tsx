@@ -64,6 +64,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         onChange={(email: string) => {
                             this.setState({email});
                         }}
+                        classes=""
                         label="Email"
                     />
                     <TextField
@@ -71,6 +72,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                         onChange={(password: string) => {
                             this.setState({password});
                         }}
+                        classes=""
                         label="Password"
                         type="password"
                     />

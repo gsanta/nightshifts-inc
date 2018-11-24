@@ -1,12 +1,14 @@
 import app from './app';
 import * as mongoose from 'mongoose';
 import { UsersSchema } from './model/UsersSchema';
+import { MongooseUserModel } from './model/UserDao';
 
 mongoose.connect('mongodb://localhost/thegame');
 mongoose.set('debug', true);
-mongoose.model('Users', UsersSchema);
-require('./auth/passport');
+mongoose.model<MongooseUserModel>('Users', UsersSchema);
+
 import {router} from './routes/users';
+require('./auth/passport');
 
 app.use('/api', router);
 
