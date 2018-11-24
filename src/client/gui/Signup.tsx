@@ -7,6 +7,7 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { User } from '../stores/User';
 import { UserQuery } from '../query/user/UserQuery';
+import { FacebookLoginButton } from './form/FacebookLoginButton';
 
 function getModalStyle() {
     const top = 50;
@@ -43,10 +44,12 @@ class Signup extends React.Component<SignupProps, SignupState> {
         super(props);
 
         this.signUp = this.signUp.bind(this);
+        this.signupFacebook = this.signupFacebook.bind(this);
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            errors: []
         };
     }
 
@@ -64,6 +67,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
                             this.setState({email});
                         }}
                         label="Email"
+                        errorMessage={this.getErrorMessage('email')}
                     />
                     <TextField
                         value={this.state.password}
@@ -74,6 +78,10 @@ class Signup extends React.Component<SignupProps, SignupState> {
                         type="password"
                     />
                     <Button text="Sign up" onClick={this.signUp}/>
+                    <FacebookLoginButton
+                        callback={this.signupFacebook}
+                        text="Signup with Facebook"
+                    />
                     {this.renderFooter()}
                 </div>
             </Modal>
@@ -88,6 +96,16 @@ class Signup extends React.Component<SignupProps, SignupState> {
         );
     }
 
+    private getErrorMessage(propertyName: string) {
+        const errors = this.state.errors.filter(e => e.property === propertyName);
+
+        if (errors.length > 0) {
+            return errors[0].message;
+        }
+
+        return null;
+    }
+
     private signUp() {
         const userQuery = new UserQuery();
 
@@ -96,8 +114,22 @@ class Signup extends React.Component<SignupProps, SignupState> {
             this.props.setUser(user);
         })
         .catch((e) => {
-            console.log(e);
+            this.setState({
+                errors: e.response.data.errors
+            });
         });
+    }
+
+    private signupFacebook(event: {accessToken: string}) {
+        const userQuery = new UserQuery();
+
+        userQuery.loginFacebook(event.accessToken)
+            .then((user: User) => {
+                this.props.setUser(user);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     }
 }
 
@@ -106,6 +138,10 @@ export default withStyles(styles)(Signup);
 export interface SignupState {
     email: string;
     password: string;
+    errors: {
+        property: string;
+        message: string;
+    }[];
 }
 
 export interface SignupProps {

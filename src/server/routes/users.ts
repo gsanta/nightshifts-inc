@@ -7,6 +7,7 @@ import * as request from 'request';
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
 import { UserAuthenticator } from '../auth/UserAuthenticator';
+import { JsonPropertyError } from '../model/FieldError';
 
 router.post('/signup', auth.optional, (req, res, next) => {
     const { body: { user: userJson } } = req;
@@ -32,7 +33,22 @@ router.post('/signup', auth.optional, (req, res, next) => {
         .then(user => {
             res.json({ user: user.toJSON() });
         })
-        .catch(e => console.log(e));
+        .catch(e => {
+            let errors: any;
+
+            if (e instanceof JsonPropertyError) {
+                errors = [{
+                    property: e.property,
+                    message: e.message
+                }];
+            } else {
+                errors = e.message;
+            }
+
+            return res.status(400).json({
+                errors: errors,
+            });
+        });
 });
 
 router.post('/login', auth.optional, (req, res, next) => {

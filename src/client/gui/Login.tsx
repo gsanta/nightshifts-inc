@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
 import { User } from '../stores/User';
 import { UserQuery } from '../query/user/UserQuery';
-import FacebookLogin from 'react-facebook-login';
+import { FacebookLoginButton } from './form/FacebookLoginButton';
 
 function getModalStyle() {
     const top = 50;
@@ -36,15 +36,13 @@ const Footer = styled.div`
     justify-content: space-between;
 `;
 
-
 class Login extends React.Component<LoginProps, LoginState> {
 
     constructor(props: LoginProps) {
         super(props);
 
         this.login = this.login.bind(this);
-        this.onClick = this.onClick.bind(this);
-        this.onCallback = this.onCallback.bind(this);
+        this.loginFacebook = this.loginFacebook.bind(this);
 
         this.state = {
             email: '',
@@ -77,12 +75,9 @@ class Login extends React.Component<LoginProps, LoginState> {
                         type="password"
                     />
                     <Button text="Sign in" onClick={this.login}/>
-                    <FacebookLogin
-                        appId="1908610379223081"
-                        autoLoad={true}
-                        fields="name,email,picture"
-                        onClick={this.onClick}
-                        callback={this.onCallback}
+                    <FacebookLoginButton
+                        callback={this.loginFacebook}
+                        text="Signin with Facebook"
                     />
                     {this.renderFooter()}
                 </div>
@@ -90,14 +85,10 @@ class Login extends React.Component<LoginProps, LoginState> {
         );
     }
 
-    private onClick(e) {
-        1;
-    }
-
-    private onCallback(e) {
+    private loginFacebook(event: {accessToken: string}) {
         const userQuery = new UserQuery();
 
-        userQuery.loginFacebook(e.accessToken)
+        userQuery.loginFacebook(event.accessToken)
             .then((user: User) => {
                 this.props.setUser(user);
             })

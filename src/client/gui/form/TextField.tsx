@@ -1,6 +1,7 @@
-import { withStyles, TextField, InputLabel } from '@material-ui/core';
+import { withStyles, TextField, InputLabel, FormControl, FormHelperText } from '@material-ui/core';
 import * as React from 'react';
 import styled from 'styled-components';
+import { colors } from '../styles';
 
 const styles = {
     input: {
@@ -20,19 +21,27 @@ const Label = styled.span`
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    height: 78px;
+`;
+
+const ErrorLabel = styled.div`
+    color: ${colors.Red};
+    font-size: 12px;
 `;
 
 const TextFieldStyled = (props: TextFieldProps) => {
     return (
         <Wrapper>
             <TextField
+                error={props.errorMessage !== null}
                 label={props.label}
                 value={props.value}
                 onChange={(event) => props.onChange(event.target.value)}
                 variant="outlined"
                 type={props.type}
             />
+            <ErrorLabel>{props.errorMessage}</ErrorLabel>
         </Wrapper>
     );
 };
@@ -43,6 +52,7 @@ export interface TextFieldProps {
     label: string;
     type?: string;
     classes: any;
+    errorMessage?: string;
 }
 
 export default withStyles(styles)(TextFieldStyled);
