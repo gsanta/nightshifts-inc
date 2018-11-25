@@ -7,8 +7,8 @@
     "test": "./node_modules/.bin/mocha -r ts-node/register src/**/*.test.ts",
     "watch": "./node_modules/.bin/webpack-dev-server",
     "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug",
-    "compile-server": "tsc --project tsconfig-server.json",
-    "run-server": "node ./build/server/server.js"
+    "compile-server": "tsc -w --project tsconfig-server.json",
+    "run-server": "nodemon ./build/server/server.js"
   },
   "author": "",
   "license": "ISC",

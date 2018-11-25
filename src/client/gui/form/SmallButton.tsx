@@ -12,7 +12,7 @@ const ButtonStyled = styled(Button)`
 
 export const SmallButton = (props: SmallButtonProps) => {
     return (
-        <ButtonStyled>{props.children}</ButtonStyled>
+        <ButtonStyled onClick={props.onClick}>{props.children}</ButtonStyled>
     );
 };
 

@@ -101,16 +101,24 @@ router.get('/user', auth.required, (req, res, next) => {
 });
 
 router.put('/users', auth.required, (req, res, next) => {
+    console.log('runs');
     const userDao = new UserDao();
 
-    userDao.save(UserModel.fromJSON(req.payload))
+    const userModel = new UserModel();
+    userModel.email = req.body.user.email;
+    userModel.id = req.body.user.id;
+
+    userDao.update(userModel)
         .then((user) => {
             if (!user) {
                 return res.sendStatus(400);
             }
 
             return res.json({ user: user.toJSON() });
-    });
+        })
+        .catch(e => {
+            console.log(e)
+        });
 });
 
 router.post('/signin/facebook', auth.optional, (req, res) => {

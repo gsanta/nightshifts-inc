@@ -79,9 +79,10 @@ export class UserQuery {
                 }
             )
             .then((response: { data: { user: UserDto }}) => {
-                const userModel = new User();
-                userModel.setEmail(response.data.user.email);
-                resolve(userModel);
+                const user = new User();
+                user.setEmail(response.data.user.email);
+                user.id = response.data.user.id;
+                resolve(user);
             })
             .catch((e) => {
                 reject(e);
@@ -92,8 +93,12 @@ export class UserQuery {
     public updateUser(user: User): Promise<User> {
         return new Promise((resolve, reject) => {
             const token = this.tokenHandler.loadToken();
-            axios.post(
+
+            axios.put(
                 '/api/users',
+                {
+                    user
+                },
                 {
                     headers: {Authorization: `Token ${token}`}
                 }
