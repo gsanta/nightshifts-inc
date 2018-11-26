@@ -7,6 +7,8 @@ import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
 import { UserAuthenticator } from '../auth/UserAuthenticator';
 import { JsonPropertyError } from '../model/FieldError';
+import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
+import * as express from 'express';
 
 router.post('/signup', auth.optional, (req, res, next) => {
     const { body: { user: userJson } } = req;
@@ -50,7 +52,7 @@ router.post('/signup', auth.optional, (req, res, next) => {
         });
 });
 
-router.post('/login', auth.optional, (req, res, next) => {
+router.post('/login', auth.optional, (req, res: express.Response, next) => {
     const { body: { user } } = req;
 
     if (!user.email) {
@@ -69,18 +71,20 @@ router.post('/login', auth.optional, (req, res, next) => {
         });
     }
 
-    return passport.authenticate('local', { session: false }, (err, user: UserModel, info) => {
+    return passport.authenticate('local', { session: false }, (err, userModel: UserModel, info) => {
         if (err) {
             return next(err);
         }
 
-        if (user) {
-            user.accessToken = user.generateJWT();
+        res.set('Authorization', userModel.jwtToken);
 
-            return res.json({ user: user.toJSON() });
+        if (userModel) {
+            userModel.accessToken = userModel.generateJWT();
+
+            return res.json({ user: userModel.toJSON() });
         }
 
-        return res.status(400).info;
+        return res.status(400);
     })(req, res, next);
 });
 
@@ -117,7 +121,23 @@ router.put('/users', auth.required, (req, res, next) => {
             return res.json({ user: user.toJSON() });
         })
         .catch(e => {
-            console.log(e)
+            console.log(e);
+        });
+});
+
+router.put('/users/password', auth.required, (req, res, next) => {
+    const userDao = new UserDao();
+
+    userDao.updatePassword(<PasswordUpdateDto> req.body)
+        .then((user) => {
+            if (!user) {
+                return res.sendStatus(400);
+            }
+
+            return res.json({ user: user.toJSON() });
+        })
+        .catch(e => {
+            console.log(e);
         });
 });
 

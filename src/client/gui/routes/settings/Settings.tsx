@@ -66,9 +66,12 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
 
         this.changeEmail = this.changeEmail.bind(this);
         this.saveChanges = this.saveChanges.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
 
         this.state = {
-            user: props.userStore.getModel()
+            user: props.userStore.getModel(),
+            newPassword: '',
+            oldPassword: ''
         };
     }
 
@@ -98,22 +101,22 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                         >
                             <ControlLabelStyled>Old password</ControlLabelStyled>
                             <FormControlStyled
-                                type="text"
-                                value={'abcd'}
-                                placeholder="Enter text"
-                                onChange={null}
+                                type="password"
+                                value={this.state.oldPassword}
+                                placeholder=""
+                                onChange={(e: React.ChangeEvent<any>) => this.setState({oldPassword: e.target.value})}
                             />
                             <ControlLabelStyled>New password</ControlLabelStyled>
                             <FormControlStyled
-                                type="text"
-                                value={'abcd'}
-                                placeholder="Enter text"
-                                onChange={null}
+                                type="password"
+                                value={this.state.newPassword}
+                                placeholder=""
+                                onChange={(e: React.ChangeEvent<any>) => this.setState({newPassword: e.target.value})}
                             />
                             <FormControl.Feedback />
                         </FormGroup>
                         <PasswordSaveButton>
-                            <SmallButton onClick={() => null}>Update password</SmallButton>
+                            <SmallButton onClick={this.updatePassword}>Update password</SmallButton>
                         </PasswordSaveButton>
                     </PasswordChangeFormGroup>
                 </SettingsRightColumn>
@@ -129,6 +132,16 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
         });
     }
 
+    private updatePassword() {
+        const userQuery = new UserQuery();
+
+        userQuery.updatePassword({
+            id: this.state.user.id,
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword
+        });
+    }
+
     private saveChanges() {
         const userQuery = new UserQuery();
 
@@ -141,6 +154,8 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
 
 export interface SettingsState {
     user: User;
+    oldPassword: string;
+    newPassword: string;
 }
 
 export default () => (

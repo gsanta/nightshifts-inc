@@ -4,6 +4,7 @@ import { User } from '../../stores/User';
 import { Promise } from 'es6-promise';
 import { UserDto } from './UserDto';
 import { TokenHandler } from '../TokenHandler';
+import { PasswordUpdateDto } from './PasswordUpdateDto';
 
 export class UserQuery {
     private tokenHandler: TokenHandler;
@@ -20,10 +21,9 @@ export class UserQuery {
                     password: userLoginDto.password
                 }
             })
-            .then((response: { data: { user: UserDto }}) => {
-                this.tokenHandler.saveToken(response.data.user.jwtToken);
-                const userModel = new User();
-                userModel.setEmail(response.data.user.email);
+            .then((response: { data: { user: UserDto }, headers: any}) => {
+                this.tokenHandler.saveToken(response.headers.authorization);
+                const userModel = User.fromDto(response.data.user);
                 resolve(userModel);
             })
             .catch((e) => {
@@ -42,8 +42,7 @@ export class UserQuery {
             })
             .then((response: { data: { user: UserDto }}) => {
                 this.tokenHandler.saveToken(response.data.user.jwtToken);
-                const userModel = new User();
-                userModel.setEmail(response.data.user.email);
+                const userModel = User.fromDto(response.data.user);
                 resolve(userModel);
             })
             .catch((e) => {
@@ -110,6 +109,28 @@ export class UserQuery {
             })
             .catch((e) => {
                 reject(e);
+            });
+        });
+    }
+
+    public updatePassword(passwordDto: PasswordUpdateDto): Promise<User> {
+        return new Promise((resolve, reject) => {
+            const token = this.tokenHandler.loadToken();
+
+            axios.put(
+                '/api/users/password',
+                passwordDto,
+                {
+                    headers: {Authorization: `Token ${token}`}
+                }
+            )
+            .then((response: { data: { user: UserDto }}) => {
+                // const userModel = new User();
+                // userModel.setEmail(response.data.user.email);
+                // resolve(userModel);
+            })
+            .catch((e) => {
+                // reject(e);
             });
         });
     }

@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { UserModel } from './UserModel';
+import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
 const Users = mongoose.model<MongooseUserModel>('Users');
 
 export interface MongooseUserModel extends mongoose.Document {
@@ -20,6 +21,19 @@ export class UserDao {
         return Users.findById(userModel.id)
             .then(user => {
                 user.email = userModel.email;
+
+                return user.save();
+            });
+    }
+
+    public updatePassword(passwordUpdateDto: PasswordUpdateDto) {
+        return Users.findById(passwordUpdateDto.id)
+            .then(user => {
+                const userModel = this.schemaToModel(user);
+                userModel.setPassword(passwordUpdateDto.newPassword);
+
+                user.salt = userModel.salt;
+                user.hash = userModel.hash;
 
                 return user.save();
             });

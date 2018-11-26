@@ -1,5 +1,5 @@
 export interface UserDto {
-    email: string;
-    jwtToken: string;
     id: string;
+    email: string;
+    authStrategy: 'facebook' | 'local';
 }
