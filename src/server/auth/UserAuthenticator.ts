@@ -15,7 +15,7 @@ export class UserAuthenticator {
             password
         });
 
-        userModel.jwtToken = userModel.generateJWT();
+        // userModel.jwtToken = userModel.generateJWT();
         const userDao = new UserDao();
 
         return userDao.findByEmail(email)
@@ -25,6 +25,11 @@ export class UserAuthenticator {
                 }
 
                 return userDao.save(userModel);
+            })
+            .then(user => {
+                user.jwtToken = user.generateJWT();
+
+                return user;
             });
     }
 
@@ -58,7 +63,7 @@ export class UserAuthenticator {
                     user.jwtToken = user.generateJWT();
                 }
 
-                return userDao.save(user);
-            })
+                return user;
+            });
     }
 }

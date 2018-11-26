@@ -32,6 +32,9 @@ router.post('/signup', auth.optional, (req, res, next) => {
     const userAuthenticator = new UserAuthenticator(new UserDao());
     userAuthenticator.signup(userJson.email, userJson.password)
         .then(user => {
+
+            res.set('Authorization', user.jwtToken);
+
             res.json({ user: user.toJSON() });
         })
         .catch(e => {
@@ -76,7 +79,7 @@ router.post('/login', auth.optional, (req, res: express.Response, next) => {
             return next(err);
         }
 
-        res.set('Authorization', userModel.jwtToken);
+        res.set('Authorization', userModel.generateJWT());
 
         if (userModel) {
             userModel.accessToken = userModel.generateJWT();
@@ -88,20 +91,20 @@ router.post('/login', auth.optional, (req, res: express.Response, next) => {
     })(req, res, next);
 });
 
-router.get('/user', auth.required, (req, res, next) => {
-    const { payload: { email } } = req;
-
-
+router.get('/user', auth.required, async (req, res, next) => {
+    const { payload: { id } } = req;
     const userDao = new UserDao();
 
-    userDao.findByEmail(email)
-        .then((user) => {
-            if (!user) {
-                return res.sendStatus(400);
-            }
+    try {
+        const userModel = await userDao.findById(id);
+        if (!userModel) {
+            return res.sendStatus(400);
+        }
 
-            return res.json({ user: user.toJSON() });
-    });
+        return res.json({ user: userModel.toJSON() });
+    } catch (e) {
+        return res.sendStatus(400);
+    }
 });
 
 router.put('/users', auth.required, (req, res, next) => {
@@ -149,23 +152,8 @@ router.post('/signin/facebook', auth.optional, (req, res) => {
         userAuthenticator
             .signupFacebook(profileData.email, req.body.accessToken)
             .then((user: UserModel) => {
+                res.set('Authorization', user.jwtToken);
                 return res.json({ user: user.toJSON() });
             });
     });
 });
-
-router.get(
-    '/login/facebook/callback',
-    passport.authenticate(
-        'facebook',
-        {
-            failureRedirect: '/login',
-            successRedirect: '/'
-        }
-    ),
-    function(req, res) {
-        console.log(req.body)
-        // Successful authentication, redirect home.
-        return res.json({});
-    }
-);

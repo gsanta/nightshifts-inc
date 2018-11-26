@@ -143,12 +143,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
     }
 
     private saveChanges() {
-        const userQuery = new UserQuery();
-
-        userQuery.updateUser(this.state.user)
-            .then((user) => {
-                console.log(user);
-            });
+        this.props.userActions.updateUser(this.state.user);
     }
 }
 

@@ -20,7 +20,7 @@ export class UserModel {
 
         return jwt.sign(
             {
-                email: this.email,
+                id: this.id,
                 exp: expirationDate.getTime() / 1000
             },
             JWT_SECRET

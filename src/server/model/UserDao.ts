@@ -14,7 +14,10 @@ export interface MongooseUserModel extends mongoose.Document {
 
 export class UserDao {
     public save(userModel: UserModel): Promise<UserModel> {
-        return new Users(userModel).save().then(() => userModel);
+        return new Users(userModel).save()
+            .then(schema => {
+                return this.schemaToModel(schema)
+            });
     }
 
     public update(userModel: UserModel) {
@@ -23,6 +26,9 @@ export class UserDao {
                 user.email = userModel.email;
 
                 return user.save();
+            })
+            .then(user => {
+                return this.schemaToModel(user);
             });
     }
 
@@ -52,6 +58,19 @@ export class UserDao {
             });
     }
 
+    public findById(id: string): Promise<UserModel> {
+        const query = Users.findById(id);
+
+        return query.exec()
+            .then((result: any) => {
+                if (result) {
+                    return this.schemaToModel(result);
+                }
+
+                return null;
+            });
+    }
+
     private schemaToModel(schema: any): UserModel {
         const userModel = new UserModel();
         userModel.email = schema.email;
@@ -60,7 +79,7 @@ export class UserDao {
         userModel.hash = schema.hash;
         userModel.salt = schema.salt;
         userModel.jwtToken = schema.jwtToken;
-        userModel.id = schema._id;
+        userModel.id = schema.id;
 
         return userModel;
     }

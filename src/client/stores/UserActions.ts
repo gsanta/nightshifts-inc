@@ -2,6 +2,7 @@ import { UserStore } from './UserStore';
 import { UserQuery } from '../query/user/UserQuery';
 import { AppStore } from './app/AppStore';
 import { AppModel } from './app/AppModel';
+import { User } from './User';
 
 export class UserActions {
     private userStore: UserStore;
@@ -23,6 +24,13 @@ export class UserActions {
                 const appModel = new AppModel();
                 appModel.setAppState('ready');
                 this.appStore.setModel(appModel);
+            });
+    }
+
+    public updateUser(user: User) {
+        this.userQuery.updateUser(user)
+            .then(updatedUser => {
+                this.userStore.setModel(updatedUser);
             });
     }
 

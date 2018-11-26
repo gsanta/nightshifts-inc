@@ -40,8 +40,8 @@ export class UserQuery {
                     password: userLoginDto.password
                 }
             })
-            .then((response: { data: { user: UserDto }}) => {
-                this.tokenHandler.saveToken(response.data.user.jwtToken);
+            .then((response: { data: { user: UserDto }, headers: any}) => {
+                this.tokenHandler.saveToken(response.headers.authorization);
                 const userModel = User.fromDto(response.data.user);
                 resolve(userModel);
             })
@@ -56,8 +56,8 @@ export class UserQuery {
             axios.post('/api/signin/facebook', {
                 accessToken: accessToken
             })
-            .then((response: { data: { user: UserDto }}) => {
-                this.tokenHandler.saveToken(response.data.user.jwtToken);
+            .then((response: { data: { user: UserDto }, headers: any}) => {
+                this.tokenHandler.saveToken(response.headers.authorization);
                 const userModel = new User();
                 userModel.setEmail(response.data.user.email);
                 resolve(userModel);
