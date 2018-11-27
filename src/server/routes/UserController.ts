@@ -1,33 +1,62 @@
 import { auth } from '../auth/auth';
-const passport = require('passport');
-import * as request from 'request';
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
-import { UserAuthenticator } from '../auth/UserAuthenticator';
 import { JsonPropertyError } from './validators/FieldError';
 import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
 import * as express from 'express';
 import { LoginInputValidator } from './validators/LoginInputValidator';
 import { LocalAuthentication } from '../auth/LocalAuthentication';
+import { LocalUserRegistration } from '../auth/LocalUserRegistration';
+import { FacebookUserRegistration } from '../auth/FacebookUserRegistration';
 
 const send400 = (message: string, res: express.Response) => res.status(400).send(message);
 
 export class UserController {
+    private userDao: UserDao;
     private localAuthentication: LocalAuthentication;
+    private localUserRegistration: LocalUserRegistration;
+    private facebookUserRegistration: FacebookUserRegistration;
 
-    constructor(localAuthentication: LocalAuthentication) {
+    constructor(
+        userDao: UserDao,
+        localAuthentication: LocalAuthentication,
+        facebookUserRegistration: FacebookUserRegistration,
+        localUserRegistration: LocalUserRegistration
+    ) {
+        this.userDao = userDao;
         this.localAuthentication = localAuthentication;
+        this.localUserRegistration = localUserRegistration;
+        this.facebookUserRegistration = facebookUserRegistration;
     }
 
     public register(router: express.Router) {
         this.registerSignin(router);
+        this.registerSignup(router);
+        this.registerGetUser(router);
+        this.registerUpdateUser(router);
+        this.registerUpdatePassword(router);
+        this.registerSignInFacebook(router);
+    }
 
-        router.get('/user', auth.required, async (req, res, next) => {
-            const { payload: { id } } = req;
-            const userDao = new UserDao();
+    private registerSignInFacebook(router: express.Router) {
+        router.post('/signin/facebook', auth.optional, async (req, res) => {
+            try {
+                const userModel = await this.facebookUserRegistration.register(req.body.accessToke);
+
+                res.set('Authorization', userModel.jwtToken);
+                return res.json({ user: userModel.toJSON() });
+            } catch (e) {
+                return send400(e.message, res);
+            }
+        });
+    }
+
+    private registerUpdatePassword(router: express.Router) {
+        router.put('/users/password', auth.required, async (req, res, next) => {
 
             try {
-                const userModel = await userDao.findById(id);
+                const userModel = await this.userDao.updatePassword(<PasswordUpdateDto> req.body);
+
                 if (!userModel) {
                     return send400('User not found', res);
                 }
@@ -37,16 +66,16 @@ export class UserController {
                 return send400(e.message, res);
             }
         });
+    }
 
+    private registerUpdateUser(router: express.Router) {
         router.put('/users', auth.required, async (req, res, next) => {
-            const userDao = new UserDao();
-
             let userModel = new UserModel();
             userModel.email = req.body.user.email;
             userModel.id = req.body.user.id;
 
             try {
-                userModel = await userDao.update(userModel);
+                userModel = await this.userDao.update(userModel);
 
                 if (!userModel) {
                     return send400('User not found', res);
@@ -57,13 +86,14 @@ export class UserController {
                 return send400(e.message, res);
             }
         });
+    }
 
-        router.put('/users/password', auth.required, async (req, res, next) => {
-            const userDao = new UserDao();
+    private registerGetUser(router: express.Router) {
+        router.get('/user', auth.required, async (req, res, next) => {
+            const { payload: { id } } = req as any;
 
             try {
-                const userModel = await userDao.updatePassword(<PasswordUpdateDto> req.body);
-
+                const userModel = await this.userDao.findById(id);
                 if (!userModel) {
                     return send400('User not found', res);
                 }
@@ -72,20 +102,6 @@ export class UserController {
             } catch (e) {
                 return send400(e.message, res);
             }
-        });
-
-        router.post('/signin/facebook', auth.optional, (req, res) => {
-            request(`https://graph.facebook.com/me?fields=email&access_token=${req.body.accessToken}`, (err, response, body) => {
-                const profileData = JSON.parse(body);
-
-                const userAuthenticator = new UserAuthenticator(new UserDao());
-                userAuthenticator
-                    .signupFacebook(profileData.email, req.body.accessToken)
-                    .then((user: UserModel) => {
-                        res.set('Authorization', user.jwtToken);
-                        return res.json({ user: user.toJSON() });
-                    });
-            });
         });
     }
 
@@ -107,39 +123,34 @@ export class UserController {
     }
 
     private registerSignup(router: express.Router) {
-        router.post('/signup', auth.optional, (req, res, next) => {
+        router.post('/signup', auth.optional, async (req, res, next) => {
             const { body: { user: userJson } } = req;
 
             try {
                 const loginInputValidator = new LoginInputValidator();
                 loginInputValidator.validate(userJson);
-            }
 
+                const userModel = await this.localUserRegistration.register(userJson.email, userJson.password);
 
-            const userAuthenticator = new UserAuthenticator(new UserDao());
-            userAuthenticator.signup(userJson.email, userJson.password)
-                .then(user => {
+                res.set('Authorization', userModel.jwtToken);
 
-                    res.set('Authorization', user.jwtToken);
+                res.json({ user: userModel.toJSON() });
+            } catch (e) {
+                let errors: any;
 
-                    res.json({ user: user.toJSON() });
-                })
-                .catch(e => {
-                    let errors: any;
+                if (e instanceof JsonPropertyError) {
+                    errors = [{
+                        property: e.property,
+                        message: e.message
+                    }];
+                } else {
+                    errors = e.message;
+                }
 
-                    if (e instanceof JsonPropertyError) {
-                        errors = [{
-                            property: e.property,
-                            message: e.message
-                        }];
-                    } else {
-                        errors = e.message;
-                    }
-
-                    return res.status(400).json({
-                        errors: errors,
-                    });
+                return res.status(400).json({
+                    errors: errors,
                 });
+            }
         });
     }
 }

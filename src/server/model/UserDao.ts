@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 import { UserModel } from './UserModel';
 import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
-const Users = mongoose.model<MongooseUserModel>('Users');
 
 export interface MongooseUserModel extends mongoose.Document {
     email: string;
@@ -13,15 +12,21 @@ export interface MongooseUserModel extends mongoose.Document {
 }
 
 export class UserDao {
+    private modelConstr: mongoose.Model<MongooseUserModel, {}>;
+
+    constructor(modelConstr: mongoose.Model<MongooseUserModel, {}>) {
+        this.modelConstr = modelConstr;
+    }
+
     public save(userModel: UserModel): Promise<UserModel> {
-        return new Users(userModel).save()
+        return new this.modelConstr(userModel).save()
             .then(schema => {
-                return this.schemaToModel(schema)
+                return this.schemaToModel(schema);
             });
     }
 
     public update(userModel: UserModel) {
-        return Users.findById(userModel.id)
+        return this.modelConstr.findById(userModel.id)
             .then(user => {
                 user.email = userModel.email;
 
@@ -33,7 +38,7 @@ export class UserDao {
     }
 
     public updatePassword(passwordUpdateDto: PasswordUpdateDto) {
-        return Users.findById(passwordUpdateDto.id)
+        return this.modelConstr.findById(passwordUpdateDto.id)
             .then(user => {
                 const userModel = this.schemaToModel(user);
                 userModel.setPassword(passwordUpdateDto.newPassword);
@@ -46,7 +51,7 @@ export class UserDao {
     }
 
     public findByEmail(email: string): Promise<UserModel> {
-        const query = Users.find({ email });
+        const query = this.modelConstr.find({ email });
 
         return query.exec()
             .then((result: any) => {
@@ -59,7 +64,7 @@ export class UserDao {
     }
 
     public findById(id: string): Promise<UserModel> {
-        const query = Users.findById(id);
+        const query = this.modelConstr.findById(id);
 
         return query.exec()
             .then((result: any) => {
