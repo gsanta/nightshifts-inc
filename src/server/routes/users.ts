@@ -1,159 +1,145 @@
 import { auth } from '../auth/auth';
-const mongoose = require('mongoose');
 const passport = require('passport');
-export const router = require('express').Router();
 import * as request from 'request';
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
 import { UserAuthenticator } from '../auth/UserAuthenticator';
-import { JsonPropertyError } from '../model/FieldError';
+import { JsonPropertyError } from './validators/FieldError';
 import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
 import * as express from 'express';
+import { LoginInputValidator } from './validators/LoginInputValidator';
+import { LocalAuthentication } from '../auth/LocalAuthentication';
 
-router.post('/signup', auth.optional, (req, res, next) => {
-    const { body: { user: userJson } } = req;
+const send400 = (message: string, res: express.Response) => res.status(400).send(message);
 
-    if (!userJson.email) {
-        return res.status(400).json({
-            errors: {
-                email: 'is required',
-            },
-        });
+export class UserController {
+    private localAuthentication: LocalAuthentication;
+
+    constructor(localAuthentication: LocalAuthentication) {
+        this.localAuthentication = localAuthentication;
     }
 
-    if (!userJson.password) {
-        return res.status(400).json({
-            errors: {
-                password: 'is required',
-            },
-        });
-    }
+    public register(router: express.Router) {
+        this.registerSignin(router);
 
-    const userAuthenticator = new UserAuthenticator(new UserDao());
-    userAuthenticator.signup(userJson.email, userJson.password)
-        .then(user => {
+        router.get('/user', auth.required, async (req, res, next) => {
+            const { payload: { id } } = req;
+            const userDao = new UserDao();
 
-            res.set('Authorization', user.jwtToken);
+            try {
+                const userModel = await userDao.findById(id);
+                if (!userModel) {
+                    return send400('User not found', res);
+                }
 
-            res.json({ user: user.toJSON() });
-        })
-        .catch(e => {
-            let errors: any;
-
-            if (e instanceof JsonPropertyError) {
-                errors = [{
-                    property: e.property,
-                    message: e.message
-                }];
-            } else {
-                errors = e.message;
+                return res.json({ user: userModel.toJSON() });
+            } catch (e) {
+                return send400(e.message, res);
             }
+        });
 
-            return res.status(400).json({
-                errors: errors,
+        router.put('/users', auth.required, async (req, res, next) => {
+            const userDao = new UserDao();
+
+            let userModel = new UserModel();
+            userModel.email = req.body.user.email;
+            userModel.id = req.body.user.id;
+
+            try {
+                userModel = await userDao.update(userModel);
+
+                if (!userModel) {
+                    return send400('User not found', res);
+                }
+
+                return res.json({ user: userModel.toJSON() });
+            } catch (e) {
+                return send400(e.message, res);
+            }
+        });
+
+        router.put('/users/password', auth.required, async (req, res, next) => {
+            const userDao = new UserDao();
+
+            try {
+                const userModel = await userDao.updatePassword(<PasswordUpdateDto> req.body);
+
+                if (!userModel) {
+                    return send400('User not found', res);
+                }
+
+                return res.json({ user: userModel.toJSON() });
+            } catch (e) {
+                return send400(e.message, res);
+            }
+        });
+
+        router.post('/signin/facebook', auth.optional, (req, res) => {
+            request(`https://graph.facebook.com/me?fields=email&access_token=${req.body.accessToken}`, (err, response, body) => {
+                const profileData = JSON.parse(body);
+
+                const userAuthenticator = new UserAuthenticator(new UserDao());
+                userAuthenticator
+                    .signupFacebook(profileData.email, req.body.accessToken)
+                    .then((user: UserModel) => {
+                        res.set('Authorization', user.jwtToken);
+                        return res.json({ user: user.toJSON() });
+                    });
             });
         });
-});
+    }
 
-router.post('/login', auth.optional, (req, res: express.Response, next) => {
-    const { body: { user } } = req;
+    private registerSignin(router: express.Router) {
+        router.post('/login', auth.optional, async (req, res: express.Response, next) => {
+            const { body: { user } } = req;
 
-    if (!user.email) {
-        return res.status(400).json({
-            errors: {
-                email: 'is required',
-            },
+            try {
+                const loginInputValidator = new LoginInputValidator();
+                loginInputValidator.validate(user);
+
+                const userModel = await this.localAuthentication.authenticate();
+
+                return res.json({ user: userModel.toJSON() });
+            } catch (e) {
+                return send400(e.message, res);
+            }
         });
     }
 
-    if (!user.password) {
-        return res.status(400).json({
-            errors: {
-                password: 'is required',
-            },
-        });
-    }
+    private registerSignup(router: express.Router) {
+        router.post('/signup', auth.optional, (req, res, next) => {
+            const { body: { user: userJson } } = req;
 
-    return passport.authenticate('local', { session: false }, (err, userModel: UserModel, info) => {
-        if (err) {
-            return next(err);
-        }
-
-        res.set('Authorization', userModel.generateJWT());
-
-        if (userModel) {
-            userModel.accessToken = userModel.generateJWT();
-
-            return res.json({ user: userModel.toJSON() });
-        }
-
-        return res.status(400);
-    })(req, res, next);
-});
-
-router.get('/user', auth.required, async (req, res, next) => {
-    const { payload: { id } } = req;
-    const userDao = new UserDao();
-
-    try {
-        const userModel = await userDao.findById(id);
-        if (!userModel) {
-            return res.sendStatus(400);
-        }
-
-        return res.json({ user: userModel.toJSON() });
-    } catch (e) {
-        return res.sendStatus(400);
-    }
-});
-
-router.put('/users', auth.required, (req, res, next) => {
-    console.log('runs');
-    const userDao = new UserDao();
-
-    const userModel = new UserModel();
-    userModel.email = req.body.user.email;
-    userModel.id = req.body.user.id;
-
-    userDao.update(userModel)
-        .then((user) => {
-            if (!user) {
-                return res.sendStatus(400);
+            try {
+                const loginInputValidator = new LoginInputValidator();
+                loginInputValidator.validate(userJson);
             }
 
-            return res.json({ user: user.toJSON() });
-        })
-        .catch(e => {
-            console.log(e);
+
+            const userAuthenticator = new UserAuthenticator(new UserDao());
+            userAuthenticator.signup(userJson.email, userJson.password)
+                .then(user => {
+
+                    res.set('Authorization', user.jwtToken);
+
+                    res.json({ user: user.toJSON() });
+                })
+                .catch(e => {
+                    let errors: any;
+
+                    if (e instanceof JsonPropertyError) {
+                        errors = [{
+                            property: e.property,
+                            message: e.message
+                        }];
+                    } else {
+                        errors = e.message;
+                    }
+
+                    return res.status(400).json({
+                        errors: errors,
+                    });
+                });
         });
-});
-
-router.put('/users/password', auth.required, (req, res, next) => {
-    const userDao = new UserDao();
-
-    userDao.updatePassword(<PasswordUpdateDto> req.body)
-        .then((user) => {
-            if (!user) {
-                return res.sendStatus(400);
-            }
-
-            return res.json({ user: user.toJSON() });
-        })
-        .catch(e => {
-            console.log(e);
-        });
-});
-
-router.post('/signin/facebook', auth.optional, (req, res) => {
-    request(`https://graph.facebook.com/me?fields=email&access_token=${req.body.accessToken}`, (err, response, body) => {
-        const profileData = JSON.parse(body);
-
-        const userAuthenticator = new UserAuthenticator(new UserDao());
-        userAuthenticator
-            .signupFacebook(profileData.email, req.body.accessToken)
-            .then((user: UserModel) => {
-                res.set('Authorization', user.jwtToken);
-                return res.json({ user: user.toJSON() });
-            });
-    });
-});
+    }
+}

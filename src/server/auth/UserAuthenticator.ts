@@ -1,6 +1,6 @@
 import { UserModel } from '../model/UserModel';
 import { UserDao } from '../model/UserDao';
-import { JsonPropertyError } from '../model/FieldError';
+import { JsonPropertyError } from '../routes/validators/FieldError';
 
 export class UserAuthenticator {
     private userDao: UserDao;
