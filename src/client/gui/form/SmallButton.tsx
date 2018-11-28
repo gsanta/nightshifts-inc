@@ -3,18 +3,25 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { colors } from '../styles';
 
-const ButtonStyled = styled(Button)`
+const ButtonStyled: any = styled(Button)`
     height: 30px;
     border-radius: 0;
     background-color: ${colors.Blue};
     line-height: 1;
 `;
 
-export const SmallButton = (props: SmallButtonProps) => {
-    return (
-        <ButtonStyled onClick={props.onClick}>{props.children}</ButtonStyled>
-    );
-};
+export class SmallButton extends React.Component<SmallButtonProps, {}> {
+
+    public render() {
+        return (
+            <ButtonStyled
+                onClick={this.props.onClick}
+                >
+                {this.props.children}
+            </ButtonStyled>
+        );
+    }
+}
 
 export interface SmallButtonProps {
     onClick(): void;

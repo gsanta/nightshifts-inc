@@ -20,13 +20,15 @@ require('bootstrap/dist/css/bootstrap.css');
 export const GlobalContext = React.createContext<GlobalProps>({
     userStore: null,
     userActions: null,
-    appActions: null
+    appActions: null,
+    appStore: null
 });
 
 export interface GlobalProps {
     userStore: UserStore | null;
     userActions: UserActions | null;
     appActions: AppActions | null;
+    appStore: AppStore | null;
 }
 
 class App extends React.Component<any, AppState> {
@@ -92,7 +94,7 @@ class App extends React.Component<any, AppState> {
         }
 
         return (
-            <GlobalContext.Provider value={{userStore: this.userStore, userActions: this.userActions, appActions: this.appActions}}>
+            <GlobalContext.Provider value={{userStore: this.userStore, userActions: this.userActions, appActions: this.appActions, appStore: this.appStore}}>
                     <div>
                         <Header openSidebar={this.openSidebar}/>
                         <Switch>
@@ -113,7 +115,7 @@ class App extends React.Component<any, AppState> {
     }
 
     private shouldRedirectToLoginPage() {
-        return this.appStore.getModel().getAppState() !== 'loading' &&
+        return this.appStore.getModel().appState !== 'loading' &&
             this.userStore.getModel() === User.NULL_USER_MODEL &&
             this.props.history.location.pathname !== '/login' &&
             this.props.history.location.pathname !== '/signup';

@@ -47,6 +47,9 @@ export class UserDao {
                 user.hash = userModel.hash;
 
                 return user.save();
+            })
+            .then(user => {
+                return this.schemaToModel(user);
             });
     }
 

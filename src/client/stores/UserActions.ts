@@ -21,16 +21,25 @@ export class UserActions {
                 this.userStore.setModel(user);
             })
             .finally(() => {
-                const appModel = new AppModel();
-                appModel.setAppState('ready');
+                const appModel: AppModel = {...this.appStore.getModel(), appState: 'ready'};
                 this.appStore.setModel(appModel);
             });
     }
 
     public updateUser(user: User) {
+        const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading'};
+
+        this.appStore.setModel(appModel);
+
         this.userQuery.updateUser(user)
             .then(updatedUser => {
                 this.userStore.setModel(updatedUser);
+                this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
+                this.setLoadedStateAfterDelay();
+            })
+            .catch(() => {
+                this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
+                this.setLoadedStateAfterDelay();
             });
     }
 
@@ -39,5 +48,14 @@ export class UserActions {
     }
 
     public fetchUser() {}
+
+    private setLoadedStateAfterDelay() {
+        setTimeout(
+            () => {
+                this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'loaded'});
+            },
+            1000
+        );
+    }
 }
 

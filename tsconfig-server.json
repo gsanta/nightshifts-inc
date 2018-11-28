@@ -3,7 +3,7 @@
       "moduleResolution": "node",
       "target": "es6",
       "module": "commonjs",
-      "outDir": "build/server",
+      "outDir": "build",
       "sourceMap": true
     },
     "include": [

@@ -25,7 +25,7 @@ const userController = new UserController(
 userController.register(router);
 
 
-require('./auth/passport');
+// require('./auth/passport');
 
 app.use('/api', router);
 

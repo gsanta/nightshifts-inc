@@ -7,8 +7,10 @@ export class AppStore extends EventEmitter {
 
     constructor() {
         super();
-        this.appModel = new AppModel();
-        this.appModel.setAppState('loading');
+        this.appModel = {
+            appState: 'loading',
+            dataLoadingState: 'loaded'
+        };
     }
 
     public setModel(appModel: AppModel) {

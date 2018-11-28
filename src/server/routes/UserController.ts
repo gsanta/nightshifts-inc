@@ -8,6 +8,7 @@ import { LoginInputValidator } from './validators/LoginInputValidator';
 import { LocalAuthentication } from '../auth/LocalAuthentication';
 import { LocalUserRegistration } from '../auth/LocalUserRegistration';
 import { FacebookUserRegistration } from '../auth/FacebookUserRegistration';
+import passport = require('passport');
 
 const send400 = (message: string, res: express.Response) => res.status(400).send(message);
 
@@ -113,7 +114,9 @@ export class UserController {
                 const loginInputValidator = new LoginInputValidator();
                 loginInputValidator.validate(user);
 
-                const userModel = await this.localAuthentication.authenticate();
+                const userModel = await this.localAuthentication.authenticate(req, res);
+
+                res.set('Authorization', userModel.generateJWT());
 
                 return res.json({ user: userModel.toJSON() });
             } catch (e) {

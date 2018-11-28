@@ -6,6 +6,8 @@ import { colors } from '../../styles';
 import { SmallButton } from '../../form/SmallButton';
 import { User } from '../../../stores/User';
 import { UserQuery } from '../../../query/user/UserQuery';
+import Popover from '@material-ui/core/Popover';
+import * as ReactDom from 'react-dom';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -60,6 +62,7 @@ const PasswordSaveButton = styled.div`
 `;
 
 class Settings extends React.Component<GlobalProps, SettingsState> {
+    private saveButtonRef: React.RefObject<any>;
 
     constructor(props: GlobalProps) {
         super(props);
@@ -67,19 +70,46 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
         this.changeEmail = this.changeEmail.bind(this);
         this.saveChanges = this.saveChanges.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
+        this.onAppStoreChange = this.onAppStoreChange.bind(this);
+
+        this.saveButtonRef = React.createRef();
 
         this.state = {
             user: props.userStore.getModel(),
             newPassword: '',
-            oldPassword: ''
+            oldPassword: '',
+            isSaveButtonPopoverOpen: false
         };
+    }
+
+    public componentDidMount() {
+        this.props.appStore.onChange(this.onAppStoreChange);
+    }
+
+    public componentWillUnmount() {
+        this.props.appStore.onChange(this.onAppStoreChange);
     }
 
     public render() {
         return (
             <SettingsRoot>
                 <SettingsLeftColumn>
-                    <SmallButton onClick={this.saveChanges}>Save changes</SmallButton>
+                    <SmallButton
+                        ref={this.saveButtonRef}
+                        onClick={this.saveChanges}>
+                        Save changes
+                    </SmallButton>
+                    <Popover
+                        open={this.state.isSaveButtonPopoverOpen}
+                        anchorEl={ReactDom.findDOMNode(this.saveButtonRef.current) as HTMLElement}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        onClose={() => null}
+                        >
+                        The popever
+                    </Popover>
                 </SettingsLeftColumn>
                 <SettingsRightColumn>
                     <FormGroup
@@ -143,7 +173,24 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
     }
 
     private saveChanges() {
-        this.props.userActions.updateUser(this.state.user);
+        this.props.userActions
+            .updateUser(this.state.user);
+
+        this.setState({
+            isSaveButtonPopoverOpen: true
+        });
+    }
+
+    private onAppStoreChange() {
+        if (this.props.appStore.getModel().dataLoadingState === 'recently_loaded') {
+            this.setState({
+                isSaveButtonPopoverOpen: true
+            });
+        } else {
+            this.setState({
+                isSaveButtonPopoverOpen: false
+            });
+        }
     }
 }
 
@@ -151,6 +198,7 @@ export interface SettingsState {
     user: User;
     oldPassword: string;
     newPassword: string;
+    isSaveButtonPopoverOpen: boolean;
 }
 
 export default () => (
