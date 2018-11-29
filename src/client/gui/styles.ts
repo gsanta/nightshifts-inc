@@ -7,5 +7,6 @@ export const colors = {
     Gray2: '#6D7B7F',
     Blue: '#6d9adf',
     LightBlue: '#b6ccef',
-    Red: '#e66e7f'
+    Red: '#e66e7f',
+    LightGreen: '#c9daa8'
 };

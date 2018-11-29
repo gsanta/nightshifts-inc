@@ -9,7 +9,8 @@ export class AppStore extends EventEmitter {
         super();
         this.appModel = {
             appState: 'loading',
-            dataLoadingState: 'loaded'
+            dataLoadingState: 'loaded',
+            lastActiontType: null
         };
     }
 

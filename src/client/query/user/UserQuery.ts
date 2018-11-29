@@ -125,12 +125,10 @@ export class UserQuery {
                 }
             )
             .then((response: { data: { user: UserDto }}) => {
-                // const userModel = new User();
-                // userModel.setEmail(response.data.user.email);
-                // resolve(userModel);
+                resolve();
             })
             .catch((e) => {
-                // reject(e);
+                reject(e);
             });
         });
     }

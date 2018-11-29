@@ -3,6 +3,8 @@ import { UserQuery } from '../query/user/UserQuery';
 import { AppStore } from './app/AppStore';
 import { AppModel } from './app/AppModel';
 import { User } from './User';
+import { PasswordUpdateDto } from '../query/user/PasswordUpdateDto';
+import { ActionType } from './ActionType';
 
 export class UserActions {
     private userStore: UserStore;
@@ -27,8 +29,7 @@ export class UserActions {
     }
 
     public updateUser(user: User) {
-        const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading'};
-
+        const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading', lastActiontType: ActionType.UPDATE_USER};
         this.appStore.setModel(appModel);
 
         this.userQuery.updateUser(user)
@@ -41,6 +42,25 @@ export class UserActions {
                 this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
                 this.setLoadedStateAfterDelay();
             });
+    }
+
+    public updatePassword(passwordDto: PasswordUpdateDto) {
+        const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading', lastActiontType: ActionType.UPDATE_PASSWORD};
+        this.appStore.setModel(appModel);
+
+        this.userQuery.updatePassword({
+            id: passwordDto.id,
+            oldPassword: passwordDto.oldPassword,
+            newPassword: passwordDto.newPassword
+        })
+        .then(() => {
+            this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
+            this.setLoadedStateAfterDelay();
+        })
+        .catch(() => {
+            this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
+            this.setLoadedStateAfterDelay();
+        });
     }
 
     public signOut() {

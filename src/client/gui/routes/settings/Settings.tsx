@@ -8,6 +8,8 @@ import { User } from '../../../stores/User';
 import { UserQuery } from '../../../query/user/UserQuery';
 import Popover from '@material-ui/core/Popover';
 import * as ReactDom from 'react-dom';
+import { StatusPopover } from '../../form/StatusPopover';
+import { ActionType } from '../../../stores/ActionType';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -63,22 +65,25 @@ const PasswordSaveButton = styled.div`
 
 class Settings extends React.Component<GlobalProps, SettingsState> {
     private saveButtonRef: React.RefObject<any>;
+    private savePasswordButtonRef: React.RefObject<any>;
 
     constructor(props: GlobalProps) {
         super(props);
 
         this.changeEmail = this.changeEmail.bind(this);
-        this.saveChanges = this.saveChanges.bind(this);
+        this.updateUser = this.updateUser.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.onAppStoreChange = this.onAppStoreChange.bind(this);
 
         this.saveButtonRef = React.createRef();
+        this.savePasswordButtonRef = React.createRef();
 
         this.state = {
             user: props.userStore.getModel(),
             newPassword: '',
             oldPassword: '',
-            isSaveButtonPopoverOpen: false
+            isSaveButtonPopoverOpen: false,
+            isSavePasswordButtonPopoverOpen: false
         };
     }
 
@@ -96,20 +101,16 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                 <SettingsLeftColumn>
                     <SmallButton
                         ref={this.saveButtonRef}
-                        onClick={this.saveChanges}>
+                        onClick={this.updateUser}>
                         Save changes
                     </SmallButton>
-                    <Popover
+                    <StatusPopover
                         open={this.state.isSaveButtonPopoverOpen}
                         anchorEl={ReactDom.findDOMNode(this.saveButtonRef.current) as HTMLElement}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
                         onClose={() => null}
                         >
-                        The popever
-                    </Popover>
+                        Changes saved.
+                    </StatusPopover>
                 </SettingsLeftColumn>
                 <SettingsRightColumn>
                     <FormGroup
@@ -146,7 +147,14 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                             <FormControl.Feedback />
                         </FormGroup>
                         <PasswordSaveButton>
-                            <SmallButton onClick={this.updatePassword}>Update password</SmallButton>
+                            <SmallButton onClick={this.updatePassword} ref={this.savePasswordButtonRef}>Update password</SmallButton>
+                            <StatusPopover
+                                open={this.state.isSavePasswordButtonPopoverOpen}
+                                anchorEl={ReactDom.findDOMNode(this.savePasswordButtonRef.current) as HTMLElement}
+                                onClose={() => null}
+                                >
+                                Changes saved.
+                            </StatusPopover>
                         </PasswordSaveButton>
                     </PasswordChangeFormGroup>
                 </SettingsRightColumn>
@@ -163,32 +171,37 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
     }
 
     private updatePassword() {
-        const userQuery = new UserQuery();
-
-        userQuery.updatePassword({
+        this.props.userActions.updatePassword({
             id: this.state.user.id,
             oldPassword: this.state.oldPassword,
             newPassword: this.state.newPassword
         });
     }
 
-    private saveChanges() {
+    private updateUser() {
         this.props.userActions
             .updateUser(this.state.user);
 
         this.setState({
-            isSaveButtonPopoverOpen: true
+            isSaveButtonPopoverOpen: false
         });
     }
 
     private onAppStoreChange() {
         if (this.props.appStore.getModel().dataLoadingState === 'recently_loaded') {
-            this.setState({
-                isSaveButtonPopoverOpen: true
-            });
+            if (this.props.appStore.getModel().lastActiontType === ActionType.UPDATE_PASSWORD) {
+                this.setState({
+                    isSavePasswordButtonPopoverOpen: true
+                });
+            } else {
+                this.setState({
+                    isSaveButtonPopoverOpen: true
+                });
+            }
         } else {
             this.setState({
-                isSaveButtonPopoverOpen: false
+                isSaveButtonPopoverOpen: false,
+                isSavePasswordButtonPopoverOpen: false
             });
         }
     }
@@ -199,6 +212,7 @@ export interface SettingsState {
     oldPassword: string;
     newPassword: string;
     isSaveButtonPopoverOpen: boolean;
+    isSavePasswordButtonPopoverOpen: boolean;
 }
 
 export default () => (
