@@ -63,7 +63,7 @@ export class UserQuery {
                 resolve(userModel);
             })
             .catch((e) => {
-                console.log('fb login error: ' + e);
+                reject(e);
             });
         });
     }

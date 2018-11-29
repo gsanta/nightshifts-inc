@@ -7,6 +7,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { User } from '../stores/User';
 import { UserQuery } from '../query/user/UserQuery';
 import { FacebookLoginButton } from './form/FacebookLoginButton';
+import { ValidationError } from '../stores/ValidationError';
+import { colors } from './styles';
 
 function getModalStyle() {
     const top = 50;
@@ -25,7 +27,8 @@ const styles = theme => ({
         width: theme.spacing.unit * 50,
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4
+        padding: theme.spacing.unit * 4,
+        paddingTop: '10px',
     }
 });
 
@@ -36,13 +39,17 @@ const Footer = styled.div`
     justify-content: space-between;
 `;
 
+const ErrorLabel = styled.div`
+    height: 20px;
+    margin-bottom: 5px;
+    color: ${colors.Red};
+    font-size: 12px;
+`;
+
 class Login extends React.Component<LoginProps, LoginState> {
 
     constructor(props: LoginProps) {
         super(props);
-
-        this.login = this.login.bind(this);
-        this.loginFacebook = this.loginFacebook.bind(this);
 
         this.state = {
             email: '',
@@ -59,6 +66,8 @@ class Login extends React.Component<LoginProps, LoginState> {
         return (
             <Modal open={true} className="the-game-modal">
                 <div style={getModalStyle()} className={this.props.classes.paper}>
+                    <ErrorLabel>{this.props.errors.length > 0 ? this.props.errors[0].message : null}</ErrorLabel>
+
                     <TextField
                         value={this.state.email}
                         onChange={(email: string) => {
@@ -76,27 +85,15 @@ class Login extends React.Component<LoginProps, LoginState> {
                         label="Password"
                         type="password"
                     />
-                    <Button text="Sign in" onClick={this.login}/>
+                    <Button text="Sign in" onClick={() => this.props.login(this.state.email, this.state.password)}/>
                     <FacebookLoginButton
-                        callback={this.loginFacebook}
+                        callback={(event: {accessToken: string}) => this.props.loginFacebook(event.accessToken)}
                         text="Signin with Facebook"
                     />
                     {this.renderFooter()}
                 </div>
             </Modal>
         );
-    }
-
-    private loginFacebook(event: {accessToken: string}) {
-        const userQuery = new UserQuery();
-
-        userQuery.loginFacebook(event.accessToken)
-            .then((user: User) => {
-                this.props.setUser(user);
-            })
-            .catch((e) => {
-                console.log(e);
-            });
     }
 
     private renderFooter() {
@@ -106,18 +103,6 @@ class Login extends React.Component<LoginProps, LoginState> {
                 <div>No account? <Link to={`/signup`}>Sign up</Link>.</div>
             </Footer>
         );
-    }
-
-    private login() {
-        const userQuery = new UserQuery();
-
-        userQuery.login({ email: this.state.email, password: this.state.password})
-        .then((user: User) => {
-            this.props.setUser(user);
-        })
-        .catch((e) => {
-            console.log(e);
-        });
     }
 }
 
@@ -133,5 +118,7 @@ export interface LoginProps {
         paper: any;
     };
     user: User;
-    setUser(user: User): void;
+    login(email: string, password: string): void;
+    loginFacebook(accessToken: string): void;
+    errors: ValidationError[];
 }

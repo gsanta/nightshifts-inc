@@ -67,6 +67,26 @@ export class UserActions {
         this.userStore.setModel(null);
     }
 
+    public loginFacebook(accessToken: string) {
+        this.userQuery.loginFacebook(accessToken)
+            .then((user: User) => {
+                this.userStore.setModel(user);
+            })
+            .catch((e) => {
+                this.userStore.setErrors([{message: e.response.data.message}]);
+            });
+    }
+
+    public login(email: string, password: string) {
+        this.userQuery.login({ email: email, password: password})
+        .then((user: User) => {
+            this.userStore.setModel(user);
+        })
+        .catch((e) => {
+            this.userStore.setErrors([{message: e.response.data.message}]);
+        });
+    }
+
     public fetchUser() {}
 
     private setLoadedStateAfterDelay() {

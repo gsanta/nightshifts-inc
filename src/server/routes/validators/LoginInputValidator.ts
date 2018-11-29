@@ -1,4 +1,4 @@
-import { JsonPropertyError } from './FieldError';
+import { FieldError } from './FieldError';
 
 
 export interface LoginDto {
@@ -10,11 +10,11 @@ export class LoginInputValidator {
 
     public validate(loginDto: LoginDto) {
         if (!loginDto.email) {
-            throw new JsonPropertyError('Email is required.', 'email');
+            throw new FieldError('Email is required.', 'email');
         }
 
         if (!loginDto.password) {
-            throw new JsonPropertyError('Password is required.', 'password');
+            throw new FieldError('Password is required.', 'password');
         }
     }
 }

@@ -1,5 +1,5 @@
 
-export class JsonPropertyError extends Error {
+export class FieldError extends Error {
     public property: string;
     public statusCode: number;
 
@@ -9,6 +9,6 @@ export class JsonPropertyError extends Error {
         this.property = property;
         this.statusCode = statusCode;
         // set the prototype explicitly, TS 2.1 breaking change
-        (<any>this).__proto__ = JsonPropertyError.prototype;
+        (<any>this).__proto__ = FieldError.prototype;
     }
 }

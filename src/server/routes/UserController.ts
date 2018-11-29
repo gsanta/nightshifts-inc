@@ -1,16 +1,16 @@
 import { auth } from '../auth/auth';
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
-import { JsonPropertyError } from './validators/FieldError';
 import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
 import * as express from 'express';
 import { LoginInputValidator } from './validators/LoginInputValidator';
 import { LocalAuthentication } from '../auth/LocalAuthentication';
 import { LocalUserRegistration } from '../auth/LocalUserRegistration';
 import { FacebookUserRegistration } from '../auth/FacebookUserRegistration';
+import { FieldError } from './validators/FieldError';
 import passport = require('passport');
 
-const send400 = (message: string, res: express.Response) => res.status(400).send(message);
+const send400 = (message: string, res: express.Response) => res.status(400).json({message});
 
 export class UserController {
     private userDao: UserDao;
@@ -42,7 +42,7 @@ export class UserController {
     private registerSignInFacebook(router: express.Router) {
         router.post('/signin/facebook', auth.optional, async (req, res) => {
             try {
-                const userModel = await this.facebookUserRegistration.register(req.body.accessToke);
+                const userModel = await this.facebookUserRegistration.register(req.body.accessToken);
 
                 res.set('Authorization', userModel.jwtToken);
                 return res.json({ user: userModel.toJSON() });
@@ -141,7 +141,7 @@ export class UserController {
             } catch (e) {
                 let errors: any;
 
-                if (e instanceof JsonPropertyError) {
+                if (e instanceof FieldError) {
                     errors = [{
                         property: e.property,
                         message: e.message

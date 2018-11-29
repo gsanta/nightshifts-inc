@@ -46,6 +46,7 @@ class App extends React.Component<any, AppState> {
         this.closeSidebar = this.closeSidebar.bind(this);
         this.openSidebar = this.openSidebar.bind(this);
         this.onAppStoreChange = this.onAppStoreChange.bind(this);
+        this.login = this.login.bind(this);
 
         this.userStore = new UserStore();
         this.appStore = new AppStore();
@@ -103,7 +104,23 @@ class App extends React.Component<any, AppState> {
                         </Switch>
                         <Sidebar isOpen={this.state.isSidebarOpen} isPermanent={this.state.isSidebarPermanent} close={this.closeSidebar}/>
                         <Route path="/" exact render={(props) => <RootRoute {...props} user={this.state.user}/>}/>
-                        <Route path="/login" exact render={(props) => <Login {...props} user={this.state.user} setUser={this.setUser}/>}/>
+                        <Route
+                            path="/login"
+                            exact
+                            render={
+                                (props) => {
+                                    return (
+                                        <Login
+                                            {...props}
+                                            user={this.state.user}
+                                            login={this.login}
+                                            loginFacebook={(accessToken: string) => this.userActions.loginFacebook(accessToken)}
+                                            errors={this.userStore.getErrors()}
+                                        />
+                                    );
+                                }
+                            }
+                        />
                         <Route
                             path="/signup"
                             exact
@@ -147,6 +164,10 @@ class App extends React.Component<any, AppState> {
         this.setState({
             isSidebarOpen: true
         });
+    }
+
+    private login(email: string, password: string) {
+        this.userActions.login(email, password);
     }
 }
 
