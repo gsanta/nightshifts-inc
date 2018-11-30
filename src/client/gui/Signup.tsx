@@ -8,6 +8,8 @@ import axios from 'axios';
 import { User } from '../stores/User';
 import { UserQuery } from '../query/user/UserQuery';
 import { FacebookLoginButton } from './form/FacebookLoginButton';
+import _ from 'lodash';
+import { ErrorMessage } from './ErrorMessage';
 
 function getModalStyle() {
     const top = 50;
@@ -37,6 +39,36 @@ const Footer = styled.div`
     justify-content: space-between;
 `;
 
+export const getMultiFieldErrorMessage = (errors: ErrorMessage[]) => {
+    const filteredErrors = errors
+        .filter(e => e.properties.length !== 0);
+
+    if (filteredErrors.length > 0) {
+        return filteredErrors[0].message;
+    }
+
+    return null;
+};
+
+export const getErrorMessage = (errors: ErrorMessage[], propertyName: string) => {
+    const filteredErrors = errors
+        .filter(e => e.properties.length !== 1)
+        .filter(e => e.properties[0] !== propertyName);
+
+
+    if (filteredErrors.length > 0) {
+        return filteredErrors[0].message;
+    }
+
+    return null;
+};
+
+export const hasError = (errors: ErrorMessage[], propertyName: string) => {
+    const filteredErrors = errors
+        .filter(e => _.includes(e.properties[0], propertyName));
+
+    return filteredErrors.length > 0;
+};
 
 class Signup extends React.Component<SignupProps, SignupState> {
 
@@ -61,6 +93,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
         return (
             <Modal open={true} className="the-game-modal">
                 <div style={getModalStyle()} className={this.props.classes.paper}>
+                    <ErrorLabel>{this.props.errors.length > 0 ? this.props.errors[0].message : null}</ErrorLabel>
                     <TextField
                         value={this.state.email}
                         onChange={(email: string) => {
@@ -68,7 +101,8 @@ class Signup extends React.Component<SignupProps, SignupState> {
                         }}
                         label="Email"
                         classes=""
-                        errorMessage={this.getErrorMessage('email')}
+                        hasError={hasError(this.state.errors, 'email')}
+                        errorMessage={getErrorMessage(this.state.errors, 'email')}
                     />
                     <TextField
                         value={this.state.password}
@@ -78,7 +112,8 @@ class Signup extends React.Component<SignupProps, SignupState> {
                         classes=""
                         label="Password"
                         type="password"
-                        errorMessage={this.getErrorMessage('password')}
+                        hasError={hasError(this.state.errors, 'email')}
+                        errorMessage={getErrorMessage(this.state.errors, 'password')}
                     />
                     <Button text="Sign up" onClick={this.signUp}/>
                     <FacebookLoginButton
@@ -97,16 +132,6 @@ class Signup extends React.Component<SignupProps, SignupState> {
                 <div>Already have an account <Link to={`/login`}>Sign in</Link>.</div>
             </Footer>
         );
-    }
-
-    private getErrorMessage(propertyName: string) {
-        const errors = this.state.errors.filter(e => e.property === propertyName);
-
-        if (errors.length > 0) {
-            return errors[0].message;
-        }
-
-        return null;
     }
 
     private signUp() {
@@ -141,10 +166,7 @@ export default withStyles(styles)(Signup);
 export interface SignupState {
     email: string;
     password: string;
-    errors: {
-        property: string;
-        message: string;
-    }[];
+    errors: ErrorMessage[];
 }
 
 export interface SignupProps {

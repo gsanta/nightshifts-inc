@@ -4,6 +4,7 @@ import { UserDao } from '../model/UserDao';
 import { GenericError } from '../routes/validators/GenericError';
 import {Strategy} from 'passport-local';
 import * as express from 'express';
+import { FieldError } from '../routes/validators/FieldError';
 
 export class LocalAuthentication {
     private pass: passport.PassportStatic;
@@ -54,7 +55,7 @@ export class LocalAuthentication {
         return this.userDao.findByEmail(email)
             .then((user) => {
                 if (!user || !user.validatePassword(password)) {
-                    throw new GenericError('Email or password is invalid.');
+                    throw new FieldError('Email or password is invalid.', ['email', 'password']);
                 }
 
                 if (user.jwtToken === null) {

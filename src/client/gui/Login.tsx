@@ -9,6 +9,8 @@ import { UserQuery } from '../query/user/UserQuery';
 import { FacebookLoginButton } from './form/FacebookLoginButton';
 import { ValidationError } from '../stores/ValidationError';
 import { colors } from './styles';
+import { FormDialogWrapper } from './dialogs/FormDialogWrapper';
+import { hasError } from './Signup';
 
 function getModalStyle() {
     const top = 50;
@@ -64,44 +66,42 @@ class Login extends React.Component<LoginProps, LoginState> {
         }
 
         return (
-            <Modal open={true} className="the-game-modal">
-                <div style={getModalStyle()} className={this.props.classes.paper}>
-                    <ErrorLabel>{this.props.errors.length > 0 ? this.props.errors[0].message : null}</ErrorLabel>
-
-                    <TextField
-                        value={this.state.email}
-                        onChange={(email: string) => {
-                            this.setState({email});
-                        }}
-                        classes=""
-                        label="Email"
-                    />
-                    <TextField
-                        value={this.state.password}
-                        onChange={(password: string) => {
-                            this.setState({password});
-                        }}
-                        classes=""
-                        label="Password"
-                        type="password"
-                    />
-                    <Button text="Sign in" onClick={() => this.props.login(this.state.email, this.state.password)}/>
-                    <FacebookLoginButton
-                        callback={(event: {accessToken: string}) => this.props.loginFacebook(event.accessToken)}
-                        text="Signin with Facebook"
-                    />
-                    {this.renderFooter()}
-                </div>
-            </Modal>
-        );
-    }
-
-    private renderFooter() {
-        return (
-            <Footer>
-                <div>Forgot password?</div>
-                <div>No account? <Link to={`/signup`}>Sign up</Link>.</div>
-            </Footer>
+            <FormDialogWrapper
+                body={
+                    <React.Fragment>
+                        <TextField
+                            value={this.state.email}
+                            onChange={(email: string) => {
+                                this.setState({email});
+                            }}
+                            hasError={false}
+                            classes=""
+                            label="Email"
+                        />
+                        <TextField
+                            value={this.state.password}
+                            onChange={(password: string) => {
+                                this.setState({password});
+                            }}
+                            hasError={false}
+                            classes=""
+                            label="Password"
+                            type="password"
+                        />
+                        <Button text="Sign in" onClick={() => this.props.login(this.state.email, this.state.password)}/>
+                        <FacebookLoginButton
+                            callback={(event: {accessToken: string}) => this.props.loginFacebook(event.accessToken)}
+                            text="Signin with Facebook"
+                        />
+                    </React.Fragment>
+                }
+                footer={
+                    <React.Fragment>
+                        <div>Forgot password?</div>
+                        <div>No account? <Link to={`/signup`}>Sign up</Link>.</div>
+                    </React.Fragment>
+                }
+            />
         );
     }
 }

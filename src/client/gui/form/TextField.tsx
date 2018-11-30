@@ -12,13 +12,15 @@ const Wrapper = styled.div`
 
 const ErrorLabel = styled.div`
     color: ${colors.Red};
+    font-size: 12px;
+    margin-top: 2px;
 `;
 
 const TextFieldStyled: React.SFC<TextFieldProps> = (props: TextFieldProps) => {
     return (
         <Wrapper>
             <TextField
-                error={props.errorMessage !== null}
+                error={props.hasError}
                 label={props.label}
                 value={props.value}
                 onChange={(event) => props.onChange(event.target.value)}
@@ -31,7 +33,8 @@ const TextFieldStyled: React.SFC<TextFieldProps> = (props: TextFieldProps) => {
 };
 
 TextFieldStyled.defaultProps = {
-    errorMessage: null
+    errorMessage: null,
+    hasError: false
 };
 
 export interface TextFieldProps {
@@ -40,6 +43,7 @@ export interface TextFieldProps {
     label: string;
     type?: string;
     classes: any;
+    hasError: boolean;
     errorMessage?: string;
 }
 

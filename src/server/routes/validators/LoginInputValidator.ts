@@ -10,11 +10,11 @@ export class LoginInputValidator {
 
     public validate(loginDto: LoginDto) {
         if (!loginDto.email) {
-            throw new FieldError('Email is required.', 'email');
+            throw new FieldError('Email is required.', ['email']);
         }
 
         if (!loginDto.password) {
-            throw new FieldError('Password is required.', 'password');
+            throw new FieldError('Password is required.', ['password']);
         }
     }
 }
