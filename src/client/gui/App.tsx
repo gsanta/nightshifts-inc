@@ -47,6 +47,7 @@ class App extends React.Component<any, AppState> {
         this.openSidebar = this.openSidebar.bind(this);
         this.onAppStoreChange = this.onAppStoreChange.bind(this);
         this.login = this.login.bind(this);
+        this.signup = this.signup.bind(this);
 
         this.userStore = new UserStore();
         this.appStore = new AppStore();
@@ -124,7 +125,19 @@ class App extends React.Component<any, AppState> {
                         <Route
                             path="/signup"
                             exact
-                            render={(props) => <Signup {...props} user={this.state.user} setUser={this.setUser}/>}
+                            render={
+                                (props) => {
+                                    return (
+                                        <Signup
+                                            {...props}
+                                            signup={this.signup}
+                                            signupFacebook={(accessToken: string) => this.userActions.loginFacebook(accessToken)}
+                                            user={this.state.user}
+                                            errors={this.userStore.getErrors()}
+                                        />
+                                    );
+                                }
+                            }
                         />
                     </div>
             </GlobalContext.Provider>
@@ -168,6 +181,10 @@ class App extends React.Component<any, AppState> {
 
     private login(email: string, password: string) {
         this.userActions.login(email, password);
+    }
+
+    private signup(email: string, password: string) {
+        this.userActions.signup(email, password);
     }
 }
 

@@ -10,7 +10,9 @@ import { FacebookUserRegistration } from '../auth/FacebookUserRegistration';
 import { FieldError } from './validators/FieldError';
 import passport = require('passport');
 
-const send400 = (message: string, res: express.Response) => res.status(400).json({message});
+const send400 = (message: string, res: express.Response) => res.status(400).json(new FieldError(message).toJson());
+
+const send400Error = (error: {toJson(): void}, res: express.Response) => res.status(400).json(error.toJson());
 
 export class UserController {
     private userDao: UserDao;
@@ -120,7 +122,7 @@ export class UserController {
 
                 return res.json({ user: userModel.toJSON() });
             } catch (e) {
-                return send400(e.message, res);
+                return send400Error(e, res);
             }
         });
     }
@@ -139,20 +141,7 @@ export class UserController {
 
                 res.json({ user: userModel.toJSON() });
             } catch (e) {
-                let errors: any;
-
-                if (e instanceof FieldError) {
-                    errors = [{
-                        property: e.property,
-                        message: e.message
-                    }];
-                } else {
-                    errors = e.message;
-                }
-
-                return res.status(400).json({
-                    errors: errors,
-                });
+                return send400Error(e, res);
             }
         });
     }

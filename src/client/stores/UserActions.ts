@@ -5,6 +5,7 @@ import { AppModel } from './app/AppModel';
 import { User } from './User';
 import { PasswordUpdateDto } from '../query/user/PasswordUpdateDto';
 import { ActionType } from './ActionType';
+import { ErrorMessage } from '../gui/ErrorMessage';
 
 export class UserActions {
     private userStore: UserStore;
@@ -73,7 +74,7 @@ export class UserActions {
                 this.userStore.setModel(user);
             })
             .catch((e) => {
-                this.userStore.setErrors([{message: e.response.data.message}]);
+                this.userStore.setErrors([<ErrorMessage> e.response.data]);
             });
     }
 
@@ -83,8 +84,18 @@ export class UserActions {
             this.userStore.setModel(user);
         })
         .catch((e) => {
-            this.userStore.setErrors([{message: e.response.data.message}]);
+            this.userStore.setErrors([<ErrorMessage> e.response.data]);
         });
+    }
+
+    public signup(email: string, password: string) {
+        this.userQuery.signup({ email, password })
+            .then((user: User) => {
+                this.userStore.setModel(user);
+            })
+            .catch((e) => {
+                this.userStore.setErrors([<ErrorMessage> e.response.data]);
+            });
     }
 
     public fetchUser() {}

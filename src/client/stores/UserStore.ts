@@ -1,23 +1,22 @@
 import { User } from './User';
 import { EventEmitter } from 'events';
-import { FieldError } from '../../server/routes/validators/FieldError';
-import { ValidationError } from './ValidationError';
+import { ErrorMessage } from '../gui/ErrorMessage';
 
 export class UserStore extends EventEmitter {
     private userModel: User;
-    public errors: ValidationError[] = [];
+    public errors: ErrorMessage[] = [];
 
     constructor() {
         super();
         this.userModel = User.NULL_USER_MODEL;
     }
 
-    public setErrors(errors: ValidationError[]) {
+    public setErrors(errors: ErrorMessage[]) {
         this.errors = errors;
         this.emitChange();
     }
 
-    public getErrors(): ValidationError[] {
+    public getErrors(): ErrorMessage[] {
         return this.errors;
     }
 
