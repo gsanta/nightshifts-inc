@@ -1,4 +1,4 @@
-import { auth, JwtTokenExtracter } from '../security/JwtTokenExtracter';
+import { JwtTokenExtracter } from '../security/JwtTokenExtracter';
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
 import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
