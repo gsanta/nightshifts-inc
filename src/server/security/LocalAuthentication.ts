@@ -1,10 +1,9 @@
 import * as passport from 'passport';
 import { UserModel } from '../model/UserModel';
 import { UserDao } from '../model/UserDao';
-import { GenericError } from '../routes/validators/GenericError';
 import {Strategy} from 'passport-local';
 import * as express from 'express';
-import { FieldError } from '../routes/validators/FieldError';
+import { FieldError } from '../controllers/validators/FieldError';
 
 export class LocalAuthentication {
     private pass: passport.PassportStatic;

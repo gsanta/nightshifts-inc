@@ -1,6 +1,6 @@
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
-import { JsonPropertyError } from '../routes/validators/FieldError';
+import { FieldError } from '../controllers/validators/FieldError';
 
 export class LocalUserRegistration {
     private userDao: UserDao;
@@ -18,7 +18,7 @@ export class LocalUserRegistration {
         return this.userDao.findByEmail(email)
             .then(u => {
                 if (u !== null) {
-                    throw new JsonPropertyError('This email address is already used.', 'email');
+                    throw new FieldError('This email address is already used.', ['email']);
                 }
 
                 return this.userDao.save(userModel);

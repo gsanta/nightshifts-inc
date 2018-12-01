@@ -1,6 +1,5 @@
 import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
-import { JsonPropertyError } from '../routes/validators/FieldError';
 import * as request from 'request';
 
 export class FacebookUserRegistration {

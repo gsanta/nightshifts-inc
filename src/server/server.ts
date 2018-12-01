@@ -1,12 +1,14 @@
-import app from './app';
 import * as mongoose from 'mongoose';
 import { UsersSchema } from './model/UsersSchema';
 import { MongooseUserModel, UserDao } from './model/UserDao';
-import { UserController } from './routes/UserController';
-import { FacebookUserRegistration } from './auth/FacebookUserRegistration';
-import { LocalUserRegistration } from './auth/LocalUserRegistration';
-import { LocalAuthentication } from './auth/LocalAuthentication';
+import { UserController } from './controllers/UserController';
+import { FacebookUserRegistration } from './security/FacebookUserRegistration';
+import { LocalUserRegistration } from './security/LocalUserRegistration';
+import { LocalAuthentication } from './security/LocalAuthentication';
 import * as passport from 'passport';
+import { JwtTokenExtracter } from './security/JwtTokenExtracter';
+import express = require('express');
+const bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://localhost/thegame');
 mongoose.set('debug', true);
@@ -20,12 +22,18 @@ const userController = new UserController(
     userDao,
     new LocalAuthentication(passport, userDao),
     new FacebookUserRegistration(userDao),
-    new LocalUserRegistration(userDao)
+    new LocalUserRegistration(userDao),
+    new JwtTokenExtracter()
 );
 userController.register(router);
 
+const app = express();
+app.set('port', process.env.PORT || 3000);
+app.use(bodyParser.json());
 
-// require('./auth/passport');
+app.get('/', (req, res) => {
+    res.send('Hi');
+});
 
 app.use('/api', router);
 
