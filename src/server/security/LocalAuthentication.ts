@@ -23,12 +23,10 @@ export class LocalAuthentication {
                 (err, userModel: UserModel, info) => {
                     if (err) {
                         reject(err);
+                    } else {
+                        userModel.accessToken = userModel.generateJWT();
+                        resolve(userModel);
                     }
-
-
-                    userModel.accessToken = userModel.generateJWT();
-
-                    resolve(userModel);
                 }
             )(req, res);
         });

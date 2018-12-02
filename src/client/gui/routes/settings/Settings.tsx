@@ -63,6 +63,11 @@ const PasswordSaveButton = styled.div`
     margin-left: 30px;
 `;
 
+const LoggedInWithFacebookText = styled.div`
+    font-style: italic;
+    opacity: 0.5;
+`;
+
 class Settings extends React.Component<GlobalProps, SettingsState> {
     private saveButtonRef: React.RefObject<any>;
     private savePasswordButtonRef: React.RefObject<any>;
@@ -96,6 +101,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
     }
 
     public render() {
+        const user = this.state.user;
         return (
             <SettingsRoot>
                 <SettingsLeftColumn>
@@ -126,39 +132,56 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                         <FormControl.Feedback />
                     </FormGroup>
 
-                    <PasswordChangeFormGroup>
-                        <FormGroup
-                            validationState={'success'}
-                        >
-                            <ControlLabelStyled>Old password</ControlLabelStyled>
-                            <FormControlStyled
-                                type="password"
-                                value={this.state.oldPassword}
-                                placeholder=""
-                                onChange={(e: React.ChangeEvent<any>) => this.setState({oldPassword: e.target.value})}
-                            />
-                            <ControlLabelStyled>New password</ControlLabelStyled>
-                            <FormControlStyled
-                                type="password"
-                                value={this.state.newPassword}
-                                placeholder=""
-                                onChange={(e: React.ChangeEvent<any>) => this.setState({newPassword: e.target.value})}
-                            />
-                            <FormControl.Feedback />
-                        </FormGroup>
-                        <PasswordSaveButton>
-                            <SmallButton onClick={this.updatePassword} ref={this.savePasswordButtonRef}>Update password</SmallButton>
-                            <StatusPopover
-                                open={this.state.isSavePasswordButtonPopoverOpen}
-                                anchorEl={ReactDom.findDOMNode(this.savePasswordButtonRef.current) as HTMLElement}
-                                onClose={() => null}
-                                >
-                                Changes saved.
-                            </StatusPopover>
-                        </PasswordSaveButton>
-                    </PasswordChangeFormGroup>
+                    {user.authStrategy === 'local' ? this.renderPasswordChangeForm() : this.renderLoggedInWithFacebookText()}
                 </SettingsRightColumn>
             </SettingsRoot>
+        );
+    }
+
+    private renderPasswordChangeForm() {
+        return (
+            <PasswordChangeFormGroup>
+                <FormGroup
+                    validationState={'success'}
+                >
+                    <ControlLabelStyled>Old password</ControlLabelStyled>
+                    <FormControlStyled
+                        type="password"
+                        value={this.state.oldPassword}
+                        placeholder=""
+                        onChange={(e: React.ChangeEvent<any>) => this.setState({oldPassword: e.target.value})}
+                    />
+                    <ControlLabelStyled>New password</ControlLabelStyled>
+                    <FormControlStyled
+                        type="password"
+                        value={this.state.newPassword}
+                        placeholder=""
+                        onChange={(e: React.ChangeEvent<any>) => this.setState({newPassword: e.target.value})}
+                    />
+                    <FormControl.Feedback />
+                </FormGroup>
+                <PasswordSaveButton>
+                    <SmallButton onClick={this.updatePassword} ref={this.savePasswordButtonRef}>Update password</SmallButton>
+                    <StatusPopover
+                        open={this.state.isSavePasswordButtonPopoverOpen}
+                        anchorEl={ReactDom.findDOMNode(this.savePasswordButtonRef.current) as HTMLElement}
+                        onClose={() => null}
+                        >
+                        Changes saved.
+                    </StatusPopover>
+                </PasswordSaveButton>
+            </PasswordChangeFormGroup>
+        );
+    }
+
+    private renderLoggedInWithFacebookText() {
+        return (
+            <FormGroup
+            validationState={'success'}
+            >
+                <ControlLabelStyled>Password</ControlLabelStyled>
+                <LoggedInWithFacebookText>Logged in with facebook</LoggedInWithFacebookText>
+            </FormGroup>
         );
     }
 

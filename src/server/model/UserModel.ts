@@ -32,6 +32,7 @@ export class UserModel {
             id: this.id,
             email: this.email,
             jwtToken: this.jwtToken,
+            authStrategy: this.authStrategy
         };
     }
 

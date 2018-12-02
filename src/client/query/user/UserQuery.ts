@@ -81,6 +81,7 @@ export class UserQuery {
                 const user = new User();
                 user.setEmail(response.data.user.email);
                 user.id = response.data.user.id;
+                user.authStrategy = response.data.user.authStrategy;
                 resolve(user);
             })
             .catch((e) => {

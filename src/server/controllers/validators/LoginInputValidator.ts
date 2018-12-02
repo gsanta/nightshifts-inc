@@ -13,8 +13,16 @@ export class LoginInputValidator {
             throw new FieldError('Email is required.', ['email']);
         }
 
-        if (!loginDto.password) {
-            throw new FieldError('Password is required.', ['password']);
-        }
+        validatePassword(loginDto.password);
     }
 }
+
+export const validatePassword = (password: string): void => {
+    if (!password) {
+        throw new FieldError('Password is required.', ['password']);
+    }
+
+    if (password.length < 4) {
+        throw new FieldError('Password length should be at least four characters.', ['password']);
+    }
+};

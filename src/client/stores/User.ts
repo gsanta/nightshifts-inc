@@ -3,6 +3,7 @@ import { UserDto } from '../query/user/UserDto';
 export class User {
     public email: string;
     public id: string;
+    public authStrategy: 'facebook' | 'local';
 
     public static NULL_USER_MODEL = new User();
 

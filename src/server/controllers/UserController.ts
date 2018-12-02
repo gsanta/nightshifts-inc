@@ -3,7 +3,7 @@ import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
 import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
 import * as express from 'express';
-import { LoginInputValidator } from './validators/LoginInputValidator';
+import { LoginInputValidator, validatePassword } from './validators/LoginInputValidator';
 import { LocalAuthentication } from '../security/LocalAuthentication';
 import { LocalUserRegistration } from '../security/LocalUserRegistration';
 import { FacebookUserRegistration } from '../security/FacebookUserRegistration';
@@ -62,6 +62,8 @@ export class UserController {
 
             this.addErrorHandling(
                 async () => {
+                    validatePassword(req.body.newPassword);
+
                     const userModel = await this.userDao.updatePassword(<PasswordUpdateDto> req.body);
                     if (!userModel) {
                         throw new Error('User not found');
