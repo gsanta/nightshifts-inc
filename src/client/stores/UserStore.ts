@@ -5,6 +5,7 @@ import { ErrorMessage } from '../gui/ErrorMessage';
 export class UserStore extends EventEmitter {
     private userModel: User;
     public errors: ErrorMessage[] = [];
+    public globalError: string;
 
     constructor() {
         super();

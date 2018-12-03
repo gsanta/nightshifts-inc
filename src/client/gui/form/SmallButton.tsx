@@ -8,15 +8,25 @@ const ButtonStyled: any = styled(Button)`
     border-radius: 0;
     background-color: ${colors.Blue};
     line-height: 1;
+
+    &:disabled {
+        color: white;
+        cursor: not-allowed;
+    }
 `;
 
 export class SmallButton extends React.Component<SmallButtonProps, {}> {
+
+    public static defaultProps: Partial<SmallButtonProps> = {
+        isDisabled: false
+    };
 
     public render() {
         return (
             <ButtonStyled
                 onClick={this.props.onClick}
-                >
+                disabled={this.props.isDisabled}
+            >
                 {this.props.children}
             </ButtonStyled>
         );
@@ -26,4 +36,5 @@ export class SmallButton extends React.Component<SmallButtonProps, {}> {
 export interface SmallButtonProps {
     onClick(): void;
     children: string;
+    isDisabled?: boolean;
 }

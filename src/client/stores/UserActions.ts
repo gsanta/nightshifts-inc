@@ -39,9 +39,9 @@ export class UserActions {
                 this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
                 this.setLoadedStateAfterDelay();
             })
-            .catch(() => {
-                this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
-                this.setLoadedStateAfterDelay();
+            .catch((e) => {
+                this.userStore.setErrors([<ErrorMessage> e.response.data]);
+                this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'loaded'});
             });
     }
 
@@ -49,18 +49,14 @@ export class UserActions {
         const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading', lastActiontType: ActionType.UPDATE_PASSWORD};
         this.appStore.setModel(appModel);
 
-        this.userQuery.updatePassword({
-            id: passwordDto.id,
-            oldPassword: passwordDto.oldPassword,
-            newPassword: passwordDto.newPassword
-        })
+        this.userQuery.updatePassword(passwordDto)
         .then(() => {
             this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
             this.setLoadedStateAfterDelay();
         })
-        .catch(() => {
-            this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
-            this.setLoadedStateAfterDelay();
+        .catch((e) => {
+            this.userStore.setErrors([<ErrorMessage> e.response.data]);
+            this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'loaded'});
         });
     }
 

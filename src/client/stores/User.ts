@@ -19,6 +19,7 @@ export class User {
         const clone = new User();
         clone.email = this.email;
         clone.id = this.id;
+        clone.authStrategy = this.authStrategy;
         return clone;
     }
 

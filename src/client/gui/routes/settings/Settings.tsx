@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { GlobalContext, GlobalProps } from '../../App';
 import styled from 'styled-components';
-import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
 import { colors } from '../../styles';
 import { SmallButton } from '../../form/SmallButton';
 import { User } from '../../../stores/User';
-import { UserQuery } from '../../../query/user/UserQuery';
-import Popover from '@material-ui/core/Popover';
 import * as ReactDom from 'react-dom';
 import { StatusPopover } from '../../form/StatusPopover';
 import { ActionType } from '../../../stores/ActionType';
+import { SettingsInputField } from '../../form/SettingsInputField';
+import { hasError, getErrorMessage } from '../../dialogs/FormDialogWrapper';
+import { toVector3 } from '../../../../game/model/core/VectorModel';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -107,7 +108,9 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                 <SettingsLeftColumn>
                     <SmallButton
                         ref={this.saveButtonRef}
-                        onClick={this.updateUser}>
+                        onClick={this.updateUser}
+                        isDisabled={this.props.appStore.getModel().dataLoadingState === 'loading'}
+                    >
                         Save changes
                     </SmallButton>
                     <StatusPopover
@@ -119,18 +122,14 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                     </StatusPopover>
                 </SettingsLeftColumn>
                 <SettingsRightColumn>
-                    <FormGroup
-                        validationState={'success'}
-                    >
-                        <ControlLabelStyled>Email</ControlLabelStyled>
-                        <FormControlStyled
-                            type="text"
-                            value={this.state.user.getEmail()}
-                            placeholder="Enter text"
-                            onChange={(event: any) => this.changeEmail(event.target.value)}
-                        />
-                        <FormControl.Feedback />
-                    </FormGroup>
+                    <SettingsInputField
+                        type="text"
+                        label="Email"
+                        value={this.state.user.email}
+                        onChange={email => this.changeEmail(email)}
+                        hasError={false}
+                        errorMessage={getErrorMessage(this.props.userStore.getErrors(), 'email')}
+                    />
 
                     {user.authStrategy === 'local' ? this.renderPasswordChangeForm() : this.renderLoggedInWithFacebookText()}
                 </SettingsRightColumn>
@@ -144,24 +143,31 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                 <FormGroup
                     validationState={'success'}
                 >
-                    <ControlLabelStyled>Old password</ControlLabelStyled>
-                    <FormControlStyled
+                    <SettingsInputField
                         type="password"
+                        label="Old password"
                         value={this.state.oldPassword}
-                        placeholder=""
-                        onChange={(e: React.ChangeEvent<any>) => this.setState({oldPassword: e.target.value})}
+                        onChange={(oldPassword) => this.setState({oldPassword})}
+                        hasError={hasError(this.props.userStore.getErrors(), 'oldPassword')}
+                        errorMessage={getErrorMessage(this.props.userStore.getErrors(), 'oldPassword')}
                     />
-                    <ControlLabelStyled>New password</ControlLabelStyled>
-                    <FormControlStyled
+                    <SettingsInputField
                         type="password"
+                        label="New password"
                         value={this.state.newPassword}
-                        placeholder=""
-                        onChange={(e: React.ChangeEvent<any>) => this.setState({newPassword: e.target.value})}
+                        onChange={(newPassword) => this.setState({newPassword})}
+                        hasError={false}
+                        errorMessage={getErrorMessage(this.props.userStore.getErrors(), 'newPassword')}
                     />
-                    <FormControl.Feedback />
                 </FormGroup>
                 <PasswordSaveButton>
-                    <SmallButton onClick={this.updatePassword} ref={this.savePasswordButtonRef}>Update password</SmallButton>
+                    <SmallButton
+                        onClick={this.updatePassword}
+                        ref={this.savePasswordButtonRef}
+                        isDisabled={this.props.appStore.getModel().dataLoadingState === 'loading'}
+                    >
+                        Update password
+                    </SmallButton>
                     <StatusPopover
                         open={this.state.isSavePasswordButtonPopoverOpen}
                         anchorEl={ReactDom.findDOMNode(this.savePasswordButtonRef.current) as HTMLElement}
@@ -195,7 +201,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
 
     private updatePassword() {
         this.props.userActions.updatePassword({
-            id: this.state.user.id,
+            id: this.props.userStore.getModel().id,
             oldPassword: this.state.oldPassword,
             newPassword: this.state.newPassword
         });

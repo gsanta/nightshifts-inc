@@ -38,7 +38,7 @@ export class UserDao {
     }
 
     public updatePassword(passwordUpdateDto: PasswordUpdateDto) {
-        return this.modelConstr.findById(passwordUpdateDto.id)
+        return this.modelConstr.findById(null)
             .then(user => {
                 const userModel = this.schemaToModel(user);
                 userModel.setPassword(passwordUpdateDto.newPassword);
