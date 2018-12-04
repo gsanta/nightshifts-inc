@@ -11,9 +11,6 @@ export class FieldMap {
     protected obstacles: MeshModel[];
     protected enemies: Enemy[];
     protected player: Player;
-    protected pathFindingStrategyMap: Map<Creature, MotionStrategy> = Map();
-    protected collisionHandlerMap: Map<Creature, CollisionDetector> = Map();
-    protected visibilityDetector: EyeSensor;
 
     public getObstacles(): MeshModel[] {
         return this.obstacles;
@@ -25,18 +22,6 @@ export class FieldMap {
 
     public getPlayer(): Player {
         return this.player;
-    }
-
-    public getPathFindingStrategy(creature: Creature): MotionStrategy {
-        return this.pathFindingStrategyMap.get(creature);
-    }
-
-    public getCollisionHandler(creature: Creature): CollisionDetector {
-        return this.collisionHandlerMap.get(creature);
-    }
-
-    public getVisibilityDetector(): EyeSensor {
-        return this.visibilityDetector;
     }
 
     public getAllMeshes() {

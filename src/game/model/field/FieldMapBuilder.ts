@@ -21,18 +21,6 @@ export class FieldMapBuilder extends FieldMap {
         this.player = player;
     }
 
-    public addPathFindingStrategy(strategy: MotionStrategy, strategyUser: Creature) {
-        this.pathFindingStrategyMap = this.pathFindingStrategyMap.set(strategyUser, strategy);
-    }
-
-    public addCollisionHandler(collisionHandler: CollisionDetector, collisionUser: Creature) {
-        this.collisionHandlerMap = this.collisionHandlerMap.set(collisionUser, collisionHandler);
-    }
-
-    public addVisibilityDetector(visibilityDetector: EyeSensor) {
-        this.visibilityDetector = visibilityDetector;
-    }
-
     public build() {
         return this;
     }
