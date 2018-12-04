@@ -58,9 +58,8 @@ export class UserQuery {
             })
             .then((response: { data: { user: UserDto }, headers: any}) => {
                 this.tokenHandler.saveToken(response.headers.authorization);
-                const userModel = new User();
-                userModel.setEmail(response.data.user.email);
-                resolve(userModel);
+                const user = User.fromDto(response.data.user);
+                resolve(user);
             })
             .catch((e) => {
                 reject(e);
@@ -78,10 +77,7 @@ export class UserQuery {
                 }
             )
             .then((response: { data: { user: UserDto }}) => {
-                const user = new User();
-                user.setEmail(response.data.user.email);
-                user.id = response.data.user.id;
-                user.authStrategy = response.data.user.authStrategy;
+                const user = User.fromDto(response.data.user);
                 resolve(user);
             })
             .catch((e) => {
@@ -104,9 +100,8 @@ export class UserQuery {
                 }
             )
             .then((response: { data: { user: UserDto }}) => {
-                const userModel = new User();
-                userModel.setEmail(response.data.user.email);
-                resolve(userModel);
+                const updatedUser = User.fromDto(response.data.user);
+                resolve(updatedUser);
             })
             .catch((e) => {
                 reject(e);

@@ -93,6 +93,10 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
         };
     }
 
+    public static getDerivedStateFromProps(props: GlobalProps, state: SettingsState) {
+        return {...state, user: props.userStore.getModel()};
+    }
+
     public componentDidMount() {
         this.props.appStore.onChange(this.onAppStoreChange);
     }

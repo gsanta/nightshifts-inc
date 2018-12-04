@@ -42,3 +42,9 @@ export const validateNewPassword = (password: string): void => {
         throw new FieldError('Password length should be at least four characters.', ['newPassword']);
     }
 };
+
+export const validateLoginStrategySupportsEmailChange = (strategy: 'local' | 'facebook'): void => {
+    if (strategy === 'facebook') {
+        throw new FieldError('Can\'t change email, when logged in with Facebook.', ['email']);
+    }
+};

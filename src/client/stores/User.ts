@@ -27,6 +27,7 @@ export class User {
         const user = new User();
         user.email = userDto.email;
         user.id = userDto.id;
+        user.authStrategy = userDto.authStrategy;
 
         return user;
     }

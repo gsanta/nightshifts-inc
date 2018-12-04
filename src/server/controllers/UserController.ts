@@ -3,7 +3,7 @@ import { UserDao } from '../model/UserDao';
 import { UserModel } from '../model/UserModel';
 import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
 import * as express from 'express';
-import { LoginInputValidator, validatePassword, validateNewPassword, validateEmail } from './validators/LoginInputValidator';
+import { LoginInputValidator, validatePassword, validateNewPassword, validateEmail, validateLoginStrategySupportsEmailChange } from './validators/LoginInputValidator';
 import { LocalAuthentication } from '../security/LocalAuthentication';
 import { LocalUserRegistration } from '../security/LocalUserRegistration';
 import { FacebookUserRegistration } from '../security/FacebookUserRegistration';
@@ -85,15 +85,17 @@ export class UserController {
 
     private registerUpdateUser(router: express.Router) {
         router.put('/users', this.jwtTokenExtracter.withRequiredToken(), async (req, res, next) => {
-            let userModel = new UserModel();
-            userModel.email = req.body.user.email;
-            userModel.id = req.body.user.id;
-
             this.addErrorHandling(
                 async () => {
+                    const {email, id} = req.body.user;
 
-                    validateEmail(userModel.email);
 
+                    let userModel = await this.userDao.findById(id);
+
+                    validateEmail(email);
+                    validateLoginStrategySupportsEmailChange(userModel.authStrategy);
+
+                    userModel.email = email;
                     userModel = await this.userDao.update(userModel);
 
                     if (!userModel) {

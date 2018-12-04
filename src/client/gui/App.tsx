@@ -78,6 +78,8 @@ class App extends React.Component<any, AppState> {
                     isSidebarPermanent: false
                 });
             }
+
+            this.appActions.clearErrors();
         });
         this.userStore.onChange(this.onUserStoreChange);
         this.appStore.onChange(this.onAppStoreChange);

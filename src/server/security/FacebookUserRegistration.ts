@@ -34,12 +34,15 @@ export class FacebookUserRegistration {
                     newUser.email = email;
                     newUser.authStrategy = 'facebook';
                     newUser.accessToken = accessToken;
-                    newUser.jwtToken = newUser.generateJWT();
+
                     return this.userDao.save(newUser);
                 } else {
-                    result.jwtToken = result.generateJWT();
                     return result;
                 }
+            })
+            .then(user => {
+                user.jwtToken = user.generateJWT();
+                return user;
             });
     }
 }

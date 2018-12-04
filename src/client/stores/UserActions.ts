@@ -94,8 +94,6 @@ export class UserActions {
             });
     }
 
-    public fetchUser() {}
-
     private setLoadedStateAfterDelay() {
         setTimeout(
             () => {

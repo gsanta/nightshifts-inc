@@ -11,8 +11,14 @@ export class AppActions {
         this.tokenHandler = tokenHandler;
     }
 
-    signout() {
+    public signout() {
         this.tokenHandler.deleteToken();
         this.userStore.setModel(User.NULL_USER_MODEL);
+    }
+
+    public clearErrors() {
+        if (this.userStore.errors.length > 0) {
+            this.userStore.setErrors([]);
+        }
     }
 }
