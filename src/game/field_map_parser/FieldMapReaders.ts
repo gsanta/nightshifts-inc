@@ -2,6 +2,7 @@ import {createInterface, ReadLine} from 'readline';
 import { Promise } from 'mongoose';
 import { FieldMap } from './FieldMap';
 import * as _ from 'lodash';
+import { UndirectedGraph } from './UndirectedGraph';
 const fs = require('fs');
 
 export const defaultMap = `
@@ -25,24 +26,6 @@ export const defaultMap = `
 ##################################################################
 `;
 
-class Graph {
-    private numberOfVertices: number;
-    private adjacencyList: {[key: number]: number[]} = {};
-
-    constructor(numberOfVertices: number) {
-        this.numberOfVertices = numberOfVertices;
-    }
-
-    public addVertex(vertex: number) {
-        this.adjacencyList[vertex] = [];
-    }
-
-    public addEdge(v, w) {
-        this.adjacencyList[v].push(w);
-        this.adjacencyList[w].push(v);
-    }
-}
-
 export class FieldMapReader {
     private readline: ReadLine;
 
@@ -59,15 +42,15 @@ export class FieldMapReader {
             walls: []
         };
 
-        const graph: Graph = null;
+        const graph: UndirectedGraph = null;
+        const lines: string[] = [];
         return new Promise((resolve, reject) => {
             this.readline.on('line', (line) => {
-                if (!graph) {
-                    this.initGraph(line);
-                }
+                lines.push(line);
             });
 
             this.readline.on('close', () => {
+                this.initGraph(lines);
                 resolve(fieldMap);
             });
 
@@ -77,10 +60,19 @@ export class FieldMapReader {
         });
     }
 
-    private initGraph(inputRow: string): Graph {
-        const graph = new Graph(inputRow.length);
-        _.range(0, inputRow.length).forEach(val => graph.addVertex(val));
+    private initGraph(lines: string[]): UndirectedGraph {
+        const vertices = lines[0].length * lines.length;
+        const graph = new UndirectedGraph();
+        _.range(0, vertices).forEach(val => graph.addVertex(val));
         return graph;
+    }
+
+    private parseLines(lines: string[]) {
+        lines.forEach((line, index) => this.parseLine(line, index));
+    }
+
+    parseLine(line: string, lineIndex: number) {
+        // line.split('').forEach()
     }
 
     public static fromString(map: string) {

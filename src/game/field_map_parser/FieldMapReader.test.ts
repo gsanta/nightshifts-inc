@@ -5,7 +5,7 @@ import 'mocha';
 import { FieldMapReader } from './FieldMapReaders';
 
 describe('FieldMapReader', () => {
-    it.only('resolves the promise if there is no error', (done) => {
+    it('resolves the promise if there is no error', (done) => {
         const fieldMapReader = FieldMapReader.fromString('abcderfd');
         fieldMapReader.read()
             .then(() => {
