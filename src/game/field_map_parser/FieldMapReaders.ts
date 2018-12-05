@@ -1,6 +1,7 @@
 import {createInterface, ReadLine} from 'readline';
 import { Promise } from 'mongoose';
 import { FieldMap } from './FieldMap';
+import * as _ from 'lodash';
 const fs = require('fs');
 
 export const defaultMap = `
@@ -24,6 +25,24 @@ export const defaultMap = `
 ##################################################################
 `;
 
+class Graph {
+    private numberOfVertices: number;
+    private adjacencyList: {[key: number]: number[]} = {};
+
+    constructor(numberOfVertices: number) {
+        this.numberOfVertices = numberOfVertices;
+    }
+
+    public addVertex(vertex: number) {
+        this.adjacencyList[vertex] = [];
+    }
+
+    public addEdge(v, w) {
+        this.adjacencyList[v].push(w);
+        this.adjacencyList[w].push(v);
+    }
+}
+
 export class FieldMapReader {
     private readline: ReadLine;
 
@@ -39,9 +58,13 @@ export class FieldMapReader {
         const fieldMap = {
             walls: []
         };
+
+        const graph: Graph = null;
         return new Promise((resolve, reject) => {
             this.readline.on('line', (line) => {
-                console.log(`Line from file: ${line}`);
+                if (!graph) {
+                    this.initGraph(line);
+                }
             });
 
             this.readline.on('close', () => {
@@ -52,6 +75,12 @@ export class FieldMapReader {
                 reject();
             });
         });
+    }
+
+    private initGraph(inputRow: string): Graph {
+        const graph = new Graph(inputRow.length);
+        _.range(0, inputRow.length).forEach(val => graph.addVertex(val));
+        return graph;
     }
 
     public static fromString(map: string) {
