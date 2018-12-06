@@ -21,7 +21,14 @@ export class LinesToGraphConverter {
 
     private initGraph() {
         const vertices = this.lines[0].length * this.lines.length;
-        _.range(0, vertices).forEach(val => this.graph.addVertex(val));
+        const findCharacter = (index) => {
+            const row = Math.floor(index / this.columns);
+            const column = index % this.columns;
+
+            return this.lines[row][column];
+        };
+
+        _.range(0, vertices).forEach(val => this.graph.addVertex(val, findCharacter(val)));
 
         this.parseLines(this.lines);
     }
@@ -43,29 +50,57 @@ export class LinesToGraphConverter {
 
     private addLeftEdge(vertex: number) {
         const adjacentVertex = vertex - 1;
-        if (vertex > 0 && !this.graph.hasEdgeBetween(vertex, adjacentVertex)) {
+        if (this.hasNeighbourOnTheLeft(vertex) && !this.graph.hasEdgeBetween(vertex, adjacentVertex)) {
             this.graph.addEdge(vertex, adjacentVertex);
         }
     }
 
-    private addTopEdge(vertex: number) {
-        const adjacentVertex = vertex + this.columns;
-        if (adjacentVertex < this.graph.size() && !this.graph.hasEdgeBetween(vertex, adjacentVertex)) {
-            this.graph.addEdge(vertex, adjacentVertex);
-        }
+    private hasNeighbourOnTheLeft(vertex: number) {
+        return vertex > 0 && vertex % this.columns !== 0;
     }
 
     private addBottomEdge(vertex: number) {
-        const adjacentVertex = vertex - this.columns;
-        if (adjacentVertex > 0 && !this.graph.hasEdgeBetween(vertex, adjacentVertex)) {
+        const adjacentVertex = vertex + this.columns;
+        if (
+            this.hasNeighbourOnTheBottom(vertex) &&
+            !this.graph.hasEdgeBetween(vertex, adjacentVertex) &&
+            this.graph.getVertexValue(vertex) === this.graph.getVertexValue(adjacentVertex)
+        ) {
             this.graph.addEdge(vertex, adjacentVertex);
         }
+    }
+
+    private hasNeighbourOnTheBottom(vertex: number) {
+        return vertex < this.graph.size() - this.columns;
+    }
+
+    private addTopEdge(vertex: number) {
+        const adjacentVertex = vertex - this.columns;
+        if (
+            this.hasNeighbourOnTheTop(vertex) &&
+            !this.graph.hasEdgeBetween(vertex, adjacentVertex) &&
+            this.graph.getVertexValue(vertex) === this.graph.getVertexValue(adjacentVertex)
+        ) {
+            this.graph.addEdge(vertex, adjacentVertex);
+        }
+    }
+
+    private hasNeighbourOnTheTop(vertex: number) {
+        return vertex >= this.columns;
     }
 
     private addRightEdge(vertex: number) {
         const adjacentVertex = vertex + 1;
-        if (adjacentVertex < this.graph.size() && !this.graph.hasEdgeBetween(vertex, adjacentVertex)) {
+        if (
+            this.hasNeighbourOnTheRight(vertex) &&
+            !this.graph.hasEdgeBetween(vertex, adjacentVertex) &&
+            this.graph.getVertexValue(vertex) === this.graph.getVertexValue(adjacentVertex)
+        ) {
             this.graph.addEdge(vertex, adjacentVertex);
         }
+    }
+
+    private hasNeighbourOnTheRight(vertex: number) {
+        return vertex % this.columns !== this.columns - 1;
     }
 }

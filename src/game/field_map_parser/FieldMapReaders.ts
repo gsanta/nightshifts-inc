@@ -50,7 +50,7 @@ export class FieldMapReader {
             });
 
             this.readline.on('close', () => {
-                this.initGraph(lines);
+                // this.initGraph(lines);
                 resolve(fieldMap);
             });
 
@@ -60,12 +60,12 @@ export class FieldMapReader {
         });
     }
 
-    private initGraph(lines: string[]): UndirectedGraph {
-        const vertices = lines[0].length * lines.length;
-        const graph = new UndirectedGraph();
-        _.range(0, vertices).forEach(val => graph.addVertex(val));
-        return graph;
-    }
+    // private initGraph(lines: string[]): UndirectedGraph {
+    //     const vertices = lines[0].length * lines.length;
+    //     const graph = new UndirectedGraph();
+    //     _.range(0, vertices).forEach(val => graph.addVertex(val));
+    //     return graph;
+    // }
 
     private parseLines(lines: string[]) {
         lines.forEach((line, index) => this.parseLine(line, index));
