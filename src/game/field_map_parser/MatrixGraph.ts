@@ -57,8 +57,53 @@ export class MatrixGraph {
         return this.adjacencyList[vertex];
     }
 
+    public hasVertex(vertex: number): boolean {
+        return this.vertices.indexOf(vertex) !== -1;
+    }
+
     public hasEdgeBetween(v1: number, v2: number) {
         return this.adjacencyList[v1].indexOf(v2) !== -1;
+    }
+
+    public getTopNeighbour(vertex: number): number {
+        const topNeighbourIndex = vertex - this.columns;
+
+        return this.vertices.indexOf(topNeighbourIndex) !== -1 ? topNeighbourIndex : null;
+    }
+
+    public getBottomNeighbour(vertex: number): number {
+        const topNeighbourIndex = vertex + this.columns;
+
+        return this.vertices.indexOf(topNeighbourIndex) !== -1 ? topNeighbourIndex : null;
+    }
+
+    public getLeftNeighbour(vertex: number): number {
+        const topNeighbourIndex = vertex - 1;
+
+        return this.vertices.indexOf(topNeighbourIndex) !== -1 ? topNeighbourIndex : null;
+    }
+
+    public getRightNeighbour(vertex: number): number {
+        const topNeighbourIndex = vertex + 1;
+
+        return this.vertices.indexOf(topNeighbourIndex) !== -1 ? topNeighbourIndex : null;
+    }
+
+    public getGraphForVertices(vertices: number[]): MatrixGraph {
+        const graph = new MatrixGraph(this.columns, this.rows);
+
+        vertices.forEach(vertex => graph.addNextVertex(vertex, this.getVertexValue(vertex)));
+        graph.getAllVertices().forEach(vertex => {
+            const neighbours = this.getAjacentEdges(vertex);
+
+            neighbours.forEach(neighbour => {
+                if (graph.hasVertex(neighbour)) {
+                    graph.addEdge(vertex, neighbour);
+                }
+            });
+        });
+
+        return graph;
     }
 
     public getGraphForVertexValue(val: string): MatrixGraph {

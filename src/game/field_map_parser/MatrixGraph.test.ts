@@ -2,7 +2,7 @@ import { LinesToGraphConverter } from './LinesToGraphConverter';
 import { expect } from 'chai';
 
 
-describe('UndirectedGraph', () => {
+describe('MatrixGraph', () => {
     describe('getGraphForVertexValue', () => {
         it('returns a graph where all the vertices contain the given value', () => {
 

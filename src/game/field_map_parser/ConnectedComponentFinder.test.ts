@@ -5,7 +5,7 @@ import { LinesToGraphConverter } from './LinesToGraphConverter';
 
 describe('ConnectedComponentsFinder', () => {
     describe('findConnectedComponentsForCharacter', () => {
-        it.only('returns a list of connected components for the given parameter', () => {
+        it('returns a list of connected components for the given parameter', () => {
 
             const input = [
                 '##WW##',

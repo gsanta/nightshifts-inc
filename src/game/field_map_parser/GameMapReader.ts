@@ -39,8 +39,7 @@ export class GameMapReader {
 
 
     read(): Promise<GameMap> {
-        this.readIntoGraph()
-            .then()
+        return null;
     }
 
     private readIntoGraph(): Promise<MatrixGraph> {
