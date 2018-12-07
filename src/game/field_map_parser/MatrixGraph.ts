@@ -1,21 +1,38 @@
 import _ = require("lodash");
 
-export class UndirectedGraph {
+export class MatrixGraph {
     private numberOfVertices = 0;
     private adjacencyList: { [key: number]: number[] } = {};
     private vertexValues: { [key: number]: string } = {};
     private edges: [number, number][] = [];
     private vertices: number[] = [];
+    private columns: number;
+    private rows: number;
+
+    constructor(columns: number, rows: number) {
+        this.columns = columns;
+        this.rows = rows;
+    }
 
     public size() {
         return this.numberOfVertices;
+    }
+
+    public getVertexPositionInMatrix(vertex: number): {x: number, y: number} {
+        const row = Math.floor(vertex / this.columns);
+        const column = vertex % this.columns;
+
+        return {
+            x: column,
+            y: row
+        };
     }
 
     public getVertexValue(vertex: number): string {
         return this.vertexValues[vertex];
     }
 
-    public addVertex(vertex: number, vertexValue: string) {
+    public addNextVertex(vertex: number, vertexValue: string) {
         this.adjacencyList[vertex] = [];
         this.vertexValues[vertex] = vertexValue;
         this.numberOfVertices += 1;
@@ -44,11 +61,11 @@ export class UndirectedGraph {
         return this.adjacencyList[v1].indexOf(v2) !== -1;
     }
 
-    public getGraphForVertexValue(val: string): UndirectedGraph {
-        const graph = new UndirectedGraph();
+    public getGraphForVertexValue(val: string): MatrixGraph {
+        const graph = new MatrixGraph(this.columns, this.rows);
         this.getAllVertices()
             .filter(vertex => this.getVertexValue(vertex) === val)
-            .forEach(vertex => graph.addVertex(vertex, this.getVertexValue(vertex)));
+            .forEach(vertex => graph.addNextVertex(vertex, this.getVertexValue(vertex)));
 
         graph.getAllVertices().forEach(vertex => {
 
@@ -64,26 +81,39 @@ export class UndirectedGraph {
         return graph;
     }
 
-    public BFS(rootVertex: number, callback: (vertex: number) => void) {
-        const queue = [rootVertex];
+    public BFS(callback: (vertex: number, isNewRoot: boolean) => void) {
+        let allVertices = this.getAllVertices();
+        const queue = [allVertices[0]];
         const visited: number[] = [];
 
-        while (queue.length > 0) {
+        let isNewRoot = false;
 
-            const vertex = queue.shift();
-            visited.push(vertex);
-            callback(vertex);
+        while (allVertices.length > 0) {
+            while (queue.length > 0) {
 
-            let notVisitedNeighbours = this.getAjacentEdges(vertex);
-            notVisitedNeighbours = _.without(notVisitedNeighbours, ...visited);
-            if (notVisitedNeighbours.length === 0) {
-                continue;
+                const vertex = queue.shift();
+                visited.push(vertex);
+                allVertices = _.without(allVertices, vertex);
+                callback(vertex, isNewRoot);
+                isNewRoot = false;
+
+                let notVisitedNeighbours = this.getAjacentEdges(vertex);
+                notVisitedNeighbours = _.without(notVisitedNeighbours, ...visited);
+                if (notVisitedNeighbours.length === 0) {
+                    continue;
+                }
+
+                for (let i = 0; i < notVisitedNeighbours.length; i++) {
+                    queue.push(notVisitedNeighbours[i]);
+                }
             }
 
-            for (let i = 0; i < notVisitedNeighbours.length; i++) {
-                queue.push(notVisitedNeighbours[i]);
+            if (allVertices.length > 0) {
+                queue.push(allVertices[0]);
+                isNewRoot = true;
             }
         }
+
     }
 }
 

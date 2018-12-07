@@ -1,18 +1,18 @@
-import { UndirectedGraph } from './UndirectedGraph';
+import { MatrixGraph } from './MatrixGraph';
 import _ = require('lodash');
 
 
 export class LinesToGraphConverter {
-    private graph: UndirectedGraph;
+    private graph: MatrixGraph;
     private lines: string[];
     private columns: number;
     private rows: number;
 
-    public parse(lines: string[]): UndirectedGraph {
-        this.graph = new UndirectedGraph();
+    public parse(lines: string[]): MatrixGraph {
         this.lines = lines;
         this.columns = this.lines[0].length;
         this.rows = this.lines.length;
+        this.graph = new MatrixGraph(this.columns, this.rows);
         this.initGraph();
         this.parseLines(lines);
 
@@ -28,7 +28,7 @@ export class LinesToGraphConverter {
             return this.lines[row][column];
         };
 
-        _.range(0, vertices).forEach(val => this.graph.addVertex(val, findCharacter(val)));
+        _.range(0, vertices).forEach(val => this.graph.addNextVertex(val, findCharacter(val)));
 
         this.parseLines(this.lines);
     }

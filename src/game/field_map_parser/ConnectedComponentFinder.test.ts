@@ -1,5 +1,5 @@
 import { ConnectedComponentFinder } from './ConnectedComponentsFinder';
-import { UndirectedGraph } from './UndirectedGraph';
+import { MatrixGraph } from './MatrixGraph';
 import { LinesToGraphConverter } from './LinesToGraphConverter';
 
 
@@ -18,12 +18,8 @@ describe('ConnectedComponentsFinder', () => {
             const linesToGraphConverter = new LinesToGraphConverter();
             const graph = linesToGraphConverter.parse(input);
 
-            const reducedGraph = graph.getGraphForVertexValue('W');
-
-            const rootVertex = reducedGraph.getAllVertices()[0];
-            reducedGraph.BFS(rootVertex, (vertex) => {
-                console.log(vertex);
-            });
+            const connectedComponentFinder = new ConnectedComponentFinder(graph);
+            const connectedComponents = connectedComponentFinder.findConnectedComponentsForCharacter('W');
         });
     });
 });

@@ -1,17 +1,28 @@
-import { UndirectedGraph } from './UndirectedGraph';
-// const jsAlg = require('javascript-algorithms-and-data-structures');
-// import GraphVertex from '../../../../data-structures/graph/GraphVertex';
-// import GraphEdge from '../../../../data-structures/graph/GraphEdge';
-// import breadthFirstSearch from '../breadthFirstSearch';
+import { MatrixGraph } from './MatrixGraph';
 
 export class ConnectedComponentFinder {
-    private undirectedGraph: UndirectedGraph;
+    private graph: MatrixGraph;
 
-    constructor(graph: UndirectedGraph) {
-        this.undirectedGraph = graph;
+    constructor(graph: MatrixGraph) {
+        this.graph = graph;
     }
 
-    public findConnectedComponentsForCharacter(character: string) {
+    public findConnectedComponentsForCharacter(character: string): number[][] {
+        const reducedGraph = this.graph.getGraphForVertexValue(character);
 
+        const connectedComps: number[][] = [];
+
+        let actComp = [];
+        reducedGraph.BFS((vertex, newRoot) => {
+            if (newRoot) {
+                connectedComps.push(actComp);
+                actComp = [];
+            }
+            actComp.push(vertex);
+        });
+
+        connectedComps.push(actComp);
+
+        return connectedComps;
     }
 }

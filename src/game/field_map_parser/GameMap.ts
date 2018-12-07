@@ -1,6 +1,6 @@
 import { WallShape } from './WallShape';
 
 
-export interface FieldMap {
+export interface GameMap {
     walls: WallShape[];
 }

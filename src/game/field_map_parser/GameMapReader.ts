@@ -1,8 +1,9 @@
 import {createInterface, ReadLine} from 'readline';
 import { Promise } from 'mongoose';
-import { FieldMap } from './FieldMap';
+import { GameMap } from './GameMap';
 import * as _ from 'lodash';
-import { UndirectedGraph } from './UndirectedGraph';
+import { MatrixGraph } from './MatrixGraph';
+import { LinesToGraphConverter } from './LinesToGraphConverter';
 const fs = require('fs');
 
 export const defaultMap = `
@@ -26,7 +27,7 @@ export const defaultMap = `
 ##################################################################
 `;
 
-export class FieldMapReader {
+export class GameMapReader {
     private readline: ReadLine;
 
     private constructor(readable: ReadableStream) {
@@ -37,42 +38,32 @@ export class FieldMapReader {
     }
 
 
-    read(): Promise<FieldMap> {
-        const fieldMap = {
-            walls: []
-        };
+    read(): Promise<GameMap> {
+        this.readIntoGraph()
+            .then()
+    }
 
-        const graph: UndirectedGraph = null;
-        const lines: string[] = [];
+    private readIntoGraph(): Promise<MatrixGraph> {
         return new Promise((resolve, reject) => {
+            const lines: string[] = [];
+
             this.readline.on('line', (line) => {
                 lines.push(line);
             });
 
             this.readline.on('close', () => {
-                // this.initGraph(lines);
-                resolve(fieldMap);
+                resolve(lines);
             });
 
-            this.readline.on('error', () => {
-                reject();
+            this.readline.on('error', (e) => {
+                reject(e);
             });
+        })
+        .then((lines: string[]) => {
+            const linesToGraphConverter = new LinesToGraphConverter();
+
+            return linesToGraphConverter.parse(lines);
         });
-    }
-
-    // private initGraph(lines: string[]): UndirectedGraph {
-    //     const vertices = lines[0].length * lines.length;
-    //     const graph = new UndirectedGraph();
-    //     _.range(0, vertices).forEach(val => graph.addVertex(val));
-    //     return graph;
-    // }
-
-    private parseLines(lines: string[]) {
-        lines.forEach((line, index) => this.parseLine(line, index));
-    }
-
-    parseLine(line: string, lineIndex: number) {
-        // line.split('').forEach()
     }
 
     public static fromString(map: string) {
@@ -82,6 +73,6 @@ export class FieldMapReader {
         s.push(map);
         s.push(null);
 
-        return new FieldMapReader(s);
+        return new GameMapReader(s);
     }
 }
