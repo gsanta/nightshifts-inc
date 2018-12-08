@@ -29,25 +29,23 @@ export const defaultMap = `
 
 export class GameMapReader {
     private readline: ReadLine;
+    private linesToGraphConverter: LinesToGraphConverter;
 
-    private constructor(readable: ReadableStream) {
+    public read(readable: ReadableStream): Promise<MatrixGraph> {
         this.readline = createInterface({
             input: <any> readable,
             crlfDelay: Infinity
         });
+        this.linesToGraphConverter = new LinesToGraphConverter();
+        return this.stringToGraph();
     }
 
-
-    read(): Promise<GameMap> {
-        return null;
-    }
-
-    private readIntoGraph(): Promise<MatrixGraph> {
+    private stringToGraph(): Promise<MatrixGraph> {
         return new Promise((resolve, reject) => {
             const lines: string[] = [];
 
-            this.readline.on('line', (line) => {
-                lines.push(line);
+            this.readline.on('line', (line: string) => {
+                lines.push(line.trim());
             });
 
             this.readline.on('close', () => {
@@ -58,20 +56,6 @@ export class GameMapReader {
                 reject(e);
             });
         })
-        .then((lines: string[]) => {
-            const linesToGraphConverter = new LinesToGraphConverter();
-
-            return linesToGraphConverter.parse(lines);
-        });
-    }
-
-    public static fromString(map: string) {
-        const Readable = require('stream').Readable;
-        const s = new Readable();
-        s._read = () => {}; // redundant? see update below
-        s.push(map);
-        s.push(null);
-
-        return new GameMapReader(s);
+        .then((lines: string[]) => this.linesToGraphConverter.parse(lines));
     }
 }

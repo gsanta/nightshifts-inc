@@ -14,8 +14,8 @@ describe('LinesToGraphConverter', () => {
 
             expect(graph.size()).to.equal(24);
             expect(graph.getAjacentEdges(0)).to.have.members([1, 6]);
-            expect(graph.getAjacentEdges(1)).to.have.members([0, 7, 2]);
-            expect(graph.getAjacentEdges(8)).to.have.members([2, 7, 9, 14]);
+            expect(graph.getAjacentEdges(1)).to.have.members([0, 2]);
+            expect(graph.getAjacentEdges(8)).to.have.members([7, 9]);
             expect(graph.getAjacentEdges(23)).to.have.members([17, 22]);
         });
     });
