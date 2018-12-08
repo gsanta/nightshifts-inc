@@ -1,4 +1,4 @@
-import _ = require("lodash");
+import _ = require('lodash');
 
 export class MatrixGraph {
     private numberOfVertices = 0;
@@ -8,10 +8,16 @@ export class MatrixGraph {
     private vertices: number[] = [];
     private columns: number;
     private rows: number;
+    private characters: Set<string>;
 
     constructor(columns: number, rows: number) {
         this.columns = columns;
         this.rows = rows;
+        this.characters = new Set<string>([]);
+    }
+
+    public getCharacters(): string[] {
+        return [...this.characters.values()];
     }
 
     public size() {
@@ -37,6 +43,7 @@ export class MatrixGraph {
         this.vertexValues[vertex] = vertexValue;
         this.numberOfVertices += 1;
         this.vertices.push(vertex);
+        this.characters.add(vertexValue);
     }
 
     public addEdge(v, w) {
