@@ -1,18 +1,16 @@
-import { MatrixGraph } from './MatrixGraph';
-import { ConnectedComponentFinder } from './ConnectedComponentsFinder';
-import { Rectangle } from '../model/core/SceneModel';
-import { GameObject } from './GameObject';
+import { MatrixGraph } from '../matrix_graph/MatrixGraph';
+import { Rectangle } from '../../model/core/SceneModel';
+import { GameObject } from '../GameObject';
 import * as _ from 'lodash';
 
 export class GraphToGameObjectListConverter {
 
     public convert(graph: MatrixGraph): GameObject[] {
-        const connectedComponentFinder = new ConnectedComponentFinder(graph);
 
         return <any> _.chain(graph.getCharacters())
             .without('#')
             .map((character) => {
-                return connectedComponentFinder.findConnectedComponentsForCharacter(character)
+                return graph.findConnectedComponentsForCharacter(character)
                     .map(connectedComp => this.createGameObjectsForConnectedComponent(graph.getGraphForVertices(connectedComp)));
             })
             .flattenDeep()
@@ -29,8 +27,7 @@ export class GraphToGameObjectListConverter {
             .map(slice => this.createRectangleFromVerticalVertices(componentGraph.getGraphForVertices(slice)))
             .map(rect => new GameObject(componentGraph.getCharacters()[0], rect));
 
-        const connectedComponentFinder = new ConnectedComponentFinder(componentGraphMinusVerticalSubComponents);
-        const horizontalGameObjects = connectedComponentFinder
+        const horizontalGameObjects = componentGraphMinusVerticalSubComponents
             .findConnectedComponentsForCharacter(componentGraphMinusVerticalSubComponents.getCharacters()[0])
             .map(comp => this.createRectangleFromHorizontalVertices(componentGraph.getGraphForVertices(comp)))
             .map(rect => new GameObject(componentGraph.getCharacters()[0], rect));

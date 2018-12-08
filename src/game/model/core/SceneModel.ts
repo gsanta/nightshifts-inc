@@ -2,13 +2,13 @@ import { Scene } from 'babylonjs';
 
 export class Rectangle {
     left: number;
-    bottom: number;
+    top: number;
     width: number;
     height: number;
 
-    constructor(left: number, bottom: number, width: number, height: number) {
+    constructor(left: number, top: number, width: number, height: number) {
         this.left = left;
-        this.bottom = bottom;
+        this.top = top;
         this.width = width;
         this.height = height;
     }
@@ -36,6 +36,6 @@ export class SceneModel {
     }
 
     public getMinZ() {
-        return this.dimensions.bottom;
+        return this.dimensions.top;
     }
 }

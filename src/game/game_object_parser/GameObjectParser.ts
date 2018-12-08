@@ -1,5 +1,5 @@
-import { GameMapReader } from './GameMapReader';
-import { GraphToGameObjectListConverter } from './GraphToGameObjectListConverter';
+import { GameMapReader } from './matrix_graph/GameMapReader';
+import { GraphToGameObjectListConverter } from './matrix_to_game_object_conversion/GraphToGameObjectListConverter';
 import { GameObject } from './GameObject';
 
 export class GameObjectParser {

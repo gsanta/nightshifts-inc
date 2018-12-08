@@ -1,8 +1,8 @@
-import { LinesToGraphConverter } from './LinesToGraphConverter';
+import { LinesToGraphConverter } from '../matrix_graph/LinesToGraphConverter';
 import { GraphToGameObjectListConverter } from './GraphToGameObjectListConverter';
 import { expect } from 'chai';
-import { GameObject } from './GameObject';
-import { Rectangle } from '../model/core/SceneModel';
+import { GameObject } from '../GameObject';
+import { Rectangle } from '../../model/core/SceneModel';
 
 describe('GraphToGameObjectListConverter', () => {
     describe('convert', () => {

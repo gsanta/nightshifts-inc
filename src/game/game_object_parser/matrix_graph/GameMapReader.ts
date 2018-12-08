@@ -1,10 +1,8 @@
 import {createInterface, ReadLine} from 'readline';
 import { Promise } from 'mongoose';
-import { GameMap } from './GameMap';
 import * as _ from 'lodash';
 import { MatrixGraph } from './MatrixGraph';
 import { LinesToGraphConverter } from './LinesToGraphConverter';
-const fs = require('fs');
 
 export const defaultMap = `
 ##################################################################

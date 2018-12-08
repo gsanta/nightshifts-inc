@@ -167,21 +167,23 @@ export class MatrixGraph {
         }
 
     }
+
+    public findConnectedComponentsForCharacter(character: string): number[][] {
+        const reducedGraph = this.getGraphForVertexValue(character);
+
+        const connectedComps: number[][] = [];
+
+        let actComp = [];
+        reducedGraph.BFS((vertex, newRoot) => {
+            if (newRoot) {
+                connectedComps.push(actComp);
+                actComp = [];
+            }
+            actComp.push(vertex);
+        });
+
+        connectedComps.push(actComp);
+
+        return connectedComps;
+    }
 }
-
-// while (!vertexQueue.isEmpty()) {
-//     const currentVertex = vertexQueue.dequeue();
-//     callbacks.enterVertex({ currentVertex, previousVertex });
-
-//     // Add all neighbors to the queue for future traversals.
-//     graph.getNeighbors(currentVertex).forEach((nextVertex) => {
-//       if (callbacks.allowTraversal({ previousVertex, currentVertex, nextVertex })) {
-//         vertexQueue.enqueue(nextVertex);
-//       }
-//     });
-
-//     callbacks.leaveVertex({ currentVertex, previousVertex });
-
-//     // Memorize current vertex before next loop.
-//     previousVertex = currentVertex;
-//   }

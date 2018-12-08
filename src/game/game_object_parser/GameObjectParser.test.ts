@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 describe('GameObjectParser', () => {
     describe('parse', () => {
-        it.only('creates GameObjects from a GameMap string', (done) => {
+        it('creates GameObjects from a GameMap string', (done) => {
             const gameObjectParser = new GameObjectParser();
 
             gameObjectParser.parse(
