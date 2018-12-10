@@ -34,7 +34,7 @@ export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     fieldMapBuilder.addEnemies(enemies);
 
     return fieldMapBuilder.build();
-}
+};
 
 const createHemisphericLight = (scene: Scene): Light => {
     const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
@@ -113,4 +113,4 @@ const createWalls = (meshFactory: MeshFactory) => {
 
 const createCamera = (scene: Scene) => {
     return new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
-}
+};

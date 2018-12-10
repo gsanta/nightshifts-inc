@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
+    "@types/sinon": "^5.0.7",
     "chai": "^4.2.0",
     "css-loader": "^1.0.1",
     "mini-css-extract-plugin": "^0.4.4",
@@ -22,6 +23,7 @@
     "node-sass": "^4.10.0",
     "parcel-bundler": "^1.9.7",
     "sass-loader": "^7.1.0",
+    "sinon": "^7.1.1",
     "style-loader": "^0.23.1",
     "ts-loader": "^5.2.2",
     "ts-node": "^7.0.1",

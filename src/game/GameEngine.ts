@@ -1,13 +1,14 @@
 import { Scene, Engine } from 'babylonjs';
-import { FieldMap } from './model/field/FieldMap';
-import { createLevel1FieldMap } from './levels/createLevel1FieldMap';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
+import { GameMap } from './game_map_creator/GameMap';
+import { createLevel } from './levels/createLevel';
+import { GameObject } from './game_object_parser/GameObject';
 
 
 export class GameEngine {
     private scene: Scene;
-    private fieldMap: FieldMap;
+    private gameMap: GameMap;
     private previousTime: number;
     private engine: Engine;
 
@@ -19,16 +20,15 @@ export class GameEngine {
 
         this.scene = new BABYLON.Scene(engine);
         this.scene.collisionsEnabled = true;
-
-        this.fieldMap = createLevel1FieldMap(this.scene);
     }
 
-    public runRenderLoop() {
+    public runGame(gameObjects: GameObject[]) {
+        this.gameMap = createLevel(this.scene, gameObjects);
         this.engine.runRenderLoop(this.run);
     }
 
     private run() {
-        if (!this.fieldMap.getPlayer().getBody()) {
+        if (!this.gameMap.player.getBody()) {
             return;
         }
 
@@ -45,10 +45,10 @@ export class GameEngine {
     }
 
     private testAndSetEnemyVisibility() {
-        const player = this.fieldMap.getPlayer();
+        const player = this.gameMap.player;
 
-        this.fieldMap.getEnemies().forEach(enemy => {
-            const isVisible = player.getSensor().testIsWithinRange(this.fieldMap.getEnemies()[0]);
+        this.gameMap.enemies.forEach(enemy => {
+            const isVisible = player.getSensor().testIsWithinRange(this.gameMap.enemies[0]);
             if (isVisible) {
                 enemy.setIsVisible(true);
             } else {
@@ -58,7 +58,7 @@ export class GameEngine {
     }
 
     private movePlayer(elapsedTime: number) {
-        const player = this.fieldMap.getPlayer();
+        const player = this.gameMap.player;
 
         if (!player.getMotionStrategy().isIdle()) {
             const delta = player.getMotionStrategy().calcNextPositionDelta(elapsedTime);
@@ -70,7 +70,7 @@ export class GameEngine {
     }
 
     private moveEnemies(elapsedTime: number) {
-        this.fieldMap.getEnemies().forEach(enemy => {
+        this.gameMap.enemies.forEach(enemy => {
             const enemyDelta = enemy.getMotionStrategy().calcNextPositionDelta(elapsedTime);
 
             if (enemyDelta) {
@@ -80,9 +80,9 @@ export class GameEngine {
     }
 
     private attackPlayerIfWithinSensorRange() {
-        const player = this.fieldMap.getPlayer();
+        const player = this.gameMap.player;
 
-        this.fieldMap.getEnemies().forEach(enemy => {
+        this.gameMap.enemies.forEach(enemy => {
             if (enemy.getSensor().testIsWithinRange(player)) {
                 const collisionDetector = new CollisionDetector(enemy, this.scene);
                 enemy.setMotionStrategy(new AttackingMotionStrategy(enemy, player, collisionDetector));
