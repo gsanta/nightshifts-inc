@@ -2,7 +2,7 @@ import { LinesToGraphConverter } from '../matrix_graph/LinesToGraphConverter';
 import { GraphToGameObjectListConverter } from './GraphToGameObjectListConverter';
 import { expect } from 'chai';
 import { GameObject } from '../GameObject';
-import { Rectangle } from '../../model/core/SceneModel';
+import { Rectangle } from 'game-worldmap-generator';
 
 describe('GraphToGameObjectListConverter', () => {
     describe('convert', () => {

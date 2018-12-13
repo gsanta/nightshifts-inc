@@ -4,7 +4,7 @@ import { MeshFactory } from '../model/core/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import { ManualMotionStrategy } from '../model/creature/motion/ManualMotionStrategy';
 import { WanderingMotionStrategy } from '../model/creature/motion/WanderingMotionStrategy';
-import { SceneModel, Rectangle } from '../model/core/SceneModel';
+import { SceneModel } from '../model/core/SceneModel';
 import { UserInputEventEmitter } from '../model/creature/motion/UserInputEventEmitter';
 import { MeshModel } from '../model/core/MeshModel';
 import { EyeSensor } from '../model/creature/sensor/EyeSensor';
@@ -13,6 +13,7 @@ import { Player } from '../model/creature/type/Player';
 import { FieldMap } from '../model/field/FieldMap';
 import { CollisionDetector } from '../model/creature/collision/CollisionDetector';
 import { FieldMapBuilder } from '../model/field/FieldMapBuilder';
+import { Rectangle } from 'game-worldmap-generator';
 
 export const createLevel1FieldMap = (scene: Scene): FieldMap => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));

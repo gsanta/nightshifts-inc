@@ -1,7 +1,7 @@
 import { MatrixGraph } from '../matrix_graph/MatrixGraph';
-import { Rectangle } from '../../model/core/SceneModel';
 import { GameObject } from '../GameObject';
 import * as _ from 'lodash';
+import { Rectangle } from 'game-worldmap-generator';
 
 export class GraphToGameObjectListConverter {
 

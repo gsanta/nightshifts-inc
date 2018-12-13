@@ -71,6 +71,7 @@
     "es6-promise": "^4.2.5",
     "express": "^4.16.4",
     "express-jwt": "^5.3.1",
+    "game-worldmap-generator": "^0.0.2",
     "immutable": "^3.8.2",
     "javascript-algorithms-and-data-structures": "0.0.4",
     "jsonwebtoken": "^8.3.0",

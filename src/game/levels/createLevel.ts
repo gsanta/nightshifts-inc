@@ -1,9 +1,10 @@
 import { Scene, Mesh, Light, SpotLight, ShadowGenerator } from 'babylonjs';
 import { GameMap } from '../game_map_creator/GameMap';
-import { Rectangle, SceneModel } from '../model/core/SceneModel';
 import { MeshFactory } from '../model/core/MeshFactory';
 import { GameMapCreator } from '../game_map_creator/GameMapCreator';
 import { GameObject } from '../game_object_parser/GameObject';
+import { SceneModel } from '../model/core/SceneModel';
+import { Rectangle } from 'game-worldmap-generator';
 
 
 export const createLevel = (scene: Scene, gameObjects: GameObject[]): GameMap => {

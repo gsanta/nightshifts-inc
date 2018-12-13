@@ -1,10 +1,10 @@
 import { GameMapCreator } from './GameMapCreator';
 import { MeshFactory } from '../model/core/MeshFactory';
 import { GameObject } from '../game_object_parser/GameObject';
-import { Rectangle } from '../model/core/SceneModel';
 import { VectorModel } from '../model/core/VectorModel';
 import sinon = require('sinon');
 import { expect } from 'chai';
+import {Rectangle} from 'game-worldmap-generator';
 
 
 describe('GameObjectParser', () => {

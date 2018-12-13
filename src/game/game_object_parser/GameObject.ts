@@ -1,4 +1,4 @@
-import { Rectangle } from '../model/core/SceneModel';
+import { Rectangle } from 'game-worldmap-generator';
 
 export class GameObject {
     public type: string;
