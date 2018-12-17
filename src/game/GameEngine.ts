@@ -3,7 +3,7 @@ import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotion
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { GameMap } from './game_map_creator/GameMap';
 import { createLevel } from './levels/createLevel';
-import { GameObject } from './game_object_parser/GameObject';
+import { GameObject } from 'game-worldmap-generator';
 
 
 export class GameEngine {

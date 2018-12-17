@@ -1,18 +1,17 @@
 import { GameMapCreator } from './GameMapCreator';
 import { MeshFactory } from '../model/core/MeshFactory';
-import { GameObject } from '../game_object_parser/GameObject';
 import { VectorModel } from '../model/core/VectorModel';
 import sinon = require('sinon');
 import { expect } from 'chai';
-import {Rectangle} from 'game-worldmap-generator';
+import { Rectangle, GameObject } from 'game-worldmap-generator';
 
 
 describe('GameObjectParser', () => {
     describe('parse', () => {
         it('creates GameObjects from a GameMap string', () => {
             const gameObjects = [
-                new GameObject('W', new Rectangle(1, 1, 3, 1)),
-                new GameObject('W', new Rectangle(3, 2, 1, 4))
+                new GameObject('W', new Rectangle(1, 1, 3, 1), 'world'),
+                new GameObject('W', new Rectangle(3, 2, 1, 4), 'world')
             ];
 
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GameEngine } from '../../game/GameEngine';
-import { GameObjectParser } from '../../game/game_object_parser/GameObjectParser';
-import { GameMapCreator } from '../../game/game_map_creator/GameMapCreator';
+import { GameObjectParser } from 'game-worldmap-generator';
+const gameWorldMap = require('../../game/game_map_creator/default_world_map.gwm');
 
 export class Game extends React.Component<{}, {}> {
     private ref: React.RefObject<HTMLCanvasElement>;
@@ -17,16 +17,9 @@ export class Game extends React.Component<{}, {}> {
 
         const gameObjectParser = new GameObjectParser();
 
-        gameObjectParser.parse(
-            `######
-            #WWWWW
-            #W#W##
-            ######`
-        )
-        .then(gameObjects => {
-            const gameMapCreator = new GameMapCreator()
-        })
-        .catch(e => done(e));
+        gameObjectParser.parse(gameWorldMap)
+        .then(gameObjects => this.gameEngine.runGame(gameObjects))
+        .catch(e => console.log(e));
     }
 
     public render() {

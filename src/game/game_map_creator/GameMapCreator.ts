@@ -1,8 +1,7 @@
-import { GameObject } from '../game_object_parser/GameObject';
 import { MeshFactory } from '../model/core/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import { GameMap } from './GameMap';
-import { Rectangle } from 'game-worldmap-generator';
+import { Rectangle, GameObject } from 'game-worldmap-generator';
 
 
 export class GameMapCreator {

@@ -27,6 +27,10 @@ module.exports = env => {
                         'css-loader'
                     ]
                 },
+                {
+                    test: /\.gwm$/,
+                    use: 'raw-loader'
+                }
             ]
         },
         plugins: [
