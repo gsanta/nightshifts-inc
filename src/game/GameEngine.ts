@@ -1,14 +1,14 @@
 import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
-import { GameMap } from './game_map_creator/GameMap';
+import { WorldMap } from './game_map_creator/WorldMap';
 import { createLevel } from './levels/createLevel';
 import { GameObject } from 'game-worldmap-generator';
 
 
 export class GameEngine {
     private scene: Scene;
-    private gameMap: GameMap;
+    private gameMap: WorldMap;
     private previousTime: number;
     private engine: Engine;
 

@@ -1,0 +1,22 @@
+map {
+
+################
+#WWWIIWWWWIIWWW#
+#W############W#
+#W############W#
+#W############W#
+#W############W#
+#W############W#
+#WWWDDWWWWWWWWW#
+################
+
+}
+
+definitions {
+
+W = wall
+D = door
+# = empty
+I = window
+
+}

@@ -14,7 +14,7 @@ export class MeshFactory {
         this.shadowGenerator = shadowGenerator;
     }
 
-    public createWall(translate: VectorModel, dimensions: VectorModel) {
+    public createWall(translate: VectorModel, dimensions: VectorModel): MeshModel {
         const blueMat = new BABYLON.StandardMaterial('blueMat', this.scene);
         blueMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
         const mesh = MeshBuilder.CreateBox(
@@ -37,5 +37,14 @@ export class MeshFactory {
         }
 
         return meshModel;
+    }
+
+    public createWindow(translate: VectorModel, dimensions: VectorModel): MeshModel {
+        throw new Error('createWindow not implemented');
+    }
+
+
+    public createDoor(translate: VectorModel, dimensions: VectorModel): MeshModel {
+        throw new Error('createDoor not implemented');
     }
 }
