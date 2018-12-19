@@ -36,15 +36,39 @@ export class MeshFactory {
             shadowMap.renderList.push(mesh);
         }
 
+        meshModel.name = 'wall';
+
         return meshModel;
     }
 
     public createWindow(translate: VectorModel, dimensions: VectorModel): MeshModel {
-        throw new Error('createWindow not implemented');
+        return this.createWall(translate, dimensions);
     }
 
 
     public createDoor(translate: VectorModel, dimensions: VectorModel): MeshModel {
-        throw new Error('createDoor not implemented');
+        const meshModel = this.createWall(translate, dimensions);
+        meshModel.name = 'door';
+        return meshModel;
+    }
+
+    public createFloor(translate: VectorModel, dimensions: VectorModel): MeshModel {
+        const groundMaterial = new BABYLON.StandardMaterial('groundMaterial', this.scene);
+        groundMaterial.diffuseTexture = new BABYLON.Texture('../models/floor_texture.jpg', this.scene);
+
+        const ground = BABYLON.MeshBuilder.CreateGround(
+            'ground',
+            { width: dimensions.x(), height: dimensions.y() },
+            this.scene
+        );
+        ground.receiveShadows = true;
+        ground.material = groundMaterial;
+
+        const meshModel = new MeshModel(ground);
+        meshModel.name = 'floor';
+        translate.setX(dimensions.x() / 2);
+        meshModel.translate(translate);
+
+        return meshModel;
     }
 }

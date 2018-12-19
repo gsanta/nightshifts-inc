@@ -22,24 +22,24 @@ export class GameEngine {
         this.scene.collisionsEnabled = true;
     }
 
-    public runGame(gameObjects: GameObject[]) {
-        this.gameMap = createLevel(this.scene, gameObjects);
+    public runGame(worldMapStr: string) {
+        this.gameMap = createLevel(this.scene, worldMapStr);
         this.engine.runRenderLoop(this.run);
     }
 
     private run() {
-        if (!this.gameMap.player.getBody()) {
-            return;
-        }
+        // if (!this.gameMap.player.getBody()) {
+        //     return;
+        // }
 
-        const currentTime = Date.now();
-        const elapsedTime = currentTime - this.previousTime;
-        this.previousTime = currentTime;
+        // const currentTime = Date.now();
+        // const elapsedTime = currentTime - this.previousTime;
+        // this.previousTime = currentTime;
 
-        this.movePlayer(elapsedTime);
-        this.moveEnemies(elapsedTime);
-        this.testAndSetEnemyVisibility();
-        this.attackPlayerIfWithinSensorRange();
+        // this.movePlayer(elapsedTime);
+        // this.moveEnemies(elapsedTime);
+        // this.testAndSetEnemyVisibility();
+        // this.attackPlayerIfWithinSensorRange();
 
         this.scene.render();
     }

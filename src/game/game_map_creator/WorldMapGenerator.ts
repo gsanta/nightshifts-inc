@@ -18,10 +18,11 @@ export class WorldMapGenerator {
 
     public create(worldMapStr: string): WorldMap {
         const gameObjects = this.gameObjectParser.parse(worldMapStr);
-        const walls = gameObjects.map(gameObject => this.createMesh(gameObject));
+        const meshes = gameObjects.map(gameObject => this.createMesh(gameObject));
 
         const worldMap = new WorldMap();
-        worldMap.gameObjects = walls;
+        worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
+        worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
 
         return worldMap;
     }
@@ -38,13 +39,17 @@ export class WorldMapGenerator {
                 return this.meshFactory.createDoor(translate, dimensions);
             case 'window':
                 return this.meshFactory.createWindow(translate, dimensions);
+            case 'floor':
+                return this.meshFactory.createFloor(translate, dimensions);
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }
     }
 
     private rectangleToTranslateVector(rect: Rectangle): VectorModel {
-        return new VectorModel(rect.left * this.gameObjectToMeshSizeRatio, 5, rect.top * this.gameObjectToMeshSizeRatio);
+        const x = (rect.left + rect.width) * this.gameObjectToMeshSizeRatio;
+        const z = (rect.top + rect.height) * this.gameObjectToMeshSizeRatio
+        return new VectorModel(x, 5, z);
     }
 
     private rectangleToDimensionVector(rect: Rectangle): VectorModel {

@@ -17,9 +17,7 @@ export class Game extends React.Component<{}, {}> {
 
         const gameObjectParser = new GameObjectParser();
 
-        gameObjectParser.parse(gameWorldMap)
-        .then(gameObjects => this.gameEngine.runGame(gameObjects))
-        .catch(e => console.log(e));
+        this.gameEngine.runGame(gameWorldMap)
     }
 
     public render() {

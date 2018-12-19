@@ -4,6 +4,7 @@ import { VectorModel } from './VectorModel';
 
 export class MeshModel {
     private mesh: Mesh;
+    public name: string;
 
     constructor(mesh: Mesh) {
         this.mesh = mesh;

@@ -11,21 +11,16 @@ describe('WorldMapGenerator', () => {
     describe('create', () => {
         it.only('creates a worldmap based on a string input map', () => {
             const file = fs.readFileSync(__dirname + '/../../assets/testWorldMap.gwm', 'utf8');
-            const gameObjects = [
-                new GameObject('W', new Rectangle(1, 1, 3, 1), 'world'),
-                new GameObject('W', new Rectangle(3, 2, 1, 4), 'world')
-            ];
-
-
-            const wall1 = sinon.spy();
-            const wall2 = sinon.spy();
 
             const createWallStub = sinon.stub();
-            createWallStub.returns('wall');
+            const wallSpy = sinon.spy();
+            createWallStub.returns(wallSpy);
             const createWindowStub = sinon.stub();
-            createWindowStub.returns('window');
+            const windowSpy = sinon.spy();
+            createWindowStub.returns(windowSpy);
             const createDoorStub = sinon.stub();
-            createDoorStub.returns('door');
+            const doorSpy = sinon.spy();
+            createDoorStub.returns(doorSpy);
 
             const meshFactoryMock: Partial<MeshFactory> = {
                 createWall: createWallStub,
@@ -35,35 +30,13 @@ describe('WorldMapGenerator', () => {
 
             const worldmapGenerator = new WorldMapGenerator(new GameObjectParser(), <MeshFactory> meshFactoryMock, 1);
             const worldMap = worldmapGenerator.create(file);
-
             expect(worldMap.gameObjects).to.have.members(
-                ['wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'wall', 'window', 'window', 'door']
+                [wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, windowSpy, windowSpy, doorSpy]
             );
-            expect(createWallStub)
+            expect(createWallStub.getCall(0).args[0]).to.eql(new VectorModel(1, 5, 1));
+            expect(createWallStub.getCall(0).args[1]).to.eql(new VectorModel(1, 10, 7));
+            expect(createWindowStub.getCall(0).args[0]).to.eql(new VectorModel(4, 5, 1));
+            expect(createWindowStub.getCall(0).args[1]).to.eql(new VectorModel(2, 10, 1));
         });
     });
-    // describe('parse', () => {
-    //     it('creates GameObjects from a GameMap string', () => {
-    //         const gameObjects = [
-    //             new GameObject('W', new Rectangle(1, 1, 3, 1), 'world'),
-    //             new GameObject('W', new Rectangle(3, 2, 1, 4), 'world')
-    //         ];
-
-
-    //         const wall1 = sinon.spy();
-    //         const wall2 = sinon.spy();
-    //         const createWallStub = sinon.stub();
-
-    //         createWallStub.withArgs(new VectorModel(1, 5, 1), new VectorModel(3, 10, 1)).returns(wall1);
-    //         createWallStub.withArgs(new VectorModel(3, 5, 2), new VectorModel(1, 10, 4)).returns(wall2);
-    //         const meshFactoryMock: Partial<MeshFactory> = {
-    //             createWall: createWallStub
-    //         };
-
-    //         const gameMapCreator = new WorldMapGenerator(<MeshFactory> meshFactoryMock, 1);
-    //         const gameMap = gameMapCreator.create(gameObjects);
-
-    //         expect(gameMap.gameObjects).to.have.members([wall1, wall2]);
-    //     });
-    // });
 });

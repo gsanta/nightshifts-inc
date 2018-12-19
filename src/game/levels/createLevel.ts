@@ -3,21 +3,21 @@ import { WorldMap } from '../game_map_creator/WorldMap';
 import { MeshFactory } from '../model/core/MeshFactory';
 import { WorldMapGenerator } from '../game_map_creator/WorldMapGenerator';
 import { SceneModel } from '../model/core/SceneModel';
-import { Rectangle, GameObject } from 'game-worldmap-generator';
+import { Rectangle } from 'game-worldmap-generator';
+import { GameObjectParser } from 'game-worldmap-generator';
 
 
-export const createLevel = (scene: Scene, gameObjects: GameObject[]): WorldMap => {
+export const createLevel = (scene: Scene, worldMapStr: string): WorldMap => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
 
     createCamera(scene);
     createHemisphericLight(scene);
     const spotLight = <SpotLight> createSpotLight(scene);
-    createGround(scene);
     const shadowGenerator = createShadow(scene, spotLight);
 
     const meshFactory = createMeshFactory(scene, shadowGenerator);
-    const gameMapCreator = new WorldMapGenerator(meshFactory);
-    const gameMap = gameMapCreator.create(gameObjects);
+    const gameMapCreator = new WorldMapGenerator(new GameObjectParser(), meshFactory, 1);
+    const gameMap = gameMapCreator.create(worldMapStr);
 
     return gameMap;
 };
@@ -47,17 +47,6 @@ const createSpotLight = (scene: Scene): Light => {
     spotLight.specular = new BABYLON.Color3(1, 1, 0.6);
 
     return spotLight;
-};
-
-const createGround = (scene: Scene): Mesh => {
-    const groundMaterial = new BABYLON.StandardMaterial('groundMaterial', scene);
-	groundMaterial.diffuseTexture = new BABYLON.Texture('../models/floor_texture.jpg', scene);
-
-    const ground = BABYLON.MeshBuilder.CreateGround('ground', {width: 100, height: 100}, scene);
-    ground.receiveShadows = true;
-    ground.material = groundMaterial;
-
-    return ground;
 };
 
 const createCamera = (scene: Scene) => {
