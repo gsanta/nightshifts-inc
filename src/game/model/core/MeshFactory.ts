@@ -24,7 +24,7 @@ export class MeshFactory {
 
     public createWall(translate: VectorModel, dimensions: VectorModel): MeshModel {
         const blueMat = new BABYLON.StandardMaterial('blueMat', this.scene);
-        blueMat.emissiveColor = new BABYLON.Color3(0, 0, 1);
+        blueMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
         const mesh = MeshBuilder.CreateBox(
             'wall-' + this.idCounter++,
             { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() },
@@ -75,8 +75,8 @@ export class MeshFactory {
     }
 
     public createFloor(translate: VectorModel, dimensions: VectorModel): MeshModel {
-        const groundMaterial = new BABYLON.StandardMaterial('groundMaterial', this.scene);
-        groundMaterial.diffuseTexture = new BABYLON.Texture('../models/floor_texture.jpg', this.scene);
+        const whiteMat = new BABYLON.StandardMaterial('whiteMat', this.scene);
+        whiteMat.emissiveColor = new BABYLON.Color3(0.8, 0.8, 0.8);
 
         const ground = BABYLON.MeshBuilder.CreateGround(
             'ground',
@@ -84,12 +84,10 @@ export class MeshFactory {
             this.scene
         );
         ground.receiveShadows = true;
-        ground.material = groundMaterial;
+        ground.material = whiteMat;
 
         const meshModel = new MeshModel(ground);
         meshModel.name = 'floor';
-        // translate.setZ(- (dimensions.z() / 2));
-        // translate.setX(- 5);
         translate.setZ(-3);
         meshModel.translate(translate);
 

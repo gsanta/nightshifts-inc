@@ -28,15 +28,15 @@ export class GameEngine {
     }
 
     private run() {
-        // if (!this.gameMap.player.getBody()) {
-        //     return;
-        // }
+        if (!this.gameMap.player || !this.gameMap.player.getBody()) {
+            return;
+        }
 
-        // const currentTime = Date.now();
-        // const elapsedTime = currentTime - this.previousTime;
-        // this.previousTime = currentTime;
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - this.previousTime;
+        this.previousTime = currentTime;
 
-        // this.movePlayer(elapsedTime);
+        this.movePlayer(elapsedTime);
         // this.moveEnemies(elapsedTime);
         // this.testAndSetEnemyVisibility();
         // this.attackPlayerIfWithinSensorRange();

@@ -21,7 +21,8 @@ export class WorldMapGenerator {
     public create(worldMapStr: string): WorldMap {
         const gameObjects = this.gameObjectParser.parse(worldMapStr);
         const worldDimensions = this.getWorldDimensions(gameObjects);
-        const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions));
+        const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions))
+            .filter(mesh => mesh);
 
         const worldMap = new WorldMap();
         worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
@@ -40,7 +41,7 @@ export class WorldMapGenerator {
             case 'wall':
                 return this.meshFactory.createWall(translate, dimensions);
             case 'door':
-                return this.meshFactory.createDoor(translate, dimensions);
+                return null;
             case 'window':
                 return this.meshFactory.createWindow(translate, dimensions);
             case 'floor':
@@ -59,7 +60,7 @@ export class WorldMapGenerator {
     }
 
     private rectangleToDimensionVector(rect: Rectangle): VectorModel {
-        return new VectorModel(rect.width * this.gameObjectToMeshSizeRatio, 6, rect.height * this.gameObjectToMeshSizeRatio);
+        return new VectorModel(rect.width * this.gameObjectToMeshSizeRatio, 10, rect.height * this.gameObjectToMeshSizeRatio);
     }
 
     private getWorldDimensions(gameObjects: GameObject[]): { width: number, height: number } {

@@ -36,6 +36,7 @@ export class Player extends Creature {
     private modelLoader: ModelLoader;
     private creatureAnimationMesh: CreatureAnimationMesh;
     private animatedModel: AnimatedModel;
+    public name = 'player';
 
     constructor(scene: Scene, light: Light, translate: VectorModel) {
         super();
