@@ -71,17 +71,18 @@ const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
 }
 
 const createPlayer = (scene: Scene, spotLight: SpotLight) => {
-    const player = new Player(scene, spotLight);
 
-    const keyboardHandler = new UserInputEventEmitter();
-    const collisionDetector = new CollisionDetector(player, scene)
-    const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
-    keyboardHandler.subscribe();
+    // const player = new Player(scene, spotLight);
 
-    player.setMotionStrategy(manualMotionStrategy)
-    player.setSensor(new EyeSensor(player, scene));
+    // const keyboardHandler = new UserInputEventEmitter();
+    // const collisionDetector = new CollisionDetector(player, scene)
+    // const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
+    // keyboardHandler.subscribe();
 
-    return player;
+    // player.setMotionStrategy(manualMotionStrategy)
+    // player.setSensor(new EyeSensor(player, scene));
+
+    return null;
 }
 
 const createEnemies = (scene: Scene, sceneModel: SceneModel, walls: MeshModel[]) => {

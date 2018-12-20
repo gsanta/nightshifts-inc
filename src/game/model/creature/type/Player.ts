@@ -2,6 +2,7 @@ import { Creature } from "./Creature";
 import { Scene, Vector3, Mesh, Light } from "babylonjs";
 import { ModelLoader } from '../../core/io/ModelLoader';
 import { AnimatedModel } from '../../core/io/AnimatedModel';
+import { VectorModel } from '../../core/VectorModel';
 
 export interface Interval {
     from: number;
@@ -36,7 +37,7 @@ export class Player extends Creature {
     private creatureAnimationMesh: CreatureAnimationMesh;
     private animatedModel: AnimatedModel;
 
-    constructor(scene: Scene, light: Light) {
+    constructor(scene: Scene, light: Light, translate: VectorModel) {
         super();
 
         this.modelLoader = new ModelLoader("../models/dude/", scene);
@@ -68,6 +69,7 @@ export class Player extends Creature {
                 var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
                 that.body.rotationQuaternion = quaternion;
                 that.light.parent = that.body;
+                this.body.setAbsolutePosition(new Vector3(translate.x(), translate.y(), translate.z()));
             });
     }
 
