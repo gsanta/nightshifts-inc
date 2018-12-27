@@ -41,7 +41,7 @@ export class WorldMapGenerator {
             case 'wall':
                 return this.meshFactory.createWall(translate, dimensions);
             case 'door':
-                return null;
+                return this.meshFactory.createDoor(translate, dimensions);
             case 'window':
                 return this.meshFactory.createWindow(translate, dimensions);
             case 'floor':
@@ -60,7 +60,7 @@ export class WorldMapGenerator {
     }
 
     private rectangleToDimensionVector(rect: Rectangle): VectorModel {
-        return new VectorModel(rect.width * this.gameObjectToMeshSizeRatio, 10, rect.height * this.gameObjectToMeshSizeRatio);
+        return new VectorModel(rect.width * this.gameObjectToMeshSizeRatio, 5, rect.height * this.gameObjectToMeshSizeRatio);
     }
 
     private getWorldDimensions(gameObjects: GameObject[]): { width: number, height: number } {

@@ -98,8 +98,7 @@ const createEnemies = (scene: Scene, sceneModel: SceneModel, walls: MeshModel[])
 }
 
 const createMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator) => {
-    const wallMaterial = new BABYLON.StandardMaterial('groundMaterial', scene);
-    return new MeshFactory(scene, wallMaterial, shadowGenerator);
+    return new MeshFactory(scene, shadowGenerator, null);
 }
 
 const createWalls = (meshFactory: MeshFactory) => {

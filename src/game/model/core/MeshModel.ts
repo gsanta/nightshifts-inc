@@ -17,8 +17,4 @@ export class MeshModel {
     public intersectsPoint(vector: VectorModel) {
         return this.mesh.intersectsPoint(new Vector3(vector.x(), vector.y(), vector.z()));
     }
-
-    public getBody(): Mesh {
-        return this.mesh;
-    }
 }

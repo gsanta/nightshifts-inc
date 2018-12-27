@@ -15,16 +15,15 @@ export const createLevel = (scene: Scene, worldMapStr: string): WorldMap => {
     const spotLight = <SpotLight> createSpotLight(scene);
     const shadowGenerator = createShadow(scene, spotLight);
 
-    const meshFactory = createMeshFactory(scene, shadowGenerator);
+    const meshFactory = createMeshFactory(scene, shadowGenerator, spotLight);
     const gameMapCreator = new WorldMapGenerator(new GameObjectParser(), meshFactory, 1);
     const gameMap = gameMapCreator.create(worldMapStr);
 
     return gameMap;
 };
 
-const createMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator) => {
-    const wallMaterial = new BABYLON.StandardMaterial('groundMaterial', scene);
-    return new MeshFactory(scene, wallMaterial, shadowGenerator);
+const createMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight) => {
+    return new MeshFactory(scene, shadowGenerator, spotLight);
 };
 
 const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
@@ -36,15 +35,15 @@ const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
 
 const createHemisphericLight = (scene: Scene): Light => {
     const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
-    light.diffuse = new BABYLON.Color3(0.27, 0.37, 0.41);
-
+    // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
+    light.diffuse = new BABYLON.Color3(1, 1, 1);
+    light.intensity = 1; // 0.01;
     return light;
 };
 
 const createSpotLight = (scene: Scene): Light => {
-    const spotLight = new BABYLON.SpotLight('spotLight', new BABYLON.Vector3(1, 1, 1), new BABYLON.Vector3(0, -1, -5), Math.PI / 4, 1, scene);
-    spotLight.diffuse = new BABYLON.Color3(1, 1, 0.6);
-    spotLight.specular = new BABYLON.Color3(1, 1, 0.6);
+    const spotLight = new BABYLON.SpotLight('spotLight', new BABYLON.Vector3(0, 2, 1), new BABYLON.Vector3(0, 0.5, -5), Math.PI / 8, 1, scene);
+    spotLight.diffuse = new BABYLON.Color3(1, 1, 1);
 
     return spotLight;
 };
