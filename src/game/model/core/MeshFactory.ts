@@ -53,9 +53,10 @@ export class MeshFactory {
     }
 
     public createPlayer(translate: VectorModel) {
+        const keyboardHandler = new UserInputEventEmitter();
+
         const player = new Player(this.scene, this.spotLight, translate);
 
-        const keyboardHandler = new UserInputEventEmitter();
         const collisionDetector = new CollisionDetector(player, this.scene)
         const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
         keyboardHandler.subscribe();
@@ -121,7 +122,7 @@ export class MeshFactory {
     }
 
 
-    public createDoor(translate: VectorModel, dimensions: VectorModel): MeshModel {
+    public createDoor(translate: VectorModel, dimensions: VectorModel, pivotPosition?: VectorModel): MeshModel {
         const mesh = MeshBuilder.CreateBox(
             'door-' + this.idCounter++,
             { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() },
@@ -136,6 +137,11 @@ export class MeshFactory {
         const meshModel = new MeshModel(mesh);
         meshModel.translate(translate);
         meshModel.translate(new VectorModel(0, dimensions.y() / 2, 0));
+
+        if (pivotPosition) {
+            mesh.setPivotMatrix(BABYLON.Matrix.Translation(pivotPosition.x(), pivotPosition.y(), pivotPosition.z()));
+            mesh.rotation.y = Math.PI / 4;
+        }
 
         const shadowMap = this.shadowGenerator.getShadowMap();
         if (shadowMap && shadowMap.renderList) {

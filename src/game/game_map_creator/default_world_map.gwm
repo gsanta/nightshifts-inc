@@ -1,4 +1,4 @@
-map {
+map `
 
 ##############################################################################################################################################################################################################################
 #WWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWW#
@@ -66,9 +66,9 @@ map {
 #W#################################################################################W########################################################################################################################################W#
 #WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWWWWWWWWWWWIIIIIIWWWWWWWWIIIIIIWWWWWW#
 ##############################################################################################################################################################################################################################
-}
+`
 
-definitions {
+definitions `
 
 W = wall
 D = door
@@ -76,4 +76,20 @@ D = door
 I = window
 X = player
 
-}
+`
+
+details `
+    "attributes": [
+        {
+            "pos": {
+                "x": 4,
+                "y": 27
+            },
+            "axis": {
+                "x": 4,
+                "y": 27
+            },
+            "angle": 90
+        }
+    ]
+`

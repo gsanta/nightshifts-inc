@@ -4,7 +4,8 @@ export enum Keys {
      FORWARD = 38,
      BACKWARD = 40,
      LEFT = 37,
-     RIGHT = 39
+     RIGHT = 39,
+     E = 69
 }
 
 export type MoveDirection = 'FORWARD' | 'BACKWARD';
@@ -25,6 +26,9 @@ export class UserInputEventEmitter extends EventEmitter {
                     break;
                 case Keys.RIGHT:
                     this.emitTurn('RIGHT');
+                    break;
+                case Keys.E:
+                    this.emitDoAction();
                     break;
                 default:
                     break;
@@ -94,6 +98,18 @@ export class UserInputEventEmitter extends EventEmitter {
 
     private emitTurnEnd() {
         this.emit('turnEnd');
+    }
+
+    public onDoAction(eventHandler: () => void) {
+        this.on('doAction', eventHandler);
+    }
+
+    public offDoAction(eventHandler: () => void) {
+        this.removeListener('doAction', eventHandler);
+    }
+
+    private emitDoAction() {
+        this.emit('doAction');
     }
 
     public unsubscribe() {

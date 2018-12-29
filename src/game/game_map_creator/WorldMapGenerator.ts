@@ -41,6 +41,10 @@ export class WorldMapGenerator {
             case 'wall':
                 return this.meshFactory.createWall(translate, dimensions);
             case 'door':
+                if (gameObject.additionalData) {
+                    const pivotVector = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis);
+                    return this.meshFactory.createDoor(translate, dimensions, pivotVector);
+                }
                 return this.meshFactory.createDoor(translate, dimensions);
             case 'window':
                 return this.meshFactory.createWindow(translate, dimensions);
@@ -70,5 +74,17 @@ export class WorldMapGenerator {
             width: floor.dimensions.width,
             height: floor.dimensions.height
         };
+    }
+
+    private getPivotVector(rect: Rectangle, pivotAxis: {x: number, y: number}) {
+        const isDoorHorizontal = () => rect.width > rect.height;
+
+        if (isDoorHorizontal()) {
+            if (pivotAxis.x === rect.left) {
+                return new VectorModel(rect.width / 2, 0, 0).scale(this.gameObjectToMeshSizeRatio);
+            } else if (pivotAxis.x === rect.left + rect.width) {
+                return new VectorModel(- rect.width / 2, 0, 0).scale(this.gameObjectToMeshSizeRatio);
+            }
+        }
     }
 }

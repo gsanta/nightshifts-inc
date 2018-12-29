@@ -9,23 +9,22 @@ export class Enemy extends Creature {
     private isVisible = true;
 
     constructor(scene: Scene) {
-        super();
+        super(MeshBuilder.CreateSphere('enemy', { diameter: 3 }, scene));
         this.scene = scene;
 
         this.initMaterials();
-        this.body = MeshBuilder.CreateSphere('enemy', { diameter: 3 }, scene);
-        this.body.material = this.visibleMaterial;
-        this.body.checkCollisions = true;
-        this.body.position = new Vector3(20, 0, 30);
-        this.body.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
+        this.mesh.material = this.visibleMaterial;
+        this.mesh.checkCollisions = true;
+        this.mesh.position = new Vector3(20, 0, 30);
+        this.mesh.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
     }
 
     public setRotation(distance: number) {
-        this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public getBody(): Mesh {
-        return this.body;
+        return this.mesh;
     }
 
     public playWalkingAnimation() {
@@ -44,9 +43,9 @@ export class Enemy extends Creature {
         this.sensor.setIsVisible(this.isVisible);
 
         if (isVisible) {
-            this.body.material = this.visibleMaterial;
+            this.mesh.material = this.visibleMaterial;
         } else {
-            this.body.material = this.inVisibleMaterial;
+            this.mesh.material = this.inVisibleMaterial;
         }
     }
 

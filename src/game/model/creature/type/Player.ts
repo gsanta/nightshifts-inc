@@ -3,6 +3,7 @@ import { Scene, Vector3, Mesh, Light } from "babylonjs";
 import { ModelLoader } from '../../core/io/ModelLoader';
 import { AnimatedModel } from '../../core/io/AnimatedModel';
 import { VectorModel } from '../../core/VectorModel';
+import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
 
 export interface Interval {
     from: number;
@@ -36,14 +37,16 @@ export class Player extends Creature {
     private modelLoader: ModelLoader;
     private creatureAnimationMesh: CreatureAnimationMesh;
     private animatedModel: AnimatedModel;
+    private keyboardHandler: UserInputEventEmitter;
     public name = 'player';
 
-    constructor(scene: Scene, light: Light, translate: VectorModel) {
-        super();
+    constructor(scene: Scene, light: Light, translate: VectorModel, keyboardHandler: UserInputEventEmitter) {
+        super(null);
 
         this.modelLoader = new ModelLoader("../models/dude/", scene);
         this.light = light;
         this.scene = scene;
+        this.keyboardHandler = keyboardHandler;
         const that: any = this;
 
         this.modelLoader.load("Dude.babylon")
@@ -65,17 +68,17 @@ export class Player extends Creature {
 
                 animatedModel.meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
                 // meshes[0].rotation.y = Math.PI * 3 / 2;
-                that.body = animatedModel.meshes[0];
-                that.body.checkCollisions = true;
+                that.mesh = animatedModel.meshes[0];
+                that.mesh.checkCollisions = true;
                 var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
-                that.body.rotationQuaternion = quaternion;
-                that.light.parent = that.body;
-                this.body.setAbsolutePosition(new Vector3(translate.x(), translate.y(), translate.z()));
+                that.mesh.rotationQuaternion = quaternion;
+                that.light.parent = that.mesh;
+                this.mesh.setAbsolutePosition(new Vector3(translate.x(), translate.y(), translate.z()));
             });
     }
 
     public setRotation(distance: number) {
-        this.body.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public playWalkingAnimation() {
@@ -88,7 +91,7 @@ export class Player extends Creature {
     }
 
     public getBody(): Mesh {
-        return this.body;
+        return this.mesh;
     }
 
     public getRotationAngle(): number {
@@ -100,6 +103,14 @@ export class Player extends Creature {
     }
 
     public getRotation(): Vector3 {
-        return this.body.rotationQuaternion.toEulerAngles();
+        return this.mesh.rotationQuaternion.toEulerAngles();
+    }
+
+    public getCenterPosition() {
+        return this.getPosition();
+    }
+
+    private subscribeToUserInput() {
+        this.keyboardHandler.onDoAction(() => null);
     }
 }
