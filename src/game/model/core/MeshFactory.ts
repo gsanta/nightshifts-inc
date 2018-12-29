@@ -8,6 +8,9 @@ import { ManualMotionStrategy } from '../creature/motion/ManualMotionStrategy';
 import { EyeSensor } from '../creature/sensor/EyeSensor';
 import { GameConstants } from '../../GameConstants';
 import { MultiMeshModel } from './MultiMeshModel';
+import { Door } from '../creature/type/Door';
+import { ActionStrategy } from '../creature/action/ActionStrategy';
+import { WorldMap } from '../../game_map_creator/WorldMap';
 
 const colors = GameConstants.colors;
 
@@ -52,10 +55,12 @@ export class MeshFactory {
         return meshModel;
     }
 
-    public createPlayer(translate: VectorModel) {
+    public createPlayer(translate: VectorModel, worldMap: WorldMap) {
         const keyboardHandler = new UserInputEventEmitter();
 
-        const player = new Player(this.scene, this.spotLight, translate);
+        const player = new Player(this.scene, this.spotLight, translate, keyboardHandler);
+
+        const actionStrategy = new ActionStrategy(player, worldMap);
 
         const collisionDetector = new CollisionDetector(player, this.scene)
         const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
@@ -63,6 +68,7 @@ export class MeshFactory {
 
         player.setMotionStrategy(manualMotionStrategy)
         player.setSensor(new EyeSensor(player, this.scene));
+        player.setActionStrategy(actionStrategy);
 
         return player;
     }
@@ -122,7 +128,7 @@ export class MeshFactory {
     }
 
 
-    public createDoor(translate: VectorModel, dimensions: VectorModel, pivotPosition?: VectorModel): MeshModel {
+    public createDoor(translate: VectorModel, dimensions: VectorModel, pivotPosition?: VectorModel, pivotAngle?: number): MeshModel {
         const mesh = MeshBuilder.CreateBox(
             'door-' + this.idCounter++,
             { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() },
@@ -134,14 +140,16 @@ export class MeshFactory {
         mesh.material = this.materials.door;
         mesh.receiveShadows = true;
 
-        const meshModel = new MeshModel(mesh);
-        meshModel.translate(translate);
-        meshModel.translate(new VectorModel(0, dimensions.y() / 2, 0));
+        let meshModel: MeshModel;
 
         if (pivotPosition) {
-            mesh.setPivotMatrix(BABYLON.Matrix.Translation(pivotPosition.x(), pivotPosition.y(), pivotPosition.z()));
-            mesh.rotation.y = Math.PI / 4;
+            meshModel = new Door(mesh, pivotPosition, pivotAngle);
+        } else {
+            meshModel = new MeshModel(mesh);
         }
+
+        meshModel.translate(translate);
+        meshModel.translate(new VectorModel(0, dimensions.y() / 2, 0));
 
         const shadowMap = this.shadowGenerator.getShadowMap();
         if (shadowMap && shadowMap.renderList) {

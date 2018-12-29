@@ -7,17 +7,19 @@ import { VectorModel } from '../../core/VectorModel';
 
 export class ActionStrategy {
     private player: Player;
+    private worldMap: WorldMap;
     private actionableObjects: MeshModel[];
 
     constructor(player: Player, worldMap: WorldMap) {
         this.player = player;
-        this.actionableObjects = this.filterActionableObjects(worldMap);
+        this.worldMap = worldMap;
     }
 
     /**
      * If there is an `Actionable` mesh nearby it activates the default action on that mesh
      */
     public activateClosestMeshAction() {
+        this.actionableObjects = this.filterActionableObjects(this.worldMap);
         const reduceToClosestMeshModel = (val: [MeshModel, number], current: MeshModel): [MeshModel, number] => {
             const distance = VectorModel.Distance(this.player.getCenterPosition(), current.getPosition());
             return !val || val[1] > distance ? [current, distance] : val;

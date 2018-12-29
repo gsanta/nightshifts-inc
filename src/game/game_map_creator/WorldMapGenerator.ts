@@ -19,12 +19,12 @@ export class WorldMapGenerator {
     }
 
     public create(worldMapStr: string): WorldMap {
+        const worldMap = new WorldMap();
         const gameObjects = this.gameObjectParser.parse(worldMapStr);
         const worldDimensions = this.getWorldDimensions(gameObjects);
-        const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions))
+        const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions, worldMap))
             .filter(mesh => mesh);
 
-        const worldMap = new WorldMap();
         worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
         worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
         worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
@@ -32,7 +32,7 @@ export class WorldMapGenerator {
         return worldMap;
     }
 
-    private createMesh(gameObject: GameObject, worldDimensions: { width: number, height: number }): any {
+    private createMesh(gameObject: GameObject, worldDimensions: { width: number, height: number }, worldMap: WorldMap): any {
 
         const translate = this.rectangleToTranslateVector(gameObject.dimensions, worldDimensions);
         const dimensions = this.rectangleToDimensionVector(gameObject.dimensions);
@@ -43,7 +43,7 @@ export class WorldMapGenerator {
             case 'door':
                 if (gameObject.additionalData) {
                     const pivotVector = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis);
-                    return this.meshFactory.createDoor(translate, dimensions, pivotVector);
+                    return this.meshFactory.createDoor(translate, dimensions, pivotVector, BABYLON.Tools.ToRadians(gameObject.additionalData.angle));
                 }
                 return this.meshFactory.createDoor(translate, dimensions);
             case 'window':
@@ -51,7 +51,7 @@ export class WorldMapGenerator {
             case 'floor':
                 return this.meshFactory.createFloor(translate, dimensions);
             case 'player':
-                return this.meshFactory.createPlayer(translate);
+                return this.meshFactory.createPlayer(translate, worldMap);
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }

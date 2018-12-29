@@ -47,6 +47,7 @@ export class Player extends Creature {
         this.light = light;
         this.scene = scene;
         this.keyboardHandler = keyboardHandler;
+        this.subscribeToUserInput();
         const that: any = this;
 
         this.modelLoader.load("Dude.babylon")
@@ -111,6 +112,6 @@ export class Player extends Creature {
     }
 
     private subscribeToUserInput() {
-        this.keyboardHandler.onDoAction(() => null);
+        this.keyboardHandler.onDoAction(() => this.actionStrategy.activateClosestMeshAction());
     }
 }

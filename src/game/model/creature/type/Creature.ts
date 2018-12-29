@@ -4,11 +4,13 @@ import { MotionStrategy } from '../motion/MotionStrategy';
 import { Sensor } from '../sensor/Sensor';
 import { CollisionDetector } from '../collision/CollisionDetector';
 import { MeshModel } from '../../core/MeshModel';
+import { ActionStrategy } from '../action/ActionStrategy';
 
 export abstract class Creature extends MeshModel {
     protected sensor: Sensor;
     protected motionStrategy: MotionStrategy;
     protected collisionDetector: CollisionDetector;
+    protected actionStrategy: ActionStrategy;
 
     constructor(mesh: Mesh) {
         super(mesh);
@@ -40,6 +42,14 @@ export abstract class Creature extends MeshModel {
 
     public setMotionStrategy(motionStrategy: MotionStrategy) {
         this.motionStrategy = motionStrategy;
+    }
+
+    public getActionStrategy(): ActionStrategy {
+        return this.actionStrategy;
+    }
+
+    public setActionStrategy(actionStrategy: ActionStrategy) {
+        this.actionStrategy = actionStrategy;
     }
 
     public abstract playWalkingAnimation();
