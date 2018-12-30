@@ -1,23 +1,25 @@
-import { Scene, Mesh, Light, SpotLight, ShadowGenerator } from 'babylonjs';
+import { Scene, Mesh, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
 import { WorldMap } from '../game_map_creator/WorldMap';
 import { MeshFactory } from '../model/core/MeshFactory';
 import { WorldMapGenerator } from '../game_map_creator/WorldMapGenerator';
 import { SceneModel } from '../model/core/SceneModel';
 import { Rectangle } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
+import { LightController } from '../model/light/LightController';
 
 
 export const createLevel = (scene: Scene, worldMapStr: string): WorldMap => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
 
     createCamera(scene);
-    createHemisphericLight(scene);
+    const hemisphericLight = createHemisphericLight(scene);
     const spotLight = <SpotLight> createSpotLight(scene);
     const shadowGenerator = createShadow(scene, spotLight);
 
     const meshFactory = createMeshFactory(scene, shadowGenerator, spotLight);
     const gameMapCreator = new WorldMapGenerator(new GameObjectParser(), meshFactory, 1);
     const gameMap = gameMapCreator.create(worldMapStr);
+    gameMap.lightController = new LightController(hemisphericLight);
 
     return gameMap;
 };
@@ -33,11 +35,11 @@ const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
     return shadowGenerator;
 };
 
-const createHemisphericLight = (scene: Scene): Light => {
+const createHemisphericLight = (scene: Scene): HemisphericLight => {
     const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
     // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
     light.diffuse = new BABYLON.Color3(1, 1, 1);
-    light.intensity = 1; // 0.01;
+    light.intensity = 0;
     return light;
 };
 

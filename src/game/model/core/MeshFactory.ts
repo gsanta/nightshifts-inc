@@ -195,6 +195,7 @@ export class MeshFactory {
 
         const wallMaterial = new BABYLON.StandardMaterial('wallMaterial', this.scene);
         wallMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
+        wallMaterial.emissiveColor = BABYLON.Color3.FromHexString('#111111');
 
 
         const floorMaterial = new BABYLON.StandardMaterial('floorMaterial', this.scene);

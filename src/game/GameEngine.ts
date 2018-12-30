@@ -8,8 +8,8 @@ import { GameObject } from 'game-worldmap-generator';
 
 export class GameEngine {
     private scene: Scene;
-    private gameMap: WorldMap;
-    private previousTime: number;
+    private worldMap: WorldMap;
+    private previousTime: number = Date.now();
     private engine: Engine;
 
     constructor(canvas: HTMLCanvasElement) {
@@ -23,18 +23,20 @@ export class GameEngine {
     }
 
     public runGame(worldMapStr: string) {
-        this.gameMap = createLevel(this.scene, worldMapStr);
+        this.worldMap = createLevel(this.scene, worldMapStr);
         this.engine.runRenderLoop(this.run);
     }
 
     private run() {
-        if (!this.gameMap.player || !this.gameMap.player.getBody()) {
+        if (!this.worldMap.player || !this.worldMap.player.getBody()) {
             return;
         }
 
         const currentTime = Date.now();
         const elapsedTime = currentTime - this.previousTime;
         this.previousTime = currentTime;
+
+        this.worldMap.lightController.timePassed(elapsedTime);
 
         this.movePlayer(elapsedTime);
         // this.moveEnemies(elapsedTime);
@@ -45,10 +47,10 @@ export class GameEngine {
     }
 
     private testAndSetEnemyVisibility() {
-        const player = this.gameMap.player;
+        const player = this.worldMap.player;
 
-        this.gameMap.enemies.forEach(enemy => {
-            const isVisible = player.getSensor().testIsWithinRange(this.gameMap.enemies[0]);
+        this.worldMap.enemies.forEach(enemy => {
+            const isVisible = player.getSensor().testIsWithinRange(this.worldMap.enemies[0]);
             if (isVisible) {
                 enemy.setIsVisible(true);
             } else {
@@ -58,7 +60,7 @@ export class GameEngine {
     }
 
     private movePlayer(elapsedTime: number) {
-        const player = this.gameMap.player;
+        const player = this.worldMap.player;
 
         if (!player.getMotionStrategy().isIdle()) {
             const delta = player.getMotionStrategy().calcNextPositionDelta(elapsedTime);
@@ -70,7 +72,7 @@ export class GameEngine {
     }
 
     private moveEnemies(elapsedTime: number) {
-        this.gameMap.enemies.forEach(enemy => {
+        this.worldMap.enemies.forEach(enemy => {
             const enemyDelta = enemy.getMotionStrategy().calcNextPositionDelta(elapsedTime);
 
             if (enemyDelta) {
@@ -80,9 +82,9 @@ export class GameEngine {
     }
 
     private attackPlayerIfWithinSensorRange() {
-        const player = this.gameMap.player;
+        const player = this.worldMap.player;
 
-        this.gameMap.enemies.forEach(enemy => {
+        this.worldMap.enemies.forEach(enemy => {
             if (enemy.getSensor().testIsWithinRange(player)) {
                 const collisionDetector = new CollisionDetector(enemy, this.scene);
                 enemy.setMotionStrategy(new AttackingMotionStrategy(enemy, player, collisionDetector));
