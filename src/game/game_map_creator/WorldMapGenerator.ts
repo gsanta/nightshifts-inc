@@ -47,6 +47,12 @@ export class WorldMapGenerator {
                 }
                 return this.meshFactory.createDoor(translate, dimensions);
             case 'window':
+                if (gameObject.additionalData) {
+                    const pivotVector1 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis1);
+                    const pivotVector2 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis2);
+                    return this.meshFactory
+                        .createWindow(translate, dimensions, pivotVector1, pivotVector2, BABYLON.Tools.ToRadians(gameObject.additionalData.angle));
+                }
                 return this.meshFactory.createWindow(translate, dimensions);
             case 'floor':
                 return this.meshFactory.createFloor(translate, dimensions);

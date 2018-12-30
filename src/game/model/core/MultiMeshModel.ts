@@ -5,7 +5,7 @@ import { MeshModel } from './MeshModel';
 
 
 export class MultiMeshModel extends MeshModel {
-    private meshes: Mesh[];
+    protected meshes: Mesh[];
     public name: string;
 
     constructor(meshes: Mesh[]) {

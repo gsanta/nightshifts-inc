@@ -9,6 +9,7 @@ import { EyeSensor } from '../creature/sensor/EyeSensor';
 import { GameConstants } from '../../GameConstants';
 import { MultiMeshModel } from './MultiMeshModel';
 import { Door } from '../creature/type/Door';
+import { Window } from '../creature/type/Window';
 import { ActionStrategy } from '../creature/action/ActionStrategy';
 import { WorldMap } from '../../game_map_creator/WorldMap';
 
@@ -73,7 +74,9 @@ export class MeshFactory {
         return player;
     }
 
-    public createWindow(translate: VectorModel, dimensions: VectorModel): MeshModel {
+    public createWindow(
+        translate: VectorModel, dimensions: VectorModel, pivotPosition1?: VectorModel, pivotPosition2?: VectorModel, pivotAngle?: number
+    ): MeshModel {
         const bottom = MeshBuilder.CreateBox(
             'window-' + this.idCounter++,
             { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() / 6 },
@@ -87,18 +90,31 @@ export class MeshFactory {
         bottom.material = this.materials.wall;
         bottom.receiveShadows = true;
 
-        const middle = MeshBuilder.CreateBox(
+        const middle1 = MeshBuilder.CreateBox(
             'window-' + this.idCounter++,
-            { width: dimensions.x(), depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
+            { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
             this.scene
         );
 
-        middle.translate(new Vector3(0, 0, 0), 1);
+        middle1.translate(new Vector3(- dimensions.x() / 4, 0, 0), 1);
 
-        middle.checkCollisions = true;
-        middle.isPickable = true;
-        middle.material = this.materials.window;
-        middle.receiveShadows = true;
+        middle1.checkCollisions = true;
+        middle1.isPickable = true;
+        middle1.material = this.materials.window;
+        middle1.receiveShadows = true;
+
+        const middle2 = MeshBuilder.CreateBox(
+            'window-' + this.idCounter++,
+            { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
+            this.scene
+        );
+
+        middle2.translate(new Vector3(+ dimensions.x() / 4, 0, 0), 1);
+
+        middle2.checkCollisions = true;
+        middle2.isPickable = true;
+        middle2.material = this.materials.window;
+        middle2.receiveShadows = true;
 
         const top = MeshBuilder.CreateBox(
             'window-' + this.idCounter++,
@@ -113,13 +129,21 @@ export class MeshFactory {
         top.material = this.materials.wall;
         top.receiveShadows = true;
 
-        const meshModel = new MultiMeshModel([bottom, middle, top]);
+        let meshModel: MeshModel;
+
+        if (pivotPosition1) {
+            meshModel = new Window([bottom, middle1, middle2, top], pivotPosition1, pivotPosition2, pivotAngle);
+        } else {
+            meshModel = new MultiMeshModel([bottom, middle1, middle2, top]);
+        }
+
+
         meshModel.translate(translate);
         meshModel.translate(new VectorModel(0, dimensions.y() / 2, 0));
 
         const shadowMap = this.shadowGenerator.getShadowMap();
         if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(bottom, middle, top);
+            shadowMap.renderList.push(bottom, middle1, middle2, top);
         }
 
         meshModel.name = 'window';
