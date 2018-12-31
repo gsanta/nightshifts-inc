@@ -9,6 +9,7 @@ export class Window extends MeshModel {
     private pivotPosition1: VectorModel;
     private pivotPosition2: VectorModel;
     private meshes: Mesh[];
+    private isHorizontal = true;
 
     constructor(meshes: Mesh[], pivotPosition1: VectorModel, pivotPosition2: VectorModel, pivotAngle: number) {
         super(null);
@@ -18,6 +19,10 @@ export class Window extends MeshModel {
         this.pivotPosition2 = pivotPosition2;
         this.pivotAngle = pivotAngle;
         this.hasDefaultAction = true;
+
+        // if (this.mesh.scaling.z > this.mesh.scaling.x) {
+        //     this.isHorizontal = false;
+        // }
     }
 
     public doDefaultAction() {
@@ -25,9 +30,15 @@ export class Window extends MeshModel {
         this.meshes[1].setPivotMatrix(BABYLON.Matrix.Translation(this.pivotPosition1.x(), this.pivotPosition1.y(), this.pivotPosition1.z()));
         this.meshes[2].setPivotMatrix(BABYLON.Matrix.Translation(this.pivotPosition2.x(), this.pivotPosition2.y(), this.pivotPosition2.z()));
 
+
         if (this.isOpen) {
-            this.meshes[1].rotation.y = 0;
-            this.meshes[2].rotation.y = 0;
+            if (this.isHorizontal) {
+                this.meshes[1].rotation.y = 0;
+                this.meshes[2].rotation.y = 0;
+            } else {
+                this.meshes[1].rotation.y = 0;
+                this.meshes[2].rotation.y = 0;
+            }
             this.isOpen = false;
         } else {
             this.meshes[1].rotation.y = this.pivotAngle;

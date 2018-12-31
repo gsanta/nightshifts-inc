@@ -90,31 +90,9 @@ export class MeshFactory {
         bottom.material = this.materials.wall;
         bottom.receiveShadows = true;
 
-        const middle1 = MeshBuilder.CreateBox(
-            'window-' + this.idCounter++,
-            { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
-            this.scene
-        );
+        const isHorizontal = dimensions.x() > dimensions.y();
 
-        middle1.translate(new Vector3(- dimensions.x() / 4, 0, 0), 1);
-
-        middle1.checkCollisions = true;
-        middle1.isPickable = true;
-        middle1.material = this.materials.window;
-        middle1.receiveShadows = true;
-
-        const middle2 = MeshBuilder.CreateBox(
-            'window-' + this.idCounter++,
-            { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
-            this.scene
-        );
-
-        middle2.translate(new Vector3(+ dimensions.x() / 4, 0, 0), 1);
-
-        middle2.checkCollisions = true;
-        middle2.isPickable = true;
-        middle2.material = this.materials.window;
-        middle2.receiveShadows = true;
+        let [middle1, middle2] = isHorizontal ? this.createHorizontalWindowMeshes(dimensions) : this.createVerticalWindowMeshes(dimensions);
 
         const top = MeshBuilder.CreateBox(
             'window-' + this.idCounter++,
@@ -149,6 +127,66 @@ export class MeshFactory {
         meshModel.name = 'window';
 
         return meshModel;
+    }
+
+    private createHorizontalWindowMeshes(dimensions: VectorModel) {
+        const middle1 = MeshBuilder.CreateBox(
+            'window-' + this.idCounter++,
+            { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
+            this.scene
+        );
+
+        middle1.translate(new Vector3(- dimensions.x() / 4, 0, 0), 1);
+
+        middle1.checkCollisions = true;
+        middle1.isPickable = true;
+        middle1.material = this.materials.window;
+        middle1.receiveShadows = true;
+
+        const middle2 = MeshBuilder.CreateBox(
+            'window-' + this.idCounter++,
+            { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
+            this.scene
+        );
+
+        middle2.translate(new Vector3(+ dimensions.x() / 4, 0, 0), 1);
+
+        middle2.checkCollisions = true;
+        middle2.isPickable = true;
+        middle2.material = this.materials.window;
+        middle2.receiveShadows = true;
+
+        return [middle1, middle2];
+    }
+
+    private createVerticalWindowMeshes(dimensions: VectorModel) {
+        const middle1 = MeshBuilder.CreateBox(
+            'window-' + this.idCounter++,
+            { width: dimensions.x(), depth: dimensions.z() / 2, height: 4 * dimensions.y() / 6 },
+            this.scene
+        );
+
+        middle1.translate(new Vector3(0, 0, dimensions.z() / 4), 1);
+
+        middle1.checkCollisions = true;
+        middle1.isPickable = true;
+        middle1.material = this.materials.window;
+        middle1.receiveShadows = true;
+
+        const middle2 = MeshBuilder.CreateBox(
+            'window-' + this.idCounter++,
+            { width: dimensions.x(), depth: dimensions.z() / 2, height: 4 * dimensions.y() / 6 },
+            this.scene
+        );
+
+        middle2.translate(new Vector3(0, 0, -dimensions.z() / 4), 1);
+
+        middle2.checkCollisions = true;
+        middle2.isPickable = true;
+        middle2.material = this.materials.window;
+        middle2.receiveShadows = true;
+
+        return [middle1, middle2];
     }
 
 

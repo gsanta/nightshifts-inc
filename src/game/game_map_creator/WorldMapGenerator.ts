@@ -91,6 +91,12 @@ export class WorldMapGenerator {
             } else if (pivotAxis.x === rect.left + rect.width) {
                 return new VectorModel(- rect.width / 2, 0, 0).scale(this.gameObjectToMeshSizeRatio);
             }
+        } else {
+            if (pivotAxis.y === rect.top) {
+                return new VectorModel(0, 0, - rect.height / 2).scale(this.gameObjectToMeshSizeRatio);
+            } else if (pivotAxis.y === rect.top + rect.height) {
+                return new VectorModel(0, 0, rect.height / 2).scale(this.gameObjectToMeshSizeRatio);
+            }
         }
     }
 }
