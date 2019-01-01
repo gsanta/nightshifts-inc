@@ -12,6 +12,7 @@ import { Door } from '../creature/type/Door';
 import { Window } from '../creature/type/Window';
 import { ActionStrategy } from '../creature/action/ActionStrategy';
 import { WorldMap } from '../../game_map_creator/WorldMap';
+import { Furniture } from '../creature/type/Furniture';
 
 const colors = GameConstants.colors;
 
@@ -238,6 +239,11 @@ export class MeshFactory {
         translate.setZ(-2);
         meshModel.translate(translate);
 
+        return meshModel;
+    }
+
+    public createBed(translate: VectorModel): MeshModel {
+        const meshModel = new Furniture(this.scene, translate, '/models/furniture/', 'bed.babylon', 'beds.png');
         return meshModel;
     }
 

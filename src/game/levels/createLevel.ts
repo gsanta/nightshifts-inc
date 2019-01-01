@@ -39,7 +39,7 @@ const createHemisphericLight = (scene: Scene): HemisphericLight => {
     const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
     // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
     light.diffuse = new BABYLON.Color3(1, 1, 1);
-    light.intensity = 0;
+    light.intensity = 0.01;
     return light;
 };
 

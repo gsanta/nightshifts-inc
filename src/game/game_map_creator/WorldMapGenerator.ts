@@ -58,6 +58,8 @@ export class WorldMapGenerator {
                 return this.meshFactory.createFloor(translate, dimensions);
             case 'player':
                 return this.meshFactory.createPlayer(translate, worldMap);
+            case 'bed':
+                return this.meshFactory.createBed(translate);
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }

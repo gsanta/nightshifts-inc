@@ -59,7 +59,7 @@ export class LightController {
     }
 
     private getLightIntensity(dayRatio: number) {
-        return 1;
+        return 0.01;
 
         if (_.inRange(dayRatio, ...LightController.NIGHT_TIME.range)) {
             return LightController.NIGHT_TIME.lightIntensity;
