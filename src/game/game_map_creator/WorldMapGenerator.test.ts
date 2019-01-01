@@ -9,7 +9,7 @@ import * as fs from 'fs';
 
 describe('WorldMapGenerator', () => {
     describe('create', () => {
-        it('creates a worldmap based on a string input map', () => {
+        it('creates a worldmap based on a string input map', async () => {
             const file = fs.readFileSync(__dirname + '/../../assets/testWorldMap.gwm', 'utf8');
 
             const createWallStub = sinon.stub();
@@ -29,7 +29,8 @@ describe('WorldMapGenerator', () => {
             };
 
             const worldmapGenerator = new WorldMapGenerator(new GameObjectParser(), <MeshFactory> meshFactoryMock, 1);
-            const worldMap = worldmapGenerator.create(file);
+            const worldMap = await worldmapGenerator.create(file);
+
             expect(worldMap.gameObjects).to.have.members(
                 [wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, windowSpy, windowSpy, doorSpy]
             );

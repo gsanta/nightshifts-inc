@@ -5,6 +5,7 @@ import { Rectangle, GameObject, GameObjectParser } from 'game-worldmap-generator
 import { MeshModel } from '../model/core/MeshModel';
 import { number } from 'prop-types';
 import { Player } from '../model/creature/type/Player';
+import { Promise } from 'es6-promise';
 
 
 export class WorldMapGenerator {
@@ -18,21 +19,24 @@ export class WorldMapGenerator {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public create(worldMapStr: string): WorldMap {
+    public create(worldMapStr: string): Promise<WorldMap> {
         const worldMap = new WorldMap();
         const gameObjects = this.gameObjectParser.parse(worldMapStr);
         const worldDimensions = this.getWorldDimensions(gameObjects);
-        const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions, worldMap))
-            .filter(mesh => mesh);
 
-        worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
-        worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
-        worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
+        const promises = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions, worldMap))
+        return Promise.all(promises).then(values => {
+            const meshes = values.filter(mesh => mesh);
 
-        return worldMap;
+            worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
+            worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
+            worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
+
+            return worldMap;
+        });
     }
 
-    private createMesh(gameObject: GameObject, worldDimensions: { width: number, height: number }, worldMap: WorldMap): any {
+    private createMesh(gameObject: GameObject, worldDimensions: { width: number, height: number }, worldMap: WorldMap): Promise<MeshModel> {
 
         const translate = this.rectangleToTranslateVector(gameObject.dimensions, worldDimensions);
         const dimensions = this.rectangleToDimensionVector(gameObject.dimensions);

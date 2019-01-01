@@ -13,6 +13,7 @@ import { Window } from '../creature/type/Window';
 import { ActionStrategy } from '../creature/action/ActionStrategy';
 import { WorldMap } from '../../game_map_creator/WorldMap';
 import { Furniture } from '../creature/type/Furniture';
+import { Promise } from 'es6-promise';
 
 const colors = GameConstants.colors;
 
@@ -31,7 +32,7 @@ export class MeshFactory {
         this.materials = this.initMaterials();
     }
 
-    public createWall(translate: VectorModel, dimensions: VectorModel): MeshModel {
+    public createWall(translate: VectorModel, dimensions: VectorModel): Promise<MeshModel> {
         const mesh = MeshBuilder.CreateBox(
             'wall-' + this.idCounter++,
             { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() },
@@ -54,10 +55,10 @@ export class MeshFactory {
 
         meshModel.name = 'wall';
 
-        return meshModel;
+        return Promise.resolve(meshModel);
     }
 
-    public createPlayer(translate: VectorModel, worldMap: WorldMap) {
+    public createPlayer(translate: VectorModel, worldMap: WorldMap): Promise<MeshModel> {
         const keyboardHandler = new UserInputEventEmitter();
 
         const player = new Player(this.scene, this.spotLight, translate, keyboardHandler);
@@ -72,12 +73,12 @@ export class MeshFactory {
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
 
-        return player;
+        return Promise.resolve(player);
     }
 
     public createWindow(
         translate: VectorModel, dimensions: VectorModel, pivotPosition1?: VectorModel, pivotPosition2?: VectorModel, pivotAngle?: number
-    ): MeshModel {
+    ): Promise<MeshModel> {
         const bottom = MeshBuilder.CreateBox(
             'window-' + this.idCounter++,
             { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() / 6 },
@@ -127,7 +128,7 @@ export class MeshFactory {
 
         meshModel.name = 'window';
 
-        return meshModel;
+        return Promise.resolve(meshModel);
     }
 
     private createHorizontalWindowMeshes(dimensions: VectorModel) {
@@ -191,7 +192,7 @@ export class MeshFactory {
     }
 
 
-    public createDoor(translate: VectorModel, dimensions: VectorModel, pivotPosition?: VectorModel, pivotAngle?: number): MeshModel {
+    public createDoor(translate: VectorModel, dimensions: VectorModel, pivotPosition?: VectorModel, pivotAngle?: number): Promise<MeshModel> {
         const mesh = MeshBuilder.CreateBox(
             'door-' + this.idCounter++,
             { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() },
@@ -221,10 +222,10 @@ export class MeshFactory {
 
         meshModel.name = 'door';
 
-        return meshModel;
+        return Promise.resolve(meshModel);
     }
 
-    public createFloor(translate: VectorModel, dimensions: VectorModel): MeshModel {
+    public createFloor(translate: VectorModel, dimensions: VectorModel): Promise<MeshModel> {
         const ground = BABYLON.MeshBuilder.CreateGround(
             'ground',
             { width: dimensions.x(), height: dimensions.z() },
@@ -239,12 +240,20 @@ export class MeshFactory {
         translate.setZ(-2);
         meshModel.translate(translate);
 
-        return meshModel;
+        return Promise.resolve(meshModel);
     }
 
-    public createBed(translate: VectorModel): MeshModel {
-        const meshModel = new Furniture(this.scene, translate, '/models/furniture/', 'bed.babylon', 'beds.png');
-        return meshModel;
+    public createBed(translate: VectorModel): Promise<MeshModel> {
+        return Furniture
+            .create(this.scene, translate, '/models/furniture/', 'bed.babylon', 'beds.png')
+            .then(meshModel => {
+                const shadowMap = this.shadowGenerator.getShadowMap();
+                if (shadowMap && shadowMap.renderList) {
+                    shadowMap.renderList.push(meshModel.mesh);
+                }
+
+                return meshModel;
+            });
     }
 
     private createShadow(spotLight: SpotLight): ShadowGenerator {

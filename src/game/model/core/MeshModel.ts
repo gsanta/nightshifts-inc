@@ -3,7 +3,7 @@ import { VectorModel } from './VectorModel';
 
 
 export class MeshModel {
-    protected mesh: Mesh;
+    public mesh: Mesh;
     public name: string;
     public hasDefaultAction = false;
 

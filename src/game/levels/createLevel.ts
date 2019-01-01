@@ -6,9 +6,10 @@ import { SceneModel } from '../model/core/SceneModel';
 import { Rectangle } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
 import { LightController } from '../model/light/LightController';
+import { Promise } from 'es6-promise';
 
 
-export const createLevel = (scene: Scene, worldMapStr: string): WorldMap => {
+export const createLevel = (scene: Scene, worldMapStr: string): Promise<WorldMap> => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
 
     createCamera(scene);
@@ -18,10 +19,12 @@ export const createLevel = (scene: Scene, worldMapStr: string): WorldMap => {
 
     const meshFactory = createMeshFactory(scene, shadowGenerator, spotLight);
     const gameMapCreator = new WorldMapGenerator(new GameObjectParser(), meshFactory, 1);
-    const gameMap = gameMapCreator.create(worldMapStr);
-    gameMap.lightController = new LightController(hemisphericLight);
-
-    return gameMap;
+    return gameMapCreator
+        .create(worldMapStr)
+        .then(worldMap => {
+            worldMap.lightController = new LightController(hemisphericLight);
+            return worldMap;
+        });
 };
 
 const createMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight) => {

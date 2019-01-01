@@ -23,8 +23,11 @@ export class GameEngine {
     }
 
     public runGame(worldMapStr: string) {
-        this.worldMap = createLevel(this.scene, worldMapStr);
-        this.engine.runRenderLoop(this.run);
+        createLevel(this.scene, worldMapStr)
+            .then((worldMap) => {
+                this.worldMap = worldMap;
+                this.engine.runRenderLoop(this.run);
+            });
     }
 
     private run() {

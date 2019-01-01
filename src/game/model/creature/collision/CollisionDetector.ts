@@ -43,7 +43,7 @@ export class CollisionDetector {
         const origin = this.creature.getPosition().clone();
         origin.setY(origin.y() + 1);
 
-        const ray = new BABYLON.Ray(new Vector3(origin.x(), origin.y(), origin.z()), delta, 3);
+        const ray = new BABYLON.Ray(new Vector3(origin.x(), 0.1, origin.z()), delta, 3);
 
         const hit = this.scene.pickWithRay(ray, (mesh: AbstractMesh) => {
             return ['ray', 'ground'].indexOf(mesh.name) === -1;
@@ -51,7 +51,8 @@ export class CollisionDetector {
 
         let normal: Vector3 | null = null;
         let mesh: AbstractMesh | null = null;
-        if (hit) {
+        if (hit && hit.pickedMesh) {
+            console.log(hit.pickedMesh.name)
             normal = hit.getNormal();
             mesh = hit.pickedMesh;
         }
