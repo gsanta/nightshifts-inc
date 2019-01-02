@@ -9,10 +9,10 @@ import { LightController } from '../model/light/LightController';
 import { Promise } from 'es6-promise';
 
 
-export const createLevel = (scene: Scene, worldMapStr: string): Promise<WorldMap> => {
+export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<WorldMap> => {
     const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
 
-    createCamera(scene);
+    createCamera(scene, canvas);
     const hemisphericLight = createHemisphericLight(scene);
     const spotLight = <SpotLight> createSpotLight(scene);
     const shadowGenerator = createShadow(scene, spotLight);
@@ -53,7 +53,9 @@ const createSpotLight = (scene: Scene): Light => {
     return spotLight;
 };
 
-const createCamera = (scene: Scene) => {
-    return new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
+const createCamera = (scene: Scene, canvas: HTMLCanvasElement) => {
+    const camera = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
+    camera.attachControl(canvas, true);
+    return camera;
 };
 

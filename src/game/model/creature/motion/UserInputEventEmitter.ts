@@ -5,6 +5,10 @@ export enum Keys {
      BACKWARD = 40,
      LEFT = 37,
      RIGHT = 39,
+     W = 87,
+     D = 68,
+     A = 65,
+     S = 83,
      E = 69
 }
 
@@ -15,16 +19,16 @@ export class UserInputEventEmitter extends EventEmitter {
     public subscribe() {
         document.addEventListener('keydown', (event) => {
             switch(event.keyCode) {
-                case Keys.FORWARD:
+                case Keys.W:
                     this.emitMove('FORWARD');
                     break;
-                case Keys.BACKWARD:
+                case Keys.S:
                     this.emitMove('BACKWARD');
                     break;
-                case Keys.LEFT:
+                case Keys.A:
                     this.emitTurn('LEFT');
                     break;
-                case Keys.RIGHT:
+                case Keys.D:
                     this.emitTurn('RIGHT');
                     break;
                 case Keys.E:
@@ -37,12 +41,12 @@ export class UserInputEventEmitter extends EventEmitter {
 
         document.addEventListener('keyup', (event) => {
             switch(event.keyCode) {
-                case Keys.FORWARD:
-                case Keys.BACKWARD:
+                case Keys.W:
+                case Keys.S:
                     this.emitMoveEnd();
                     break;
-                case Keys.LEFT:
-                case Keys.RIGHT:
+                case Keys.A:
+                case Keys.D:
                     this.emitTurnEnd();
                     break;
                 default:

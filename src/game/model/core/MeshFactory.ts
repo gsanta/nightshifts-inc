@@ -14,6 +14,7 @@ import { ActionStrategy } from '../creature/action/ActionStrategy';
 import { WorldMap } from '../../game_map_creator/WorldMap';
 import { Furniture } from '../creature/type/Furniture';
 import { Promise } from 'es6-promise';
+import { Orientation } from '../utils/Orientation';
 
 const colors = GameConstants.colors;
 
@@ -282,9 +283,9 @@ export class MeshFactory {
             });
     }
 
-    public createCupboardWithShelves(translate: VectorModel): Promise<MeshModel> {
+    public createCupboardWithShelves(translate: VectorModel, orientation: Orientation): Promise<MeshModel> {
         return Furniture
-            .createCupboardWithShelves(this.scene, translate, '/models/furniture/', 'cupboard_shelves.babylon', 'furniture.png')
+            .createCupboardWithShelves(this.scene, translate, orientation)
             .then(meshModel => {
                 const shadowMap = this.shadowGenerator.getShadowMap();
                 if (shadowMap && shadowMap.renderList) {

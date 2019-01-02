@@ -1,11 +1,12 @@
 import { Creature } from './Creature';
-import { Scene, Vector3, Mesh, Light, MeshBuilder } from 'babylonjs';
+import { Scene, Vector3, Mesh, Light, MeshBuilder, BoundingBox } from 'babylonjs';
 import { ModelLoader } from '../../core/io/ModelLoader';
 import { AnimatedModel } from '../../core/io/AnimatedModel';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
 import { MeshModel } from '../../core/MeshModel';
 import {Promise} from 'es6-promise';
+import { Orientation } from '../../utils/Orientation';
 
 export class Furniture extends MeshModel {
     public name = 'furniture';
@@ -134,9 +135,45 @@ export class Furniture extends MeshModel {
             });
     }
 
-    public static createCupboardWithShelves(
-        scene: Scene, translate: VectorModel, modelPath: string, modelName: string, textureName: string): Promise<Furniture> {
+    public static createCupboardWithShelves(scene: Scene, translate: VectorModel, orientation: Orientation): Promise<Furniture> {
+        const modelPath = '/models/furniture/';
+        const modelName = 'cupboard_shelves.babylon';
+        const textureName = 'furniture.png';
         const modelLoader = new ModelLoader(modelPath, scene);
+
+        const getTranslateZ = (centerPointTranslate: VectorModel, orientation: Orientation, boundingBox: BoundingBox, mesh: Mesh) => {
+            const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
+
+            switch(orientation) {
+                case Orientation.SOUTH:
+                    return centerPointTranslate.z();
+                case Orientation.NORTH:
+                    return centerPointTranslate.z();
+                case Orientation.EAST:
+                    return centerPointTranslate.z();
+                case Orientation.WEST:
+                    return centerPointTranslate.z() - depth;
+                default:
+                    throw new Error('Illegal orientation: ' + orientation);
+            }
+        };
+
+        const getTranslateX = (centerPointTranslate: VectorModel, orientation: Orientation, boundingBox: BoundingBox, mesh: Mesh) => {
+            const width = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.x;
+
+            switch(orientation) {
+                case Orientation.SOUTH:
+                    return centerPointTranslate.x();
+                case Orientation.NORTH:
+                    return centerPointTranslate.x();
+                case Orientation.EAST:
+                    return centerPointTranslate.x();
+                case Orientation.WEST:
+                    return centerPointTranslate.x() - 0.5;
+                default:
+                    throw new Error('Illegal orientation: ' + orientation);
+            }
+        }
 
         return modelLoader.load(modelName)
             .then((animatedModel: AnimatedModel) => {
@@ -154,12 +191,13 @@ export class Furniture extends MeshModel {
                 const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
                 const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
 
-                const translateX = translate.x() + width / 2;
-                const translateZ = translate.z() - depth / 2;
+                const translateX = getTranslateX(translate, orientation, boundingBox, mesh);
+                const translateZ = getTranslateZ(translate, orientation, boundingBox, mesh);
                 mesh.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
 
                 mesh.checkCollisions = true;
                 mesh.receiveShadows = true;
+                mesh.rotate(BABYLON.Axis.Y, this.getRotationForOrientation(orientation), BABYLON.Space.WORLD);
 
                 const box = MeshBuilder.CreateBox(
                     'box',
@@ -167,13 +205,28 @@ export class Furniture extends MeshModel {
                     scene
                 );
 
-                mesh.rotate(BABYLON.Axis.Y, Math.PI / 2, BABYLON.Space.WORLD);
 
                 // box.visibility = 0;
 
                 box.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
+                box.rotate(BABYLON.Axis.Y, this.getRotationForOrientation(orientation), BABYLON.Space.WORLD)
 
                 return new Furniture(mesh);
             });
+    }
+
+    private static getRotationForOrientation(orientation: Orientation) {
+        switch(orientation) {
+            case Orientation.SOUTH:
+                return 0;
+            case Orientation.NORTH:
+             return Math.PI;
+            case Orientation.EAST:
+                return 3 * Math.PI / 2;
+            case Orientation.WEST:
+                return Math.PI / 2;
+            default:
+                throw new Error('Illegal orientation: ' + orientation);
+        }
     }
 }

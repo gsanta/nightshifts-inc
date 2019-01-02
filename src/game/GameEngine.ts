@@ -11,8 +11,10 @@ export class GameEngine {
     private worldMap: WorldMap;
     private previousTime: number = Date.now();
     private engine: Engine;
+    private canvas: HTMLCanvasElement;
 
     constructor(canvas: HTMLCanvasElement) {
+        this.canvas = canvas;
         this.run = this.run.bind(this);
         const engine = new BABYLON.Engine(canvas);
         this.engine = engine;
@@ -23,7 +25,7 @@ export class GameEngine {
     }
 
     public runGame(worldMapStr: string) {
-        createLevel(this.scene, worldMapStr)
+        createLevel(this.canvas, this.scene, worldMapStr)
             .then((worldMap) => {
                 this.worldMap = worldMap;
                 this.engine.runRenderLoop(this.run);

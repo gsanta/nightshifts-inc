@@ -6,6 +6,7 @@ import { MeshModel } from '../model/core/MeshModel';
 import { number } from 'prop-types';
 import { Player } from '../model/creature/type/Player';
 import { Promise } from 'es6-promise';
+import { Orientation } from '../model/utils/Orientation';
 
 
 export class WorldMapGenerator {
@@ -69,7 +70,7 @@ export class WorldMapGenerator {
             case 'cupboard':
                 return this.meshFactory.createCupboard(translate);
             case 'cupboard_with_shelves':
-                return this.meshFactory.createCupboardWithShelves(translate);
+                return this.meshFactory.createCupboardWithShelves(translate, Orientation[<string> gameObject.additionalData.orientation]);
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }
