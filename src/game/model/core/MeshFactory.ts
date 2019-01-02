@@ -257,6 +257,19 @@ export class MeshFactory {
             });
     }
 
+    public createTableWide(translate: VectorModel): Promise<MeshModel> {
+        return Furniture
+            .createTableWide(this.scene, translate)
+            .then(meshModel => {
+                const shadowMap = this.shadowGenerator.getShadowMap();
+                if (shadowMap && shadowMap.renderList) {
+                    shadowMap.renderList.push(meshModel.mesh);
+                }
+
+                return meshModel;
+            });
+    }
+
     public createTable(translate: VectorModel): Promise<MeshModel> {
         return Furniture
             .createTable(this.scene, translate, '/models/furniture/', 'table.babylon', 'furniture.png')

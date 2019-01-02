@@ -12,6 +12,7 @@ export class Furniture extends MeshModel {
     public name = 'furniture';
     private static SCALING_OF_BED = 0.04;
     private static SCALING_OF_TABLE = 0.04;
+    private static MODEL_PATH = '/models/furniture/';
 
     public static createBed(scene: Scene, translate: VectorModel, modelPath: string, modelName: string, textureName: string): Promise<Furniture> {
         const modelLoader = new ModelLoader(modelPath, scene);
@@ -95,6 +96,48 @@ export class Furniture extends MeshModel {
             });
     }
 
+    public static createTableWide(scene: Scene, translate: VectorModel): Promise<Furniture> {
+        const modelName = 'table_wide.babylon';
+        const textureName = 'furniture.png';
+        const modelLoader = new ModelLoader(this.MODEL_PATH, scene);
+
+        return modelLoader.load(modelName)
+            .then((animatedModel: AnimatedModel) => {
+                animatedModel.meshes.forEach(m => m.isPickable = true);
+
+                const mesh = animatedModel.meshes[0];
+                mesh.name = 'furniture';
+                mesh.scaling = new Vector3(Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE);
+
+                const material = new BABYLON.StandardMaterial('table-material', scene);
+                mesh.material = material;
+                material.diffuseTexture = new BABYLON.Texture(`${this.MODEL_PATH}/${textureName}`, scene);
+
+                const boundingBox = mesh.getBoundingInfo().boundingBox;
+                const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
+                const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
+
+                const translateX = translate.x() + width / 2;
+                const translateZ = translate.z() - depth / 2;
+                mesh.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
+
+                mesh.checkCollisions = true;
+                mesh.receiveShadows = true;
+
+                const box = MeshBuilder.CreateBox(
+                    'box',
+                    { width: width, depth: depth, height: 1 },
+                    scene
+                );
+
+                // box.visibility = 0;
+
+                box.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
+
+                return new Furniture(mesh);
+            });
+    }
+
     public static createCupboard(scene: Scene, translate: VectorModel, modelPath: string, modelName: string, textureName: string): Promise<Furniture> {
         const modelLoader = new ModelLoader(modelPath, scene);
 
@@ -133,6 +176,10 @@ export class Furniture extends MeshModel {
 
                 return new Furniture(mesh);
             });
+    }
+
+    private static setMeshData(mesh: Mesh, name: string) {
+
     }
 
     public static createCupboardWithShelves(scene: Scene, translate: VectorModel, orientation: Orientation): Promise<Furniture> {
