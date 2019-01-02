@@ -245,7 +245,46 @@ export class MeshFactory {
 
     public createBed(translate: VectorModel): Promise<MeshModel> {
         return Furniture
-            .create(this.scene, translate, '/models/furniture/', 'bed.babylon', 'beds.png')
+            .createBed(this.scene, translate, '/models/furniture/', 'bed.babylon', 'beds.png')
+            .then(meshModel => {
+                const shadowMap = this.shadowGenerator.getShadowMap();
+                if (shadowMap && shadowMap.renderList) {
+                    shadowMap.renderList.push(meshModel.mesh);
+                }
+
+                return meshModel;
+            });
+    }
+
+    public createTable(translate: VectorModel): Promise<MeshModel> {
+        return Furniture
+            .createTable(this.scene, translate, '/models/furniture/', 'table.babylon', 'furniture.png')
+            .then(meshModel => {
+                const shadowMap = this.shadowGenerator.getShadowMap();
+                if (shadowMap && shadowMap.renderList) {
+                    shadowMap.renderList.push(meshModel.mesh);
+                }
+
+                return meshModel;
+            });
+    }
+
+    public createCupboard(translate: VectorModel): Promise<MeshModel> {
+        return Furniture
+            .createCupboard(this.scene, translate, '/models/furniture/', 'cupboard.babylon', 'furniture.png')
+            .then(meshModel => {
+                const shadowMap = this.shadowGenerator.getShadowMap();
+                if (shadowMap && shadowMap.renderList) {
+                    shadowMap.renderList.push(meshModel.mesh);
+                }
+
+                return meshModel;
+            });
+    }
+
+    public createCupboardWithShelves(translate: VectorModel): Promise<MeshModel> {
+        return Furniture
+            .createCupboardWithShelves(this.scene, translate, '/models/furniture/', 'cupboard_shelves.babylon', 'furniture.png')
             .then(meshModel => {
                 const shadowMap = this.shadowGenerator.getShadowMap();
                 if (shadowMap && shadowMap.renderList) {
