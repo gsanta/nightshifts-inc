@@ -15,6 +15,8 @@ import { WorldMap } from '../../game_map_creator/WorldMap';
 import { Furniture } from '../creature/type/Furniture';
 import { Promise } from 'es6-promise';
 import { Orientation } from '../utils/Orientation';
+import { ModelLoader } from './io/ModelLoader';
+import { MeshModelTemplate } from './io/MeshModelTemplate';
 
 const colors = GameConstants.colors;
 
@@ -23,14 +25,22 @@ export class MeshFactory {
     private shadowGenerator: ShadowGenerator;
     private idCounter = 0;
     private spotLight: SpotLight;
-    private materials: {[key: string]: StandardMaterial};
+    private materialTemplates: {[key: string]: StandardMaterial};
+    private modelTemplates: {[key: string]: MeshModelTemplate};
 
-    constructor(scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight) {
+    constructor(
+        scene: Scene,
+        shadowGenerator: ShadowGenerator,
+        spotLight: SpotLight,
+        materialTemplates: {[key: string]: StandardMaterial} = MeshFactory.initMaterials(scene),
+        modelTemplates: {[key: string]: MeshModelTemplate}
+    ) {
         this.scene = scene;
         this.shadowGenerator = shadowGenerator;
         this.spotLight = spotLight;
         this.shadowGenerator = this.createShadow(this.spotLight);
-        this.materials = this.initMaterials();
+        this.modelTemplates = modelTemplates;
+        this.materialTemplates = materialTemplates;
     }
 
     public createWall(translate: VectorModel, dimensions: VectorModel): Promise<MeshModel> {
@@ -42,7 +52,7 @@ export class MeshFactory {
 
         mesh.checkCollisions = true;
         mesh.isPickable = true;
-        mesh.material = this.materials.wall;
+        mesh.material = this.materialTemplates.wall;
         mesh.receiveShadows = true;
 
         const meshModel = new MeshModel(mesh);
@@ -90,7 +100,7 @@ export class MeshFactory {
 
         bottom.checkCollisions = true;
         bottom.isPickable = true;
-        bottom.material = this.materials.wall;
+        bottom.material = this.materialTemplates.wall;
         bottom.receiveShadows = true;
 
         const isHorizontal = dimensions.x() > dimensions.y();
@@ -107,7 +117,7 @@ export class MeshFactory {
 
         top.checkCollisions = true;
         top.isPickable = true;
-        top.material = this.materials.wall;
+        top.material = this.materialTemplates.wall;
         top.receiveShadows = true;
 
         let meshModel: MeshModel;
@@ -143,7 +153,7 @@ export class MeshFactory {
 
         middle1.checkCollisions = true;
         middle1.isPickable = true;
-        middle1.material = this.materials.window;
+        middle1.material = this.materialTemplates.window;
         middle1.receiveShadows = true;
 
         const middle2 = MeshBuilder.CreateBox(
@@ -156,7 +166,7 @@ export class MeshFactory {
 
         middle2.checkCollisions = true;
         middle2.isPickable = true;
-        middle2.material = this.materials.window;
+        middle2.material = this.materialTemplates.window;
         middle2.receiveShadows = true;
 
         return [middle1, middle2];
@@ -173,7 +183,7 @@ export class MeshFactory {
 
         middle1.checkCollisions = true;
         middle1.isPickable = true;
-        middle1.material = this.materials.window;
+        middle1.material = this.materialTemplates.window;
         middle1.receiveShadows = true;
 
         const middle2 = MeshBuilder.CreateBox(
@@ -186,7 +196,7 @@ export class MeshFactory {
 
         middle2.checkCollisions = true;
         middle2.isPickable = true;
-        middle2.material = this.materials.window;
+        middle2.material = this.materialTemplates.window;
         middle2.receiveShadows = true;
 
         return [middle1, middle2];
@@ -202,7 +212,7 @@ export class MeshFactory {
 
         mesh.checkCollisions = true;
         mesh.isPickable = true;
-        mesh.material = this.materials.door;
+        mesh.material = this.materialTemplates.door;
         mesh.receiveShadows = true;
 
         let meshModel: MeshModel;
@@ -234,7 +244,7 @@ export class MeshFactory {
         );
 
         ground.receiveShadows = true;
-        ground.material = this.materials.floor;
+        ground.material = this.materialTemplates.floor;
 
         const meshModel = new MeshModel(ground);
         meshModel.name = 'floor';
@@ -284,16 +294,14 @@ export class MeshFactory {
     }
 
     public createCupboard(translate: VectorModel): Promise<MeshModel> {
-        return Furniture
-            .createCupboard(this.scene, translate, '/models/furniture/', 'cupboard.babylon', 'furniture.png')
-            .then(meshModel => {
-                const shadowMap = this.shadowGenerator.getShadowMap();
-                if (shadowMap && shadowMap.renderList) {
-                    shadowMap.renderList.push(meshModel.mesh);
-                }
+        const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard, this.materialTemplates.cupboard);
 
-                return meshModel;
-            });
+        const shadowMap = this.shadowGenerator.getShadowMap();
+        if (shadowMap && shadowMap.renderList) {
+            shadowMap.renderList.push(cupboard.mesh);
+        }
+
+        return Promise.resolve(cupboard);
     }
 
     public createCupboardWithShelves(translate: VectorModel, orientation: Orientation): Promise<MeshModel> {
@@ -316,25 +324,43 @@ export class MeshFactory {
         return shadowGenerator;
     }
 
-    private initMaterials(): {[key: string]: StandardMaterial} {
-        const doorMaterial = new BABYLON.StandardMaterial('doorMaterial', this.scene);
-        doorMaterial.diffuseColor = new BABYLON.Color3(colors.door.r, colors.door.g, colors.door.b);
+    public static importModels(scene: Scene): Promise<{[key: string]: MeshModelTemplate}> {
+        const furnitureLoader = new ModelLoader('/models/furniture/', scene);
 
-        const windowMaterial = new BABYLON.StandardMaterial('windowMaterial', this.scene);
-        windowMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.window);
+        const cupboard = furnitureLoader.load('cupboard.babylon');
 
-        const wallMaterial = new BABYLON.StandardMaterial('wallMaterial', this.scene);
-        wallMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
-        wallMaterial.emissiveColor = BABYLON.Color3.FromHexString('#111111');
+        return Promise.all([cupboard])
+            .then((values) => {
+                return {
+                    cupboard: values[0]
+                };
+            });
+    }
+
+    public static initMaterials(scene: Scene): {[key: string]: StandardMaterial} {
+        const door = new BABYLON.StandardMaterial('doorMaterial', scene);
+        door.diffuseColor = new BABYLON.Color3(colors.door.r, colors.door.g, colors.door.b);
+
+        const window = new BABYLON.StandardMaterial('windowMaterial', scene);
+        window.diffuseColor = BABYLON.Color3.FromHexString(colors.window);
+
+        const wall = new BABYLON.StandardMaterial('wallMaterial', scene);
+        wall.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
+        wall.emissiveColor = BABYLON.Color3.FromHexString('#111111');
 
 
-        const floorMaterial = new BABYLON.StandardMaterial('floorMaterial', this.scene);
-        floorMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.floor);
+        const floor = new BABYLON.StandardMaterial('floorMaterial', scene);
+        floor.diffuseColor = BABYLON.Color3.FromHexString(colors.floor);
+
+        const cupboard = new BABYLON.StandardMaterial('cupboard-material', scene);
+        cupboard.diffuseTexture = new BABYLON.Texture(`models/furniture/furniture.png`, scene);
+
         return {
-            door: doorMaterial,
-            window: windowMaterial,
-            wall: wallMaterial,
-            floor: floorMaterial
+            door,
+            window,
+            wall,
+            floor,
+            cupboard
         };
     }
 }

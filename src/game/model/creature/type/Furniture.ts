@@ -1,7 +1,7 @@
 import { Creature } from './Creature';
-import { Scene, Vector3, Mesh, Light, MeshBuilder, BoundingBox } from 'babylonjs';
+import { Scene, Vector3, Mesh, Light, MeshBuilder, BoundingBox, StandardMaterial } from 'babylonjs';
 import { ModelLoader } from '../../core/io/ModelLoader';
-import { AnimatedModel } from '../../core/io/AnimatedModel';
+import { MeshModelTemplate } from '../../core/io/MeshModelTemplate';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
 import { MeshModel } from '../../core/MeshModel';
@@ -18,10 +18,11 @@ export class Furniture extends MeshModel {
         const modelLoader = new ModelLoader(modelPath, scene);
 
         return modelLoader.load(modelName)
-            .then((animatedModel: AnimatedModel) => {
-                animatedModel.meshes.forEach(m => m.isPickable = true);
+            .then((animatedModel: MeshModelTemplate) => {
+                const meshes = animatedModel.cloneMeshes();
+                meshes.forEach(m => m.isPickable = true);
 
-                const mesh = animatedModel.meshes[0];
+                const mesh = meshes[0];
                 mesh.name = 'furniture';
                 mesh.scaling = new Vector3(Furniture.SCALING_OF_BED, Furniture.SCALING_OF_BED, Furniture.SCALING_OF_BED);
 
@@ -36,10 +37,10 @@ export class Furniture extends MeshModel {
                 const translateX = translate.x() + width / 2;
                 const translateZ = translate.z() - depth / 2;
                 mesh.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
-                animatedModel.meshes[1].setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
+                meshes[1].setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
 
                 mesh.checkCollisions = true;
-                animatedModel.meshes[1].checkCollisions = true;
+                meshes[1].checkCollisions = true;
                 mesh.receiveShadows = true;
 
                 const box = MeshBuilder.CreateBox(
@@ -60,10 +61,12 @@ export class Furniture extends MeshModel {
         const modelLoader = new ModelLoader(modelPath, scene);
 
         return modelLoader.load(modelName)
-            .then((animatedModel: AnimatedModel) => {
-                animatedModel.meshes.forEach(m => m.isPickable = true);
+            .then((animatedModel: MeshModelTemplate) => {
+                const meshes = animatedModel.cloneMeshes();
+                meshes.forEach(m => m.isPickable = true);
 
-                const mesh = animatedModel.meshes[0];
+                const mesh = meshes[0];
+
                 mesh.name = 'furniture';
                 mesh.scaling = new Vector3(Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE);
 
@@ -102,10 +105,11 @@ export class Furniture extends MeshModel {
         const modelLoader = new ModelLoader(this.MODEL_PATH, scene);
 
         return modelLoader.load(modelName)
-            .then((animatedModel: AnimatedModel) => {
-                animatedModel.meshes.forEach(m => m.isPickable = true);
+            .then((animatedModel: MeshModelTemplate) => {
+                const meshes = animatedModel.cloneMeshes();
+                meshes.forEach(m => m.isPickable = true);
 
-                const mesh = animatedModel.meshes[0];
+                const mesh = meshes[0];
                 mesh.name = 'furniture';
                 mesh.scaling = new Vector3(Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE);
 
@@ -138,44 +142,38 @@ export class Furniture extends MeshModel {
             });
     }
 
-    public static createCupboard(scene: Scene, translate: VectorModel, modelPath: string, modelName: string, textureName: string): Promise<Furniture> {
-        const modelLoader = new ModelLoader(modelPath, scene);
+    public static createCupboard(scene: Scene, translate: VectorModel, model: MeshModelTemplate, material: StandardMaterial): Furniture {
+        const meshes = model.cloneMeshes();
 
-        return modelLoader.load(modelName)
-            .then((animatedModel: AnimatedModel) => {
-                animatedModel.meshes.forEach(m => m.isPickable = true);
+        meshes.forEach(m => m.isPickable = true);
 
-                const mesh = animatedModel.meshes[0];
-                mesh.name = 'furniture';
-                mesh.scaling = new Vector3(Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE);
+        const mesh = meshes[0];
+        mesh.name = 'furniture';
+        mesh.scaling = new Vector3(Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE);
+        mesh.material = material;
 
-                const material = new BABYLON.StandardMaterial('table-material', scene);
-                mesh.material = material;
-                material.diffuseTexture = new BABYLON.Texture(`models/furniture/${textureName}`, scene);
+        const boundingBox = mesh.getBoundingInfo().boundingBox;
+        const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
+        const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
 
-                const boundingBox = mesh.getBoundingInfo().boundingBox;
-                const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
-                const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
+        const translateX = translate.x() + width / 2;
+        const translateZ = translate.z() - depth / 2;
+        mesh.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
 
-                const translateX = translate.x() + width / 2;
-                const translateZ = translate.z() - depth / 2;
-                mesh.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
+        mesh.checkCollisions = true;
+        mesh.receiveShadows = true;
 
-                mesh.checkCollisions = true;
-                mesh.receiveShadows = true;
+        const box = MeshBuilder.CreateBox(
+            'box',
+            { width: width, depth: depth, height: 1 },
+            scene
+        );
 
-                const box = MeshBuilder.CreateBox(
-                    'box',
-                    { width: width, depth: depth, height: 1 },
-                    scene
-                );
+        // box.visibility = 0;
 
-                // box.visibility = 0;
+        box.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
 
-                box.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
-
-                return new Furniture(mesh);
-            });
+        return new Furniture(mesh);
     }
 
     private static setMeshData(mesh: Mesh, name: string) {
@@ -223,10 +221,11 @@ export class Furniture extends MeshModel {
         }
 
         return modelLoader.load(modelName)
-            .then((animatedModel: AnimatedModel) => {
-                animatedModel.meshes.forEach(m => m.isPickable = true);
+            .then((animatedModel: MeshModelTemplate) => {
+                const meshes = animatedModel.cloneMeshes();
+                meshes.forEach(m => m.isPickable = true);
 
-                const mesh = animatedModel.meshes[0];
+                const mesh = meshes[0];
                 mesh.name = 'furniture';
                 mesh.scaling = new Vector3(Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE);
 

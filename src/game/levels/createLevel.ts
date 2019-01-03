@@ -17,18 +17,19 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
     const spotLight = <SpotLight> createSpotLight(scene);
     const shadowGenerator = createShadow(scene, spotLight);
 
-    const meshFactory = createMeshFactory(scene, shadowGenerator, spotLight);
-    const gameMapCreator = new WorldMapGenerator(new GameObjectParser(), meshFactory, 1);
-    return gameMapCreator
-        .create(worldMapStr)
+    return initMeshFactory(scene, shadowGenerator, spotLight)
+        .then(meshFactory => new WorldMapGenerator(new GameObjectParser(), meshFactory, 1).create(worldMapStr))
         .then(worldMap => {
             worldMap.lightController = new LightController(hemisphericLight);
             return worldMap;
         });
 };
 
-const createMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight) => {
-    return new MeshFactory(scene, shadowGenerator, spotLight);
+const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory> => {
+    const modelTemplatesPromise = MeshFactory.importModels(scene);
+    const materialTemplates = MeshFactory.initMaterials(scene);
+
+    return modelTemplatesPromise.then(modelTemplates => new MeshFactory(scene, shadowGenerator, spotLight, materialTemplates, modelTemplates));
 };
 
 const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {

@@ -1,6 +1,6 @@
-import { Scene, Mesh } from 'babylonjs';
+import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup } from 'babylonjs';
 import {Promise} from 'es6-promise';
-import { AnimatedModel } from './AnimatedModel';
+import { MeshModelTemplate } from './MeshModelTemplate';
 
 export class ModelLoader {
     private base: string;
@@ -11,20 +11,21 @@ export class ModelLoader {
         this.scene = scene;
     }
 
-    public load(fileName: string): Promise<AnimatedModel> {
-        return new Promise((resolve, reject) => {
+    public load(fileName: string): Promise<MeshModelTemplate> {
+        return new Promise(resolve => {
             BABYLON.SceneLoader.ImportMesh(
-                "",
+                '',
                 this.base,
                 fileName,
                 this.scene,
-                (meshes: BABYLON.AbstractMesh[], particleSystems: BABYLON.ParticleSystem[], skeletons: BABYLON.Skeleton[], animationGroups: BABYLON.AnimationGroup[]) => {
-
-                    resolve({
-                        meshes: <Mesh[]> meshes,
-                        skeletons: skeletons
-                    });
-                });
+                (meshes: AbstractMesh[], particleSystems: ParticleSystem[], skeletons: Skeleton[], animationGroups: AnimationGroup[]) => {
+                    resolve(new MeshModelTemplate(<Mesh[]> meshes, skeletons));
+                },
+                () => {},
+                (scene: Scene, message: string) => {
+                    throw new Error(message);
+                }
+            );
         });
 
     }

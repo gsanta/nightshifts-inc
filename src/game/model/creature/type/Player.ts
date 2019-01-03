@@ -1,7 +1,7 @@
-import { Creature } from "./Creature";
-import { Scene, Vector3, Mesh, Light } from "babylonjs";
+import { Creature } from './Creature';
+import { Scene, Vector3, Mesh, Light } from 'babylonjs';
 import { ModelLoader } from '../../core/io/ModelLoader';
-import { AnimatedModel } from '../../core/io/AnimatedModel';
+import { MeshModelTemplate } from '../../core/io/MeshModelTemplate';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
 
@@ -11,22 +11,22 @@ export interface Interval {
 }
 
 export class CreatureAnimationMesh {
-    private animatedModel: AnimatedModel;
+    private modelTemplate: MeshModelTemplate;
     private intervals: { idleInterval: Interval, walkingInterval: Interval};
     private scene: Scene;
 
-    constructor(animatedModel: AnimatedModel, intervals: { idleInterval: Interval, walkingInterval: Interval}, scene: Scene) {
-        this.animatedModel = animatedModel;
+    constructor(animatedModel: MeshModelTemplate, intervals: { idleInterval: Interval, walkingInterval: Interval}, scene: Scene) {
+        this.modelTemplate = animatedModel;
         this.intervals = intervals;
         this.scene = scene;
     }
 
     public idle() {
-        this.scene.beginAnimation(this.animatedModel.skeletons[0], this.intervals.idleInterval.from, this.intervals.idleInterval.to, true, 1.0);
+        this.scene.beginAnimation(this.modelTemplate.getSkeletons()[0], this.intervals.idleInterval.from, this.intervals.idleInterval.to, true, 1.0);
     }
 
     public walk() {
-        this.scene.beginAnimation(this.animatedModel.skeletons[0], this.intervals.walkingInterval.from, this.intervals.walkingInterval.to, true, 1.0);
+        this.scene.beginAnimation(this.modelTemplate.getSkeletons()[0], this.intervals.walkingInterval.from, this.intervals.walkingInterval.to, true, 1.0);
     }
 }
 
@@ -36,25 +36,25 @@ export class Player extends Creature {
     private scene: Scene;
     private modelLoader: ModelLoader;
     private creatureAnimationMesh: CreatureAnimationMesh;
-    private animatedModel: AnimatedModel;
+    private modelTemplate: MeshModelTemplate;
     private keyboardHandler: UserInputEventEmitter;
     public name = 'player';
 
     constructor(scene: Scene, light: Light, translate: VectorModel, keyboardHandler: UserInputEventEmitter) {
         super(null);
 
-        this.modelLoader = new ModelLoader("../models/dude/", scene);
+        this.modelLoader = new ModelLoader('../models/dude/', scene);
         this.light = light;
         this.scene = scene;
         this.keyboardHandler = keyboardHandler;
         this.subscribeToUserInput();
         const that: any = this;
 
-        this.modelLoader.load("Dude.babylon")
-            .then((animatedModel: AnimatedModel) => {
-                this.animatedModel = animatedModel;
+        this.modelLoader.load('Dude.babylon')
+            .then((modelTemplate: MeshModelTemplate) => {
+                this.modelTemplate = modelTemplate;
                 that.creatureAnimationMesh = new CreatureAnimationMesh(
-                    animatedModel,
+                    modelTemplate,
                     {
                         idleInterval: null,
                         walkingInterval: {
@@ -63,15 +63,16 @@ export class Player extends Creature {
                         }
                     },
                     that.scene
-                )
+                );
 
-                animatedModel.meshes.forEach(mesh => mesh.isPickable = false);
+                const meshes = modelTemplate.cloneMeshes();
+                meshes.forEach(mesh => mesh.isPickable = false);
 
-                animatedModel.meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
+                meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
                 // meshes[0].rotation.y = Math.PI * 3 / 2;
-                that.mesh = animatedModel.meshes[0];
+                that.mesh = meshes[0];
                 that.mesh.checkCollisions = true;
-                var quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
+                const quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
                 that.mesh.rotationQuaternion = quaternion;
                 that.light.parent = that.mesh;
                 this.mesh.setAbsolutePosition(new Vector3(translate.x(), translate.y(), translate.z()));
@@ -83,12 +84,14 @@ export class Player extends Creature {
     }
 
     public playWalkingAnimation() {
-        this.scene.stopAnimation(this.animatedModel.skeletons[0]);
-        this.scene.beginAnimation(this.animatedModel.skeletons[0], 0, 100, true, 1.0);
+        const skeletons = this.modelTemplate.getSkeletons();
+        this.scene.stopAnimation(skeletons[0]);
+        this.scene.beginAnimation(skeletons[0], 0, 100, true, 1.0);
     }
 
     public playIdleAnimation() {
-        this.scene.stopAnimation(this.animatedModel.skeletons[0]);
+        const skeletons = this.modelTemplate.getSkeletons();
+        this.scene.stopAnimation(skeletons[0]);
     }
 
     public getBody(): Mesh {
