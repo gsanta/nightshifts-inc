@@ -105,12 +105,7 @@ export class Furniture extends MeshModel {
         return box;
     }
 
-    public static createCupboardWithShelves(scene: Scene, translate: VectorModel, orientation: Orientation): Promise<Furniture> {
-        const modelPath = '/models/furniture/';
-        const modelName = 'cupboard_shelves.babylon';
-        const textureName = 'furniture.png';
-        const modelLoader = new ModelLoader(modelPath, scene);
-
+    public static createCupboardWithShelves(scene: Scene, translate: VectorModel, model: MeshModelTemplate, orientation: Orientation): Furniture {
         const getTranslateZ = (centerPointTranslate: VectorModel, orientation: Orientation, boundingBox: BoundingBox, mesh: Mesh) => {
             const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
 
@@ -145,46 +140,27 @@ export class Furniture extends MeshModel {
             }
         };
 
-        const material = new BABYLON.StandardMaterial('table-material', scene);
-        material.diffuseTexture = new BABYLON.Texture(`models/furniture/${textureName}`, scene);
+        const meshes = model.cloneMeshes();
+        meshes.forEach(m => m.isPickable = true);
 
-        return modelLoader.load(modelName, material)
-            .then((animatedModel: MeshModelTemplate) => {
-                const meshes = animatedModel.cloneMeshes();
-                meshes.forEach(m => m.isPickable = true);
+        const mesh = meshes[0];
 
-                const mesh = meshes[0];
-                mesh.name = 'furniture';
-                mesh.scaling = new Vector3(Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE, Furniture.SCALING_OF_TABLE);
+        const boundingBox = mesh.getBoundingInfo().boundingBox;
+        const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
+        const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
 
-                mesh.material = material;
+        const translateX = getTranslateX(translate, orientation, boundingBox, mesh);
+        const translateZ = getTranslateZ(translate, orientation, boundingBox, mesh);
+        const adjustedTranslate = new VectorModel(translateX, translate.y(), translateZ);
 
-                const boundingBox = mesh.getBoundingInfo().boundingBox;
-                const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
-                const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
+        mesh.setAbsolutePosition(toVector3(adjustedTranslate));
+        mesh.rotate(BABYLON.Axis.Y, this.getRotationForOrientation(orientation), BABYLON.Space.WORLD);
 
-                const translateX = getTranslateX(translate, orientation, boundingBox, mesh);
-                const translateZ = getTranslateZ(translate, orientation, boundingBox, mesh);
-                mesh.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
+        const box = this.createCollisionBoxForMesh(mesh, scene, width, depth, adjustedTranslate);
 
-                mesh.checkCollisions = true;
-                mesh.receiveShadows = true;
-                mesh.rotate(BABYLON.Axis.Y, this.getRotationForOrientation(orientation), BABYLON.Space.WORLD);
+        box.rotate(BABYLON.Axis.Y, this.getRotationForOrientation(orientation), BABYLON.Space.WORLD)
 
-                const box = MeshBuilder.CreateBox(
-                    'box',
-                    { width: width, depth: depth, height: 1 },
-                    scene
-                );
-
-
-                // box.visibility = 0;
-
-                box.setAbsolutePosition(new Vector3(translateX, translate.y(), translateZ));
-                box.rotate(BABYLON.Axis.Y, this.getRotationForOrientation(orientation), BABYLON.Space.WORLD)
-
-                return new Furniture(mesh);
-            });
+        return new Furniture(mesh);
     }
 
     private static getRotationForOrientation(orientation: Orientation) {

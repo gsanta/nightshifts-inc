@@ -256,56 +256,44 @@ export class MeshFactory {
 
     public createBed(translate: VectorModel): Promise<MeshModel> {
         const bed = Furniture.createBed(this.scene, translate, this.modelTemplates.bed)
-        const shadowMap = this.shadowGenerator.getShadowMap();
-        if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(bed.mesh);
-        }
-
+        this.addToShadowMap(bed);
         return Promise.resolve(bed);
     }
 
     public createTableWide(translate: VectorModel): Promise<MeshModel> {
         const table = Furniture.createTableWide(this.scene, translate, this.modelTemplates.tableWide)
-        const shadowMap = this.shadowGenerator.getShadowMap();
-        if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(table.mesh);
-        }
+        this.addToShadowMap(table);
 
         return Promise.resolve(table);
     }
 
     public createTable(translate: VectorModel): Promise<MeshModel> {
         const table = Furniture.createTable(this.scene, translate, this.modelTemplates.table)
-        const shadowMap = this.shadowGenerator.getShadowMap();
-        if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(table.mesh);
-        }
+        this.addToShadowMap(table);
 
         return Promise.resolve(table);
     }
 
     public createCupboard(translate: VectorModel): Promise<MeshModel> {
         const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard);
-
-        const shadowMap = this.shadowGenerator.getShadowMap();
-        if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(cupboard.mesh);
-        }
+        this.addToShadowMap(cupboard);
 
         return Promise.resolve(cupboard);
     }
 
     public createCupboardWithShelves(translate: VectorModel, orientation: Orientation): Promise<MeshModel> {
-        return Furniture
-            .createCupboardWithShelves(this.scene, translate, orientation)
-            .then(meshModel => {
-                const shadowMap = this.shadowGenerator.getShadowMap();
-                if (shadowMap && shadowMap.renderList) {
-                    shadowMap.renderList.push(meshModel.mesh);
-                }
+        const cupboardWithShelves = Furniture
+            .createCupboardWithShelves(this.scene, translate, this.modelTemplates.cupboardWithShelves, orientation);
+        this.addToShadowMap(cupboardWithShelves);
 
-                return meshModel;
-            });
+        return Promise.resolve(cupboardWithShelves);
+    }
+
+    private addToShadowMap(meshModel: MeshModel) {
+        const shadowMap = this.shadowGenerator.getShadowMap();
+        if (shadowMap && shadowMap.renderList) {
+            shadowMap.renderList.push(meshModel.mesh);
+        }
     }
 
     private createShadow(spotLight: SpotLight): ShadowGenerator {
@@ -319,17 +307,20 @@ export class MeshFactory {
         const furnitureLoader = new ModelLoader('/models/furniture/', scene);
 
         const cupboard = furnitureLoader.load('cupboard.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
+        const cupboardWithShelves = furnitureLoader
+            .load('cupboard_shelves.babylon', materials.cupboardWithShelves, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
         const tableWide = furnitureLoader.load('table_wide.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
         const table = furnitureLoader.load('table.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
         const bed = furnitureLoader.load('bed.babylon', materials.bed, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
 
-        return Promise.all([cupboard, tableWide, table, bed])
+        return Promise.all([cupboard, tableWide, table, bed, cupboardWithShelves])
             .then((values) => {
                 return {
                     cupboard: values[0],
                     tableWide: values[1],
                     table: values[2],
-                    bed: values[3]
+                    bed: values[3],
+                    cupboardWithShelves: values[4]
                 };
             });
     }
