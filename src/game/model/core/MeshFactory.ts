@@ -15,7 +15,7 @@ import { WorldMap } from '../../game_map_creator/WorldMap';
 import { Furniture } from '../creature/type/Furniture';
 import { Promise } from 'es6-promise';
 import { Orientation } from '../utils/Orientation';
-import { ModelLoader } from './io/ModelLoader';
+import { ModelLoader, defaultMeshConfig } from './io/ModelLoader';
 import { MeshModelTemplate } from './io/MeshModelTemplate';
 
 const colors = GameConstants.colors;
@@ -255,46 +255,37 @@ export class MeshFactory {
     }
 
     public createBed(translate: VectorModel): Promise<MeshModel> {
-        return Furniture
-            .createBed(this.scene, translate, '/models/furniture/', 'bed.babylon', 'beds.png')
-            .then(meshModel => {
-                const shadowMap = this.shadowGenerator.getShadowMap();
-                if (shadowMap && shadowMap.renderList) {
-                    shadowMap.renderList.push(meshModel.mesh);
-                }
+        const bed = Furniture.createBed(this.scene, translate, this.modelTemplates.bed)
+        const shadowMap = this.shadowGenerator.getShadowMap();
+        if (shadowMap && shadowMap.renderList) {
+            shadowMap.renderList.push(bed.mesh);
+        }
 
-                return meshModel;
-            });
+        return Promise.resolve(bed);
     }
 
     public createTableWide(translate: VectorModel): Promise<MeshModel> {
-        return Furniture
-            .createTableWide(this.scene, translate)
-            .then(meshModel => {
-                const shadowMap = this.shadowGenerator.getShadowMap();
-                if (shadowMap && shadowMap.renderList) {
-                    shadowMap.renderList.push(meshModel.mesh);
-                }
+        const table = Furniture.createTableWide(this.scene, translate, this.modelTemplates.tableWide)
+        const shadowMap = this.shadowGenerator.getShadowMap();
+        if (shadowMap && shadowMap.renderList) {
+            shadowMap.renderList.push(table.mesh);
+        }
 
-                return meshModel;
-            });
+        return Promise.resolve(table);
     }
 
     public createTable(translate: VectorModel): Promise<MeshModel> {
-        return Furniture
-            .createTable(this.scene, translate, '/models/furniture/', 'table.babylon', 'furniture.png')
-            .then(meshModel => {
-                const shadowMap = this.shadowGenerator.getShadowMap();
-                if (shadowMap && shadowMap.renderList) {
-                    shadowMap.renderList.push(meshModel.mesh);
-                }
+        const table = Furniture.createTable(this.scene, translate, this.modelTemplates.table)
+        const shadowMap = this.shadowGenerator.getShadowMap();
+        if (shadowMap && shadowMap.renderList) {
+            shadowMap.renderList.push(table.mesh);
+        }
 
-                return meshModel;
-            });
+        return Promise.resolve(table);
     }
 
     public createCupboard(translate: VectorModel): Promise<MeshModel> {
-        const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard, this.materialTemplates.cupboard);
+        const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard);
 
         const shadowMap = this.shadowGenerator.getShadowMap();
         if (shadowMap && shadowMap.renderList) {
@@ -324,15 +315,21 @@ export class MeshFactory {
         return shadowGenerator;
     }
 
-    public static importModels(scene: Scene): Promise<{[key: string]: MeshModelTemplate}> {
+    public static importModels(scene: Scene, materials: {[key: string]: StandardMaterial}): Promise<{[key: string]: MeshModelTemplate}> {
         const furnitureLoader = new ModelLoader('/models/furniture/', scene);
 
-        const cupboard = furnitureLoader.load('cupboard.babylon');
+        const cupboard = furnitureLoader.load('cupboard.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
+        const tableWide = furnitureLoader.load('table_wide.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
+        const table = furnitureLoader.load('table.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
+        const bed = furnitureLoader.load('bed.babylon', materials.bed, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
 
-        return Promise.all([cupboard])
+        return Promise.all([cupboard, tableWide, table, bed])
             .then((values) => {
                 return {
-                    cupboard: values[0]
+                    cupboard: values[0],
+                    tableWide: values[1],
+                    table: values[2],
+                    bed: values[3]
                 };
             });
     }
@@ -352,15 +349,21 @@ export class MeshFactory {
         const floor = new BABYLON.StandardMaterial('floorMaterial', scene);
         floor.diffuseColor = BABYLON.Color3.FromHexString(colors.floor);
 
-        const cupboard = new BABYLON.StandardMaterial('cupboard-material', scene);
-        cupboard.diffuseTexture = new BABYLON.Texture(`models/furniture/furniture.png`, scene);
+        const furniture = new BABYLON.StandardMaterial('cupboard-material', scene);
+        furniture.diffuseTexture = new BABYLON.Texture(`models/furniture/furniture.png`, scene);
+
+        const beds = new BABYLON.StandardMaterial('cupboard-material', scene);
+        beds.diffuseTexture = new BABYLON.Texture(`models/furniture/beds.png`, scene);
 
         return {
             door,
             window,
             wall,
             floor,
-            cupboard
+            cupboard: furniture,
+            tableWide: furniture,
+            table: furniture,
+            bed: beds
         };
     }
 }

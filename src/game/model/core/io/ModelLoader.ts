@@ -1,6 +1,14 @@
-import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup } from 'babylonjs';
+import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup, StandardMaterial } from 'babylonjs';
 import {Promise} from 'es6-promise';
-import { MeshModelTemplate } from './MeshModelTemplate';
+import { MeshModelTemplate, MeshModelTemplateConfig } from './MeshModelTemplate';
+import { VectorModel } from '../VectorModel';
+
+export const defaultMeshConfig: MeshModelTemplateConfig = {
+    checkCollisions: true,
+    receiveShadows: true,
+    isPickable: true,
+    scaling: new VectorModel(1, 1, 1)
+}
 
 export class ModelLoader {
     private base: string;
@@ -11,7 +19,7 @@ export class ModelLoader {
         this.scene = scene;
     }
 
-    public load(fileName: string): Promise<MeshModelTemplate> {
+    public load(fileName: string, material: StandardMaterial, config: MeshModelTemplateConfig = defaultMeshConfig): Promise<MeshModelTemplate> {
         return new Promise(resolve => {
             BABYLON.SceneLoader.ImportMesh(
                 '',
@@ -19,7 +27,7 @@ export class ModelLoader {
                 fileName,
                 this.scene,
                 (meshes: AbstractMesh[], particleSystems: ParticleSystem[], skeletons: Skeleton[], animationGroups: AnimationGroup[]) => {
-                    resolve(new MeshModelTemplate(<Mesh[]> meshes, skeletons));
+                    resolve(new MeshModelTemplate(<Mesh[]> meshes, skeletons, material, config));
                 },
                 () => {},
                 (scene: Scene, message: string) => {

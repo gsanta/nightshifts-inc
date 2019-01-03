@@ -26,8 +26,8 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
 };
 
 const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory> => {
-    const modelTemplatesPromise = MeshFactory.importModels(scene);
     const materialTemplates = MeshFactory.initMaterials(scene);
+    const modelTemplatesPromise = MeshFactory.importModels(scene, materialTemplates);
 
     return modelTemplatesPromise.then(modelTemplates => new MeshFactory(scene, shadowGenerator, spotLight, materialTemplates, modelTemplates));
 };
