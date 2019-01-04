@@ -39,11 +39,15 @@ export class WorldMapGenerator {
 
     private createMesh(gameObject: GameObject, worldDimensions: { width: number, height: number }, worldMap: WorldMap): Promise<MeshModel> {
 
-        const translate = this.rectangleToTranslateVector(gameObject.dimensions, worldDimensions);
-        const dimensions = this.rectangleToDimensionVector(gameObject.dimensions);
+        let translate = this.rectangleToTranslateVector(gameObject.dimensions, worldDimensions);
+        let dimensions = this.rectangleToDimensionVectorNarrow(gameObject.dimensions);
 
         switch(gameObject.name) {
             case 'wall':
+                if (this.isVerticalWallPiece(dimensions)) {
+                    this.verticalWallPiceTranslateAdjustment(translate);
+                    this.verticalWallPieceDimensionsAdjustment(dimensions);
+                }
                 return this.meshFactory.createWall(translate, dimensions);
             case 'door':
                 if (gameObject.additionalData) {
@@ -60,6 +64,7 @@ export class WorldMapGenerator {
                 }
                 return this.meshFactory.createWindow(translate, dimensions);
             case 'floor':
+                dimensions = this.rectangleToDimensionVectorNormal(gameObject.dimensions);
                 return this.meshFactory.createFloor(translate, dimensions);
             case 'player':
                 return this.meshFactory.createPlayer(translate, worldMap);
@@ -84,7 +89,27 @@ export class WorldMapGenerator {
         return new VectorModel(x, 0, z);
     }
 
-    private rectangleToDimensionVector(rect: Rectangle): VectorModel {
+    private rectangleToDimensionVectorNarrow(rect: Rectangle): VectorModel {
+        if (rect.width > rect.height) {
+            return new VectorModel(rect.width * this.gameObjectToMeshSizeRatio, 5, this.gameObjectToMeshSizeRatio);
+        } else {
+            return new VectorModel(this.gameObjectToMeshSizeRatio, 5, rect.height * this.gameObjectToMeshSizeRatio);
+        }
+    }
+
+    private isVerticalWallPiece(dimensions: VectorModel) {
+        return dimensions.z() > dimensions.x();
+    }
+
+    private verticalWallPiceTranslateAdjustment(translate: VectorModel) {
+        // translate.setZ(this.gameObjectToMeshSizeRatio);
+    }
+
+    private verticalWallPieceDimensionsAdjustment(dimensions: VectorModel) {
+        dimensions.setZ(-this.gameObjectToMeshSizeRatio);
+    }
+
+    private rectangleToDimensionVectorNormal(rect: Rectangle): VectorModel {
         return new VectorModel(rect.width * this.gameObjectToMeshSizeRatio, 5, rect.height * this.gameObjectToMeshSizeRatio);
     }
 

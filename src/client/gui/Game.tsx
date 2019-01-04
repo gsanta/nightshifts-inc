@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GameEngine } from '../../game/GameEngine';
 import { GameObjectParser } from 'game-worldmap-generator';
-const gameWorldMap = require('../../game/game_map_creator/default_world_map.gwm');
+const gameWorldMap = require('../../game/game_map_creator/new_world_map.gwm');
 
 export class Game extends React.Component<{}, {}> {
     private ref: React.RefObject<HTMLCanvasElement>;
