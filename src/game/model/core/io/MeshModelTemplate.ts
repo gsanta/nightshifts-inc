@@ -6,28 +6,36 @@ export interface MeshModelTemplateConfig {
     receiveShadows: boolean;
     isPickable: boolean;
     scaling: VectorModel;
+    singleton: boolean;
 }
 
 export class MeshModelTemplate {
     private meshes: Mesh[];
     private skeletons: Skeleton[];
     private counter = 1;
+    private config: MeshModelTemplateConfig;
 
     constructor(meshes: Mesh[], skeletons: Skeleton[], material: StandardMaterial, config: MeshModelTemplateConfig) {
         this.meshes = meshes;
+        this.config = config;
         if (material) {
             this.meshes[0].material = material;
         }
         this.meshes[0].checkCollisions = config.checkCollisions;
         this.meshes[0].receiveShadows = config.receiveShadows;
         this.meshes[0].scaling = toVector3(config.scaling);
-        this.meshes.forEach(m => m.isPickable = true);
+        this.meshes.forEach(m => {
+            m.isPickable = true;
+        });
+
+        if (!this.config.singleton) {
+            this.meshes[0].setEnabled(false);
+        }
         this.skeletons = skeletons;
     }
 
     public cloneMeshes(): Mesh[] {
-        if (this.counter === 1) {
-            this.counter++;
+        if (this.config.singleton) {
             return this.meshes;
         }
 

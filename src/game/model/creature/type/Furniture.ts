@@ -76,7 +76,7 @@ export class Furniture extends MeshModel {
         return new Furniture(mesh);
     }
 
-    public static createCupboard(scene: Scene, translate: VectorModel, model: MeshModelTemplate): Furniture {
+    public static createCupboard(scene: Scene, translate: VectorModel, model: MeshModelTemplate, orientation: Orientation): Furniture {
         const meshes = model.cloneMeshes();
         const mesh = meshes[0];
 
@@ -89,6 +89,7 @@ export class Furniture extends MeshModel {
         const adjustedTranslate = new VectorModel(translateX, translate.y(), translateZ);
 
         mesh.setAbsolutePosition(toVector3(adjustedTranslate));
+        mesh.rotate(BABYLON.Axis.Y, this.getRotationForOrientation(orientation), BABYLON.Space.WORLD);
         this.createCollisionBoxForMesh(mesh, scene, width, depth, adjustedTranslate);
 
         return new Furniture(mesh);

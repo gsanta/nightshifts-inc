@@ -50,7 +50,9 @@ export class Player extends Creature {
         this.subscribeToUserInput();
         const that: any = this;
 
-        this.modelLoader.load('Dude.babylon', null)
+        this.modelLoader.load('Dude.babylon', null, {
+                singleton: true
+            })
             .then((modelTemplate: MeshModelTemplate) => {
                 this.modelTemplate = modelTemplate;
                 that.creatureAnimationMesh = new CreatureAnimationMesh(

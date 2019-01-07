@@ -274,8 +274,8 @@ export class MeshFactory {
         return Promise.resolve(table);
     }
 
-    public createCupboard(translate: VectorModel): Promise<MeshModel> {
-        const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard);
+    public createCupboard(translate: VectorModel, orientation: Orientation): Promise<MeshModel> {
+        const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard, orientation);
         this.addToShadowMap(cupboard);
 
         return Promise.resolve(cupboard);

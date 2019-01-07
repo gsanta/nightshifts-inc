@@ -7,6 +7,7 @@ import { number } from 'prop-types';
 import { Player } from '../model/creature/type/Player';
 import { Promise } from 'es6-promise';
 import { Orientation } from '../model/utils/Orientation';
+import { Direction } from '../model/utils/Direction';
 
 
 export class WorldMapGenerator {
@@ -75,7 +76,7 @@ export class WorldMapGenerator {
             case 'table_wide':
                 return this.meshFactory.createTableWide(translate);
             case 'cupboard':
-                return this.meshFactory.createCupboard(translate);
+                return this.meshFactory.createCupboard(translate, Orientation[<string> gameObject.additionalData.orientation]);
             case 'cupboard_with_shelves':
                 return this.meshFactory.createCupboardWithShelves(translate, Orientation[<string> gameObject.additionalData.orientation]);
             default:
@@ -95,6 +96,10 @@ export class WorldMapGenerator {
         } else {
             return new VectorModel(this.gameObjectToMeshSizeRatio, 5, rect.height * this.gameObjectToMeshSizeRatio);
         }
+    }
+
+    private rectToTranslateVector(rect: Rectangle, dock: Direction) {
+        if ()
     }
 
     private isVerticalWallPiece(dimensions: VectorModel) {
