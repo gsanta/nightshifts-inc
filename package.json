@@ -8,7 +8,7 @@
     "watch": "./node_modules/.bin/webpack-dev-server",
     "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug",
     "compile-server": "tsc -w --project tsconfig-server.json",
-    "run-server": "nodemon ./build/server/server.js"
+    "run-server": "nodemon ./build/server/server.js --ignore node_modules"
   },
   "author": "",
   "license": "ISC",

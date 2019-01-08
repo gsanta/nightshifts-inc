@@ -1,19 +1,22 @@
 import { MeshFactory } from '../model/core/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import { WorldMap } from './WorldMap';
-import { Rectangle, GameObject, GameObjectParser } from 'game-worldmap-generator';
+import { Rectangle, GameObject,  GameObjectParser } from 'game-worldmap-generator';
 import { MeshModel } from '../model/core/MeshModel';
 import { number } from 'prop-types';
 import { Player } from '../model/creature/type/Player';
 import { Promise } from 'es6-promise';
 import { Orientation } from '../model/utils/Orientation';
 import { Direction } from '../model/utils/Direction';
+import { GameObjectToRealWorldCoordinateWrapper } from './GameObjectToRealWorldCoordinateWrapper';
+import { Vector2Model } from '../model/utils/Vector2Model';
 
 
 export class WorldMapGenerator {
     private meshFactory: MeshFactory;
     private gameObjectToMeshSizeRatio: number;
     private gameObjectParser: GameObjectParser;
+    private gameObjectToRealWorldCoordinateWrapper: GameObjectToRealWorldCoordinateWrapper;
 
     constructor(gameObjectParser: GameObjectParser, meshFactory: MeshFactory, gameObjectToMeshSizeRatio = 10) {
         this.gameObjectParser = gameObjectParser;
@@ -25,6 +28,8 @@ export class WorldMapGenerator {
         const worldMap = new WorldMap();
         const gameObjects = this.gameObjectParser.parse(worldMapStr);
         const worldDimensions = this.getWorldDimensions(gameObjects);
+        const worldDimensions2 = new Vector2Model(worldDimensions.width, worldDimensions.height);
+        this.gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(worldDimensions2, this.gameObjectToMeshSizeRatio)
 
         const promises = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions, worldMap))
         return Promise.all(promises).then(values => {
@@ -76,7 +81,8 @@ export class WorldMapGenerator {
             case 'table_wide':
                 return this.meshFactory.createTableWide(translate);
             case 'cupboard':
-                return this.meshFactory.createCupboard(translate, Orientation[<string> gameObject.additionalData.orientation]);
+                let translate2 = this.gameObjectToRealWorldCoordinateWrapper.getTranslate(gameObject);
+                return this.meshFactory.createCupboard(translate2, Orientation[<string> gameObject.additionalData.orientation]);
             case 'cupboard_with_shelves':
                 return this.meshFactory.createCupboardWithShelves(translate, Orientation[<string> gameObject.additionalData.orientation]);
             default:
@@ -96,10 +102,6 @@ export class WorldMapGenerator {
         } else {
             return new VectorModel(this.gameObjectToMeshSizeRatio, 5, rect.height * this.gameObjectToMeshSizeRatio);
         }
-    }
-
-    private rectToTranslateVector(rect: Rectangle, dock: Direction) {
-        if ()
     }
 
     private isVerticalWallPiece(dimensions: VectorModel) {
