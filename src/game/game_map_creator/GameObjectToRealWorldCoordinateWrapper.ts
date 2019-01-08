@@ -12,13 +12,13 @@ export class GameObjectToRealWorldCoordinateWrapper {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public getTranslate(gameObject: GameObject, realMeshDimensions?: VectorModel): VectorModel {
+    public getTranslate(gameObject: GameObject, realMeshDimensions?: VectorModel): Vector2Model {
         const realDimensions = this.changeToRealWorldDimensions(gameObject.dimensions);
 
         // if (this.gameObject.additionalData && this.gameObject.additionalData.dock) {
-        const dock = gameObject.additionalData && gameObject.additionalData.dock ? Direction[<string> gameObject.additionalData.dock] : Direction.NORTH_WEST;
-        const translate = this.getDockPosition(dock, realDimensions);
-        return new VectorModel(translate.x(), 0, translate.y());
+        const dock = gameObject.additionalData && gameObject.additionalData.dock !== undefined ? gameObject.additionalData.dock : Direction.MIDDLE;
+        return this.getDockPosition(dock, realDimensions);
+        // return new VectorModel(translate.x(), 0, translate.y());
         // }
         
     }
@@ -29,8 +29,8 @@ export class GameObjectToRealWorldCoordinateWrapper {
     }
 
     private getDockPosition(dock: Direction, dimensions: Rectangle) {
-        const x = (dimensions.left + dimensions.width / 2) - (this.worldDimensions.x() / 2);
-        const y = (-dimensions.top - dimensions.height / 2) + (this.worldDimensions.y() / 2);
+        const x = dimensions.left;
+        const y = dimensions.top;
 
         const topLeft = new Vector2Model(x, y);
 
@@ -43,6 +43,8 @@ export class GameObjectToRealWorldCoordinateWrapper {
                 return new Vector2Model(topLeft.x() + dimensions.width, topLeft.y() + dimensions.height);
             case Direction.SOUTH_WEST: 
                 return new Vector2Model(topLeft.x(), topLeft.y() + dimensions.height);
+            case Direction.MIDDLE:
+                return new Vector2Model(x + dimensions.width / 2, y + dimensions.height / 2);
             default:
                 throw new Error('Invalid dock direction: ' + dock);
         }

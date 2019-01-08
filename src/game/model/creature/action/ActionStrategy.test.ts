@@ -8,7 +8,7 @@ import sinon = require('sinon');
 
 describe('ActionStrategy', () => {
     describe('activateClosestMeshAction', () => {
-        it.only('finds the closest actionable mesh and executes the default action on it', () => {
+        it('finds the closest actionable mesh and executes the default action on it', () => {
             const player: Partial<Player> = {
                 getCenterPosition: () => new VectorModel(0, 0, 0)
             };
