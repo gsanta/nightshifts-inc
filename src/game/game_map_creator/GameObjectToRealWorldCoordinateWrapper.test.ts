@@ -57,7 +57,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
             expect(translate).to.eql(new Vector2Model(3, 5));
         });
 
-        it.only ('translates the mesh correctly when docking to SOUTH_EAST', () => {
+        it ('translates the mesh correctly when docking to SOUTH_EAST', () => {
             const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(new Vector2Model(5, 5), 1);
             const gameObject: Partial<GameObject> = {
                 dimensions: new Rectangle(3, 3, 2, 2),

@@ -3,7 +3,11 @@ import { VectorModel } from '../model/core/VectorModel';
 import { Direction } from '../model/utils/Direction';
 import { Vector2Model } from '../model/utils/Vector2Model';
 
-export class GameObjectToRealWorldCoordinateWrapper {
+export interface GameObjectTranslator {
+    getTranslate(gameObject: GameObject, realMeshDimensions?: VectorModel): Vector2Model;
+}
+
+export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTranslator {
     private worldDimensions: Vector2Model;
     private gameObjectToMeshSizeRatio: number;
 
@@ -13,27 +17,26 @@ export class GameObjectToRealWorldCoordinateWrapper {
     }
 
     public getTranslate(gameObject: GameObject, realMeshDimensions?: VectorModel): Vector2Model {
-        const realDimensions = this.changeToRealWorldDimensions(gameObject.dimensions);
+        const realDimensions = this.changeToRealWorldDimensions(gameObject.dimensions, this.gameObjectToMeshSizeRatio);
 
         // if (this.gameObject.additionalData && this.gameObject.additionalData.dock) {
         const dock = gameObject.additionalData && gameObject.additionalData.dock !== undefined ? gameObject.additionalData.dock : Direction.MIDDLE;
         return this.getDockPosition(dock, realDimensions);
         // return new VectorModel(translate.x(), 0, translate.y());
         // }
-        
     }
 
-    private  changeToRealWorldDimensions(rect: Rectangle) {
-        const ratio = this.gameObjectToMeshSizeRatio;
+    private changeToRealWorldDimensions(rect: Rectangle, gameObjectToMeshSizeRatio: number) {
+        const ratio = gameObjectToMeshSizeRatio;
         return new Rectangle(rect.left * ratio, rect.top * ratio, rect.width * ratio, rect.height * ratio);
     }
 
     private getDockPosition(dock: Direction, dimensions: Rectangle) {
         const x = dimensions.left;
         const y = dimensions.top;
-
+    
         const topLeft = new Vector2Model(x, y);
-
+    
         switch(dock) {
             case Direction.NORTH_WEST:
                 return topLeft;

@@ -82,7 +82,8 @@ export class WorldMapGenerator {
                 return this.meshFactory.createTableWide(translate);
             case 'cupboard':
                 let translate2 = this.gameObjectToRealWorldCoordinateWrapper.getTranslate(gameObject);
-                return this.meshFactory.createCupboard(translate2, Orientation[<string> gameObject.additionalData.orientation]);
+                translate = new VectorModel(translate2.x(), 0, translate2.y());
+                return this.meshFactory.createCupboard(translate, Orientation[<string> gameObject.additionalData.orientation]);
             case 'cupboard_with_shelves':
                 return this.meshFactory.createCupboardWithShelves(translate, Orientation[<string> gameObject.additionalData.orientation]);
             default:

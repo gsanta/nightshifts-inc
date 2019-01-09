@@ -16,4 +16,8 @@ export class Vector2Model {
     public y() {
         return this._y;
     }
+
+    public add(vector2Model: Vector2Model): Vector2Model {
+        return new Vector2Model(this._x + vector2Model._x, this._y + vector2Model._y);
+    }
 }
