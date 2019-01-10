@@ -4,7 +4,7 @@ import { Direction } from '../model/utils/Direction';
 import { Vector2Model } from '../model/utils/Vector2Model';
 
 export interface GameObjectTranslator {
-    getTranslate(gameObject: GameObject, realMeshDimensions?: VectorModel): Vector2Model;
+    getTranslate(gameObject: GameObject, realMeshDimensions?: Vector2Model): Vector2Model;
 }
 
 export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTranslator {
@@ -16,12 +16,12 @@ export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTransla
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public getTranslate(gameObject: GameObject, realMeshDimensions?: VectorModel): Vector2Model {
+    public getTranslate(gameObject: GameObject, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
         const realDimensions = this.changeToRealWorldDimensions(gameObject.dimensions, this.gameObjectToMeshSizeRatio);
 
         // if (this.gameObject.additionalData && this.gameObject.additionalData.dock) {
         const dock = gameObject.additionalData && gameObject.additionalData.dock !== undefined ? gameObject.additionalData.dock : Direction.MIDDLE;
-        return this.getDockPosition(dock, realDimensions);
+        return this.getDockPosition(dock, realDimensions, realMeshDimensions);
         // return new VectorModel(translate.x(), 0, translate.y());
         // }
     }
@@ -31,7 +31,7 @@ export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTransla
         return new Rectangle(rect.left * ratio, rect.top * ratio, rect.width * ratio, rect.height * ratio);
     }
 
-    private getDockPosition(dock: Direction, dimensions: Rectangle) {
+    private getDockPosition(dock: Direction, dimensions: Rectangle, meshDimensions: Vector2Model) {
         const x = dimensions.left;
         const y = dimensions.top;
     
@@ -45,7 +45,7 @@ export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTransla
             case Direction.SOUTH_EAST: 
                 return new Vector2Model(topLeft.x() + dimensions.width, topLeft.y() + dimensions.height);
             case Direction.SOUTH_WEST: 
-                return new Vector2Model(topLeft.x(), topLeft.y() + dimensions.height);
+                return new Vector2Model(topLeft.x(), topLeft.y() + dimensions.height - meshDimensions.y());
             case Direction.MIDDLE:
                 return new Vector2Model(x + dimensions.width / 2, y + dimensions.height / 2);
             default:

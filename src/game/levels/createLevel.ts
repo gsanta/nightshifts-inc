@@ -3,34 +3,61 @@ import { WorldMap } from '../game_map_creator/WorldMap';
 import { MeshFactory } from '../model/core/MeshFactory';
 import { WorldMapGenerator } from '../game_map_creator/WorldMapGenerator';
 import { SceneModel } from '../model/core/SceneModel';
-import { Rectangle } from 'game-worldmap-generator';
+import { Rectangle, GameObject } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
 import { LightController } from '../model/light/LightController';
 import { Promise } from 'es6-promise';
+import { GameObjectToWorldCenterTranslatorDecorator } from '../game_map_creator/GameObjectToWorldCenterTranslatorDecorator';
+import { Vector2Model } from '../model/utils/Vector2Model';
+import { GameObjectToRealWorldCoordinateWrapper } from '../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 
 
 export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<WorldMap> => {
-    const sceneModel = new SceneModel(scene, new Rectangle(-50, -50, 100, 100));
-
     createCamera(scene, canvas);
     const hemisphericLight = createHemisphericLight(scene);
     const spotLight = <SpotLight> createSpotLight(scene);
     const shadowGenerator = createShadow(scene, spotLight);
 
-    return initMeshFactory(scene, shadowGenerator, spotLight)
-        .then(meshFactory => new WorldMapGenerator(new GameObjectParser(), meshFactory, 1).create(worldMapStr))
+    const gameObjects = new GameObjectParser().parse(worldMapStr);
+
+    return initMeshFactory(scene, shadowGenerator, spotLight, getWorldDimensions(gameObjects))
+        .then(meshFactory => new WorldMapGenerator(meshFactory, 1).create(gameObjects))
         .then(worldMap => {
             worldMap.lightController = new LightController(hemisphericLight);
             return worldMap;
         });
 };
 
-const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory> => {
+const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory> => {
     const materialTemplates = MeshFactory.initMaterials(scene);
     const modelTemplatesPromise = MeshFactory.importModels(scene, materialTemplates);
 
-    return modelTemplatesPromise.then(modelTemplates => new MeshFactory(scene, shadowGenerator, spotLight, materialTemplates, modelTemplates));
+    const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
+        new Vector2Model(worldDimensions.x(), worldDimensions.y()),
+        this.gameObjectToMeshSizeRatio,
+        new GameObjectToRealWorldCoordinateWrapper(worldDimensions, this.gameObjectToMeshSizeRatio)
+    );
+
+    return modelTemplatesPromise.then(modelTemplates => new MeshFactory(
+            scene, 
+            {
+                shadowGenerator,
+                spotLight
+            },
+            {
+                material: materialTemplates, 
+                model: modelTemplates
+            },
+            gameObjectTranslator
+        )
+    );
 };
+
+const getWorldDimensions = (gameObjects: GameObject[]): Vector2Model => {
+    const floor = gameObjects.filter(gameObject => gameObject.name === 'floor')[0];
+
+    return new Vector2Model(floor.dimensions.width, floor.dimensions.height)
+}
 
 const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
     const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);

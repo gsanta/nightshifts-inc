@@ -1,4 +1,4 @@
-import { StandardMaterial, Scene, MeshBuilder, ShadowGenerator, Light, SpotLight, Vector3 } from 'babylonjs';
+import { StandardMaterial, Scene, MeshBuilder, ShadowGenerator, Light, SpotLight, Vector3, Mesh } from 'babylonjs';
 import { VectorModel } from './VectorModel';
 import { MeshModel } from './MeshModel';
 import { Player } from '../creature/type/Player';
@@ -17,6 +17,9 @@ import { Promise } from 'es6-promise';
 import { Orientation } from '../utils/Orientation';
 import { ModelLoader, defaultMeshConfig } from './io/ModelLoader';
 import { MeshModelTemplate } from './io/MeshModelTemplate';
+import { GameObjectTranslator } from '../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
+import { GameObject } from 'game-worldmap-generator';
+import { Vector2Model } from '../utils/Vector2Model';
 
 const colors = GameConstants.colors;
 
@@ -25,22 +28,29 @@ export class MeshFactory {
     private shadowGenerator: ShadowGenerator;
     private idCounter = 0;
     private spotLight: SpotLight;
-    private materialTemplates: {[key: string]: StandardMaterial};
-    private modelTemplates: {[key: string]: MeshModelTemplate};
+    public materialTemplates: {[key: string]: StandardMaterial};
+    public modelTemplates: {[key: string]: MeshModelTemplate};
+    private gameObjectTranslator: GameObjectTranslator;
 
     constructor(
         scene: Scene,
-        shadowGenerator: ShadowGenerator,
-        spotLight: SpotLight,
-        materialTemplates: {[key: string]: StandardMaterial} = MeshFactory.initMaterials(scene),
-        modelTemplates: {[key: string]: MeshModelTemplate}
+        lights: {
+            shadowGenerator: ShadowGenerator,
+            spotLight: SpotLight,
+        },
+        templates: {
+            material: {[key: string]: StandardMaterial},
+            model: {[key: string]: MeshModelTemplate}
+        },
+        gameObjectTranslator: GameObjectTranslator
     ) {
         this.scene = scene;
-        this.shadowGenerator = shadowGenerator;
-        this.spotLight = spotLight;
+        this.shadowGenerator = lights.shadowGenerator;
+        this.spotLight = lights.spotLight;
         this.shadowGenerator = this.createShadow(this.spotLight);
-        this.modelTemplates = modelTemplates;
-        this.materialTemplates = materialTemplates;
+        this.modelTemplates = templates.model;
+        this.materialTemplates = templates.material;
+        this.gameObjectTranslator = gameObjectTranslator;
     }
 
     public createWall(translate: VectorModel, dimensions: VectorModel): Promise<MeshModel> {
@@ -274,8 +284,11 @@ export class MeshFactory {
         return Promise.resolve(table);
     }
 
-    public createCupboard(translate: VectorModel, orientation: Orientation): Promise<MeshModel> {
-        const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard, orientation);
+    public createCupboard(gameObject: GameObject): Promise<MeshModel> {
+        const cupboardMesh = this.modelTemplates.cupboard.getMeshes()[0];
+        const translate = this.gameObjectTranslator.getTranslate(gameObject, this.getMeshDimensions(cupboardMesh));
+        const vectorModel = new VectorModel(translate.x(), 0, translate.y());
+        const cupboard = Furniture.createCupboard(this.scene, vectorModel, this.modelTemplates.cupboard, gameObject.additionalData.orientation);
         this.addToShadowMap(cupboard);
 
         return Promise.resolve(cupboard);
@@ -356,5 +369,13 @@ export class MeshFactory {
             table: furniture,
             bed: beds
         };
+    }
+
+    private getMeshDimensions(mesh: Mesh): Vector2Model {
+        const boundingBox = mesh.getBoundingInfo().boundingBox;
+        const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
+        const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
+
+        return new Vector2Model(width, depth);
     }
 }

@@ -8,28 +8,31 @@ import { Player } from '../model/creature/type/Player';
 import { Promise } from 'es6-promise';
 import { Orientation } from '../model/utils/Orientation';
 import { Direction } from '../model/utils/Direction';
-import { GameObjectToRealWorldCoordinateWrapper } from './GameObjectToRealWorldCoordinateWrapper';
+import { GameObjectToRealWorldCoordinateWrapper, GameObjectTranslator } from './GameObjectToRealWorldCoordinateWrapper';
 import { Vector2Model } from '../model/utils/Vector2Model';
+import { GameObjectToWorldCenterTranslatorDecorator } from './GameObjectToWorldCenterTranslatorDecorator';
+import { Mesh } from 'babylonjs';
 
 
 export class WorldMapGenerator {
     private meshFactory: MeshFactory;
     private gameObjectToMeshSizeRatio: number;
-    private gameObjectParser: GameObjectParser;
-    private gameObjectToRealWorldCoordinateWrapper: GameObjectToRealWorldCoordinateWrapper;
+    private gameObjectTranslator: GameObjectTranslator;
 
-    constructor(gameObjectParser: GameObjectParser, meshFactory: MeshFactory, gameObjectToMeshSizeRatio = 10) {
-        this.gameObjectParser = gameObjectParser;
+    constructor(meshFactory: MeshFactory, gameObjectToMeshSizeRatio = 10) {
         this.meshFactory = meshFactory;
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public create(worldMapStr: string): Promise<WorldMap> {
+    public create(gameObjects: GameObject[]): Promise<WorldMap> {
         const worldMap = new WorldMap();
-        const gameObjects = this.gameObjectParser.parse(worldMapStr);
         const worldDimensions = this.getWorldDimensions(gameObjects);
         const worldDimensions2 = new Vector2Model(worldDimensions.width, worldDimensions.height);
-        this.gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(worldDimensions2, this.gameObjectToMeshSizeRatio)
+        this.gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
+            new Vector2Model(worldDimensions.width, worldDimensions.height),
+            this.gameObjectToMeshSizeRatio,
+            new GameObjectToRealWorldCoordinateWrapper(worldDimensions2, this.gameObjectToMeshSizeRatio)
+        );
 
         const promises = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions, worldMap))
         return Promise.all(promises).then(values => {
@@ -45,7 +48,11 @@ export class WorldMapGenerator {
 
     private createMesh(gameObject: GameObject, worldDimensions: { width: number, height: number }, worldMap: WorldMap): Promise<MeshModel> {
 
-        let translate = this.rectangleToTranslateVector(gameObject.dimensions, worldDimensions);
+        if (gameObject.additionalData && gameObject.additionalData.dock) {
+            gameObject.additionalData.dock = Direction[gameObject.additionalData.dock];
+        }
+
+        let translate = this.rectangleToTranslateVector2(gameObject, worldDimensions);
         let dimensions = this.rectangleToDimensionVectorNarrow(gameObject.dimensions);
 
         switch(gameObject.name) {
@@ -81,14 +88,17 @@ export class WorldMapGenerator {
             case 'table_wide':
                 return this.meshFactory.createTableWide(translate);
             case 'cupboard':
-                let translate2 = this.gameObjectToRealWorldCoordinateWrapper.getTranslate(gameObject);
-                translate = new VectorModel(translate2.x(), 0, translate2.y());
-                return this.meshFactory.createCupboard(translate, Orientation[<string> gameObject.additionalData.orientation]);
+                return this.meshFactory.createCupboard(gameObject);
             case 'cupboard_with_shelves':
                 return this.meshFactory.createCupboardWithShelves(translate, Orientation[<string> gameObject.additionalData.orientation]);
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }
+    }
+
+    private rectangleToTranslateVector2(gameObject: GameObject, worldDimensions: { width: number, height: number }): VectorModel {
+        const translatedVector = this.gameObjectTranslator.getTranslate(gameObject);
+        return new VectorModel(translatedVector.x(), 0, -translatedVector.y());
     }
 
     private rectangleToTranslateVector(rect: Rectangle, worldDimensions: { width: number, height: number }): VectorModel {

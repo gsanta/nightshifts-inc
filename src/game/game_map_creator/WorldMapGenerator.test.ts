@@ -28,8 +28,8 @@ describe('WorldMapGenerator', () => {
                 createDoor: createDoorStub
             };
 
-            const worldmapGenerator = new WorldMapGenerator(new GameObjectParser(), <MeshFactory> meshFactoryMock, 1);
-            const worldMap = await worldmapGenerator.create(file);
+            const worldmapGenerator = new WorldMapGenerator(<MeshFactory> meshFactoryMock, 1);
+            const worldMap = await worldmapGenerator.create(null);
 
             expect(worldMap.gameObjects).to.have.members(
                 [wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, windowSpy, windowSpy, doorSpy]

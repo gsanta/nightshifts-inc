@@ -34,6 +34,10 @@ export class MeshModelTemplate {
         this.skeletons = skeletons;
     }
 
+    public getMeshes() {
+        return this.meshes;
+    }
+
     public cloneMeshes(): Mesh[] {
         if (this.config.singleton) {
             return this.meshes;

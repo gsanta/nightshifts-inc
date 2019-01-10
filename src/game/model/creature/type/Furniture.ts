@@ -84,11 +84,11 @@ export class Furniture extends MeshModel {
         const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
         const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
 
-        const translateX = translate.x() + width / 2;
-        const translateZ = translate.z() - depth / 2;
-        const adjustedTranslate = new VectorModel(translateX, translate.y(), translateZ);
-
-        mesh.setAbsolutePosition(toVector3(adjustedTranslate));
+        // const translateX = translate.x() + width / 2;
+        // const translateZ = translate.z() - depth / 2;
+        // const adjustedTranslate = new VectorModel(translateX, translate.y(), translateZ);
+        const adjustedTranslate = translate;
+        mesh.translate(toVector3(adjustedTranslate), 1, BABYLON.Space.WORLD);
         mesh.rotate(BABYLON.Axis.Y, this.getRotationForOrientation(orientation), BABYLON.Space.WORLD);
         this.createCollisionBoxForMesh(mesh, scene, width, depth, adjustedTranslate);
 

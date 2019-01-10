@@ -15,11 +15,11 @@ export class GameObjectToWorldCenterTranslatorDecorator implements GameObjectTra
         this.gameObjectToRealWorldCoordinateWrapper = gameObjectToRealWorldCoordinateWrapper;
     }
 
-    public getTranslate(gameObject: GameObject, realMeshDimensions?: VectorModel): Vector2Model {
+    public getTranslate(gameObject: GameObject, realMeshDimensions?: Vector2Model): Vector2Model {
         const vector2 = this.gameObjectToRealWorldCoordinateWrapper.getTranslate(gameObject, realMeshDimensions);
 
         const translateX = - (this.worldDimensions.x() / 2) * this.gameObjectToMeshSizeRatio;
-        const translateY = (this.worldDimensions.y() / 2) * this.gameObjectToMeshSizeRatio;
+        const translateY = - (this.worldDimensions.y() / 2) * this.gameObjectToMeshSizeRatio;
         return vector2.add(new Vector2Model(translateX, translateY));
     }
 }
