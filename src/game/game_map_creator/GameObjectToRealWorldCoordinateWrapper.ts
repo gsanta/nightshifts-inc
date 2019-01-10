@@ -5,6 +5,7 @@ import { Vector2Model } from '../model/utils/Vector2Model';
 
 export interface GameObjectTranslator {
     getTranslate(gameObject: GameObject, realMeshDimensions?: Vector2Model): Vector2Model;
+    getDimensions(gameObject: GameObject): Vector2Model;
 }
 
 export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTranslator {
@@ -19,11 +20,17 @@ export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTransla
     public getTranslate(gameObject: GameObject, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
         const realDimensions = this.changeToRealWorldDimensions(gameObject.dimensions, this.gameObjectToMeshSizeRatio);
 
-        // if (this.gameObject.additionalData && this.gameObject.additionalData.dock) {
         const dock = gameObject.additionalData && gameObject.additionalData.dock !== undefined ? gameObject.additionalData.dock : Direction.MIDDLE;
         return this.getDockPosition(dock, realDimensions, realMeshDimensions);
-        // return new VectorModel(translate.x(), 0, translate.y());
-        // }
+    }
+
+    public getDimensions(gameObject: GameObject): Vector2Model {
+        const rect = gameObject.dimensions;
+        if (rect.width > rect.height) {
+            return new Vector2Model(rect.width * this.gameObjectToMeshSizeRatio, this.gameObjectToMeshSizeRatio);
+        } else {
+            return new Vector2Model(this.gameObjectToMeshSizeRatio, rect.height * this.gameObjectToMeshSizeRatio);
+        }
     }
 
     private changeToRealWorldDimensions(rect: Rectangle, gameObjectToMeshSizeRatio: number) {

@@ -1,3 +1,4 @@
+import { toVector3, VectorModel } from '../core/VectorModel';
 
 export class Vector2Model {
     private _x: number;
@@ -19,5 +20,9 @@ export class Vector2Model {
 
     public add(vector2Model: Vector2Model): Vector2Model {
         return new Vector2Model(this._x + vector2Model._x, this._y + vector2Model._y);
+    }
+
+    public toVector3(y = 0): VectorModel {
+        return new VectorModel(this.x(), y, this.y());
     }
 }

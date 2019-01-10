@@ -286,9 +286,8 @@ export class MeshFactory {
 
     public createCupboard(gameObject: GameObject): Promise<MeshModel> {
         const cupboardMesh = this.modelTemplates.cupboard.getMeshes()[0];
-        const translate = this.gameObjectTranslator.getTranslate(gameObject, this.getMeshDimensions(cupboardMesh));
-        const vectorModel = new VectorModel(translate.x(), 0, translate.y());
-        const cupboard = Furniture.createCupboard(this.scene, vectorModel, this.modelTemplates.cupboard, gameObject.additionalData.orientation);
+        const translate = this.gameObjectTranslator.getTranslate(gameObject, this.getMeshDimensions(cupboardMesh)).toVector3();
+        const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard, gameObject.additionalData.orientation);
         this.addToShadowMap(cupboard);
 
         return Promise.resolve(cupboard);
@@ -326,6 +325,9 @@ export class MeshFactory {
         const table = furnitureLoader.load('table.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
         const bed = furnitureLoader.load('bed.babylon', materials.bed, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
 
+        const wallMesh = MeshBuilder.CreateBox('wall-0', { width: 1, depth: 1, height: 1 }, scene);
+        const wall = new MeshModelTemplate([wallMesh], [], materials.wall, {...defaultMeshConfig});
+
         return Promise.all([cupboard, tableWide, table, bed, cupboardWithShelves])
             .then((values) => {
                 return {
@@ -333,7 +335,8 @@ export class MeshFactory {
                     tableWide: values[1],
                     table: values[2],
                     bed: values[3],
-                    cupboardWithShelves: values[4]
+                    cupboardWithShelves: values[4],
+                    wall: wall
                 };
             });
     }
