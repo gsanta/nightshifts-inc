@@ -29,7 +29,8 @@ export class GameEngine {
             .then((worldMap) => {
                 this.worldMap = worldMap;
                 this.engine.runRenderLoop(this.run);
-            });
+            })
+            .catch(e => console.error(e));
     }
 
     private run() {

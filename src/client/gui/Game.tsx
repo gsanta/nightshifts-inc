@@ -14,9 +14,6 @@ export class Game extends React.Component<{}, {}> {
 
     public componentDidMount() {
         this.gameEngine = new GameEngine(this.ref.current!);
-
-        const gameObjectParser = new GameObjectParser();
-
         this.gameEngine.runGame(gameWorldMap)
     }
 

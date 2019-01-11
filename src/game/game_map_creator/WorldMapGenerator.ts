@@ -11,8 +11,7 @@ import { Direction } from '../model/utils/Direction';
 import { GameObjectToRealWorldCoordinateWrapper, GameObjectTranslator } from './GameObjectToRealWorldCoordinateWrapper';
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { GameObjectToWorldCenterTranslatorDecorator } from './GameObjectToWorldCenterTranslatorDecorator';
-import { Mesh } from 'babylonjs';
-
+import { AdditionalData } from './AdditionalData';
 
 export class WorldMapGenerator {
     private meshFactory: MeshFactory;
@@ -35,22 +34,20 @@ export class WorldMapGenerator {
         );
 
         const promises = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions, worldMap))
-        return Promise.all(promises).then(values => {
-            const meshes = values.filter(mesh => mesh);
+        return Promise.all(promises)
+            .then(values => {
+                const meshes = values.filter(mesh => mesh);
 
-            worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
-            worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
-            worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
+                worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
+                worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
+                worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
 
-            return worldMap;
-        });
+                return worldMap;
+            });
     }
 
-    private createMesh(gameObject: GameObject, worldDimensions: { width: number, height: number }, worldMap: WorldMap): Promise<MeshModel> {
-
-        if (gameObject.additionalData && gameObject.additionalData.dock) {
-            gameObject.additionalData.dock = Direction[gameObject.additionalData.dock];
-        }
+    private createMesh(
+        gameObject: GameObject<AdditionalData>, worldDimensions: { width: number, height: number }, worldMap: WorldMap): Promise<MeshModel> {
 
         let translate = this.rectangleToTranslateVector2(gameObject, worldDimensions);
         let dimensions = this.rectangleToDimensionVectorNarrow(gameObject.dimensions);
@@ -61,7 +58,8 @@ export class WorldMapGenerator {
                     this.verticalWallPiceTranslateAdjustment(translate);
                     this.verticalWallPieceDimensionsAdjustment(dimensions);
                 }
-                return this.meshFactory.createWall(translate, dimensions);
+                return this.meshFactory.createWall(gameObject);
+                // return this.meshFactory.createWall(translate, dimensions);
             case 'door':
                 if (gameObject.additionalData) {
                     const pivotVector = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis);
@@ -90,7 +88,7 @@ export class WorldMapGenerator {
             case 'cupboard':
                 return this.meshFactory.createCupboard(gameObject);
             case 'cupboard_with_shelves':
-                return this.meshFactory.createCupboardWithShelves(translate, Orientation[<string> gameObject.additionalData.orientation]);
+                return this.meshFactory.createCupboardWithShelves(translate, gameObject.additionalData.orientation);
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }

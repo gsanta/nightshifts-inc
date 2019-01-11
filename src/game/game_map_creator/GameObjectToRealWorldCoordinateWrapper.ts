@@ -12,7 +12,7 @@ export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTransla
     private worldDimensions: Vector2Model;
     private gameObjectToMeshSizeRatio: number;
 
-    constructor(worldDimensions: Vector2Model, gameObjectToMeshSizeRatio: number, ) {
+    constructor(worldDimensions: Vector2Model, gameObjectToMeshSizeRatio: number) {
         this.worldDimensions = worldDimensions;
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }

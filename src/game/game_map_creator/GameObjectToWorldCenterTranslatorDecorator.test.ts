@@ -13,9 +13,9 @@ describe('GameObjectToWorldCenterTranslatorDecorator', () => {
 
         beforeEach(() => {
             getTranslateStub = sinon.stub();
-            decoratedGameObjectTranslator = {
-                getTranslate: getTranslateStub
-            };
+            // decoratedGameObjectTranslator = {
+            //     getTranslate: getTranslateStub
+            // };
         });
 
         it('calls the decorated GameObjectTranslator', () => {

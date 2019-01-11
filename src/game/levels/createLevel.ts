@@ -10,6 +10,9 @@ import { Promise } from 'es6-promise';
 import { GameObjectToWorldCenterTranslatorDecorator } from '../game_map_creator/GameObjectToWorldCenterTranslatorDecorator';
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { GameObjectToRealWorldCoordinateWrapper } from '../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
+import { WallFactory } from '../model/core/factories/WallFactory';
+import { parseJsonAdditionalData, AdditionalData } from '../game_map_creator/AdditionalData';
+import { DoorFactory } from '../model/core/factories/DoorFactory';
 
 
 export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<WorldMap> => {
@@ -18,7 +21,7 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
     const spotLight = <SpotLight> createSpotLight(scene);
     const shadowGenerator = createShadow(scene, spotLight);
 
-    const gameObjects = new GameObjectParser().parse(worldMapStr);
+    const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
 
     return initMeshFactory(scene, shadowGenerator, spotLight, getWorldDimensions(gameObjects))
         .then(meshFactory => new WorldMapGenerator(meshFactory, 1).create(gameObjects))
@@ -34,8 +37,8 @@ const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLig
 
     const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
         new Vector2Model(worldDimensions.x(), worldDimensions.y()),
-        this.gameObjectToMeshSizeRatio,
-        new GameObjectToRealWorldCoordinateWrapper(worldDimensions, this.gameObjectToMeshSizeRatio)
+        1,
+        new GameObjectToRealWorldCoordinateWrapper(worldDimensions, 1)
     );
 
     return modelTemplatesPromise.then(modelTemplates => new MeshFactory(
@@ -47,6 +50,10 @@ const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLig
             {
                 material: materialTemplates, 
                 model: modelTemplates
+            },
+            {
+                wall: new WallFactory(modelTemplates.wall, gameObjectTranslator, shadowGenerator),
+                door: new DoorFactory(modelTemplates.door, gameObjectTranslator, shadowGenerator, 1)
             },
             gameObjectTranslator
         )

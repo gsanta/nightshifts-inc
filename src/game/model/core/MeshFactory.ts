@@ -20,6 +20,7 @@ import { MeshModelTemplate } from './io/MeshModelTemplate';
 import { GameObjectTranslator } from '../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { GameObject } from 'game-worldmap-generator';
 import { Vector2Model } from '../utils/Vector2Model';
+import { ItemFactory } from './factories/ItemFactory';
 
 const colors = GameConstants.colors;
 
@@ -31,6 +32,8 @@ export class MeshFactory {
     public materialTemplates: {[key: string]: StandardMaterial};
     public modelTemplates: {[key: string]: MeshModelTemplate};
     private gameObjectTranslator: GameObjectTranslator;
+    private factories: {[key: string]: ItemFactory};
+    
 
     constructor(
         scene: Scene,
@@ -42,41 +45,20 @@ export class MeshFactory {
             material: {[key: string]: StandardMaterial},
             model: {[key: string]: MeshModelTemplate}
         },
+        factories: {[key: string]: ItemFactory},
         gameObjectTranslator: GameObjectTranslator
     ) {
         this.scene = scene;
         this.shadowGenerator = lights.shadowGenerator;
         this.spotLight = lights.spotLight;
-        this.shadowGenerator = this.createShadow(this.spotLight);
         this.modelTemplates = templates.model;
         this.materialTemplates = templates.material;
         this.gameObjectTranslator = gameObjectTranslator;
+        this.factories = factories;
     }
 
-    public createWall(translate: VectorModel, dimensions: VectorModel): Promise<MeshModel> {
-        const mesh = MeshBuilder.CreateBox(
-            'wall-' + this.idCounter++,
-            { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() },
-            this.scene
-        );
-
-        mesh.checkCollisions = true;
-        mesh.isPickable = true;
-        mesh.material = this.materialTemplates.wall;
-        mesh.receiveShadows = true;
-
-        const meshModel = new MeshModel(mesh);
-        meshModel.translate(translate);
-        meshModel.translate(new VectorModel(0, dimensions.y() / 2, 0));
-
-        const shadowMap = this.shadowGenerator.getShadowMap();
-        if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(mesh);
-        }
-
-        meshModel.name = 'wall';
-
-        return Promise.resolve(meshModel);
+    public createWall(gameObject: GameObject): Promise<MeshModel> {
+        return Promise.resolve(this.factories.wall.createItem(gameObject));
     }
 
     public createPlayer(translate: VectorModel, worldMap: WorldMap): Promise<MeshModel> {
@@ -213,37 +195,8 @@ export class MeshFactory {
     }
 
 
-    public createDoor(translate: VectorModel, dimensions: VectorModel, pivotPosition?: VectorModel, pivotAngle?: number): Promise<MeshModel> {
-        const mesh = MeshBuilder.CreateBox(
-            'door-' + this.idCounter++,
-            { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() },
-            this.scene
-        );
-
-        mesh.checkCollisions = true;
-        mesh.isPickable = true;
-        mesh.material = this.materialTemplates.door;
-        mesh.receiveShadows = true;
-
-        let meshModel: MeshModel;
-
-        if (pivotPosition) {
-            meshModel = new Door(mesh, pivotPosition, pivotAngle);
-        } else {
-            meshModel = new MeshModel(mesh);
-        }
-
-        meshModel.translate(translate);
-        meshModel.translate(new VectorModel(0, dimensions.y() / 2, 0));
-
-        const shadowMap = this.shadowGenerator.getShadowMap();
-        if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(mesh);
-        }
-
-        meshModel.name = 'door';
-
-        return Promise.resolve(meshModel);
+    public createDoor(gameObject: GameObject): Promise<MeshModel> {
+        return Promise.resolve(this.factories.door.createItem(gameObject));
     }
 
     public createFloor(translate: VectorModel, dimensions: VectorModel): Promise<MeshModel> {
@@ -308,13 +261,6 @@ export class MeshFactory {
         }
     }
 
-    private createShadow(spotLight: SpotLight): ShadowGenerator {
-        const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);
-        shadowGenerator.usePoissonSampling = true;
-
-        return shadowGenerator;
-    }
-
     public static importModels(scene: Scene, materials: {[key: string]: StandardMaterial}): Promise<{[key: string]: MeshModelTemplate}> {
         const furnitureLoader = new ModelLoader('/models/furniture/', scene);
 
@@ -328,6 +274,9 @@ export class MeshFactory {
         const wallMesh = MeshBuilder.CreateBox('wall-0', { width: 1, depth: 1, height: 1 }, scene);
         const wall = new MeshModelTemplate([wallMesh], [], materials.wall, {...defaultMeshConfig});
 
+        const doorMesh = MeshBuilder.CreateBox('door-0', { width: 1, depth: 1, height: 1 }, scene);
+        const door = new MeshModelTemplate([doorMesh], [], materials.door, {...defaultMeshConfig});
+
         return Promise.all([cupboard, tableWide, table, bed, cupboardWithShelves])
             .then((values) => {
                 return {
@@ -336,7 +285,8 @@ export class MeshFactory {
                     table: values[2],
                     bed: values[3],
                     cupboardWithShelves: values[4],
-                    wall: wall
+                    wall,
+                    door
                 };
             });
     }
