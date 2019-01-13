@@ -1,5 +1,5 @@
 import { WorldMapGenerator } from './WorldMapGenerator';
-import { MeshFactory } from '../model/core/MeshFactory';
+import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import sinon = require('sinon');
 import { expect } from 'chai';

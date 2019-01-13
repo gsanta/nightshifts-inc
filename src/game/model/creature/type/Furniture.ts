@@ -1,7 +1,7 @@
 import { Creature } from './Creature';
 import { Scene, Vector3, Mesh, Light, MeshBuilder, BoundingBox, StandardMaterial } from 'babylonjs';
-import { ModelLoader } from '../../core/io/ModelLoader';
-import { MeshModelTemplate } from '../../core/io/MeshModelTemplate';
+import { ModelFileBasedTemplateCreator } from '../../core/templates/creators/ModelFileBasedTemplateCreator';
+import { MeshTemplate } from '../../core/templates/MeshTemplate';
 import { VectorModel, toVector3 } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
 import { MeshModel } from '../../core/MeshModel';
@@ -12,8 +12,8 @@ export class Furniture extends MeshModel {
     public name = 'furniture';
     private static SCALING_OF_TABLE = 0.04;
 
-    public static createBed(scene: Scene, translate: VectorModel, model: MeshModelTemplate): Furniture {
-        const meshes = model.cloneMeshes();
+    public static createBed(scene: Scene, translate: VectorModel, model: MeshTemplate): Furniture {
+        const meshes = model.createMeshes();
         meshes.forEach(m => m.isPickable = true);
 
         const mesh = meshes[0];
@@ -34,8 +34,8 @@ export class Furniture extends MeshModel {
         return new Furniture(mesh);
     }
 
-    public static createTable(scene: Scene, translate: VectorModel, model: MeshModelTemplate): Furniture {
-        const meshes = model.cloneMeshes();
+    public static createTable(scene: Scene, translate: VectorModel, model: MeshTemplate): Furniture {
+        const meshes = model.createMeshes();
         meshes.forEach(m => m.isPickable = true);
 
         const mesh = meshes[0];
@@ -55,8 +55,8 @@ export class Furniture extends MeshModel {
         return new Furniture(mesh);
     }
 
-    public static createTableWide(scene: Scene, translate: VectorModel, model: MeshModelTemplate): Furniture {
-        const meshes = model.cloneMeshes();
+    public static createTableWide(scene: Scene, translate: VectorModel, model: MeshTemplate): Furniture {
+        const meshes = model.createMeshes();
         meshes.forEach(m => m.isPickable = true);
 
         const mesh = meshes[0];
@@ -76,8 +76,8 @@ export class Furniture extends MeshModel {
         return new Furniture(mesh);
     }
 
-    public static createCupboard(scene: Scene, translate: VectorModel, model: MeshModelTemplate, orientation: Orientation): Furniture {
-        const meshes = model.cloneMeshes();
+    public static createCupboard(scene: Scene, translate: VectorModel, model: MeshTemplate, orientation: Orientation): Furniture {
+        const meshes = model.createMeshes();
         const mesh = meshes[0];
 
         const boundingBox = mesh.getBoundingInfo().boundingBox;
@@ -106,7 +106,7 @@ export class Furniture extends MeshModel {
         return box;
     }
 
-    public static createCupboardWithShelves(scene: Scene, translate: VectorModel, model: MeshModelTemplate, orientation: Orientation): Furniture {
+    public static createCupboardWithShelves(scene: Scene, translate: VectorModel, model: MeshTemplate, orientation: Orientation): Furniture {
         const getTranslateZ = (centerPointTranslate: VectorModel, orientation: Orientation, boundingBox: BoundingBox, mesh: Mesh) => {
             const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
 
@@ -141,7 +141,7 @@ export class Furniture extends MeshModel {
             }
         };
 
-        const meshes = model.cloneMeshes();
+        const meshes = model.createMeshes();
         meshes.forEach(m => m.isPickable = true);
 
         const mesh = meshes[0];

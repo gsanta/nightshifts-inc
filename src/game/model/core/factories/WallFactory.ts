@@ -2,17 +2,17 @@ import { ItemFactory } from './ItemFactory';
 import { GameObject } from 'game-worldmap-generator';
 import { MeshModel } from '../MeshModel';
 import { MeshBuilder, StandardMaterial, ShadowGenerator } from 'babylonjs';
-import { MeshModelTemplate } from '../io/MeshModelTemplate';
+import { MeshTemplate } from '../templates/MeshTemplate';
 import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { VectorModel } from '../VectorModel';
 
 export class WallFactory implements ItemFactory {
-    private meshModelTemplate: MeshModelTemplate;
+    private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        meshModelTemplate: MeshModelTemplate,
+        meshModelTemplate: MeshTemplate,
         gameObjectTranslator: GameObjectTranslator,
         shadowGenerator: ShadowGenerator
     ) {
@@ -27,7 +27,7 @@ export class WallFactory implements ItemFactory {
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
-        const mesh = this.meshModelTemplate.cloneMeshes()[0];
+        const mesh = this.meshModelTemplate.createMeshes()[0];
         const meshModel = new MeshModel(mesh);
         
         meshModel.translate(translate);

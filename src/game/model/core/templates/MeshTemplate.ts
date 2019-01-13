@@ -1,7 +1,7 @@
 import { Mesh, Skeleton, StandardMaterial } from 'babylonjs';
 import { VectorModel, toVector3 } from '../VectorModel';
 
-export interface MeshModelTemplateConfig {
+export interface MeshTemplateConfig {
     checkCollisions: boolean;
     receiveShadows: boolean;
     isPickable: boolean;
@@ -9,13 +9,13 @@ export interface MeshModelTemplateConfig {
     singleton: boolean;
 }
 
-export class MeshModelTemplate {
+export class MeshTemplate {
     private meshes: Mesh[];
     private skeletons: Skeleton[];
     private counter = 1;
-    private config: MeshModelTemplateConfig;
+    private config: MeshTemplateConfig;
 
-    constructor(meshes: Mesh[], skeletons: Skeleton[], material: StandardMaterial, config: MeshModelTemplateConfig) {
+    constructor(meshes: Mesh[], skeletons: Skeleton[], material: StandardMaterial, config: MeshTemplateConfig) {
         this.meshes = meshes;
         this.config = config;
         if (material) {
@@ -38,7 +38,7 @@ export class MeshModelTemplate {
         return this.meshes;
     }
 
-    public cloneMeshes(): Mesh[] {
+    public createMeshes(): Mesh[] {
         if (this.config.singleton) {
             return this.meshes;
         }

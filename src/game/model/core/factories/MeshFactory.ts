@@ -1,26 +1,26 @@
 import { StandardMaterial, Scene, MeshBuilder, ShadowGenerator, Light, SpotLight, Vector3, Mesh } from 'babylonjs';
-import { VectorModel } from './VectorModel';
-import { MeshModel } from './MeshModel';
-import { Player } from '../creature/type/Player';
-import { UserInputEventEmitter } from '../creature/motion/UserInputEventEmitter';
-import { CollisionDetector } from '../creature/collision/CollisionDetector';
-import { ManualMotionStrategy } from '../creature/motion/ManualMotionStrategy';
-import { EyeSensor } from '../creature/sensor/EyeSensor';
-import { GameConstants } from '../../GameConstants';
-import { MultiMeshModel } from './MultiMeshModel';
-import { Door } from '../creature/type/Door';
-import { Window } from '../creature/type/Window';
-import { ActionStrategy } from '../creature/action/ActionStrategy';
-import { WorldMap } from '../../game_map_creator/WorldMap';
-import { Furniture } from '../creature/type/Furniture';
+import { VectorModel } from '../VectorModel';
+import { MeshModel } from '../MeshModel';
+import { Player } from '../../creature/type/Player';
+import { UserInputEventEmitter } from '../../creature/motion/UserInputEventEmitter';
+import { CollisionDetector } from '../../creature/collision/CollisionDetector';
+import { ManualMotionStrategy } from '../../creature/motion/ManualMotionStrategy';
+import { EyeSensor } from '../../creature/sensor/EyeSensor';
+import { GameConstants } from '../../../GameConstants';
+import { MultiMeshModel } from '../MultiMeshModel';
+import { Door } from '../../creature/type/Door';
+import { Window } from '../../creature/type/Window';
+import { ActionStrategy } from '../../creature/action/ActionStrategy';
+import { WorldMap } from '../../../game_map_creator/WorldMap';
+import { Furniture } from '../../creature/type/Furniture';
 import { Promise } from 'es6-promise';
-import { Orientation } from '../utils/Orientation';
-import { ModelLoader, defaultMeshConfig } from './io/ModelLoader';
-import { MeshModelTemplate } from './io/MeshModelTemplate';
-import { GameObjectTranslator } from '../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
+import { Orientation } from '../../utils/Orientation';
+import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../templates/creators/ModelFileBasedTemplateCreator';
+import { MeshTemplate } from '../templates/MeshTemplate';
+import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { GameObject } from 'game-worldmap-generator';
-import { Vector2Model } from '../utils/Vector2Model';
-import { ItemFactory } from './factories/ItemFactory';
+import { Vector2Model } from '../../utils/Vector2Model';
+import { ItemFactory } from './ItemFactory';
 
 const colors = GameConstants.colors;
 
@@ -30,7 +30,7 @@ export class MeshFactory {
     private idCounter = 0;
     private spotLight: SpotLight;
     public materialTemplates: {[key: string]: StandardMaterial};
-    public modelTemplates: {[key: string]: MeshModelTemplate};
+    public modelTemplates: {[key: string]: MeshTemplate};
     private gameObjectTranslator: GameObjectTranslator;
     private factories: {[key: string]: ItemFactory};
     
@@ -43,7 +43,7 @@ export class MeshFactory {
         },
         templates: {
             material: {[key: string]: StandardMaterial},
-            model: {[key: string]: MeshModelTemplate}
+            model: {[key: string]: MeshTemplate}
         },
         factories: {[key: string]: ItemFactory},
         gameObjectTranslator: GameObjectTranslator
@@ -261,8 +261,8 @@ export class MeshFactory {
         }
     }
 
-    public static importModels(scene: Scene, materials: {[key: string]: StandardMaterial}): Promise<{[key: string]: MeshModelTemplate}> {
-        const furnitureLoader = new ModelLoader('/models/furniture/', scene);
+    public static importModels(scene: Scene, materials: {[key: string]: StandardMaterial}): Promise<{[key: string]: MeshTemplate}> {
+        const furnitureLoader = new ModelFileBasedTemplateCreator('/models/furniture/', scene);
 
         const cupboard = furnitureLoader.load('cupboard.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
         const cupboardWithShelves = furnitureLoader
@@ -272,10 +272,10 @@ export class MeshFactory {
         const bed = furnitureLoader.load('bed.babylon', materials.bed, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
 
         const wallMesh = MeshBuilder.CreateBox('wall-0', { width: 1, depth: 1, height: 1 }, scene);
-        const wall = new MeshModelTemplate([wallMesh], [], materials.wall, {...defaultMeshConfig});
+        const wall = new MeshTemplate([wallMesh], [], materials.wall, {...defaultMeshConfig});
 
         const doorMesh = MeshBuilder.CreateBox('door-0', { width: 1, depth: 1, height: 1 }, scene);
-        const door = new MeshModelTemplate([doorMesh], [], materials.door, {...defaultMeshConfig});
+        const door = new MeshTemplate([doorMesh], [], materials.door, {...defaultMeshConfig});
 
         return Promise.all([cupboard, tableWide, table, bed, cupboardWithShelves])
             .then((values) => {

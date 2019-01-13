@@ -17,13 +17,17 @@ export class Door extends MeshModel {
 
     public doDefaultAction() {
         const originalPivotMatrix = this.mesh.getPivotMatrix();
-        this.mesh.setPivotMatrix(BABYLON.Matrix.Translation(this.pivotPosition.x(), this.pivotPosition.y(), this.pivotPosition.z()));
+
+        // this.getPosition().x()
+        // this.mesh.setPivotMatrix(BABYLON.Matrix.Translation(this.mesh.scaling.x / 2, 0, 0));
 
         if (this.isOpen) {
+            // this.mesh.rotate(BABYLON.Axis.Y, 0, BABYLON.Space.LOCAL);
             this.mesh.rotation.y = 0;
             this.isOpen = false;
         } else {
             this.mesh.rotation.y = this.pivotAngle;
+            // this.mesh.rotate(BABYLON.Axis.Y, this.pivotAngle, BABYLON.Space.LOCAL);
             this.isOpen = true;
         }
 

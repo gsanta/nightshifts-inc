@@ -1,4 +1,4 @@
-import { MeshFactory } from '../model/core/MeshFactory';
+import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import { WorldMap } from './WorldMap';
 import { Rectangle, GameObject,  GameObjectParser } from 'game-worldmap-generator';
@@ -54,18 +54,9 @@ export class WorldMapGenerator {
 
         switch(gameObject.name) {
             case 'wall':
-                if (this.isVerticalWallPiece(dimensions)) {
-                    this.verticalWallPiceTranslateAdjustment(translate);
-                    this.verticalWallPieceDimensionsAdjustment(dimensions);
-                }
                 return this.meshFactory.createWall(gameObject);
-                // return this.meshFactory.createWall(translate, dimensions);
             case 'door':
-                if (gameObject.additionalData) {
-                    const pivotVector = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis);
-                    return this.meshFactory.createDoor(translate, dimensions, pivotVector, BABYLON.Tools.ToRadians(gameObject.additionalData.angle));
-                }
-                return this.meshFactory.createDoor(translate, dimensions);
+                return this.meshFactory.createDoor(gameObject);
             case 'window':
                 if (gameObject.additionalData) {
                     const pivotVector1 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis1);

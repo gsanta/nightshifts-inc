@@ -1,6 +1,6 @@
 import { Scene, Mesh, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
 import { WorldMap } from '../game_map_creator/WorldMap';
-import { MeshFactory } from '../model/core/MeshFactory';
+import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { WorldMapGenerator } from '../game_map_creator/WorldMapGenerator';
 import { SceneModel } from '../model/core/SceneModel';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
@@ -13,6 +13,8 @@ import { GameObjectToRealWorldCoordinateWrapper } from '../game_map_creator/Game
 import { WallFactory } from '../model/core/factories/WallFactory';
 import { parseJsonAdditionalData, AdditionalData } from '../game_map_creator/AdditionalData';
 import { DoorFactory } from '../model/core/factories/DoorFactory';
+import { WallTemplateCreator } from '../model/core/templates/creators/WallTemplateCreator';
+import { DoorTemplateCreator } from '../model/core/templates/creators/DoorTemplateCreator';
 
 
 export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<WorldMap> => {
@@ -39,6 +41,19 @@ const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLig
         new Vector2Model(worldDimensions.x(), worldDimensions.y()),
         1,
         new GameObjectToRealWorldCoordinateWrapper(worldDimensions, 1)
+    );
+
+    const wallFactory = new WallFactory(
+        new WallTemplateCreator(scene).create(),
+        gameObjectTranslator,
+        shadowGenerator
+    );
+
+    const doorFactory = new DoorFactory(
+        new DoorTemplateCreator(scene).create(),
+        gameObjectTranslator,
+        shadowGenerator,
+        1
     );
 
     return modelTemplatesPromise.then(modelTemplates => new MeshFactory(

@@ -5,20 +5,20 @@ import { ItemFactory } from './ItemFactory';
 import { GameObject, Rectangle } from 'game-worldmap-generator';
 import { MeshModel } from '../MeshModel';
 import { StandardMaterial, ShadowGenerator } from 'babylonjs';
-import { MeshModelTemplate } from '../io/MeshModelTemplate';
+import { MeshTemplate } from '../templates/MeshTemplate';
 import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { VectorModel } from '../VectorModel';
 import { AdditionalData } from '../../../game_map_creator/AdditionalData';
 import { Door } from '../../creature/type/Door';
 
 export class DoorFactory implements ItemFactory {
-    private meshModelTemplate: MeshModelTemplate;
+    private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
     private gameObjectToMeshSizeRatio: number;
 
     constructor(
-        meshModelTemplate: MeshModelTemplate,
+        meshModelTemplate: MeshTemplate,
         gameObjectTranslator: GameObjectTranslator,
         shadowGenerator: ShadowGenerator,
         gameObjectToMeshSizeRatio: number
@@ -35,13 +35,15 @@ export class DoorFactory implements ItemFactory {
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
-        const mesh = this.meshModelTemplate.cloneMeshes()[0];
+        const mesh = this.meshModelTemplate.createMeshes()[0];
         
         let meshModel: MeshModel;
 
         if (gameObject.additionalData.axis) {
-            const pivotVector = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis);
+            const pivotVector = this.getPivotVector(gameObject.dimensions, scaling, gameObject.additionalData.axis);
             const pivotAngle = gameObject.additionalData.angle;
+            mesh.setPivotMatrix(BABYLON.Matrix.Translation(pivotVector.x(), pivotVector.y(), pivotVector.z()));
+
             meshModel = new Door(mesh, pivotVector, pivotAngle);
         } else {
             meshModel = new MeshModel(mesh);
@@ -58,7 +60,7 @@ export class DoorFactory implements ItemFactory {
         return meshModel;
     }
 
-    private getPivotVector(rect: Rectangle, pivotAxis: {x: number, y: number}) {
+    private getPivotVector(rect: Rectangle, scaling: VectorModel,  pivotAxis: {x: number, y: number}) {
         const isDoorHorizontal = () => rect.width > rect.height;
 
         if (isDoorHorizontal()) {

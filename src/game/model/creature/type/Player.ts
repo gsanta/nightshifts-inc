@@ -1,7 +1,7 @@
 import { Creature } from './Creature';
 import { Scene, Vector3, Mesh, Light } from 'babylonjs';
-import { ModelLoader } from '../../core/io/ModelLoader';
-import { MeshModelTemplate } from '../../core/io/MeshModelTemplate';
+import { ModelFileBasedTemplateCreator } from '../../core/templates/creators/ModelFileBasedTemplateCreator';
+import { MeshTemplate } from '../../core/templates/MeshTemplate';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
 
@@ -11,11 +11,11 @@ export interface Interval {
 }
 
 export class CreatureAnimationMesh {
-    private modelTemplate: MeshModelTemplate;
+    private modelTemplate: MeshTemplate;
     private intervals: { idleInterval: Interval, walkingInterval: Interval};
     private scene: Scene;
 
-    constructor(animatedModel: MeshModelTemplate, intervals: { idleInterval: Interval, walkingInterval: Interval}, scene: Scene) {
+    constructor(animatedModel: MeshTemplate, intervals: { idleInterval: Interval, walkingInterval: Interval}, scene: Scene) {
         this.modelTemplate = animatedModel;
         this.intervals = intervals;
         this.scene = scene;
@@ -34,16 +34,16 @@ export class CreatureAnimationMesh {
 export class Player extends Creature {
     private light: Light;
     private scene: Scene;
-    private modelLoader: ModelLoader;
+    private modelLoader: ModelFileBasedTemplateCreator;
     private creatureAnimationMesh: CreatureAnimationMesh;
-    private modelTemplate: MeshModelTemplate;
+    private modelTemplate: MeshTemplate;
     private keyboardHandler: UserInputEventEmitter;
     public name = 'player';
 
     constructor(scene: Scene, light: Light, translate: VectorModel, keyboardHandler: UserInputEventEmitter) {
         super(null);
 
-        this.modelLoader = new ModelLoader('../models/dude/', scene);
+        this.modelLoader = new ModelFileBasedTemplateCreator('../models/dude/', scene);
         this.light = light;
         this.scene = scene;
         this.keyboardHandler = keyboardHandler;
@@ -53,7 +53,7 @@ export class Player extends Creature {
         this.modelLoader.load('Dude.babylon', null, {
                 singleton: true
             })
-            .then((modelTemplate: MeshModelTemplate) => {
+            .then((modelTemplate: MeshTemplate) => {
                 this.modelTemplate = modelTemplate;
                 that.creatureAnimationMesh = new CreatureAnimationMesh(
                     modelTemplate,
@@ -67,7 +67,7 @@ export class Player extends Creature {
                     that.scene
                 );
 
-                const meshes = modelTemplate.cloneMeshes();
+                const meshes = modelTemplate.createMeshes();
                 meshes.forEach(mesh => mesh.isPickable = false);
 
                 meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
