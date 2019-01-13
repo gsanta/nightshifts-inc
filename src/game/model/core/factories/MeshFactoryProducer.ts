@@ -11,12 +11,14 @@ import { Vector2Model } from '../../utils/Vector2Model';
 import { GameObjectToRealWorldCoordinateWrapper } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { WallFactory } from './WallFactory';
 import { DoorFactory } from './DoorFactory';
+import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator';
 
 interface MeshMap<V> {
     wall: V;
     door: V;
     player: V;
     cupboard: V;
+    floor: V;
 }
 
 export class MeshFactoryProducer {
@@ -33,22 +35,19 @@ export class MeshFactoryProducer {
             worldDimensions, 1, new GameObjectToRealWorldCoordinateWrapper(worldDimensions, 1)
         );
 
-        return this.getTemplateProducers(scene)
+        return this.getTemplateProducers(scene, worldDimensions)
             .then(meshMap => {
                 return new MeshFactory(
                     scene,
-                    null,
-                    null,
                     {
                         wall: new WallFactory(meshMap.wall.create(), gameObjectTranslator, shadowGenerator),
                         door: new DoorFactory(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1)
-                    },
-                    gameObjectTranslator
+                    }
                 )
             });
     }
 
-    private static getTemplateProducers(scene: Scene): Promise<MeshMap<TemplateCreator>> {
+    private static getTemplateProducers(scene: Scene, worldDimensions: Vector2Model): Promise<MeshMap<TemplateCreator>> {
         const meshMap: MeshMap<TemplateCreator> = {
             wall: new WallTemplateCreator(scene),
             door: new DoorTemplateCreator(scene),
@@ -65,7 +64,8 @@ export class MeshFactoryProducer {
                 this.PLAYER_MODEL_FILE,
                 null,
                 {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.1, 0.1, 0.1)}
-            )
+            ),
+            floor: new FloorTemplateCreator(scene, worldDimensions)
         }
 
         return Promise.all([

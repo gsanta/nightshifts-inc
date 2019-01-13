@@ -26,34 +26,11 @@ const colors = GameConstants.colors;
 
 export class MeshFactory {
     private scene: Scene;
-    private shadowGenerator: ShadowGenerator;
-    private idCounter = 0;
-    private spotLight: SpotLight;
-    public materialTemplates: {[key: string]: StandardMaterial};
-    public modelTemplates: {[key: string]: MeshTemplate};
-    private gameObjectTranslator: GameObjectTranslator;
     private factories: {[key: string]: ItemFactory};
     
 
-    constructor(
-        scene: Scene,
-        lights: {
-            shadowGenerator: ShadowGenerator,
-            spotLight: SpotLight,
-        },
-        templates: {
-            material: {[key: string]: StandardMaterial},
-            model: {[key: string]: MeshTemplate}
-        },
-        factories: {[key: string]: ItemFactory},
-        gameObjectTranslator: GameObjectTranslator
-    ) {
+    constructor(scene: Scene,factories: {[key: string]: ItemFactory}) {
         this.scene = scene;
-        this.shadowGenerator = lights.shadowGenerator;
-        this.spotLight = lights.spotLight;
-        this.modelTemplates = templates.model;
-        this.materialTemplates = templates.material;
-        this.gameObjectTranslator = gameObjectTranslator;
         this.factories = factories;
     }
 
@@ -82,117 +59,119 @@ export class MeshFactory {
     public createWindow(
         translate: VectorModel, dimensions: VectorModel, pivotPosition1?: VectorModel, pivotPosition2?: VectorModel, pivotAngle?: number
     ): Promise<MeshModel> {
-        const bottom = MeshBuilder.CreateBox(
-            'window-' + this.idCounter++,
-            { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() / 6 },
-            this.scene
-        );
+        // const bottom = MeshBuilder.CreateBox(
+        //     'window-' + this.idCounter++,
+        //     { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() / 6 },
+        //     this.scene
+        // );
 
-        bottom.translate(new Vector3(0, - dimensions.y() / 2 + dimensions.y() / 12, 0), 1);
+        // bottom.translate(new Vector3(0, - dimensions.y() / 2 + dimensions.y() / 12, 0), 1);
 
-        bottom.checkCollisions = true;
-        bottom.isPickable = true;
-        bottom.material = this.materialTemplates.wall;
-        bottom.receiveShadows = true;
+        // bottom.checkCollisions = true;
+        // bottom.isPickable = true;
+        // bottom.material = this.materialTemplates.wall;
+        // bottom.receiveShadows = true;
 
-        const isHorizontal = dimensions.x() > dimensions.y();
+        // const isHorizontal = dimensions.x() > dimensions.y();
 
-        let [middle1, middle2] = isHorizontal ? this.createHorizontalWindowMeshes(dimensions) : this.createVerticalWindowMeshes(dimensions);
+        // let [middle1, middle2] = isHorizontal ? this.createHorizontalWindowMeshes(dimensions) : this.createVerticalWindowMeshes(dimensions);
 
-        const top = MeshBuilder.CreateBox(
-            'window-' + this.idCounter++,
-            { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() / 6 },
-            this.scene
-        );
+        // const top = MeshBuilder.CreateBox(
+        //     'window-' + this.idCounter++,
+        //     { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() / 6 },
+        //     this.scene
+        // );
 
-        top.translate(new Vector3(0, dimensions.y() / 2 - dimensions.y() / 12, 0), 1);
+        // top.translate(new Vector3(0, dimensions.y() / 2 - dimensions.y() / 12, 0), 1);
 
-        top.checkCollisions = true;
-        top.isPickable = true;
-        top.material = this.materialTemplates.wall;
-        top.receiveShadows = true;
+        // top.checkCollisions = true;
+        // top.isPickable = true;
+        // top.material = this.materialTemplates.wall;
+        // top.receiveShadows = true;
 
-        let meshModel: MeshModel;
+        // let meshModel: MeshModel;
 
-        if (pivotPosition1) {
-            meshModel = new Window([bottom, middle1, middle2, top], pivotPosition1, pivotPosition2, pivotAngle);
-        } else {
-            meshModel = new MultiMeshModel([bottom, middle1, middle2, top]);
-        }
+        // if (pivotPosition1) {
+        //     meshModel = new Window([bottom, middle1, middle2, top], pivotPosition1, pivotPosition2, pivotAngle);
+        // } else {
+        //     meshModel = new MultiMeshModel([bottom, middle1, middle2, top]);
+        // }
 
 
-        meshModel.translate(translate);
-        meshModel.translate(new VectorModel(0, dimensions.y() / 2, 0));
+        // meshModel.translate(translate);
+        // meshModel.translate(new VectorModel(0, dimensions.y() / 2, 0));
 
-        const shadowMap = this.shadowGenerator.getShadowMap();
-        if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(bottom, middle1, middle2, top);
-        }
+        // const shadowMap = this.shadowGenerator.getShadowMap();
+        // if (shadowMap && shadowMap.renderList) {
+        //     shadowMap.renderList.push(bottom, middle1, middle2, top);
+        // }
 
-        meshModel.name = 'window';
+        // meshModel.name = 'window';
 
-        return Promise.resolve(meshModel);
+        // return Promise.resolve(meshModel);
+
+        return Promise.resolve(null);
     }
 
-    private createHorizontalWindowMeshes(dimensions: VectorModel) {
-        const middle1 = MeshBuilder.CreateBox(
-            'window-' + this.idCounter++,
-            { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
-            this.scene
-        );
+    // private createHorizontalWindowMeshes(dimensions: VectorModel) {
+    //     const middle1 = MeshBuilder.CreateBox(
+    //         'window-' + this.idCounter++,
+    //         { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
+    //         this.scene
+    //     );
 
-        middle1.translate(new Vector3(- dimensions.x() / 4, 0, 0), 1);
+    //     middle1.translate(new Vector3(- dimensions.x() / 4, 0, 0), 1);
 
-        middle1.checkCollisions = true;
-        middle1.isPickable = true;
-        middle1.material = this.materialTemplates.window;
-        middle1.receiveShadows = true;
+    //     middle1.checkCollisions = true;
+    //     middle1.isPickable = true;
+    //     middle1.material = this.materialTemplates.window;
+    //     middle1.receiveShadows = true;
 
-        const middle2 = MeshBuilder.CreateBox(
-            'window-' + this.idCounter++,
-            { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
-            this.scene
-        );
+    //     const middle2 = MeshBuilder.CreateBox(
+    //         'window-' + this.idCounter++,
+    //         { width: dimensions.x() / 2, depth: dimensions.z(), height: 4 * dimensions.y() / 6 },
+    //         this.scene
+    //     );
 
-        middle2.translate(new Vector3(+ dimensions.x() / 4, 0, 0), 1);
+    //     middle2.translate(new Vector3(+ dimensions.x() / 4, 0, 0), 1);
 
-        middle2.checkCollisions = true;
-        middle2.isPickable = true;
-        middle2.material = this.materialTemplates.window;
-        middle2.receiveShadows = true;
+    //     middle2.checkCollisions = true;
+    //     middle2.isPickable = true;
+    //     middle2.material = this.materialTemplates.window;
+    //     middle2.receiveShadows = true;
 
-        return [middle1, middle2];
-    }
+    //     return [middle1, middle2];
+    // }
 
-    private createVerticalWindowMeshes(dimensions: VectorModel) {
-        const middle1 = MeshBuilder.CreateBox(
-            'window-' + this.idCounter++,
-            { width: dimensions.x(), depth: dimensions.z() / 2, height: 4 * dimensions.y() / 6 },
-            this.scene
-        );
+    // private createVerticalWindowMeshes(dimensions: VectorModel) {
+    //     const middle1 = MeshBuilder.CreateBox(
+    //         'window-' + this.idCounter++,
+    //         { width: dimensions.x(), depth: dimensions.z() / 2, height: 4 * dimensions.y() / 6 },
+    //         this.scene
+    //     );
 
-        middle1.translate(new Vector3(0, 0, dimensions.z() / 4), 1);
+    //     middle1.translate(new Vector3(0, 0, dimensions.z() / 4), 1);
 
-        middle1.checkCollisions = true;
-        middle1.isPickable = true;
-        middle1.material = this.materialTemplates.window;
-        middle1.receiveShadows = true;
+    //     middle1.checkCollisions = true;
+    //     middle1.isPickable = true;
+    //     middle1.material = this.materialTemplates.window;
+    //     middle1.receiveShadows = true;
 
-        const middle2 = MeshBuilder.CreateBox(
-            'window-' + this.idCounter++,
-            { width: dimensions.x(), depth: dimensions.z() / 2, height: 4 * dimensions.y() / 6 },
-            this.scene
-        );
+    //     const middle2 = MeshBuilder.CreateBox(
+    //         'window-' + this.idCounter++,
+    //         { width: dimensions.x(), depth: dimensions.z() / 2, height: 4 * dimensions.y() / 6 },
+    //         this.scene
+    //     );
 
-        middle2.translate(new Vector3(0, 0, -dimensions.z() / 4), 1);
+    //     middle2.translate(new Vector3(0, 0, -dimensions.z() / 4), 1);
 
-        middle2.checkCollisions = true;
-        middle2.isPickable = true;
-        middle2.material = this.materialTemplates.window;
-        middle2.receiveShadows = true;
+    //     middle2.checkCollisions = true;
+    //     middle2.isPickable = true;
+    //     middle2.material = this.materialTemplates.window;
+    //     middle2.receiveShadows = true;
 
-        return [middle1, middle2];
-    }
+    //     return [middle1, middle2];
+    // }
 
 
     public createDoor(gameObject: GameObject): Promise<MeshModel> {
@@ -259,69 +238,6 @@ export class MeshFactory {
         if (shadowMap && shadowMap.renderList) {
             shadowMap.renderList.push(meshModel.mesh);
         }
-    }
-
-    public static importModels(scene: Scene, materials: {[key: string]: StandardMaterial}): Promise<{[key: string]: MeshTemplate}> {
-        const furnitureLoader = new ModelFileBasedTemplateCreator('/models/furniture/', scene);
-
-        const cupboard = furnitureLoader.load('cupboard.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
-        const cupboardWithShelves = furnitureLoader
-            .load('cupboard_shelves.babylon', materials.cupboardWithShelves, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
-        const tableWide = furnitureLoader.load('table_wide.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
-        const table = furnitureLoader.load('table.babylon', materials.cupboard, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
-        const bed = furnitureLoader.load('bed.babylon', materials.bed, {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)});
-
-        const wallMesh = MeshBuilder.CreateBox('wall-0', { width: 1, depth: 1, height: 1 }, scene);
-        const wall = new MeshTemplate([wallMesh], [], materials.wall, {...defaultMeshConfig});
-
-        const doorMesh = MeshBuilder.CreateBox('door-0', { width: 1, depth: 1, height: 1 }, scene);
-        const door = new MeshTemplate([doorMesh], [], materials.door, {...defaultMeshConfig});
-
-        return Promise.all([cupboard, tableWide, table, bed, cupboardWithShelves])
-            .then((values) => {
-                return {
-                    cupboard: values[0],
-                    tableWide: values[1],
-                    table: values[2],
-                    bed: values[3],
-                    cupboardWithShelves: values[4],
-                    wall,
-                    door
-                };
-            });
-    }
-
-    public static initMaterials(scene: Scene): {[key: string]: StandardMaterial} {
-        const door = new BABYLON.StandardMaterial('doorMaterial', scene);
-        door.diffuseColor = new BABYLON.Color3(colors.door.r, colors.door.g, colors.door.b);
-
-        const window = new BABYLON.StandardMaterial('windowMaterial', scene);
-        window.diffuseColor = BABYLON.Color3.FromHexString(colors.window);
-
-        const wall = new BABYLON.StandardMaterial('wallMaterial', scene);
-        wall.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
-        wall.emissiveColor = BABYLON.Color3.FromHexString('#111111');
-
-
-        const floor = new BABYLON.StandardMaterial('floorMaterial', scene);
-        floor.diffuseColor = BABYLON.Color3.FromHexString(colors.floor);
-
-        const furniture = new BABYLON.StandardMaterial('cupboard-material', scene);
-        furniture.diffuseTexture = new BABYLON.Texture(`models/furniture/furniture.png`, scene);
-
-        const beds = new BABYLON.StandardMaterial('cupboard-material', scene);
-        beds.diffuseTexture = new BABYLON.Texture(`models/furniture/beds.png`, scene);
-
-        return {
-            door,
-            window,
-            wall,
-            floor,
-            cupboard: furniture,
-            tableWide: furniture,
-            table: furniture,
-            bed: beds
-        };
     }
 
     private getMeshDimensions(mesh: Mesh): Vector2Model {
