@@ -42,6 +42,7 @@ export class PlayerFactory implements ItemFactory {
         translate.addZ(-2);
 
         const keyboardHandler = new UserInputEventEmitter();
+        keyboardHandler.subscribe();
         const player = new Player(mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
 
         const actionStrategy = new ActionStrategy(player, worldMap);

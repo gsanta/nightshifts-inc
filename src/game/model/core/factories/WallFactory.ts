@@ -29,9 +29,8 @@ export class WallFactory implements ItemFactory {
 
         const mesh = this.meshModelTemplate.createMeshes()[0];
         const meshModel = new MeshModel(mesh);
-        
+    
         meshModel.translate(translate);
-
         mesh.scaling.x = scaling.x();
         mesh.scaling.y = scaling.y();
         mesh.scaling.z = scaling.z();

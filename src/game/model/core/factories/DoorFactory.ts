@@ -7,7 +7,7 @@ import { MeshModel } from '../MeshModel';
 import { StandardMaterial, ShadowGenerator } from 'babylonjs';
 import { MeshTemplate } from '../templates/MeshTemplate';
 import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
-import { VectorModel } from '../VectorModel';
+import { VectorModel, toVector3 } from '../VectorModel';
 import { AdditionalData } from '../../../game_map_creator/AdditionalData';
 import { Door } from '../../creature/type/Door';
 
@@ -33,27 +33,37 @@ export class DoorFactory implements ItemFactory {
     public createItem(gameObject: GameObject<AdditionalData>): MeshModel {
         const scaling = this.gameObjectTranslator.getDimensions(gameObject).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
-        const translate = new VectorModel(-translate2.x(), scaling.y() / 2, -translate2.y());
+        const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
         const mesh = this.meshModelTemplate.createMeshes()[0];
         
+        
+        mesh.translate(toVector3(translate), 1);
+        mesh.scaling.x = scaling.x();
+        mesh.scaling.y = scaling.y();
+        mesh.scaling.z = scaling.z();
+        
         let meshModel: MeshModel;
-
         if (gameObject.additionalData.axis) {
             const pivotVector = this.getPivotVector(gameObject.dimensions, scaling, gameObject.additionalData.axis);
             const pivotAngle = gameObject.additionalData.angle;
-            mesh.setPivotMatrix(BABYLON.Matrix.Translation(pivotVector.x(), pivotVector.y(), pivotVector.z()));
 
+            // var pivot = new BABYLON.TransformNode("root");
+            // const pivotTranslate = translate.clone();
+            // pivotTranslate.addX(1);
+            // pivot.position = toVector3(pivotTranslate);
+            
+            // mesh.parent = pivot;
+            
+            // pivot.rotate(BABYLON.Axis.Y, gameObject.additionalData.angle, BABYLON.Space.WORLD);
+            // mesh.setPivotMatrix(BABYLON.Matrix.Translation(1, 0, 0));
+
+            mesh.setPivotMatrix(BABYLON.Matrix.Translation(0.5, 0, 0), true);
+            mesh.translate(toVector3(new VectorModel(-0.5, 0, 0)), 1);
             meshModel = new Door(mesh, pivotVector, pivotAngle);
         } else {
             meshModel = new MeshModel(mesh);
         }
-        
-        meshModel.translate(translate);
-
-        mesh.scaling.x = scaling.x();
-        mesh.scaling.y = scaling.y();
-        mesh.scaling.z = scaling.z();
 
         this.shadowGenerator.getShadowMap().renderList.push(mesh);
 
