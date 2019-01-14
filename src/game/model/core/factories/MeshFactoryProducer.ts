@@ -1,7 +1,7 @@
 import { MeshFactory } from './MeshFactory';
 import { TemplateCreator } from '../templates/TemplateCreator';
 import { WallTemplateCreator } from '../templates/creators/WallTemplateCreator';
-import { Scene, ShadowGenerator } from 'babylonjs';
+import { Scene, ShadowGenerator, SpotLight } from 'babylonjs';
 import { DoorTemplateCreator } from '../templates/creators/DoorTemplateCreator';
 import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../templates/creators/ModelFileBasedTemplateCreator';
 import { VectorModel } from '../VectorModel';
@@ -12,6 +12,9 @@ import { GameObjectToRealWorldCoordinateWrapper } from '../../../game_map_creato
 import { WallFactory } from './WallFactory';
 import { DoorFactory } from './DoorFactory';
 import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator';
+import { Promise } from 'es6-promise';
+import { PlayerFactory } from './PlayerFactory';
+import { FloorFactory } from './FloorFactory';
 
 interface MeshMap<V> {
     wall: V;
@@ -27,10 +30,10 @@ export class MeshFactoryProducer {
     private static CUPBOARD_MODEL_FILE = 'cupboard.babylon';
     private static FURNITURE_BASE_PATH = '/models/furniture/';
     
-    private static PLAYER_BASE_PATH = '/models/dude';
+    private static PLAYER_BASE_PATH = 'models/dude/';
     private static PLAYER_MODEL_FILE = 'Dude.babylon';
 
-    public static getFactory(scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator): Promise<MeshFactory> {
+    public static getFactory(scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory> {
         const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
             worldDimensions, 1, new GameObjectToRealWorldCoordinateWrapper(worldDimensions, 1)
         );
@@ -41,7 +44,9 @@ export class MeshFactoryProducer {
                     scene,
                     {
                         wall: new WallFactory(meshMap.wall.create(), gameObjectTranslator, shadowGenerator),
-                        door: new DoorFactory(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1)
+                        door: new DoorFactory(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1),
+                        player: new PlayerFactory(meshMap.player.create(), gameObjectTranslator, scene, shadowGenerator, spotLight),
+                        floor: new FloorFactory(meshMap.floor.create(), gameObjectTranslator, shadowGenerator)
                     }
                 )
             });

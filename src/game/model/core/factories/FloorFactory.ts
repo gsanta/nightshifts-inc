@@ -25,12 +25,12 @@ export class FloorFactory implements ItemFactory {
     public createItem(gameObject: GameObject): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
-        const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
+        const translate = new VectorModel(translate2.x(), 0, -translate2.y());
+        translate.addZ(-2);
 
         const meshModel = new MeshModel(mesh);
-        translate.setZ(-2);
         meshModel.translate(translate);
 
-        // return Promise.resolve(meshModel);    
+        return meshModel;
     }
 }

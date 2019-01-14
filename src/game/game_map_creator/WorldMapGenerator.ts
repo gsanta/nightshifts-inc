@@ -67,9 +67,9 @@ export class WorldMapGenerator {
                 return this.meshFactory.createWindow(translate, dimensions);
             case 'floor':
                 dimensions = this.rectangleToDimensionVectorNormal(gameObject.dimensions);
-                return this.meshFactory.createFloor(translate, dimensions);
+                return this.meshFactory.createFloor(gameObject);
             case 'player':
-                return this.meshFactory.createPlayer(translate, worldMap);
+                return this.meshFactory.createPlayer(gameObject, worldMap);
             case 'bed':
                 return this.meshFactory.createBed(translate);
             case 'table':
@@ -113,7 +113,7 @@ export class WorldMapGenerator {
     }
 
     private verticalWallPieceDimensionsAdjustment(dimensions: VectorModel) {
-        dimensions.setZ(-this.gameObjectToMeshSizeRatio);
+        dimensions.addZ(-this.gameObjectToMeshSizeRatio);
     }
 
     private rectangleToDimensionVectorNormal(rect: Rectangle): VectorModel {

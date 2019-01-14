@@ -41,7 +41,7 @@ export class CollisionDetector {
 
     private  castRay(delta: BABYLON.Vector3):  CollisionInfo {
         const origin = this.creature.getPosition().clone();
-        origin.setY(origin.y() + 1);
+        origin.addY(origin.y() + 1);
 
         const ray = new BABYLON.Ray(new Vector3(origin.x(), 0.1, origin.z()), delta, 3);
 

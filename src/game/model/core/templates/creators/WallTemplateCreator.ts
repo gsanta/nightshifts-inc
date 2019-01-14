@@ -1,9 +1,9 @@
 import { MeshTemplate } from '../MeshTemplate';
 import { TemplateCreator } from '../TemplateCreator';
 import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
-const colors = GameConstants.colors;
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
+const colors = GameConstants.colors;
 
 export class WallTemplateCreator implements TemplateCreator {
     private scene: Scene;

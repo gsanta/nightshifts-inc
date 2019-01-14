@@ -38,22 +38,26 @@ export class MeshFactory {
         return Promise.resolve(this.factories.wall.createItem(gameObject));
     }
 
-    public createPlayer(translate: VectorModel, worldMap: WorldMap): Promise<MeshModel> {
-        const keyboardHandler = new UserInputEventEmitter();
-
-        const player = new Player(this.scene, this.spotLight, translate, keyboardHandler);
-
-        const actionStrategy = new ActionStrategy(player, worldMap);
-
-        const collisionDetector = new CollisionDetector(player, this.scene)
-        const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
-        keyboardHandler.subscribe();
-
-        player.setMotionStrategy(manualMotionStrategy)
-        player.setSensor(new EyeSensor(player, this.scene));
-        player.setActionStrategy(actionStrategy);
+    public createPlayer(gameObject: GameObject, worldMap: WorldMap): Promise<MeshModel> {
+        const player = <Player> this.factories.player.createItem(gameObject, worldMap);
 
         return Promise.resolve(player);
+
+        // const keyboardHandler = new UserInputEventEmitter();
+
+        // const player = new Player(this.scene, this.spotLight, translate, keyboardHandler);
+
+        // const actionStrategy = new ActionStrategy(player, worldMap);
+
+        // const collisionDetector = new CollisionDetector(player, this.scene)
+        // const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
+        // keyboardHandler.subscribe();
+
+        // player.setMotionStrategy(manualMotionStrategy)
+        // player.setSensor(new EyeSensor(player, this.scene));
+        // player.setActionStrategy(actionStrategy);
+
+        // return Promise.resolve(player);
     }
 
     public createWindow(
@@ -178,73 +182,84 @@ export class MeshFactory {
         return Promise.resolve(this.factories.door.createItem(gameObject));
     }
 
-    public createFloor(translate: VectorModel, dimensions: VectorModel): Promise<MeshModel> {
-        const ground = BABYLON.MeshBuilder.CreateGround(
-            'ground',
-            { width: dimensions.x(), height: dimensions.z() },
-            this.scene
-        );
+    public createFloor(gameObject: GameObject): Promise<MeshModel> {
+        return Promise.resolve(this.factories.floor.createItem(gameObject));
+        // const ground = BABYLON.MeshBuilder.CreateGround(
+        //     'ground',
+        //     { width: dimensions.x(), height: dimensions.z() },
+        //     this.scene
+        // );
 
-        ground.receiveShadows = true;
-        ground.material = this.materialTemplates.floor;
+        // ground.receiveShadows = true;
+        // ground.material = this.materialTemplates.floor;
 
-        const meshModel = new MeshModel(ground);
-        meshModel.name = 'floor';
-        translate.setZ(-2);
-        meshModel.translate(translate);
+        // const meshModel = new MeshModel(ground);
+        // meshModel.name = 'floor';
+        // translate.addZ(-2);
+        // meshModel.translate(translate);
 
-        return Promise.resolve(meshModel);
+        // return Promise.resolve(meshModel);
     }
 
     public createBed(translate: VectorModel): Promise<MeshModel> {
-        const bed = Furniture.createBed(this.scene, translate, this.modelTemplates.bed)
-        this.addToShadowMap(bed);
-        return Promise.resolve(bed);
+        // const bed = Furniture.createBed(this.scene, translate, this.modelTemplates.bed)
+        // this.addToShadowMap(bed);
+        // return Promise.resolve(bed);
+
+        return Promise.resolve(null);
     }
 
     public createTableWide(translate: VectorModel): Promise<MeshModel> {
-        const table = Furniture.createTableWide(this.scene, translate, this.modelTemplates.tableWide)
-        this.addToShadowMap(table);
+        // const table = Furniture.createTableWide(this.scene, translate, this.modelTemplates.tableWide)
+        // this.addToShadowMap(table);
 
-        return Promise.resolve(table);
+        // return Promise.resolve(table);
+
+        return Promise.resolve(null);
     }
 
     public createTable(translate: VectorModel): Promise<MeshModel> {
-        const table = Furniture.createTable(this.scene, translate, this.modelTemplates.table)
-        this.addToShadowMap(table);
+        // const table = Furniture.createTable(this.scene, translate, this.modelTemplates.table)
+        // this.addToShadowMap(table);
 
-        return Promise.resolve(table);
+        // return Promise.resolve(table);
+
+        return Promise.resolve(null);
     }
 
     public createCupboard(gameObject: GameObject): Promise<MeshModel> {
-        const cupboardMesh = this.modelTemplates.cupboard.getMeshes()[0];
-        const translate = this.gameObjectTranslator.getTranslate(gameObject, this.getMeshDimensions(cupboardMesh)).toVector3();
-        const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard, gameObject.additionalData.orientation);
-        this.addToShadowMap(cupboard);
+        // const cupboardMesh = this.modelTemplates.cupboard.getMeshes()[0];
+        // const translate = this.gameObjectTranslator.getTranslate(gameObject, this.getMeshDimensions(cupboardMesh)).toVector3();
+        // const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard, gameObject.additionalData.orientation);
+        // this.addToShadowMap(cupboard);
 
-        return Promise.resolve(cupboard);
+        // return Promise.resolve(cupboard);
+
+        return Promise.resolve(null);
     }
 
     public createCupboardWithShelves(translate: VectorModel, orientation: Orientation): Promise<MeshModel> {
-        const cupboardWithShelves = Furniture
-            .createCupboardWithShelves(this.scene, translate, this.modelTemplates.cupboardWithShelves, orientation);
-        this.addToShadowMap(cupboardWithShelves);
+        // const cupboardWithShelves = Furniture
+        //     .createCupboardWithShelves(this.scene, translate, this.modelTemplates.cupboardWithShelves, orientation);
+        // this.addToShadowMap(cupboardWithShelves);
 
-        return Promise.resolve(cupboardWithShelves);
+        // return Promise.resolve(cupboardWithShelves);
+
+        return Promise.resolve(null);
     }
 
-    private addToShadowMap(meshModel: MeshModel) {
-        const shadowMap = this.shadowGenerator.getShadowMap();
-        if (shadowMap && shadowMap.renderList) {
-            shadowMap.renderList.push(meshModel.mesh);
-        }
-    }
+    // private addToShadowMap(meshModel: MeshModel) {
+    //     const shadowMap = this.shadowGenerator.getShadowMap();
+    //     if (shadowMap && shadowMap.renderList) {
+    //         shadowMap.renderList.push(meshModel.mesh);
+    //     }
+    // }
 
-    private getMeshDimensions(mesh: Mesh): Vector2Model {
-        const boundingBox = mesh.getBoundingInfo().boundingBox;
-        const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
-        const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
+    // private getMeshDimensions(mesh: Mesh): Vector2Model {
+    //     const boundingBox = mesh.getBoundingInfo().boundingBox;
+    //     const width = Math.abs(boundingBox.maximum.x - boundingBox.minimum.x) * mesh.scaling.x;
+    //     const depth = Math.abs(boundingBox.maximum.y - boundingBox.minimum.y) * mesh.scaling.y;
 
-        return new Vector2Model(width, depth);
-    }
+    //     return new Vector2Model(width, depth);
+    // }
 }

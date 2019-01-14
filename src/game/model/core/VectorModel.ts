@@ -60,15 +60,15 @@ export class VectorModel {
         return this.vector3.z;
     }
 
-    public setX(x: number) {
+    public addX(x: number) {
         this.vector3.x += x;
     }
 
-    public setY(y: number) {
+    public addY(y: number) {
         this.vector3.y += y;
     }
 
-    public setZ(z: number) {
+    public addZ(z: number) {
         this.vector3.z += z;
     }
 

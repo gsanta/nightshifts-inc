@@ -1,9 +1,9 @@
 import { MeshTemplate } from '../MeshTemplate';
 import { TemplateCreator } from '../TemplateCreator';
 import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
-const colors = GameConstants.colors;
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
+const colors = GameConstants.colors;
 
 export class DoorTemplateCreator implements TemplateCreator {
     private scene: Scene;
@@ -22,14 +22,13 @@ export class DoorTemplateCreator implements TemplateCreator {
     }
 
     private createMaterial(): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('wallMaterial', this.scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
-        material.emissiveColor = BABYLON.Color3.FromHexString('#111111');
+        const material = new BABYLON.StandardMaterial('doorMaterial', this.scene);
+        material.diffuseColor = new BABYLON.Color3(colors.door.r, colors.door.g, colors.door.b);
 
         return material;
     }
 
     private createMesh(): Mesh {
-        return MeshBuilder.CreateBox('wall-template', { width: 1, depth: 1, height: 1 }, this.scene);
+        return MeshBuilder.CreateBox('door-template', { width: 1, depth: 1, height: 1 }, this.scene);
     }
 }

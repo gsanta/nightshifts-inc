@@ -6,7 +6,6 @@ import { SceneModel } from '../model/core/SceneModel';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
 import { LightController } from '../model/light/LightController';
-import { Promise } from 'es6-promise';
 import { GameObjectToWorldCenterTranslatorDecorator } from '../game_map_creator/GameObjectToWorldCenterTranslatorDecorator';
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { GameObjectToRealWorldCoordinateWrapper } from '../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
@@ -15,7 +14,8 @@ import { parseJsonAdditionalData, AdditionalData } from '../game_map_creator/Add
 import { DoorFactory } from '../model/core/factories/DoorFactory';
 import { WallTemplateCreator } from '../model/core/templates/creators/WallTemplateCreator';
 import { DoorTemplateCreator } from '../model/core/templates/creators/DoorTemplateCreator';
-
+import { MeshFactoryProducer } from '../model/core/factories/MeshFactoryProducer';
+import { Promise } from 'es6-promise';
 
 export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<WorldMap> => {
     createCamera(scene, canvas);
@@ -34,45 +34,38 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
 };
 
 const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory> => {
-    const materialTemplates = MeshFactory.initMaterials(scene);
-    const modelTemplatesPromise = MeshFactory.importModels(scene, materialTemplates);
 
-    const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
-        new Vector2Model(worldDimensions.x(), worldDimensions.y()),
-        1,
-        new GameObjectToRealWorldCoordinateWrapper(worldDimensions, 1)
-    );
+    return MeshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight)
+    // const materialTemplates = MeshFactory.initMaterials(scene);
+    // const modelTemplatesPromise = MeshFactory.importModels(scene, materialTemplates);
 
-    const wallFactory = new WallFactory(
-        new WallTemplateCreator(scene).create(),
-        gameObjectTranslator,
-        shadowGenerator
-    );
+    // const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
+    //     new Vector2Model(worldDimensions.x(), worldDimensions.y()),
+    //     1,
+    //     new GameObjectToRealWorldCoordinateWrapper(worldDimensions, 1)
+    // );
 
-    const doorFactory = new DoorFactory(
-        new DoorTemplateCreator(scene).create(),
-        gameObjectTranslator,
-        shadowGenerator,
-        1
-    );
+    // const wallFactory = new WallFactory(
+    //     new WallTemplateCreator(scene).create(),
+    //     gameObjectTranslator,
+    //     shadowGenerator
+    // );
 
-    return modelTemplatesPromise.then(modelTemplates => new MeshFactory(
-            scene, 
-            {
-                shadowGenerator,
-                spotLight
-            },
-            {
-                material: materialTemplates, 
-                model: modelTemplates
-            },
-            {
-                wall: new WallFactory(modelTemplates.wall, gameObjectTranslator, shadowGenerator),
-                door: new DoorFactory(modelTemplates.door, gameObjectTranslator, shadowGenerator, 1)
-            },
-            gameObjectTranslator
-        )
-    );
+    // const doorFactory = new DoorFactory(
+    //     new DoorTemplateCreator(scene).create(),
+    //     gameObjectTranslator,
+    //     shadowGenerator,
+    //     1
+    // );
+
+    // return modelTemplatesPromise.then(modelTemplates => new MeshFactory(
+    //         scene, 
+    //         {
+    //             wall: new WallFactory(modelTemplates.wall, gameObjectTranslator, shadowGenerator),
+    //             door: new DoorFactory(modelTemplates.door, gameObjectTranslator, shadowGenerator, 1)
+    //         }
+    //     )
+    // );
 };
 
 const getWorldDimensions = (gameObjects: GameObject[]): Vector2Model => {

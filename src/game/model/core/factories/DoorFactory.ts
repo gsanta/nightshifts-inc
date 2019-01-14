@@ -33,7 +33,7 @@ export class DoorFactory implements ItemFactory {
     public createItem(gameObject: GameObject<AdditionalData>): MeshModel {
         const scaling = this.gameObjectTranslator.getDimensions(gameObject).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
-        const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
+        const translate = new VectorModel(-translate2.x(), scaling.y() / 2, -translate2.y());
 
         const mesh = this.meshModelTemplate.createMeshes()[0];
         

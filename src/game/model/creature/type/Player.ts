@@ -1,5 +1,5 @@
 import { Creature } from './Creature';
-import { Scene, Vector3, Mesh, Light } from 'babylonjs';
+import { Scene, Vector3, Mesh, Light, Skeleton } from 'babylonjs';
 import { ModelFileBasedTemplateCreator } from '../../core/templates/creators/ModelFileBasedTemplateCreator';
 import { MeshTemplate } from '../../core/templates/MeshTemplate';
 import { VectorModel } from '../../core/VectorModel';
@@ -14,9 +14,10 @@ export class CreatureAnimationMesh {
     private modelTemplate: MeshTemplate;
     private intervals: { idleInterval: Interval, walkingInterval: Interval};
     private scene: Scene;
+    private skeleton: Skeleton;
 
-    constructor(animatedModel: MeshTemplate, intervals: { idleInterval: Interval, walkingInterval: Interval}, scene: Scene) {
-        this.modelTemplate = animatedModel;
+    constructor(skeleton: Skeleton, intervals: { idleInterval: Interval, walkingInterval: Interval}, scene: Scene) {
+        this.skeleton = skeleton;
         this.intervals = intervals;
         this.scene = scene;
     }
@@ -34,51 +35,70 @@ export class CreatureAnimationMesh {
 export class Player extends Creature {
     private light: Light;
     private scene: Scene;
-    private modelLoader: ModelFileBasedTemplateCreator;
     private creatureAnimationMesh: CreatureAnimationMesh;
     private modelTemplate: MeshTemplate;
     private keyboardHandler: UserInputEventEmitter;
     public name = 'player';
+    private skeleton: Skeleton;
 
-    constructor(scene: Scene, light: Light, translate: VectorModel, keyboardHandler: UserInputEventEmitter) {
-        super(null);
+    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
+        super(mesh);
 
-        this.modelLoader = new ModelFileBasedTemplateCreator('../models/dude/', scene);
+        this.skeleton = skeleton;
+
+        // this.modelLoader = new ModelFileBasedTemplateCreator('../models/dude/', scene);
         this.light = light;
         this.scene = scene;
         this.keyboardHandler = keyboardHandler;
         this.subscribeToUserInput();
-        const that: any = this;
+        // const that: any = this;
 
-        this.modelLoader.load('Dude.babylon', null, {
-                singleton: true
-            })
-            .then((modelTemplate: MeshTemplate) => {
-                this.modelTemplate = modelTemplate;
-                that.creatureAnimationMesh = new CreatureAnimationMesh(
-                    modelTemplate,
-                    {
-                        idleInterval: null,
-                        walkingInterval: {
-                            from: 0,
-                            to: 100
-                        }
-                    },
-                    that.scene
-                );
+        this.creatureAnimationMesh = new CreatureAnimationMesh(
+            this.skeleton,
+            {
+                idleInterval: null,
+                walkingInterval: {
+                    from: 0,
+                    to: 100
+                }
+            },
+            this.scene
+        );
 
-                const meshes = modelTemplate.createMeshes();
-                meshes.forEach(mesh => mesh.isPickable = false);
+        const quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
+        this.mesh.rotationQuaternion = quaternion;
+        this.light.parent = this.mesh;
+        // this.mesh.setAbsolutePosition(new Vector3(translate.x(), translate.y(), translate.z()));
 
-                meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
-                // meshes[0].rotation.y = Math.PI * 3 / 2;
-                that.mesh = meshes[0];
-                that.mesh.checkCollisions = true;
-                const quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
-                that.mesh.rotationQuaternion = quaternion;
-                that.light.parent = that.mesh;
-                this.mesh.setAbsolutePosition(new Vector3(translate.x(), translate.y(), translate.z()));
-            });
+        // this.modelLoader.load('Dude.babylon', null, {
+        //         singleton: true
+        //     })
+        //     .then((modelTemplate: MeshTemplate) => {
+        //         this.modelTemplate = modelTemplate;
+        //         that.creatureAnimationMesh = new CreatureAnimationMesh(
+        //             modelTemplate,
+        //             {
+        //                 idleInterval: null,
+        //                 walkingInterval: {
+        //                     from: 0,
+        //                     to: 100
+        //                 }
+        //             },
+        //             that.scene
+        //         );
+
+        //         const meshes = modelTemplate.createMeshes();
+        //         meshes.forEach(mesh => mesh.isPickable = false);
+
+        //         meshes[0].scaling = new Vector3(0.1, 0.1, 0.1);
+        //         // meshes[0].rotation.y = Math.PI * 3 / 2;
+        //         that.mesh = meshes[0];
+        //         that.mesh.checkCollisions = true;
+        //         const quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
+        //         that.mesh.rotationQuaternion = quaternion;
+        //         that.light.parent = that.mesh;
+        //         this.mesh.setAbsolutePosition(new Vector3(translate.x(), translate.y(), translate.z()));
+        //     });
     }
 
     public setRotation(distance: number) {
