@@ -29,6 +29,6 @@ export class DoorTemplateCreator implements TemplateCreator {
     }
 
     private createMesh(): Mesh {
-        return MeshBuilder.CreateBox('door-template', { width: 1, depth: 1, height: 1 }, this.scene);
+        return MeshBuilder.CreateBox('door-template', { width: 8, depth: 1, height: 5 }, this.scene);
     }
 }

@@ -43,7 +43,7 @@ export class MeshFactoryProducer {
                 return new MeshFactory(
                     scene,
                     {
-                        wall: new WallFactory(meshMap.wall.create(), gameObjectTranslator, shadowGenerator),
+                        wall: new WallFactory(meshMap.wall.create(), gameObjectTranslator, shadowGenerator, 1),
                         door: new DoorFactory(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1),
                         player: new PlayerFactory(meshMap.player.create(), gameObjectTranslator, scene, shadowGenerator, spotLight),
                         floor: new FloorFactory(meshMap.floor.create(), gameObjectTranslator, shadowGenerator)

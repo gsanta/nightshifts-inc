@@ -27,4 +27,16 @@ export class MeshModel {
     public doDefaultAction() {
         throw new Error('No default action defined');
     }
+
+    public getXExtent() {
+        return this.mesh.getBoundingInfo().boundingBox.extendSize.x;
+    }
+
+    public getYExtent() {
+        return this.mesh.getBoundingInfo().boundingBox.extendSize.y;
+    }
+
+    public getZExtent() {
+        return this.mesh.getBoundingInfo().boundingBox.extendSize.z;
+    }
 }
