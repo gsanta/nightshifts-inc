@@ -11,7 +11,7 @@ import { VectorModel, toVector3 } from '../VectorModel';
 import { AdditionalData } from '../../../game_map_creator/AdditionalData';
 import { Door } from '../../creature/type/Door';
 
-export class DoorFactory implements ItemFactory {
+export class WindowFactory implements ItemFactory {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;

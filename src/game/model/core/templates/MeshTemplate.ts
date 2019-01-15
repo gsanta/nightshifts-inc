@@ -1,4 +1,4 @@
-import { Mesh, Skeleton, StandardMaterial } from 'babylonjs';
+import { Mesh, Skeleton, StandardMaterial, TransformNode } from 'babylonjs';
 import { VectorModel, toVector3 } from '../VectorModel';
 
 export interface MeshTemplateConfig {
@@ -14,9 +14,11 @@ export class MeshTemplate {
     private skeletons: Skeleton[];
     private counter = 1;
     private config: MeshTemplateConfig;
+    private transformNode: TransformNode;
 
-    constructor(meshes: Mesh[], skeletons: Skeleton[], material: StandardMaterial, config: MeshTemplateConfig) {
+    constructor(meshes: Mesh[], skeletons: Skeleton[], transformNode: TransformNode, material: StandardMaterial, config: MeshTemplateConfig) {
         this.meshes = meshes;
+        this.transformNode = transformNode;
         this.config = config;
         if (material) {
             this.meshes[0].material = material;
@@ -44,6 +46,14 @@ export class MeshTemplate {
         }
 
         return this.meshes.map(mesh => mesh.clone(`${mesh.name}-${this.counter++}`));
+    }
+
+    public createTransformNode(): TransformNode {
+        if (this.config.singleton) {
+            return this.transformNode;
+        }
+
+        return this.transformNode.clone(`${this.transformNode.name}-${this.counter++}`, this.transformNode.parent);
     }
 
     public getSkeletons(): Skeleton[] {
