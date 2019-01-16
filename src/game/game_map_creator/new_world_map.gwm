@@ -1,7 +1,7 @@
 map `
 
 ##############################################################################################################################################################################################################################
-#WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW#
+#WWWIIIIIIIIWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW#
 #W####################################W####################################W###################################W####################################W####################################W##################################W#
 #W####################################W####################################W###################################W####################################W####################################W##################################W#
 #W####################################W####################################W###################################W####################################W####################################W##################################W#
@@ -48,12 +48,27 @@ W = wall
 X = player
 D = door
 C = cupboard
-
+I = window
 
 `
 
 details `
     "attributes": [
+        {
+            "pos": {
+                "x": 4,
+                "y": 1
+            },
+            "axis1": {
+                "x": 4,
+                "y": 1
+            },
+            "axis2": {
+                "x": 12,
+                "y": 1
+            },
+            "angle": -90
+        },
         {
             "pos": {
                 "x": 30,

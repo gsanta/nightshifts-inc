@@ -58,16 +58,18 @@ export class WorldMapGenerator {
             case 'door':
                 return this.meshFactory.createDoor(gameObject);
             case 'window':
-                if (gameObject.additionalData) {
-                    const pivotVector1 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis1);
-                    const pivotVector2 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis2);
-                    return this.meshFactory
-                        .createWindow(translate, dimensions, pivotVector1, pivotVector2, BABYLON.Tools.ToRadians(gameObject.additionalData.angle));
-                }
-                return this.meshFactory.createWindow(translate, dimensions);
+                // if (gameObject.additionalData) {
+                //     const pivotVector1 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis1);
+                //     const pivotVector2 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis2);
+                //     return this.meshFactory
+                //         .createWindow(translate, dimensions, pivotVector1, pivotVector2, BABYLON.Tools.ToRadians(gameObject.additionalData.angle));
+                // }
+                return this.meshFactory.createWindow(gameObject);
             case 'floor':
                 dimensions = this.rectangleToDimensionVectorNormal(gameObject.dimensions);
-                return this.meshFactory.createFloor(gameObject);
+                // return this.meshFactory.createFloor(gameObject);
+                return Promise.resolve(null);
+
             case 'player':
                 return this.meshFactory.createPlayer(gameObject, worldMap);
             case 'bed':

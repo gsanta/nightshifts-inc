@@ -25,10 +25,16 @@ export class Window extends MeshModel {
         // }
     }
 
+    public setPivots(pivot1: VectorModel, pivot2: VectorModel, pivotAngle: number) {
+        this.pivotAngle = pivotAngle;
+        this.pivotPosition1 = pivot1;
+        this.pivotPosition2 = pivot2;
+    }
+
     public doDefaultAction() {
         const originalPivotMatrix = this.meshes[1].getPivotMatrix();
-        this.meshes[1].setPivotMatrix(BABYLON.Matrix.Translation(this.pivotPosition1.x(), this.pivotPosition1.y(), this.pivotPosition1.z()));
-        this.meshes[2].setPivotMatrix(BABYLON.Matrix.Translation(this.pivotPosition2.x(), this.pivotPosition2.y(), this.pivotPosition2.z()));
+        this.meshes[3].setPivotMatrix(BABYLON.Matrix.Translation(this.pivotPosition1.x(), this.pivotPosition1.y(), this.pivotPosition1.z()));
+        this.meshes[4].setPivotMatrix(BABYLON.Matrix.Translation(this.pivotPosition2.x(), this.pivotPosition2.y(), this.pivotPosition2.z()));
 
 
         if (this.isOpen) {

@@ -15,6 +15,8 @@ import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator
 import { Promise } from 'es6-promise';
 import { PlayerFactory } from './PlayerFactory';
 import { FloorFactory } from './FloorFactory';
+import { WindowTemplateCreator } from '../templates/creators/WindowTemplateCreator';
+import { WindowFactory } from './WindowFactory';
 
 interface MeshMap<V> {
     wall: V;
@@ -22,6 +24,7 @@ interface MeshMap<V> {
     player: V;
     cupboard: V;
     floor: V;
+    window: V;
 }
 
 export class MeshFactoryProducer {
@@ -46,7 +49,8 @@ export class MeshFactoryProducer {
                         wall: new WallFactory(meshMap.wall.create(), gameObjectTranslator, shadowGenerator, 1),
                         door: new DoorFactory(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1),
                         player: new PlayerFactory(meshMap.player.create(), gameObjectTranslator, scene, shadowGenerator, spotLight),
-                        floor: new FloorFactory(meshMap.floor.create(), gameObjectTranslator, shadowGenerator)
+                        floor: new FloorFactory(meshMap.floor.create(), gameObjectTranslator, shadowGenerator),
+                        window: new WindowFactory(meshMap.window.create(), gameObjectTranslator, shadowGenerator, 1)
                     }
                 )
             });
@@ -70,7 +74,8 @@ export class MeshFactoryProducer {
                 null,
                 {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.1, 0.1, 0.1)}
             ),
-            floor: new FloorTemplateCreator(scene, worldDimensions)
+            floor: new FloorTemplateCreator(scene, worldDimensions),
+            window: new WindowTemplateCreator(scene)
         }
 
         return Promise.all([

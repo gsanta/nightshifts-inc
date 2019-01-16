@@ -60,9 +60,10 @@ export class MeshFactory {
         // return Promise.resolve(player);
     }
 
-    public createWindow(
-        translate: VectorModel, dimensions: VectorModel, pivotPosition1?: VectorModel, pivotPosition2?: VectorModel, pivotAngle?: number
-    ): Promise<MeshModel> {
+    public createWindow(gameObject: GameObject): Promise<MeshModel> {
+        const window = this.factories.window.createItem(gameObject);
+
+        return Promise.resolve(window);
         // const bottom = MeshBuilder.CreateBox(
         //     'window-' + this.idCounter++,
         //     { width: dimensions.x(), depth: dimensions.z(), height: dimensions.y() / 6 },

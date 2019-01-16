@@ -9,7 +9,7 @@ import { MeshTemplate } from '../templates/MeshTemplate';
 import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { VectorModel, toVector3 } from '../VectorModel';
 import { AdditionalData } from '../../../game_map_creator/AdditionalData';
-import { Door } from '../../creature/type/Door';
+import { Window } from '../../creature/type/Window';
 
 export class WindowFactory implements ItemFactory {
     private meshModelTemplate: MeshTemplate;
@@ -35,28 +35,33 @@ export class WindowFactory implements ItemFactory {
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
-        const mesh = this.meshModelTemplate.createMeshes()[0];
+        const meshes = this.meshModelTemplate.createMeshes();
         
+        meshes[0].translate(toVector3(translate), 1);
         
-        mesh.translate(toVector3(translate), 1);
-        
-        const door = new Door(mesh);
+        // const door = new Door(mesh);
 
-        this.setPivotMatrix(gameObject, door);
+        // this.setPivotMatrix(gameObject, door);
 
-        this.shadowGenerator.getShadowMap().renderList.push(mesh);
+        this.shadowGenerator.getShadowMap().renderList.push(...meshes);
 
-        return door;
+        const window = new Window(meshes, null, null, 1);
+
+        const windowGlass1 = meshes[3];
+        const windowGlass2 = meshes[4];
+        window.setPivots(new VectorModel(-2, 0, 0), new VectorModel(2, 0, 0), 90);
+
+        return window;
     }
 
-    private setPivotMatrix(gameObject: GameObject<AdditionalData>, door: Door) {
+    private setPivotMatrix(gameObject: GameObject<AdditionalData>, window: Window) {
         const angle = gameObject.additionalData.angle;
-        if (this.isHorizontal(door)) {
-            const xExtent = door.getXExtent();
+        if (this.isHorizontal(window)) {
+            const xExtent = window.getXExtent();
             if (gameObject.additionalData.axis.x === gameObject.dimensions.left + gameObject.dimensions.width) {
-                door.setPivot(new VectorModel(xExtent, 0, 0), angle);
+                // window.setPivot(new VectorModel(xExtent, 0, 0), angle);
             } else if (gameObject.additionalData.axis.x === gameObject.dimensions.left) {
-                door.setPivot(new VectorModel(-xExtent, 0, 0), angle);
+                // window.setPivot(new VectorModel(-xExtent, 0, 0), angle);
             } else {
                 throw new Error('Invalid pivot position for when creating GameObject: ' + gameObject);
             }

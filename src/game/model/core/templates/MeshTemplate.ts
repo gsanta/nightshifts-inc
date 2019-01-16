@@ -48,14 +48,6 @@ export class MeshTemplate {
         return this.meshes.map(mesh => mesh.clone(`${mesh.name}-${this.counter++}`));
     }
 
-    public createTransformNode(): TransformNode {
-        if (this.config.singleton) {
-            return this.transformNode;
-        }
-
-        return this.transformNode.clone(`${this.transformNode.name}-${this.counter++}`, this.transformNode.parent);
-    }
-
     public getSkeletons(): Skeleton[] {
         return this.skeletons;
     }
