@@ -5,7 +5,6 @@ import { VectorModel } from '../../core/VectorModel';
 export class Door extends MeshModel {
     public isOpen: boolean;
     private pivotAngle: number;
-    private pivotPosition: VectorModel;
 
     constructor(mesh: Mesh) {
         super(mesh);

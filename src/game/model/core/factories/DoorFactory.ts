@@ -36,10 +36,10 @@ export class DoorFactory implements ItemFactory {
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        
-        
+
+
         mesh.translate(toVector3(translate), 1);
-        
+
         const door = new Door(mesh);
 
         this.setPivotMatrix(gameObject, door);

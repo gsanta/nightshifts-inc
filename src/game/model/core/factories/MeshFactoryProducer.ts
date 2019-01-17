@@ -17,6 +17,7 @@ import { PlayerFactory } from './PlayerFactory';
 import { FloorFactory } from './FloorFactory';
 import { WindowTemplateCreator } from '../templates/creators/WindowTemplateCreator';
 import { WindowFactory } from './WindowFactory';
+import { StaticItemFactory } from './StaticItemFactory';
 
 interface MeshMap<V> {
     wall: V;
@@ -32,7 +33,7 @@ export class MeshFactoryProducer {
     private static CUPBOARD_MATERIAL_FILE = 'models/furniture/furniture.png';
     private static CUPBOARD_MODEL_FILE = 'cupboard.babylon';
     private static FURNITURE_BASE_PATH = '/models/furniture/';
-    
+
     private static PLAYER_BASE_PATH = 'models/dude/';
     private static PLAYER_MODEL_FILE = 'Dude.babylon';
 
@@ -50,9 +51,10 @@ export class MeshFactoryProducer {
                         door: new DoorFactory(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1),
                         player: new PlayerFactory(meshMap.player.create(), gameObjectTranslator, scene, shadowGenerator, spotLight),
                         floor: new FloorFactory(meshMap.floor.create(), gameObjectTranslator, shadowGenerator),
-                        window: new WindowFactory(meshMap.window.create(), gameObjectTranslator, shadowGenerator, 1)
+                        window: new WindowFactory(meshMap.window.create(), gameObjectTranslator, shadowGenerator, 1),
+                        cupboard: new StaticItemFactory(meshMap.cupboard.create(), gameObjectTranslator, shadowGenerator)
                     }
-                )
+                );
             });
     }
 
@@ -76,7 +78,7 @@ export class MeshFactoryProducer {
             ),
             floor: new FloorTemplateCreator(scene, worldDimensions),
             window: new WindowTemplateCreator(scene)
-        }
+        };
 
         return Promise.all([
             (<AsyncTemplateCreator> meshMap.cupboard).doAsyncWork(),

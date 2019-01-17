@@ -26,4 +26,8 @@ export class GameObjectToWorldCenterTranslatorDecorator implements GameObjectTra
     public getDimensions(gameObject: GameObject): Vector2Model {
         return this.gameObjectToRealWorldCoordinateWrapper.getDimensions(gameObject);
     }
+
+    public getRotation(gameObject: GameObject) {
+        return this.gameObjectToRealWorldCoordinateWrapper.getRotation(gameObject);
+    }
 }

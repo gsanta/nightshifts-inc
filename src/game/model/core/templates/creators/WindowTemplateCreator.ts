@@ -1,6 +1,6 @@
 import { MeshTemplate } from '../MeshTemplate';
 import { TemplateCreator } from '../TemplateCreator';
-import { MeshBuilder, Scene, StandardMaterial, Mesh, Vector3, TransformNode } from 'babylonjs';
+import { MeshBuilder, Scene, StandardMaterial, Mesh, Vector3, TransformNode, Color3 } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { VectorModel } from '../../VectorModel';
@@ -10,6 +10,7 @@ export class WindowTemplateCreator implements TemplateCreator {
     private scene: Scene;
     private windowGlassMaterial: StandardMaterial;
     private windowFrameMaterial: StandardMaterial;
+    private invisibleMaterial: StandardMaterial;
     private meshes: Mesh[];
     private transformNode: TransformNode;
     private dimensions = new VectorModel(8, 5, 1);
@@ -19,6 +20,7 @@ export class WindowTemplateCreator implements TemplateCreator {
 
         this.windowGlassMaterial = this.createWindowGlassMaterial();
         this.windowFrameMaterial = this.createWindowFrameMaterial();
+        this.invisibleMaterial = this.createInvisibleMaterial();
         this.meshes = this.createMeshes();
     }
 
@@ -41,6 +43,14 @@ export class WindowTemplateCreator implements TemplateCreator {
         return windowFrame;
     }
 
+    private createInvisibleMaterial(): StandardMaterial {
+        const windowContainer = new BABYLON.StandardMaterial('window-container-invisible-material', this.scene);
+        windowContainer.diffuseColor = new Color3(1, 1, 1);
+        windowContainer.alpha = 0;
+
+        return windowContainer;
+    }
+
     private createMeshes(): Mesh[] {
         const width = 8;
         const depth = 1;
@@ -50,9 +60,10 @@ export class WindowTemplateCreator implements TemplateCreator {
             'window-container',
             { width, depth, height: height },
             this.scene
-        )
+        );
 
         containerMesh.isVisible = false;
+        // containerMesh.material = this.invisibleMaterial;
 
         const bottom = MeshBuilder.CreateBox(
             'window-bottom',
@@ -84,7 +95,7 @@ export class WindowTemplateCreator implements TemplateCreator {
         topMesh.material = this.windowFrameMaterial;
 
         [bottom, topMesh, middle1, middle2].forEach(mesh => mesh.parent = containerMesh);
-        return [containerMesh, bottom, topMesh, middle1, middle2]
+        return [containerMesh, bottom, topMesh, middle1, middle2];
     }
 
     private createWindowGlassMeshes() {
@@ -96,6 +107,7 @@ export class WindowTemplateCreator implements TemplateCreator {
 
         middle1.translate(new Vector3(- this.dimensions.x() / 4, 0, 0), 1);
         middle1.material = this.windowGlassMaterial;
+        // middle1.isVisible = false;
 
         const middle2 = MeshBuilder.CreateBox(
             'window-middle-right',

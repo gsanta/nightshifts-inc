@@ -10,7 +10,7 @@ export const defaultMeshConfig: MeshTemplateConfig = {
     isPickable: true,
     scaling: new VectorModel(1, 1, 1),
     singleton: false
-}
+};
 
 /**
  * Loads the model information from file, and creates the `MeshTemplate` based on the loaded `Mesh`.
@@ -19,7 +19,6 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
     private base: string;
     private scene: Scene;
     private fileName: string;
-    private materialFileName: string;
     private config: MeshTemplateConfig;
 
     private meshes: Mesh[];
@@ -31,11 +30,10 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         this.base = base;
         this.scene = scene;
         this.fileName = fileName;
-        this.materialFileName = materialFileName;
         this.config = {...defaultMeshConfig, ...config};
 
         this.material = new BABYLON.StandardMaterial('cupboard-material', scene);
-        this.material.diffuseTexture = new BABYLON.Texture(`models/furniture/beds.png`, scene);
+        this.material.diffuseTexture = new BABYLON.Texture(materialFileName, scene);
     }
 
     public doAsyncWork(): Promise<void> {
@@ -49,7 +47,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
 
             const onError = (scene: Scene, message: string) => {
                 throw new Error(message);
-            }; 
+            };
 
             BABYLON.SceneLoader.ImportMesh(
                 '',
@@ -58,7 +56,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
                 this.scene,
                 onSuccess,
                 () => {},
-                onError  
+                onError
             );
         });
     }
@@ -68,6 +66,6 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
             throw new Error(`This is an AsyncTemplateCreator and the async work is not done yet,
                 call and wait for doAsyncWork() before calling this method.`);
         }
-        return new MeshTemplate(this.meshes, this.skeletons, null, this.material, this.config)
+        return new MeshTemplate(this.meshes, this.skeletons, null, this.material, this.config);
     }
 }

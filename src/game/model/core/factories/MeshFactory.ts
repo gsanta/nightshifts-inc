@@ -27,9 +27,8 @@ const colors = GameConstants.colors;
 export class MeshFactory {
     private scene: Scene;
     private factories: {[key: string]: ItemFactory};
-    
 
-    constructor(scene: Scene,factories: {[key: string]: ItemFactory}) {
+    constructor(scene: Scene, factories: {[key: string]: ItemFactory}) {
         this.scene = scene;
         this.factories = factories;
     }
@@ -229,6 +228,7 @@ export class MeshFactory {
     }
 
     public createCupboard(gameObject: GameObject): Promise<MeshModel> {
+        return Promise.resolve(this.factories.cupboard.createItem(gameObject));
         // const cupboardMesh = this.modelTemplates.cupboard.getMeshes()[0];
         // const translate = this.gameObjectTranslator.getTranslate(gameObject, this.getMeshDimensions(cupboardMesh)).toVector3();
         // const cupboard = Furniture.createCupboard(this.scene, translate, this.modelTemplates.cupboard, gameObject.additionalData.orientation);

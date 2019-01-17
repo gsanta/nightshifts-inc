@@ -4,7 +4,7 @@ import { MeshModel } from '../MeshModel';
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { MeshTemplate } from '../templates/MeshTemplate';
 import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
-import { VectorModel } from '../VectorModel';
+import { VectorModel, toVector3 } from '../VectorModel';
 import { Player } from '../../creature/type/Player';
 import { UserInputEventEmitter } from '../../creature/motion/UserInputEventEmitter';
 import { WorldMap } from '../../../game_map_creator/WorldMap';
@@ -50,10 +50,11 @@ export class PlayerFactory implements ItemFactory {
         const collisionDetector = new CollisionDetector(player, this.scene)
         const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
 
-        player.setMotionStrategy(manualMotionStrategy)
+        player.setMotionStrategy(manualMotionStrategy);
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
-        player.translate(translate);
+        // player.translate(translate);
+        player.mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
         return player;
     }

@@ -67,8 +67,7 @@ export class WorldMapGenerator {
                 return this.meshFactory.createWindow(gameObject);
             case 'floor':
                 dimensions = this.rectangleToDimensionVectorNormal(gameObject.dimensions);
-                // return this.meshFactory.createFloor(gameObject);
-                return Promise.resolve(null);
+                return this.meshFactory.createFloor(gameObject);
 
             case 'player':
                 return this.meshFactory.createPlayer(gameObject, worldMap);

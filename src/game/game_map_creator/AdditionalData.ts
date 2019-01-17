@@ -5,22 +5,22 @@ export interface AdditionalData {
     pos?: {
         x: number,
         y: number
-    },
+    };
     orientation?: Orientation;
-    dock?: Direction,
+    dock?: Direction;
     axis?: {
         x: number,
         y: number
-    },
+    };
     axis1?: {
         x: number,
         y: number
-    },
+    };
     axis2?: {
         x: number,
         y: number
-    },
-    angle?: number
+    };
+    angle?: number;
 }
 
 export const parseJsonAdditionalData = (additionalData): AdditionalData => {
@@ -33,15 +33,15 @@ export const parseJsonAdditionalData = (additionalData): AdditionalData => {
     }
 
     if (additionalData.angle) {
-        additionalData.angle = BABYLON.Tools.ToRadians(additionalData.angle)
+        additionalData.angle = BABYLON.Tools.ToRadians(additionalData.angle);
     }
 
     if (additionalData.axis) {
         additionalData.axis = {
             x: parseInt(additionalData.axis.x, 10),
             y: parseInt(additionalData.axis.y, 10)
-        }
+        };
     }
 
     return additionalData;
-}
+};
