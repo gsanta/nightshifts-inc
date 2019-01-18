@@ -76,7 +76,7 @@ export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTransla
             case Direction.SOUTH_EAST:
                 return new Vector2Model(topLeft.x() + dimensions.width, topLeft.y() + dimensions.height);
             case Direction.SOUTH_WEST:
-                return new Vector2Model(topLeft.x(), topLeft.y() + dimensions.height - meshDimensions.y());
+                return new Vector2Model(topLeft.x() + meshDimensions.x(), topLeft.y() + dimensions.height - meshDimensions.y());
             case Direction.MIDDLE:
                 return new Vector2Model(x + dimensions.width / 2, y + dimensions.height / 2);
             default:

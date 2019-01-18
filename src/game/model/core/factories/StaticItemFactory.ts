@@ -53,7 +53,7 @@ export class StaticItemFactory implements ItemFactory {
             case Orientation.WEST:
             case Orientation.EAST:
                 const xExtend = mesh.getBoundingInfo().boundingBox.extendSize.x * mesh.scaling.x;
-                const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.z * mesh.scaling.z;
+                const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.y * mesh.scaling.y;
 
                 return new Vector2Model(zExtend, xExtend);
         }
