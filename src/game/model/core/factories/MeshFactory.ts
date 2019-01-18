@@ -218,7 +218,8 @@ export class MeshFactory {
         return Promise.resolve(null);
     }
 
-    public createTable(translate: VectorModel): Promise<MeshModel> {
+    public createTable(gameObject: GameObject): Promise<MeshModel> {
+        return Promise.resolve(this.factories.table.createItem(gameObject));
         // const table = Furniture.createTable(this.scene, translate, this.modelTemplates.table)
         // this.addToShadowMap(table);
 

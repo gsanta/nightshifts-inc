@@ -74,7 +74,7 @@ export class WorldMapGenerator {
             case 'bed':
                 return this.meshFactory.createBed(translate);
             case 'table':
-                return this.meshFactory.createTable(translate);
+                return this.meshFactory.createTable(gameObject);
             case 'table_wide':
                 return this.meshFactory.createTableWide(translate);
             case 'cupboard':

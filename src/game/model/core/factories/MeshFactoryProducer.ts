@@ -24,14 +24,16 @@ interface MeshMap<V> {
     door: V;
     player: V;
     cupboard: V;
+    table: V;
     floor: V;
     window: V;
 }
 
 export class MeshFactoryProducer {
 
-    private static CUPBOARD_MATERIAL_FILE = 'models/furniture/furniture.png';
+    private static FURNITURE_MATERIAL_FILE = 'models/furniture/furniture.png';
     private static CUPBOARD_MODEL_FILE = 'cupboard.babylon';
+    private static TABLE_MODEL_FILE = 'table.babylon';
     private static FURNITURE_BASE_PATH = '/models/furniture/';
 
     private static PLAYER_BASE_PATH = 'models/dude/';
@@ -52,7 +54,8 @@ export class MeshFactoryProducer {
                         player: new PlayerFactory(meshMap.player.create(), gameObjectTranslator, scene, shadowGenerator, spotLight),
                         floor: new FloorFactory(meshMap.floor.create(), gameObjectTranslator, shadowGenerator),
                         window: new WindowFactory(meshMap.window.create(), gameObjectTranslator, shadowGenerator, 1),
-                        cupboard: new StaticItemFactory(meshMap.cupboard.create(), gameObjectTranslator, shadowGenerator)
+                        cupboard: new StaticItemFactory(meshMap.cupboard.create(), gameObjectTranslator, shadowGenerator),
+                        table: new StaticItemFactory(meshMap.table.create(), gameObjectTranslator, shadowGenerator)
                     }
                 );
             });
@@ -66,7 +69,14 @@ export class MeshFactoryProducer {
                 scene,
                 this.FURNITURE_BASE_PATH,
                 this.CUPBOARD_MODEL_FILE,
-                this.CUPBOARD_MATERIAL_FILE,
+                this.FURNITURE_MATERIAL_FILE,
+                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+            ),
+            table: new ModelFileBasedTemplateCreator(
+                scene,
+                this.FURNITURE_BASE_PATH,
+                this.TABLE_MODEL_FILE,
+                this.FURNITURE_MATERIAL_FILE,
                 {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
             ),
             player: new ModelFileBasedTemplateCreator(
@@ -83,6 +93,7 @@ export class MeshFactoryProducer {
         return Promise.all([
             (<AsyncTemplateCreator> meshMap.cupboard).doAsyncWork(),
             (<AsyncTemplateCreator> meshMap.player).doAsyncWork(),
+            (<AsyncTemplateCreator> meshMap.table).doAsyncWork()
         ])
         .then(() => meshMap);
     }
