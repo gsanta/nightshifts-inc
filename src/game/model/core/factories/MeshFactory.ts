@@ -220,12 +220,14 @@ export class MeshFactory {
 
     public createTable(gameObject: GameObject): Promise<MeshModel> {
         return Promise.resolve(this.factories.table.createItem(gameObject));
-        // const table = Furniture.createTable(this.scene, translate, this.modelTemplates.table)
-        // this.addToShadowMap(table);
+    }
 
-        // return Promise.resolve(table);
+    public createBathtub(gameObject: GameObject): Promise<MeshModel> {
+        return Promise.resolve(this.factories.bathtub.createItem(gameObject));
+    }
 
-        return Promise.resolve(null);
+    public createWashbasin(gameObject: GameObject): Promise<MeshModel> {
+        return Promise.resolve(this.factories.washbasin.createItem(gameObject));
     }
 
     public createCupboard(gameObject: GameObject): Promise<MeshModel> {
@@ -237,7 +239,7 @@ export class MeshFactory {
 
         // return Promise.resolve(cupboard);
 
-        return Promise.resolve(null);
+        // return Promise.resolve(null);
     }
 
     public createCupboardWithShelves(translate: VectorModel, orientation: Orientation): Promise<MeshModel> {

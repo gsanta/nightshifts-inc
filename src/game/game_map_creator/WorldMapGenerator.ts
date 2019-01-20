@@ -68,7 +68,6 @@ export class WorldMapGenerator {
             case 'floor':
                 dimensions = this.rectangleToDimensionVectorNormal(gameObject.dimensions);
                 return this.meshFactory.createFloor(gameObject);
-
             case 'player':
                 return this.meshFactory.createPlayer(gameObject, worldMap);
             case 'bed':
@@ -81,6 +80,10 @@ export class WorldMapGenerator {
                 return this.meshFactory.createCupboard(gameObject);
             case 'cupboard_with_shelves':
                 return this.meshFactory.createCupboardWithShelves(translate, gameObject.additionalData.orientation);
+            case 'bathtub':
+                return this.meshFactory.createBathtub(gameObject);
+            case 'washbasin':
+                return this.meshFactory.createWashbasin(gameObject)
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }

@@ -27,13 +27,18 @@ interface MeshMap<V> {
     table: V;
     floor: V;
     window: V;
+    bathtub: V;
+    washbasin: V;
 }
 
 export class MeshFactoryProducer {
 
     private static FURNITURE_MATERIAL_FILE = 'models/furniture/furniture.png';
+    private static FURNITURE_MATERIAL_FILE2 = 'models/furniture/materials/bathroom.png';
     private static CUPBOARD_MODEL_FILE = 'cupboard.babylon';
     private static TABLE_MODEL_FILE = 'table.babylon';
+    private static BATHTUB_MODEL_FILE = 'bathtub.babylon';
+    private static WASHBASIN_MODEL_FILE = 'wash_basin.babylon';
     private static FURNITURE_BASE_PATH = '/models/furniture/';
 
     private static PLAYER_BASE_PATH = 'models/dude/';
@@ -55,7 +60,9 @@ export class MeshFactoryProducer {
                         floor: new FloorFactory(meshMap.floor.create(), gameObjectTranslator, shadowGenerator),
                         window: new WindowFactory(meshMap.window.create(), gameObjectTranslator, shadowGenerator, 1),
                         cupboard: new StaticItemFactory(meshMap.cupboard.create(), gameObjectTranslator, shadowGenerator),
-                        table: new StaticItemFactory(meshMap.table.create(), gameObjectTranslator, shadowGenerator)
+                        table: new StaticItemFactory(meshMap.table.create(), gameObjectTranslator, shadowGenerator),
+                        bathtub: new StaticItemFactory(meshMap.bathtub.create(), gameObjectTranslator, shadowGenerator),
+                        washbasin: new StaticItemFactory(meshMap.washbasin.create(), gameObjectTranslator, shadowGenerator)
                     }
                 );
             });
@@ -87,13 +94,29 @@ export class MeshFactoryProducer {
                 {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.1, 0.1, 0.1)}
             ),
             floor: new FloorTemplateCreator(scene, worldDimensions),
-            window: new WindowTemplateCreator(scene)
+            window: new WindowTemplateCreator(scene),
+            bathtub: new ModelFileBasedTemplateCreator(
+                scene,
+                this.FURNITURE_BASE_PATH,
+                this.BATHTUB_MODEL_FILE,
+                this.FURNITURE_MATERIAL_FILE2,
+                {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
+            ),
+            washbasin: new ModelFileBasedTemplateCreator(
+                scene,
+                this.FURNITURE_BASE_PATH,
+                this.WASHBASIN_MODEL_FILE,
+                this.FURNITURE_MATERIAL_FILE2,
+                {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
+            )
         };
 
         return Promise.all([
             (<AsyncTemplateCreator> meshMap.cupboard).doAsyncWork(),
             (<AsyncTemplateCreator> meshMap.player).doAsyncWork(),
-            (<AsyncTemplateCreator> meshMap.table).doAsyncWork()
+            (<AsyncTemplateCreator> meshMap.table).doAsyncWork(),
+            (<AsyncTemplateCreator> meshMap.bathtub).doAsyncWork(),
+            (<AsyncTemplateCreator> meshMap.washbasin).doAsyncWork()
         ])
         .then(() => meshMap);
     }
