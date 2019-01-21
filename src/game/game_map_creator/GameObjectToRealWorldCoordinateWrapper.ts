@@ -70,7 +70,7 @@ export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTransla
 
         switch (dock) {
             case Direction.NORTH_WEST:
-                return topLeft;
+                return new Vector2Model(topLeft.x() + meshDimensions.x(), topLeft.y() + meshDimensions.y());
             case Direction.NORTH_EAST:
                 return new Vector2Model(topLeft.x() + dimensions.width, topLeft.y());
             case Direction.SOUTH_EAST:

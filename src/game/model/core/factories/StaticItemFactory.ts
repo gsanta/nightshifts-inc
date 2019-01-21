@@ -45,16 +45,16 @@ export class StaticItemFactory implements ItemFactory {
     }
 
     private getRealMeshDimensions(mesh: Mesh, gameObject: GameObject<AdditionalData>): Vector2Model {
+        const xExtend = mesh.getBoundingInfo().boundingBox.extendSize.x * mesh.scaling.x;
+        const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.y * mesh.scaling.y;
+
         switch (gameObject.additionalData.orientation) {
             case Orientation.NORTH:
             case Orientation.SOUTH:
             default:
-                return null;
+                return new Vector2Model(xExtend, zExtend);
             case Orientation.WEST:
             case Orientation.EAST:
-                const xExtend = mesh.getBoundingInfo().boundingBox.extendSize.x * mesh.scaling.x;
-                const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.y * mesh.scaling.y;
-
                 return new Vector2Model(zExtend, xExtend);
         }
     }
