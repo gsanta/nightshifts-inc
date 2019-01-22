@@ -32,7 +32,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         this.fileName = fileName;
         this.config = {...defaultMeshConfig, ...config};
 
-        this.material = new BABYLON.StandardMaterial('cupboard-material', scene);
+        this.material = new BABYLON.StandardMaterial(materialFileName, scene);
         this.material.diffuseTexture = new BABYLON.Texture(materialFileName, scene);
     }
 

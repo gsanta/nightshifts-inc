@@ -184,29 +184,10 @@ export class MeshFactory {
 
     public createFloor(gameObject: GameObject): Promise<MeshModel> {
         return Promise.resolve(this.factories.floor.createItem(gameObject));
-        // const ground = BABYLON.MeshBuilder.CreateGround(
-        //     'ground',
-        //     { width: dimensions.x(), height: dimensions.z() },
-        //     this.scene
-        // );
-
-        // ground.receiveShadows = true;
-        // ground.material = this.materialTemplates.floor;
-
-        // const meshModel = new MeshModel(ground);
-        // meshModel.name = 'floor';
-        // translate.addZ(-2);
-        // meshModel.translate(translate);
-
-        // return Promise.resolve(meshModel);
     }
 
-    public createBed(translate: VectorModel): Promise<MeshModel> {
-        // const bed = Furniture.createBed(this.scene, translate, this.modelTemplates.bed)
-        // this.addToShadowMap(bed);
-        // return Promise.resolve(bed);
-
-        return Promise.resolve(null);
+    public createBed(gameObject: GameObject): Promise<MeshModel> {
+        return Promise.resolve(this.factories.bed.createItem(gameObject));
     }
 
     public createTableWide(translate: VectorModel): Promise<MeshModel> {

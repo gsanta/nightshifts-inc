@@ -71,7 +71,7 @@ export class WorldMapGenerator {
             case 'player':
                 return this.meshFactory.createPlayer(gameObject, worldMap);
             case 'bed':
-                return this.meshFactory.createBed(translate);
+                return this.meshFactory.createBed(gameObject);
             case 'table':
                 return this.meshFactory.createTable(gameObject);
             case 'table_wide':
@@ -83,7 +83,7 @@ export class WorldMapGenerator {
             case 'bathtub':
                 return this.meshFactory.createBathtub(gameObject);
             case 'washbasin':
-                return this.meshFactory.createWashbasin(gameObject)
+                return this.meshFactory.createWashbasin(gameObject);
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }

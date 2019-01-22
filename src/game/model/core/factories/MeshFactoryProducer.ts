@@ -29,16 +29,19 @@ interface MeshMap<V> {
     window: V;
     bathtub: V;
     washbasin: V;
+    bed: V;
 }
 
 export class MeshFactoryProducer {
 
     private static FURNITURE_MATERIAL_FILE = 'models/furniture/furniture.png';
     private static FURNITURE_MATERIAL_FILE2 = 'models/furniture/materials/bathroom.png';
+    private static BED_MATERIAL_FILE = 'models/furniture/materials/beds.png';
     private static CUPBOARD_MODEL_FILE = 'cupboard.babylon';
     private static TABLE_MODEL_FILE = 'table.babylon';
     private static BATHTUB_MODEL_FILE = 'bathtub.babylon';
     private static WASHBASIN_MODEL_FILE = 'wash_basin.babylon';
+    private static BED_MODEL_FILE = 'bed.babylon';
     private static FURNITURE_BASE_PATH = '/models/furniture/';
 
     private static PLAYER_BASE_PATH = 'models/dude/';
@@ -62,7 +65,8 @@ export class MeshFactoryProducer {
                         cupboard: new StaticItemFactory(meshMap.cupboard.create(), gameObjectTranslator, shadowGenerator),
                         table: new StaticItemFactory(meshMap.table.create(), gameObjectTranslator, shadowGenerator),
                         bathtub: new StaticItemFactory(meshMap.bathtub.create(), gameObjectTranslator, shadowGenerator),
-                        washbasin: new StaticItemFactory(meshMap.washbasin.create(), gameObjectTranslator, shadowGenerator)
+                        washbasin: new StaticItemFactory(meshMap.washbasin.create(), gameObjectTranslator, shadowGenerator),
+                        bed: new StaticItemFactory(meshMap.bed.create(), gameObjectTranslator, shadowGenerator)
                     }
                 );
             });
@@ -108,6 +112,13 @@ export class MeshFactoryProducer {
                 this.WASHBASIN_MODEL_FILE,
                 this.FURNITURE_MATERIAL_FILE2,
                 {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
+            ),
+            bed: new ModelFileBasedTemplateCreator(
+                scene,
+                this.FURNITURE_BASE_PATH,
+                this.BED_MODEL_FILE,
+                this.BED_MATERIAL_FILE,
+                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
             )
         };
 
@@ -116,7 +127,8 @@ export class MeshFactoryProducer {
             (<AsyncTemplateCreator> meshMap.player).doAsyncWork(),
             (<AsyncTemplateCreator> meshMap.table).doAsyncWork(),
             (<AsyncTemplateCreator> meshMap.bathtub).doAsyncWork(),
-            (<AsyncTemplateCreator> meshMap.washbasin).doAsyncWork()
+            (<AsyncTemplateCreator> meshMap.washbasin).doAsyncWork(),
+            (<AsyncTemplateCreator> meshMap.bed).doAsyncWork()
         ])
         .then(() => meshMap);
     }
