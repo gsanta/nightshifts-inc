@@ -25,7 +25,7 @@ export class WindowTemplateCreator implements TemplateCreator {
     }
 
     public create(): MeshTemplate {
-        return new MeshTemplate(this.meshes, [], null, null, {...defaultMeshConfig});
+        return new MeshTemplate(this.meshes, [], null, [], {...defaultMeshConfig});
     }
 
     private createWindowGlassMaterial(): StandardMaterial {

@@ -22,7 +22,7 @@ export class FloorTemplateCreator implements TemplateCreator {
     }
 
     public create(): MeshTemplate {
-        return new MeshTemplate([this.mesh], [], null, this.material, {...defaultMeshConfig});
+        return new MeshTemplate([this.mesh], [], null, [this.material], {...defaultMeshConfig});
     }
 
     private createMaterial(): StandardMaterial {

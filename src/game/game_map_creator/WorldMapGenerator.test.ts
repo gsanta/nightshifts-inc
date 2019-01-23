@@ -10,8 +10,6 @@ import * as fs from 'fs';
 describe('WorldMapGenerator', () => {
     describe('create', () => {
         it('creates a worldmap based on a string input map', async () => {
-            const file = fs.readFileSync(__dirname + '/../../assets/testWorldMap.gwm', 'utf8');
-
             const createWallStub = sinon.stub();
             const wallSpy = sinon.spy();
             createWallStub.returns(wallSpy);

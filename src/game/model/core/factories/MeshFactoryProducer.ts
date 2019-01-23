@@ -34,18 +34,29 @@ interface MeshMap<V> {
 
 export class MeshFactoryProducer {
 
-    private static FURNITURE_MATERIAL_FILE = 'models/furniture/furniture.png';
-    private static FURNITURE_MATERIAL_FILE2 = 'models/furniture/materials/bathroom.png';
-    private static BED_MATERIAL_FILE = 'models/furniture/materials/beds.png';
+    private static FURNITURE_1_MATERIAL = 'assets/models/furniture_1/material/beds.png';
+    private static FURNITURE_1_BASE_PATH = '/assets/models/furniture_1/';
+    private static BED_MODEL_FILE = 'bed.babylon';
+
+    private static FURNITURE_2_MATERIAL = 'assets/models/furniture_2/material/furniture.png';
+    private static FURITURE_2_BASE_PATH = '/assets/models/furniture_2/';
     private static CUPBOARD_MODEL_FILE = 'cupboard.babylon';
     private static TABLE_MODEL_FILE = 'table.babylon';
+
+    private static FURNITURE_3_MATERIAL = 'assets/models/furniture_3/material/bathroom.png';
+    private static FURITURE_3_BASE_PATH = '/assets/models/furniture_3/';
     private static BATHTUB_MODEL_FILE = 'bathtub.babylon';
     private static WASHBASIN_MODEL_FILE = 'wash_basin.babylon';
-    private static BED_MODEL_FILE = 'bed.babylon';
-    private static FURNITURE_BASE_PATH = '/models/furniture/';
 
-    private static PLAYER_BASE_PATH = 'models/dude/';
-    private static PLAYER_MODEL_FILE = 'Dude.babylon';
+
+    private static PLAYER_BASE_PATH = 'assets/models/player/';
+    private static PLAYER_MODEL_FILE = 'player.babylon';
+    private static PLAYER_MATERIALS = [
+        'assets/models/player/material/0.jpg',
+        'assets/models/player/material/1.jpg',
+        'assets/models/player/material/2.jpg',
+        'assets/models/player/material/3.jpg'
+    ];
 
     public static getFactory(scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory> {
         const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
@@ -78,46 +89,46 @@ export class MeshFactoryProducer {
             door: new DoorTemplateCreator(scene),
             cupboard: new ModelFileBasedTemplateCreator(
                 scene,
-                this.FURNITURE_BASE_PATH,
+                this.FURITURE_2_BASE_PATH,
                 this.CUPBOARD_MODEL_FILE,
-                this.FURNITURE_MATERIAL_FILE,
+                [this.FURNITURE_2_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
             ),
             table: new ModelFileBasedTemplateCreator(
                 scene,
-                this.FURNITURE_BASE_PATH,
+                this.FURITURE_2_BASE_PATH,
                 this.TABLE_MODEL_FILE,
-                this.FURNITURE_MATERIAL_FILE,
+                [this.FURNITURE_2_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
             ),
             player: new ModelFileBasedTemplateCreator(
                 scene,
                 this.PLAYER_BASE_PATH,
                 this.PLAYER_MODEL_FILE,
-                null,
-                {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.1, 0.1, 0.1)}
+                this.PLAYER_MATERIALS,
+                {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.3, 0.3, 0.3)}
             ),
             floor: new FloorTemplateCreator(scene, worldDimensions),
             window: new WindowTemplateCreator(scene),
             bathtub: new ModelFileBasedTemplateCreator(
                 scene,
-                this.FURNITURE_BASE_PATH,
+                this.FURITURE_3_BASE_PATH,
                 this.BATHTUB_MODEL_FILE,
-                this.FURNITURE_MATERIAL_FILE2,
+                [this.FURNITURE_3_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
             ),
             washbasin: new ModelFileBasedTemplateCreator(
                 scene,
-                this.FURNITURE_BASE_PATH,
+                this.FURITURE_3_BASE_PATH,
                 this.WASHBASIN_MODEL_FILE,
-                this.FURNITURE_MATERIAL_FILE2,
+                [this.FURNITURE_3_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
             ),
             bed: new ModelFileBasedTemplateCreator(
                 scene,
-                this.FURNITURE_BASE_PATH,
+                this.FURNITURE_1_BASE_PATH,
                 this.BED_MODEL_FILE,
-                this.BED_MATERIAL_FILE,
+                [this.FURNITURE_1_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
             )
         };

@@ -16,16 +16,15 @@ export class MeshTemplate {
     private config: MeshTemplateConfig;
     private transformNode: TransformNode;
 
-    constructor(meshes: Mesh[], skeletons: Skeleton[], transformNode: TransformNode, material: StandardMaterial, config: MeshTemplateConfig) {
+    constructor(meshes: Mesh[], skeletons: Skeleton[], transformNode: TransformNode, materials: StandardMaterial[], config: MeshTemplateConfig) {
         this.meshes = meshes;
         this.transformNode = transformNode;
         this.config = config;
-        if (material) {
-            // this.meshes[0].material = material;
 
-            this.meshes.forEach(m => {
-                m.material = material;
-            });
+        if (materials.length > 0) {
+            this.meshes.forEach((m, index) => m.material = materials[index]);
+        } else {
+            this.meshes.forEach(m => m.material = materials[0]);
         }
         // this.meshes[0].checkCollisions = config.checkCollisions;
         // this.meshes[0].receiveShadows = config.receiveShadows;

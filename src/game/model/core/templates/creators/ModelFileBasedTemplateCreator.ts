@@ -23,17 +23,19 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
 
     private meshes: Mesh[];
     private skeletons: Skeleton[];
-    private material: StandardMaterial;
+    private materials: StandardMaterial[] = [];
     private isAsyncWorkDone = false;
 
-    constructor(scene: Scene, base: string, fileName: string, materialFileName: string, config: Partial<MeshTemplateConfig>) {
+    constructor(scene: Scene, base: string, fileName: string, materialFileNames: string[], config: Partial<MeshTemplateConfig>) {
         this.base = base;
         this.scene = scene;
         this.fileName = fileName;
         this.config = {...defaultMeshConfig, ...config};
 
-        this.material = new BABYLON.StandardMaterial(materialFileName, scene);
-        this.material.diffuseTexture = new BABYLON.Texture(materialFileName, scene);
+        materialFileNames.forEach((file, index) => {
+            this.materials[index] = new BABYLON.StandardMaterial(file, scene);
+            this.materials[index].diffuseTexture = new BABYLON.Texture(file, scene);
+        });
     }
 
     public doAsyncWork(): Promise<void> {
@@ -66,6 +68,6 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
             throw new Error(`This is an AsyncTemplateCreator and the async work is not done yet,
                 call and wait for doAsyncWork() before calling this method.`);
         }
-        return new MeshTemplate(this.meshes, this.skeletons, null, this.material, this.config);
+        return new MeshTemplate(this.meshes, this.skeletons, null, this.materials, this.config);
     }
 }
