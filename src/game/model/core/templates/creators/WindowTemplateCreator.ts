@@ -20,8 +20,7 @@ export class WindowTemplateCreator implements TemplateCreator {
         this.windowGlassMaterial = this.createWindowGlassMaterial();
         this.windowFrameMaterial = this.createWindowFrameMaterial();
         this.meshes = this.createMeshes();
-        this.containerMesh = this.createCntainerMesh(this.meshes);
-        this.meshes.forEach(mesh => mesh.parent = this.containerMesh);
+        this.containerMesh = this.createCntainerMesh();
     }
 
     public create(): MeshTemplate {
@@ -74,7 +73,7 @@ export class WindowTemplateCreator implements TemplateCreator {
         return [bottom, topMesh, middle1, middle2];
     }
 
-    private createCntainerMesh(meshes: Mesh[]): Mesh {
+    private createCntainerMesh(): Mesh {
         const width = 8;
         const depth = 1;
         const height = 5;

@@ -30,7 +30,6 @@ export class StaticItemFactory implements ItemFactory {
         const meshModel = new MeshModel(meshes[0]);
 
         meshes.forEach(mesh => {
-            const scaling = this.gameObjectTranslator.getDimensions(gameObject).toVector3(5);
             const realMeshDimensions = this.getRealMeshDimensions(mesh, gameObject);
             const translate2 = this.gameObjectTranslator.getTranslate(gameObject, realMeshDimensions);
             const translate = new VectorModel(translate2.x(), 0, -translate2.y());
@@ -38,7 +37,7 @@ export class StaticItemFactory implements ItemFactory {
 
             mesh.rotation.y = rotation;
 
-            meshModel.mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+            mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
             this.shadowGenerator.getShadowMap().renderList.push(mesh);
         });

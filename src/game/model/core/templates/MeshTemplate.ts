@@ -21,9 +21,6 @@ export class MeshTemplate {
         this.meshes = meshes;
         this.config = config;
 
-        // this.meshes[0].checkCollisions = config.checkCollisions;
-        // this.meshes[0].receiveShadows = config.receiveShadows;
-        // this.meshes[0].scaling = toVector3(config.scaling);
         this.meshes.forEach(m => {
             m.isPickable = true;
             m.isVisible = false;
@@ -33,8 +30,6 @@ export class MeshTemplate {
         });
 
         if (!this.config.singleton) {
-            // this.meshes[0].setEnabled(false);
-
             this.meshes.forEach(m => m.setEnabled(false));
         }
         this.skeletons = skeletons;
@@ -50,41 +45,30 @@ export class MeshTemplate {
             return this.meshes;
         }
 
-        let meshes: Mesh[] = [];
-
-        // this.meshes.forEach(mesh => {
-        //     const clonedMesh = mesh.clone(`${mesh.name}-${this.counter++}`);
-        //     clonedMesh.isVisible = true;
-        //     meshes.push(mesh);
-        // });
-
-        // let meshes = [...this.meshes];
-
-        // if (this.containerMesh) {
-        //     meshes.unshift(this.containerMesh);
-        // }
-
-
-
         if (this.containerMesh) {
-            const mesh = this.containerMesh.clone(`${this.containerMesh.name}-${this.counter++}`);
-            mesh.isVisible = false;
-            meshes = [mesh, ...(<Mesh[]> mesh.getChildMeshes())];
+            return this.cloneMeshesAndPutUnderContainer();
         } else {
-            meshes = this.meshes.map(mesh => {
-                const clonedMesh = mesh.clone(`${mesh.name}-${this.counter++}`);
-                clonedMesh.isVisible = true;
-                return clonedMesh;
-            });
+            return this.cloneMeshes();
         }
+    }
 
-        // if (meshes.length > 1) {
-        //     const [first, ...rest] = meshes;
-        //     rest.forEach(mesh => mesh.parent = first);
-        //     first.isVisible = false;
-        // }
+    private cloneMeshes() {
+        return this.meshes.map(mesh => {
+            const clonedMesh = mesh.clone(`${mesh.name}-${this.counter++}`);
+            clonedMesh.isVisible = true;
+            return clonedMesh;
+        });
+    }
 
-        return meshes;
+    private cloneMeshesAndPutUnderContainer() {
+        const containerMesh = this.containerMesh.clone(`${this.containerMesh.name}-${this.counter++}`);
+        containerMesh.isVisible = false;
+
+        const meshes = this.cloneMeshes();
+
+        meshes.forEach(mesh => mesh.parent = containerMesh);
+
+        return [containerMesh, ...meshes];
     }
 
     public getSkeletons(): Skeleton[] {
