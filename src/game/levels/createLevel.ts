@@ -1,19 +1,12 @@
-import { Scene, Mesh, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
+import { Scene, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
 import { WorldMap } from '../game_map_creator/WorldMap';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { WorldMapGenerator } from '../game_map_creator/WorldMapGenerator';
-import { SceneModel } from '../model/core/SceneModel';
-import { Rectangle, GameObject } from 'game-worldmap-generator';
+import { GameObject } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
 import { LightController } from '../model/light/LightController';
-import { GameObjectToWorldCenterTranslatorDecorator } from '../game_map_creator/GameObjectToWorldCenterTranslatorDecorator';
 import { Vector2Model } from '../model/utils/Vector2Model';
-import { GameObjectToRealWorldCoordinateWrapper } from '../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
-import { WallFactory } from '../model/core/factories/WallFactory';
 import { parseJsonAdditionalData, AdditionalData } from '../game_map_creator/AdditionalData';
-import { DoorFactory } from '../model/core/factories/DoorFactory';
-import { WallTemplateCreator } from '../model/core/templates/creators/WallTemplateCreator';
-import { DoorTemplateCreator } from '../model/core/templates/creators/DoorTemplateCreator';
 import { MeshFactoryProducer } from '../model/core/factories/MeshFactoryProducer';
 import { Promise } from 'es6-promise';
 
@@ -26,8 +19,9 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
     const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
 
     return initMeshFactory(scene, shadowGenerator, spotLight, getWorldDimensions(gameObjects))
-        .then(meshFactory => new WorldMapGenerator(meshFactory, 1).create(gameObjects))
-        .then(worldMap => {
+        .then(meshFactory => {
+            const worldMap = new WorldMapGenerator(meshFactory, 1).create(gameObjects);
+
             worldMap.lightController = new LightController(hemisphericLight);
             return worldMap;
         });
@@ -59,7 +53,7 @@ const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLig
     // );
 
     // return modelTemplatesPromise.then(modelTemplates => new MeshFactory(
-    //         scene, 
+    //         scene,
     //         {
     //             wall: new WallFactory(modelTemplates.wall, gameObjectTranslator, shadowGenerator),
     //             door: new DoorFactory(modelTemplates.door, gameObjectTranslator, shadowGenerator, 1)

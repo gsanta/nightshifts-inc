@@ -3,9 +3,6 @@ import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import sinon = require('sinon');
 import { expect } from 'chai';
-import { Rectangle, GameObject, GameObjectParser } from 'game-worldmap-generator';
-import * as fs from 'fs';
-
 
 describe('WorldMapGenerator', () => {
     describe('create', () => {

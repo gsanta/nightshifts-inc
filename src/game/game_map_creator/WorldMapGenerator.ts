@@ -1,13 +1,9 @@
 import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import { WorldMap } from './WorldMap';
-import { Rectangle, GameObject,  GameObjectParser } from 'game-worldmap-generator';
+import { Rectangle, GameObject } from 'game-worldmap-generator';
 import { MeshModel } from '../model/core/MeshModel';
-import { number } from 'prop-types';
 import { Player } from '../model/creature/type/Player';
-import { Promise } from 'es6-promise';
-import { Orientation } from '../model/utils/Orientation';
-import { Direction } from '../model/utils/Direction';
 import { GameObjectToRealWorldCoordinateWrapper, GameObjectTranslator } from './GameObjectToRealWorldCoordinateWrapper';
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { GameObjectToWorldCenterTranslatorDecorator } from './GameObjectToWorldCenterTranslatorDecorator';
@@ -23,7 +19,7 @@ export class WorldMapGenerator {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public create(gameObjects: GameObject[]): Promise<WorldMap> {
+    public create(gameObjects: GameObject[]): WorldMap {
         const worldMap = new WorldMap();
         const worldDimensions = this.getWorldDimensions(gameObjects);
         const worldDimensions2 = new Vector2Model(worldDimensions.width, worldDimensions.height);
@@ -33,40 +29,24 @@ export class WorldMapGenerator {
             new GameObjectToRealWorldCoordinateWrapper(worldDimensions2, this.gameObjectToMeshSizeRatio)
         );
 
-        const promises = gameObjects.map(gameObject => this.createMesh(gameObject, worldDimensions, worldMap))
-        return Promise.all(promises)
-            .then(values => {
-                const meshes = values.filter(mesh => mesh);
+        const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, worldMap));
 
-                worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
-                worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
-                worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
+        worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
+        worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
+        worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
 
-                return worldMap;
-            });
+        return worldMap;
     }
 
-    private createMesh(
-        gameObject: GameObject<AdditionalData>, worldDimensions: { width: number, height: number }, worldMap: WorldMap): Promise<MeshModel> {
-
-        let translate = this.rectangleToTranslateVector2(gameObject, worldDimensions);
-        let dimensions = this.rectangleToDimensionVectorNarrow(gameObject.dimensions);
-
-        switch(gameObject.name) {
+    private createMesh(gameObject: GameObject<AdditionalData>, worldMap: WorldMap): MeshModel {
+        switch (gameObject.name) {
             case 'wall':
                 return this.meshFactory.createWall(gameObject);
             case 'door':
                 return this.meshFactory.createDoor(gameObject);
             case 'window':
-                // if (gameObject.additionalData) {
-                //     const pivotVector1 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis1);
-                //     const pivotVector2 = this.getPivotVector(gameObject.dimensions, gameObject.additionalData.axis2);
-                //     return this.meshFactory
-                //         .createWindow(translate, dimensions, pivotVector1, pivotVector2, BABYLON.Tools.ToRadians(gameObject.additionalData.angle));
-                // }
                 return this.meshFactory.createWindow(gameObject);
             case 'floor':
-                dimensions = this.rectangleToDimensionVectorNormal(gameObject.dimensions);
                 return this.meshFactory.createFloor(gameObject);
             case 'player':
                 return this.meshFactory.createPlayer(gameObject, worldMap);
@@ -74,12 +54,8 @@ export class WorldMapGenerator {
                 return this.meshFactory.createBed(gameObject);
             case 'table':
                 return this.meshFactory.createTable(gameObject);
-            case 'table_wide':
-                return this.meshFactory.createTableWide(translate);
             case 'cupboard':
                 return this.meshFactory.createCupboard(gameObject);
-            case 'cupboard_with_shelves':
-                return this.meshFactory.createCupboardWithShelves(translate, gameObject.additionalData.orientation);
             case 'bathtub':
                 return this.meshFactory.createBathtub(gameObject);
             case 'washbasin':

@@ -66,7 +66,6 @@ export class MeshFactoryProducer {
         return this.getTemplateProducers(scene, worldDimensions)
             .then(meshMap => {
                 return new MeshFactory(
-                    scene,
                     {
                         wall: new WallFactory(meshMap.wall.create(), gameObjectTranslator, shadowGenerator, 1),
                         door: new DoorFactory(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1),
