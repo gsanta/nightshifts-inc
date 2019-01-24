@@ -68,6 +68,9 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
             throw new Error(`This is an AsyncTemplateCreator and the async work is not done yet,
                 call and wait for doAsyncWork() before calling this method.`);
         }
-        return new MeshTemplate(this.meshes, this.skeletons, null, this.materials, this.config);
+
+        this.meshes.forEach(m => m.material = this.materials[0]);
+
+        return new MeshTemplate(null, this.meshes, this.skeletons, this.config);
     }
 }

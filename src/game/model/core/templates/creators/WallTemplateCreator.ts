@@ -18,7 +18,8 @@ export class WallTemplateCreator implements TemplateCreator {
     }
 
     public create(): MeshTemplate {
-        return new MeshTemplate([this.mesh], [], null, [this.material], {...defaultMeshConfig});
+        this.mesh.material = this.material;
+        return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
     }
 
     private createMaterial(): StandardMaterial {

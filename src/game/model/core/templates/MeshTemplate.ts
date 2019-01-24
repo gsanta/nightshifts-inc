@@ -14,18 +14,13 @@ export class MeshTemplate {
     private skeletons: Skeleton[];
     private counter = 1;
     private config: MeshTemplateConfig;
-    private transformNode: TransformNode;
+    private containerMesh: Mesh;
 
-    constructor(meshes: Mesh[], skeletons: Skeleton[], transformNode: TransformNode, materials: StandardMaterial[], config: MeshTemplateConfig) {
+    constructor(containerMesh: Mesh, meshes: Mesh[], skeletons: Skeleton[], config: MeshTemplateConfig) {
+        this.containerMesh = containerMesh;
         this.meshes = meshes;
-        this.transformNode = transformNode;
         this.config = config;
 
-        if (materials.length > 0) {
-            this.meshes.forEach((m, index) => m.material = materials[index]);
-        } else {
-            this.meshes.forEach(m => m.material = materials[0]);
-        }
         // this.meshes[0].checkCollisions = config.checkCollisions;
         // this.meshes[0].receiveShadows = config.receiveShadows;
         // this.meshes[0].scaling = toVector3(config.scaling);
@@ -55,11 +50,33 @@ export class MeshTemplate {
             return this.meshes;
         }
 
-        const meshes = this.meshes.map(mesh => {
-            const clonedMesh = mesh.clone(`${mesh.name}-${this.counter++}`);
-            clonedMesh.isVisible = true;
-            return clonedMesh;
-        });
+        let meshes: Mesh[] = [];
+
+        // this.meshes.forEach(mesh => {
+        //     const clonedMesh = mesh.clone(`${mesh.name}-${this.counter++}`);
+        //     clonedMesh.isVisible = true;
+        //     meshes.push(mesh);
+        // });
+
+        // let meshes = [...this.meshes];
+
+        // if (this.containerMesh) {
+        //     meshes.unshift(this.containerMesh);
+        // }
+
+
+
+        if (this.containerMesh) {
+            const mesh = this.containerMesh.clone(`${this.containerMesh.name}-${this.counter++}`);
+            mesh.isVisible = false;
+            meshes = [mesh, ...(<Mesh[]> mesh.getChildMeshes())];
+        } else {
+            meshes = this.meshes.map(mesh => {
+                const clonedMesh = mesh.clone(`${mesh.name}-${this.counter++}`);
+                clonedMesh.isVisible = true;
+                return clonedMesh;
+            });
+        }
 
         // if (meshes.length > 1) {
         //     const [first, ...rest] = meshes;
