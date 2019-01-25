@@ -43,7 +43,9 @@ export class MeshModel {
 
     public serialize(): SerializedMeshModel {
         return {
-            constructorName: MeshModel.name
+            constructorName: MeshModel.name,
+            scaling: null,
+            translate: null
         };
     }
 

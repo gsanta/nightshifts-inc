@@ -1,45 +1,43 @@
 import { WorldMapGenerator } from './WorldMapGenerator';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
-import { VectorModel } from '../model/core/VectorModel';
 import sinon = require('sinon');
 import { expect } from 'chai';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
 
 describe('WorldMapGenerator', () => {
     describe('create', () => {
-        it.only ('creates a worldmap based on a string input map', async () => {
+        it ('creates a worldmap based on a string input map', async () => {
             const createWallStub = sinon.stub();
             const wallSpy = sinon.spy();
             createWallStub.returns(wallSpy);
-            const createWindowStub = sinon.stub();
-            const windowSpy = sinon.spy();
-            createWindowStub.returns(windowSpy);
-            const createDoorStub = sinon.stub();
-            const doorSpy = sinon.spy();
-            createDoorStub.returns(doorSpy);
+            const createFloorStub = sinon.stub();
+            const floorSpy = sinon.spy();
+            createFloorStub.returns(floorSpy);
 
             const meshFactoryMock: Partial<MeshFactory> = {
                 createWall: createWallStub,
-                createWindow: createWindowStub,
-                createDoor: createDoorStub
+                createFloor: createFloorStub,
+            };
+
+            const gameObject1: GameObject = <GameObject> {
+                type: 'W',
+                name: 'wall',
+                dimensions: new Rectangle(1, 1, 2, 3)
+            };
+
+            const gameObject2: GameObject = <GameObject> {
+                type: 'F',
+                name: 'floor',
+                dimensions: new Rectangle(0, 0, 5, 5)
             };
 
             const worldmapGenerator = new WorldMapGenerator(<MeshFactory> meshFactoryMock, 1);
-            const worldMap = await worldmapGenerator.create([
-                <GameObject> {
-                    type: 'W',
-                    name: 'wall',
-                    dimensions: new Rectangle(1, 1, 2, 3)
-                }
-            ]);
+            const worldMap = await worldmapGenerator.create([gameObject1, gameObject2]);
 
-            expect(worldMap.gameObjects).to.have.members(
-                [wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, windowSpy, windowSpy, doorSpy]
-            );
-            expect(createWallStub.getCall(0).args[0]).to.eql(new VectorModel(1, 5, 1));
-            expect(createWallStub.getCall(0).args[1]).to.eql(new VectorModel(1, 10, 7));
-            expect(createWindowStub.getCall(0).args[0]).to.eql(new VectorModel(4, 5, 1));
-            expect(createWindowStub.getCall(0).args[1]).to.eql(new VectorModel(2, 10, 1));
+            expect(worldMap.gameObjects).to.have.members([wallSpy, floorSpy]);
+
+            sinon.assert.calledWith(createWallStub, gameObject1);
+            sinon.assert.calledWith(createFloorStub, gameObject2);
         });
     });
 });
