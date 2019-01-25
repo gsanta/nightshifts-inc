@@ -1,6 +1,6 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from './VectorModel';
-import { SerializableMeshModel } from '../../world_serializer/SerializableMeshModel';
+import { SerializedMeshModel } from '../../world_serializer/SerializedMeshModel';
 
 
 export class MeshModel {
@@ -41,13 +41,13 @@ export class MeshModel {
         return this.mesh.getBoundingInfo().boundingBox.extendSize.z;
     }
 
-    public serialize(): SerializableMeshModel {
+    public serialize(): SerializedMeshModel {
         return {
             constructorName: MeshModel.name
         };
     }
 
-    public unserialize(model: SerializableMeshModel): MeshModel {
-
+    public unserialize(model: SerializedMeshModel): MeshModel {
+        return null;
     }
 }

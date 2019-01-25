@@ -3,10 +3,11 @@ import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { VectorModel } from '../model/core/VectorModel';
 import sinon = require('sinon');
 import { expect } from 'chai';
+import { Rectangle, GameObject } from 'game-worldmap-generator';
 
 describe('WorldMapGenerator', () => {
     describe('create', () => {
-        it('creates a worldmap based on a string input map', async () => {
+        it.only ('creates a worldmap based on a string input map', async () => {
             const createWallStub = sinon.stub();
             const wallSpy = sinon.spy();
             createWallStub.returns(wallSpy);
@@ -24,7 +25,13 @@ describe('WorldMapGenerator', () => {
             };
 
             const worldmapGenerator = new WorldMapGenerator(<MeshFactory> meshFactoryMock, 1);
-            const worldMap = await worldmapGenerator.create(null);
+            const worldMap = await worldmapGenerator.create([
+                <GameObject> {
+                    type: 'W',
+                    name: 'wall',
+                    dimensions: new Rectangle(1, 1, 2, 3)
+                }
+            ]);
 
             expect(worldMap.gameObjects).to.have.members(
                 [wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, wallSpy, windowSpy, windowSpy, doorSpy]

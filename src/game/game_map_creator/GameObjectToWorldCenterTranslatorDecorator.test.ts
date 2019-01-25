@@ -9,19 +9,20 @@ import { expect } from 'chai';
 describe('GameObjectToWorldCenterTranslatorDecorator', () => {
     describe('getTranslate', () => {
         let getTranslateStub: sinon.SinonStub;
-        let decoratedGameObjectTranslator: GameObjectTranslator;
+        let decoratedGameObjectTranslator: Partial<GameObjectTranslator>;
 
         beforeEach(() => {
             getTranslateStub = sinon.stub();
-            // decoratedGameObjectTranslator = {
-            //     getTranslate: getTranslateStub
-            // };
+            decoratedGameObjectTranslator = {
+                getTranslate: getTranslateStub
+            };
         });
 
-        it('calls the decorated GameObjectTranslator', () => {
-            const gameObjectToWorldCenterTranslatorDecorator = new GameObjectToWorldCenterTranslatorDecorator(new Vector2Model(1, 1), 1, decoratedGameObjectTranslator); 
-            
-            
+        it ('calls the decorated GameObjectTranslator', () => {
+            const gameObjectToWorldCenterTranslatorDecorator =
+                new GameObjectToWorldCenterTranslatorDecorator(new Vector2Model(1, 1), 1, <GameObjectTranslator> decoratedGameObjectTranslator);
+
+
             const gameObject: Partial<GameObject> = {};
             getTranslateStub.withArgs(gameObject).returns(new Vector2Model(1, 1));
             gameObjectToWorldCenterTranslatorDecorator.getTranslate(<GameObject> gameObject);
@@ -34,15 +35,15 @@ describe('GameObjectToWorldCenterTranslatorDecorator', () => {
             const gameObjectToMeshSizeRatio = 2;
 
             const gameObjectToWorldCenterTranslatorDecorator = new GameObjectToWorldCenterTranslatorDecorator(
-                worldDimensions, gameObjectToMeshSizeRatio, decoratedGameObjectTranslator);
-                
-            
+                worldDimensions, gameObjectToMeshSizeRatio, <GameObjectTranslator> decoratedGameObjectTranslator);
+
+
             const gameObject: Partial<GameObject> = {};
             getTranslateStub.returns(new Vector2Model(1, 1));
 
             const vector = gameObjectToWorldCenterTranslatorDecorator.getTranslate(<GameObject> gameObject);
 
-            expect(vector).to.eql(new Vector2Model(-4, 6));
+            expect(vector).to.eql(new Vector2Model(-1.5, -1.5));
         });
     });
 });

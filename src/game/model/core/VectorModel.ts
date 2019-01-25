@@ -83,4 +83,8 @@ export class VectorModel {
     public static Distance(vectorModel1: VectorModel, vectorModel2: VectorModel) {
         return Vector3.Distance(toVector3(vectorModel1), toVector3(vectorModel2));
     }
+
+    public static deserialize(obj: {x: number, y: number, z: number}) {
+        return new VectorModel(obj.x, obj.y, obj.z);
+    }
 }

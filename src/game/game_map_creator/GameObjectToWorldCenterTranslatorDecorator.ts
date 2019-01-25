@@ -18,8 +18,8 @@ export class GameObjectToWorldCenterTranslatorDecorator implements GameObjectTra
     public getTranslate(gameObject: GameObject, realMeshDimensions?: Vector2Model): Vector2Model {
         const vector2 = this.gameObjectToRealWorldCoordinateWrapper.getTranslate(gameObject, realMeshDimensions);
 
-        const translateX = - (this.worldDimensions.x() / 2) * this.gameObjectToMeshSizeRatio;
-        const translateY = - (this.worldDimensions.y() / 2) * this.gameObjectToMeshSizeRatio;
+        const translateX = - (this.worldDimensions.x() / 2);
+        const translateY = - (this.worldDimensions.y() / 2);
         return vector2.add(new Vector2Model(translateX, translateY));
     }
 
