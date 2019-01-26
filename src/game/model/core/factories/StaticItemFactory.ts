@@ -2,10 +2,10 @@ import { ItemFactory } from './ItemFactory';
 import { GameObject } from 'game-worldmap-generator';
 import { MeshModel } from '../MeshModel';
 import { MeshTemplate } from '../templates/MeshTemplate';
-import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
+import { GameObjectTranslator } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { VectorModel, toVector3 } from '../VectorModel';
-import { AdditionalData } from '../../../game_map_creator/AdditionalData';
+import { AdditionalData } from '../../../io/game_map_creator/AdditionalData';
 import { Orientation } from '../../utils/Orientation';
 import { Vector2Model } from '../../utils/Vector2Model';
 

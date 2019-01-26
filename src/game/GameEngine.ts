@@ -1,9 +1,8 @@
 import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
-import { WorldMap } from './game_map_creator/WorldMap';
+import { WorldMap } from './io/game_map_creator/WorldMap';
 import { createLevel } from './levels/createLevel';
-import { GameObject } from 'game-worldmap-generator';
 
 
 export class GameEngine {

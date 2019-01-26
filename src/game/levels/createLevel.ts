@@ -1,12 +1,12 @@
 import { Scene, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
-import { WorldMap } from '../game_map_creator/WorldMap';
+import { WorldMap } from '../io/game_map_creator/WorldMap';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
-import { WorldMapGenerator } from '../game_map_creator/WorldMapGenerator';
+import { WorldMapGenerator } from '../io/game_map_creator/WorldMapGenerator';
 import { GameObject } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
 import { LightController } from '../model/light/LightController';
 import { Vector2Model } from '../model/utils/Vector2Model';
-import { parseJsonAdditionalData, AdditionalData } from '../game_map_creator/AdditionalData';
+import { parseJsonAdditionalData, AdditionalData } from '../io/game_map_creator/AdditionalData';
 import { MeshFactoryProducer } from '../model/core/factories/MeshFactoryProducer';
 import { Promise } from 'es6-promise';
 
@@ -29,7 +29,7 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
 
 const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory> => {
 
-    return MeshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight)
+    return MeshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight);
     // const materialTemplates = MeshFactory.initMaterials(scene);
     // const modelTemplatesPromise = MeshFactory.importModels(scene, materialTemplates);
 
@@ -65,8 +65,8 @@ const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLig
 const getWorldDimensions = (gameObjects: GameObject[]): Vector2Model => {
     const floor = gameObjects.filter(gameObject => gameObject.name === 'floor')[0];
 
-    return new Vector2Model(floor.dimensions.width, floor.dimensions.height)
-}
+    return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
+};
 
 const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
     const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);

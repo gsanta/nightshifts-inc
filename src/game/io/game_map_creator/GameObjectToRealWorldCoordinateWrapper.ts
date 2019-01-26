@@ -1,10 +1,8 @@
 import { GameObject, Rectangle } from 'game-worldmap-generator';
-import { VectorModel } from '../model/core/VectorModel';
-import { Direction } from '../model/utils/Direction';
-import { Vector2Model } from '../model/utils/Vector2Model';
+import { Direction } from '../../model/utils/Direction';
+import { Vector2Model } from '../../model/utils/Vector2Model';
 import { AdditionalData } from './AdditionalData';
-import { Orientation } from '../model/utils/Orientation';
-import { DEFAULT_ECDH_CURVE } from 'tls';
+import { Orientation } from '../../model/utils/Orientation';
 
 export interface GameObjectTranslator {
     getTranslate(gameObject: GameObject, realMeshDimensions?: Vector2Model): Vector2Model;

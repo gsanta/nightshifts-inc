@@ -1,11 +1,11 @@
-import { MeshFactory } from '../model/core/factories/MeshFactory';
-import { VectorModel } from '../model/core/VectorModel';
+import { MeshFactory } from '../../model/core/factories/MeshFactory';
+import { VectorModel } from '../../model/core/VectorModel';
 import { WorldMap } from './WorldMap';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
-import { MeshModel } from '../model/core/MeshModel';
-import { Player } from '../model/creature/type/Player';
+import { MeshModel } from '../../model/core/MeshModel';
+import { Player } from '../../model/creature/type/Player';
 import { GameObjectToRealWorldCoordinateWrapper, GameObjectTranslator } from './GameObjectToRealWorldCoordinateWrapper';
-import { Vector2Model } from '../model/utils/Vector2Model';
+import { Vector2Model } from '../../model/utils/Vector2Model';
 import { GameObjectToWorldCenterTranslatorDecorator } from './GameObjectToWorldCenterTranslatorDecorator';
 import { AdditionalData } from './AdditionalData';
 

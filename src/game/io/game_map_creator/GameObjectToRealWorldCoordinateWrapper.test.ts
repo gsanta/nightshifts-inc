@@ -1,9 +1,8 @@
-import { Vector2Model } from "../model/utils/Vector2Model";
-import { GameObjectToRealWorldCoordinateWrapper } from "./GameObjectToRealWorldCoordinateWrapper";
-import { Rectangle, GameObject } from "game-worldmap-generator";
+import { Rectangle, GameObject } from 'game-worldmap-generator';
 import { expect } from 'chai';
-import { VectorModel } from '../model/core/VectorModel';
-import { Direction } from '../model/utils/Direction';
+import { Direction } from '../../model/utils/Direction';
+import { GameObjectToRealWorldCoordinateWrapper } from './GameObjectToRealWorldCoordinateWrapper';
+import { Vector2Model } from '../../model/utils/Vector2Model';
 
 
 describe('GameObjectToRealWorldCoordinateWrapper', () => {
@@ -12,7 +11,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
             const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(new Vector2Model(5, 5), 1);
             const gameObject: Partial<GameObject> = {
                 dimensions: new Rectangle(3, 3, 2, 2)
-            }
+            };
 
             const translate = gameObjectToRealWorldCoordinateWrapper.getTranslate(<GameObject> gameObject);
             expect(translate).to.eql(new Vector2Model(4, 4));
@@ -25,7 +24,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
                 additionalData: {
                     dock: Direction.NORTH_WEST
                 }
-            }
+            };
 
             const translate = gameObjectToRealWorldCoordinateWrapper.getTranslate(<GameObject> gameObject);
             expect(translate).to.eql(new Vector2Model(3, 3));
@@ -38,7 +37,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
                 additionalData: {
                     dock: Direction.NORTH_EAST
                 }
-            }
+            };
 
             const translate = gameObjectToRealWorldCoordinateWrapper.getTranslate(<GameObject> gameObject);
             expect(translate).to.eql(new Vector2Model(5, 3));
@@ -51,7 +50,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
                 additionalData: {
                     dock: Direction.SOUTH_WEST
                 }
-            }
+            };
 
             const translate = gameObjectToRealWorldCoordinateWrapper.getTranslate(<GameObject> gameObject);
             expect(translate).to.eql(new Vector2Model(3, 5));
@@ -64,7 +63,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
                 additionalData: {
                     dock: Direction.SOUTH_EAST
                 }
-            }
+            };
 
             const translate = gameObjectToRealWorldCoordinateWrapper.getTranslate(<GameObject> gameObject);
             expect(translate).to.eql(new Vector2Model(5, 5));

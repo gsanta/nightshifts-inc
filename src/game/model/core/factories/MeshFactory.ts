@@ -1,6 +1,5 @@
 import { MeshModel } from '../MeshModel';
-import { GameConstants } from '../../../GameConstants';
-import { WorldMap } from '../../../game_map_creator/WorldMap';
+import { WorldMap } from '../../../io/game_map_creator/WorldMap';
 import { GameObject } from 'game-worldmap-generator';
 import { ItemFactory } from './ItemFactory';
 

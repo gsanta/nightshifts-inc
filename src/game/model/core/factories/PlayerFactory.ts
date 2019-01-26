@@ -3,11 +3,11 @@ import { GameObject } from 'game-worldmap-generator';
 import { MeshModel } from '../MeshModel';
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { MeshTemplate } from '../templates/MeshTemplate';
-import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
+import { GameObjectTranslator } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { VectorModel, toVector3 } from '../VectorModel';
 import { Player } from '../../creature/type/Player';
 import { UserInputEventEmitter } from '../../creature/motion/UserInputEventEmitter';
-import { WorldMap } from '../../../game_map_creator/WorldMap';
+import { WorldMap } from '../../../io/game_map_creator/WorldMap';
 import { ActionStrategy } from '../../creature/action/ActionStrategy';
 import { CollisionDetector } from '../../creature/collision/CollisionDetector';
 import { ManualMotionStrategy } from '../../creature/motion/ManualMotionStrategy';
@@ -47,7 +47,7 @@ export class PlayerFactory implements ItemFactory {
 
         const actionStrategy = new ActionStrategy(player, worldMap);
 
-        const collisionDetector = new CollisionDetector(player, this.scene)
+        const collisionDetector = new CollisionDetector(player, this.scene);
         const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
 
         player.setMotionStrategy(manualMotionStrategy);

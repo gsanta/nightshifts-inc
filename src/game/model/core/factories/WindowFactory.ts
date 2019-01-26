@@ -6,9 +6,9 @@ import { GameObject} from 'game-worldmap-generator';
 import { MeshModel } from '../MeshModel';
 import { ShadowGenerator } from 'babylonjs';
 import { MeshTemplate } from '../templates/MeshTemplate';
-import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
+import { GameObjectTranslator } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { VectorModel, toVector3 } from '../VectorModel';
-import { AdditionalData } from '../../../game_map_creator/AdditionalData';
+import { AdditionalData } from '../../../io/game_map_creator/AdditionalData';
 import { Window } from '../../creature/type/Window';
 
 export class WindowFactory implements ItemFactory {

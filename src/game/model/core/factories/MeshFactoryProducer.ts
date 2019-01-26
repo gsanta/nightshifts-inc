@@ -6,9 +6,9 @@ import { DoorTemplateCreator } from '../templates/creators/DoorTemplateCreator';
 import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../templates/creators/ModelFileBasedTemplateCreator';
 import { VectorModel } from '../VectorModel';
 import { AsyncTemplateCreator } from '../templates/AsyncTemplateCreator';
-import { GameObjectToWorldCenterTranslatorDecorator } from '../../../game_map_creator/GameObjectToWorldCenterTranslatorDecorator';
+import { GameObjectToWorldCenterTranslatorDecorator } from '../../../io/game_map_creator/GameObjectToWorldCenterTranslatorDecorator';
 import { Vector2Model } from '../../utils/Vector2Model';
-import { GameObjectToRealWorldCoordinateWrapper } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
+import { GameObjectToRealWorldCoordinateWrapper } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { WallFactory } from './WallFactory';
 import { DoorFactory } from './DoorFactory';
 import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator';
@@ -18,6 +18,8 @@ import { FloorFactory } from './FloorFactory';
 import { WindowTemplateCreator } from '../templates/creators/WindowTemplateCreator';
 import { WindowFactory } from './WindowFactory';
 import { StaticItemFactory } from './StaticItemFactory';
+import { DefaultDeserializer } from '../../../io/json_world_serializer/factories/DefaultDeserializer';
+import { ItemDeserializer } from '../../../io/json_world_serializer/factories/ItemDeserializer';
 
 interface MeshMap<V> {
     wall: V;
@@ -79,6 +81,13 @@ export class MeshFactoryProducer {
                         bed: new StaticItemFactory(meshMap.bed.create(), gameObjectTranslator, shadowGenerator)
                     }
                 );
+            });
+    }
+
+    public static getFactory2(scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<ItemDeserializer> {
+        return this.getTemplateProducers(scene, worldDimensions)
+            .then(meshMap => {
+                return new DefaultDeserializer(meshMap.wall.create(), shadowGenerator);
             });
     }
 

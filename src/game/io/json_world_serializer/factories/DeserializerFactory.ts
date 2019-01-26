@@ -1,5 +1,25 @@
-// import { SerializedMeshModel } from "../SerializedMeshModel";
+import { WorldMap } from '../../../io/game_map_creator/WorldMap';
+import { ItemDeserializer } from './ItemDeserializer';
+import { SerializedMeshModel } from '../../../model/core/MeshModel';
 
+
+export class DeserializerFactory {
+    private defaultDeserializer: ItemDeserializer;
+
+    constructor(defaultDeserializer: ItemDeserializer) {
+        this.defaultDeserializer = defaultDeserializer;
+    }
+
+    public deserialize(serializedMeshModels: SerializedMeshModel[]): WorldMap {
+
+        const meshModels = serializedMeshModels.map(serializedMeshModel => this.defaultDeserializer.createItem(serializedMeshModel));
+
+        const worldMap = new WorldMap();
+        worldMap.gameObjects = meshModels;
+
+        return worldMap;
+    }
+}
 
 // export class UnserializingMeshFactory {
 //     public createWall(gameObject: SerializedMeshModel): MeshModel {

@@ -1,9 +1,9 @@
 import { ItemFactory } from './ItemFactory';
 import { GameObject } from 'game-worldmap-generator';
 import { MeshModel } from '../MeshModel';
-import { MeshBuilder, StandardMaterial, ShadowGenerator, Mesh } from 'babylonjs';
+import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../templates/MeshTemplate';
-import { GameObjectTranslator } from '../../../game_map_creator/GameObjectToRealWorldCoordinateWrapper';
+import { GameObjectTranslator } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { VectorModel } from '../VectorModel';
 
 export class WallFactory implements ItemFactory {
@@ -41,7 +41,7 @@ export class WallFactory implements ItemFactory {
             this.verticalWallPieceDimensionsAdjustment(mesh, this.gameObjectToMeshSizeRatio);
         }
 
-        this.shadowGenerator.getShadowMap().renderList.push(mesh)
+        this.shadowGenerator.getShadowMap().renderList.push(mesh);
 
         return meshModel;
     }

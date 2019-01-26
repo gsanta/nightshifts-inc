@@ -1,7 +1,15 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from './VectorModel';
-import { SerializedMeshModel } from '../../world_serializer/SerializedMeshModel';
 
+export interface SerializedMeshModel {
+    constructorName: string;
+    scaling?: number;
+    translate: {
+        x: number,
+        y: number,
+        z: number
+    };
+}
 
 export class MeshModel {
     public mesh: Mesh;
