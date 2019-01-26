@@ -21,19 +21,6 @@ import { FloorTemplateCreator } from '../../../../model/core/templates/creators/
 import { WindowTemplateCreator } from '../../../../model/core/templates/creators/WindowTemplateCreator';
 import { AsyncTemplateCreator } from '../../../../model/core/templates/AsyncTemplateCreator';
 
-interface MeshMap<V> {
-    wall: V;
-    door: V;
-    player: V;
-    cupboard: V;
-    table: V;
-    floor: V;
-    window: V;
-    bathtub: V;
-    washbasin: V;
-    bed: V;
-}
-
 export class MeshFactoryProducer {
 
     private static FURNITURE_1_MATERIAL = 'assets/models/furniture_1/material/beds.png';
