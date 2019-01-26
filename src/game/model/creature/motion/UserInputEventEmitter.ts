@@ -18,7 +18,7 @@ export type RotationDirection = 'LEFT' | 'RIGHT';
 export class UserInputEventEmitter extends EventEmitter {
     public subscribe() {
         document.addEventListener('keydown', (event) => {
-            switch(event.keyCode) {
+            switch (event.keyCode) {
                 case Keys.W:
                     this.emitMove('FORWARD');
                     break;

@@ -9,6 +9,7 @@ import { parseJsonAdditionalData, AdditionalData } from '../io/gwm_world_seriali
 import { Promise } from 'es6-promise';
 import { MeshFactory } from '../io/gwm_world_serializer/deserializer/factories/MeshFactory';
 import { MeshFactoryProducer } from '../io/gwm_world_serializer/deserializer/factories/MeshFactoryProducer';
+import { AbstractMeshFactory } from '../model/core/factories/AbstractMeshFactory';
 
 export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<WorldMap> => {
     createCamera(scene, canvas);
@@ -18,18 +19,21 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
 
     const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
 
+    const worldMap = new WorldMap();
+
     return initMeshFactory(scene, shadowGenerator, spotLight, getWorldDimensions(gameObjects))
         .then(meshFactory => {
-            const worldMap = new WorldMapGenerator(meshFactory, 1).create(gameObjects);
+            new WorldMapGenerator(meshFactory, 1).create(gameObjects);
 
             worldMap.lightController = new LightController(hemisphericLight);
             return worldMap;
         });
 };
 
-const initMeshFactory = (scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory> => {
-
-    return MeshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight);
+const initMeshFactory = (
+    scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<AbstractMeshFactory<GameObject>> => {
+    const meshFactoryProducer = new MeshFactoryProducer();
+    return meshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight);
     // const materialTemplates = MeshFactory.initMaterials(scene);
     // const modelTemplatesPromise = MeshFactory.importModels(scene, materialTemplates);
 
