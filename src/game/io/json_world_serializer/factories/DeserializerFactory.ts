@@ -1,4 +1,4 @@
-import { WorldMap } from '../../../io/game_map_creator/WorldMap';
+import { WorldMap } from '../../../io/gwm_world_serializer/WorldMap';
 import { ItemDeserializer } from './ItemDeserializer';
 import { SerializedMeshModel } from '../../../model/core/MeshModel';
 

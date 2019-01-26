@@ -1,5 +1,5 @@
 // import { SerializedMeshModel } from './SerializedMeshModel';
-// import { WorldMap } from '../game_map_creator/WorldMap';
+// import { WorldMap } from '../gwm_world_serializer/WorldMap';
 // import { MeshModel } from '../model/core/MeshModel';
 
 // export class WorldDeSerializer {

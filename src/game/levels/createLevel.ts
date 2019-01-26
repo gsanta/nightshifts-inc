@@ -1,14 +1,14 @@
 import { Scene, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
-import { WorldMap } from '../io/game_map_creator/WorldMap';
-import { MeshFactory } from '../model/core/factories/MeshFactory';
-import { WorldMapGenerator } from '../io/game_map_creator/WorldMapGenerator';
+import { WorldMap } from '../io/gwm_world_serializer/WorldMap';
+import { WorldMapGenerator } from '../io/gwm_world_serializer/WorldMapGenerator';
 import { GameObject } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
 import { LightController } from '../model/light/LightController';
 import { Vector2Model } from '../model/utils/Vector2Model';
-import { parseJsonAdditionalData, AdditionalData } from '../io/game_map_creator/AdditionalData';
-import { MeshFactoryProducer } from '../model/core/factories/MeshFactoryProducer';
+import { parseJsonAdditionalData, AdditionalData } from '../io/gwm_world_serializer/AdditionalData';
 import { Promise } from 'es6-promise';
+import { MeshFactory } from '../io/gwm_world_serializer/deserializer/factories/MeshFactory';
+import { MeshFactoryProducer } from '../io/gwm_world_serializer/deserializer/factories/MeshFactoryProducer';
 
 export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<WorldMap> => {
     createCamera(scene, canvas);

@@ -1,4 +1,3 @@
-import { MeshFactory } from '../../model/core/factories/MeshFactory';
 import { VectorModel } from '../../model/core/VectorModel';
 import { WorldMap } from './WorldMap';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
@@ -8,6 +7,7 @@ import { GameObjectToRealWorldCoordinateWrapper, GameObjectTranslator } from './
 import { Vector2Model } from '../../model/utils/Vector2Model';
 import { GameObjectToWorldCenterTranslatorDecorator } from './GameObjectToWorldCenterTranslatorDecorator';
 import { AdditionalData } from './AdditionalData';
+import { MeshFactory } from './deserializer/factories/MeshFactory';
 
 export class WorldMapGenerator {
     private meshFactory: MeshFactory;

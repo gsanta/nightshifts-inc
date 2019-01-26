@@ -1,25 +1,25 @@
 import { MeshFactory } from './MeshFactory';
-import { TemplateCreator } from '../templates/TemplateCreator';
-import { WallTemplateCreator } from '../templates/creators/WallTemplateCreator';
 import { Scene, ShadowGenerator, SpotLight } from 'babylonjs';
-import { DoorTemplateCreator } from '../templates/creators/DoorTemplateCreator';
-import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../templates/creators/ModelFileBasedTemplateCreator';
-import { VectorModel } from '../VectorModel';
-import { AsyncTemplateCreator } from '../templates/AsyncTemplateCreator';
-import { GameObjectToWorldCenterTranslatorDecorator } from '../../../io/game_map_creator/GameObjectToWorldCenterTranslatorDecorator';
-import { Vector2Model } from '../../utils/Vector2Model';
-import { GameObjectToRealWorldCoordinateWrapper } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
 import { WallFactory } from './WallFactory';
 import { DoorFactory } from './DoorFactory';
-import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator';
 import { Promise } from 'es6-promise';
 import { PlayerFactory } from './PlayerFactory';
 import { FloorFactory } from './FloorFactory';
-import { WindowTemplateCreator } from '../templates/creators/WindowTemplateCreator';
 import { WindowFactory } from './WindowFactory';
 import { StaticItemFactory } from './StaticItemFactory';
-import { DefaultDeserializer } from '../../../io/json_world_serializer/factories/DefaultDeserializer';
-import { ItemDeserializer } from '../../../io/json_world_serializer/factories/ItemDeserializer';
+import { Vector2Model } from '../../../../model/utils/Vector2Model';
+import { GameObjectToWorldCenterTranslatorDecorator } from '../../GameObjectToWorldCenterTranslatorDecorator';
+import { GameObjectToRealWorldCoordinateWrapper } from '../../GameObjectToRealWorldCoordinateWrapper';
+import { ItemDeserializer } from '../../../json_world_serializer/factories/ItemDeserializer';
+import { DefaultDeserializer } from '../../../json_world_serializer/factories/DefaultDeserializer';
+import { TemplateCreator } from '../../../../model/core/templates/TemplateCreator';
+import { WallTemplateCreator } from '../../../../model/core/templates/creators/WallTemplateCreator';
+import { DoorTemplateCreator } from '../../../../model/core/templates/creators/DoorTemplateCreator';
+import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../../../../model/core/templates/creators/ModelFileBasedTemplateCreator';
+import { VectorModel } from '../../../../model/core/VectorModel';
+import { FloorTemplateCreator } from '../../../../model/core/templates/creators/FloorTemplateCreator';
+import { WindowTemplateCreator } from '../../../../model/core/templates/creators/WindowTemplateCreator';
+import { AsyncTemplateCreator } from '../../../../model/core/templates/AsyncTemplateCreator';
 
 interface MeshMap<V> {
     wall: V;

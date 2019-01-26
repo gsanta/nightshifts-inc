@@ -1,17 +1,17 @@
 import { ItemFactory } from './ItemFactory';
 import { GameObject } from 'game-worldmap-generator';
-import { MeshModel } from '../MeshModel';
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
-import { MeshTemplate } from '../templates/MeshTemplate';
-import { GameObjectTranslator } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
-import { VectorModel, toVector3 } from '../VectorModel';
-import { Player } from '../../creature/type/Player';
-import { UserInputEventEmitter } from '../../creature/motion/UserInputEventEmitter';
-import { WorldMap } from '../../../io/game_map_creator/WorldMap';
-import { ActionStrategy } from '../../creature/action/ActionStrategy';
-import { CollisionDetector } from '../../creature/collision/CollisionDetector';
-import { ManualMotionStrategy } from '../../creature/motion/ManualMotionStrategy';
-import { EyeSensor } from '../../creature/sensor/EyeSensor';
+import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
+import { GameObjectTranslator } from '../../GameObjectToRealWorldCoordinateWrapper';
+import { WorldMap } from '../../WorldMap';
+import { MeshModel } from '../../../../model/core/MeshModel';
+import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
+import { UserInputEventEmitter } from '../../../../model/creature/motion/UserInputEventEmitter';
+import { Player } from '../../../../model/creature/type/Player';
+import { ActionStrategy } from '../../../../model/creature/action/ActionStrategy';
+import { CollisionDetector } from '../../../../model/creature/collision/CollisionDetector';
+import { ManualMotionStrategy } from '../../../../model/creature/motion/ManualMotionStrategy';
+import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
 
 export class PlayerFactory implements ItemFactory {
     private meshModelTemplate: MeshTemplate;

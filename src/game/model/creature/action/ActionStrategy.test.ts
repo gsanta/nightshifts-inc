@@ -1,7 +1,7 @@
 import { Player } from '../type/Player';
 import { VectorModel } from '../../core/VectorModel';
 import { MeshModel } from '../../core/MeshModel';
-import { WorldMap } from '../../../io/game_map_creator/WorldMap';
+import { WorldMap } from '../../../io/gwm_world_serializer/WorldMap';
 import { ActionStrategy } from './ActionStrategy';
 import { expect } from 'chai';
 import sinon = require('sinon');

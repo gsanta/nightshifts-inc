@@ -3,7 +3,6 @@ import { TemplateCreator } from '../TemplateCreator';
 import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
-import { timingSafeEqual } from 'crypto';
 const colors = GameConstants.colors;
 
 export class DoorTemplateCreator implements TemplateCreator {

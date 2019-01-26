@@ -1,10 +1,10 @@
 import { ItemFactory } from './ItemFactory';
 import { GameObject } from 'game-worldmap-generator';
-import { MeshModel } from '../MeshModel';
 import { ShadowGenerator, Mesh } from 'babylonjs';
-import { MeshTemplate } from '../templates/MeshTemplate';
-import { GameObjectTranslator } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
-import { VectorModel } from '../VectorModel';
+import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
+import { GameObjectTranslator } from '../../GameObjectToRealWorldCoordinateWrapper';
+import { MeshModel } from '../../../../model/core/MeshModel';
+import { VectorModel } from '../../../../model/core/VectorModel';
 
 export class WallFactory implements ItemFactory {
     private meshModelTemplate: MeshTemplate;

@@ -1,7 +1,7 @@
-import { MeshModel } from '../MeshModel';
-import { WorldMap } from '../../../io/game_map_creator/WorldMap';
 import { GameObject } from 'game-worldmap-generator';
 import { ItemFactory } from './ItemFactory';
+import { MeshModel } from '../../../../model/core/MeshModel';
+import { WorldMap } from '../../WorldMap';
 
 export class MeshFactory {
     private factories: {[key: string]: ItemFactory};

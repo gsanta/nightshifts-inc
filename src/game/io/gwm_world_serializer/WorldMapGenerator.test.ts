@@ -1,8 +1,8 @@
 import { WorldMapGenerator } from './WorldMapGenerator';
-import { MeshFactory } from '../../model/core/factories/MeshFactory';
 import sinon = require('sinon');
 import { expect } from 'chai';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
+import { MeshFactory } from './deserializer/factories/MeshFactory';
 
 describe('WorldMapGenerator', () => {
     describe('create', () => {

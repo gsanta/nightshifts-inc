@@ -1,5 +1,5 @@
 import { Player } from '../type/Player';
-import { WorldMap } from '../../../io/game_map_creator/WorldMap';
+import { WorldMap } from '../../../io/gwm_world_serializer/WorldMap';
 import { MeshModel } from '../../core/MeshModel';
 import { GameObject } from 'game-worldmap-generator';
 import { VectorModel } from '../../core/VectorModel';

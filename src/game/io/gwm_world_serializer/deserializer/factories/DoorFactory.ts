@@ -1,15 +1,12 @@
-
-
-
 import { ItemFactory } from './ItemFactory';
 import { GameObject} from 'game-worldmap-generator';
-import { MeshModel } from '../MeshModel';
 import { ShadowGenerator } from 'babylonjs';
-import { MeshTemplate } from '../templates/MeshTemplate';
-import { GameObjectTranslator } from '../../../io/game_map_creator/GameObjectToRealWorldCoordinateWrapper';
-import { VectorModel, toVector3 } from '../VectorModel';
-import { AdditionalData } from '../../../io/game_map_creator/AdditionalData';
-import { Door } from '../../creature/type/Door';
+import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
+import { GameObjectTranslator } from '../../GameObjectToRealWorldCoordinateWrapper';
+import { AdditionalData } from '../../AdditionalData';
+import { MeshModel } from '../../../../model/core/MeshModel';
+import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
+import { Door } from '../../../../model/creature/type/Door';
 
 export class DoorFactory implements ItemFactory {
     private meshModelTemplate: MeshTemplate;
