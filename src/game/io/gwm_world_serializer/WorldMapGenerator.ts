@@ -7,14 +7,14 @@ import { GameObjectToRealWorldCoordinateWrapper, GameObjectTranslator } from './
 import { Vector2Model } from '../../model/utils/Vector2Model';
 import { GameObjectToWorldCenterTranslatorDecorator } from './GameObjectToWorldCenterTranslatorDecorator';
 import { AdditionalData } from './AdditionalData';
-import { MeshFactory } from './deserializer/factories/MeshFactory';
+import { MeshFactory } from '../../model/core/factories/MeshFactory';
 
 export class WorldMapGenerator {
-    private meshFactory: MeshFactory;
+    private meshFactory: MeshFactory<GameObject>;
     private gameObjectToMeshSizeRatio: number;
     private gameObjectTranslator: GameObjectTranslator;
 
-    constructor(meshFactory: MeshFactory, gameObjectToMeshSizeRatio = 10) {
+    constructor(meshFactory: MeshFactory<GameObject>, gameObjectToMeshSizeRatio = 10) {
         this.meshFactory = meshFactory;
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
@@ -41,25 +41,25 @@ export class WorldMapGenerator {
     private createMesh(gameObject: GameObject<AdditionalData>, worldMap: WorldMap): MeshModel {
         switch (gameObject.name) {
             case 'wall':
-                return this.meshFactory.createWall(gameObject);
+                return this.meshFactory.createWall(gameObject, worldMap);
             case 'door':
-                return this.meshFactory.createDoor(gameObject);
+                return this.meshFactory.createDoor(gameObject, worldMap);
             case 'window':
-                return this.meshFactory.createWindow(gameObject);
+                return this.meshFactory.createWindow(gameObject, worldMap);
             case 'floor':
-                return this.meshFactory.createFloor(gameObject);
+                return this.meshFactory.createFloor(gameObject, worldMap);
             case 'player':
                 return this.meshFactory.createPlayer(gameObject, worldMap);
             case 'bed':
-                return this.meshFactory.createBed(gameObject);
+                return this.meshFactory.createBed(gameObject, worldMap);
             case 'table':
-                return this.meshFactory.createTable(gameObject);
+                return this.meshFactory.createTable(gameObject, worldMap);
             case 'cupboard':
-                return this.meshFactory.createCupboard(gameObject);
+                return this.meshFactory.createCupboard(gameObject, worldMap);
             case 'bathtub':
-                return this.meshFactory.createBathtub(gameObject);
+                return this.meshFactory.createBathtub(gameObject, worldMap);
             case 'washbasin':
-                return this.meshFactory.createWashbasin(gameObject);
+                return this.meshFactory.createWashbasin(gameObject, worldMap);
             default:
                 throw new Error('Unknown GameObject type: ' + gameObject.name);
         }

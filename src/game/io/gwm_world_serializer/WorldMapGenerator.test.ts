@@ -2,7 +2,7 @@ import { WorldMapGenerator } from './WorldMapGenerator';
 import sinon = require('sinon');
 import { expect } from 'chai';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
-import { MeshFactory } from './deserializer/factories/MeshFactory';
+import { MeshFactory } from '../../model/core/factories/MeshFactory';
 
 describe('WorldMapGenerator', () => {
     describe('create', () => {
@@ -14,7 +14,7 @@ describe('WorldMapGenerator', () => {
             const floorSpy = sinon.spy();
             createFloorStub.returns(floorSpy);
 
-            const meshFactoryMock: Partial<MeshFactory> = {
+            const meshFactoryMock: Partial<MeshFactory<GameObject>> = {
                 createWall: createWallStub,
                 createFloor: createFloorStub,
             };
@@ -31,7 +31,7 @@ describe('WorldMapGenerator', () => {
                 dimensions: new Rectangle(0, 0, 5, 5)
             };
 
-            const worldmapGenerator = new WorldMapGenerator(<MeshFactory> meshFactoryMock, 1);
+            const worldmapGenerator = new WorldMapGenerator(<MeshFactory<GameObject>> meshFactoryMock, 1);
             const worldMap = await worldmapGenerator.create([gameObject1, gameObject2]);
 
             expect(worldMap.gameObjects).to.have.members([wallSpy, floorSpy]);

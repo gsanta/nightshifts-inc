@@ -2,7 +2,7 @@ import { AbstractMeshFactoryProducer } from '../../../model/core/factories/Abstr
 import { SerializedMeshModel } from '../../../model/core/MeshModel';
 import { Scene, ShadowGenerator, SpotLight } from 'babylonjs';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
-import { AbstractMeshFactory } from '../../../model/core/factories/AbstractMeshFactory';
+import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
 import { DefaultDeserializer } from '../factories/DefaultDeserializer';
 
@@ -11,11 +11,11 @@ export class JsonMeshFactoryProducer extends AbstractMeshFactoryProducer<Seriali
 
     public getFactory(
         scene: Scene,
-        worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<AbstractMeshFactory<SerializedMeshModel>> {
+        worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<SerializedMeshModel>> {
 
         return this.getTemplateProducers(scene, worldDimensions)
             .then(meshMap => {
-                return new AbstractMeshFactory(
+                return new MeshFactory(
                     {
                         wall: new DefaultDeserializer(meshMap.wall.create(), shadowGenerator),
                         door: new DefaultDeserializer(meshMap.door.create(), shadowGenerator),

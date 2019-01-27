@@ -5,7 +5,7 @@ export interface GenericItemFactory<T> {
     createItem(itemInfo: T, world: WorldMap): MeshModel;
 }
 
-export class AbstractMeshFactory<T> {
+export class MeshFactory<T> {
     private factories: {[key: string]: GenericItemFactory<T>};
 
     constructor(factories: {[key: string]: GenericItemFactory<T>}) {

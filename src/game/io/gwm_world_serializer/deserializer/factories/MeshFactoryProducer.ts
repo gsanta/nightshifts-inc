@@ -1,4 +1,3 @@
-import { MeshFactory } from './MeshFactory';
 import { Scene, ShadowGenerator, SpotLight } from 'babylonjs';
 import { WallFactory } from './WallFactory';
 import { DoorFactory } from './DoorFactory';
@@ -9,32 +8,22 @@ import { StaticItemFactory } from './StaticItemFactory';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { GameObjectToWorldCenterTranslatorDecorator } from '../../GameObjectToWorldCenterTranslatorDecorator';
 import { GameObjectToRealWorldCoordinateWrapper } from '../../GameObjectToRealWorldCoordinateWrapper';
-import { ItemDeserializer } from '../../../json_world_serializer/factories/ItemDeserializer';
-import { DefaultDeserializer } from '../../../json_world_serializer/factories/DefaultDeserializer';
-import { TemplateCreator } from '../../../../model/core/templates/TemplateCreator';
-import { WallTemplateCreator } from '../../../../model/core/templates/creators/WallTemplateCreator';
-import { DoorTemplateCreator } from '../../../../model/core/templates/creators/DoorTemplateCreator';
-import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../../../../model/core/templates/creators/ModelFileBasedTemplateCreator';
-import { VectorModel } from '../../../../model/core/VectorModel';
-import { FloorTemplateCreator } from '../../../../model/core/templates/creators/FloorTemplateCreator';
-import { WindowTemplateCreator } from '../../../../model/core/templates/creators/WindowTemplateCreator';
-import { AsyncTemplateCreator } from '../../../../model/core/templates/AsyncTemplateCreator';
 import { GameObject } from 'game-worldmap-generator';
 import { AbstractMeshFactoryProducer } from '../../../../model/core/factories/AbstractMeshFactoryProducer';
-import { AbstractMeshFactory } from '../../../../model/core/factories/AbstractMeshFactory';
+import { MeshFactory } from '../../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
 
 export class MeshFactoryProducer extends AbstractMeshFactoryProducer<GameObject> {
 
     public getFactory(
-        scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<AbstractMeshFactory<GameObject>> {
+        scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<GameObject>> {
         const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
             worldDimensions, 1, new GameObjectToRealWorldCoordinateWrapper(worldDimensions, 1)
         );
 
         return this.getTemplateProducers(scene, worldDimensions)
             .then(meshMap => {
-                return new AbstractMeshFactory(
+                return new MeshFactory(
                     {
                         wall: new WallFactory(meshMap.wall.create(), gameObjectTranslator, shadowGenerator, 1),
                         door: new DoorFactory(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1),

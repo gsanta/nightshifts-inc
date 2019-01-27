@@ -1,8 +1,7 @@
 import { TemplateCreator } from '../templates/TemplateCreator';
 import { Vector2Model } from '../../utils/Vector2Model';
 import { Scene, SpotLight, ShadowGenerator } from 'babylonjs';
-import { MeshFactory } from '../../../io/gwm_world_serializer/deserializer/factories/MeshFactory';
-import { AbstractMeshFactory } from './AbstractMeshFactory';
+import { MeshFactory } from './MeshFactory';
 import { WallTemplateCreator } from '../templates/creators/WallTemplateCreator';
 import { DoorTemplateCreator } from '../templates/creators/DoorTemplateCreator';
 import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../templates/creators/ModelFileBasedTemplateCreator';
@@ -52,7 +51,7 @@ export abstract class AbstractMeshFactoryProducer<T> {
     ];
 
     public abstract getFactory(
-        scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<AbstractMeshFactory<T>>;
+        scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<T>>;
 
     protected getTemplateProducers(scene: Scene, worldDimensions: Vector2Model): Promise<MeshMap<TemplateCreator>> {
 
