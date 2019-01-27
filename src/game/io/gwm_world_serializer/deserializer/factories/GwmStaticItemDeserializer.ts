@@ -1,4 +1,4 @@
-import { GwmItemFactory } from './GwmItemFactory';
+import { GwmItemDeserializer } from './GwmItemDeserializer';
 import { GameObject } from 'game-worldmap-generator';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
@@ -10,7 +10,7 @@ import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { Orientation } from '../../../../model/utils/Orientation';
 
 
-export class GwmStaticItemDeserializer implements GwmItemFactory {
+export class GwmStaticItemDeserializer implements GwmItemDeserializer {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;

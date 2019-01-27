@@ -1,4 +1,4 @@
-import { GwmItemFactory } from './GwmItemFactory';
+import { GwmItemDeserializer } from './GwmItemDeserializer';
 import { GameObject } from 'game-worldmap-generator';
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
@@ -13,7 +13,7 @@ import { CollisionDetector } from '../../../../model/creature/collision/Collisio
 import { ManualMotionStrategy } from '../../../../model/creature/motion/ManualMotionStrategy';
 import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
 
-export class GwmPlayerDeserializer implements GwmItemFactory {
+export class GwmPlayerDeserializer implements GwmItemDeserializer {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;

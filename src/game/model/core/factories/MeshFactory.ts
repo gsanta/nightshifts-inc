@@ -1,14 +1,14 @@
 import { MeshModel } from '../MeshModel';
 import { World } from '../../World';
 
-export interface GenericItemFactory<T> {
+export interface GenericItemDeserializer<T> {
     createItem(itemInfo: T, world: World): MeshModel;
 }
 
 export class MeshFactory<T> {
-    private factories: {[key: string]: GenericItemFactory<T>};
+    private factories: {[key: string]: GenericItemDeserializer<T>};
 
-    constructor(factories: {[key: string]: GenericItemFactory<T>}) {
+    constructor(factories: {[key: string]: GenericItemDeserializer<T>}) {
         this.factories = factories;
     }
 

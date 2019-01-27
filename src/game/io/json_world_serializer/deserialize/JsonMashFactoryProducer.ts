@@ -4,7 +4,7 @@ import { Scene, ShadowGenerator, SpotLight } from 'babylonjs';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
-import { DefaultDeserializer } from '../factories/DefaultDeserializer';
+import { JsonDefaultDeserializer } from './factories/JsonDefaultDeserializer';
 
 
 export class JsonMeshFactoryProducer extends AbstractMeshFactoryProducer<SerializedMeshModel> {
@@ -17,16 +17,16 @@ export class JsonMeshFactoryProducer extends AbstractMeshFactoryProducer<Seriali
             .then(meshMap => {
                 return new MeshFactory(
                     {
-                        wall: new DefaultDeserializer(meshMap.wall.create(), shadowGenerator),
-                        door: new DefaultDeserializer(meshMap.door.create(), shadowGenerator),
-                        player: new DefaultDeserializer(meshMap.player.create(), shadowGenerator),
-                        floor: new DefaultDeserializer(meshMap.floor.create(), shadowGenerator),
-                        window: new DefaultDeserializer(meshMap.window.create(), shadowGenerator),
-                        cupboard: new DefaultDeserializer(meshMap.cupboard.create(), shadowGenerator),
-                        table: new DefaultDeserializer(meshMap.table.create(), shadowGenerator),
-                        bathtub: new DefaultDeserializer(meshMap.bathtub.create(), shadowGenerator),
-                        washbasin: new DefaultDeserializer(meshMap.washbasin.create(), shadowGenerator),
-                        bed: new DefaultDeserializer(meshMap.bed.create(), shadowGenerator)
+                        wall: new JsonDefaultDeserializer(meshMap.wall.create(), shadowGenerator),
+                        door: new JsonDefaultDeserializer(meshMap.door.create(), shadowGenerator),
+                        player: new JsonDefaultDeserializer(meshMap.player.create(), shadowGenerator),
+                        floor: new JsonDefaultDeserializer(meshMap.floor.create(), shadowGenerator),
+                        window: new JsonDefaultDeserializer(meshMap.window.create(), shadowGenerator),
+                        cupboard: new JsonDefaultDeserializer(meshMap.cupboard.create(), shadowGenerator),
+                        table: new JsonDefaultDeserializer(meshMap.table.create(), shadowGenerator),
+                        bathtub: new JsonDefaultDeserializer(meshMap.bathtub.create(), shadowGenerator),
+                        washbasin: new JsonDefaultDeserializer(meshMap.washbasin.create(), shadowGenerator),
+                        bed: new JsonDefaultDeserializer(meshMap.bed.create(), shadowGenerator)
                     }
                 );
             });

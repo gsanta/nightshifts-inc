@@ -1,4 +1,4 @@
-import { GwmItemFactory } from './GwmItemFactory';
+import { GwmItemDeserializer } from './GwmItemDeserializer';
 import { GameObject} from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
@@ -8,7 +8,7 @@ import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { Door } from '../../../../model/creature/type/Door';
 
-export class GwmDoorDeserializer implements GwmItemFactory {
+export class GwmDoorDeserializer implements GwmItemDeserializer {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;

@@ -1,11 +1,11 @@
-import { MeshTemplate } from '../../../model/core/templates/MeshTemplate';
-import { DefaultDeserializer } from './DefaultDeserializer';
+import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
+import { JsonDefaultDeserializer } from './JsonDefaultDeserializer';
 import sinon = require('sinon');
 import { ShadowGenerator, Vector3 } from 'babylonjs';
 import { expect } from 'chai';
-import { SerializedMeshModel } from '../../../model/core/MeshModel';
+import { SerializedMeshModel } from '../../../../model/core/MeshModel';
 
-describe('DefaultDeserializer', () => {
+describe('JsonDefaultDeserializer', () => {
     describe('createItem', () => {
         it ('creates the MeshModel based on the given SerializedMeshModel', () => {
             const serializedMeshModelMock = {
@@ -31,7 +31,7 @@ describe('DefaultDeserializer', () => {
                 }
             };
 
-            const wallDeserializerFactory = new DefaultDeserializer(<MeshTemplate> meshTemplateMock, <ShadowGenerator> shadowGeneratorMock);
+            const wallDeserializerFactory = new JsonDefaultDeserializer(<MeshTemplate> meshTemplateMock, <ShadowGenerator> shadowGeneratorMock);
 
             const meshModel = wallDeserializerFactory.createItem(<SerializedMeshModel> serializedMeshModelMock);
 
