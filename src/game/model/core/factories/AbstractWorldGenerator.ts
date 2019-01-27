@@ -4,6 +4,7 @@ import { MeshModel } from '../MeshModel';
 import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from './AbstractMeshFactoryProducer';
 import { Vector2Model } from '../../utils/Vector2Model';
+import { Promise } from 'es6-promise';
 
 
 export abstract class AbstractWorldGenerator<T extends {name: string}> {
@@ -23,13 +24,22 @@ export abstract class AbstractWorldGenerator<T extends {name: string}> {
         this.hemisphericLight = this.createHemisphericLight(scene);
         this.shadowGenerator = this.createShadowGenerator(scene, this.spotLight);
         this.camera = this.createCamera(scene, canvas);
-        this.meshFactory = meshFactory;
+        this.meshFactory = ;
     }
 
-    public create(items: T[]): World {
-        const worldDimensions = this.getWorldDimensions(items);
-        const meshFactory = this.meshFactoryProducer.getFactory(this.scene, worldDimensions, this.shadowGenerator, this.spotLight);
+    public create(items: T[]): Promise<World> {
+        const world = new World();
+
+        return this.meshFactoryProducer.getFactory(this.scene, this.shadowGenerator, this.spotLight)
+            .then(meshFactory => {
+
+                this.setupMeshes(meshFactory, world);
+
+                return world;
+            });
     }
+
+    protected abstract setupMeshes(meshFactory: MeshFactory<T>, world: World): void;
 
     protected createMesh(meshModelDescription: T, world: World): MeshModel {
         switch (meshModelDescription.name) {

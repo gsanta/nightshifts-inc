@@ -3,19 +3,18 @@ import { Direction } from '../../../../model/utils/Direction';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { AdditionalData } from '../AdditionalData';
 import { Orientation } from '../../../../model/utils/Orientation';
+import { World } from '../../../../model/World';
 
 export interface GameObjectTranslator {
-    getTranslate(gameObject: GameObject, realMeshDimensions?: Vector2Model): Vector2Model;
+    getTranslate(gameObject: GameObject, realMeshDimensions: Vector2Model, world: World): Vector2Model;
     getDimensions(gameObject: GameObject): Vector2Model;
     getRotation(gameObject: GameObject): number;
 }
 
 export class GameObjectToRealWorldCoordinateMapper implements GameObjectTranslator {
-    private worldDimensions: Vector2Model;
     private gameObjectToMeshSizeRatio: number;
 
-    constructor(worldDimensions: Vector2Model, gameObjectToMeshSizeRatio: number) {
-        this.worldDimensions = worldDimensions;
+    constructor(gameObjectToMeshSizeRatio: number) {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 

@@ -24,9 +24,8 @@ export class GwmWorldGenerator extends AbstractWorldGenerator<GameObject> {
         const worldDimensions = this.getWorldDimensions(gameObjects);
         const worldDimensions2 = new Vector2Model(worldDimensions.width, worldDimensions.height);
         this.gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
-            new Vector2Model(worldDimensions.width, worldDimensions.height),
             this.gameObjectToMeshSizeRatio,
-            new GameObjectToRealWorldCoordinateMapper(worldDimensions2, this.gameObjectToMeshSizeRatio)
+            new GameObjectToRealWorldCoordinateMapper(this.gameObjectToMeshSizeRatio)
         );
 
         const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, worldMap));
@@ -38,10 +37,10 @@ export class GwmWorldGenerator extends AbstractWorldGenerator<GameObject> {
         return worldMap;
     }
 
-    private rectangleToTranslateVector2(gameObject: GameObject, worldDimensions: { width: number, height: number }): VectorModel {
-        const translatedVector = this.gameObjectTranslator.getTranslate(gameObject);
-        return new VectorModel(translatedVector.x(), 0, -translatedVector.y());
-    }
+    // private rectangleToTranslateVector2(gameObject: GameObject, worldDimensions: { width: number, height: number }): VectorModel {
+    //     const translatedVector = this.gameObjectTranslator.getTranslate(gameObject);
+    //     return new VectorModel(translatedVector.x(), 0, -translatedVector.y());
+    // }
 
     private rectangleToTranslateVector(rect: Rectangle, worldDimensions: { width: number, height: number }): VectorModel {
         const x = (rect.left + rect.width / 2) * this.gameObjectToMeshSizeRatio - (worldDimensions.width / 2) * this.gameObjectToMeshSizeRatio;

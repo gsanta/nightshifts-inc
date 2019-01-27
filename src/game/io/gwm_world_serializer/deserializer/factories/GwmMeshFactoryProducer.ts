@@ -17,9 +17,7 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<GameObje
 
     public getFactory(
         scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<GameObject>> {
-        const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
-            worldDimensions, 1, new GameObjectToRealWorldCoordinateMapper(worldDimensions, 1)
-        );
+        const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(1, new GameObjectToRealWorldCoordinateMapper(1));
 
         return this.getTemplateProducers(scene, worldDimensions)
             .then(meshMap => {
@@ -39,11 +37,4 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<GameObje
                 );
             });
     }
-
-    // public static getFactory2(scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<ItemDeserializer> {
-    //     return this.getTemplateProducers(scene, worldDimensions)
-    //         .then(meshMap => {
-    //             return new DefaultDeserializer(meshMap.wall.create(), shadowGenerator);
-    //         });
-    // }
 }

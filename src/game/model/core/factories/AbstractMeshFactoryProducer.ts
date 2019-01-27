@@ -50,8 +50,7 @@ export abstract class AbstractMeshFactoryProducer<T> {
         'assets/models/player/material/3.jpg'
     ];
 
-    public abstract getFactory(
-        scene: Scene, worldDimensions: Vector2Model, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<T>>;
+    public abstract getFactory(scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<T>>;
 
     protected getTemplateProducers(scene: Scene, worldDimensions: Vector2Model): Promise<MeshMap<TemplateCreator>> {
 

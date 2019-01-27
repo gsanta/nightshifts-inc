@@ -1,32 +1,31 @@
 import { GameObject } from 'game-worldmap-generator';
 import { GameObjectTranslator } from './GameObjectToRealWorldCoordinateMapper';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
+import { World } from '../../../../model/World';
 
 
 export class GameObjectToWorldCenterTranslatorDecorator implements GameObjectTranslator {
-    private worldDimensions: Vector2Model;
     private gameObjectToMeshSizeRatio: number;
-    private gameObjectToRealWorldCoordinateWrapper: GameObjectTranslator;
+    private gameObjectToRealWorldCoordinateMapper: GameObjectTranslator;
 
-    constructor(worldDimensions: Vector2Model, gameObjectToMeshSizeRatio: number, gameObjectToRealWorldCoordinateWrapper: GameObjectTranslator) {
-        this.worldDimensions = worldDimensions;
+    constructor(gameObjectToMeshSizeRatio: number, gameObjectToRealWorldCoordinateWrapper: GameObjectTranslator) {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
-        this.gameObjectToRealWorldCoordinateWrapper = gameObjectToRealWorldCoordinateWrapper;
+        this.gameObjectToRealWorldCoordinateMapper = gameObjectToRealWorldCoordinateWrapper;
     }
 
-    public getTranslate(gameObject: GameObject, realMeshDimensions?: Vector2Model): Vector2Model {
-        const vector2 = this.gameObjectToRealWorldCoordinateWrapper.getTranslate(gameObject, realMeshDimensions);
+    public getTranslate(gameObject: GameObject, realMeshDimensions: Vector2Model, world: World): Vector2Model {
+        const vector2 = this.gameObjectToRealWorldCoordinateMapper.getTranslate(gameObject, realMeshDimensions, world);
 
-        const translateX = - (this.worldDimensions.x() / 2);
-        const translateY = - (this.worldDimensions.y() / 2);
+        const translateX = - (world.dimensions.x() / 2);
+        const translateY = - (world.dimensions.y() / 2);
         return vector2.add(new Vector2Model(translateX, translateY));
     }
 
     public getDimensions(gameObject: GameObject): Vector2Model {
-        return this.gameObjectToRealWorldCoordinateWrapper.getDimensions(gameObject);
+        return this.gameObjectToRealWorldCoordinateMapper.getDimensions(gameObject);
     }
 
     public getRotation(gameObject: GameObject) {
-        return this.gameObjectToRealWorldCoordinateWrapper.getRotation(gameObject);
+        return this.gameObjectToRealWorldCoordinateMapper.getRotation(gameObject);
     }
 }
