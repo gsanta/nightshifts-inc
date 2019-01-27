@@ -1,16 +1,16 @@
-import { ItemFactory } from './ItemFactory';
+import { GwmItemFactory } from './GwmItemFactory';
 import { GameObject } from 'game-worldmap-generator';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { GameObjectTranslator } from '../../GameObjectToRealWorldCoordinateWrapper';
+import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { AdditionalData } from '../../AdditionalData';
+import { AdditionalData } from '../AdditionalData';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { Orientation } from '../../../../model/utils/Orientation';
 
 
-export class StaticItemFactory implements ItemFactory {
+export class GwmStaticItemDeserializer implements GwmItemFactory {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;

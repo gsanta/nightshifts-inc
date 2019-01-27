@@ -1,16 +1,16 @@
 import { Scene, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
-import { WorldMap } from '../io/gwm_world_serializer/WorldMap';
-import { WorldMapGenerator } from '../io/gwm_world_serializer/WorldMapGenerator';
+import { World } from '../model/World';
+import { WorldMapGenerator } from '../io/gwm_world_serializer/deserializer/WorldMapGenerator';
 import { GameObject } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
 import { LightController } from '../model/light/LightController';
 import { Vector2Model } from '../model/utils/Vector2Model';
-import { parseJsonAdditionalData, AdditionalData } from '../io/gwm_world_serializer/AdditionalData';
+import { parseJsonAdditionalData, AdditionalData } from '../io/gwm_world_serializer/deserializer/AdditionalData';
 import { Promise } from 'es6-promise';
-import { MeshFactoryProducer } from '../io/gwm_world_serializer/deserializer/factories/MeshFactoryProducer';
+import { GwmMeshFactoryProducer } from '../io/gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
 
-export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<WorldMap> => {
+export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<World> => {
     createCamera(scene, canvas);
     const hemisphericLight = createHemisphericLight(scene);
     const spotLight = <SpotLight> createSpotLight(scene);
@@ -18,7 +18,7 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
 
     const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
 
-    const worldMap = new WorldMap();
+    const worldMap = new World();
 
     return initMeshFactory(scene, shadowGenerator, spotLight, getWorldDimensions(gameObjects))
         .then(meshFactory => {
@@ -31,7 +31,7 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
 
 const initMeshFactory = (
     scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory<GameObject>> => {
-    const meshFactoryProducer = new MeshFactoryProducer();
+    const meshFactoryProducer = new GwmMeshFactoryProducer();
     return meshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight);
     // const materialTemplates = MeshFactory.initMaterials(scene);
     // const modelTemplatesPromise = MeshFactory.importModels(scene, materialTemplates);

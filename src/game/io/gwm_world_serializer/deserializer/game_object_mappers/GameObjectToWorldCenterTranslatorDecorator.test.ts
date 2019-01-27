@@ -1,8 +1,8 @@
 
 import * as sinon from 'sinon';
-import { GameObjectTranslator } from './GameObjectToRealWorldCoordinateWrapper';
+import { GameObjectTranslator } from './GameObjectToRealWorldCoordinateMapper';
 import { GameObjectToWorldCenterTranslatorDecorator } from './GameObjectToWorldCenterTranslatorDecorator';
-import { Vector2Model } from '../../model/utils/Vector2Model';
+import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { GameObject } from 'game-worldmap-generator';
 import { expect } from 'chai';
 

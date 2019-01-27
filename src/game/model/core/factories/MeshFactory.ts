@@ -1,8 +1,8 @@
 import { MeshModel } from '../MeshModel';
-import { WorldMap } from '../../../io/gwm_world_serializer/WorldMap';
+import { World } from '../../World';
 
 export interface GenericItemFactory<T> {
-    createItem(itemInfo: T, world: WorldMap): MeshModel;
+    createItem(itemInfo: T, world: World): MeshModel;
 }
 
 export class MeshFactory<T> {
@@ -12,43 +12,43 @@ export class MeshFactory<T> {
         this.factories = factories;
     }
 
-    public createWall(itemInfo: T, world: WorldMap): MeshModel {
+    public createWall(itemInfo: T, world: World): MeshModel {
         return this.factories.wall.createItem(itemInfo, world);
     }
 
-    public createPlayer(itemInfo: T, world: WorldMap): MeshModel {
+    public createPlayer(itemInfo: T, world: World): MeshModel {
         return this.factories.player.createItem(itemInfo, world);
     }
 
-    public createWindow(itemInfo: T, world: WorldMap): MeshModel {
+    public createWindow(itemInfo: T, world: World): MeshModel {
         return  this.factories.window.createItem(itemInfo, world);
     }
 
-    public createDoor(itemInfo: T, world: WorldMap): MeshModel {
+    public createDoor(itemInfo: T, world: World): MeshModel {
         return this.factories.door.createItem(itemInfo, world);
     }
 
-    public createFloor(itemInfo: T, world: WorldMap): MeshModel {
+    public createFloor(itemInfo: T, world: World): MeshModel {
         return this.factories.floor.createItem(itemInfo, world);
     }
 
-    public createBed(itemInfo: T, world: WorldMap): MeshModel {
+    public createBed(itemInfo: T, world: World): MeshModel {
         return this.factories.bed.createItem(itemInfo, world);
     }
 
-    public createTable(itemInfo: T, world: WorldMap): MeshModel {
+    public createTable(itemInfo: T, world: World): MeshModel {
         return this.factories.table.createItem(itemInfo, world);
     }
 
-    public createBathtub(itemInfo: T, world: WorldMap): MeshModel {
+    public createBathtub(itemInfo: T, world: World): MeshModel {
         return this.factories.bathtub.createItem(itemInfo, world);
     }
 
-    public createWashbasin(itemInfo: T, world: WorldMap): MeshModel {
+    public createWashbasin(itemInfo: T, world: World): MeshModel {
         return this.factories.washbasin.createItem(itemInfo, world);
     }
 
-    public createCupboard(itemInfo: T, world: WorldMap): MeshModel {
+    public createCupboard(itemInfo: T, world: World): MeshModel {
         return this.factories.cupboard.createItem(itemInfo, world);
     }
 }

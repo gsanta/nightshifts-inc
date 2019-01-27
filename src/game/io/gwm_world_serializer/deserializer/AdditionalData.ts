@@ -1,5 +1,5 @@
-import { Orientation } from '../../model/utils/Orientation';
-import { Direction } from '../../model/utils/Direction';
+import { Orientation } from '../../../model/utils/Orientation';
+import { Direction } from '../../../model/utils/Direction';
 
 export interface AdditionalData {
     pos?: {

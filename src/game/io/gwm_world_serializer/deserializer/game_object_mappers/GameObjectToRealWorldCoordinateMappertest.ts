@@ -1,14 +1,14 @@
 import { Rectangle, GameObject } from 'game-worldmap-generator';
 import { expect } from 'chai';
-import { Direction } from '../../model/utils/Direction';
-import { GameObjectToRealWorldCoordinateWrapper } from './GameObjectToRealWorldCoordinateWrapper';
-import { Vector2Model } from '../../model/utils/Vector2Model';
+import { Direction } from '../../../../model/utils/Direction';
+import { GameObjectToRealWorldCoordinateMapper } from './GameObjectToRealWorldCoordinateMapper';
+import { Vector2Model } from '../../../../model/utils/Vector2Model';
 
 
-describe('GameObjectToRealWorldCoordinateWrapper', () => {
+describe('GameObjectToRealWorldCoordinateMapper', () => {
     describe('getTranslate', () => {
         it ('translates the mesh correctly when docking to MIDDLE', () => {
-            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(new Vector2Model(5, 5), 1);
+            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateMapper(new Vector2Model(5, 5), 1);
             const gameObject: Partial<GameObject> = {
                 dimensions: new Rectangle(3, 3, 2, 2)
             };
@@ -18,7 +18,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
         });
 
         it ('translates the mesh correctly when docking to NORTH_WEST', () => {
-            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(new Vector2Model(5, 5), 1);
+            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateMapper(new Vector2Model(5, 5), 1);
             const gameObject: Partial<GameObject> = {
                 dimensions: new Rectangle(3, 3, 2, 2),
                 additionalData: {
@@ -31,7 +31,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
         });
 
         it ('translates the mesh correctly when docking to NORTH_EAST', () => {
-            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(new Vector2Model(5, 5), 1);
+            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateMapper(new Vector2Model(5, 5), 1);
             const gameObject: Partial<GameObject> = {
                 dimensions: new Rectangle(3, 3, 2, 2),
                 additionalData: {
@@ -44,7 +44,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
         });
 
         it ('translates the mesh correctly when docking to SOUTH_WEST', () => {
-            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(new Vector2Model(5, 5), 1);
+            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateMapper(new Vector2Model(5, 5), 1);
             const gameObject: Partial<GameObject> = {
                 dimensions: new Rectangle(3, 3, 2, 2),
                 additionalData: {
@@ -57,7 +57,7 @@ describe('GameObjectToRealWorldCoordinateWrapper', () => {
         });
 
         it ('translates the mesh correctly when docking to SOUTH_EAST', () => {
-            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateWrapper(new Vector2Model(5, 5), 1);
+            const gameObjectToRealWorldCoordinateWrapper = new GameObjectToRealWorldCoordinateMapper(new Vector2Model(5, 5), 1);
             const gameObject: Partial<GameObject> = {
                 dimensions: new Rectangle(3, 3, 2, 2),
                 additionalData: {

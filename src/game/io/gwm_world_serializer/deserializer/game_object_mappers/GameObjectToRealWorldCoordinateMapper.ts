@@ -1,8 +1,8 @@
 import { GameObject, Rectangle } from 'game-worldmap-generator';
-import { Direction } from '../../model/utils/Direction';
-import { Vector2Model } from '../../model/utils/Vector2Model';
-import { AdditionalData } from './AdditionalData';
-import { Orientation } from '../../model/utils/Orientation';
+import { Direction } from '../../../../model/utils/Direction';
+import { Vector2Model } from '../../../../model/utils/Vector2Model';
+import { AdditionalData } from '../AdditionalData';
+import { Orientation } from '../../../../model/utils/Orientation';
 
 export interface GameObjectTranslator {
     getTranslate(gameObject: GameObject, realMeshDimensions?: Vector2Model): Vector2Model;
@@ -10,7 +10,7 @@ export interface GameObjectTranslator {
     getRotation(gameObject: GameObject): number;
 }
 
-export class GameObjectToRealWorldCoordinateWrapper implements GameObjectTranslator {
+export class GameObjectToRealWorldCoordinateMapper implements GameObjectTranslator {
     private worldDimensions: Vector2Model;
     private gameObjectToMeshSizeRatio: number;
 

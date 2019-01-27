@@ -1,4 +1,4 @@
-import { WorldMap } from '../../../io/gwm_world_serializer/WorldMap';
+import { World } from '../../../model/World';
 import { ItemDeserializer } from './ItemDeserializer';
 import { SerializedMeshModel } from '../../../model/core/MeshModel';
 
@@ -10,11 +10,11 @@ export class DeserializerFactory {
         this.defaultDeserializer = defaultDeserializer;
     }
 
-    public deserialize(serializedMeshModels: SerializedMeshModel[]): WorldMap {
+    public deserialize(serializedMeshModels: SerializedMeshModel[]): World {
 
         const meshModels = serializedMeshModels.map(serializedMeshModel => this.defaultDeserializer.createItem(serializedMeshModel));
 
-        const worldMap = new WorldMap();
+        const worldMap = new World();
         worldMap.gameObjects = meshModels;
 
         return worldMap;

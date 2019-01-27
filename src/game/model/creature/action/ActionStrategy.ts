@@ -1,5 +1,5 @@
 import { Player } from '../type/Player';
-import { WorldMap } from '../../../io/gwm_world_serializer/WorldMap';
+import { World } from '../../World';
 import { MeshModel } from '../../core/MeshModel';
 import { GameObject } from 'game-worldmap-generator';
 import { VectorModel } from '../../core/VectorModel';
@@ -7,10 +7,10 @@ import { VectorModel } from '../../core/VectorModel';
 
 export class ActionStrategy {
     private player: Player;
-    private worldMap: WorldMap;
+    private worldMap: World;
     private actionableObjects: MeshModel[];
 
-    constructor(player: Player, worldMap: WorldMap) {
+    constructor(player: Player, worldMap: World) {
         this.player = player;
         this.worldMap = worldMap;
     }
@@ -32,7 +32,7 @@ export class ActionStrategy {
         }
     }
 
-    private filterActionableObjects(worldMap: WorldMap) {
+    private filterActionableObjects(worldMap: World) {
         return worldMap.gameObjects.filter(obj => obj.hasDefaultAction);
     }
 }

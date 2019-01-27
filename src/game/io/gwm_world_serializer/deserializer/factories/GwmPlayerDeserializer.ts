@@ -1,9 +1,9 @@
-import { ItemFactory } from './ItemFactory';
+import { GwmItemFactory } from './GwmItemFactory';
 import { GameObject } from 'game-worldmap-generator';
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { GameObjectTranslator } from '../../GameObjectToRealWorldCoordinateWrapper';
-import { WorldMap } from '../../WorldMap';
+import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
+import { World } from '../../../../model/World';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { UserInputEventEmitter } from '../../../../model/creature/motion/UserInputEventEmitter';
@@ -13,7 +13,7 @@ import { CollisionDetector } from '../../../../model/creature/collision/Collisio
 import { ManualMotionStrategy } from '../../../../model/creature/motion/ManualMotionStrategy';
 import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
 
-export class PlayerFactory implements ItemFactory {
+export class GwmPlayerDeserializer implements GwmItemFactory {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
@@ -35,7 +35,7 @@ export class PlayerFactory implements ItemFactory {
     }
 
 
-    public createItem(gameObject: GameObject, worldMap: WorldMap): MeshModel {
+    public createItem(gameObject: GameObject, worldMap: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());

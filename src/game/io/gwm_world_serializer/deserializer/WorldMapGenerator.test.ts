@@ -2,7 +2,7 @@ import { WorldMapGenerator } from './WorldMapGenerator';
 import sinon = require('sinon');
 import { expect } from 'chai';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
-import { MeshFactory } from '../../model/core/factories/MeshFactory';
+import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 
 describe('WorldMapGenerator', () => {
     describe('create', () => {

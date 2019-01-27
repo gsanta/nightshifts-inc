@@ -1,7 +1,7 @@
 import { Player } from '../type/Player';
 import { VectorModel } from '../../core/VectorModel';
 import { MeshModel } from '../../core/MeshModel';
-import { WorldMap } from '../../../io/gwm_world_serializer/WorldMap';
+import { World } from '../../World';
 import { ActionStrategy } from './ActionStrategy';
 import { expect } from 'chai';
 import sinon = require('sinon');
@@ -29,11 +29,11 @@ describe('ActionStrategy', () => {
                 getPosition: () => new VectorModel(3, 0, 0),
             };
 
-            const worldMap: Partial<WorldMap> = {
+            const worldMap: Partial<World> = {
                 gameObjects: <MeshModel[]> [nonActionableObj, actionableObj1, actionableObj2]
             };
 
-            const actionStrategy = new ActionStrategy(<Player> player, <WorldMap> worldMap);
+            const actionStrategy = new ActionStrategy(<Player> player, <World> worldMap);
 
             actionStrategy.activateClosestMeshAction();
 

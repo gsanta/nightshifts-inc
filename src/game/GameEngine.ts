@@ -1,13 +1,13 @@
 import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
-import { WorldMap } from './io/gwm_world_serializer/WorldMap';
+import { World } from './model/World';
 import { createLevel } from './levels/createLevel';
 
 
 export class GameEngine {
     private scene: Scene;
-    private worldMap: WorldMap;
+    private worldMap: World;
     private previousTime: number = Date.now();
     private engine: Engine;
     private canvas: HTMLCanvasElement;

@@ -1,6 +1,6 @@
 import { GameObject } from 'game-worldmap-generator';
-import { GameObjectTranslator } from './GameObjectToRealWorldCoordinateWrapper';
-import { Vector2Model } from '../../model/utils/Vector2Model';
+import { GameObjectTranslator } from './GameObjectToRealWorldCoordinateMapper';
+import { Vector2Model } from '../../../../model/utils/Vector2Model';
 
 
 export class GameObjectToWorldCenterTranslatorDecorator implements GameObjectTranslator {

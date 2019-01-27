@@ -1,13 +1,13 @@
-import { VectorModel } from '../../model/core/VectorModel';
-import { WorldMap } from './WorldMap';
+import { VectorModel } from '../../../model/core/VectorModel';
+import { World } from '../../../model/World';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
-import { MeshModel } from '../../model/core/MeshModel';
-import { Player } from '../../model/creature/type/Player';
-import { GameObjectToRealWorldCoordinateWrapper, GameObjectTranslator } from './GameObjectToRealWorldCoordinateWrapper';
-import { Vector2Model } from '../../model/utils/Vector2Model';
-import { GameObjectToWorldCenterTranslatorDecorator } from './GameObjectToWorldCenterTranslatorDecorator';
+import { MeshModel } from '../../../model/core/MeshModel';
+import { Player } from '../../../model/creature/type/Player';
+import { GameObjectToRealWorldCoordinateMapper, GameObjectTranslator } from './game_object_mappers/GameObjectToRealWorldCoordinateMapper';
+import { Vector2Model } from '../../../model/utils/Vector2Model';
+import { GameObjectToWorldCenterTranslatorDecorator } from './game_object_mappers/GameObjectToWorldCenterTranslatorDecorator';
 import { AdditionalData } from './AdditionalData';
-import { MeshFactory } from '../../model/core/factories/MeshFactory';
+import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 
 export class WorldMapGenerator {
     private meshFactory: MeshFactory<GameObject>;
@@ -19,14 +19,14 @@ export class WorldMapGenerator {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public create(gameObjects: GameObject[]): WorldMap {
-        const worldMap = new WorldMap();
+    public create(gameObjects: GameObject[]): World {
+        const worldMap = new World();
         const worldDimensions = this.getWorldDimensions(gameObjects);
         const worldDimensions2 = new Vector2Model(worldDimensions.width, worldDimensions.height);
         this.gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
             new Vector2Model(worldDimensions.width, worldDimensions.height),
             this.gameObjectToMeshSizeRatio,
-            new GameObjectToRealWorldCoordinateWrapper(worldDimensions2, this.gameObjectToMeshSizeRatio)
+            new GameObjectToRealWorldCoordinateMapper(worldDimensions2, this.gameObjectToMeshSizeRatio)
         );
 
         const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, worldMap));
@@ -38,7 +38,7 @@ export class WorldMapGenerator {
         return worldMap;
     }
 
-    private createMesh(gameObject: GameObject<AdditionalData>, worldMap: WorldMap): MeshModel {
+    private createMesh(gameObject: GameObject<AdditionalData>, worldMap: World): MeshModel {
         switch (gameObject.name) {
             case 'wall':
                 return this.meshFactory.createWall(gameObject, worldMap);
