@@ -1,10 +1,10 @@
-import { WorldMapGenerator } from './WorldMapGenerator';
+import { GwmWorldGenerator } from './GwmWorldGenerator';
 import sinon = require('sinon');
 import { expect } from 'chai';
 import { Rectangle, GameObject } from 'game-worldmap-generator';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 
-describe('WorldMapGenerator', () => {
+describe('GwmWorldGenerator', () => {
     describe('create', () => {
         it ('creates a worldmap based on a string input map', async () => {
             const createWallStub = sinon.stub();
@@ -31,7 +31,7 @@ describe('WorldMapGenerator', () => {
                 dimensions: new Rectangle(0, 0, 5, 5)
             };
 
-            const worldmapGenerator = new WorldMapGenerator(<MeshFactory<GameObject>> meshFactoryMock, 1);
+            const worldmapGenerator = new GwmWorldGenerator(<MeshFactory<GameObject>> meshFactoryMock, 1);
             const worldMap = await worldmapGenerator.create([gameObject1, gameObject2]);
 
             expect(worldMap.gameObjects).to.have.members([wallSpy, floorSpy]);

@@ -2,7 +2,7 @@ import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from './VectorModel';
 
 export interface SerializedMeshModel {
-    constructorName: string;
+    name: string;
     scaling?: number;
     translate: {
         x: number,
@@ -51,7 +51,7 @@ export class MeshModel {
 
     public serialize(): SerializedMeshModel {
         return {
-            constructorName: MeshModel.name,
+            name: MeshModel.name,
             scaling: null,
             translate: null
         };

@@ -1,6 +1,6 @@
 import { Scene, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
 import { World } from '../model/World';
-import { WorldMapGenerator } from '../io/gwm_world_serializer/deserializer/WorldMapGenerator';
+import { GwmWorldGenerator } from '../io/gwm_world_serializer/deserializer/GwmWorldGenerator';
 import { GameObject } from 'game-worldmap-generator';
 import { GameObjectParser } from 'game-worldmap-generator';
 import { LightController } from '../model/light/LightController';
@@ -9,6 +9,7 @@ import { parseJsonAdditionalData, AdditionalData } from '../io/gwm_world_seriali
 import { Promise } from 'es6-promise';
 import { GwmMeshFactoryProducer } from '../io/gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
+import { JsonWorldGenerator } from '../io/json_world_serializer/deserialize/JsonWorldGenerator';
 
 export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<World> => {
     createCamera(scene, canvas);
@@ -18,11 +19,9 @@ export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr
 
     const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
 
-    const worldMap = new World();
-
     return initMeshFactory(scene, shadowGenerator, spotLight, getWorldDimensions(gameObjects))
         .then(meshFactory => {
-            new WorldMapGenerator(meshFactory, 1).create(gameObjects);
+            const worldMap = new GwmWorldGenerator(meshFactory, 1).create(gameObjects);
 
             worldMap.lightController = new LightController(hemisphericLight);
             return worldMap;
@@ -33,36 +32,6 @@ const initMeshFactory = (
     scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory<GameObject>> => {
     const meshFactoryProducer = new GwmMeshFactoryProducer();
     return meshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight);
-    // const materialTemplates = MeshFactory.initMaterials(scene);
-    // const modelTemplatesPromise = MeshFactory.importModels(scene, materialTemplates);
-
-    // const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
-    //     new Vector2Model(worldDimensions.x(), worldDimensions.y()),
-    //     1,
-    //     new GameObjectToRealWorldCoordinateWrapper(worldDimensions, 1)
-    // );
-
-    // const wallFactory = new WallFactory(
-    //     new WallTemplateCreator(scene).create(),
-    //     gameObjectTranslator,
-    //     shadowGenerator
-    // );
-
-    // const doorFactory = new DoorFactory(
-    //     new DoorTemplateCreator(scene).create(),
-    //     gameObjectTranslator,
-    //     shadowGenerator,
-    //     1
-    // );
-
-    // return modelTemplatesPromise.then(modelTemplates => new MeshFactory(
-    //         scene,
-    //         {
-    //             wall: new WallFactory(modelTemplates.wall, gameObjectTranslator, shadowGenerator),
-    //             door: new DoorFactory(modelTemplates.door, gameObjectTranslator, shadowGenerator, 1)
-    //         }
-    //     )
-    // );
 };
 
 const getWorldDimensions = (gameObjects: GameObject[]): Vector2Model => {

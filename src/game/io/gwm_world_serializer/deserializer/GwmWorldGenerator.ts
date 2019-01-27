@@ -8,14 +8,14 @@ import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { GameObjectToWorldCenterTranslatorDecorator } from './game_object_mappers/GameObjectToWorldCenterTranslatorDecorator';
 import { AdditionalData } from './AdditionalData';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
+import { AbstractWorldGenerator } from '../../../model/core/factories/AbstractWorldGenerator';
 
-export class WorldMapGenerator {
-    private meshFactory: MeshFactory<GameObject>;
+export class GwmWorldGenerator extends AbstractWorldGenerator<GameObject> {
     private gameObjectToMeshSizeRatio: number;
     private gameObjectTranslator: GameObjectTranslator;
 
     constructor(meshFactory: MeshFactory<GameObject>, gameObjectToMeshSizeRatio = 10) {
-        this.meshFactory = meshFactory;
+        super(meshFactory);
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
@@ -36,33 +36,6 @@ export class WorldMapGenerator {
         worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
 
         return worldMap;
-    }
-
-    private createMesh(gameObject: GameObject<AdditionalData>, worldMap: World): MeshModel {
-        switch (gameObject.name) {
-            case 'wall':
-                return this.meshFactory.createWall(gameObject, worldMap);
-            case 'door':
-                return this.meshFactory.createDoor(gameObject, worldMap);
-            case 'window':
-                return this.meshFactory.createWindow(gameObject, worldMap);
-            case 'floor':
-                return this.meshFactory.createFloor(gameObject, worldMap);
-            case 'player':
-                return this.meshFactory.createPlayer(gameObject, worldMap);
-            case 'bed':
-                return this.meshFactory.createBed(gameObject, worldMap);
-            case 'table':
-                return this.meshFactory.createTable(gameObject, worldMap);
-            case 'cupboard':
-                return this.meshFactory.createCupboard(gameObject, worldMap);
-            case 'bathtub':
-                return this.meshFactory.createBathtub(gameObject, worldMap);
-            case 'washbasin':
-                return this.meshFactory.createWashbasin(gameObject, worldMap);
-            default:
-                throw new Error('Unknown GameObject type: ' + gameObject.name);
-        }
     }
 
     private rectangleToTranslateVector2(gameObject: GameObject, worldDimensions: { width: number, height: number }): VectorModel {

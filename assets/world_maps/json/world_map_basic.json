@@ -1,0 +1,20 @@
+{
+    "items": [
+        {
+            "name": "wall",
+            "translate": {
+                "x": 10,
+                "y": 10,
+                "z": 10
+            }
+        },
+        {
+            "name": "wall",
+            "translate": {
+                "x": 15,
+                "y": 15,
+                "z": 15
+            }
+        }
+    ]
+}
