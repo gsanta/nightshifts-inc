@@ -35,9 +35,9 @@ export class GwmPlayerDeserializer implements GwmItemDeserializer {
     }
 
 
-    public createItem(gameObject: GameObject, worldMap: World): MeshModel {
+    public createItem(gameObject: GameObject, world: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
+        const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 
@@ -45,7 +45,7 @@ export class GwmPlayerDeserializer implements GwmItemDeserializer {
         keyboardHandler.subscribe();
         const player = new Player(mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
 
-        const actionStrategy = new ActionStrategy(player, worldMap);
+        const actionStrategy = new ActionStrategy(player, world);
 
         const collisionDetector = new CollisionDetector(player, this.scene);
         const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);

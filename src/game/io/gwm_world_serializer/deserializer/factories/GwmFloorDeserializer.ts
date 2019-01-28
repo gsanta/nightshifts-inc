@@ -5,6 +5,7 @@ import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel } from '../../../../model/core/VectorModel';
+import { World } from '../../../../model/World';
 
 export class GwmFloorDeserializer implements GwmItemDeserializer {
     private meshModelTemplate: MeshTemplate;
@@ -22,9 +23,9 @@ export class GwmFloorDeserializer implements GwmItemDeserializer {
     }
 
 
-    public createItem(gameObject: GameObject): MeshModel {
+    public createItem(gameObject: GameObject, world: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
+        const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 

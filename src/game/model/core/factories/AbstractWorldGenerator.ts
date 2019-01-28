@@ -5,17 +5,17 @@ import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator } fr
 import { AbstractMeshFactoryProducer } from './AbstractMeshFactoryProducer';
 import { Vector2Model } from '../../utils/Vector2Model';
 import { Promise } from 'es6-promise';
+import { LightController } from '../../light/LightController';
 
 
 export abstract class AbstractWorldGenerator<T extends {name: string}> {
-    protected meshFactory: MeshFactory<T>;
-    private shadowGenerator: ShadowGenerator;
-    private hemisphericLight: HemisphericLight;
-    private spotLight: SpotLight;
+    protected shadowGenerator: ShadowGenerator;
+    protected hemisphericLight: HemisphericLight;
+    protected spotLight: SpotLight;
     private worldDimensions: Vector2Model;
     private camera: Camera;
-    private meshFactoryProducer: AbstractMeshFactoryProducer<T>;
-    private scene: Scene;
+    protected meshFactoryProducer: AbstractMeshFactoryProducer<T>;
+    protected scene: Scene;
 
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<T>) {
         this.scene = scene;
@@ -24,45 +24,46 @@ export abstract class AbstractWorldGenerator<T extends {name: string}> {
         this.hemisphericLight = this.createHemisphericLight(scene);
         this.shadowGenerator = this.createShadowGenerator(scene, this.spotLight);
         this.camera = this.createCamera(scene, canvas);
-        this.meshFactory = ;
     }
 
-    public create(items: T[]): Promise<World> {
+    public create(meshModelDescription: T[]): Promise<World> {
         const world = new World();
 
-        return this.meshFactoryProducer.getFactory(this.scene, this.shadowGenerator, this.spotLight)
+        world.lightController = new LightController(this.hemisphericLight);
+
+        return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
             .then(meshFactory => {
 
-                this.setupMeshes(meshFactory, world);
+                this.setMeshes(meshModelDescription, meshFactory, world);
 
                 return world;
             });
     }
 
-    protected abstract setupMeshes(meshFactory: MeshFactory<T>, world: World): void;
+    protected abstract setMeshes(meshModelDescription: T[], meshFactory: MeshFactory<T>, world: World): void;
 
-    protected createMesh(meshModelDescription: T, world: World): MeshModel {
+    protected createMesh(meshModelDescription: T, meshFactory: MeshFactory<T>, world: World): MeshModel {
         switch (meshModelDescription.name) {
             case 'wall':
-                return this.meshFactory.createWall(meshModelDescription, world);
+                return meshFactory.createWall(meshModelDescription, world);
             case 'door':
-                return this.meshFactory.createDoor(meshModelDescription, world);
+                return meshFactory.createDoor(meshModelDescription, world);
             case 'window':
-                return this.meshFactory.createWindow(meshModelDescription, world);
+                return meshFactory.createWindow(meshModelDescription, world);
             case 'floor':
-                return this.meshFactory.createFloor(meshModelDescription, world);
+                return meshFactory.createFloor(meshModelDescription, world);
             case 'player':
-                return this.meshFactory.createPlayer(meshModelDescription, world);
+                return meshFactory.createPlayer(meshModelDescription, world);
             case 'bed':
-                return this.meshFactory.createBed(meshModelDescription, world);
+                return meshFactory.createBed(meshModelDescription, world);
             case 'table':
-                return this.meshFactory.createTable(meshModelDescription, world);
+                return meshFactory.createTable(meshModelDescription, world);
             case 'cupboard':
-                return this.meshFactory.createCupboard(meshModelDescription, world);
+                return meshFactory.createCupboard(meshModelDescription, world);
             case 'bathtub':
-                return this.meshFactory.createBathtub(meshModelDescription, world);
+                return meshFactory.createBathtub(meshModelDescription, world);
             case 'washbasin':
-                return this.meshFactory.createWashbasin(meshModelDescription, world);
+                return meshFactory.createWashbasin(meshModelDescription, world);
             default:
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);
         }
@@ -80,7 +81,7 @@ export abstract class AbstractWorldGenerator<T extends {name: string}> {
     //     return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
     // }
 
-    protected abstract getWorldDimensions(items: T[]): Vector2Model;
+    // protected abstract getWorldDimensions(items: T[]): Vector2Model;
 
     private createShadowGenerator(scene: Scene, spotLight: SpotLight): ShadowGenerator {
         const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);

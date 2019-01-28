@@ -6,7 +6,7 @@ import { Orientation } from '../../../../model/utils/Orientation';
 import { World } from '../../../../model/World';
 
 export interface GameObjectTranslator {
-    getTranslate(gameObject: GameObject, realMeshDimensions: Vector2Model, world: World): Vector2Model;
+    getTranslate(gameObject: GameObject, world: World, realMeshDimensions?: Vector2Model): Vector2Model;
     getDimensions(gameObject: GameObject): Vector2Model;
     getRotation(gameObject: GameObject): number;
 }
@@ -18,7 +18,7 @@ export class GameObjectToRealWorldCoordinateMapper implements GameObjectTranslat
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public getTranslate(gameObject: GameObject, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
+    public getTranslate(gameObject: GameObject, world: World, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
         const realDimensions = this.changeToRealWorldDimensions(gameObject.dimensions, this.gameObjectToMeshSizeRatio);
 
         const dock = gameObject.additionalData && gameObject.additionalData.dock !== undefined ? gameObject.additionalData.dock : Direction.MIDDLE;

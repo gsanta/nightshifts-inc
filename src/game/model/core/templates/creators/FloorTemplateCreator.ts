@@ -4,24 +4,26 @@ import { Vector2Model } from '../../../utils/Vector2Model';
 import { MeshTemplate } from '../MeshTemplate';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { GameConstants } from '../../../../GameConstants';
+import { World } from '../../../World';
 
 const colors = GameConstants.colors;
 
 export class FloorTemplateCreator implements TemplateCreator {
     private scene: Scene;
     private material: StandardMaterial;
-    private worldDimensions: Vector2Model;
     private mesh: Mesh;
 
-    constructor(scene: Scene, worldDimensions: Vector2Model) {
+    constructor(scene: Scene) {
         this.scene = scene;
-        this.worldDimensions = worldDimensions;
 
-        this.mesh = this.createMesh();
         this.material = this.createMaterial();
     }
 
-    public create(): MeshTemplate {
+    public create(world: World): MeshTemplate {
+        if (!this.mesh) {
+            this.mesh = this.createMesh(world);
+        }
+
         this.mesh.material = this.material;
         return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
     }
@@ -33,10 +35,10 @@ export class FloorTemplateCreator implements TemplateCreator {
         return material;
     }
 
-    private createMesh(): Mesh {
+    private createMesh(world: World): Mesh {
         return BABYLON.MeshBuilder.CreateGround(
             'floor',
-            { width: this.worldDimensions.x(), height: this.worldDimensions.y() },
+            { width: world.dimensions.x(), height: world.dimensions.y(), updatable: true },
             this.scene
         );
     }

@@ -3,22 +3,33 @@ import { SerializedMeshModel, MeshModel } from '../../../model/core/MeshModel';
 import { World } from '../../../model/World';
 import { AbstractWorldGenerator } from '../../../model/core/factories/AbstractWorldGenerator';
 import { Player } from '../../../model/creature/type/Player';
+import { Promise } from 'es6-promise';
+import { Scene } from 'babylonjs';
+import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
+import { GameObject } from 'game-worldmap-generator';
 
 
 export class JsonWorldGenerator extends AbstractWorldGenerator<SerializedMeshModel> {
-    constructor(meshFactory: MeshFactory<SerializedMeshModel>) {
-        super(meshFactory);
+    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<SerializedMeshModel>) {
+        super(scene, canvas, meshFactoryProducer);
     }
 
-    public create(serializedMeshModels: SerializedMeshModel[]): World {
-        const worldMap = new World();
+    public create(serializedMeshModels: SerializedMeshModel[]): Promise<World> {
+        return super.create(serializedMeshModels);
+    }
 
-        const meshes = serializedMeshModels.map(gameObject => this.createMesh(gameObject, worldMap));
+    protected setMeshes(serializedMeshModel: SerializedMeshModel[], meshFactory: MeshFactory<SerializedMeshModel>, world: World): void {
+        // const worldDimensions = this.getWorldDimensions(gameObjects);
+        // const worldDimensions2 = new Vector2Model(worldDimensions.width, worldDimensions.height);
+        // this.gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(
+        //     this.gameObjectToMeshSizeRatio,
+        //     new GameObjectToRealWorldCoordinateMapper(this.gameObjectToMeshSizeRatio)
+        // );
 
-        worldMap.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
-        worldMap.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
-        worldMap.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
+        const meshes = serializedMeshModel.map(gameObject => this.createMesh(gameObject, meshFactory, world));
 
-        return worldMap;
+        world.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
+        world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
+        world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
     }
 }

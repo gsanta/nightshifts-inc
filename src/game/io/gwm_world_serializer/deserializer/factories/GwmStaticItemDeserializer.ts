@@ -8,6 +8,7 @@ import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { AdditionalData } from '../AdditionalData';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { Orientation } from '../../../../model/utils/Orientation';
+import { World } from '../../../../model/World';
 
 
 export class GwmStaticItemDeserializer implements GwmItemDeserializer {
@@ -25,13 +26,13 @@ export class GwmStaticItemDeserializer implements GwmItemDeserializer {
         this.shadowGenerator = shadowGenerator;
     }
 
-    public createItem(gameObject: GameObject): MeshModel {
+    public createItem(gameObject: GameObject, world: World): MeshModel {
         const meshes = this.meshModelTemplate.createMeshes();
         const meshModel = new MeshModel(meshes[0]);
 
         meshes.forEach(mesh => {
             const realMeshDimensions = this.getRealMeshDimensions(mesh, gameObject);
-            const translate2 = this.gameObjectTranslator.getTranslate(gameObject, realMeshDimensions);
+            const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world, realMeshDimensions);
             const translate = new VectorModel(translate2.x(), 0, -translate2.y());
             const rotation = this.gameObjectTranslator.getRotation(gameObject);
 

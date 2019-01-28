@@ -10,6 +10,7 @@ import { AdditionalData } from '../AdditionalData';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { Window } from '../../../../model/creature/type/Window';
+import { World } from '../../../../model/World';
 
 export class GwmWindowDeserializer implements GwmItemDeserializer {
     private meshModelTemplate: MeshTemplate;
@@ -30,9 +31,9 @@ export class GwmWindowDeserializer implements GwmItemDeserializer {
     }
 
 
-    public createItem(gameObject: GameObject<AdditionalData>): MeshModel {
+    public createItem(gameObject: GameObject<AdditionalData>, world: World): MeshModel {
         const scaling = this.gameObjectTranslator.getDimensions(gameObject).toVector3(5);
-        const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
+        const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
         const meshes = this.meshModelTemplate.createMeshes();

@@ -1,70 +1,70 @@
-import { Scene, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
-import { World } from '../model/World';
-import { GwmWorldGenerator } from '../io/gwm_world_serializer/deserializer/GwmWorldGenerator';
-import { GameObject } from 'game-worldmap-generator';
-import { GameObjectParser } from 'game-worldmap-generator';
-import { LightController } from '../model/light/LightController';
-import { Vector2Model } from '../model/utils/Vector2Model';
-import { parseJsonAdditionalData, AdditionalData } from '../io/gwm_world_serializer/deserializer/AdditionalData';
-import { Promise } from 'es6-promise';
-import { GwmMeshFactoryProducer } from '../io/gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
-import { MeshFactory } from '../model/core/factories/MeshFactory';
-import { JsonWorldGenerator } from '../io/json_world_serializer/deserialize/JsonWorldGenerator';
+// import { Scene, Light, SpotLight, ShadowGenerator, HemisphericLight } from 'babylonjs';
+// import { World } from '../model/World';
+// import { GwmWorldGenerator } from '../io/gwm_world_serializer/deserializer/GwmWorldGenerator';
+// import { GameObject } from 'game-worldmap-generator';
+// import { GameObjectParser } from 'game-worldmap-generator';
+// import { LightController } from '../model/light/LightController';
+// import { Vector2Model } from '../model/utils/Vector2Model';
+// import { parseJsonAdditionalData, AdditionalData } from '../io/gwm_world_serializer/deserializer/AdditionalData';
+// import { Promise } from 'es6-promise';
+// import { GwmMeshFactoryProducer } from '../io/gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
+// import { MeshFactory } from '../model/core/factories/MeshFactory';
+// import { JsonWorldGenerator } from '../io/json_world_serializer/deserialize/JsonWorldGenerator';
 
-export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<World> => {
-    createCamera(scene, canvas);
-    const hemisphericLight = createHemisphericLight(scene);
-    const spotLight = <SpotLight> createSpotLight(scene);
-    const shadowGenerator = createShadow(scene, spotLight);
+// export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<World> => {
+//     createCamera(scene, canvas);
+//     const hemisphericLight = createHemisphericLight(scene);
+//     const spotLight = <SpotLight> createSpotLight(scene);
+//     const shadowGenerator = createShadow(scene, spotLight);
 
-    const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
+//     const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
 
-    return initMeshFactory(scene, shadowGenerator, spotLight, getWorldDimensions(gameObjects))
-        .then(meshFactory => {
-            const worldMap = new GwmWorldGenerator(meshFactory, 1).create(gameObjects);
+//     return initMeshFactory(scene, shadowGenerator, spotLight, getWorldDimensions(gameObjects))
+//         .then(meshFactory => {
+//             const worldMap = new GwmWorldGenerator(meshFactory, 1).create(gameObjects);
 
-            worldMap.lightController = new LightController(hemisphericLight);
-            return worldMap;
-        });
-};
+//             worldMap.lightController = new LightController(hemisphericLight);
+//             return worldMap;
+//         });
+// };
 
-const initMeshFactory = (
-    scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory<GameObject>> => {
-    const meshFactoryProducer = new GwmMeshFactoryProducer();
-    return meshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight);
-};
+// const initMeshFactory = (
+//     scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory<GameObject>> => {
+//     const meshFactoryProducer = new GwmMeshFactoryProducer();
+//     return meshFactoryProducer.getFactory(scene, shadowGenerator, spotLight);
+// };
 
-const getWorldDimensions = (gameObjects: GameObject[]): Vector2Model => {
-    const floor = gameObjects.filter(gameObject => gameObject.name === 'floor')[0];
+// const getWorldDimensions = (gameObjects: GameObject[]): Vector2Model => {
+//     const floor = gameObjects.filter(gameObject => gameObject.name === 'floor')[0];
 
-    return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
-};
+//     return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
+// };
 
-const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
-    const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);
-    shadowGenerator.usePoissonSampling = true;
+// const createShadow = (scene: Scene, spotLight: SpotLight): ShadowGenerator => {
+//     const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);
+//     shadowGenerator.usePoissonSampling = true;
 
-    return shadowGenerator;
-};
+//     return shadowGenerator;
+// };
 
-const createHemisphericLight = (scene: Scene): HemisphericLight => {
-    const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
-    // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
-    light.diffuse = new BABYLON.Color3(1, 1, 1);
-    light.intensity = 0.01;
-    return light;
-};
+// const createHemisphericLight = (scene: Scene): HemisphericLight => {
+//     const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
+//     // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
+//     light.diffuse = new BABYLON.Color3(1, 1, 1);
+//     light.intensity = 0.01;
+//     return light;
+// };
 
-const createSpotLight = (scene: Scene): Light => {
-    const spotLight = new BABYLON.SpotLight('spotLight', new BABYLON.Vector3(0, 2, 1), new BABYLON.Vector3(0, 0.5, -5), Math.PI / 8, 1, scene);
-    spotLight.diffuse = new BABYLON.Color3(1, 1, 1);
+// const createSpotLight = (scene: Scene): Light => {
+//     const spotLight = new BABYLON.SpotLight('spotLight', new BABYLON.Vector3(0, 2, 1), new BABYLON.Vector3(0, 0.5, -5), Math.PI / 8, 1, scene);
+//     spotLight.diffuse = new BABYLON.Color3(1, 1, 1);
 
-    return spotLight;
-};
+//     return spotLight;
+// };
 
-const createCamera = (scene: Scene, canvas: HTMLCanvasElement) => {
-    const camera = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
-    camera.attachControl(canvas, true);
-    return camera;
-};
+// const createCamera = (scene: Scene, canvas: HTMLCanvasElement) => {
+//     const camera = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
+//     camera.attachControl(canvas, true);
+//     return camera;
+// };
 

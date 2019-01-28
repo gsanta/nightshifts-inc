@@ -2,7 +2,10 @@ import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { World } from './model/World';
-import { createLevel } from './levels/createLevel';
+import { GwmWorldGenerator } from './io/gwm_world_serializer/deserializer/GwmWorldGenerator';
+import { GwmMeshFactoryProducer } from './io/gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
+import { GameObject, GameObjectParser } from 'game-worldmap-generator';
+import { AdditionalData, parseJsonAdditionalData } from './io/gwm_world_serializer/deserializer/AdditionalData';
 
 
 export class GameEngine {
@@ -24,7 +27,11 @@ export class GameEngine {
     }
 
     public runGame(worldMapStr: string) {
-        createLevel(this.canvas, this.scene, worldMapStr)
+        const meshFactoryProducer = new GwmMeshFactoryProducer();
+
+        const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
+        new GwmWorldGenerator(this.scene, this.canvas, meshFactoryProducer)
+            .create(gameObjects)
             .then((worldMap) => {
                 this.worldMap = worldMap;
                 this.engine.runRenderLoop(this.run);

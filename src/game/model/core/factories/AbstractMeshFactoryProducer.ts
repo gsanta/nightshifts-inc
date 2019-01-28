@@ -10,6 +10,7 @@ import { VectorModel } from '../VectorModel';
 import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator';
 import { WindowTemplateCreator } from '../templates/creators/WindowTemplateCreator';
 import { Promise } from 'es6-promise';
+import { World } from '../../World';
 
 interface MeshMap<V> {
     wall: V;
@@ -50,9 +51,9 @@ export abstract class AbstractMeshFactoryProducer<T> {
         'assets/models/player/material/3.jpg'
     ];
 
-    public abstract getFactory(scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<T>>;
+    public abstract getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<T>>;
 
-    protected getTemplateProducers(scene: Scene, worldDimensions: Vector2Model): Promise<MeshMap<TemplateCreator>> {
+    protected getTemplateProducers(scene: Scene): Promise<MeshMap<TemplateCreator>> {
 
         const meshMap: MeshMap<TemplateCreator> = {
             wall: new WallTemplateCreator(scene),
@@ -78,7 +79,7 @@ export abstract class AbstractMeshFactoryProducer<T> {
                 this.PLAYER_MATERIALS,
                 {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.3, 0.3, 0.3)}
             ),
-            floor: new FloorTemplateCreator(scene, worldDimensions),
+            floor: new FloorTemplateCreator(scene),
             window: new WindowTemplateCreator(scene),
             bathtub: new ModelFileBasedTemplateCreator(
                 scene,

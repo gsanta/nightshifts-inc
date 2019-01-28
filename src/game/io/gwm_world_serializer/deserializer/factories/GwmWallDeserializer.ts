@@ -5,6 +5,7 @@ import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel } from '../../../../model/core/VectorModel';
+import { World } from '../../../../model/World';
 
 export class GwmWallDeserializer implements GwmItemDeserializer {
     private meshModelTemplate: MeshTemplate;
@@ -24,9 +25,9 @@ export class GwmWallDeserializer implements GwmItemDeserializer {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public createItem(gameObject: GameObject): MeshModel {
+    public createItem(gameObject: GameObject, world: World): MeshModel {
         const scaling = this.gameObjectTranslator.getDimensions(gameObject).toVector3(5);
-        const translate2 = this.gameObjectTranslator.getTranslate(gameObject);
+        const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
         const mesh = this.meshModelTemplate.createMeshes()[0];
