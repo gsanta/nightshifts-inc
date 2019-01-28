@@ -12,8 +12,6 @@ export abstract class AbstractWorldGenerator<T extends {name: string}> {
     protected shadowGenerator: ShadowGenerator;
     protected hemisphericLight: HemisphericLight;
     protected spotLight: SpotLight;
-    private worldDimensions: Vector2Model;
-    private camera: Camera;
     protected meshFactoryProducer: AbstractMeshFactoryProducer<T>;
     protected scene: Scene;
 
@@ -23,22 +21,10 @@ export abstract class AbstractWorldGenerator<T extends {name: string}> {
         this.spotLight = this.createSpotLight(scene);
         this.hemisphericLight = this.createHemisphericLight(scene);
         this.shadowGenerator = this.createShadowGenerator(scene, this.spotLight);
-        this.camera = this.createCamera(scene, canvas);
+        this.createCamera(scene, canvas);
     }
 
-    public create(meshModelDescription: T[]): Promise<World> {
-        const world = new World();
-
-        world.lightController = new LightController(this.hemisphericLight);
-
-        return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
-            .then(meshFactory => {
-
-                this.setMeshes(meshModelDescription, meshFactory, world);
-
-                return world;
-            });
-    }
+    public abstract create(strWorld: string): Promise<World>;
 
     protected abstract setMeshes(meshModelDescription: T[], meshFactory: MeshFactory<T>, world: World): void;
 

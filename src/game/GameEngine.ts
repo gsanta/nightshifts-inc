@@ -4,9 +4,8 @@ import { CollisionDetector } from './model/creature/collision/CollisionDetector'
 import { World } from './model/World';
 import { GwmWorldGenerator } from './io/gwm_world_serializer/deserializer/GwmWorldGenerator';
 import { GwmMeshFactoryProducer } from './io/gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
-import { GameObject, GameObjectParser } from 'game-worldmap-generator';
-import { AdditionalData, parseJsonAdditionalData } from './io/gwm_world_serializer/deserializer/AdditionalData';
-
+import { JsonWorldGenerator } from './io/json_world_serializer/deserialize/JsonWorldGenerator';
+import { JsonMeshFactoryProducer } from './io/json_world_serializer/deserialize/JsonMashFactoryProducer';
 
 export class GameEngine {
     private scene: Scene;
@@ -26,12 +25,20 @@ export class GameEngine {
         this.scene.collisionsEnabled = true;
     }
 
-    public runGame(worldMapStr: string) {
-        const meshFactoryProducer = new GwmMeshFactoryProducer();
+    public runGame(strWorld: string) {
+        // const meshFactoryProducer = new GwmMeshFactoryProducer();
 
-        const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(worldMapStr, parseJsonAdditionalData);
-        new GwmWorldGenerator(this.scene, this.canvas, meshFactoryProducer)
-            .create(gameObjects)
+        // new GwmWorldGenerator(this.scene, this.canvas, meshFactoryProducer)
+        //     .create(strWorld)
+        //     .then((worldMap) => {
+        //         this.worldMap = worldMap;
+        //         this.engine.runRenderLoop(this.run);
+        //     })
+        //     .catch(e => console.error(e));
+
+        const meshFactoryProducer = new JsonMeshFactoryProducer();
+        new JsonWorldGenerator(this.scene, this.canvas, meshFactoryProducer)
+            .create(strWorld)
             .then((worldMap) => {
                 this.worldMap = worldMap;
                 this.engine.runRenderLoop(this.run);

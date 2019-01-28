@@ -1,4 +1,8 @@
 {
+    "dimensions": {
+        "x": 50,
+        "y": 50
+    },
     "items": [
         {
             "name": "wall",
@@ -9,11 +13,11 @@
             }
         },
         {
-            "name": "wall",
+            "name": "player",
             "translate": {
-                "x": 15,
-                "y": 15,
-                "z": 15
+                "x": 5,
+                "y": 5,
+                "z": 5
             }
         }
     ]
