@@ -49,6 +49,10 @@ export class MeshModel {
         return this.mesh.getBoundingInfo().boundingBox.extendSize.z;
     }
 
+    public getScale() {
+        return this.mesh.scaling.x;
+    }
+
     public serialize(): SerializedMeshModel {
         return {
             name: MeshModel.name,

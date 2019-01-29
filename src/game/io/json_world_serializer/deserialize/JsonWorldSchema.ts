@@ -1,6 +1,5 @@
 import { SerializedMeshModel } from '../../../model/core/MeshModel';
 
-
 export interface JsonWorldSchema {
     dimensions: {
         x: number;

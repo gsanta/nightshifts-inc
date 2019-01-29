@@ -47,7 +47,8 @@ module.exports = env => {
         },
         output: {
             filename: 'app.js',
-            path: path.resolve(__dirname, 'build')
+            path: path.resolve(__dirname, 'build'),
+            library: 'thegame'
         },
         devtool: 'eval',
         devServer: {
@@ -57,6 +58,7 @@ module.exports = env => {
                     secure: false
                 }
             },
+            contentBase: ['.', './test'],
             port: 8765
         }
     }
