@@ -45,7 +45,8 @@
     </div>
     <script src="./app.js"></script>
     <script>
-        const gameEngine = thegame.testRenderGame(document.getElementsByTagName('canvas')[0], 'assets/world_maps/json/world_map_basic.json');
+        const gameEngine = thegame.renderGameFromJsonInput(document.getElementsByTagName('canvas')[0], 'assets/world_maps/json/world_map_complex.json');
+        // const gameEngine = thegame.renderGameFromGwmInput(document.getElementsByTagName('canvas')[0], 'assets/world_maps/new_world_map.gwm');
         thegame.renderTestControls(document.querySelector('.test-controls'), gameEngine);
     </script>
 </body>

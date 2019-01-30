@@ -3,7 +3,11 @@ import { VectorModel } from './VectorModel';
 
 export interface SerializedMeshModel {
     name: string;
-    scaling?: number;
+    scaling: {
+        x: number,
+        y: number,
+        z: number
+    };
     translate: {
         x: number,
         y: number,
@@ -50,8 +54,8 @@ export class MeshModel {
         return this.mesh.getBoundingInfo().boundingBox.extendSize.z;
     }
 
-    public getScale() {
-        return this.mesh.scaling.x;
+    public getScale(): VectorModel {
+        return new VectorModel(this.mesh.scaling.x, this.mesh.scaling.y, this.mesh.scaling.z);
     }
 
     public serialize(): SerializedMeshModel {

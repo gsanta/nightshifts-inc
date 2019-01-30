@@ -19,13 +19,12 @@ export class JsonDefaultDeserializer implements JsonItemDeserializer {
 
     public createItem(serializedMeshModel: SerializedMeshModel): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
+        const meshModel = new MeshModel(mesh, serializedMeshModel.name);
+
+        meshModel.translate(VectorModel.deserialize(serializedMeshModel.translate));
         mesh.scaling.x = serializedMeshModel.scaling;
         mesh.scaling.y = serializedMeshModel.scaling;
         mesh.scaling.z = serializedMeshModel.scaling;
-
-        const meshModel = new MeshModel(mesh, serializedMeshModel.name );
-
-        meshModel.translate(VectorModel.deserialize(serializedMeshModel.translate));
 
         this.shadowGenerator.getShadowMap().renderList.push(mesh);
 

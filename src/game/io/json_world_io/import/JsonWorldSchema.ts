@@ -11,6 +11,6 @@ export interface JsonWorldSchema {
 export const setDefaultsForJsonWorld = (jsonWorld: JsonWorldSchema): void => {
 
     jsonWorld.items.forEach(item => {
-        item.scaling = 1;
+        item.scaling = item.scaling ? item.scaling : 1;
     });
 };

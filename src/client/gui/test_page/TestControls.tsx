@@ -7,7 +7,7 @@ export const TestControls = (props: { gameEngine: GameEngine }) => {
 
     const serialize = () => {
         const serializer = new JsonWorldSerializer(new JsonDefaultItemExporter());
-        const json = serializer.serialize(props.gameEngine.getWorld());
+        const json = serializer.export(props.gameEngine.getWorld());
         console.log(json);
     };
 

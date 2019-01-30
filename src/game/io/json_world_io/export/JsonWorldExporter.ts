@@ -11,7 +11,7 @@ export class JsonWorldSerializer {
         this.defaulSerializer = defaultSerializer;
     }
 
-    public serialize(world: World) {
+    public export(world: World) {
         const schema: Partial<JsonWorldSchema> = {
             items: this.serializeItems(world)
         };
@@ -22,7 +22,7 @@ export class JsonWorldSerializer {
     private serializeItems(world: World): SerializedMeshModel[] {
         const items: SerializedMeshModel[] = [];
 
-        [...world.gameObjects, world.player, world.floor]
+        [...world.gameObjects, world.player]
             .forEach(meshModel => {
                 try {
                     const item = this.serializeItem(meshModel);
@@ -42,6 +42,20 @@ export class JsonWorldSerializer {
             case 'player':
                 return this.defaulSerializer.serialize(meshModel);
             case 'floor':
+                return this.defaulSerializer.serialize(meshModel);
+            case 'cupboard':
+                return this.defaulSerializer.serialize(meshModel);
+            case 'washbasin':
+                return this.defaulSerializer.serialize(meshModel);
+            case 'bathtub':
+                return this.defaulSerializer.serialize(meshModel);
+            case 'bed':
+                return this.defaulSerializer.serialize(meshModel);
+            case 'door':
+                return this.defaulSerializer.serialize(meshModel);
+            case 'table':
+                return this.defaulSerializer.serialize(meshModel);
+            case 'window':
                 return this.defaulSerializer.serialize(meshModel);
             default:
                 throw new Error('Can not serialize item with name: ' + meshModel.name);

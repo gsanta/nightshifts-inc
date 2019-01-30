@@ -4,6 +4,7 @@ import { CollisionDetector } from './model/creature/collision/CollisionDetector'
 import { World } from './model/World';
 import { JsonWorldGenerator } from './io/json_world_io/import/JsonWorldGenerator';
 import { JsonMeshFactoryProducer } from './io/json_world_io/import/JsonMashFactoryProducer';
+import { AbstractWorldGenerator } from './model/core/factories/AbstractWorldGenerator';
 
 export class GameEngine {
     private scene: Scene;
@@ -11,16 +12,17 @@ export class GameEngine {
     private previousTime: number = Date.now();
     private engine: Engine;
     private canvas: HTMLCanvasElement;
+    private worldGenerator: AbstractWorldGenerator<any>;
 
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, scene: BABYLON.Scene, engine: BABYLON.Engine, worldGenerator: AbstractWorldGenerator<any>) {
         this.canvas = canvas;
         this.run = this.run.bind(this);
-        const engine = new BABYLON.Engine(canvas);
         this.engine = engine;
         engine.enableOfflineSupport = false;
 
-        this.scene = new BABYLON.Scene(engine);
+        this.scene = scene;
         this.scene.collisionsEnabled = true;
+        this.worldGenerator = worldGenerator;
     }
 
     public runGame(strWorld: string) {
@@ -34,8 +36,7 @@ export class GameEngine {
         //     })
         //     .catch(e => console.error(e));
 
-        const meshFactoryProducer = new JsonMeshFactoryProducer();
-        new JsonWorldGenerator(this.scene, this.canvas, meshFactoryProducer)
+        this.worldGenerator
             .create(strWorld)
             .then((world) => {
                 this.world = world;

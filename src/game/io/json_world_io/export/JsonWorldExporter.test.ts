@@ -6,8 +6,8 @@ import { MeshModel } from '../../../model/core/MeshModel';
 import { Player } from '../../../model/creature/type/Player';
 
 describe('JsonWorldExporter', () => {
-    describe('serialize', () => {
-        it.only ('creates the serialized version of a World', () => {
+    describe('export', () => {
+        it ('creates the serialized version of a World', () => {
             const wallMock = {
                 name: 'wall'
             };
@@ -21,8 +21,7 @@ describe('JsonWorldExporter', () => {
             };
 
             const worldMock: Partial<World> = {
-                gameObjects: [<MeshModel> wallMock],
-                floor: <MeshModel> floorMock,
+                gameObjects: [<MeshModel> wallMock, <MeshModel> floorMock],
                 player: <Player> playerMock
             };
 
@@ -33,7 +32,7 @@ describe('JsonWorldExporter', () => {
 
             const jsonWorldSerializer = new JsonWorldSerializer(<JsonDefaultItemExporter> defaultSerializer);
 
-            jsonWorldSerializer.serialize(<World> worldMock);
+            jsonWorldSerializer.export(<World> worldMock);
 
             sinon.assert.calledThrice(serialize);
         });

@@ -4,7 +4,11 @@ export class JsonDefaultItemExporter {
     public serialize(meshModel: MeshModel): SerializedMeshModel {
         return {
             name: meshModel.name,
-            scaling: meshModel.getScale(),
+            scaling: {
+                x: meshModel.getScale().x(),
+                y: meshModel.getScale().y(),
+                z: meshModel.getScale().z(),
+            },
             translate: {
                 x: meshModel.getPosition().x(),
                 y: meshModel.getPosition().y(),

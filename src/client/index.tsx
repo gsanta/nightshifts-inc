@@ -5,6 +5,10 @@ import axios from 'axios';
 import { HashRouter as Router } from 'react-router-dom';
 import { GameEngine } from '../game/GameEngine';
 import { TestControls } from './gui/test_page/TestControls';
+import { JsonMeshFactoryProducer } from '../game/io/json_world_io/import/JsonMashFactoryProducer';
+import { JsonWorldGenerator } from '../game/io/json_world_io/import/JsonWorldGenerator';
+import { GwmWorldGenerator } from '../game/io/gwm_world_io/import/GwmWorldGenerator';
+import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 
 export function render() {
     ReactDom.render(
@@ -16,8 +20,12 @@ export function render() {
 }
 
 
-export const testRenderGame = (canvas: HTMLCanvasElement, jsonWorldPath: string) => {
-    const gameEngine = new GameEngine(canvas);
+export const renderGameFromJsonInput = (canvas: HTMLCanvasElement, jsonWorldPath: string) => {
+    const engine = new BABYLON.Engine(canvas);
+    const scene = new BABYLON.Scene(engine);
+    const worldGenerator = new JsonWorldGenerator(scene, canvas, new JsonMeshFactoryProducer());
+
+    const gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
 
     axios.get(jsonWorldPath)
         .then(response => {
@@ -27,6 +35,23 @@ export const testRenderGame = (canvas: HTMLCanvasElement, jsonWorldPath: string)
 
     return gameEngine;
 };
+
+export const renderGameFromGwmInput = (canvas: HTMLCanvasElement, gwmWorldPath: string) => {
+    const engine = new BABYLON.Engine(canvas);
+    const scene = new BABYLON.Scene(engine);
+    const worldGenerator = new GwmWorldGenerator(scene, canvas, new GwmMeshFactoryProducer());
+
+    const gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
+
+    axios.get(gwmWorldPath)
+        .then(response => {
+            gameEngine.runGame(response.data);
+        })
+        .catch(e => console.error(e));
+
+    return gameEngine;
+};
+
 
 export const renderTestControls = (div: HTMLDivElement, gameEngine: GameEngine) => {
     return ReactDom.render(
