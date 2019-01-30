@@ -1,13 +1,13 @@
 import { World } from '../../../model/World';
 import { JsonWorldSchema } from '../import/JsonWorldSchema';
 import { SerializedMeshModel, MeshModel } from '../../../model/core/MeshModel';
-import { JsonDefaultItemSerializer } from './serializers/JsonDefaultItemSerializer';
+import { JsonDefaultItemExporter } from './serializers/JsonDefaultItemExporter';
 
 
 export class JsonWorldSerializer {
-    private defaulSerializer: JsonDefaultItemSerializer;
+    private defaulSerializer: JsonDefaultItemExporter;
 
-    constructor(defaultSerializer: JsonDefaultItemSerializer) {
+    constructor(defaultSerializer: JsonDefaultItemExporter) {
         this.defaulSerializer = defaultSerializer;
     }
 

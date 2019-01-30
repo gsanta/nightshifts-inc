@@ -1,6 +1,6 @@
 import { MeshModel, SerializedMeshModel } from '../../../../model/core/MeshModel';
 
-export class JsonDefaultItemSerializer {
+export class JsonDefaultItemExporter {
     public serialize(meshModel: MeshModel): SerializedMeshModel {
         return {
             name: meshModel.name,

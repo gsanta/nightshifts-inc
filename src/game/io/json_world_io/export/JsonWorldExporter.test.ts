@@ -1,12 +1,11 @@
-import { JsonDefaultItemSerializer } from './serializers/JsonDefaultItemSerializer';
-import { JsonWorldSerializer } from './JsonWorldSerializer';
+import { JsonDefaultItemExporter } from './serializers/JsonDefaultItemExporter';
+import { JsonWorldSerializer } from './JsonWorldExporter';
 import { World } from '../../../model/World';
 import sinon = require('sinon');
 import { MeshModel } from '../../../model/core/MeshModel';
 import { Player } from '../../../model/creature/type/Player';
-import { expect } from 'chai';
 
-describe('JsonWorldSerializer', () => {
+describe('JsonWorldExporter', () => {
     describe('serialize', () => {
         it.only ('creates the serialized version of a World', () => {
             const wallMock = {
@@ -28,11 +27,11 @@ describe('JsonWorldSerializer', () => {
             };
 
             const serialize = sinon.stub();
-            const defaultSerializer: Partial<JsonDefaultItemSerializer> = {
+            const defaultSerializer: Partial<JsonDefaultItemExporter> = {
                 serialize
             };
 
-            const jsonWorldSerializer = new JsonWorldSerializer(<JsonDefaultItemSerializer> defaultSerializer);
+            const jsonWorldSerializer = new JsonWorldSerializer(<JsonDefaultItemExporter> defaultSerializer);
 
             jsonWorldSerializer.serialize(<World> worldMock);
 

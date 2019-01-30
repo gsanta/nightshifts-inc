@@ -18,6 +18,7 @@ export class MeshModel {
 
     constructor(mesh: Mesh, name: string) {
         this.mesh = mesh;
+        this.name = name;
     }
 
     public translate(vectorModel: VectorModel) {
