@@ -16,7 +16,7 @@ export class MeshModel {
     public name: string;
     public hasDefaultAction = false;
 
-    constructor(mesh: Mesh) {
+    constructor(mesh: Mesh, name: string) {
         this.mesh = mesh;
     }
 

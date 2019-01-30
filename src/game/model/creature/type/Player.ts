@@ -40,7 +40,7 @@ export class Player extends Creature {
     private skeleton: Skeleton;
 
     constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
-        super(mesh);
+        super(mesh, 'player');
 
         this.skeleton = skeleton;
 

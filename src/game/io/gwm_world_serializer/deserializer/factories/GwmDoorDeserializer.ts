@@ -38,7 +38,7 @@ export class GwmDoorDeserializer implements GwmItemDeserializer {
 
         mesh.translate(toVector3(translate), 1);
 
-        const door = new Door(mesh);
+        const door = new Door(mesh, 'door');
 
         this.setPivotMatrix(gameObject, door);
 

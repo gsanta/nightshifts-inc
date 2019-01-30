@@ -23,7 +23,7 @@ export class JsonDefaultDeserializer implements JsonItemDeserializer {
         mesh.scaling.y = serializedMeshModel.scaling;
         mesh.scaling.z = serializedMeshModel.scaling;
 
-        const meshModel = new MeshModel(mesh);
+        const meshModel = new MeshModel(mesh, serializedMeshModel.name );
 
         meshModel.translate(VectorModel.deserialize(serializedMeshModel.translate));
 

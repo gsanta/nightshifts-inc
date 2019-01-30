@@ -12,8 +12,8 @@ export abstract class Creature extends MeshModel {
     protected collisionDetector: CollisionDetector;
     protected actionStrategy: ActionStrategy;
 
-    constructor(mesh: Mesh) {
-        super(mesh);
+    constructor(mesh: Mesh, name: string) {
+        super(mesh, name);
     }
 
     public getBody(): Mesh {

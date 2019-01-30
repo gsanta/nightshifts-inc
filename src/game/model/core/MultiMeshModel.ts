@@ -8,8 +8,8 @@ export class MultiMeshModel extends MeshModel {
     protected meshes: Mesh[];
     public name: string;
 
-    constructor(meshes: Mesh[]) {
-        super(null);
+    constructor(meshes: Mesh[], name: string) {
+        super(null, name);
         this.meshes = meshes;
     }
 

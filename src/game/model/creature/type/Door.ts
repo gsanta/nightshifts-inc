@@ -6,8 +6,8 @@ export class Door extends MeshModel {
     public isOpen: boolean;
     private pivotAngle: number;
 
-    constructor(mesh: Mesh) {
-        super(mesh);
+    constructor(mesh: Mesh, name: string) {
+        super(mesh, name);
 
         this.hasDefaultAction = true;
     }

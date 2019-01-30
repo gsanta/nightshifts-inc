@@ -11,6 +11,20 @@
             display: block;
         }
 
+        .thegame-row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .thegame-column {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 100%;
+            flex: 1;
+        }
+
         body {
             background-color: #F2F2F2 !important;
             font-family: 'Roboto', sans-serif;
@@ -20,10 +34,19 @@
     <link rel="stylesheet" type="text/css" href="app.css">
 </head>
 <body>
-    
+
+    <div class='thegame-row'>
+        <div class='thegame-column'>
+            <div class="test-controls"></div>
+        </div>
+        <div class='thegame-column'>
+            <canvas></canvas>
+        </div>
+    </div>
     <script src="./app.js"></script>
     <script>
-
+        const gameEngine = thegame.testRenderGame(document.getElementsByTagName('canvas')[0], 'assets/world_maps/json/world_map_basic.json');
+        thegame.renderTestControls(document.querySelector('.test-controls'), gameEngine);
     </script>
 </body>
 </html>

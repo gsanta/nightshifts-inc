@@ -10,7 +10,7 @@ export class Window extends MeshModel {
     private isHorizontal = true;
 
     constructor(meshes: Mesh[]) {
-        super(meshes[0]);
+        super(meshes[0], 'window');
 
         this.meshes = meshes;
         this.hasDefaultAction = true;

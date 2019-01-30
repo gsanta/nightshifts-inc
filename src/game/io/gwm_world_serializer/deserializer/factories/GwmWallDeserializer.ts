@@ -31,7 +31,7 @@ export class GwmWallDeserializer implements GwmItemDeserializer {
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        const meshModel = new MeshModel(mesh);
+        const meshModel = new MeshModel(mesh, gameObject.name);
 
         meshModel.translate(translate);
         mesh.scaling.x = scaling.x();

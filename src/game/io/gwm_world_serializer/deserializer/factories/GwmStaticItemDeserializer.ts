@@ -28,7 +28,7 @@ export class GwmStaticItemDeserializer implements GwmItemDeserializer {
 
     public createItem(gameObject: GameObject, world: World): MeshModel {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new MeshModel(meshes[0]);
+        const meshModel = new MeshModel(meshes[0], gameObject.name);
 
         meshes.forEach(mesh => {
             const realMeshDimensions = this.getRealMeshDimensions(mesh, gameObject);

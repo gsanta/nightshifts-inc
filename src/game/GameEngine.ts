@@ -9,7 +9,7 @@ import { JsonMeshFactoryProducer } from './io/json_world_serializer/deserialize/
 
 export class GameEngine {
     private scene: Scene;
-    private worldMap: World;
+    private world: World;
     private previousTime: number = Date.now();
     private engine: Engine;
     private canvas: HTMLCanvasElement;
@@ -39,15 +39,19 @@ export class GameEngine {
         const meshFactoryProducer = new JsonMeshFactoryProducer();
         new JsonWorldGenerator(this.scene, this.canvas, meshFactoryProducer)
             .create(strWorld)
-            .then((worldMap) => {
-                this.worldMap = worldMap;
+            .then((world) => {
+                this.world = world;
                 this.engine.runRenderLoop(this.run);
             })
             .catch(e => console.error(e));
     }
 
+    public getWorld() {
+        return this.world;
+    }
+
     private run() {
-        if (!this.worldMap.player || !this.worldMap.player.getBody()) {
+        if (!this.world.player || !this.world.player.getBody()) {
             return;
         }
 
@@ -55,7 +59,7 @@ export class GameEngine {
         const elapsedTime = currentTime - this.previousTime;
         this.previousTime = currentTime;
 
-        this.worldMap.lightController.timePassed(elapsedTime);
+        this.world.lightController.timePassed(elapsedTime);
 
         this.movePlayer(elapsedTime);
         // this.moveEnemies(elapsedTime);
@@ -66,10 +70,10 @@ export class GameEngine {
     }
 
     private testAndSetEnemyVisibility() {
-        const player = this.worldMap.player;
+        const player = this.world.player;
 
-        this.worldMap.enemies.forEach(enemy => {
-            const isVisible = player.getSensor().testIsWithinRange(this.worldMap.enemies[0]);
+        this.world.enemies.forEach(enemy => {
+            const isVisible = player.getSensor().testIsWithinRange(this.world.enemies[0]);
             if (isVisible) {
                 enemy.setIsVisible(true);
             } else {
@@ -79,7 +83,7 @@ export class GameEngine {
     }
 
     private movePlayer(elapsedTime: number) {
-        const player = this.worldMap.player;
+        const player = this.world.player;
 
         if (!player.getMotionStrategy().isIdle()) {
             const delta = player.getMotionStrategy().calcNextPositionDelta(elapsedTime);
@@ -91,7 +95,7 @@ export class GameEngine {
     }
 
     private moveEnemies(elapsedTime: number) {
-        this.worldMap.enemies.forEach(enemy => {
+        this.world.enemies.forEach(enemy => {
             const enemyDelta = enemy.getMotionStrategy().calcNextPositionDelta(elapsedTime);
 
             if (enemyDelta) {
@@ -101,9 +105,9 @@ export class GameEngine {
     }
 
     private attackPlayerIfWithinSensorRange() {
-        const player = this.worldMap.player;
+        const player = this.world.player;
 
-        this.worldMap.enemies.forEach(enemy => {
+        this.world.enemies.forEach(enemy => {
             if (enemy.getSensor().testIsWithinRange(player)) {
                 const collisionDetector = new CollisionDetector(enemy, this.scene);
                 enemy.setMotionStrategy(new AttackingMotionStrategy(enemy, player, collisionDetector));
