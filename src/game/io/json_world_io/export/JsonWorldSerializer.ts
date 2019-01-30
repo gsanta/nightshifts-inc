@@ -1,5 +1,5 @@
 import { World } from '../../../model/World';
-import { JsonWorldSchema } from '../deserialize/JsonWorldSchema';
+import { JsonWorldSchema } from '../import/JsonWorldSchema';
 import { SerializedMeshModel, MeshModel } from '../../../model/core/MeshModel';
 import { JsonDefaultItemSerializer } from './serializers/JsonDefaultItemSerializer';
 

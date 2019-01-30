@@ -2,10 +2,8 @@ import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { World } from './model/World';
-import { GwmWorldGenerator } from './io/gwm_world_serializer/deserializer/GwmWorldGenerator';
-import { GwmMeshFactoryProducer } from './io/gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
-import { JsonWorldGenerator } from './io/json_world_serializer/deserialize/JsonWorldGenerator';
-import { JsonMeshFactoryProducer } from './io/json_world_serializer/deserialize/JsonMashFactoryProducer';
+import { JsonWorldGenerator } from './io/json_world_io/import/JsonWorldGenerator';
+import { JsonMeshFactoryProducer } from './io/json_world_io/import/JsonMashFactoryProducer';
 
 export class GameEngine {
     private scene: Scene;

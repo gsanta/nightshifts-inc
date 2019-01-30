@@ -9,7 +9,7 @@
 // import { Promise } from 'es6-promise';
 // import { GwmMeshFactoryProducer } from '../io/gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
 // import { MeshFactory } from '../model/core/factories/MeshFactory';
-// import { JsonWorldGenerator } from '../io/json_world_serializer/deserialize/JsonWorldGenerator';
+// import { JsonWorldGenerator } from '../io/json_world_io/deserialize/JsonWorldGenerator';
 
 // export const createLevel = (canvas: HTMLCanvasElement, scene: Scene, worldMapStr: string): Promise<World> => {
 //     createCamera(scene, canvas);

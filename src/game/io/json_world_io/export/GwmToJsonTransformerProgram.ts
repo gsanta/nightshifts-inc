@@ -1,5 +1,3 @@
-import { GwmMeshFactoryProducer } from '../../gwm_world_serializer/deserializer/factories/GwmMeshFactoryProducer';
-
 
 export class GwmToJsonTransformerProgram {
 

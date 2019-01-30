@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import axios from 'axios';
 import { HashRouter as Router } from 'react-router-dom';
-import { GwmToJsonTransformerProgram } from '../game/io/json_world_serializer/serialize/GwmToJsonTransformerProgram';
+import { GwmToJsonTransformerProgram } from '../game/io/json_world_io/export/GwmToJsonTransformerProgram';
 import { GameEngine } from '../game/GameEngine';
 import { TestControls } from './gui/test_page/TestControls';
 

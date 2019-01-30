@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GameEngine } from '../../../game/GameEngine';
-import { JsonWorldSerializer } from '../../../game/io/json_world_serializer/serialize/JsonWorldSerializer';
-import { JsonDefaultItemSerializer } from '../../../game/io/json_world_serializer/serialize/serializers/JsonDefaultItemSerializer';
+import { JsonWorldSerializer } from '../../../game/io/json_world_io/export/JsonWorldSerializer';
+import { JsonDefaultItemSerializer } from '../../../game/io/json_world_io/export/serializers/JsonDefaultItemSerializer';
 
 export const TestControls = (props: { gameEngine: GameEngine }) => {
 
