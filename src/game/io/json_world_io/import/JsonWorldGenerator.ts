@@ -36,7 +36,7 @@ export class JsonWorldGenerator extends AbstractWorldGenerator<SerializedMeshMod
 
     protected setMeshes(serializedMeshModel: SerializedMeshModel[], meshFactory: MeshFactory<SerializedMeshModel>, world: World): void {
         const meshes = serializedMeshModel
-            .filter(item => item.name === 'wall' || item.name === 'player' || item.name === 'window' || item.name === 'door')
+            .filter(item => item.name === 'wall' || item.name === 'player' || item.name === 'window' || item.name === 'door' || item.name === 'floor')
             .map(item => this.createMesh(item, meshFactory, world));
 
         world.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');

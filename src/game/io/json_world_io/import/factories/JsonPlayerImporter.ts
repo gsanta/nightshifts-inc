@@ -10,8 +10,9 @@ import { ManualMotionStrategy } from '../../../../model/creature/motion/ManualMo
 import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
 import { ActionStrategy } from '../../../../model/creature/action/ActionStrategy';
 import { World } from '../../../../model/World';
+import { toVector3, VectorModel } from '../../../../model/core/VectorModel';
 
-export class JsonPlayerDeserializer implements JsonItemDeserializer {
+export class JsonPlayerImporter implements JsonItemDeserializer {
     private meshModelTemplate: MeshTemplate;
     private shadowGenerator: ShadowGenerator;
     private scene: Scene;
@@ -31,15 +32,14 @@ export class JsonPlayerDeserializer implements JsonItemDeserializer {
 
     public createItem(serializedMeshModel: SerializedMeshModel, world: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        mesh.scaling.x = serializedMeshModel.scaling.x;
-        mesh.scaling.y = serializedMeshModel.scaling.y;
-        mesh.scaling.z = serializedMeshModel.scaling.z;
-
 
         const keyboardHandler = new UserInputEventEmitter();
         keyboardHandler.subscribe();
 
         const player = new Player(mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
+        // mesh.scaling.x = 1
+        // mesh.scaling.y = 1
+        // mesh.scaling.z = 1
 
         const collisionDetector = new CollisionDetector(player, this.scene);
         const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
@@ -50,6 +50,7 @@ export class JsonPlayerDeserializer implements JsonItemDeserializer {
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
         // player.translate(translate);
+        player.mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
 
         return player;
     }

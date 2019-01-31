@@ -22,7 +22,7 @@ export class JsonWorldSerializer {
     private serializeItems(world: World): SerializedMeshModel[] {
         const items: SerializedMeshModel[] = [];
 
-        [...world.gameObjects, world.player]
+        [...world.gameObjects]
             .forEach(meshModel => {
                 try {
                     const item = this.serializeItem(meshModel);

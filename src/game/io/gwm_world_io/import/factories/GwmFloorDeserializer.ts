@@ -29,7 +29,7 @@ export class GwmFloorDeserializer implements GwmItemDeserializer {
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 
-        const meshModel = new MeshModel(mesh, gameObject.name);
+        const meshModel = new MeshModel(mesh, 'floor');
         meshModel.translate(translate);
 
         return meshModel;
