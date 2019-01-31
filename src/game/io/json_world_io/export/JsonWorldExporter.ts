@@ -38,7 +38,8 @@ export class JsonWorldSerializer {
     private serializeItem(meshModel: MeshModel): SerializedMeshModel {
         switch (meshModel.name) {
             case 'wall':
-                return this.defaulSerializer.serialize(meshModel);
+                return meshModel.serialize();
+                // return this.defaulSerializer.serialize(meshModel);
             case 'player':
                 return this.defaulSerializer.serialize(meshModel);
             case 'floor':
@@ -52,11 +53,12 @@ export class JsonWorldSerializer {
             case 'bed':
                 return this.defaulSerializer.serialize(meshModel);
             case 'door':
-                return this.defaulSerializer.serialize(meshModel);
+                return meshModel.serialize();
             case 'table':
                 return this.defaulSerializer.serialize(meshModel);
             case 'window':
-                return this.defaulSerializer.serialize(meshModel);
+                return meshModel.serialize();
+                // return this.defaulSerializer.serialize(meshModel);
             default:
                 throw new Error('Can not serialize item with name: ' + meshModel.name);
         }

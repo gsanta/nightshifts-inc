@@ -1,4 +1,4 @@
-import { MeshModel } from '../../core/MeshModel';
+import { MeshModel, SerializedMeshModel } from '../../core/MeshModel';
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
 import _ = require('lodash');
@@ -9,6 +9,9 @@ export class Window extends MeshModel {
     private meshes: Mesh[];
     private isHorizontal = true;
 
+    private pivot1: VectorModel;
+    private pivot2: VectorModel;
+
     constructor(meshes: Mesh[]) {
         super(meshes[0], 'window');
 
@@ -18,6 +21,8 @@ export class Window extends MeshModel {
 
     public setPivots(pivot1: VectorModel, pivot2: VectorModel, pivotAngle: number) {
         this.pivotAngle = pivotAngle;
+        this.pivot1 = pivot1;
+        this.pivot2 = pivot2;
 
         this.meshes[3].setPivotMatrix(BABYLON.Matrix.Translation(pivot1.x(), pivot1.y(), pivot1.z()));
         this.meshes[4].setPivotMatrix(BABYLON.Matrix.Translation(pivot2.x(), pivot2.y(), pivot2.z()));
@@ -51,5 +56,17 @@ export class Window extends MeshModel {
 
     public intersectsPoint(vector: VectorModel) {
         return _.some(this.meshes, mesh => mesh.intersectsPoint(new Vector3(vector.x(), vector.y(), vector.z())));
+    }
+
+    public serialize(): SerializedMeshModel {
+        const baseInfo = super.serialize();
+
+        baseInfo.additionalData = {
+            angle: this.pivotAngle,
+            axis1: this.pivot1.serialize(),
+            axis2: this.pivot2.serialize()
+        };
+
+        return baseInfo;
     }
 }

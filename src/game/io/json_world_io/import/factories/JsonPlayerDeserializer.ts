@@ -31,9 +31,9 @@ export class JsonPlayerDeserializer implements JsonItemDeserializer {
 
     public createItem(serializedMeshModel: SerializedMeshModel, world: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        mesh.scaling.x = serializedMeshModel.scaling;
-        mesh.scaling.y = serializedMeshModel.scaling;
-        mesh.scaling.z = serializedMeshModel.scaling;
+        mesh.scaling.x = serializedMeshModel.scaling.x;
+        mesh.scaling.y = serializedMeshModel.scaling.y;
+        mesh.scaling.z = serializedMeshModel.scaling.z;
 
 
         const keyboardHandler = new UserInputEventEmitter();

@@ -84,6 +84,14 @@ export class VectorModel {
         return Vector3.Distance(toVector3(vectorModel1), toVector3(vectorModel2));
     }
 
+    public serialize(): {x: number, y: number, z: number} {
+        return {
+            x: this.x(),
+            y: this.y(),
+            z: this.z()
+        };
+    }
+
     public static deserialize(obj: {x: number, y: number, z: number}) {
         return new VectorModel(obj.x, obj.y, obj.z);
     }

@@ -13,6 +13,24 @@ export interface SerializedMeshModel {
         y: number,
         z: number
     };
+    additionalData?: {
+        axis?: {
+            x: number,
+            y: number,
+            z: number
+        };
+        axis1?: {
+            x: number,
+            y: number,
+            z: number
+        };
+        axis2?: {
+            x: number,
+            y: number,
+            z: number
+        };
+        angle?: number;
+    };
 }
 
 export class MeshModel {
@@ -60,9 +78,17 @@ export class MeshModel {
 
     public serialize(): SerializedMeshModel {
         return {
-            name: MeshModel.name,
-            scaling: null,
-            translate: null
+            name: this.name,
+            scaling: {
+                x: this.getScale().x(),
+                y: this.getScale().y(),
+                z: this.getScale().z(),
+            },
+            translate: {
+                x: this.getPosition().x(),
+                y: this.getPosition().y(),
+                z: this.getPosition().z()
+            }
         };
     }
 

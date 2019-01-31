@@ -1,10 +1,11 @@
-import { MeshModel } from '../../core/MeshModel';
+import { MeshModel, SerializedMeshModel } from '../../core/MeshModel';
 import { Mesh } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
 
 export class Door extends MeshModel {
     public isOpen: boolean;
     private pivotAngle: number;
+    private pivot: VectorModel;
 
     constructor(mesh: Mesh, name: string) {
         super(mesh, name);
@@ -14,6 +15,7 @@ export class Door extends MeshModel {
 
     public setPivot(axis: VectorModel, angle: number) {
         this.pivotAngle = angle;
+        this.pivot = axis;
         this.mesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x(), axis.y(), axis.z()));
     }
 
@@ -25,5 +27,16 @@ export class Door extends MeshModel {
             this.mesh.rotation.y = this.pivotAngle;
             this.isOpen = true;
         }
+    }
+
+    public serialize(): SerializedMeshModel {
+        const baseInfo = super.serialize();
+
+        baseInfo.additionalData = {
+            angle: this.pivotAngle,
+            axis: this.pivot.serialize(),
+        };
+
+        return baseInfo;
     }
 }

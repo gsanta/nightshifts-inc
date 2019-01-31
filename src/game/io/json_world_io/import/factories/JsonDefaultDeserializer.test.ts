@@ -8,8 +8,12 @@ import { SerializedMeshModel } from '../../../../model/core/MeshModel';
 describe('JsonDefaultDeserializer', () => {
     describe('createItem', () => {
         it ('creates the MeshModel based on the given SerializedMeshModel', () => {
-            const serializedMeshModelMock = {
-                scaling: 2,
+            const serializedMeshModelMock: Partial<SerializedMeshModel> = {
+                scaling: {
+                    x: 2,
+                    y: 2,
+                    z: 2
+                },
                 translate: {
                     x: 1, y: 2, z: 3
                 }
