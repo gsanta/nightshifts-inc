@@ -1,11 +1,11 @@
 
 import { ShadowGenerator } from 'babylonjs';
-import { JsonItemDeserializer } from './JsonItemDeserializer';
+import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { MeshModel, SerializedMeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel } from '../../../../model/core/VectorModel';
 
-export class JsonDefaultDeserializer implements JsonItemDeserializer {
+export class JsonDefaultImporter implements JsonItemImporter {
     private meshModelTemplate: MeshTemplate;
     private shadowGenerator: ShadowGenerator;
 

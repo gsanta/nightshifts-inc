@@ -1,7 +1,4 @@
-
-
-
-import { GwmItemDeserializer } from './GwmItemDeserializer';
+import { GwmItemImporter } from './GwmItemImporter';
 import { GameObject} from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
@@ -9,10 +6,10 @@ import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWor
 import { AdditionalData } from '../AdditionalData';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { Window } from '../../../../model/creature/type/Window';
+import { Door } from '../../../../model/creature/type/Door';
 import { World } from '../../../../model/World';
 
-export class GwmWindowDeserializer implements GwmItemDeserializer {
+export class GwmDoorImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
@@ -36,16 +33,35 @@ export class GwmWindowDeserializer implements GwmItemDeserializer {
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
-        const meshes = this.meshModelTemplate.createMeshes();
+        const mesh = this.meshModelTemplate.createMeshes()[0];
 
-        meshes[0].translate(toVector3(translate), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(...meshes);
+        mesh.translate(toVector3(translate), 1);
 
-        const window = new Window(meshes);
+        const door = new Door(mesh, 'door');
 
-        window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), gameObject.additionalData.angle);
+        this.setPivotMatrix(gameObject, door);
 
-        return window;
+        this.shadowGenerator.getShadowMap().renderList.push(mesh);
+
+        return door;
+    }
+
+    private setPivotMatrix(gameObject: GameObject<AdditionalData>, door: Door) {
+        const angle = gameObject.additionalData.angle;
+        if (this.isHorizontal(door)) {
+            const xExtent = door.getXExtent();
+            if (gameObject.additionalData.axis.x === gameObject.dimensions.left + gameObject.dimensions.width) {
+                door.setPivot(new VectorModel(xExtent, 0, 0), angle);
+            } else if (gameObject.additionalData.axis.x === gameObject.dimensions.left) {
+                door.setPivot(new VectorModel(-xExtent, 0, 0), angle);
+            } else {
+                throw new Error('Invalid pivot position for when creating GameObject: ' + gameObject);
+            }
+        }
+    }
+
+    private isHorizontal(meshModel: MeshModel) {
+        return meshModel.getXExtent() > meshModel.getZExtent();
     }
 }

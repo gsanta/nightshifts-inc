@@ -1,4 +1,4 @@
-import { GwmItemDeserializer } from './GwmItemDeserializer';
+import { GwmItemImporter } from './GwmItemImporter';
 import { GameObject } from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
@@ -7,7 +7,7 @@ import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
 
-export class GwmFloorDeserializer implements GwmItemDeserializer {
+export class GwmFloorImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;

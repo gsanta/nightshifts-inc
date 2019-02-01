@@ -1,13 +1,18 @@
-import { GwmItemDeserializer } from './GwmItemDeserializer';
-import { GameObject } from 'game-worldmap-generator';
-import { ShadowGenerator, Mesh } from 'babylonjs';
+
+
+
+import { GwmItemImporter } from './GwmItemImporter';
+import { GameObject} from 'game-worldmap-generator';
+import { ShadowGenerator } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
+import { AdditionalData } from '../AdditionalData';
 import { MeshModel } from '../../../../model/core/MeshModel';
-import { VectorModel } from '../../../../model/core/VectorModel';
+import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
+import { Window } from '../../../../model/creature/type/Window';
 import { World } from '../../../../model/World';
 
-export class GwmWallDeserializer implements GwmItemDeserializer {
+export class GwmWindowImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
@@ -25,33 +30,22 @@ export class GwmWallDeserializer implements GwmItemDeserializer {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public createItem(gameObject: GameObject, world: World): MeshModel {
+
+    public createItem(gameObject: GameObject<AdditionalData>, world: World): MeshModel {
         const scaling = this.gameObjectTranslator.getDimensions(gameObject).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
-        const mesh = this.meshModelTemplate.createMeshes()[0];
-        const meshModel = new MeshModel(mesh, gameObject.name);
+        const meshes = this.meshModelTemplate.createMeshes();
 
-        meshModel.translate(translate);
-        mesh.scaling.x = scaling.x();
-        mesh.scaling.y = scaling.y();
-        mesh.scaling.z = scaling.z();
+        meshes[0].translate(toVector3(translate), 1);
 
-        if (this.isVerticalWallPiece(mesh)) {
-            this.verticalWallPieceDimensionsAdjustment(mesh, this.gameObjectToMeshSizeRatio);
-        }
+        this.shadowGenerator.getShadowMap().renderList.push(...meshes);
 
-        this.shadowGenerator.getShadowMap().renderList.push(mesh);
+        const window = new Window(meshes);
 
-        return meshModel;
-    }
+        window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), gameObject.additionalData.angle);
 
-    private isVerticalWallPiece(mesh: Mesh) {
-        return mesh.scaling.z > mesh.scaling.x;
-    }
-
-    private verticalWallPieceDimensionsAdjustment(mesh: Mesh, gameObjectToMeshSizeRatio: number) {
-        mesh.scaling.z = mesh.scaling.z - gameObjectToMeshSizeRatio;
+        return window;
     }
 }

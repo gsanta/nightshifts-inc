@@ -1,6 +1,6 @@
 
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
-import { JsonItemDeserializer } from './JsonItemDeserializer';
+import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { MeshModel, SerializedMeshModel } from '../../../../model/core/MeshModel';
 import { Player } from '../../../../model/creature/type/Player';
@@ -12,7 +12,7 @@ import { ActionStrategy } from '../../../../model/creature/action/ActionStrategy
 import { World } from '../../../../model/World';
 import { toVector3, VectorModel } from '../../../../model/core/VectorModel';
 
-export class JsonPlayerImporter implements JsonItemDeserializer {
+export class JsonPlayerImporter implements JsonItemImporter {
     private meshModelTemplate: MeshTemplate;
     private shadowGenerator: ShadowGenerator;
     private scene: Scene;

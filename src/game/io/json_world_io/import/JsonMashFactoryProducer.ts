@@ -3,7 +3,7 @@ import { SerializedMeshModel } from '../../../model/core/MeshModel';
 import { Scene, ShadowGenerator, SpotLight } from 'babylonjs';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
-import { JsonDefaultDeserializer } from './factories/JsonDefaultDeserializer';
+import { JsonDefaultImporter } from './factories/JsonDefaultImporter';
 import { World } from '../../../model/World';
 import { JsonPlayerImporter } from './factories/JsonPlayerImporter';
 import { JsonWindowImporter } from './factories/JsonWindowImporter';
@@ -18,10 +18,10 @@ export class JsonMeshFactoryProducer extends AbstractMeshFactoryProducer<Seriali
             .then(meshMap => {
                 return new MeshFactory(
                     {
-                        wall: new JsonDefaultDeserializer(meshMap.wall.create(world), shadowGenerator),
+                        wall: new JsonDefaultImporter(meshMap.wall.create(world), shadowGenerator),
                         door: new JsonDoorImporter(meshMap.door.create(world), shadowGenerator),
                         player: new JsonPlayerImporter(scene, meshMap.player.create(world), shadowGenerator, spotLight),
-                        floor: new JsonDefaultDeserializer(meshMap.floor.create(world), shadowGenerator),
+                        floor: new JsonDefaultImporter(meshMap.floor.create(world), shadowGenerator),
                         window: new JsonWindowImporter(meshMap.window.create(world), shadowGenerator),
                         cupboard: new JsonStaticItemImporter(meshMap.cupboard.create(world), shadowGenerator),
                         table: new JsonStaticItemImporter(meshMap.table.create(world), shadowGenerator),

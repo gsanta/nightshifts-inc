@@ -7,7 +7,7 @@ import { GameEngine } from '../game/GameEngine';
 import { TestControls } from './gui/test_page/TestControls';
 import { JsonMeshFactoryProducer } from '../game/io/json_world_io/import/JsonMashFactoryProducer';
 import { JsonWorldImporter } from '../game/io/json_world_io/import/JsonWorldImporter';
-import { GwmWorldGenerator } from '../game/io/gwm_world_io/import/GwmWorldGenerator';
+import { GwmWorldImporter } from '../game/io/gwm_world_io/import/GwmWorldImporter';
 import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 
 export function render() {
@@ -39,7 +39,7 @@ export const renderGameFromJsonInput = (canvas: HTMLCanvasElement, jsonWorldPath
 export const renderGameFromGwmInput = (canvas: HTMLCanvasElement, gwmWorldPath: string) => {
     const engine = new BABYLON.Engine(canvas);
     const scene = new BABYLON.Scene(engine);
-    const worldGenerator = new GwmWorldGenerator(scene, canvas, new GwmMeshFactoryProducer());
+    const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
 
     const gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
 

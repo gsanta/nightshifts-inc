@@ -4,13 +4,13 @@ import { Player } from '../../../model/creature/type/Player';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData, parseJsonAdditionalData } from './AdditionalData';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
-import { AbstractWorldGenerator } from '../../../model/core/factories/AbstractWorldGenerator';
 import { Promise } from 'es6-promise';
 import { Scene } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
 import { LightController } from '../../../model/light/LightController';
+import { AbstractWorldImporter } from '../../../model/core/factories/AbstractWorldImporter';
 
-export class GwmWorldGenerator extends AbstractWorldGenerator<GameObject> {
+export class GwmWorldImporter extends AbstractWorldImporter<GameObject> {
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<GameObject>) {
         super(scene, canvas, meshFactoryProducer);
     }

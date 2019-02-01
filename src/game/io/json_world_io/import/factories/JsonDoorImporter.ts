@@ -1,12 +1,12 @@
 
 import { ShadowGenerator } from 'babylonjs';
-import { JsonItemDeserializer } from './JsonItemDeserializer';
+import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { MeshModel, SerializedMeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { Door } from '../../../../model/creature/type/Door';
 
-export class JsonDoorImporter implements JsonItemDeserializer {
+export class JsonDoorImporter implements JsonItemImporter {
     private meshModelTemplate: MeshTemplate;
     private shadowGenerator: ShadowGenerator;
 

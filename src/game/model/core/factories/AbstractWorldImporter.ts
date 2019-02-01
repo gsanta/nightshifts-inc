@@ -8,7 +8,7 @@ import { Promise } from 'es6-promise';
 import { LightController } from '../../light/LightController';
 
 
-export abstract class AbstractWorldGenerator<T extends {name: string}> {
+export abstract class AbstractWorldImporter<T extends {name: string}> {
     protected shadowGenerator: ShadowGenerator;
     protected hemisphericLight: HemisphericLight;
     protected spotLight: SpotLight;

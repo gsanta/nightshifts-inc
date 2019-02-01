@@ -1,7 +1,7 @@
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { SerializedMeshModel, MeshModel } from '../../../model/core/MeshModel';
 import { World } from '../../../model/World';
-import { AbstractWorldGenerator } from '../../../model/core/factories/AbstractWorldGenerator';
+import { AbstractWorldImporter } from '../../../model/core/factories/AbstractWorldImporter';
 import { Player } from '../../../model/creature/type/Player';
 import { Promise } from 'es6-promise';
 import { Scene } from 'babylonjs';
@@ -11,7 +11,7 @@ import { LightController } from '../../../model/light/LightController';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 
 
-export class JsonWorldImporter extends AbstractWorldGenerator<SerializedMeshModel> {
+export class JsonWorldImporter extends AbstractWorldImporter<SerializedMeshModel> {
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<SerializedMeshModel>) {
         super(scene, canvas, meshFactoryProducer);
     }

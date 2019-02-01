@@ -1,10 +1,10 @@
 import { Scene, ShadowGenerator, SpotLight } from 'babylonjs';
-import { GwmWallDeserializer } from './GwmWallDeserializer';
-import { GwmDoorDeserializer } from './GwmDoorDeserializer';
-import { GwmPlayerDeserializer } from './GwmPlayerDeserializer';
-import { GwmFloorDeserializer } from './GwmFloorDeserializer';
-import { GwmWindowDeserializer } from './GwmWindowDeserializer';
-import { GwmStaticItemDeserializer } from './GwmStaticItemDeserializer';
+import { GwmWallImporter } from './GwmWallImporter';
+import { GwmDoorImporter } from './GwmDoorImporter';
+import { GwmPlayerImporter } from './GwmPlayerImporter';
+import { GwmFloorImporter } from './GwmFloorImporter';
+import { GwmWindowImporter } from './GwmWindowImporter';
+import { GwmStaticItemImporter } from './GwmStaticItemImporter';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { GameObjectToWorldCenterTranslatorDecorator } from '../game_object_mappers/GameObjectToWorldCenterTranslatorDecorator';
 import { GameObjectToRealWorldCoordinateMapper } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
@@ -23,16 +23,16 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<GameObje
             .then(meshMap => {
                 return new MeshFactory(
                     {
-                        wall: new GwmWallDeserializer(meshMap.wall.create(world), gameObjectTranslator, shadowGenerator, 1),
-                        door: new GwmDoorDeserializer(meshMap.door.create(world), gameObjectTranslator, shadowGenerator, 1),
-                        player: new GwmPlayerDeserializer(meshMap.player.create(world), gameObjectTranslator, scene, shadowGenerator, spotLight),
-                        floor: new GwmFloorDeserializer(meshMap.floor.create(world), gameObjectTranslator, shadowGenerator),
-                        window: new GwmWindowDeserializer(meshMap.window.create(world), gameObjectTranslator, shadowGenerator, 1),
-                        cupboard: new GwmStaticItemDeserializer(meshMap.cupboard.create(world), gameObjectTranslator, shadowGenerator),
-                        table: new GwmStaticItemDeserializer(meshMap.table.create(world), gameObjectTranslator, shadowGenerator),
-                        bathtub: new GwmStaticItemDeserializer(meshMap.bathtub.create(world), gameObjectTranslator, shadowGenerator),
-                        washbasin: new GwmStaticItemDeserializer(meshMap.washbasin.create(world), gameObjectTranslator, shadowGenerator),
-                        bed: new GwmStaticItemDeserializer(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator)
+                        wall: new GwmWallImporter(meshMap.wall.create(world), gameObjectTranslator, shadowGenerator, 1),
+                        door: new GwmDoorImporter(meshMap.door.create(world), gameObjectTranslator, shadowGenerator, 1),
+                        player: new GwmPlayerImporter(meshMap.player.create(world), gameObjectTranslator, scene, shadowGenerator, spotLight),
+                        floor: new GwmFloorImporter(meshMap.floor.create(world), gameObjectTranslator, shadowGenerator),
+                        window: new GwmWindowImporter(meshMap.window.create(world), gameObjectTranslator, shadowGenerator, 1),
+                        cupboard: new GwmStaticItemImporter(meshMap.cupboard.create(world), gameObjectTranslator, shadowGenerator),
+                        table: new GwmStaticItemImporter(meshMap.table.create(world), gameObjectTranslator, shadowGenerator),
+                        bathtub: new GwmStaticItemImporter(meshMap.bathtub.create(world), gameObjectTranslator, shadowGenerator),
+                        washbasin: new GwmStaticItemImporter(meshMap.washbasin.create(world), gameObjectTranslator, shadowGenerator),
+                        bed: new GwmStaticItemImporter(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator)
                     }
                 );
             });
