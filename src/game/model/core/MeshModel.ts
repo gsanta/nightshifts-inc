@@ -29,6 +29,7 @@ export interface SerializedMeshModel {
             y: number,
             z: number
         };
+        rotation?: number;
         angle?: number;
     };
 }
@@ -88,6 +89,9 @@ export class MeshModel {
                 x: this.getPosition().x(),
                 y: this.getPosition().y(),
                 z: this.getPosition().z()
+            },
+            additionalData: {
+                rotation: this.mesh.rotation.y
             }
         };
     }

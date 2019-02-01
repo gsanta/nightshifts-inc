@@ -11,7 +11,7 @@ import { LightController } from '../../../model/light/LightController';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 
 
-export class JsonWorldGenerator extends AbstractWorldGenerator<SerializedMeshModel> {
+export class JsonWorldImporter extends AbstractWorldGenerator<SerializedMeshModel> {
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<SerializedMeshModel>) {
         super(scene, canvas, meshFactoryProducer);
     }
@@ -36,7 +36,6 @@ export class JsonWorldGenerator extends AbstractWorldGenerator<SerializedMeshMod
 
     protected setMeshes(serializedMeshModel: SerializedMeshModel[], meshFactory: MeshFactory<SerializedMeshModel>, world: World): void {
         const meshes = serializedMeshModel
-            .filter(item => item.name === 'wall' || item.name === 'player' || item.name === 'window' || item.name === 'door' || item.name === 'floor')
             .map(item => this.createMesh(item, meshFactory, world));
 
         world.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');

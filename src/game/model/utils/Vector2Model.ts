@@ -25,4 +25,11 @@ export class Vector2Model {
     public toVector3(y = 0): VectorModel {
         return new VectorModel(this.x(), y, this.y());
     }
+
+    public serialize(): {x: number, y: number} {
+        return {
+            x: this.x(),
+            y: this.y()
+        };
+    }
 }

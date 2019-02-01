@@ -2,7 +2,7 @@ import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { World } from './model/World';
-import { JsonWorldGenerator } from './io/json_world_io/import/JsonWorldGenerator';
+import { JsonWorldImporter } from './io/json_world_io/import/JsonWorldImporter';
 import { JsonMeshFactoryProducer } from './io/json_world_io/import/JsonMashFactoryProducer';
 import { AbstractWorldGenerator } from './model/core/factories/AbstractWorldGenerator';
 

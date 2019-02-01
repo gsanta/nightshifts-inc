@@ -13,6 +13,7 @@ export class JsonWorldSerializer {
 
     public export(world: World) {
         const schema: Partial<JsonWorldSchema> = {
+            dimensions: world.dimensions.serialize(),
             items: this.serializeItems(world)
         };
 
@@ -45,17 +46,17 @@ export class JsonWorldSerializer {
             case 'floor':
                 return this.defaulSerializer.serialize(meshModel);
             case 'cupboard':
-                return this.defaulSerializer.serialize(meshModel);
+                return meshModel.serialize();
             case 'washbasin':
-                return this.defaulSerializer.serialize(meshModel);
+                return meshModel.serialize();
             case 'bathtub':
-                return this.defaulSerializer.serialize(meshModel);
+                return meshModel.serialize();
             case 'bed':
-                return this.defaulSerializer.serialize(meshModel);
+                return meshModel.serialize();
             case 'door':
                 return meshModel.serialize();
             case 'table':
-                return this.defaulSerializer.serialize(meshModel);
+                return meshModel.serialize();
             case 'window':
                 return meshModel.serialize();
                 // return this.defaulSerializer.serialize(meshModel);

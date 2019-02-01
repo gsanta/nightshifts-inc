@@ -8,7 +8,7 @@ import { World } from '../../../model/World';
 import { JsonPlayerImporter } from './factories/JsonPlayerImporter';
 import { JsonWindowImporter } from './factories/JsonWindowImporter';
 import { JsonDoorImporter } from './factories/JsonDoorImporter';
-
+import { JsonStaticItemImporter } from './factories/JsonStaticItemImporter';
 
 export class JsonMeshFactoryProducer extends AbstractMeshFactoryProducer<SerializedMeshModel> {
 
@@ -23,11 +23,11 @@ export class JsonMeshFactoryProducer extends AbstractMeshFactoryProducer<Seriali
                         player: new JsonPlayerImporter(scene, meshMap.player.create(world), shadowGenerator, spotLight),
                         floor: new JsonDefaultDeserializer(meshMap.floor.create(world), shadowGenerator),
                         window: new JsonWindowImporter(meshMap.window.create(world), shadowGenerator),
-                        cupboard: new JsonDefaultDeserializer(meshMap.cupboard.create(world), shadowGenerator),
-                        table: new JsonDefaultDeserializer(meshMap.table.create(world), shadowGenerator),
-                        bathtub: new JsonDefaultDeserializer(meshMap.bathtub.create(world), shadowGenerator),
-                        washbasin: new JsonDefaultDeserializer(meshMap.washbasin.create(world), shadowGenerator),
-                        bed: new JsonDefaultDeserializer(meshMap.bed.create(world), shadowGenerator)
+                        cupboard: new JsonStaticItemImporter(meshMap.cupboard.create(world), shadowGenerator),
+                        table: new JsonStaticItemImporter(meshMap.table.create(world), shadowGenerator),
+                        bathtub: new JsonStaticItemImporter(meshMap.bathtub.create(world), shadowGenerator),
+                        washbasin: new JsonStaticItemImporter(meshMap.washbasin.create(world), shadowGenerator),
+                        bed: new JsonStaticItemImporter(meshMap.bed.create(world), shadowGenerator)
                 }
                 );
             });

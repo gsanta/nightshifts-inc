@@ -6,7 +6,7 @@ import { HashRouter as Router } from 'react-router-dom';
 import { GameEngine } from '../game/GameEngine';
 import { TestControls } from './gui/test_page/TestControls';
 import { JsonMeshFactoryProducer } from '../game/io/json_world_io/import/JsonMashFactoryProducer';
-import { JsonWorldGenerator } from '../game/io/json_world_io/import/JsonWorldGenerator';
+import { JsonWorldImporter } from '../game/io/json_world_io/import/JsonWorldImporter';
 import { GwmWorldGenerator } from '../game/io/gwm_world_io/import/GwmWorldGenerator';
 import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 
@@ -23,7 +23,7 @@ export function render() {
 export const renderGameFromJsonInput = (canvas: HTMLCanvasElement, jsonWorldPath: string) => {
     const engine = new BABYLON.Engine(canvas);
     const scene = new BABYLON.Scene(engine);
-    const worldGenerator = new JsonWorldGenerator(scene, canvas, new JsonMeshFactoryProducer());
+    const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
 
     const gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
 

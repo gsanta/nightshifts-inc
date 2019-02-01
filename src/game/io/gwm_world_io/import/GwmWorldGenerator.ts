@@ -35,7 +35,7 @@ export class GwmWorldGenerator extends AbstractWorldGenerator<GameObject> {
     protected setMeshes(gameObjects: GameObject[], meshFactory: MeshFactory<GameObject>, world: World): void {
         const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, meshFactory, world));
 
-        world.gameObjects = meshes.filter(mesh => mesh.name !== 'floor');
+        world.gameObjects = meshes;
         world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
         world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
     }
