@@ -24,6 +24,7 @@ export class JsonWorldImporter extends AbstractWorldImporter<SerializedMeshModel
 
         world.lightController = new LightController(this.hemisphericLight);
         world.dimensions = new Vector2Model(jsonWorld.dimensions.x, jsonWorld.dimensions.y);
+        world.camera = this.camera;
 
         return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
             .then(meshFactory => {

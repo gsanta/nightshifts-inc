@@ -2,8 +2,6 @@ import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { World } from './model/World';
-import { JsonWorldImporter } from './io/json_world_io/import/JsonWorldImporter';
-import { JsonMeshFactoryProducer } from './io/json_world_io/import/JsonMashFactoryProducer';
 import { AbstractWorldImporter } from './model/core/factories/AbstractWorldImporter';
 
 export class GameEngine {

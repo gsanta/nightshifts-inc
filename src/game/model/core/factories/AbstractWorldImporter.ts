@@ -1,7 +1,7 @@
 import { World } from '../../World';
 import { MeshFactory } from './MeshFactory';
 import { MeshModel } from '../MeshModel';
-import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator } from 'babylonjs';
+import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from './AbstractMeshFactoryProducer';
 import { Vector2Model } from '../../utils/Vector2Model';
 import { Promise } from 'es6-promise';
@@ -14,6 +14,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
     protected spotLight: SpotLight;
     protected meshFactoryProducer: AbstractMeshFactoryProducer<T>;
     protected scene: Scene;
+    protected camera: FollowCamera;
 
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<T>) {
         this.scene = scene;
@@ -21,7 +22,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         this.spotLight = this.createSpotLight(scene);
         this.hemisphericLight = this.createHemisphericLight(scene);
         this.shadowGenerator = this.createShadowGenerator(scene, this.spotLight);
-        this.createCamera(scene, canvas);
+        this.camera = <FollowCamera> this.createCamera(scene, canvas);
     }
 
     public abstract create(strWorld: string): Promise<World>;
@@ -92,8 +93,14 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
     }
 
     private createCamera(scene: Scene, canvas: HTMLCanvasElement): Camera {
-        const camera = new BABYLON.ArcRotateCamera('Camera', -Math.PI / 2,  Math.PI / 4, 150, BABYLON.Vector3.Zero(), scene);
-        camera.attachControl(canvas, true);
+        const camera = new BABYLON.FollowCamera('camera', new BABYLON.Vector3(0, 120, 0), scene);
+
+        camera.radius = 60;
+        camera.heightOffset = 30;
+        camera.rotationOffset = 0;
+        camera.cameraAcceleration = 0.05;
+        camera.maxCameraSpeed = 20;
+
         return camera;
     }
 }

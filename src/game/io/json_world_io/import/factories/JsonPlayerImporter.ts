@@ -32,6 +32,7 @@ export class JsonPlayerImporter implements JsonItemImporter {
 
     public createItem(serializedMeshModel: SerializedMeshModel, world: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
+        world.camera.lockedTarget = mesh;
 
         const keyboardHandler = new UserInputEventEmitter();
         keyboardHandler.subscribe();
