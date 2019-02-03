@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose';
 import { UsersSchema } from './model/UsersSchema';
+import { GamesSchema } from './model/GamesSchema';
 import { MongooseUserModel, UserDao } from './model/UserDao';
+import { GameDao, MongooseGameModel } from './model/GameDao';
 import { UserController } from './controllers/UserController';
 import { FacebookUserRegistration } from './security/FacebookUserRegistration';
 import { LocalUserRegistration } from './security/LocalUserRegistration';
@@ -8,12 +10,15 @@ import { LocalAuthentication } from './security/LocalAuthentication';
 import * as passport from 'passport';
 import { JwtTokenExtracter } from './security/JwtTokenExtracter';
 import express = require('express');
+import { GameController } from './controllers/GameController';
 const bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://localhost/thegame');
 mongoose.set('debug', true);
 mongoose.model<MongooseUserModel>('Users', UsersSchema);
+mongoose.model<MongooseGameModel>('Games', GamesSchema);
 const Users = mongoose.model<MongooseUserModel>('Users');
+const Games = mongoose.model<MongooseGameModel>('Games');
 
 export const router = require('express').Router();
 
@@ -26,6 +31,13 @@ const userController = new UserController(
     new JwtTokenExtracter()
 );
 userController.register(router);
+
+const gameDao = new GameDao(Games);
+const gameController = new GameController(
+    gameDao,
+    new JwtTokenExtracter()
+);
+gameController.register(router);
 
 const app = express();
 app.set('port', process.env.PORT || 3000);

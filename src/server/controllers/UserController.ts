@@ -1,6 +1,5 @@
 import { JwtTokenExtracter } from '../security/JwtTokenExtracter';
 import { UserDao } from '../model/UserDao';
-import { UserModel } from '../model/UserModel';
 import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
 import * as express from 'express';
 import { LoginInputValidator, validatePassword, validateNewPassword, validateEmail, validateLoginStrategySupportsEmailChange } from './validators/LoginInputValidator';
