@@ -20,7 +20,7 @@ export class Game extends React.Component<{}, {}> {
         const scene = new BABYLON.Scene(engine);
         const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
         this.gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
-        this.gameEngine.runGame(JSON.stringify(gwmGameWorldMap));
+        this.gameEngine.runGame(gwmGameWorldMap);
     }
 
     public render() {

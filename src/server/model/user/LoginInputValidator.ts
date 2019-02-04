@@ -1,4 +1,4 @@
-import { FieldError } from './FieldError';
+import { FieldError } from '../FieldError';
 import * as EmailValidator from 'email-validator';
 
 export interface LoginDto {

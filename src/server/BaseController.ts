@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { FieldError } from './validators/FieldError';
+import { FieldError } from './model/FieldError';
 
 const send400 = (message: string, res: express.Response) => res.status(400).json(new FieldError(message).toJson());
 

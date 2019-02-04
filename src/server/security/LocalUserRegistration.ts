@@ -1,6 +1,6 @@
-import { UserDao } from '../model/UserDao';
-import { UserModel } from '../model/UserModel';
-import { FieldError } from '../controllers/validators/FieldError';
+import { UserDao } from '../model/user/UserDao';
+import { UserModel } from '../model/user/UserModel';
+import { FieldError } from '../model/FieldError';
 
 export class LocalUserRegistration {
     private userDao: UserDao;

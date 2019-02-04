@@ -1,16 +1,21 @@
-import { JwtTokenExtracter } from '../security/JwtTokenExtracter';
-import { UserDao } from '../model/UserDao';
-import { PasswordUpdateDto } from '../../client/query/user/PasswordUpdateDto';
+import { JwtTokenExtracter } from '../../security/JwtTokenExtracter';
+import { UserDao } from './UserDao';
+import { PasswordUpdateDto } from '../../../client/query/user/PasswordUpdateDto';
 import * as express from 'express';
-import { LoginInputValidator, validatePassword, validateNewPassword, validateEmail, validateLoginStrategySupportsEmailChange } from './validators/LoginInputValidator';
-import { LocalAuthentication } from '../security/LocalAuthentication';
-import { LocalUserRegistration } from '../security/LocalUserRegistration';
-import { FacebookUserRegistration } from '../security/FacebookUserRegistration';
-import { FieldError } from './validators/FieldError';
+import {
+    LoginInputValidator,
+    validateNewPassword,
+    validateEmail,
+    validateLoginStrategySupportsEmailChange
+} from './LoginInputValidator';
+import { LocalAuthentication } from '../../security/LocalAuthentication';
+import { LocalUserRegistration } from '../../security/LocalUserRegistration';
+import { FacebookUserRegistration } from '../../security/FacebookUserRegistration';
+import { FieldError } from '../FieldError';
 
 const send400 = (message: string, res: express.Response) => res.status(400).json(new FieldError(message).toJson());
 
-const send400Error = (error: {toJson(): void}, res: express.Response) => res.status(400).json(error.toJson());
+const send400Error = (error: { toJson(): void }, res: express.Response) => res.status(400).json(error.toJson());
 
 export class UserController {
     private userDao: UserDao;
@@ -70,7 +75,7 @@ export class UserController {
 
                     validateNewPassword(req.body.newPassword);
 
-                    userModel = await this.userDao.updatePassword(<PasswordUpdateDto> req.body);
+                    userModel = await this.userDao.updatePassword(<PasswordUpdateDto>req.body);
                     if (!userModel) {
                         throw new Error('User not found');
                     }
@@ -86,7 +91,7 @@ export class UserController {
         router.put('/users', this.jwtTokenExtracter.withRequiredToken(), async (req, res, next) => {
             this.addErrorHandling(
                 async () => {
-                    const {email, id} = req.body.user;
+                    const { email, id } = req.body.user;
 
 
                     let userModel = await this.userDao.findById(id);
@@ -160,7 +165,7 @@ export class UserController {
                     res.set('Authorization', userModel.jwtToken);
 
                     res.json({ user: userModel.toJSON() });
-                    },
+                },
                 res
             );
         });

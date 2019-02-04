@@ -1,8 +1,8 @@
-import { FieldError } from './validators/FieldError';
-import { BaseController } from './BaseController';
+import { BaseController } from '../../BaseController';
 import * as express from 'express';
-import { GameDao } from '../model/GameDao';
-import { JwtTokenExtracter } from '../security/JwtTokenExtracter';
+import { GameDao } from './GameDao';
+import { JwtTokenExtracter } from '../../security/JwtTokenExtracter';
+import { GameModel } from './GameModel';
 
 
 
@@ -29,7 +29,7 @@ export class GameController extends BaseController {
             this.addErrorHandling(
                 async () => {
 
-                    let gameModel = {
+                    let gameModel: Partial<GameModel> = {
                         world: JSON.stringify(req.body.world),
                         userId: req.body.userId
                     };

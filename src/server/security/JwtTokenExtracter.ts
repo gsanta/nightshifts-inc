@@ -1,4 +1,4 @@
-import { JWT_SECRET } from '../model/UserModel';
+import { JWT_SECRET } from '../model/user/UserModel';
 const jwt = require('express-jwt');
 
 const getTokenFromHeaders = (req) => {

@@ -1,5 +1,5 @@
-import { UserDao } from '../model/UserDao';
-import { UserModel } from '../model/UserModel';
+import { UserDao } from '../model/user/UserDao';
+import { UserModel } from '../model/user/UserModel';
 import * as request from 'request';
 
 export class FacebookUserRegistration {

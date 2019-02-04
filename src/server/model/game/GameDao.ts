@@ -14,12 +14,12 @@ export class GameDao {
         this.modelConstr = modelConstr;
     }
 
-    public async save(gameModel: GameModel): Promise<GameModel> {
+    public async save(gameModel: Partial<GameModel>): Promise<Partial<GameModel>> {
         const result = await new this.modelConstr(gameModel).save();
         return this.schemaToModel(result);
     }
 
-    public async load(userId: string): Promise<GameModel> {
+    public async load(userId: string): Promise<Partial<GameModel>> {
         const query = this.modelConstr.find({ userId });
 
         const result = await query.exec();
@@ -27,10 +27,10 @@ export class GameDao {
         return result.length > 0 ? this.schemaToModel(result[0]) : null;
     }
 
-    private schemaToModel(schema: MongooseGameModel): GameModel {
-        const gameModel = new GameModel();
-
-        gameModel.world = schema.world;
+    private schemaToModel(schema: MongooseGameModel): Partial<GameModel> {
+        const gameModel: Partial<GameModel> = {
+            world: schema.world
+        };
 
         return gameModel;
     }
