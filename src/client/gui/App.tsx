@@ -15,6 +15,9 @@ import { AppStore } from '../stores/app/AppStore';
 import { AppActions } from '../stores/app/AppActions';
 import { TokenHandler } from '../query/TokenHandler';
 import { User } from '../stores/User';
+import { Provider } from 'react-redux';
+import { GlobalStore } from '../state/GlobalStore';
+
 require('bootstrap/dist/css/bootstrap.css');
 
 export const GlobalContext = React.createContext<GlobalProps>({
@@ -190,7 +193,16 @@ class App extends React.Component<any, AppState> {
     }
 }
 
-export default withRouter(App);
+
+const RouterApp = withRouter(App);
+
+export default  () => {
+    return (
+        <Provider store={GlobalStore}>
+            <RouterApp/>
+        </Provider>
+    );
+};
 
 export interface AppState {
     user: User | null;
