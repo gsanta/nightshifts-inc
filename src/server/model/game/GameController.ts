@@ -21,6 +21,7 @@ export class GameController extends BaseController {
 
     public register(router: express.Router) {
         this.registerSave(router);
+        this.registerUpdate(router);
         this.registerLoad(router);
     }
 
@@ -39,7 +40,30 @@ export class GameController extends BaseController {
                         throw new Error('Game not found');
                     }
 
-                    res.status(200);
+                    res.status(200).send(null);
+                },
+                res
+            );
+        });
+    }
+
+    private registerUpdate(router: express.Router) {
+        router.post('/game/update', this.jwtTokenExtracter.withRequiredToken(), async (req, res) => {
+            this.addErrorHandling(
+                async () => {
+
+                    let gameModel: Partial<GameModel> = {
+                        id: req.body.id,
+                        world: JSON.stringify(req.body.world),
+                        userId: req.body.userId
+                    };
+
+                    gameModel = await this.gameDao.update(gameModel);
+                    if (!gameModel) {
+                        throw new Error('Game not found');
+                    }
+
+                    res.status(200).send(null);
                 },
                 res
             );
