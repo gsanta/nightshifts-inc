@@ -5,7 +5,7 @@ import Signup from './Signup';
 import { UserStore } from '../stores/UserStore';
 import Header from './header/Header';
 import { RootRoute } from './routes/root/RootRoute';
-import { UserActions } from '../stores/UserActions';
+import { UserActions, loginFacebook, loginFacebookRequest } from '../stores/UserActions';
 import { UserQuery } from '../query/user/UserQuery';
 import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
@@ -15,8 +15,9 @@ import { AppStore } from '../stores/app/AppStore';
 import { AppActions } from '../stores/app/AppActions';
 import { TokenHandler } from '../query/TokenHandler';
 import { User } from '../stores/User';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { GlobalStore } from '../state/GlobalStore';
+import { AppState } from '../state/AppState';
 
 require('bootstrap/dist/css/bootstrap.css');
 
@@ -27,6 +28,16 @@ export const GlobalContext = React.createContext<GlobalProps>({
     appStore: null
 });
 
+const mapStateToProps = (state: AppState, ownProps) => {
+    return {
+      user: state.user
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    loginFacebook: (accessToken: string) => dispatch(loginFacebookRequest(accessToken))
+});
+
 export interface GlobalProps {
     userStore: UserStore | null;
     userActions: UserActions | null;
@@ -34,7 +45,7 @@ export interface GlobalProps {
     appStore: AppStore | null;
 }
 
-class App extends React.Component<any, AppState> {
+class App extends React.Component<any, AppComponentState> {
     private userStore: UserStore;
     private appStore: AppStore;
     private userActions: UserActions;
@@ -120,7 +131,7 @@ class App extends React.Component<any, AppState> {
                                             {...props}
                                             user={this.state.user}
                                             login={this.login}
-                                            loginFacebook={(accessToken: string) => this.userActions.loginFacebook(accessToken)}
+                                            loginFacebook={(accessToken: string) => this.props.loginFacebook(accessToken)}
                                             errors={this.userStore.getErrors()}
                                         />
                                     );
@@ -194,7 +205,7 @@ class App extends React.Component<any, AppState> {
 }
 
 
-const RouterApp = withRouter(App);
+const RouterApp = withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 
 export default  () => {
     return (
@@ -204,8 +215,13 @@ export default  () => {
     );
 };
 
-export interface AppState {
+export interface AppComponentState {
     user: User | null;
     isSidebarOpen: boolean;
     isSidebarPermanent: boolean;
 }
+
+export interface AppProps {
+    loginFacebook(accessToken: string): void;
+}
+

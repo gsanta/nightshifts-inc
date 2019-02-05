@@ -11,6 +11,7 @@ export class UserQuery {
 
     constructor(tokenHandler: TokenHandler = new TokenHandler()) {
         this.tokenHandler = tokenHandler;
+        this.fetchUser = this.fetchUser.bind(this);
     }
 
     public login(userLoginDto: UserLoginDto): Promise<User> {

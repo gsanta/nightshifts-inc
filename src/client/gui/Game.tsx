@@ -2,10 +2,10 @@ import * as React from 'react';
 import { GameEngine } from '../../game/GameEngine';
 import { GwmWorldImporter } from '../../game/io/gwm_world_io/import/GwmWorldImporter';
 import { GwmMeshFactoryProducer } from '../../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
-import { AppState } from './App';
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_basic.json');
 import {connect} from 'react-redux';
 import { loadGameRequest } from '../state/GameActions';
+import { AppState } from '../state/AppState';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 
 const mapStateToProps = (state: AppState, ownProps) => {

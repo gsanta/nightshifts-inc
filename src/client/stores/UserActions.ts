@@ -7,25 +7,25 @@ import { PasswordUpdateDto } from '../query/user/PasswordUpdateDto';
 import { ActionType } from './ActionType';
 import { ErrorMessage } from '../gui/ErrorMessage';
 
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, call } from 'redux-saga/effects';
 
 
-export function* loadUser() {
+export function* loadUser(action: {userQuery: UserQuery}) {
     try {
-        const user = yield call(gitHubApi, payload); // Make Api call to Github api with the username
-        yield put({type: 'LOAD_USER_SUCCESS', user}); // Yields effect to the reducer specifying the action type and optional parameter
+        const user = yield call(action.userQuery.fetchUser); // Make Api call to Github api with the username
+        yield put({type: ActionType.GET_USER_SUCCESS, user}); // Yields effect to the reducer specifying the action type and optional parameter
     } catch (error) {
         throw error;
     }
-    this.userQuery.fetchUser()
-    .then(user => {
-        this.userStore.setModel(user);
-    })
-    .finally(() => {
-        const appModel: AppModel = {...this.appStore.getModel(), appState: 'ready'};
-        this.appStore.setModel(appModel);
-    });
-    yield put({ type: ActionType.GET_GAME_SUCCESS });
+    // this.userQuery.fetchUser()
+    // .then(user => {
+    //     this.userStore.setModel(user);
+    // })
+    // .finally(() => {
+    //     const appModel: AppModel = {...this.appStore.getModel(), appState: 'ready'};
+    //     this.appStore.setModel(appModel);
+    // });
+    // yield put({ type: ActionType.GET_GAME_SUCCESS });
 }
 
 export const loadUserRequest = () => {
@@ -38,6 +38,49 @@ export function* watchGetUserRequest() {
     yield takeEvery(ActionType.GET_USER_REQUEST, loadUser);
 }
 
+export const updateUserRequest = () => {
+    return {
+        type: ActionType.UPDATE_USER_REQUEST
+    };
+};
+
+export function* updateUser(action: {user: User, userQuery: UserQuery}) {
+    try {
+        const updatedUser = yield call(action.userQuery.updateUser, action.user);
+        yield put({type: ActionType.UPDATE_USER_SUCCESS, user: updatedUser});
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+export function* watchUpdateUserRequest() {
+    yield takeEvery(ActionType.UPDATE_USER_REQUEST, updateUser);
+}
+
+export const signOut = () => {
+
+};
+
+export function* loginFacebook(action: { accessToken: string, userQuery: UserQuery }) {
+    try {
+        const user = action.userQuery.loginFacebook(action.accessToken);
+        yield put({type: ActionType.LOGIN_FACEBOOK_SUCCESS, user});
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const loginFacebookRequest = (accessToken: string) => {
+    return {
+        type: ActionType.LOGIN_FACEBOOK_REQUEST,
+        accessToken
+    };
+};
+
+export function* watchLoginFacebookRequest() {
+    yield takeEvery(ActionType.LOGIN_FACEBOOK_REQUEST, loginFacebook);
+}
 
 export class UserActions {
     private userStore: UserStore;
