@@ -14,7 +14,7 @@ const initialState: AppState = {
 
 export interface Action {
     type: string;
-    data: any;
+    data?: any;
 }
 
 export const appReducer = (state: AppState = initialState, action: Action) => {

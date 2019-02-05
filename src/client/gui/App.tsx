@@ -97,7 +97,7 @@ class App extends React.Component<any, AppComponentState> {
         });
         this.userStore.onChange(this.onUserStoreChange);
         this.appStore.onChange(this.onAppStoreChange);
-        this.userActions.loadUser();
+        // this.userActions.loadUser();
     }
 
     public componentWillUnmount() {
