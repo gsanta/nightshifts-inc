@@ -7,6 +7,38 @@ import { PasswordUpdateDto } from '../query/user/PasswordUpdateDto';
 import { ActionType } from './ActionType';
 import { ErrorMessage } from '../gui/ErrorMessage';
 
+import { takeEvery, put } from 'redux-saga/effects';
+
+
+export function* loadUser() {
+    try {
+        const user = yield call(gitHubApi, payload); // Make Api call to Github api with the username
+        yield put({type: 'LOAD_USER_SUCCESS', user}); // Yields effect to the reducer specifying the action type and optional parameter
+    } catch (error) {
+        throw error;
+    }
+    this.userQuery.fetchUser()
+    .then(user => {
+        this.userStore.setModel(user);
+    })
+    .finally(() => {
+        const appModel: AppModel = {...this.appStore.getModel(), appState: 'ready'};
+        this.appStore.setModel(appModel);
+    });
+    yield put({ type: ActionType.GET_GAME_SUCCESS });
+}
+
+export const loadUserRequest = () => {
+    return {
+        type: ActionType.GET_USER_REQUEST
+    };
+};
+
+export function* watchGetUserRequest() {
+    yield takeEvery(ActionType.GET_USER_REQUEST, loadUser);
+}
+
+
 export class UserActions {
     private userStore: UserStore;
     private appStore: AppStore;

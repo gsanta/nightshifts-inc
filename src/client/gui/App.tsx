@@ -9,7 +9,7 @@ import { UserActions } from '../stores/UserActions';
 import { UserQuery } from '../query/user/UserQuery';
 import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
-import { Game } from './Game';
+import Game from './Game';
 import { withRouter } from 'react-router-dom';
 import { AppStore } from '../stores/app/AppStore';
 import { AppActions } from '../stores/app/AppActions';
