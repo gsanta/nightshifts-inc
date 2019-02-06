@@ -28,15 +28,30 @@ export const GlobalContext = React.createContext<GlobalProps>({
     appStore: null
 });
 
-const mapStateToProps = (state: AppState, ownProps) => {
+const mapStateToProps = (state: AppState, ownProps: {userQuery: UserQuery}) => {
     return {
-      user: state.user
+        user: state.user,
+        userQuery: state.query.user
     };
 };
 
-const mapDispatchToProps = dispatch => ({
-    loginFacebook: (accessToken: string) => dispatch(loginFacebookRequest(accessToken))
-});
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        loginFacebookDispatch: (accessToken: string, userQuery: UserQuery) => dispatch(loginFacebookRequest(accessToken, userQuery)),
+    };
+};
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    return {
+        ...ownProps,
+        ...{
+            user: stateProps.user
+        },
+        ...{
+            loginFacebook: (accessToken: string) => dispatchProps.loginFacebook(accessToken, stateProps.userQuery)
+        }
+    };
+};
 
 export interface GlobalProps {
     userStore: UserStore | null;
@@ -147,7 +162,7 @@ class App extends React.Component<any, AppComponentState> {
                                         <Signup
                                             {...props}
                                             signup={this.signup}
-                                            signupFacebook={(accessToken: string) => this.userActions.loginFacebook(accessToken)}
+                                            signupFacebook={(accessToken: string) => null} //this.userActions.loginFacebook(accessToken)}
                                             user={this.state.user}
                                             errors={this.userStore.getErrors()}
                                         />
@@ -196,18 +211,18 @@ class App extends React.Component<any, AppComponentState> {
     }
 
     private login(email: string, password: string) {
-        this.userActions.login(email, password);
+        // this.userActions.login(email, password);
     }
 
     private signup(email: string, password: string) {
-        this.userActions.signup(email, password);
+        // this.userActions.signup(email, password);
     }
 }
 
 
-const RouterApp = withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+const RouterApp = withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(App));
 
-export default  () => {
+export default () => {
     return (
         <Provider store={GlobalStore}>
             <RouterApp/>

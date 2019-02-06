@@ -13,5 +13,5 @@ export const GlobalStore = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-GlobalStore.dispatch(loadUserRequest());
+GlobalStore.dispatch(loadUserRequest(GlobalStore.getState().query.user));
 

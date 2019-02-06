@@ -5,6 +5,9 @@ import { User } from '../../stores/User';
 import { Menu, MenuItem, Button, withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { GlobalContext, GlobalProps } from '../App';
+import { signout } from '../../stores/UserActions';
+import { connect } from 'react-redux';
+import { AppState } from '../../state/AppState';
 
 const HeaderDiv = styled.div`
     width: 100%;
@@ -30,8 +33,20 @@ const styles = theme => ({
     } as any
 });
 
-class Header extends React.Component<GlobalProps & HeaderProps, HeaderState> {
-    constructor(props: GlobalProps & HeaderProps) {
+const mapStateToProps = (state: AppState) => {
+    return {
+        user: state.user
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signout: () => dispatch(signout()),
+    };
+};
+
+class Header extends React.Component<HeaderProps, HeaderState> {
+    constructor(props: HeaderProps) {
         super(props);
 
         this.handleClick = this.handleClick.bind(this);
@@ -45,7 +60,7 @@ class Header extends React.Component<GlobalProps & HeaderProps, HeaderState> {
     }
 
     public render() {
-        const user = this.props.userStore.getModel();
+        const user = this.props.user;
 
         const getProfileSection = () => {
             return (
@@ -94,18 +109,20 @@ class Header extends React.Component<GlobalProps & HeaderProps, HeaderState> {
     }
 
     private handleSignOut() {
-        this.props.userActions.signOut();
+        // this.props.userActions.signOut();
         this.setState({ anchorElement: null });
     }
 }
 
 const StyledHeader = withStyles(styles)(Header);
 
-export default (props: any) => (
-    <GlobalContext.Consumer>
-        {(globalProps: GlobalProps) => <StyledHeader {...globalProps} {...props}/>}
-    </GlobalContext.Consumer>
-);
+// export default (props: any) => (
+//     <GlobalContext.Consumer>
+//         {(globalProps: GlobalProps) => <StyledHeader {...globalProps} {...props}/>}
+//     </GlobalContext.Consumer>
+// );
+
+export default connect(mapStateToProps, mapDispatchToProps)(StyledHeader);
 
 export interface HeaderState {
     anchorElement: HTMLElement | null;
@@ -115,4 +132,5 @@ export interface HeaderProps {
     classes: any;
     history: any;
     openSidebar(): void;
+    user: User;
 }

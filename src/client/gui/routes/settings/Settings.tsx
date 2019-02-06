@@ -204,16 +204,16 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
     }
 
     private updatePassword() {
-        this.props.userActions.updatePassword({
-            id: this.props.userStore.getModel().id,
-            oldPassword: this.state.oldPassword,
-            newPassword: this.state.newPassword
-        });
+        // this.props.userActions.updatePassword({
+        //     id: this.props.userStore.getModel().id,
+        //     oldPassword: this.state.oldPassword,
+        //     newPassword: this.state.newPassword
+        // });
     }
 
     private updateUser() {
-        this.props.userActions
-            .updateUser(this.state.user);
+        // this.props.userActions
+        //     .updateUser(this.state.user);
 
         this.setState({
             isSaveButtonPopoverOpen: false

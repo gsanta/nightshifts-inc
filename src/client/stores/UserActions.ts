@@ -8,6 +8,7 @@ import { ActionType } from './ActionType';
 import { ErrorMessage } from '../gui/ErrorMessage';
 
 import { takeEvery, put, call } from 'redux-saga/effects';
+import { sign } from 'jsonwebtoken';
 
 
 export function* loadUser(action: {userQuery: UserQuery}) {
@@ -28,9 +29,10 @@ export function* loadUser(action: {userQuery: UserQuery}) {
     // yield put({ type: ActionType.GET_GAME_SUCCESS });
 }
 
-export const loadUserRequest = () => {
+export const loadUserRequest = (userQuery: UserQuery) => {
     return {
-        type: ActionType.GET_USER_REQUEST
+        type: ActionType.GET_USER_REQUEST,
+        userQuery
     };
 };
 
@@ -53,33 +55,80 @@ export function* updateUser(action: {user: User, userQuery: UserQuery}) {
     }
 }
 
-
 export function* watchUpdateUserRequest() {
     yield takeEvery(ActionType.UPDATE_USER_REQUEST, updateUser);
 }
 
-export const signOut = () => {
-
+export const signout = () => {
+    return {
+        type: ActionType.SIGNOUT
+    };
 };
 
 export function* loginFacebook(action: { accessToken: string, userQuery: UserQuery }) {
     try {
-        const user = action.userQuery.loginFacebook(action.accessToken);
+        const user = yield call(action.userQuery.loginFacebook, action.accessToken);
         yield put({type: ActionType.LOGIN_FACEBOOK_SUCCESS, user});
     } catch (error) {
         throw error;
     }
 }
 
-export const loginFacebookRequest = (accessToken: string) => {
+export const loginFacebookRequest = (accessToken: string, userQuery: UserQuery) => {
     return {
         type: ActionType.LOGIN_FACEBOOK_REQUEST,
-        accessToken
+        accessToken,
+        userQuery
     };
 };
 
 export function* watchLoginFacebookRequest() {
     yield takeEvery(ActionType.LOGIN_FACEBOOK_REQUEST, loginFacebook);
+}
+
+export const signupRequest = () => {
+    return {
+        type: ActionType.SIGNUP_REQUEST
+    };
+};
+
+export function* signup(action: { email: string, password: string, userQuery: UserQuery }) {
+    const user = yield call(this.userQuery.signup, { email: action.email, password: action.password });
+    yield put({type: ActionType.SIGNUP_SUCCESS, user});
+}
+
+export function* watchSignupRequest() {
+    yield takeEvery(ActionType.SIGNUP_REQUEST, signup);
+}
+
+export const updatePassworRequest = () => {
+    return {
+        type: ActionType.UPDATE_PASSWORD_REQUEST
+    };
+};
+
+export function* updatePassword(action: { passwordDto: PasswordUpdateDto, userQuery: UserQuery }) {
+    yield call(this.userQuery.updatePassword, action.passwordDto);
+    yield put({ type: ActionType.UPDATE_PASSWORD_SUCCESS});
+}
+
+export function* watchUpdatePassword() {
+    yield takeEvery(ActionType.UPDATE_PASSWORD_REQUEST, signup);
+}
+
+export const loginRequest = () => {
+    return {
+        type: ActionType.LOGIN_REQUEST
+    };
+};
+
+export function* login(action: { email: string, password: string, userQuery: UserQuery }) {
+    const user = yield call(this.userQuery.login, { email: action.email, password: action.password});
+    yield put({ type: ActionType.LOGIN_SUCCESS, user});
+}
+
+export function* watchLogin() {
+    yield takeEvery(ActionType.LOGIN_REQUEST, signup);
 }
 
 export class UserActions {
@@ -93,81 +142,81 @@ export class UserActions {
         this.appStore = appStore;
     }
 
-    public loadUser() {
-        this.userQuery.fetchUser()
-            .then(user => {
-                this.userStore.setModel(user);
-            })
-            .finally(() => {
-                const appModel: AppModel = {...this.appStore.getModel(), appState: 'ready'};
-                this.appStore.setModel(appModel);
-            });
-    }
+    // public loadUser() {
+    //     this.userQuery.fetchUser()
+    //         .then(user => {
+    //             this.userStore.setModel(user);
+    //         })
+    //         .finally(() => {
+    //             const appModel: AppModel = {...this.appStore.getModel(), appState: 'ready'};
+    //             this.appStore.setModel(appModel);
+    //         });
+    // }
 
-    public updateUser(user: User) {
-        const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading', lastActiontType: ActionType.UPDATE_USER};
-        this.appStore.setModel(appModel);
+    // public updateUser(user: User) {
+    //     const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading', lastActiontType: ActionType.UPDATE_USER};
+    //     this.appStore.setModel(appModel);
 
-        this.userQuery.updateUser(user)
-            .then(updatedUser => {
-                this.userStore.setModel(updatedUser);
-                this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
-                this.setLoadedStateAfterDelay();
-            })
-            .catch((e) => {
-                this.userStore.setErrors([<ErrorMessage> e.response.data]);
-                this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'loaded'});
-            });
-    }
+    //     this.userQuery.updateUser(user)
+    //         .then(updatedUser => {
+    //             this.userStore.setModel(updatedUser);
+    //             this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
+    //             this.setLoadedStateAfterDelay();
+    //         })
+    //         .catch((e) => {
+    //             this.userStore.setErrors([<ErrorMessage> e.response.data]);
+    //             this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'loaded'});
+    //         });
+    // }
 
-    public updatePassword(passwordDto: PasswordUpdateDto) {
-        const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading', lastActiontType: ActionType.UPDATE_PASSWORD};
-        this.appStore.setModel(appModel);
+    // public updatePassword(passwordDto: PasswordUpdateDto) {
+    //     const appModel: AppModel = {...this.appStore.getModel(), dataLoadingState: 'loading', lastActiontType: ActionType.UPDATE_PASSWORD};
+    //     this.appStore.setModel(appModel);
 
-        this.userQuery.updatePassword(passwordDto)
-        .then(() => {
-            this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
-            this.setLoadedStateAfterDelay();
-        })
-        .catch((e) => {
-            this.userStore.setErrors([<ErrorMessage> e.response.data]);
-            this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'loaded'});
-        });
-    }
+    //     this.userQuery.updatePassword(passwordDto)
+    //     .then(() => {
+    //         this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'recently_loaded'});
+    //         this.setLoadedStateAfterDelay();
+    //     })
+    //     .catch((e) => {
+    //         this.userStore.setErrors([<ErrorMessage> e.response.data]);
+    //         this.appStore.setModel({...this.appStore.getModel(), dataLoadingState: 'loaded'});
+    //     });
+    // }
 
-    public signOut() {
-        this.userStore.setModel(null);
-    }
+    // public signOut() {
+    //     this.userStore.setModel(null);
+    // }
 
-    public loginFacebook(accessToken: string) {
-        this.userQuery.loginFacebook(accessToken)
-            .then((user: User) => {
-                this.userStore.setModel(user);
-            })
-            .catch((e) => {
-                this.userStore.setErrors([<ErrorMessage> e.response.data]);
-            });
-    }
+    // public loginFacebook(accessToken: string) {
+    //     this.userQuery.loginFacebook(accessToken)
+    //         .then((user: User) => {
+    //             this.userStore.setModel(user);
+    //         })
+    //         .catch((e) => {
+    //             this.userStore.setErrors([<ErrorMessage> e.response.data]);
+    //         });
+    // }
 
-    public login(email: string, password: string) {
-        this.userQuery.login({ email: email, password: password})
-        .then((user: User) => {
-            this.userStore.setModel(user);
-        })
-        .catch((e) => {
-            this.userStore.setErrors([<ErrorMessage> e.response.data]);
-        });
-    }
+    // public login(email: string, password: string) {
+    //     this.userQuery.login({ email: email, password: password})
+    //     .then((user: User) => {
+    //         this.userStore.setModel(user);
+    //     })
+    //     .catch((e) => {
+    //         this.userStore.setErrors([<ErrorMessage> e.response.data]);
+    //     });
+    // }
 
-    public signup(email: string, password: string) {
-        this.userQuery.signup({ email, password })
-            .then((user: User) => {
-                this.userStore.setModel(user);
-            })
-            .catch((e) => {
-                this.userStore.setErrors([<ErrorMessage> e.response.data]);
-            });
-    }
+    // public signup(email: string, password: string) {
+    //     this.userQuery.signup({ email, password })
+    //         .then((user: User) => {
+    //             this.userStore.setModel(user);
+    //         })
+    //         .catch((e) => {
+    //             this.userStore.setErrors([<ErrorMessage> e.response.data]);
+    //         });
+    // }
 
     private setLoadedStateAfterDelay() {
         setTimeout(
