@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { AppState } from '../state/AppState';
 import { UserQuery } from '../query/user/UserQuery';
-import { signout } from '../stores/UserActions';
+import { signoutRequest } from '../stores/UserActions';
 import { connect } from 'react-redux';
 import { User } from '../stores/User';
 
@@ -21,7 +21,17 @@ const mapStateToProps = (state: AppState, ownProps: {userQuery: UserQuery}) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        signout: () => dispatch(signout()),
+        signout: (userQuery: UserQuery) => dispatch(signoutRequest(userQuery)),
+    };
+};
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    return {
+        ...ownProps,
+        ...stateProps,
+        ...{
+            signout: (accessToken: string) => dispatchProps.signout(stateProps.userQuery),
+        }
     };
 };
 
@@ -111,7 +121,7 @@ class Sidebar extends React.Component<SidebarProps, {}> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Sidebar));
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(withStyles(styles)(Sidebar));
 
 export interface SidebarProps {
     isOpen: boolean;

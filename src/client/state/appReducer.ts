@@ -13,6 +13,7 @@ const initialState: AppState = {
     world: null,
     user: User.NULL_USER_MODEL,
     appLoadingState: 'loading',
+    dataLoadingState: 'loaded',
     errors: []
 };
 
@@ -49,7 +50,7 @@ export const appReducer = (state: AppState = initialState, action: Action) => {
                 user: action.user
             }};
 
-        case ActionType.SIGNOUT:
+        case ActionType.SIGNOUT_SUCCESS:
             return {...state, ...{
                 user: User.NULL_USER_MODEL
             }};

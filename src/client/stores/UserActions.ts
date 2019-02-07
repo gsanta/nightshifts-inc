@@ -59,11 +59,21 @@ export function* watchUpdateUserRequest() {
     yield takeEvery(ActionType.UPDATE_USER_REQUEST, updateUser);
 }
 
-export const signout = () => {
+export const signoutRequest = (userQuery: UserQuery) => {
     return {
-        type: ActionType.SIGNOUT
+        type: ActionType.SIGNOUT_REQUEST,
+        userQuery
     };
 };
+
+export function* signout(action: { userQuery: UserQuery }) {
+    action.userQuery.signout();
+    yield put({type: ActionType.SIGNOUT_SUCCESS});
+}
+
+export function* watchSignoutRequest() {
+    yield takeEvery(ActionType.SIGNOUT_REQUEST, signout);
+}
 
 export function* loginFacebook(action: { accessToken: string, userQuery: UserQuery }) {
     try {
@@ -108,14 +118,23 @@ export function* watchSignupRequest() {
     yield takeEvery(ActionType.SIGNUP_REQUEST, signup);
 }
 
-export const updatePassworRequest = () => {
+export const updatePassworRequest = (user: User, newPassword: string, oldPassword: string, userQuery: UserQuery) => {
     return {
-        type: ActionType.UPDATE_PASSWORD_REQUEST
+        type: ActionType.UPDATE_PASSWORD_REQUEST,
+        newPassword,
+        oldPassword,
+        user
     };
 };
 
-export function* updatePassword(action: { passwordDto: PasswordUpdateDto, userQuery: UserQuery }) {
-    yield call(action.userQuery.updatePassword, action.passwordDto);
+export function* updatePassword(action: { user: User, newPassword: string, oldPassword: string, userQuery: UserQuery }) {
+    const passwordUpdateDto: PasswordUpdateDto = {
+        id: action.user.id,
+        oldPassword: action.oldPassword,
+        newPassword: action.newPassword
+    };
+
+    yield call(action.userQuery.updatePassword, passwordUpdateDto);
     yield put({ type: ActionType.UPDATE_PASSWORD_SUCCESS});
 }
 
@@ -142,7 +161,7 @@ export function* login(action: { email: string, password: string, userQuery: Use
 }
 
 export function* watchLogin() {
-    yield takeEvery(ActionType.LOGIN_REQUEST, signup);
+    yield takeEvery(ActionType.LOGIN_REQUEST, login);
 }
 
 export const clearErrors = () => {

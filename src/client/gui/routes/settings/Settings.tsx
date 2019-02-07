@@ -11,6 +11,9 @@ import { ActionType } from '../../../stores/ActionType';
 import { SettingsInputField } from '../../form/SettingsInputField';
 import { hasError, getErrorMessage } from '../../dialogs/FormDialogWrapper';
 import { toVector3 } from '../../../../game/model/core/VectorModel';
+import { DataLoadingState, AppState } from '../../../state/AppState';
+import { connect } from 'react-redux';
+import { ErrorMessage } from '../../ErrorMessage';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -69,11 +72,35 @@ const LoggedInWithFacebookText = styled.div`
     opacity: 0.5;
 `;
 
-class Settings extends React.Component<GlobalProps, SettingsState> {
+const mapStateToProps = (state: AppState) => {
+    return {
+        user: state.user,
+        dataLoadingState: state.dataLoadingState,
+        errors: state.errors
+    };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        updatePassword: ()
+    };
+};
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    return {
+        ...ownProps,
+        ...stateProps,
+        ...{
+
+        }
+    }
+};
+
+class Settings extends React.Component<SettingsProps, SettingsState> {
     private saveButtonRef: React.RefObject<any>;
     private savePasswordButtonRef: React.RefObject<any>;
 
-    constructor(props: GlobalProps) {
+    constructor(props: SettingsProps) {
         super(props);
 
         this.changeEmail = this.changeEmail.bind(this);
@@ -85,7 +112,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
         this.savePasswordButtonRef = React.createRef();
 
         this.state = {
-            user: props.userStore.getModel(),
+            user: props.user,
             newPassword: '',
             oldPassword: '',
             isSaveButtonPopoverOpen: false,
@@ -93,16 +120,8 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
         };
     }
 
-    public static getDerivedStateFromProps(props: GlobalProps, state: SettingsState) {
-        return {...state, user: props.userStore.getModel()};
-    }
-
-    public componentDidMount() {
-        this.props.appStore.onChange(this.onAppStoreChange);
-    }
-
-    public componentWillUnmount() {
-        this.props.appStore.onChange(this.onAppStoreChange);
+    public static getDerivedStateFromProps(props: SettingsProps, state: SettingsState) {
+        return {...state, user: props.user};
     }
 
     public render() {
@@ -113,7 +132,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                     <SmallButton
                         ref={this.saveButtonRef}
                         onClick={this.updateUser}
-                        isDisabled={this.props.appStore.getModel().dataLoadingState === 'loading'}
+                        isDisabled={this.props.dataLoadingState === 'loading'}
                     >
                         Save changes
                     </SmallButton>
@@ -132,7 +151,7 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                         value={this.state.user.email}
                         onChange={email => this.changeEmail(email)}
                         hasError={false}
-                        errorMessage={getErrorMessage(this.props.userStore.getErrors(), 'email')}
+                        errorMessage={getErrorMessage(this.props.errors, 'email')}
                     />
 
                     {user.authStrategy === 'local' ? this.renderPasswordChangeForm() : this.renderLoggedInWithFacebookText()}
@@ -152,8 +171,8 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                         label="Old password"
                         value={this.state.oldPassword}
                         onChange={(oldPassword) => this.setState({oldPassword})}
-                        hasError={hasError(this.props.userStore.getErrors(), 'oldPassword')}
-                        errorMessage={getErrorMessage(this.props.userStore.getErrors(), 'oldPassword')}
+                        hasError={hasError(this.props.errors, 'oldPassword')}
+                        errorMessage={getErrorMessage(this.props.errors, 'oldPassword')}
                     />
                     <SettingsInputField
                         type="password"
@@ -161,14 +180,14 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
                         value={this.state.newPassword}
                         onChange={(newPassword) => this.setState({newPassword})}
                         hasError={false}
-                        errorMessage={getErrorMessage(this.props.userStore.getErrors(), 'newPassword')}
+                        errorMessage={getErrorMessage(this.props.errors, 'newPassword')}
                     />
                 </FormGroup>
                 <PasswordSaveButton>
                     <SmallButton
                         onClick={this.updatePassword}
                         ref={this.savePasswordButtonRef}
-                        isDisabled={this.props.appStore.getModel().dataLoadingState === 'loading'}
+                        isDisabled={this.props.dataLoadingState === 'loading'}
                     >
                         Update password
                     </SmallButton>
@@ -221,16 +240,16 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
     }
 
     private onAppStoreChange() {
-        if (this.props.appStore.getModel().dataLoadingState === 'recently_loaded') {
-            if (this.props.appStore.getModel().lastActiontType === ActionType.UPDATE_PASSWORD) {
-                this.setState({
-                    isSavePasswordButtonPopoverOpen: true
-                });
-            } else {
-                this.setState({
-                    isSaveButtonPopoverOpen: true
-                });
-            }
+        if (this.props.dataLoadingState === 'recently_loaded') {
+            // if (this.props.appStore.getModel().lastActiontType === ActionType.UPDATE_PASSWORD) {
+            //     this.setState({
+            //         isSavePasswordButtonPopoverOpen: true
+            //     });
+            // } else {
+            //     this.setState({
+            //         isSaveButtonPopoverOpen: true
+            //     });
+            // }
         } else {
             this.setState({
                 isSaveButtonPopoverOpen: false,
@@ -240,6 +259,8 @@ class Settings extends React.Component<GlobalProps, SettingsState> {
     }
 }
 
+export default connect(mapStateToProps)(Settings);
+
 export interface SettingsState {
     user: User;
     oldPassword: string;
@@ -248,8 +269,8 @@ export interface SettingsState {
     isSavePasswordButtonPopoverOpen: boolean;
 }
 
-export default () => (
-    <GlobalContext.Consumer>
-        {(globalProps: GlobalProps) => <Settings {...globalProps}/>}
-    </GlobalContext.Consumer>
-);
+export interface SettingsProps {
+    user: User;
+    dataLoadingState: DataLoadingState;
+    errors: ErrorMessage[];
+}

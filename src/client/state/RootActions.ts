@@ -1,6 +1,6 @@
 import { put, takeEvery, all } from 'redux-saga/effects';
 import { loadGameActionWatch } from './GameActions';
-import { watchLoginFacebookRequest, watchGetUserRequest, watchSignupRequest, watchLogin } from '../stores/UserActions';
+import { watchLoginFacebookRequest, watchGetUserRequest, watchSignupRequest, watchLogin, watchSignoutRequest, watchUpdatePassword } from '../stores/UserActions';
 
 export default function* rootSaga() {
     yield all([
@@ -8,6 +8,8 @@ export default function* rootSaga() {
         watchLoginFacebookRequest(),
         watchGetUserRequest(),
         watchSignupRequest(),
-        watchLogin()
+        watchLogin(),
+        watchSignoutRequest(),
+        watchUpdatePassword()
     ]);
 }

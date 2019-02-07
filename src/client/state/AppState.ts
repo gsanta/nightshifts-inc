@@ -4,6 +4,7 @@ import { User } from '../stores/User';
 import { ErrorMessage } from '../gui/ErrorMessage';
 
 export type AppLoadingState = 'loading' | 'ready';
+export type DataLoadingState = 'loading' | 'recently_loaded' | 'loaded';
 
 export interface AppState {
     config: {
@@ -16,5 +17,6 @@ export interface AppState {
     user: User;
 
     appLoadingState: AppLoadingState;
+    dataLoadingState: DataLoadingState;
     errors: ErrorMessage[];
 }

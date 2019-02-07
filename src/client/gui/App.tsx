@@ -87,8 +87,6 @@ class App extends React.Component<any, AppComponentState> {
         this.closeSidebar = this.closeSidebar.bind(this);
         this.openSidebar = this.openSidebar.bind(this);
         this.onAppStoreChange = this.onAppStoreChange.bind(this);
-        this.login = this.login.bind(this);
-        this.signup = this.signup.bind(this);
 
         this.userStore = new UserStore();
         this.appStore = new AppStore();
@@ -124,7 +122,6 @@ class App extends React.Component<any, AppComponentState> {
         });
         this.userStore.onChange(this.onUserStoreChange);
         this.appStore.onChange(this.onAppStoreChange);
-        // this.userActions.loadUser();
     }
 
     public componentWillUnmount() {
@@ -220,14 +217,6 @@ class App extends React.Component<any, AppComponentState> {
         this.setState({
             isSidebarOpen: true
         });
-    }
-
-    private login(email: string, password: string) {
-        // this.userActions.login(email, password);
-    }
-
-    private signup(email: string, password: string) {
-        // this.userActions.signup(email, password);
     }
 }
 

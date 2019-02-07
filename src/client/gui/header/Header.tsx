@@ -5,7 +5,7 @@ import { User } from '../../stores/User';
 import { Menu, MenuItem, Button, withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { GlobalContext, GlobalProps } from '../App';
-import { signout } from '../../stores/UserActions';
+import { signoutRequest } from '../../stores/UserActions';
 import { connect } from 'react-redux';
 import { AppState } from '../../state/AppState';
 
@@ -41,7 +41,6 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        signout: () => dispatch(signout()),
     };
 };
 

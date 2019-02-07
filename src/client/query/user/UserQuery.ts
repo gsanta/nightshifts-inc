@@ -14,6 +14,8 @@ export class UserQuery {
         this.fetchUser = this.fetchUser.bind(this);
         this.loginFacebook = this.loginFacebook.bind(this);
         this.signup = this.signup.bind(this);
+        this.login = this.login.bind(this);
+        this.signout = this.signout.bind(this);
     }
 
     public login(userLoginDto: UserLoginDto): Promise<User> {
@@ -130,5 +132,9 @@ export class UserQuery {
                 reject(e);
             });
         });
+    }
+
+    public signout() {
+        this.tokenHandler.deleteToken();
     }
 }
