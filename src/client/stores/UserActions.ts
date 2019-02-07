@@ -16,7 +16,7 @@ export function* loadUser(action: {userQuery: UserQuery}) {
         const user = yield call(action.userQuery.fetchUser); // Make Api call to Github api with the username
         yield put({type: ActionType.GET_USER_SUCCESS, user}); // Yields effect to the reducer specifying the action type and optional parameter
     } catch (error) {
-        throw error;
+        yield put({type: ActionType.GET_USER_FAILURE});
     }
     // this.userQuery.fetchUser()
     // .then(user => {
@@ -86,15 +86,22 @@ export function* watchLoginFacebookRequest() {
     yield takeEvery(ActionType.LOGIN_FACEBOOK_REQUEST, loginFacebook);
 }
 
-export const signupRequest = () => {
+export const signupRequest = (email: string, password: string, userQuery: UserQuery) => {
     return {
-        type: ActionType.SIGNUP_REQUEST
+        type: ActionType.SIGNUP_REQUEST,
+        email,
+        password,
+        userQuery
     };
 };
 
 export function* signup(action: { email: string, password: string, userQuery: UserQuery }) {
-    const user = yield call(this.userQuery.signup, { email: action.email, password: action.password });
-    yield put({type: ActionType.SIGNUP_SUCCESS, user});
+    try {
+        const user = yield call(action.userQuery.signup, { email: action.email, password: action.password });
+        yield put({type: ActionType.SIGNUP_SUCCESS, user});
+    } catch (e) {
+        yield put({type: ActionType.SIGNUP_FAILURE});
+    }
 }
 
 export function* watchSignupRequest() {
@@ -108,7 +115,7 @@ export const updatePassworRequest = () => {
 };
 
 export function* updatePassword(action: { passwordDto: PasswordUpdateDto, userQuery: UserQuery }) {
-    yield call(this.userQuery.updatePassword, action.passwordDto);
+    yield call(action.userQuery.updatePassword, action.passwordDto);
     yield put({ type: ActionType.UPDATE_PASSWORD_SUCCESS});
 }
 
@@ -123,7 +130,7 @@ export const loginRequest = () => {
 };
 
 export function* login(action: { email: string, password: string, userQuery: UserQuery }) {
-    const user = yield call(this.userQuery.login, { email: action.email, password: action.password});
+    const user = yield call(action.userQuery.login, { email: action.email, password: action.password});
     yield put({ type: ActionType.LOGIN_SUCCESS, user});
 }
 

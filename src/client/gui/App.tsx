@@ -5,7 +5,7 @@ import Signup from './Signup';
 import { UserStore } from '../stores/UserStore';
 import Header from './header/Header';
 import { RootRoute } from './routes/root/RootRoute';
-import { UserActions, loginFacebook, loginFacebookRequest } from '../stores/UserActions';
+import { UserActions, loginFacebook, loginFacebookRequest, signupRequest } from '../stores/UserActions';
 import { UserQuery } from '../query/user/UserQuery';
 import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
@@ -17,7 +17,8 @@ import { TokenHandler } from '../query/TokenHandler';
 import { User } from '../stores/User';
 import { Provider, connect } from 'react-redux';
 import { GlobalStore } from '../state/GlobalStore';
-import { AppState } from '../state/AppState';
+import { AppState, AppLoadingState } from '../state/AppState';
+import { sign } from 'jsonwebtoken';
 
 require('bootstrap/dist/css/bootstrap.css');
 
@@ -31,13 +32,15 @@ export const GlobalContext = React.createContext<GlobalProps>({
 const mapStateToProps = (state: AppState, ownProps: {userQuery: UserQuery}) => {
     return {
         user: state.user,
-        userQuery: state.query.user
+        userQuery: state.query.user,
+        appLoadingState: state.appLoadingState
     };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         loginFacebookDispatch: (accessToken: string, userQuery: UserQuery) => dispatch(loginFacebookRequest(accessToken, userQuery)),
+        signupDispatch: (email: string, password: string, userQuery: UserQuery) => dispatch(signupRequest(email, password, userQuery))
     };
 };
 
@@ -45,10 +48,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return {
         ...ownProps,
         ...{
-            user: stateProps.user
+            user: stateProps.user,
+            appLoadingState: stateProps.appLoadingState
         },
         ...{
-            loginFacebook: (accessToken: string) => dispatchProps.loginFacebook(accessToken, stateProps.userQuery)
+            loginFacebook: (accessToken: string) => dispatchProps.loginFacebookDispatch(accessToken, stateProps.userQuery),
+            signup: (email: string, password: string) => dispatchProps.signupDispatch(email, password, stateProps.userQuery)
         }
     };
 };
@@ -144,7 +149,7 @@ class App extends React.Component<any, AppComponentState> {
                                     return (
                                         <Login
                                             {...props}
-                                            user={this.state.user}
+                                            user={this.props.user}
                                             login={this.login}
                                             loginFacebook={(accessToken: string) => this.props.loginFacebook(accessToken)}
                                             errors={this.userStore.getErrors()}
@@ -161,8 +166,8 @@ class App extends React.Component<any, AppComponentState> {
                                     return (
                                         <Signup
                                             {...props}
-                                            signup={this.signup}
-                                            signupFacebook={(accessToken: string) => null} //this.userActions.loginFacebook(accessToken)}
+                                            signup={this.props.signup}
+                                            signupFacebook={(accessToken: string) => this.props.loginFacebook(accessToken)}
                                             user={this.state.user}
                                             errors={this.userStore.getErrors()}
                                         />
@@ -176,8 +181,8 @@ class App extends React.Component<any, AppComponentState> {
     }
 
     private shouldRedirectToLoginPage() {
-        return this.appStore.getModel().appState !== 'loading' &&
-            this.userStore.getModel() === User.NULL_USER_MODEL &&
+        return this.props.appLoadingState !== 'loading' &&
+            this.props.user === User.NULL_USER_MODEL &&
             this.props.history.location.pathname !== '/login' &&
             this.props.history.location.pathname !== '/signup';
     }
@@ -238,5 +243,7 @@ export interface AppComponentState {
 
 export interface AppProps {
     loginFacebook(accessToken: string): void;
+    signup(email: string, password: string): void;
+    appLoadingState: AppLoadingState;
 }
 
