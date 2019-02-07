@@ -5,7 +5,7 @@ import Signup from './Signup';
 import { UserStore } from '../stores/UserStore';
 import Header from './header/Header';
 import { RootRoute } from './routes/root/RootRoute';
-import { UserActions, loginFacebook, loginFacebookRequest, signupRequest } from '../stores/UserActions';
+import { UserActions, loginFacebook, loginFacebookRequest, signupRequest, loginRequest, clearErrors } from '../stores/UserActions';
 import { UserQuery } from '../query/user/UserQuery';
 import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
@@ -19,6 +19,7 @@ import { Provider, connect } from 'react-redux';
 import { GlobalStore } from '../state/GlobalStore';
 import { AppState, AppLoadingState } from '../state/AppState';
 import { sign } from 'jsonwebtoken';
+import { ErrorMessage } from './ErrorMessage';
 
 require('bootstrap/dist/css/bootstrap.css');
 
@@ -33,14 +34,17 @@ const mapStateToProps = (state: AppState, ownProps: {userQuery: UserQuery}) => {
     return {
         user: state.user,
         userQuery: state.query.user,
-        appLoadingState: state.appLoadingState
+        appLoadingState: state.appLoadingState,
+        errors: state.errors
     };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         loginFacebookDispatch: (accessToken: string, userQuery: UserQuery) => dispatch(loginFacebookRequest(accessToken, userQuery)),
-        signupDispatch: (email: string, password: string, userQuery: UserQuery) => dispatch(signupRequest(email, password, userQuery))
+        signupDispatch: (email: string, password: string, userQuery: UserQuery) => dispatch(signupRequest(email, password, userQuery)),
+        loginDispatch: (email: string, password: string, userQuery: UserQuery) => dispatch(loginRequest(email, password, userQuery)),
+        clearErrors: () => dispatch(clearErrors())
     };
 };
 
@@ -49,11 +53,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         ...ownProps,
         ...{
             user: stateProps.user,
-            appLoadingState: stateProps.appLoadingState
+            appLoadingState: stateProps.appLoadingState,
+            errors: stateProps.errors
         },
         ...{
             loginFacebook: (accessToken: string) => dispatchProps.loginFacebookDispatch(accessToken, stateProps.userQuery),
-            signup: (email: string, password: string) => dispatchProps.signupDispatch(email, password, stateProps.userQuery)
+            signup: (email: string, password: string) => dispatchProps.signupDispatch(email, password, stateProps.userQuery),
+            login: (email: string, password: string) => dispatchProps.loginDispatch(email, password, stateProps.userQuery),
+            clearErrors: () => dispatchProps.clearErrors()
         }
     };
 };
@@ -113,7 +120,7 @@ class App extends React.Component<any, AppComponentState> {
                 });
             }
 
-            this.appActions.clearErrors();
+            this.props.clearErrors();
         });
         this.userStore.onChange(this.onUserStoreChange);
         this.appStore.onChange(this.onAppStoreChange);
@@ -150,9 +157,9 @@ class App extends React.Component<any, AppComponentState> {
                                         <Login
                                             {...props}
                                             user={this.props.user}
-                                            login={this.login}
+                                            login={this.props.login}
                                             loginFacebook={(accessToken: string) => this.props.loginFacebook(accessToken)}
-                                            errors={this.userStore.getErrors()}
+                                            errors={this.props.errors}
                                         />
                                     );
                                 }
@@ -168,8 +175,8 @@ class App extends React.Component<any, AppComponentState> {
                                             {...props}
                                             signup={this.props.signup}
                                             signupFacebook={(accessToken: string) => this.props.loginFacebook(accessToken)}
-                                            user={this.state.user}
-                                            errors={this.userStore.getErrors()}
+                                            user={this.props.user}
+                                            errors={this.props.errors}
                                         />
                                     );
                                 }
@@ -245,5 +252,7 @@ export interface AppProps {
     loginFacebook(accessToken: string): void;
     signup(email: string, password: string): void;
     appLoadingState: AppLoadingState;
+    errors: ErrorMessage[];
+    clearErrors(): void;
 }
 

@@ -12,13 +12,15 @@ const initialState: AppState = {
     },
     world: null,
     user: User.NULL_USER_MODEL,
-    appLoadingState: 'loading'
+    appLoadingState: 'loading',
+    errors: []
 };
 
 export interface Action {
     type: string;
     data?: any;
     user?: any;
+    errors?: any;
 }
 
 export const appReducer = (state: AppState = initialState, action: Action) => {
@@ -26,6 +28,12 @@ export const appReducer = (state: AppState = initialState, action: Action) => {
         case ActionType.GET_USER_FAILURE:
             return {...state, ...{
                 appLoadingState: 'ready'
+            }};
+
+        case ActionType.SIGNUP_FAILURE:
+        case ActionType.LOGIN_FAILURE:
+            return {...state, ...{
+                errors: action.errors
             }};
 
         case ActionType.GET_USER_SUCCESS:
@@ -44,6 +52,11 @@ export const appReducer = (state: AppState = initialState, action: Action) => {
         case ActionType.SIGNOUT:
             return {...state, ...{
                 user: User.NULL_USER_MODEL
+            }};
+
+        case ActionType.CLEAR_ERRORS:
+            return {...state, ...{
+                errors: []
             }};
         default:
           return state;

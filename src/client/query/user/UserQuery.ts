@@ -13,6 +13,7 @@ export class UserQuery {
         this.tokenHandler = tokenHandler;
         this.fetchUser = this.fetchUser.bind(this);
         this.loginFacebook = this.loginFacebook.bind(this);
+        this.signup = this.signup.bind(this);
     }
 
     public login(userLoginDto: UserLoginDto): Promise<User> {

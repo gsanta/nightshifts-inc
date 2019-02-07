@@ -1,6 +1,7 @@
 import { World } from '../../game/model/World';
 import { UserQuery } from '../query/user/UserQuery';
 import { User } from '../stores/User';
+import { ErrorMessage } from '../gui/ErrorMessage';
 
 export type AppLoadingState = 'loading' | 'ready';
 
@@ -15,4 +16,5 @@ export interface AppState {
     user: User;
 
     appLoadingState: AppLoadingState;
+    errors: ErrorMessage[];
 }

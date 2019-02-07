@@ -100,7 +100,7 @@ export function* signup(action: { email: string, password: string, userQuery: Us
         const user = yield call(action.userQuery.signup, { email: action.email, password: action.password });
         yield put({type: ActionType.SIGNUP_SUCCESS, user});
     } catch (e) {
-        yield put({type: ActionType.SIGNUP_FAILURE});
+        yield put({type: ActionType.SIGNUP_FAILURE, errors: [<ErrorMessage> e.response.data]});
     }
 }
 
@@ -123,20 +123,33 @@ export function* watchUpdatePassword() {
     yield takeEvery(ActionType.UPDATE_PASSWORD_REQUEST, signup);
 }
 
-export const loginRequest = () => {
+export const loginRequest = (email: string, password: string, userQuery: UserQuery) => {
     return {
-        type: ActionType.LOGIN_REQUEST
+        type: ActionType.LOGIN_REQUEST,
+        email,
+        password,
+        userQuery
     };
 };
 
 export function* login(action: { email: string, password: string, userQuery: UserQuery }) {
-    const user = yield call(action.userQuery.login, { email: action.email, password: action.password});
-    yield put({ type: ActionType.LOGIN_SUCCESS, user});
+    try {
+        const user = yield call(action.userQuery.login, { email: action.email, password: action.password});
+        yield put({ type: ActionType.LOGIN_SUCCESS, user});
+    } catch (e) {
+        yield put({type: ActionType.LOGIN_SUCCESS, errors: [<ErrorMessage> e.response.data]});
+    }
 }
 
 export function* watchLogin() {
     yield takeEvery(ActionType.LOGIN_REQUEST, signup);
 }
+
+export const clearErrors = () => {
+    return {
+        type: ActionType.CLEAR_ERRORS
+    };
+};
 
 export class UserActions {
     private userStore: UserStore;
