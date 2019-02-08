@@ -16,6 +16,7 @@ export class UserQuery {
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
         this.signout = this.signout.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
     }
 
     public login(userLoginDto: UserLoginDto): Promise<User> {

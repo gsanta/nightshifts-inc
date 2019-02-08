@@ -14,6 +14,8 @@ import { toVector3 } from '../../../../game/model/core/VectorModel';
 import { DataLoadingState, AppState } from '../../../state/AppState';
 import { connect } from 'react-redux';
 import { ErrorMessage } from '../../ErrorMessage';
+import { UserQuery } from '../../../query/user/UserQuery';
+import { updatePassword, updatePassworRequest } from '../../../stores/UserActions';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -76,13 +78,15 @@ const mapStateToProps = (state: AppState) => {
     return {
         user: state.user,
         dataLoadingState: state.dataLoadingState,
-        errors: state.errors
+        errors: state.errors,
+        userQuery: state.query.user
     };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        updatePassword: ()
+        updatePassword: (user: User, newPassword: string, oldPassword: string, userQuery: UserQuery ) =>
+            dispatch(updatePassworRequest(user, newPassword, oldPassword, userQuery))
     };
 };
 
@@ -91,9 +95,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         ...ownProps,
         ...stateProps,
         ...{
-
+            updatePassword: (newPassword: string, oldPassword: string) =>
+                dispatchProps.updatePassword(stateProps.user, newPassword, oldPassword, stateProps.userQuery)
         }
-    }
+    };
 };
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
@@ -223,6 +228,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 
     private updatePassword() {
+        this.props.updatePassword(this.state.newPassword, this.state.oldPassword);
         // this.props.userActions.updatePassword({
         //     id: this.props.userStore.getModel().id,
         //     oldPassword: this.state.oldPassword,
@@ -259,7 +265,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 }
 
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Settings);
 
 export interface SettingsState {
     user: User;
@@ -273,4 +279,5 @@ export interface SettingsProps {
     user: User;
     dataLoadingState: DataLoadingState;
     errors: ErrorMessage[];
+    updatePassword(newPassword: string, oldPassword: string);
 }

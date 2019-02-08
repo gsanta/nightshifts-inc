@@ -45,6 +45,7 @@ export const appReducer = (state: AppState = initialState, action: Action) => {
 
         case ActionType.UPDATE_USER_SUCCESS:
         case ActionType.LOGIN_FACEBOOK_SUCCESS:
+        case ActionType.LOGIN_SUCCESS:
         case ActionType.SIGNUP_SUCCESS:
             return {...state, ...{
                 user: action.user

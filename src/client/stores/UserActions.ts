@@ -123,7 +123,8 @@ export const updatePassworRequest = (user: User, newPassword: string, oldPasswor
         type: ActionType.UPDATE_PASSWORD_REQUEST,
         newPassword,
         oldPassword,
-        user
+        user,
+        userQuery
     };
 };
 
@@ -133,13 +134,17 @@ export function* updatePassword(action: { user: User, newPassword: string, oldPa
         oldPassword: action.oldPassword,
         newPassword: action.newPassword
     };
+    try {
+        yield call(action.userQuery.updatePassword, passwordUpdateDto);
+        yield put({ type: ActionType.UPDATE_PASSWORD_SUCCESS});
+    } catch (e) {
+        yield put({type: ActionType.UPDATE_PASSWORD_FAILURE, errors: [<ErrorMessage> e.response.data]});
+    }
 
-    yield call(action.userQuery.updatePassword, passwordUpdateDto);
-    yield put({ type: ActionType.UPDATE_PASSWORD_SUCCESS});
 }
 
 export function* watchUpdatePassword() {
-    yield takeEvery(ActionType.UPDATE_PASSWORD_REQUEST, signup);
+    yield takeEvery(ActionType.UPDATE_PASSWORD_REQUEST, updatePassword);
 }
 
 export const loginRequest = (email: string, password: string, userQuery: UserQuery) => {
