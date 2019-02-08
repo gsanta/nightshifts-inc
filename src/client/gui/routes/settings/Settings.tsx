@@ -15,7 +15,7 @@ import { DataLoadingState, AppState } from '../../../state/AppState';
 import { connect } from 'react-redux';
 import { ErrorMessage } from '../../ErrorMessage';
 import { UserQuery } from '../../../query/user/UserQuery';
-import { updatePassword, updatePassworRequest } from '../../../stores/UserActions';
+import { updatePassword, updatePassworRequest, updateUser, updateUserRequest } from '../../../stores/UserActions';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -86,7 +86,8 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         updatePassword: (user: User, newPassword: string, oldPassword: string, userQuery: UserQuery ) =>
-            dispatch(updatePassworRequest(user, newPassword, oldPassword, userQuery))
+            dispatch(updatePassworRequest(user, newPassword, oldPassword, userQuery)),
+        updateUser: (user: User, userQuery: UserQuery) => dispatch(updateUserRequest(user, userQuery))
     };
 };
 
@@ -96,7 +97,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         ...stateProps,
         ...{
             updatePassword: (newPassword: string, oldPassword: string) =>
-                dispatchProps.updatePassword(stateProps.user, newPassword, oldPassword, stateProps.userQuery)
+                dispatchProps.updatePassword(stateProps.user, newPassword, oldPassword, stateProps.userQuery),
+            updateUser: (user: User) => dispatchProps.updateUser(user, stateProps.userQuery)
         }
     };
 };
@@ -126,7 +128,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 
     public static getDerivedStateFromProps(props: SettingsProps, state: SettingsState) {
-        return {...state, user: props.user};
+        const isSaveButtonPopoverOpen = props.dataLoadingState === 'recently_loaded' ? true : false;
+
+        return {...state, isSaveButtonPopoverOpen: isSaveButtonPopoverOpen};
     }
 
     public render() {
@@ -136,7 +140,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                 <SettingsLeftColumn>
                     <SmallButton
                         ref={this.saveButtonRef}
-                        onClick={this.updateUser}
+                        onClick={() => this.props.updateUser(this.state.user)}
                         isDisabled={this.props.dataLoadingState === 'loading'}
                     >
                         Save changes
@@ -247,6 +251,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
     private onAppStoreChange() {
         if (this.props.dataLoadingState === 'recently_loaded') {
+                this.setState({
+                    isSaveButtonPopoverOpen: true
+                });
             // if (this.props.appStore.getModel().lastActiontType === ActionType.UPDATE_PASSWORD) {
             //     this.setState({
             //         isSavePasswordButtonPopoverOpen: true
@@ -280,4 +287,5 @@ export interface SettingsProps {
     dataLoadingState: DataLoadingState;
     errors: ErrorMessage[];
     updatePassword(newPassword: string, oldPassword: string);
+    updateUser(user: User);
 }

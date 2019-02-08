@@ -1,32 +1,25 @@
 import { UserStore } from './UserStore';
 import { UserQuery } from '../query/user/UserQuery';
 import { AppStore } from './app/AppStore';
-import { AppModel } from './app/AppModel';
 import { User } from './User';
 import { PasswordUpdateDto } from '../query/user/PasswordUpdateDto';
 import { ActionType } from './ActionType';
 import { ErrorMessage } from '../gui/ErrorMessage';
+import { takeEvery, put, call, select } from 'redux-saga/effects';
+import { AppState } from '../state/AppState';
 
-import { takeEvery, put, call } from 'redux-saga/effects';
-import { sign } from 'jsonwebtoken';
+const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+export const getUserQuery = (state: AppState) => state.query.user;
 
 
 export function* loadUser(action: {userQuery: UserQuery}) {
     try {
-        const user = yield call(action.userQuery.fetchUser); // Make Api call to Github api with the username
-        yield put({type: ActionType.GET_USER_SUCCESS, user}); // Yields effect to the reducer specifying the action type and optional parameter
+        const user = yield call(action.userQuery.fetchUser);
+        yield put({type: ActionType.GET_USER_SUCCESS, user});
     } catch (error) {
         yield put({type: ActionType.GET_USER_FAILURE});
     }
-    // this.userQuery.fetchUser()
-    // .then(user => {
-    //     this.userStore.setModel(user);
-    // })
-    // .finally(() => {
-    //     const appModel: AppModel = {...this.appStore.getModel(), appState: 'ready'};
-    //     this.appStore.setModel(appModel);
-    // });
-    // yield put({ type: ActionType.GET_GAME_SUCCESS });
 }
 
 export const loadUserRequest = (userQuery: UserQuery) => {
@@ -40,15 +33,18 @@ export function* watchGetUserRequest() {
     yield takeEvery(ActionType.GET_USER_REQUEST, loadUser);
 }
 
-export const updateUserRequest = () => {
+export const updateUserRequest = (user: User) => {
     return {
-        type: ActionType.UPDATE_USER_REQUEST
+        type: ActionType.UPDATE_USER_REQUEST,
+        user
     };
 };
 
-export function* updateUser(action: {user: User, userQuery: UserQuery}) {
+export function* updateUser(action: {user: User}) {
     try {
-        const updatedUser = yield call(action.userQuery.updateUser, action.user);
+        const userQuery = yield select(getUserQuery);
+
+        const updatedUser = yield call([userQuery, userQuery.updateUser], action.user);
         yield put({type: ActionType.UPDATE_USER_SUCCESS, user: updatedUser});
     } catch (error) {
         throw error;
@@ -161,7 +157,7 @@ export function* login(action: { email: string, password: string, userQuery: Use
         const user = yield call(action.userQuery.login, { email: action.email, password: action.password});
         yield put({ type: ActionType.LOGIN_SUCCESS, user});
     } catch (e) {
-        yield put({type: ActionType.LOGIN_SUCCESS, errors: [<ErrorMessage> e.response.data]});
+        yield put({type: ActionType.LOGIN_FAILURE, errors: [<ErrorMessage> e.response.data]});
     }
 }
 
@@ -174,6 +170,21 @@ export const clearErrors = () => {
         type: ActionType.CLEAR_ERRORS
     };
 };
+
+export function* dataLoaded() {
+    yield delay(1000);
+    yield put({ type: ActionType.DATA_LOADED });
+}
+
+export function* watchDataLoadedState() {
+    yield takeEvery(
+        [
+            ActionType.UPDATE_PASSWORD_SUCCESS,
+            ActionType.UPDATE_USER_REQUEST
+        ],
+        dataLoaded
+    );
+}
 
 export class UserActions {
     private userStore: UserStore;
