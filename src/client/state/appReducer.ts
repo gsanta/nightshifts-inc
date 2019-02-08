@@ -2,7 +2,7 @@ import { AppState } from './AppState';
 import { ActionType } from '../stores/ActionType';
 import { UserQuery } from '../query/user/UserQuery';
 import { User } from '../stores/User';
-import { dataLoaded } from '../stores/UserActions';
+import { dataLoaded } from './user/UserActions';
 
 const initialState: AppState = {
     config: {

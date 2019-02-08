@@ -1,21 +1,17 @@
 import * as React from 'react';
-import { GlobalContext, GlobalProps } from '../../App';
 import styled from 'styled-components';
-import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { colors } from '../../styles';
 import { SmallButton } from '../../form/SmallButton';
 import { User } from '../../../stores/User';
 import * as ReactDom from 'react-dom';
 import { StatusPopover } from '../../form/StatusPopover';
-import { ActionType } from '../../../stores/ActionType';
 import { SettingsInputField } from '../../form/SettingsInputField';
 import { hasError, getErrorMessage } from '../../dialogs/FormDialogWrapper';
-import { toVector3 } from '../../../../game/model/core/VectorModel';
 import { DataLoadingState, AppState } from '../../../state/AppState';
 import { connect } from 'react-redux';
 import { ErrorMessage } from '../../ErrorMessage';
-import { UserQuery } from '../../../query/user/UserQuery';
-import { updatePassword, updatePassworRequest, updateUser, updateUserRequest } from '../../../stores/UserActions';
+import { updatePassworRequest, updateUserRequest } from '../../../state/user/UserActions';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -85,21 +81,9 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        updatePassword: (user: User, newPassword: string, oldPassword: string, userQuery: UserQuery ) =>
-            dispatch(updatePassworRequest(user, newPassword, oldPassword, userQuery)),
-        updateUser: (user: User, userQuery: UserQuery) => dispatch(updateUserRequest(user, userQuery))
-    };
-};
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-    return {
-        ...ownProps,
-        ...stateProps,
-        ...{
-            updatePassword: (newPassword: string, oldPassword: string) =>
-                dispatchProps.updatePassword(stateProps.user, newPassword, oldPassword, stateProps.userQuery),
-            updateUser: (user: User) => dispatchProps.updateUser(user, stateProps.userQuery)
-        }
+        updatePassword: (user: User, newPassword: string, oldPassword: string ) =>
+            dispatch(updatePassworRequest(user, newPassword, oldPassword)),
+        updateUser: (user: User) => dispatch(updateUserRequest(user))
     };
 };
 
@@ -272,7 +256,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
 export interface SettingsState {
     user: User;
