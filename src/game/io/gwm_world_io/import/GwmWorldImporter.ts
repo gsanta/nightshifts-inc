@@ -22,6 +22,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<GameObject> {
 
         world.lightController = new LightController(this.hemisphericLight);
         world.dimensions = this.getWorldDimensions(gameObjects);
+        world.camera = this.camera;
 
         return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
             .then(meshFactory => {

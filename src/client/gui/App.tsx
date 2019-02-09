@@ -18,7 +18,7 @@ import { ErrorMessage } from './ErrorMessage';
 
 require('bootstrap/dist/css/bootstrap.css');
 
-const mapStateToProps = (state: AppState, ownProps: {userQuery: UserQuery}) => {
+const mapStateToProps = (state: AppState) => {
     return {
         user: state.user,
         userQuery: state.query.user,
@@ -27,11 +27,11 @@ const mapStateToProps = (state: AppState, ownProps: {userQuery: UserQuery}) => {
     };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        loginFacebook: (accessToken: string, userQuery: UserQuery) => dispatch(loginFacebookRequest(accessToken)),
-        signup: (email: string, password: string, userQuery: UserQuery) => dispatch(signupRequest(email, password)),
-        login: (email: string, password: string, userQuery: UserQuery) => dispatch(loginRequest(email, password)),
+        loginFacebook: (accessToken: string) => dispatch(loginFacebookRequest(accessToken)),
+        signup: (email: string, password: string) => dispatch(signupRequest(email, password)),
+        login: (email: string, password: string) => dispatch(loginRequest(email, password)),
         clearErrors: () => dispatch(clearErrors())
     };
 };
