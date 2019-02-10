@@ -2,6 +2,7 @@ import { World } from '../../game/model/World';
 import { UserQuery } from '../query/user/UserQuery';
 import { User } from '../stores/User';
 import { ErrorMessage } from '../gui/ErrorMessage';
+import { GameRequests } from './game/GameRequests';
 
 export type AppLoadingState = 'loading' | 'ready';
 export type DataLoadingState = 'loading' | 'recently_loaded' | 'loaded';
@@ -12,6 +13,7 @@ export interface AppState {
     };
     query: {
         user: UserQuery;
+        game: GameRequests;
     };
     world: World;
     user: User;

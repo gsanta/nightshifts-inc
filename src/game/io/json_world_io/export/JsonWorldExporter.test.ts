@@ -1,5 +1,5 @@
 import { JsonDefaultItemExporter } from './serializers/JsonDefaultItemExporter';
-import { JsonWorldSerializer } from './JsonWorldExporter';
+import { JsonWorldExporter } from './JsonWorldExporter';
 import { World } from '../../../model/World';
 import sinon = require('sinon');
 import { MeshModel } from '../../../model/core/MeshModel';
@@ -30,7 +30,7 @@ describe('JsonWorldExporter', () => {
                 serialize
             };
 
-            const jsonWorldSerializer = new JsonWorldSerializer(<JsonDefaultItemExporter> defaultSerializer);
+            const jsonWorldSerializer = new JsonWorldExporter(<JsonDefaultItemExporter> defaultSerializer);
 
             jsonWorldSerializer.export(<World> worldMock);
 

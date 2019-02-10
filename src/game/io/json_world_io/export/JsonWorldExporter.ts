@@ -4,20 +4,20 @@ import { SerializedMeshModel, MeshModel } from '../../../model/core/MeshModel';
 import { JsonDefaultItemExporter } from './serializers/JsonDefaultItemExporter';
 
 
-export class JsonWorldSerializer {
+export class JsonWorldExporter {
     private defaulSerializer: JsonDefaultItemExporter;
 
-    constructor(defaultSerializer: JsonDefaultItemExporter) {
+    constructor(defaultSerializer: JsonDefaultItemExporter = new JsonDefaultItemExporter()) {
         this.defaulSerializer = defaultSerializer;
     }
 
-    public export(world: World) {
+    public export(world: World): JsonWorldSchema {
         const schema: Partial<JsonWorldSchema> = {
             dimensions: world.dimensions.serialize(),
             items: this.serializeItems(world)
         };
 
-        return schema;
+        return <JsonWorldSchema> schema;
     }
 
     private serializeItems(world: World): SerializedMeshModel[] {

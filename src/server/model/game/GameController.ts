@@ -3,19 +3,22 @@ import * as express from 'express';
 import { GameDao } from './GameDao';
 import { JwtTokenExtracter } from '../../security/JwtTokenExtracter';
 import { GameModel } from './GameModel';
-
+import { UserDao } from '../user/UserDao';
 
 
 export class GameController extends BaseController {
     private gameDao: GameDao;
+    private userDao: UserDao;
     private jwtTokenExtracter: JwtTokenExtracter;
 
     constructor(
         gameDao: GameDao,
+        userDao: UserDao,
         jwtTokenExtracter: JwtTokenExtracter
     ) {
         super();
         this.gameDao = gameDao;
+        this.userDao = userDao;
         this.jwtTokenExtracter = jwtTokenExtracter;
     }
 
@@ -29,6 +32,11 @@ export class GameController extends BaseController {
         router.post('/game/save', this.jwtTokenExtracter.withRequiredToken(), async (req, res) => {
             this.addErrorHandling(
                 async () => {
+                    const user = await this.userDao.findById(req.params.userId);
+
+                    if (!user) {
+                        throw new Error('User not found');
+                    }
 
                     let gameModel: Partial<GameModel> = {
                         world: JSON.stringify(req.body.world),
@@ -49,6 +57,7 @@ export class GameController extends BaseController {
 
     private registerUpdate(router: express.Router) {
         router.post('/game/update', this.jwtTokenExtracter.withRequiredToken(), async (req, res) => {
+            debugger;
             this.addErrorHandling(
                 async () => {
 
@@ -74,6 +83,12 @@ export class GameController extends BaseController {
         router.get('/game/load/:userId', this.jwtTokenExtracter.withRequiredToken(), async (req, res) => {
             this.addErrorHandling(
                 async () => {
+
+                    const user = await this.userDao.findById(req.params.userId);
+
+                    if (!user) {
+                        throw new Error('User not found');
+                    }
 
                     const gameModel = await this.gameDao.load(req.params.userId);
                     if (!gameModel) {

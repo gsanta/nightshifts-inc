@@ -4,6 +4,7 @@ import { ActionType } from '../../stores/ActionType';
 import { ErrorMessage } from '../../gui/ErrorMessage';
 import { takeEvery, put, call, select } from 'redux-saga/effects';
 import { AppState } from '../AppState';
+import { UserQuery } from '../../query/user/UserQuery';
 
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
@@ -12,7 +13,7 @@ export const getUserQuery = (state: AppState) => state.query.user;
 
 export function* loadUser() {
     try {
-        const userQuery = yield select(getUserQuery);
+        const userQuery: UserQuery = yield select(getUserQuery);
         const user = yield call([userQuery, userQuery.fetchUser]);
 
         yield put({type: ActionType.GET_USER_SUCCESS, user});

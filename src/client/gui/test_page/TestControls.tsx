@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { GameEngine } from '../../../game/GameEngine';
-import { JsonWorldSerializer } from '../../../game/io/json_world_io/export/JsonWorldExporter';
+import { JsonWorldExporter } from '../../../game/io/json_world_io/export/JsonWorldExporter';
 import { JsonDefaultItemExporter } from '../../../game/io/json_world_io/export/serializers/JsonDefaultItemExporter';
 
 export const TestControls = (props: { gameEngine: GameEngine }) => {
 
     const serialize = () => {
-        const serializer = new JsonWorldSerializer(new JsonDefaultItemExporter());
+        const serializer = new JsonWorldExporter(new JsonDefaultItemExporter());
         const json = serializer.export(props.gameEngine.getWorld());
         console.log(json);
     };

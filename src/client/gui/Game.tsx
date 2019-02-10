@@ -7,22 +7,26 @@ import { loadGameRequest } from '../state/GameActions';
 import { AppState } from '../state/AppState';
 import { JsonWorldImporter } from '../../game/io/json_world_io/import/JsonWorldImporter';
 import { JsonMeshFactoryProducer } from '../../game/io/json_world_io/import/JsonMashFactoryProducer';
+import { World } from '../../game/model/World';
+import { UpdateGameActions } from '../state/game/actions/UpdateGameActions';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
-const mapStateToProps = (state: AppState, ownProps) => {
+const mapStateToProps = (state: AppState) => {
     return {
       world: state
     };
 };
 
 const mapDispatchToProps = dispatch => ({
-    loadGame: () => dispatch(loadGameRequest())
+    loadGame: () => dispatch(loadGameRequest()),
+    updateGame: (world: World) => dispatch(UpdateGameActions.request(world))
 });
 
 class Game extends React.Component<GameProps, {}> {
     private ref: React.RefObject<HTMLCanvasElement>;
     private gameEngine: GameEngine;
+    private intervalTimeout: NodeJS.Timeout;
 
     constructor(props: GameProps) {
         super(props);
@@ -39,6 +43,17 @@ class Game extends React.Component<GameProps, {}> {
         this.gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
         // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
         this.gameEngine.runGame(gwmGameWorldMap);
+
+        this.intervalTimeout = setInterval(
+            () => {
+                this.props.updateGame(this.gameEngine.getWorld());
+            },
+            1000
+        );
+    }
+
+    public componentWillUnmount() {
+        clearInterval(this.intervalTimeout);
     }
 
     public render() {
@@ -50,6 +65,7 @@ class Game extends React.Component<GameProps, {}> {
 
 export interface GameProps {
     loadGame(): void;
+    updateGame(world: World): void;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

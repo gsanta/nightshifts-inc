@@ -33,6 +33,7 @@ userController.register(router);
 const gameDao = new GameDao(GameDatabaseModel);
 const gameController = new GameController(
     gameDao,
+    userDao,
     new JwtTokenExtracter()
 );
 gameController.register(router);

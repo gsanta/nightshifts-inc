@@ -2,14 +2,15 @@ import { AppState } from './AppState';
 import { ActionType } from '../stores/ActionType';
 import { UserQuery } from '../query/user/UserQuery';
 import { User } from '../stores/User';
-import { dataLoaded } from './user/UserActions';
+import { GameRequests } from './game/GameRequests';
 
 const initialState: AppState = {
     config: {
         baseUrl: null
     },
     query: {
-        user: new UserQuery()
+        user: new UserQuery(),
+        game: new GameRequests()
     },
     world: null,
     user: User.NULL_USER_MODEL,
@@ -23,6 +24,7 @@ export interface Action {
     data?: any;
     user?: any;
     errors?: any;
+    world?: any;
 }
 
 export const appReducer = (state: AppState = initialState, action: Action): AppState => {
@@ -79,6 +81,11 @@ export const appReducer = (state: AppState = initialState, action: Action): AppS
         case ActionType.DATA_LOADED:
             return {...state, ...{
                 dataLoadingState: 'loaded'
+            }};
+
+        case ActionType.UPDATE_GAME_REQUEST:
+            return {...state, ...{
+                world: action.world
             }};
         default:
           return state;
