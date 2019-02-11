@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 
 describe('GameDatabaseModel', () => {
-    it.only('is invalid when world is empty', async () => {
+    it('is invalid when world is empty', async () => {
         const model = new GameDatabaseModel();
 
         return model.validate()
