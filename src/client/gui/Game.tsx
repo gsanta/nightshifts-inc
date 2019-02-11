@@ -9,12 +9,13 @@ import { JsonWorldImporter } from '../../game/io/json_world_io/import/JsonWorldI
 import { JsonMeshFactoryProducer } from '../../game/io/json_world_io/import/JsonMashFactoryProducer';
 import { World } from '../../game/model/World';
 import { UpdateGameActions } from '../state/game/actions/UpdateGameActions';
+import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSchema';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
 const mapStateToProps = (state: AppState) => {
     return {
-      world: state
+        worldSchema: state.world
     };
 };
 
@@ -23,26 +24,40 @@ const mapDispatchToProps = dispatch => ({
     updateGame: (world: World) => dispatch(UpdateGameActions.request(world))
 });
 
-class Game extends React.Component<GameProps, {}> {
-    private ref: React.RefObject<HTMLCanvasElement>;
+class Game extends React.Component<GameProps, GameState> {
     private gameEngine: GameEngine;
     private intervalTimeout: NodeJS.Timeout;
 
     constructor(props: GameProps) {
         super(props);
-        this.ref = React.createRef();
+
+        this.state = {
+            canvasRef: React.createRef(),
+            engine: null,
+            scene: null
+        };
+    }
+
+    public static getDerivedStateFromProps(props: GameProps, state: GameState) {
+
     }
 
     public componentDidMount() {
         this.props.loadGame();
-        const canvas = this.ref.current;
-        const engine = new BABYLON.Engine(this.ref.current);
+
+        const canvas = this.state.canvasRef.current;
+        const engine = new BABYLON.Engine(canvas);
         const scene = new BABYLON.Scene(engine);
+        this.setState({
+            engine,
+            scene
+        });
+
         // const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
-        const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
-        this.gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
+        // const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
+        // this.gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
         // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
-        this.gameEngine.runGame(gwmGameWorldMap);
+        // this.gameEngine.runGame(gwmGameWorldMap);
 
         this.intervalTimeout = setInterval(
             () => {
@@ -52,13 +67,23 @@ class Game extends React.Component<GameProps, {}> {
         );
     }
 
+    public componentDidUpdate() {
+        const canvas = this.state.canvasRef.current;
+        const scene = this.state.scene;
+
+        if (this.props.worldSchema && !this.gameEngine.isRunning()) {
+            const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
+            this.gameEngine.runGame(JSON.stringify(this.props.worldSchema));
+        }
+    }
+
     public componentWillUnmount() {
         clearInterval(this.intervalTimeout);
     }
 
     public render() {
         return (
-            <canvas ref={this.ref}></canvas>
+            <canvas ref={this.state.canvasRef}></canvas>
         );
     }
 }
@@ -66,6 +91,13 @@ class Game extends React.Component<GameProps, {}> {
 export interface GameProps {
     loadGame(): void;
     updateGame(world: World): void;
+    worldSchema: JsonWorldSchema;
+}
+
+export interface GameState {
+    canvasRef: React.RefObject<HTMLCanvasElement>;
+    scene: BABYLON.Scene;
+    engine: BABYLON.Engine;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

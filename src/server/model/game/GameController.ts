@@ -32,7 +32,7 @@ export class GameController extends BaseController {
         router.post('/game/save', this.jwtTokenExtracter.withRequiredToken(), async (req, res) => {
             this.addErrorHandling(
                 async () => {
-                    const user = await this.userDao.findById(req.params.userId);
+                    const user = await this.userDao.findById(req.body.userId);
 
                     if (!user) {
                         throw new Error('User not found');
@@ -57,7 +57,6 @@ export class GameController extends BaseController {
 
     private registerUpdate(router: express.Router) {
         router.post('/game/update', this.jwtTokenExtracter.withRequiredToken(), async (req, res) => {
-            debugger;
             this.addErrorHandling(
                 async () => {
 

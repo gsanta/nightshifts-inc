@@ -11,6 +11,7 @@ export class GameEngine {
     private engine: Engine;
     private canvas: HTMLCanvasElement;
     private worldGenerator: AbstractWorldImporter<any>;
+    private isGameRunning = false;
 
     constructor(canvas: HTMLCanvasElement, scene: BABYLON.Scene, engine: BABYLON.Engine, worldGenerator: AbstractWorldImporter<any>) {
         this.canvas = canvas;
@@ -33,6 +34,7 @@ export class GameEngine {
         //         this.engine.runRenderLoop(this.run);
         //     })
         //     .catch(e => console.error(e));
+        this.isGameRunning = true;
 
         this.worldGenerator
             .create(strWorld)
@@ -40,7 +42,14 @@ export class GameEngine {
                 this.world = world;
                 this.engine.runRenderLoop(this.run);
             })
-            .catch(e => console.error(e));
+            .catch(e => {
+                this.isGameRunning = false;
+                console.error(e);
+            });
+    }
+
+    public isRunning(): boolean {
+        return this.isGameRunning;
     }
 
     public getWorld() {

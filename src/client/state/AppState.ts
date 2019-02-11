@@ -1,8 +1,8 @@
-import { World } from '../../game/model/World';
 import { UserQuery } from '../query/user/UserQuery';
 import { User } from '../stores/User';
 import { ErrorMessage } from '../gui/ErrorMessage';
 import { GameRequests } from './game/GameRequests';
+import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSchema';
 
 export type AppLoadingState = 'loading' | 'ready';
 export type DataLoadingState = 'loading' | 'recently_loaded' | 'loaded';
@@ -15,7 +15,7 @@ export interface AppState {
         user: UserQuery;
         game: GameRequests;
     };
-    world: World;
+    world: JsonWorldSchema;
     user: User;
 
     appLoadingState: AppLoadingState;
