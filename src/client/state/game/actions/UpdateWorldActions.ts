@@ -8,7 +8,7 @@ export const getGameRequests = (state: AppState) => state.query.game;
 export const getUser = (state: AppState) => state.user;
 export const getWorld = (state: AppState) => state.world;
 
-export const UpdateGameActions = {
+export const UpdateWorldActions = {
     request: (world: World) => ({
         type: ActionType.UPDATE_GAME_REQUEST,
         world
@@ -21,7 +21,7 @@ export const UpdateGameActions = {
             const world = yield select(getWorld);
             yield call([gameRequest, gameRequest.update], user, world);
 
-            yield put({type: ActionType.UPDATE_GAME_SUCCESS, user});
+            yield put({type: ActionType.UPDATE_GAME_SUCCESS});
         } catch (error) {
             yield put({type: ActionType.UPDATE_GAME_FAILURE});
         }
@@ -32,7 +32,7 @@ export const UpdateGameActions = {
             const world = yield select(getWorld);
 
             if (world) {
-                yield UpdateGameActions.fetch();
+                yield call(UpdateWorldActions.fetch);
             }
             yield delay(10000);
         }

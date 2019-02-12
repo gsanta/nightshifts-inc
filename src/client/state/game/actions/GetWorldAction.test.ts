@@ -10,15 +10,14 @@ describe('GetWorldAction', () => {
     describe('watchOnce', () => {
         it ('calls the right actions', () => {
             const watchOnce = GetWorldActions.watchOnce();
-            const val = watchOnce.next().value;
+            const val = watchOnce.next();
 
-            expect(val).to.eql(take(ActionType.GET_USER_SUCCESS));
+            expect(val.value).to.eql(take(ActionType.GET_USER_SUCCESS));
         });
     });
 
     describe('fetch', () => {
-        it.only ('calls the webservice and and gets the \'world\'', () => {
-            const fetch = GetWorldActions.fetch();
+        it ('calls the webservice and and gets the \'world\'', () => {
             const worldMock = sinon.spy();
             const userMock = sinon.spy();
 
@@ -28,15 +27,16 @@ describe('GetWorldAction', () => {
                 getWorldByUserId
             };
 
+            const fetch = GetWorldActions.fetch();
 
             fetch.next();
             fetch.next(gameRequestMock);
 
             const callGetWorld = fetch.next(userMock);
-            expect(callGetWorld).to.eql(call([gameRequestMock, gameRequestMock.getWorldByUserId], <any> userMock));
+            expect(callGetWorld.value).to.eql(call([gameRequestMock, gameRequestMock.getWorldByUserId], <any> userMock));
 
             const putGetWorldSuccess = fetch.next(worldMock);
-            expect(putGetWorldSuccess).to.eql(put({type: ActionType.GET_WORLD_SUCCESS, worldMock}));
+            expect(putGetWorldSuccess.value).to.eql(put({type: ActionType.GET_WORLD_SUCCESS, world: worldMock}));
         });
     });
 });
