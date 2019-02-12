@@ -4,7 +4,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Header from './header/Header';
 import { RootRoute } from './routes/root/RootRoute';
-import { loginFacebookRequest, signupRequest, loginRequest, clearErrors } from '../state/user/UserActions';
+import { loginRequest, clearErrors } from '../state/user/UserActions';
 import { UserQuery } from '../query/user/UserQuery';
 import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
@@ -15,6 +15,8 @@ import { Provider, connect } from 'react-redux';
 import { GlobalStore } from '../state/GlobalStore';
 import { AppState, AppLoadingState } from '../state/AppState';
 import { ErrorMessage } from './ErrorMessage';
+import { LoginFacebookActions } from '../state/user/LoginFacebookActions';
+import { SignupActions } from '../state/user/SignupActions';
 
 require('bootstrap/dist/css/bootstrap.css');
 
@@ -29,8 +31,8 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loginFacebook: (accessToken: string) => dispatch(loginFacebookRequest(accessToken)),
-        signup: (email: string, password: string) => dispatch(signupRequest(email, password)),
+        loginFacebook: (accessToken: string) => dispatch(LoginFacebookActions.request(accessToken)),
+        signup: (email: string, password: string) => dispatch(SignupActions.request(email, password)),
         login: (email: string, password: string) => dispatch(loginRequest(email, password)),
         clearErrors: () => dispatch(clearErrors())
     };

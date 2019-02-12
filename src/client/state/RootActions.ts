@@ -1,21 +1,25 @@
 import { all } from 'redux-saga/effects';
 import { loadGameActionWatch } from './GameActions';
-import { watchLoginFacebookRequest, watchSignupRequest, watchLogin, watchSignoutRequest, watchUpdatePassword, watchDataLoadedState, watchUpdateUserRequest } from './user/UserActions';
+import { watchLogin, watchDataLoadedState } from './user/UserActions';
 import { UpdateWorldActions } from './game/actions/UpdateWorldActions';
 import { GetWorldActions } from './game/actions/GetWorldActions';
-import { LoadUserActions } from './user/LoadUserActions';
+import { GetUserActions } from './user/GetUserActions';
+import { UpdateUserActions } from './user/UpdateUserActions';
+import { SignoutActions } from './user/SignoutActions';
+import { LoginFacebookActions } from './user/LoginFacebookActions';
+import { UpdatePasswordActions } from './user/UpdatePasswordActions';
 
 export default function* rootSaga() {
     yield all([
         loadGameActionWatch(),
-        watchLoginFacebookRequest(),
-        LoadUserActions.watch(),
-        watchSignupRequest(),
+        LoginFacebookActions.watch(),
+        GetUserActions.watch(),
+        SignoutActions.watch(),
         watchLogin(),
-        watchSignoutRequest(),
-        watchUpdatePassword(),
+        SignoutActions.watch(),
+        UpdatePasswordActions.watch(),
         watchDataLoadedState(),
-        watchUpdateUserRequest(),
+        UpdateUserActions.watch(),
         UpdateWorldActions.watch(),
         GetWorldActions.watchOnce()
     ]);

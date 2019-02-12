@@ -11,7 +11,8 @@ import { hasError, getErrorMessage } from '../../dialogs/FormDialogWrapper';
 import { DataLoadingState, AppState } from '../../../state/AppState';
 import { connect } from 'react-redux';
 import { ErrorMessage } from '../../ErrorMessage';
-import { updatePassworRequest, updateUserRequest } from '../../../state/user/UserActions';
+import { UpdateUserActions } from '../../../state/user/UpdateUserActions';
+import { UpdatePasswordActions } from '../../../state/user/UpdatePasswordActions';
 
 const SettingsRoot = styled.div`
     width: 100%;
@@ -82,8 +83,8 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         updatePassword: (user: User, newPassword: string, oldPassword: string ) =>
-            dispatch(updatePassworRequest(user, newPassword, oldPassword)),
-        updateUser: (user: User) => dispatch(updateUserRequest(user))
+            dispatch(UpdatePasswordActions.request(user, newPassword, oldPassword)),
+        updateUser: (user: User) => dispatch(UpdateUserActions.request(user))
     };
 };
 

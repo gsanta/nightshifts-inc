@@ -7,9 +7,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { AppState } from '../state/AppState';
 import { UserQuery } from '../query/user/UserQuery';
-import { signoutRequest } from '../state/user/UserActions';
 import { connect } from 'react-redux';
 import { User } from '../stores/User';
+import { SignoutActions } from '../state/user/SignoutActions';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -21,7 +21,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        signout: (userQuery: UserQuery) => dispatch(signoutRequest()),
+        signout: (userQuery: UserQuery) => dispatch(SignoutActions.request()),
     };
 };
 
