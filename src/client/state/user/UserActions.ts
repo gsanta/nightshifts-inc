@@ -10,28 +10,6 @@ const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
 export const getUserQuery = (state: AppState) => state.query.user;
 
-
-export function* loadUser() {
-    try {
-        const userQuery: UserQuery = yield select(getUserQuery);
-        const user = yield call([userQuery, userQuery.fetchUser]);
-
-        yield put({type: ActionType.GET_USER_SUCCESS, user});
-    } catch (error) {
-        yield put({type: ActionType.GET_USER_FAILURE});
-    }
-}
-
-export const loadUserRequest = () => {
-    return {
-        type: ActionType.GET_USER_REQUEST
-    };
-};
-
-export function* watchGetUserRequest() {
-    yield takeEvery(ActionType.GET_USER_REQUEST, loadUser);
-}
-
 export const updateUserRequest = (user: User) => {
     return {
         type: ActionType.UPDATE_USER_REQUEST,

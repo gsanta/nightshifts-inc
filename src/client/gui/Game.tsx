@@ -8,8 +8,8 @@ import { AppState } from '../state/AppState';
 import { JsonWorldImporter } from '../../game/io/json_world_io/import/JsonWorldImporter';
 import { JsonMeshFactoryProducer } from '../../game/io/json_world_io/import/JsonMashFactoryProducer';
 import { World } from '../../game/model/World';
-import { UpdateGameActions } from '../state/game/actions/UpdateGameActions';
 import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSchema';
+import { UpdateWorldActions } from '../state/game/actions/UpdateWorldActions';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
@@ -21,7 +21,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(loadGameRequest()),
-    updateGame: (world: World) => dispatch(UpdateGameActions.request(world))
+    updateGame: (world: World) => dispatch(UpdateWorldActions.request(world))
 });
 
 class Game extends React.Component<GameProps, GameState> {

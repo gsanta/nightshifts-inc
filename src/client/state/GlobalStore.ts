@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { appReducer } from './appReducer';
 import rootSaga from './RootActions';
-import { loadUserRequest } from './user/UserActions';
+import { LoadUserActions } from './user/LoadUserActions';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -13,5 +13,5 @@ export const GlobalStore = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-GlobalStore.dispatch(loadUserRequest());
+GlobalStore.dispatch(LoadUserActions.request());
 
