@@ -1,29 +1,39 @@
 import { ActionType } from '../../stores/ActionType';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
-import { getUserQuery } from './UserActions';
 import { ErrorMessage } from '../../gui/ErrorMessage';
+import { WatchableAction } from '../WatchableAction';
+import BaseActions from '../BaseActions';
 
+export interface SignupRequestPayload {
+    email: string;
+    password: string;
+}
 
+class SignupActions extends BaseActions implements WatchableAction<SignupRequestPayload> {
+    public request(payload: SignupRequestPayload) {
+        return {
+            type: ActionType.SIGNUP_REQUEST,
+            email: payload.email,
+            password: payload.password
+        };
+    }
 
-export const SignupActions = {
-    request: (email: string, password: string) => ({
-        type: ActionType.SIGNUP_REQUEST,
-        email,
-        password
-    }),
+    public *watch() {
+        yield takeEvery(ActionType.SIGNUP_REQUEST, this.fetch);
+    }
 
-    fetch: function* fetch(action: { email: string, password: string }) {
+    private *fetch(action: { email: string, password: string }) {
         try {
-            const userQuery = yield select(getUserQuery);
+            const userQuery = yield select(this.getUserQuery);
 
             const user = yield call([userQuery, userQuery.signup], { email: action.email, password: action.password });
             yield put({type: ActionType.SIGNUP_SUCCESS, user});
         } catch (e) {
             yield put({type: ActionType.SIGNUP_FAILURE, errors: [<ErrorMessage> e.response.data]});
         }
-    },
-
-    watch: function* watch() {
-        yield takeEvery(ActionType.SIGNUP_REQUEST, SignupActions.fetch);
     }
-};
+}
+
+
+
+export default new SignupActions();
