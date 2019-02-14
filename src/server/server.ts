@@ -13,7 +13,7 @@ import { GameController } from './model/game/GameController';
 import { GameDatabaseModel } from './model/game/GameDatabaseModel';
 const bodyParser = require('body-parser');
 
-const mongodbURI = process.env.MONGODB_URI;
+const mongodbURI = process.env.MONGODB_URI || 'localhost';
 mongoose.connect(`mongodb://${mongodbURI}/thegame`);
 mongoose.set('debug', true);
 mongoose.model<MongooseUserModel>('Users', UsersSchema);
@@ -40,7 +40,7 @@ const gameController = new GameController(
 gameController.register(router);
 
 const app = express();
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {

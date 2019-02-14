@@ -9,7 +9,7 @@
     "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug",
     "compile-server": "tsc -w --project tsconfig-server.json",
     "run-server": "nodemon ./build/server/server.js --ignore node_modules",
-    "build": "tsc --project tsconfig-server.json",
+    "build": "./node_modules/.bin/tsc --project tsconfig-server.json",
     "start": "node ./build/server/server.js"
   },
   "author": "",
