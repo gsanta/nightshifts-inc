@@ -13,7 +13,8 @@ import { GameController } from './model/game/GameController';
 import { GameDatabaseModel } from './model/game/GameDatabaseModel';
 const bodyParser = require('body-parser');
 
-mongoose.connect('mongodb://localhost/thegame');
+const mongodbURI = process.env.MONGODB_URI;
+mongoose.connect(`mongodb://${mongodbURI}/thegame`);
 mongoose.set('debug', true);
 mongoose.model<MongooseUserModel>('Users', UsersSchema);
 const Users = mongoose.model<MongooseUserModel>('Users');
