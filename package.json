@@ -11,7 +11,7 @@
     "run-server": "nodemon ./build/server/server.js --ignore node_modules",
     "build": "./node_modules/.bin/tsc --project tsconfig-server.json",
     "start": "node ./build/server/server.js",
-    "heroku-postbuild": "./node_modules/.bin/tsc --project tsconfig-server.json"
+    "heroku-postbuild": "./node_modules/.bin/tsc --project tsconfig-server.json && ./node_modules/.bin/webpack"
   },
   "author": "",
   "license": "ISC",
