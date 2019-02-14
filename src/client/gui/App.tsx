@@ -4,7 +4,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Header from './header/Header';
 import { RootRoute } from './routes/root/RootRoute';
-import { clearErrors } from '../state/user/UserActions';
+import ClearErrorActions from '../state/root/actions/ClearErrorActions';
 import { UserQuery } from '../query/user/UserQuery';
 import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
         loginFacebook: (accessToken: string) => dispatch(LoginFacebookActions.request(accessToken)),
         signup: (email: string, password: string) => dispatch(SignupActions.request({email, password})),
         login: (email: string, password: string) => dispatch(LoginActions.request({email, password})),
-        clearErrors: () => dispatch(clearErrors())
+        clearErrors: () => dispatch(ClearErrorActions.request())
     };
 };
 

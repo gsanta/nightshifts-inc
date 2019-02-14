@@ -9,7 +9,7 @@ import { AppState } from '../state/AppState';
 import { UserQuery } from '../query/user/UserQuery';
 import { connect } from 'react-redux';
 import { User } from '../stores/User';
-import { SignoutActions } from '../state/user/SignoutActions';
+import SignoutActions from '../state/user/SignoutActions';
 
 const mapStateToProps = (state: AppState) => {
     return {

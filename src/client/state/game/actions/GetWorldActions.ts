@@ -1,17 +1,25 @@
 import { ActionType } from '../../../stores/ActionType';
 import { AppState } from '../../AppState';
-import { select, call, put, take } from 'redux-saga/effects';
+import { select, call, put, take, takeEvery } from 'redux-saga/effects';
 import { GameRequests } from '../GameRequests';
+import BaseActions from '../../BaseActions';
+import { WatchableAction } from '../../WatchableAction';
 
 export const getGameRequests = (state: AppState) => state.query.game;
 export const getUser = (state: AppState) => state.user;
 
-export const GetWorldActions = {
-    request: () => ({
-        type: ActionType.GET_WORLD_REQUEST
-    }),
+class GetWorldActions extends BaseActions implements WatchableAction<null> {
+    public request() {
+        return {
+            type: ActionType.GET_WORLD_REQUEST
+        };
+    }
 
-    fetch: function* fetch() {
+    public *watch() {
+        yield takeEvery(ActionType.GET_USER_SUCCESS, this.fetch);
+    }
+
+    public *fetch() {
         try {
             const gameRequest: GameRequests = yield select(getGameRequests);
             const user = yield select(getUser);
@@ -21,10 +29,7 @@ export const GetWorldActions = {
         } catch (error) {
             yield put({type: ActionType.GET_WORLD_FAILURE});
         }
-    },
-
-    watchOnce: function* watchOnce() {
-        yield take(ActionType.GET_USER_SUCCESS);
-        yield GetWorldActions.fetch();
     }
-};
+}
+
+export default new GetWorldActions();

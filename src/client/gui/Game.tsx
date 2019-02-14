@@ -9,7 +9,7 @@ import { JsonWorldImporter } from '../../game/io/json_world_io/import/JsonWorldI
 import { JsonMeshFactoryProducer } from '../../game/io/json_world_io/import/JsonMashFactoryProducer';
 import { World } from '../../game/model/World';
 import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSchema';
-import { UpdateWorldActions } from '../state/game/actions/UpdateWorldActions';
+import UpdateWorldActions from '../state/game/actions/UpdateWorldActions';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 

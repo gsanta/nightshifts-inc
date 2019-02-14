@@ -3,18 +3,33 @@ import { AppState } from '../../AppState';
 import { select, call, put, delay, take } from 'redux-saga/effects';
 import { GameRequests } from '../GameRequests';
 import { World } from '../../../../game/model/World';
+import BaseActions from '../../BaseActions';
+import { WatchableAction } from '../../WatchableAction';
 
 export const getGameRequests = (state: AppState) => state.query.game;
 export const getUser = (state: AppState) => state.user;
 export const getWorld = (state: AppState) => state.world;
 
-export const UpdateWorldActions = {
-    request: (world: World) => ({
-        type: ActionType.UPDATE_GAME_REQUEST,
-        world
-    }),
+class UpdateWorldActions extends BaseActions implements WatchableAction<World> {
+    public request(world: World) {
+        return {
+            type: ActionType.UPDATE_GAME_REQUEST,
+            world
+        };
+    }
 
-    fetch: function* fetch() {
+    public *watch() {
+        while (true) {
+            const world = yield select(getWorld);
+
+            if (world) {
+                yield call(this.fetch);
+            }
+            yield delay(10000);
+        }
+    }
+
+    private *fetch() {
         try {
             const gameRequest: GameRequests = yield select(getGameRequests);
             const user = yield select(getUser);
@@ -25,16 +40,7 @@ export const UpdateWorldActions = {
         } catch (error) {
             yield put({type: ActionType.UPDATE_GAME_FAILURE});
         }
-    },
-
-    watch: function* watch() {
-        while (true) {
-            const world = yield select(getWorld);
-
-            if (world) {
-                yield call(UpdateWorldActions.fetch);
-            }
-            yield delay(10000);
-        }
     }
-};
+}
+
+export default new UpdateWorldActions();

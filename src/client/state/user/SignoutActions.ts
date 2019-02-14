@@ -1,21 +1,25 @@
 import { ActionType } from '../../stores/ActionType';
 import { select, put, takeEvery } from 'redux-saga/effects';
-import { getUserQuery } from './UserActions';
+import BaseActions from '../BaseActions';
+import { WatchableAction } from '../WatchableAction';
 
+class SignoutActions extends BaseActions implements WatchableAction<null> {
+    public request() {
+        return {
+            type: ActionType.SIGNOUT_REQUEST
+        };
+    }
 
-export const SignoutActions = {
-    request: () => ({
-        type: ActionType.SIGNOUT_REQUEST
-    }),
+    public *watch() {
+        yield takeEvery(ActionType.SIGNOUT_REQUEST, this.fetch);
+    }
 
-    fetch: function* fetch() {
-        const userQuery = yield select(getUserQuery);
+    private *fetch() {
+        const userQuery = yield select(this.getUserQuery);
 
         userQuery.signout();
         yield put({type: ActionType.SIGNOUT_SUCCESS});
-    },
-
-    watch: function* watch() {
-        yield takeEvery(ActionType.SIGNOUT_REQUEST, SignoutActions.fetch);
     }
-};
+}
+
+export default new SignoutActions();
