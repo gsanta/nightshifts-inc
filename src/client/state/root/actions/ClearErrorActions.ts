@@ -1,4 +1,4 @@
-import { ActionType } from '../../../stores/ActionType';
+import { ActionType } from '../../ActionType';
 
 class ClearErrorActions {
     public request() {

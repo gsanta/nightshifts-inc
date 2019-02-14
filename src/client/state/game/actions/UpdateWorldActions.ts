@@ -1,10 +1,9 @@
-import { ActionType } from '../../../stores/ActionType';
-import { AppState } from '../../AppState';
+import BaseActions, { ActionType } from '../../ActionType';
+import { AppState } from '../../root/RootState';
 import { select, call, put, delay, take } from 'redux-saga/effects';
 import { GameRequests } from '../GameRequests';
 import { World } from '../../../../game/model/World';
-import BaseActions from '../../BaseActions';
-import { WatchableAction } from '../../WatchableAction';
+import { WatchableAction } from '../../ActionType';
 
 export const getGameRequests = (state: AppState) => state.query.game;
 export const getUser = (state: AppState) => state.user;

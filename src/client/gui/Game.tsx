@@ -3,13 +3,13 @@ import { GameEngine } from '../../game/GameEngine';
 import { GwmWorldImporter } from '../../game/io/gwm_world_io/import/GwmWorldImporter';
 import { GwmMeshFactoryProducer } from '../../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 import {connect} from 'react-redux';
-import { loadGameRequest } from '../state/GameActions';
-import { AppState } from '../state/AppState';
+import { AppState } from '../state/root/RootState';
 import { JsonWorldImporter } from '../../game/io/json_world_io/import/JsonWorldImporter';
 import { JsonMeshFactoryProducer } from '../../game/io/json_world_io/import/JsonMashFactoryProducer';
 import { World } from '../../game/model/World';
 import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSchema';
 import UpdateWorldActions from '../state/game/actions/UpdateWorldActions';
+import GetWorldActions from '../state/game/actions/GetWorldActions';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
@@ -20,7 +20,7 @@ const mapStateToProps = (state: AppState) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    loadGame: () => dispatch(loadGameRequest()),
+    loadGame: () => dispatch(GetWorldActions.request()),
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world))
 });
 

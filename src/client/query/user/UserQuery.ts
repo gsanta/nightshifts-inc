@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { UserLoginDto } from './UserLoginDto';
-import { User } from '../../stores/User';
+import { User } from '../../state/user/User';
 import { Promise } from 'es6-promise';
 import { UserDto } from './UserDto';
 import { TokenHandler } from '../TokenHandler';

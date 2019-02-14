@@ -1,7 +1,7 @@
 import { GetWorldActions } from './GetWorldActions';
 import { expect } from 'chai';
 import { take, put, call } from 'redux-saga/effects';
-import { ActionType } from '../../../stores/ActionType';
+import { ActionType } from '../../ActionType';
 import { GameRequests } from '../GameRequests';
 import * as sinon from 'sinon';
 

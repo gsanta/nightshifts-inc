@@ -1,6 +1,5 @@
-import BaseActions from '../../BaseActions';
 import { delay, put, takeEvery } from 'redux-saga/effects';
-import { ActionType } from '../../../stores/ActionType';
+import BaseActions, { ActionType } from '../../ActionType';
 
 class SetDataLoadedActions extends BaseActions {
     public *watch() {

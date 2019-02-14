@@ -1,9 +1,7 @@
-import { ActionType } from '../../stores/ActionType';
-import { UserQuery } from '../../query/user/UserQuery';
+import { ActionType, WatchableAction } from '../../ActionType';
+import { UserQuery } from '../../../query/user/UserQuery';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
-import BaseActions from '../BaseActions';
-import { WatchableAction } from '../WatchableAction';
-
+import BaseActions from '../../ActionType';
 
 class GetUserActions extends BaseActions implements WatchableAction<null> {
     public request() {

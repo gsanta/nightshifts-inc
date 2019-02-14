@@ -1,7 +1,6 @@
-import { ActionType } from '../../stores/ActionType';
+import BaseActions, { ActionType } from '../../ActionType';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
-import BaseActions from '../BaseActions';
-import { WatchableAction } from '../WatchableAction';
+import { WatchableAction } from '../../ActionType';
 
 class LoginFacebookActions extends BaseActions implements WatchableAction<string> {
     public request(accessToken: string) {

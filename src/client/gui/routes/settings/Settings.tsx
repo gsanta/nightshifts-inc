@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { colors } from '../../styles';
 import { SmallButton } from '../../form/SmallButton';
-import { User } from '../../../stores/User';
+import { User } from '../../../state/user/User';
 import * as ReactDom from 'react-dom';
 import { StatusPopover } from '../../form/StatusPopover';
 import { SettingsInputField } from '../../form/SettingsInputField';
 import { hasError, getErrorMessage } from '../../dialogs/FormDialogWrapper';
-import { DataLoadingState, AppState } from '../../../state/AppState';
+import { DataLoadingState, AppState } from '../../../state/root/RootState';
 import { connect } from 'react-redux';
 import { ErrorMessage } from '../../ErrorMessage';
-import UpdateUserActions from '../../../state/user/UpdateUserActions';
-import UpdatePasswordActions from '../../../state/user/UpdatePasswordActions';
+import UpdateUserActions from '../../../state/user/actions/UpdateUserActions';
+import UpdatePasswordActions from '../../../state/user/actions/UpdatePasswordActions';
 
 const SettingsRoot = styled.div`
     width: 100%;

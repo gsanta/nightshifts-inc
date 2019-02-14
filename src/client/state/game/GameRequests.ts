@@ -1,10 +1,9 @@
 import { TokenHandler } from '../../query/TokenHandler';
 import { Promise } from 'es6-promise';
 import axios, { AxiosResponse } from 'axios';
-import { User } from '../../stores/User';
+import { User } from '../user/User';
 import { World } from '../../../game/model/World';
 import {JsonWorldExporter} from '../../../game/io/json_world_io/export/JsonWorldExporter';
-import { loadGame } from '../GameActions';
 
 export class GameRequests {
     private jsonWorldExporter: JsonWorldExporter;

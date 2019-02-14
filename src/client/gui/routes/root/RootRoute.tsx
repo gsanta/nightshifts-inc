@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { User } from '../../../stores/User';
+import { User } from '../../../state/user/User';
 import { Redirect } from 'react-router-dom';
 
 

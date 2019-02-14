@@ -1,8 +1,8 @@
-import { AppState } from './AppState';
-import { ActionType } from '../stores/ActionType';
-import { UserQuery } from '../query/user/UserQuery';
-import { User } from '../stores/User';
-import { GameRequests } from './game/GameRequests';
+import { AppState } from './RootState';
+import { ActionType } from '../ActionType';
+import { UserQuery } from '../../query/user/UserQuery';
+import { User } from '../user/User';
+import { GameRequests } from '../game/GameRequests';
 
 const initialState: AppState = {
     config: {

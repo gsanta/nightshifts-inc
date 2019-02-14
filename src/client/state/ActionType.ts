@@ -1,4 +1,4 @@
-
+import { AppState } from "./root/RootState";
 
 export enum ActionType {
     UPDATE_USER = 'UPDATE_USER',
@@ -45,4 +45,21 @@ export enum ActionType {
     UPDATE_GAME_REQUEST = 'UPDATE_GAME_REQUEST',
     UPDATE_GAME_SUCCESS = 'UPDATE_GAME_SUCCESS',
     UPDATE_GAME_FAILURE = 'UPDATE_GAME_FAILURE'
+}
+
+export default class BaseActions {
+    public getUserQuery(state: AppState) {
+        return state.query.user;
+    }
+}
+
+
+export interface WatchableAction<T> {
+    request(payload: T);
+    watch();
+}
+
+export interface WatchableActionConstructor<T> {
+    new (): WatchableAction<T>;
+    prototype: any;
 }

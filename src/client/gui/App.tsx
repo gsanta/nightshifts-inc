@@ -10,14 +10,14 @@ import Settings from './routes/settings/Settings';
 import Sidebar from './Sidebar';
 import Game from './Game';
 import { withRouter } from 'react-router-dom';
-import { User } from '../stores/User';
+import { User } from '../state/user/User';
 import { Provider, connect } from 'react-redux';
 import { GlobalStore } from '../state/GlobalStore';
-import { AppState, AppLoadingState } from '../state/AppState';
+import { AppState, AppLoadingState } from '../state/root/RootState';
 import { ErrorMessage } from './ErrorMessage';
-import LoginFacebookActions from '../state/user/LoginFacebookActions';
-import SignupActions from '../state/user/SignupActions';
-import LoginActions from '../state/user/LoginActions';
+import LoginFacebookActions from '../state/user/actions/LoginFacebookActions';
+import SignupActions from '../state/user/actions/SignupActions';
+import LoginActions from '../state/user/actions/LoginActions';
 
 require('bootstrap/dist/css/bootstrap.css');
 

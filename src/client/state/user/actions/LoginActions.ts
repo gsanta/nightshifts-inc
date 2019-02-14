@@ -1,8 +1,7 @@
-import { ActionType } from '../../stores/ActionType';
+import BaseActions, { ActionType } from '../../ActionType';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
-import { ErrorMessage } from '../../gui/ErrorMessage';
-import BaseActions from '../BaseActions';
-import { WatchableAction } from '../WatchableAction';
+import { ErrorMessage } from '../../../gui/ErrorMessage';
+import { WatchableAction } from '../../ActionType';
 
 export interface LoginRequestPayload {
     email: string;

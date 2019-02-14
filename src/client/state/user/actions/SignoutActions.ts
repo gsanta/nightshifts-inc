@@ -1,7 +1,5 @@
-import { ActionType } from '../../stores/ActionType';
+import BaseActions, { ActionType, WatchableAction } from '../../ActionType';
 import { select, put, takeEvery } from 'redux-saga/effects';
-import BaseActions from '../BaseActions';
-import { WatchableAction } from '../WatchableAction';
 
 class SignoutActions extends BaseActions implements WatchableAction<null> {
     public request() {

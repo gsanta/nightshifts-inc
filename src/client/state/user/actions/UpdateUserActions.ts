@@ -1,8 +1,7 @@
-import { ActionType } from '../../stores/ActionType';
-import { User } from '../../stores/User';
+import BaseActions, { ActionType } from '../../ActionType';
+import { User } from '../User';
 import { put, select, call, takeEvery } from 'redux-saga/effects';
-import BaseActions from '../BaseActions';
-import { WatchableAction } from '../WatchableAction';
+import { WatchableAction } from '../../ActionType';
 
 class UpdateUserActions extends BaseActions implements WatchableAction<User> {
     public request(user: User) {

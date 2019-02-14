@@ -5,11 +5,11 @@ import InputIcon from '@material-ui/icons/Input';
 import GamesIcon from '@material-ui/icons/Games';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { AppState } from '../state/AppState';
+import { AppState } from '../state/root/RootState';
 import { UserQuery } from '../query/user/UserQuery';
 import { connect } from 'react-redux';
-import { User } from '../stores/User';
-import SignoutActions from '../state/user/SignoutActions';
+import { User } from '../state/user/User';
+import SignoutActions from '../state/user/actions/SignoutActions';
 
 const mapStateToProps = (state: AppState) => {
     return {

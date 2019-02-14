@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { colors } from '../styles';
-import { User } from '../../stores/User';
+import { User } from '../../state/user/User';
 import { withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
-import { AppState } from '../../state/AppState';
+import { AppState } from '../../state/root/RootState';
 
 const HeaderDiv = styled.div`
     width: 100%;

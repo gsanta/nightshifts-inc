@@ -3,7 +3,7 @@ import {withStyles} from '@material-ui/core';
 import TextField from './form/TextField';
 import Button from './form/Button';
 import { Link, Redirect } from 'react-router-dom';
-import { User } from '../stores/User';
+import { User } from '../state/user/User';
 import { FacebookLoginButton } from './form/FacebookLoginButton';
 import FormDialogWrapper, { getMultiFieldErrorMessage } from './dialogs/FormDialogWrapper';
 import { ErrorMessage } from './ErrorMessage';
