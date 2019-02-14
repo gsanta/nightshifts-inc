@@ -10,7 +10,7 @@
     "compile-server": "tsc -w --project tsconfig-server.json",
     "run-server": "nodemon ./build/server/server.js --ignore node_modules",
     "build": "tsc --project tsconfig-server.json",
-    "run": "node ./build/server/server.js"
+    "start": "node ./build/server/server.js"
   },
   "author": "",
   "license": "ISC",
