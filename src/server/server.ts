@@ -12,6 +12,7 @@ import express = require('express');
 import { GameController } from './model/game/GameController';
 import { GameDatabaseModel } from './model/game/GameDatabaseModel';
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const mongodbURI = process.env.MONGODB_URI || 'localhost';
 mongoose.connect(`mongodb://${mongodbURI}/thegame`);
@@ -44,8 +45,11 @@ app.set('port', process.env.PORT || 3001);
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-    res.send('Hi');
+    console.log(`${__dirname}/../../index.html`);
+    res.sendFile(path.resolve('index.html'));
 });
+
+app.use(express.static('build'));
 
 app.use('/api', router);
 
