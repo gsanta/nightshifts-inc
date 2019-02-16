@@ -16,7 +16,7 @@ export const defaultMeshConfig: MeshConfig = {
 /**
  * Loads the model information from file, and creates the `MeshTemplate` based on the loaded `Mesh`.
  */
-export abstract class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
+export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
     private base: string;
     protected scene: Scene;
     private fileName: string;
@@ -64,5 +64,25 @@ export abstract class ModelFileBasedTemplateCreator implements AsyncTemplateCrea
         });
     }
 
-    public abstract create(): MeshModel;
+    public create(): MeshModel {
+        if (!this.isAsyncWorkDone) {
+            throw new Error(`This is an AsyncTemplateCreator and the async work is not done yet,
+                call and wait for doAsyncWork() before calling this method.`);
+        }
+
+        this.meshes.forEach(m => {
+            m.material = this.materials[0];
+            m.setEnabled(false);
+        });
+
+        const config: MeshConfig = {
+            mesh: this.meshes[0],
+            materials: {
+                default: this.materials[0]
+            },
+            ...defaultMeshConfig
+        };
+
+        return new MeshModel(config);
+    }
 }

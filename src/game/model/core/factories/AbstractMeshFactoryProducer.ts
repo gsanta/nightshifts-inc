@@ -11,15 +11,17 @@ import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator
 import { WindowTemplateCreator } from '../templates/creators/WindowTemplateCreator';
 import { Promise } from 'es6-promise';
 import { World } from '../../World';
+import { Door } from '../../creature/type/Door';
+import { PlayerTemplateCreator } from '../templates/creators/PlayerTemplateCreator';
 
 interface MeshMap<V> {
     wall: V;
-    door: V;
-    player: V;
+    door: DoorTemplateCreator;
+    player: PlayerTemplateCreator;
     cupboard: V;
     table: V;
     floor: V;
-    window: V;
+    window: WindowTemplateCreator;
     bathtub: V;
     washbasin: V;
     bed: V;

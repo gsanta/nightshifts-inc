@@ -1,19 +1,20 @@
 import { MeshModel, SerializedMeshModel } from '../../core/MeshModel';
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
+import { MeshConfig } from '../../core/templates/MeshTemplate';
 import _ = require('lodash');
 
 export class Window extends MeshModel {
     public isOpen: boolean;
     private pivotAngle: number;
-    private meshes: Mesh[];
+    public meshes: Mesh[];
     private isHorizontal = true;
 
     private pivot1: VectorModel;
     private pivot2: VectorModel;
 
-    constructor(meshes: Mesh[]) {
-        super(meshes[0], 'window');
+    constructor(meshes: Mesh[], config: MeshConfig) {
+        super(config);
 
         this.meshes = meshes;
         this.hasDefaultAction = true;
@@ -68,5 +69,9 @@ export class Window extends MeshModel {
         };
 
         return baseInfo;
+    }
+
+    public clone(): Window {
+
     }
 }
