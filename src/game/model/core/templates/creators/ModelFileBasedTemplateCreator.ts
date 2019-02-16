@@ -1,10 +1,11 @@
 import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup, StandardMaterial } from 'babylonjs';
 import {Promise} from 'es6-promise';
-import { MeshTemplate, MeshTemplateConfig } from '../MeshTemplate';
+import { MeshTemplate, MeshConfig } from '../MeshTemplate';
 import { VectorModel } from '../../VectorModel';
 import { AsyncTemplateCreator } from '../AsyncTemplateCreator';
+import { MeshModel } from '../../MeshModel';
 
-export const defaultMeshConfig: MeshTemplateConfig = {
+export const defaultMeshConfig: MeshConfig = {
     checkCollisions: true,
     receiveShadows: true,
     isPickable: true,
@@ -15,18 +16,18 @@ export const defaultMeshConfig: MeshTemplateConfig = {
 /**
  * Loads the model information from file, and creates the `MeshTemplate` based on the loaded `Mesh`.
  */
-export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
+export abstract class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
     private base: string;
-    private scene: Scene;
+    protected scene: Scene;
     private fileName: string;
-    private config: MeshTemplateConfig;
+    protected config: MeshConfig;
 
-    private meshes: Mesh[];
-    private skeletons: Skeleton[];
-    private materials: StandardMaterial[] = [];
-    private isAsyncWorkDone = false;
+    protected meshes: Mesh[];
+    protected skeletons: Skeleton[];
+    protected materials: StandardMaterial[] = [];
+    protected isAsyncWorkDone = false;
 
-    constructor(scene: Scene, base: string, fileName: string, materialFileNames: string[], config: Partial<MeshTemplateConfig>) {
+    constructor(scene: Scene, base: string, fileName: string, materialFileNames: string[], config: Partial<MeshConfig>) {
         this.base = base;
         this.scene = scene;
         this.fileName = fileName;
@@ -63,14 +64,5 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         });
     }
 
-    public create(): MeshTemplate {
-        if (!this.isAsyncWorkDone) {
-            throw new Error(`This is an AsyncTemplateCreator and the async work is not done yet,
-                call and wait for doAsyncWork() before calling this method.`);
-        }
-
-        this.meshes.forEach(m => m.material = this.materials[0]);
-
-        return new MeshTemplate(null, this.meshes, this.skeletons, this.config);
-    }
+    public abstract create(): MeshModel;
 }

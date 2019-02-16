@@ -16,7 +16,7 @@ class LoginFacebookActions extends BaseActions implements WatchableAction<string
 
     public *fetch(action: {accessToken: string}) {
         try {
-            const userQuery = yield select(this.getUserQuery);
+            const userQuery = yield select(BaseActions.getUserQuery);
 
             const user = yield call([userQuery, userQuery.loginFacebook], action.accessToken);
             yield put({type: ActionType.LOGIN_FACEBOOK_SUCCESS, user});

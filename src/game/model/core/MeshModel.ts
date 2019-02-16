@@ -1,5 +1,6 @@
-import { Mesh, Vector3 } from 'babylonjs';
-import { VectorModel } from './VectorModel';
+import { Mesh, Vector3, StandardMaterial } from 'babylonjs';
+import { VectorModel, toVector3 } from './VectorModel';
+import { MeshConfig } from './templates/MeshTemplate';
 
 export interface SerializedMeshModel {
     name: string;
@@ -36,12 +37,24 @@ export interface SerializedMeshModel {
 
 export class MeshModel {
     public mesh: Mesh;
+
+    public defaultMaterial: StandardMaterial;
+    public darkMaterial: StandardMaterial;
     public name: string;
     public hasDefaultAction = false;
 
-    constructor(mesh: Mesh, name: string) {
-        this.mesh = mesh;
-        this.name = name;
+    private counter = 1;
+
+    constructor(meshConfig?: MeshConfig) {
+
+        if (meshConfig) {
+            this.mesh = meshConfig.mesh;
+            this.name = meshConfig.name;
+            this.defaultMaterial = meshConfig.materials.default;
+            this.darkMaterial = meshConfig.materials.dark;
+
+            this.initMesh(this.mesh, meshConfig);
+        }
     }
 
     public translate(vectorModel: VectorModel) {
@@ -98,5 +111,34 @@ export class MeshModel {
 
     public unserialize(model: SerializedMeshModel): MeshModel {
         return null;
+    }
+
+    public clone(): MeshModel {
+        const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
+        const clone = new MeshModel();
+        clone.mesh = clonedMesh;
+        clone.darkMaterial = this.darkMaterial;
+        clone.defaultMaterial = this.defaultMaterial;
+        clone.name = this.name;
+        clone.hasDefaultAction = this.hasDefaultAction;
+
+        return clone;
+    }
+
+    protected copyTo(meshModel: MeshModel) {
+        const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
+        meshModel.mesh = clonedMesh;
+        meshModel.darkMaterial = this.darkMaterial;
+        meshModel.defaultMaterial = this.defaultMaterial;
+        meshModel.name = this.name;
+        meshModel.hasDefaultAction = this.hasDefaultAction;
+    }
+
+    private initMesh(mesh: Mesh, config: MeshConfig) {
+            mesh.isPickable = true;
+            mesh.isVisible = false;
+            mesh.checkCollisions = config.checkCollisions;
+            mesh.receiveShadows = config.receiveShadows;
+            mesh.scaling = toVector3(config.scaling);
     }
 }

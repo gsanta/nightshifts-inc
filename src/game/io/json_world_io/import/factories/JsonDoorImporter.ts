@@ -1,34 +1,34 @@
 
-import { ShadowGenerator } from 'babylonjs';
+import { ShadowGenerator, Scene } from 'babylonjs';
 import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { MeshModel, SerializedMeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { Door } from '../../../../model/creature/type/Door';
+import { GameConstants } from '../../../../GameConstants';
+const colors = GameConstants.colors;
 
 export class JsonDoorImporter implements JsonItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private door: Door;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
-        shadowGenerator: ShadowGenerator,
+        door: Door,
+        shadowGenerator: ShadowGenerator
     ) {
-        this.meshModelTemplate = meshModelTemplate;
+        this.door = door;
         this.shadowGenerator = shadowGenerator;
     }
 
     public createItem(serializedMeshModel: SerializedMeshModel): MeshModel {
-        const mesh = this.meshModelTemplate.createMeshes()[0];
+        const newDoor = this.door.clone();
 
-        mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
+        newDoor.mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(mesh);
+        this.shadowGenerator.getShadowMap().renderList.push(newDoor.mesh);
 
-        const door = new Door(mesh, 'door');
+        newDoor.setPivot(VectorModel.deserialize(serializedMeshModel.additionalData.axis), serializedMeshModel.additionalData.angle);
 
-        door.setPivot(VectorModel.deserialize(serializedMeshModel.additionalData.axis), serializedMeshModel.additionalData.angle);
-
-        return door;
+        return newDoor;
     }
 }

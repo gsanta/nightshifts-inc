@@ -28,11 +28,13 @@ export class UserQuery {
                 }
             })
             .then((response: { data: { user: UserDto }, headers: any}) => {
+                debugger;
                 this.tokenHandler.saveToken(response.headers.authorization);
                 const userModel = User.fromDto(response.data.user);
                 resolve(userModel);
             })
             .catch((e) => {
+                debugger;
                 reject(e);
             });
         });

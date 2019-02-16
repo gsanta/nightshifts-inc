@@ -1,18 +1,18 @@
 import GetWorldActions from './GetWorldActions';
 import { expect } from 'chai';
-import { take, put, call } from 'redux-saga/effects';
+import { take, put, call, takeEvery } from 'redux-saga/effects';
 import { ActionType } from '../../ActionType';
 import { GameRequests } from '../GameRequests';
 import * as sinon from 'sinon';
 
 
 describe('GetWorldAction', () => {
-    describe('watchOnce', () => {
+    describe('watch', () => {
         it ('calls the right actions', () => {
             const watchOnce = GetWorldActions.watch();
             const val = watchOnce.next();
 
-            expect(val.value).to.eql(take(ActionType.GET_USER_SUCCESS));
+            expect(val.value).to.eql(takeEvery(ActionType.GET_USER_SUCCESS, GetWorldActions.fetch));
         });
     });
 

@@ -1,6 +1,6 @@
-import { MeshTemplate } from './MeshTemplate';
 import { World } from '../../World';
+import { MeshModel } from '../MeshModel';
 
-export interface TemplateCreator {
-    create(world: World): MeshTemplate;
+export abstract class TemplateCreator {
+    public abstract create(world: World): MeshModel;
 }

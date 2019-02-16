@@ -14,20 +14,20 @@ import { ManualMotionStrategy } from '../../../../model/creature/motion/ManualMo
 import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
 
 export class GwmPlayerImporter implements GwmItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private player: Player;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
     private scene: Scene;
     private spotLight: SpotLight;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        player: Player,
         gameObjectTranslator: GameObjectTranslator,
         scene: Scene,
         shadowGenerator: ShadowGenerator,
         spotLight: SpotLight
     ) {
-        this.meshModelTemplate = meshModelTemplate;
+        this.player = player;
         this.gameObjectTranslator = gameObjectTranslator;
         this.shadowGenerator = shadowGenerator;
         this.scene = scene;
@@ -36,9 +36,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
 
 
     public createItem(gameObject: GameObject, world: World): MeshModel {
-        const mesh = this.meshModelTemplate.createMeshes()[0];
-
-        world.camera.lockedTarget = mesh;
+        world.camera.lockedTarget = this.player.mesh;
 
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
@@ -46,19 +44,17 @@ export class GwmPlayerImporter implements GwmItemImporter {
 
         const keyboardHandler = new UserInputEventEmitter();
         keyboardHandler.subscribe();
-        const player = new Player(mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
 
-        const actionStrategy = new ActionStrategy(player, world);
+        const actionStrategy = new ActionStrategy(this.player, world);
 
-        const collisionDetector = new CollisionDetector(player, this.scene);
-        const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
+        const collisionDetector = new CollisionDetector(this.player, this.scene);
+        const manualMotionStrategy = new ManualMotionStrategy(this.player, collisionDetector, keyboardHandler);
 
-        player.setMotionStrategy(manualMotionStrategy);
-        player.setSensor(new EyeSensor(player, this.scene));
-        player.setActionStrategy(actionStrategy);
-        // player.translate(translate);
-        player.mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+        this.player.setMotionStrategy(manualMotionStrategy);
+        this.player.setSensor(new EyeSensor(this.player, this.scene));
+        this.player.setActionStrategy(actionStrategy);
+        this.player.mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
-        return player;
+        return this.player;
     }
 }

@@ -1,7 +1,7 @@
 import { Creature } from './Creature';
 import { Scene, Vector3, Mesh, Light, Skeleton } from 'babylonjs';
 import { ModelFileBasedTemplateCreator } from '../../core/templates/creators/ModelFileBasedTemplateCreator';
-import { MeshTemplate } from '../../core/templates/MeshTemplate';
+import { MeshTemplate, MeshConfig } from '../../core/templates/MeshTemplate';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
 
@@ -39,8 +39,8 @@ export class Player extends Creature {
     public name = 'player';
     private skeleton: Skeleton;
 
-    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
-        super(mesh, 'player');
+    constructor(meshConfig: MeshConfig, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
+        super(meshConfig);
 
         this.skeleton = skeleton;
 
@@ -85,6 +85,10 @@ export class Player extends Creature {
 
     public getCenterPosition() {
         return this.getPosition();
+    }
+
+    public clone(): Player {
+        return this;
     }
 
     private subscribeToUserInput() {
