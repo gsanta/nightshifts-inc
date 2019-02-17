@@ -44,6 +44,7 @@ export class Door extends MeshModel {
     public clone(): Door {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
         clonedMesh.setEnabled(true);
+        clonedMesh.isVisible = true;
         const name = this.name;
 
         const door = new Door(clonedMesh, name);
