@@ -3,8 +3,7 @@ import { JsonDefaultImporter } from './JsonDefaultImporter';
 import sinon = require('sinon');
 import { ShadowGenerator, Vector3 } from 'babylonjs';
 import { expect } from 'chai';
-import { SerializedMeshModel, MeshModel } from '../../../../model/core/MeshModel';
-import { VectorModel } from '../../../../model/core/VectorModel';
+import { SerializedMeshModel } from '../../../../model/core/MeshModel';
 
 describe('JsonDefaultImporter', () => {
     describe('createItem', () => {
@@ -19,17 +18,13 @@ describe('JsonDefaultImporter', () => {
                     x: 1, y: 2, z: 3
                 }
             };
-
-            const translateSpy = sinon.spy();
-            const meshModelMock: Partial<MeshModel> = {
-                mesh: {
-                    scaling: {},
-                } as any,
-                translate: translateSpy
+            const meshMock = {
+                scaling: {},
+                translate: sinon.spy()
             };
-            const clone = sinon.stub().returns(meshModelMock);
-            const meshTemplateMock: Partial<MeshModel> = {
-                clone: clone
+            const createMeshesStub = sinon.stub().returns([meshMock]);
+            const meshTemplateMock: Partial<MeshTemplate> = {
+                createMeshes: createMeshesStub
             };
 
             const shadowGeneratorMock: Partial<ShadowGenerator> = {
@@ -40,12 +35,12 @@ describe('JsonDefaultImporter', () => {
                 }
             };
 
-            const wallDeserializerFactory = new JsonDefaultImporter(<MeshModel> meshTemplateMock, <ShadowGenerator> shadowGeneratorMock);
+            const wallDeserializerFactory = new JsonDefaultImporter(<MeshTemplate> meshTemplateMock, <ShadowGenerator> shadowGeneratorMock);
 
             const meshModel = wallDeserializerFactory.createItem(<SerializedMeshModel> serializedMeshModelMock);
 
-            expect(translateSpy.getCall(0).args[0]).to.eql(new VectorModel(1, 2, 3));
-            expect(meshModel).to.eql(<MeshModel> meshModelMock);
+            expect(meshMock.translate.getCall(0).args[0]).to.eql(new Vector3(1, 2, 3));
+            expect(meshModel.mesh).to.eql(meshMock);
         });
     });
 });

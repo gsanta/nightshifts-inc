@@ -1,9 +1,8 @@
-import { MeshTemplate, MeshConfig } from '../MeshTemplate';
+import { MeshTemplate } from '../MeshTemplate';
 import { TemplateCreator } from '../TemplateCreator';
 import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
-import { MeshModel } from '../../MeshModel';
 const colors = GameConstants.colors;
 
 export class WallTemplateCreator implements TemplateCreator {
@@ -18,20 +17,9 @@ export class WallTemplateCreator implements TemplateCreator {
         this.mesh = this.createMesh();
     }
 
-    public create(): MeshModel {
+    public create(): MeshTemplate {
         this.mesh.material = this.material;
-
-        const config: MeshConfig = <MeshConfig> {
-            meshes: [this.mesh],
-            materials: {
-                default: this.material
-            },
-            ...defaultMeshConfig
-        };
-
-        this.mesh.setEnabled(false);
-
-        return new MeshModel(config);
+        return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
     }
 
     private createMaterial(): StandardMaterial {

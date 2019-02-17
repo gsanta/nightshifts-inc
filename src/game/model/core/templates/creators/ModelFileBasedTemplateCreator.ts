@@ -1,11 +1,10 @@
 import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup, StandardMaterial } from 'babylonjs';
 import {Promise} from 'es6-promise';
-import { MeshTemplate, MeshConfig } from '../MeshTemplate';
+import { MeshTemplate, MeshTemplateConfig } from '../MeshTemplate';
 import { VectorModel } from '../../VectorModel';
 import { AsyncTemplateCreator } from '../AsyncTemplateCreator';
-import { MeshModel } from '../../MeshModel';
 
-export const defaultMeshConfig: Partial<MeshConfig> = {
+export const defaultMeshConfig: MeshTemplateConfig = {
     checkCollisions: true,
     receiveShadows: true,
     isPickable: true,
@@ -18,35 +17,25 @@ export const defaultMeshConfig: Partial<MeshConfig> = {
  */
 export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
     private base: string;
-    protected scene: Scene;
+    private scene: Scene;
     private fileName: string;
-    protected config: MeshConfig;
+    private config: MeshTemplateConfig;
 
-    protected meshes: Mesh[];
-    protected skeletons: Skeleton[];
-    protected materials: StandardMaterial[] = [];
-    protected isAsyncWorkDone = false;
+    private meshes: Mesh[];
+    private skeletons: Skeleton[];
+    private materials: StandardMaterial[] = [];
+    private isAsyncWorkDone = false;
 
-    constructor(scene: Scene, base: string, fileName: string, materialFileNames: string[], config: Partial<MeshConfig>) {
+    constructor(scene: Scene, base: string, fileName: string, materialFileNames: string[], config: Partial<MeshTemplateConfig>) {
         this.base = base;
         this.scene = scene;
         this.fileName = fileName;
-        this.config = <MeshConfig> {
-            ...{
-                materials: {
-
-                }
-            },
-            ...defaultMeshConfig,
-            ...config
-        };
+        this.config = {...defaultMeshConfig, ...config};
 
         materialFileNames.forEach((file, index) => {
             this.materials[index] = new BABYLON.StandardMaterial(file, scene);
             this.materials[index].diffuseTexture = new BABYLON.Texture(file, scene);
-
         });
-        this.config.materials.default = this.materials[0];
     }
 
     public doAsyncWork(): Promise<void> {
@@ -74,25 +63,14 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         });
     }
 
-    public create(): MeshModel {
+    public create(): MeshTemplate {
         if (!this.isAsyncWorkDone) {
             throw new Error(`This is an AsyncTemplateCreator and the async work is not done yet,
                 call and wait for doAsyncWork() before calling this method.`);
         }
 
-        this.meshes.forEach(m => {
-            m.material = this.materials[0];
-            m.setEnabled(false);
-        });
+        this.meshes.forEach(m => m.material = this.materials[0]);
 
-        const config: MeshConfig = <MeshConfig> {
-            meshes: [this.meshes[0]],
-            materials: {
-                default: this.materials[0]
-            },
-            ...defaultMeshConfig
-        };
-
-        return new MeshModel(config);
+        return new MeshTemplate(null, this.meshes, this.skeletons, this.config);
     }
 }

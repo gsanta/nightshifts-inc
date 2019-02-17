@@ -11,17 +11,15 @@ import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator
 import { WindowTemplateCreator } from '../templates/creators/WindowTemplateCreator';
 import { Promise } from 'es6-promise';
 import { World } from '../../World';
-import { Door } from '../../creature/type/Door';
-import { PlayerTemplateCreator } from '../templates/creators/PlayerTemplateCreator';
 
 interface MeshMap<V> {
     wall: V;
-    door: DoorTemplateCreator;
-    player: PlayerTemplateCreator;
+    door: V;
+    player: V;
     cupboard: V;
     table: V;
     floor: V;
-    window: WindowTemplateCreator;
+    window: V;
     bathtub: V;
     washbasin: V;
     bed: V;
@@ -55,7 +53,7 @@ export abstract class AbstractMeshFactoryProducer<T> {
 
     public abstract getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<T>>;
 
-    protected getTemplateProducers(scene: Scene, spotLight: SpotLight): Promise<MeshMap<TemplateCreator>> {
+    protected getTemplateProducers(scene: Scene): Promise<MeshMap<TemplateCreator>> {
 
         const meshMap: MeshMap<TemplateCreator> = {
             wall: new WallTemplateCreator(scene),
@@ -74,12 +72,11 @@ export abstract class AbstractMeshFactoryProducer<T> {
                 [this.FURNITURE_2_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
             ),
-            player: new PlayerTemplateCreator(
+            player: new ModelFileBasedTemplateCreator(
                 scene,
                 this.PLAYER_BASE_PATH,
                 this.PLAYER_MODEL_FILE,
                 this.PLAYER_MATERIALS,
-                spotLight,
                 {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.3, 0.3, 0.3)}
             ),
             floor: new FloorTemplateCreator(scene),

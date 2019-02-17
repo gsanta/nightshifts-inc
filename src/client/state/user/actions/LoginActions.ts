@@ -23,7 +23,7 @@ class LoginActions extends BaseActions implements WatchableAction<LoginRequestPa
 
     private *fetch(action: { email: string, password: string }) {
         try {
-            const userQuery = yield select(BaseActions.getUserQuery);
+            const userQuery = yield select(this.getUserQuery);
 
             const user = yield call([userQuery, userQuery.login], { email: action.email, password: action.password});
             yield put({ type: ActionType.LOGIN_SUCCESS, user});

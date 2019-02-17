@@ -1,10 +1,7 @@
 import { Mesh, Skeleton, StandardMaterial, TransformNode } from 'babylonjs';
 import { VectorModel, toVector3 } from '../VectorModel';
 
-export interface MeshConfig {
-    name: string;
-    meshes: Mesh[];
-    materials: {default: StandardMaterial, dark: StandardMaterial};
+export interface MeshTemplateConfig {
     checkCollisions: boolean;
     receiveShadows: boolean;
     isPickable: boolean;
@@ -16,10 +13,10 @@ export class MeshTemplate {
     private meshes: Mesh[];
     private skeletons: Skeleton[];
     private counter = 1;
-    private config: MeshConfig;
+    private config: MeshTemplateConfig;
     private containerMesh: Mesh;
 
-    constructor(containerMesh: Mesh, meshes: Mesh[], skeletons: Skeleton[], config: MeshConfig) {
+    constructor(containerMesh: Mesh, meshes: Mesh[], skeletons: Skeleton[], config: MeshTemplateConfig) {
         this.containerMesh = containerMesh;
         this.meshes = meshes;
         this.config = config;

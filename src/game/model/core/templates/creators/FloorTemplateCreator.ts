@@ -1,10 +1,10 @@
 import { TemplateCreator } from '../TemplateCreator';
 import { Scene, StandardMaterial, Mesh } from 'babylonjs';
-import { MeshConfig } from '../MeshTemplate';
+import { Vector2Model } from '../../../utils/Vector2Model';
+import { MeshTemplate } from '../MeshTemplate';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { GameConstants } from '../../../../GameConstants';
 import { World } from '../../../World';
-import { MeshModel } from '../../MeshModel';
 
 const colors = GameConstants.colors;
 
@@ -19,23 +19,13 @@ export class FloorTemplateCreator implements TemplateCreator {
         this.material = this.createMaterial();
     }
 
-    public create(world: World): MeshModel {
+    public create(world: World): MeshTemplate {
         if (!this.mesh) {
             this.mesh = this.createMesh(world);
         }
 
-        const config: MeshConfig = <MeshConfig> {
-            name: 'floor',
-            meshes: [this.mesh],
-            materials: {
-                default: this.material
-            },
-            ...defaultMeshConfig
-        };
-
-        this.mesh.setEnabled(false);
-
-        return new MeshModel(config);
+        this.mesh.material = this.material;
+        return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
     }
 
     private createMaterial(): StandardMaterial {

@@ -1,11 +1,10 @@
-import { MeshTemplate, MeshConfig } from '../MeshTemplate';
+import { MeshTemplate } from '../MeshTemplate';
 import { TemplateCreator } from '../TemplateCreator';
 import { MeshBuilder, Scene, StandardMaterial, Mesh, Vector3, TransformNode, Color3 } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { VectorModel } from '../../VectorModel';
 const colors = GameConstants.colors;
-import { Window } from '../../../creature/type/Window';
 
 export class WindowTemplateCreator implements TemplateCreator {
     private scene: Scene;
@@ -24,22 +23,8 @@ export class WindowTemplateCreator implements TemplateCreator {
         this.containerMesh = this.createCntainerMesh();
     }
 
-    public create(): Window {
-
-        const config: MeshConfig = <MeshConfig> {
-            ...{
-                materials: {
-
-                }
-            },
-            ...defaultMeshConfig
-        };
-
-        this.meshes.forEach(m => m.setEnabled(false));
-
-        config.meshes = this.meshes;
-
-        return new Window(this.meshes, config);
+    public create(): MeshTemplate {
+        return new MeshTemplate(this.containerMesh, this.meshes, [], {...defaultMeshConfig});
     }
 
     private createWindowGlassMaterial(): StandardMaterial {

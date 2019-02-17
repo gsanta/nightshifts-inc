@@ -6,26 +6,27 @@ import { MeshModel, SerializedMeshModel } from '../../../../model/core/MeshModel
 import { VectorModel } from '../../../../model/core/VectorModel';
 
 export class JsonDefaultImporter implements JsonItemImporter {
-    private meshTemplate: MeshModel;
+    private meshModelTemplate: MeshTemplate;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        meshTemplate: MeshModel,
+        meshModelTemplate: MeshTemplate,
         shadowGenerator: ShadowGenerator,
     ) {
-        this.meshTemplate = meshTemplate;
+        this.meshModelTemplate = meshModelTemplate;
         this.shadowGenerator = shadowGenerator;
     }
 
     public createItem(serializedMeshModel: SerializedMeshModel): MeshModel {
-        const meshModel = this.meshTemplate.clone();
+        const mesh = this.meshModelTemplate.createMeshes()[0];
+        const meshModel = new MeshModel(mesh, serializedMeshModel.name);
 
         meshModel.translate(VectorModel.deserialize(serializedMeshModel.translate));
-        meshModel.mesh.scaling.x = serializedMeshModel.scaling.x;
-        meshModel.mesh.scaling.y = serializedMeshModel.scaling.y;
-        meshModel.mesh.scaling.z = serializedMeshModel.scaling.z;
+        mesh.scaling.x = serializedMeshModel.scaling.x;
+        mesh.scaling.y = serializedMeshModel.scaling.y;
+        mesh.scaling.z = serializedMeshModel.scaling.z;
 
-        this.shadowGenerator.getShadowMap().renderList.push(meshModel.mesh);
+        this.shadowGenerator.getShadowMap().renderList.push(mesh);
 
         return meshModel;
     }

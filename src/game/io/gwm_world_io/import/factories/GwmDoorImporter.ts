@@ -10,18 +10,18 @@ import { Door } from '../../../../model/creature/type/Door';
 import { World } from '../../../../model/World';
 
 export class GwmDoorImporter implements GwmItemImporter {
-    private doorTemplate: Door;
+    private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
     private gameObjectToMeshSizeRatio: number;
 
     constructor(
-        doorTemplate: Door,
+        meshModelTemplate: MeshTemplate,
         gameObjectTranslator: GameObjectTranslator,
         shadowGenerator: ShadowGenerator,
         gameObjectToMeshSizeRatio: number
     ) {
-        this.doorTemplate = doorTemplate;
+        this.meshModelTemplate = meshModelTemplate;
         this.gameObjectTranslator = gameObjectTranslator;
         this.shadowGenerator = shadowGenerator;
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
@@ -33,13 +33,16 @@ export class GwmDoorImporter implements GwmItemImporter {
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
-        const door = this.doorTemplate.clone();
+        const mesh = this.meshModelTemplate.createMeshes()[0];
 
-        door.mesh.translate(toVector3(translate), 1);
+
+        mesh.translate(toVector3(translate), 1);
+
+        const door = new Door(mesh, 'door');
 
         this.setPivotMatrix(gameObject, door);
 
-        this.shadowGenerator.getShadowMap().renderList.push(door.mesh);
+        this.shadowGenerator.getShadowMap().renderList.push(mesh);
 
         return door;
     }

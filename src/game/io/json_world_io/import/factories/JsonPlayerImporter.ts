@@ -13,40 +13,46 @@ import { World } from '../../../../model/World';
 import { toVector3, VectorModel } from '../../../../model/core/VectorModel';
 
 export class JsonPlayerImporter implements JsonItemImporter {
-    private player: Player;
+    private meshModelTemplate: MeshTemplate;
     private shadowGenerator: ShadowGenerator;
     private scene: Scene;
     private spotLight: SpotLight;
 
     constructor(
         scene: Scene,
-        player: Player,
+        meshModelTemplate: MeshTemplate,
         shadowGenerator: ShadowGenerator,
         spotLight: SpotLight
     ) {
-        this.player = player;
+        this.meshModelTemplate = meshModelTemplate;
         this.shadowGenerator = shadowGenerator;
         this.scene = scene;
         this.spotLight = spotLight;
     }
 
     public createItem(serializedMeshModel: SerializedMeshModel, world: World): MeshModel {
-        world.camera.lockedTarget = this.player.mesh;
+        const mesh = this.meshModelTemplate.createMeshes()[0];
+        world.camera.lockedTarget = mesh;
 
         const keyboardHandler = new UserInputEventEmitter();
         keyboardHandler.subscribe();
 
-        const collisionDetector = new CollisionDetector(this.player, this.scene);
-        const manualMotionStrategy = new ManualMotionStrategy(this.player, collisionDetector, keyboardHandler);
+        const player = new Player(mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
+        // mesh.scaling.x = 1
+        // mesh.scaling.y = 1
+        // mesh.scaling.z = 1
 
-        const actionStrategy = new ActionStrategy(this.player, world);
+        const collisionDetector = new CollisionDetector(player, this.scene);
+        const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
 
-        this.player.setMotionStrategy(manualMotionStrategy);
-        this.player.setSensor(new EyeSensor(this.player, this.scene));
-        this.player.setActionStrategy(actionStrategy);
+        const actionStrategy = new ActionStrategy(player, world);
+
+        player.setMotionStrategy(manualMotionStrategy);
+        player.setSensor(new EyeSensor(player, this.scene));
+        player.setActionStrategy(actionStrategy);
         // player.translate(translate);
-        this.player.mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
+        player.mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
 
-        return this.player;
+        return player;
     }
 }

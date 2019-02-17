@@ -5,7 +5,6 @@ import { Sensor } from '../sensor/Sensor';
 import { CollisionDetector } from '../collision/CollisionDetector';
 import { MeshModel } from '../../core/MeshModel';
 import { ActionStrategy } from '../action/ActionStrategy';
-import { MeshConfig } from '../../core/templates/MeshTemplate';
 
 export abstract class Creature extends MeshModel {
     protected sensor: Sensor;
@@ -13,8 +12,8 @@ export abstract class Creature extends MeshModel {
     protected collisionDetector: CollisionDetector;
     protected actionStrategy: ActionStrategy;
 
-    constructor(meshConfig: MeshConfig) {
-        super(meshConfig);
+    constructor(mesh: Mesh, name: string) {
+        super(mesh, name);
     }
 
     public getBody(): Mesh {
