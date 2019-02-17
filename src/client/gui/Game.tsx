@@ -54,10 +54,10 @@ class Game extends React.Component<GameProps, GameState> {
         });
 
         // const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
-        // const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
-        // this.gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
+        const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
+        this.gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
         // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
-        // this.gameEngine.runGame(gwmGameWorldMap);
+        this.gameEngine.runGame(gwmGameWorldMap);
 
         this.intervalTimeout = setInterval(
             () => {

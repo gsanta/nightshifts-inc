@@ -1,11 +1,10 @@
-import { MeshTemplate } from '../MeshTemplate';
-import { TemplateCreator } from '../TemplateCreator';
 import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
+import { Door } from '../../../creature/type/Door';
 const colors = GameConstants.colors;
 
-export class DoorTemplateCreator implements TemplateCreator {
+export class DoorTemplateCreator {
     private scene: Scene;
     private material: StandardMaterial;
     private mesh: Mesh;
@@ -17,14 +16,15 @@ export class DoorTemplateCreator implements TemplateCreator {
         this.mesh = this.createMesh();
     }
 
-    public create(): MeshTemplate {
+    public create(): Door {
         this.mesh.material = this.material;
-        return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
+
+        return new Door(this.mesh, 'wall', {...defaultMeshConfig});
     }
 
     private createMaterial(): StandardMaterial {
         const material = new BABYLON.StandardMaterial('doorMaterial', this.scene);
-        material.diffuseColor = new BABYLON.Color3(colors.door.r, colors.door.g, colors.door.b);
+        material.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
 
         return material;
     }

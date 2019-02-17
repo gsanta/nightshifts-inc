@@ -9,7 +9,9 @@ export const defaultMeshConfig: MeshTemplateConfig = {
     receiveShadows: true,
     isPickable: true,
     scaling: new VectorModel(1, 1, 1),
-    singleton: false
+    singleton: false,
+
+    materials: null
 };
 
 /**

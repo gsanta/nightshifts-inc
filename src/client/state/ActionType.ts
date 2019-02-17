@@ -51,6 +51,10 @@ export default class BaseActions {
     public getUserQuery(state: AppState) {
         return state.query.user;
     }
+
+    public static getUserQuery(state: AppState) {
+        return state.query.user;
+    }
 }
 
 

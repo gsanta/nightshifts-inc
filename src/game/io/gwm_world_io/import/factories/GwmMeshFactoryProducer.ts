@@ -24,7 +24,7 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<GameObje
                 return new MeshFactory(
                     {
                         wall: new GwmWallImporter(meshMap.wall.create(world), gameObjectTranslator, shadowGenerator, 1),
-                        door: new GwmDoorImporter(meshMap.door.create(world), gameObjectTranslator, shadowGenerator, 1),
+                        door: new GwmDoorImporter(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1),
                         player: new GwmPlayerImporter(meshMap.player.create(world), gameObjectTranslator, scene, shadowGenerator, spotLight),
                         floor: new GwmFloorImporter(meshMap.floor.create(world), gameObjectTranslator, shadowGenerator),
                         window: new GwmWindowImporter(meshMap.window.create(world), gameObjectTranslator, shadowGenerator, 1),

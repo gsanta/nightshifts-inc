@@ -12,7 +12,7 @@ class GetUserActions extends BaseActions implements WatchableAction<null> {
 
     public *fetch() {
         try {
-            const userQuery: UserQuery = yield select(this.getUserQuery);
+            const userQuery: UserQuery = yield select(BaseActions.getUserQuery);
             const user = yield call([userQuery, userQuery.fetchUser]);
 
             yield put({type: ActionType.GET_USER_SUCCESS, user});

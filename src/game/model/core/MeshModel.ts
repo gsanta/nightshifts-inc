@@ -1,5 +1,6 @@
-import { Mesh, Vector3 } from 'babylonjs';
-import { VectorModel } from './VectorModel';
+import { Mesh, Vector3, StandardMaterial } from 'babylonjs';
+import { VectorModel, toVector3 } from './VectorModel';
+import { MeshTemplateConfig } from './templates/MeshTemplate';
 
 export interface SerializedMeshModel {
     name: string;
@@ -38,10 +39,18 @@ export class MeshModel {
     public mesh: Mesh;
     public name: string;
     public hasDefaultAction = false;
+    private defaultMaterial: StandardMaterial;
+    private darkMaterial: StandardMaterial;
 
-    constructor(mesh: Mesh, name: string) {
+    protected counter = 1;
+
+    constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
         this.mesh = mesh;
         this.name = name;
+
+        if (config) {
+            this.initMesh(config);
+        }
     }
 
     public translate(vectorModel: VectorModel) {
@@ -98,5 +107,37 @@ export class MeshModel {
 
     public unserialize(model: SerializedMeshModel): MeshModel {
         return null;
+    }
+
+    public clone() {
+        const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
+        clonedMesh.setEnabled(true);
+        const name = this.name;
+
+        const clone = new MeshModel(clonedMesh, name);
+        this.copyTo(clone);
+
+        return clone;
+    }
+
+    protected copyTo(meshModel: MeshModel): MeshModel {
+        meshModel.darkMaterial = this.darkMaterial;
+        meshModel.defaultMaterial = this.defaultMaterial;
+        meshModel.name = this.name;
+        meshModel.hasDefaultAction = this.hasDefaultAction;
+
+        return meshModel;
+    }
+
+    private initMesh(config: MeshTemplateConfig) {
+        this.mesh.isPickable = true;
+        this.mesh.isVisible = false;
+        this.mesh.checkCollisions = config.checkCollisions;
+        this.mesh.receiveShadows = config.receiveShadows;
+        this.mesh.scaling = toVector3(config.scaling);
+
+        if (!config.singleton) {
+            this.mesh.setEnabled(false);
+        }
     }
 }

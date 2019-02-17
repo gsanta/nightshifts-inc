@@ -19,7 +19,7 @@ export class JsonMeshFactoryProducer extends AbstractMeshFactoryProducer<Seriali
                 return new MeshFactory(
                     {
                         wall: new JsonDefaultImporter(meshMap.wall.create(world), shadowGenerator),
-                        door: new JsonDoorImporter(meshMap.door.create(world), shadowGenerator),
+                        door: new JsonDoorImporter(meshMap.door.create(), shadowGenerator),
                         player: new JsonPlayerImporter(scene, meshMap.player.create(world), shadowGenerator, spotLight),
                         floor: new JsonDefaultImporter(meshMap.floor.create(world), shadowGenerator),
                         window: new JsonWindowImporter(meshMap.window.create(world), shadowGenerator),

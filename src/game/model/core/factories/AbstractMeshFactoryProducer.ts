@@ -1,5 +1,4 @@
 import { TemplateCreator } from '../templates/TemplateCreator';
-import { Vector2Model } from '../../utils/Vector2Model';
 import { Scene, SpotLight, ShadowGenerator } from 'babylonjs';
 import { MeshFactory } from './MeshFactory';
 import { WallTemplateCreator } from '../templates/creators/WallTemplateCreator';
@@ -14,7 +13,7 @@ import { World } from '../../World';
 
 interface MeshMap<V> {
     wall: V;
-    door: V;
+    door: DoorTemplateCreator;
     player: V;
     cupboard: V;
     table: V;

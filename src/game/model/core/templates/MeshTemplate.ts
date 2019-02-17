@@ -7,6 +7,11 @@ export interface MeshTemplateConfig {
     isPickable: boolean;
     scaling: VectorModel;
     singleton: boolean;
+
+    materials: {
+        default: StandardMaterial;
+        dark: StandardMaterial;
+    };
 }
 
 export class MeshTemplate {

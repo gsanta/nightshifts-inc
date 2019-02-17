@@ -7,25 +7,23 @@ import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { Door } from '../../../../model/creature/type/Door';
 
 export class JsonDoorImporter implements JsonItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private doorTemplate: Door;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        doorTemplate: Door,
         shadowGenerator: ShadowGenerator,
     ) {
-        this.meshModelTemplate = meshModelTemplate;
+        this.doorTemplate = doorTemplate;
         this.shadowGenerator = shadowGenerator;
     }
 
     public createItem(serializedMeshModel: SerializedMeshModel): MeshModel {
-        const mesh = this.meshModelTemplate.createMeshes()[0];
+        const door = this.doorTemplate.clone();
 
-        mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
+        door.mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(mesh);
-
-        const door = new Door(mesh, 'door');
+        this.shadowGenerator.getShadowMap().renderList.push(door.mesh);
 
         door.setPivot(VectorModel.deserialize(serializedMeshModel.additionalData.axis), serializedMeshModel.additionalData.angle);
 

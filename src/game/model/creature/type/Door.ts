@@ -1,14 +1,15 @@
 import { MeshModel, SerializedMeshModel } from '../../core/MeshModel';
 import { Mesh } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
+import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
 
 export class Door extends MeshModel {
     public isOpen: boolean;
     private pivotAngle: number;
     private pivot: VectorModel;
 
-    constructor(mesh: Mesh, name: string) {
-        super(mesh, name);
+    constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
+        super(mesh, name, config);
 
         this.hasDefaultAction = true;
     }
@@ -38,5 +39,16 @@ export class Door extends MeshModel {
         };
 
         return baseInfo;
+    }
+
+    public clone(): Door {
+        const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
+        clonedMesh.setEnabled(true);
+        const name = this.name;
+
+        const door = new Door(clonedMesh, name);
+        this.copyTo(door);
+
+        return door;
     }
 }
