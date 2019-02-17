@@ -40,7 +40,7 @@ export class GwmWindowImporter implements GwmItemImporter {
 
         window.meshes[0].translate(toVector3(translate), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(...meshes);
+        this.shadowGenerator.getShadowMap().renderList.push(...window.meshes);
 
         // const window = new Window(meshes);
 

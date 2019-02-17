@@ -19,7 +19,7 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<GameObje
     public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<GameObject>> {
         const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(1, new GameObjectToRealWorldCoordinateMapper(1));
 
-        return this.getTemplateProducers(scene)
+        return this.getTemplateProducers(scene, spotLight)
             .then(meshMap => {
                 return new MeshFactory(
                     {

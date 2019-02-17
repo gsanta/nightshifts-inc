@@ -21,7 +21,7 @@ export class WallTemplateCreator implements TemplateCreator {
     public create(): MeshModel {
         this.mesh.material = this.material;
 
-        const config: MeshConfig = {
+        const config: MeshConfig = <MeshConfig> {
             mesh: this.mesh,
             materials: {
                 default: this.material

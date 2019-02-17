@@ -6,11 +6,11 @@ import { MeshModel, SerializedMeshModel } from '../../../../model/core/MeshModel
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 
 export class JsonStaticItemImporter implements JsonItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private meshModelTemplate: MeshModel;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        meshModelTemplate: MeshModel,
         shadowGenerator: ShadowGenerator,
     ) {
         this.meshModelTemplate = meshModelTemplate;
@@ -18,18 +18,15 @@ export class JsonStaticItemImporter implements JsonItemImporter {
     }
 
     public createItem(serializedMeshModel: SerializedMeshModel): MeshModel {
-        const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new MeshModel(meshes[0], serializedMeshModel.name);
+        const meshModel = this.meshModelTemplate.clone();
 
-        meshes.forEach(mesh => {
-            mesh.rotation.y = serializedMeshModel.additionalData.rotation;
+        meshModel.mesh.rotation.y = serializedMeshModel.additionalData.rotation;
 
-            mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
+        meshModel.mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
             // mesh.scaling.x = serializedMeshModel.scaling.x;
             // mesh.scaling.y = serializedMeshModel.scaling.y;
             // mesh.scaling.z = serializedMeshModel.scaling.z;
-            this.shadowGenerator.getShadowMap().renderList.push(mesh);
-        });
+        this.shadowGenerator.getShadowMap().renderList.push(meshModel.mesh);
 
 
         return meshModel;

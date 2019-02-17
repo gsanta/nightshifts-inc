@@ -13,10 +13,14 @@ export class Window extends MeshModel {
     private pivot1: VectorModel;
     private pivot2: VectorModel;
 
-    constructor(meshes: Mesh[], config: MeshConfig) {
+    constructor(meshes?: Mesh[], config?: MeshConfig) {
         super(config);
 
-        this.meshes = meshes;
+        if (meshes) {
+            this.mesh = meshes[0];
+            this.meshes = meshes;
+        }
+
         this.hasDefaultAction = true;
     }
 
@@ -72,6 +76,10 @@ export class Window extends MeshModel {
     }
 
     public clone(): Window {
+        const window = new Window();
 
+        this.copyTo(window);
+
+        return window;
     }
 }

@@ -24,7 +24,7 @@ export class DoorTemplateCreator implements TemplateCreator {
     public create(): Door {
         this.mesh.material = this.material;
 
-        const config: MeshConfig = {
+        const config: MeshConfig = <MeshConfig> {
             mesh: this.mesh,
             materials: {
                 default: this.material,

@@ -26,7 +26,7 @@ export class WindowTemplateCreator implements TemplateCreator {
 
     public create(): Window {
 
-        const config: MeshConfig = {
+        const config: MeshConfig = <MeshConfig> {
             ...defaultMeshConfig
         };
 

@@ -24,7 +24,7 @@ export class FloorTemplateCreator implements TemplateCreator {
             this.mesh = this.createMesh(world);
         }
 
-        const config: MeshConfig = {
+        const config: MeshConfig = <MeshConfig> {
             name: 'floor',
             mesh: this.mesh,
             materials: {

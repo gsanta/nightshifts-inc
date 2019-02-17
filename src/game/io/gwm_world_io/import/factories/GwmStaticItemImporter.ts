@@ -12,12 +12,12 @@ import { World } from '../../../../model/World';
 
 
 export class GwmStaticItemImporter implements GwmItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private meshModelTemplate: MeshModel;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        meshModelTemplate: MeshModel,
         gameObjectTranslator: GameObjectTranslator,
         shadowGenerator: ShadowGenerator
     ) {
@@ -27,22 +27,18 @@ export class GwmStaticItemImporter implements GwmItemImporter {
     }
 
     public createItem(gameObject: GameObject, world: World): MeshModel {
-        const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new MeshModel(meshes[0], gameObject.name);
+        const meshModel = this.meshModelTemplate.clone();
 
-        meshes.forEach(mesh => {
-            const realMeshDimensions = this.getRealMeshDimensions(mesh, gameObject);
-            const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world, realMeshDimensions);
-            const translate = new VectorModel(translate2.x(), 0, -translate2.y());
-            const rotation = this.gameObjectTranslator.getRotation(gameObject);
+        const realMeshDimensions = this.getRealMeshDimensions(meshModel.mesh, gameObject);
+        const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world, realMeshDimensions);
+        const translate = new VectorModel(translate2.x(), 0, -translate2.y());
+        const rotation = this.gameObjectTranslator.getRotation(gameObject);
 
-            mesh.rotation.y = rotation;
+        meshModel.mesh.rotation.y = rotation;
 
-            mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+        meshModel.mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
-            this.shadowGenerator.getShadowMap().renderList.push(mesh);
-        });
-
+        this.shadowGenerator.getShadowMap().renderList.push(meshModel.mesh);
 
         return meshModel;
     }

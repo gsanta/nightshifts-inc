@@ -5,7 +5,7 @@ import { VectorModel } from '../../VectorModel';
 import { AsyncTemplateCreator } from '../AsyncTemplateCreator';
 import { MeshModel } from '../../MeshModel';
 
-export const defaultMeshConfig: MeshConfig = {
+export const defaultMeshConfig: Partial<MeshConfig> = {
     checkCollisions: true,
     receiveShadows: true,
     isPickable: true,
@@ -31,7 +31,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         this.base = base;
         this.scene = scene;
         this.fileName = fileName;
-        this.config = {...defaultMeshConfig, ...config};
+        this.config = <MeshConfig> {...defaultMeshConfig, ...config};
 
         materialFileNames.forEach((file, index) => {
             this.materials[index] = new BABYLON.StandardMaterial(file, scene);
@@ -75,7 +75,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
             m.setEnabled(false);
         });
 
-        const config: MeshConfig = {
+        const config: MeshConfig = <MeshConfig> {
             mesh: this.meshes[0],
             materials: {
                 default: this.materials[0]

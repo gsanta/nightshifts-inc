@@ -9,7 +9,7 @@ export class Enemy extends Creature {
     private isVisible = true;
 
     constructor(scene: Scene) {
-        super(MeshBuilder.CreateSphere('enemy', { diameter: 3 }, scene), null);
+        super(null);
         this.scene = scene;
 
         this.initMaterials();
