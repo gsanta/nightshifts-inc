@@ -48,7 +48,7 @@ export class MeshModel {
     constructor(meshConfig?: MeshConfig) {
 
         if (meshConfig) {
-            this.mesh = meshConfig.mesh;
+            this.mesh = meshConfig.meshes[0];
             this.name = meshConfig.name;
             this.defaultMaterial = meshConfig.materials.default;
             this.darkMaterial = meshConfig.materials.dark;

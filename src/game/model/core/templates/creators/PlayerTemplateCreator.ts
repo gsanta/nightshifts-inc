@@ -22,6 +22,8 @@ export class PlayerTemplateCreator extends ModelFileBasedTemplateCreator {
 
         this.meshes.forEach(m => m.material = this.materials[0]);
 
+        this.config.meshes = this.meshes;
+
         return new Player(this.config, this.skeletons[0], this.scene, this.light, new UserInputEventEmitter());
     }
 }

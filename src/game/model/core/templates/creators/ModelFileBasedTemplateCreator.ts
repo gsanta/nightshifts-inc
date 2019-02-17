@@ -31,12 +31,22 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         this.base = base;
         this.scene = scene;
         this.fileName = fileName;
-        this.config = <MeshConfig> {...defaultMeshConfig, ...config};
+        this.config = <MeshConfig> {
+            ...{
+                materials: {
+
+                }
+            },
+            ...defaultMeshConfig,
+            ...config
+        };
 
         materialFileNames.forEach((file, index) => {
             this.materials[index] = new BABYLON.StandardMaterial(file, scene);
             this.materials[index].diffuseTexture = new BABYLON.Texture(file, scene);
+
         });
+        this.config.materials.default = this.materials[0];
     }
 
     public doAsyncWork(): Promise<void> {
@@ -76,7 +86,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         });
 
         const config: MeshConfig = <MeshConfig> {
-            mesh: this.meshes[0],
+            meshes: [this.meshes[0]],
             materials: {
                 default: this.materials[0]
             },

@@ -27,10 +27,17 @@ export class WindowTemplateCreator implements TemplateCreator {
     public create(): Window {
 
         const config: MeshConfig = <MeshConfig> {
+            ...{
+                materials: {
+
+                }
+            },
             ...defaultMeshConfig
         };
 
         this.meshes.forEach(m => m.setEnabled(false));
+
+        config.meshes = this.meshes;
 
         return new Window(this.meshes, config);
     }

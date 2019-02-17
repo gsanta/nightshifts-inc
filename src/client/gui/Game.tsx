@@ -10,7 +10,7 @@ import { World } from '../../game/model/World';
 import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSchema';
 import UpdateWorldActions from '../state/game/actions/UpdateWorldActions';
 import GetWorldActions from '../state/game/actions/GetWorldActions';
-const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
+const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.1.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
 const mapStateToProps = (state: AppState) => {
@@ -53,11 +53,11 @@ class Game extends React.Component<GameProps, GameState> {
             scene
         });
 
-        const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
-        // const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
+        // const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
+        const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
         this.gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
-        this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
-        // this.gameEngine.runGame(gwmGameWorldMap);
+        // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
+        this.gameEngine.runGame(gwmGameWorldMap);
 
         this.intervalTimeout = setInterval(
             () => {

@@ -3,7 +3,7 @@ import { VectorModel, toVector3 } from '../VectorModel';
 
 export interface MeshConfig {
     name: string;
-    mesh: Mesh;
+    meshes: Mesh[];
     materials: {default: StandardMaterial, dark: StandardMaterial};
     checkCollisions: boolean;
     receiveShadows: boolean;
