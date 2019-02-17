@@ -13,18 +13,18 @@ import { Window } from '../../../../model/creature/type/Window';
 import { World } from '../../../../model/World';
 
 export class GwmWindowImporter implements GwmItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private windowTemplate: Window;
     private gameObjectTranslator: GameObjectTranslator;
     private shadowGenerator: ShadowGenerator;
     private gameObjectToMeshSizeRatio: number;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        windowTemplate: Window,
         gameObjectTranslator: GameObjectTranslator,
         shadowGenerator: ShadowGenerator,
         gameObjectToMeshSizeRatio: number
     ) {
-        this.meshModelTemplate = meshModelTemplate;
+        this.windowTemplate = windowTemplate;
         this.gameObjectTranslator = gameObjectTranslator;
         this.shadowGenerator = shadowGenerator;
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
@@ -36,13 +36,12 @@ export class GwmWindowImporter implements GwmItemImporter {
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
-        const meshes = this.meshModelTemplate.createMeshes();
+        const window = this.windowTemplate.clone();
 
-        meshes[0].translate(toVector3(translate), 1);
+        window.meshes[0].translate(toVector3(translate), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(...meshes);
+        this.shadowGenerator.getShadowMap().renderList.push(...window.meshes);
 
-        const window = new Window(meshes);
 
         window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), gameObject.additionalData.angle);
 

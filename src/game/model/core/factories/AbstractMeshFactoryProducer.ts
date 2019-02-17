@@ -18,7 +18,7 @@ interface MeshMap<V> {
     cupboard: V;
     table: V;
     floor: V;
-    window: V;
+    window: WindowTemplateCreator;
     bathtub: V;
     washbasin: V;
     bed: V;

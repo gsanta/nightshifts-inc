@@ -4,9 +4,10 @@ import { MeshBuilder, Scene, StandardMaterial, Mesh, Vector3, TransformNode, Col
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { VectorModel } from '../../VectorModel';
+import { Window } from '../../../creature/type/Window';
 const colors = GameConstants.colors;
 
-export class WindowTemplateCreator implements TemplateCreator {
+export class WindowTemplateCreator {
     private scene: Scene;
     private windowGlassMaterial: StandardMaterial;
     private windowFrameMaterial: StandardMaterial;
@@ -23,8 +24,8 @@ export class WindowTemplateCreator implements TemplateCreator {
         this.containerMesh = this.createCntainerMesh();
     }
 
-    public create(): MeshTemplate {
-        return new MeshTemplate(this.containerMesh, this.meshes, [], {...defaultMeshConfig});
+    public create(): Window {
+        return new Window([this.containerMesh, ...this.meshes], {...defaultMeshConfig});
     }
 
     private createWindowGlassMaterial(): StandardMaterial {
