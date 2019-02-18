@@ -12,11 +12,14 @@ export class Window extends MeshModel {
 
     private pivot1: VectorModel;
     private pivot2: VectorModel;
+    public containerMesh: Mesh;
 
     constructor(meshes: Mesh[], config?: MeshTemplateConfig) {
         super(meshes[0], 'window', config);
 
-        this.meshes = meshes;
+        const [containerMesh, ...otherMeshes] = meshes;
+        this.containerMesh = containerMesh;
+        this.meshes = otherMeshes;
         this.hasDefaultAction = true;
     }
 
@@ -25,23 +28,23 @@ export class Window extends MeshModel {
         this.pivot1 = pivot1;
         this.pivot2 = pivot2;
 
-        this.meshes[3].setPivotMatrix(BABYLON.Matrix.Translation(pivot1.x(), pivot1.y(), pivot1.z()));
-        this.meshes[4].setPivotMatrix(BABYLON.Matrix.Translation(pivot2.x(), pivot2.y(), pivot2.z()));
+        this.meshes[2].setPivotMatrix(BABYLON.Matrix.Translation(pivot1.x(), pivot1.y(), pivot1.z()));
+        this.meshes[3].setPivotMatrix(BABYLON.Matrix.Translation(pivot2.x(), pivot2.y(), pivot2.z()));
     }
 
     public doDefaultAction() {
         if (this.isOpen) {
             if (this.isHorizontal) {
+                this.meshes[2].rotation.y = 0;
                 this.meshes[3].rotation.y = 0;
-                this.meshes[4].rotation.y = 0;
             } else {
+                this.meshes[2].rotation.y = 0;
                 this.meshes[3].rotation.y = 0;
-                this.meshes[4].rotation.y = 0;
             }
             this.isOpen = false;
         } else {
-            this.meshes[3].rotation.y = this.pivotAngle;
-            this.meshes[4].rotation.y = - this.pivotAngle;
+            this.meshes[2].rotation.y = this.pivotAngle;
+            this.meshes[3].rotation.y = - this.pivotAngle;
             this.isOpen = true;
         }
     }
@@ -72,13 +75,19 @@ export class Window extends MeshModel {
     }
 
     public clone(): Window {
-        const clonedMeshes =  this.meshes.map(mesh => {
+        const containerMesh = this.containerMesh.clone(`${this.containerMesh.name}-${this.counter++}`);
+        containerMesh.isVisible = false;
+
+        const meshes = this.meshes.map(mesh => {
             const clonedMesh = mesh.clone(`${mesh.name}-${this.counter++}`);
             clonedMesh.isVisible = true;
             return clonedMesh;
         });
 
-        const window = new Window(clonedMeshes);
+        meshes.forEach(mesh => mesh.parent = containerMesh);
+
+        const window = new Window([containerMesh, ...meshes]);
+
         this.copyTo(window);
 
         return window;
