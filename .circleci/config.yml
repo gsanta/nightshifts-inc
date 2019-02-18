@@ -25,6 +25,8 @@ jobs:
       # run tests!
       - run: npm test
   deploy:
+      docker:
+        - image: circleci/node:11.6
       steps:
         - checkout
         - run:
