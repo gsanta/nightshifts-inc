@@ -21,8 +21,10 @@ describe('JsonWorldExporter', () => {
             };
 
             const worldMock: Partial<World> = {
-                gameObjects: [<MeshModel> wallMock, <MeshModel> floorMock],
-                player: <Player> playerMock
+                dimensions: <any> {
+                    serialize: sinon.spy()
+                },
+                gameObjects: [<MeshModel> wallMock, <MeshModel> floorMock, <Player> playerMock]
             };
 
             const serialize = sinon.stub();
@@ -34,7 +36,7 @@ describe('JsonWorldExporter', () => {
 
             jsonWorldSerializer.export(<World> worldMock);
 
-            sinon.assert.calledThrice(serialize);
+            sinon.assert.calledTwice(serialize);
         });
     });
 });

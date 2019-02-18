@@ -14,7 +14,7 @@ class GetWorldActions implements WatchableAction<null> {
     }
 
     public *watch() {
-        yield takeEvery(ActionType.GET_USER_SUCCESS, this.fetch);
+        yield takeEvery(ActionType.GET_WORLD_SUCCESS, this.fetch);
     }
 
     public *fetch() {
