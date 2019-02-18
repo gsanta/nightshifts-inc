@@ -1,7 +1,8 @@
-import BaseActions, { ActionType, WatchableAction } from '../../ActionType';
+import { ActionType, WatchableAction } from '../../ActionType';
 import { select, put, takeEvery } from 'redux-saga/effects';
+import UserSelections from '../UserSelections';
 
-class SignoutActions extends BaseActions implements WatchableAction<null> {
+class SignoutActions implements WatchableAction<null> {
     public request() {
         return {
             type: ActionType.SIGNOUT_REQUEST
@@ -13,7 +14,7 @@ class SignoutActions extends BaseActions implements WatchableAction<null> {
     }
 
     private *fetch() {
-        const userQuery = yield select(this.getUserQuery);
+        const userQuery = yield select(UserSelections.getUserQuery);
 
         userQuery.signout();
         yield put({type: ActionType.SIGNOUT_SUCCESS});

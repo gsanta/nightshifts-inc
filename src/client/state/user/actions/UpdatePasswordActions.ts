@@ -1,9 +1,10 @@
-import BaseActions, { ActionType } from '../../ActionType';
+import { ActionType } from '../../ActionType';
 import { User } from '../User';
 import { PasswordUpdateDto } from '../../../query/user/PasswordUpdateDto';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
 import { ErrorMessage } from '../../../gui/ErrorMessage';
 import { WatchableAction } from '../../ActionType';
+import UserSelections from '../UserSelections';
 
 export interface UpdatePasswordRequestPayload {
     user: User;
@@ -11,7 +12,7 @@ export interface UpdatePasswordRequestPayload {
     oldPassword: string;
 }
 
-class UpdatePasswordActions extends BaseActions implements WatchableAction<UpdatePasswordRequestPayload> {
+class UpdatePasswordActions implements WatchableAction<UpdatePasswordRequestPayload> {
     public request(payload: UpdatePasswordRequestPayload) {
         return {
             type: ActionType.UPDATE_PASSWORD_REQUEST,
@@ -32,7 +33,7 @@ class UpdatePasswordActions extends BaseActions implements WatchableAction<Updat
             newPassword: action.newPassword
         };
         try {
-            const userQuery = yield select(this.getUserQuery);
+            const userQuery = yield select(UserSelections.getUserQuery);
 
             yield call([userQuery, userQuery.updatePassword], passwordUpdateDto);
             yield put({ type: ActionType.UPDATE_PASSWORD_SUCCESS});

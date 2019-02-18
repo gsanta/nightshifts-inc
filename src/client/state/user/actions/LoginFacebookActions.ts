@@ -1,8 +1,9 @@
-import BaseActions, { ActionType } from '../../ActionType';
+import { ActionType } from '../../ActionType';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
 import { WatchableAction } from '../../ActionType';
+import UserSelections from '../UserSelections';
 
-class LoginFacebookActions extends BaseActions implements WatchableAction<string> {
+class LoginFacebookActions implements WatchableAction<string> {
     public request(accessToken: string) {
         return {
             type: ActionType.LOGIN_FACEBOOK_REQUEST,
@@ -16,7 +17,7 @@ class LoginFacebookActions extends BaseActions implements WatchableAction<string
 
     public *fetch(action: {accessToken: string}) {
         try {
-            const userQuery = yield select(BaseActions.getUserQuery);
+            const userQuery = yield select(UserSelections.getUserQuery);
 
             const user = yield call([userQuery, userQuery.loginFacebook], action.accessToken);
             yield put({type: ActionType.LOGIN_FACEBOOK_SUCCESS, user});

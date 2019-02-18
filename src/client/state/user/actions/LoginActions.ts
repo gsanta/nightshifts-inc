@@ -1,14 +1,15 @@
-import BaseActions, { ActionType } from '../../ActionType';
+import { ActionType } from '../../ActionType';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
 import { ErrorMessage } from '../../../gui/ErrorMessage';
 import { WatchableAction } from '../../ActionType';
+import UserSelections from '../UserSelections';
 
 export interface LoginRequestPayload {
     email: string;
     password: string;
 }
 
-class LoginActions extends BaseActions implements WatchableAction<LoginRequestPayload> {
+class LoginActions implements WatchableAction<LoginRequestPayload> {
     public request(payload: LoginRequestPayload) {
         return {
             type: ActionType.LOGIN_REQUEST,
@@ -23,7 +24,7 @@ class LoginActions extends BaseActions implements WatchableAction<LoginRequestPa
 
     private *fetch(action: { email: string, password: string }) {
         try {
-            const userQuery = yield select(this.getUserQuery);
+            const userQuery = yield select(UserSelections.getUserQuery);
 
             const user = yield call([userQuery, userQuery.login], { email: action.email, password: action.password});
             yield put({ type: ActionType.LOGIN_SUCCESS, user});
