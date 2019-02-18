@@ -1,9 +1,10 @@
-import UpdateWorldActions, { getWorld, getGameRequests, getUser } from './UpdateWorldActions';
+import UpdateWorldActions from './UpdateWorldActions';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { select, call, delay, put } from 'redux-saga/effects';
 import { GameRequests } from '../GameRequests';
 import { ActionType } from '../../ActionType';
+import GameSelections from '../GameSelections';
 
 describe('UpdateWorldActions', () => {
     describe('watch', () => {
@@ -13,7 +14,7 @@ describe('UpdateWorldActions', () => {
             const worldMock = sinon.spy();
             const selectWorld = watch.next();
 
-            expect(selectWorld.value).to.eql(select(getWorld));
+            expect(selectWorld.value).to.eql(select(GameSelections.getWorld));
 
             const fetchWorld = watch.next(worldMock);
             // expect(fetchWorld.value).to.eql(call(UpdateWorldActions.fetch));
