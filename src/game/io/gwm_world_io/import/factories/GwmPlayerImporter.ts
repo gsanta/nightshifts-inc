@@ -1,5 +1,5 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { GameObject } from 'game-worldmap-generator';
+import { WorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
@@ -35,7 +35,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
     }
 
 
-    public createItem(gameObject: GameObject, world: World): MeshModel {
+    public createItem(gameObject: WorldItem, world: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
 
         world.camera.lockedTarget = mesh;

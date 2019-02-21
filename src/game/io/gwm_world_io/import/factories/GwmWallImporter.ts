@@ -1,5 +1,5 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { GameObject } from 'game-worldmap-generator';
+import { WorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
@@ -25,13 +25,13 @@ export class GwmWallImporter implements GwmItemImporter {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public createItem(gameObject: GameObject, world: World): MeshModel {
-        const scaling = this.gameObjectTranslator.getDimensions(gameObject).toVector3(5);
-        const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
+    public createItem(worldItem: WorldItem, world: World): MeshModel {
+        const scaling = this.gameObjectTranslator.getDimensions(worldItem).toVector3(5);
+        const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        const meshModel = new MeshModel(mesh, gameObject.name);
+        const meshModel = new MeshModel(mesh, worldItem.name);
 
         meshModel.translate(translate);
         mesh.scaling.x = scaling.x();

@@ -1,7 +1,6 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { GameObject} from 'game-worldmap-generator';
+import { WorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
-import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
 import { AdditionalData } from '../AdditionalData';
 import { MeshModel } from '../../../../model/core/MeshModel';
@@ -28,7 +27,7 @@ export class GwmDoorImporter implements GwmItemImporter {
     }
 
 
-    public createItem(gameObject: GameObject<AdditionalData>, world: World): MeshModel {
+    public createItem(gameObject: WorldItem<AdditionalData>, world: World): MeshModel {
         const scaling = this.gameObjectTranslator.getDimensions(gameObject).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
@@ -44,7 +43,7 @@ export class GwmDoorImporter implements GwmItemImporter {
         return door;
     }
 
-    private setPivotMatrix(gameObject: GameObject<AdditionalData>, door: Door) {
+    private setPivotMatrix(gameObject: WorldItem<AdditionalData>, door: Door) {
         const angle = gameObject.additionalData.angle;
         if (this.isHorizontal(door)) {
             const xExtent = door.getXExtent();
