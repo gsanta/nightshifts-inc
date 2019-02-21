@@ -1,5 +1,5 @@
 import { World } from '../../../model/World';
-import { GameObject, GameObjectParser } from 'game-worldmap-generator';
+import { WorldMapParser, WorldItem } from 'game-worldmap-generator';
 import { Player } from '../../../model/creature/type/Player';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData, parseJsonAdditionalData } from './AdditionalData';
@@ -10,39 +10,41 @@ import { AbstractMeshFactoryProducer } from '../../../model/core/factories/Abstr
 import { LightController } from '../../../model/light/LightController';
 import { AbstractWorldImporter } from '../../../model/core/factories/AbstractWorldImporter';
 
-export class GwmWorldImporter extends AbstractWorldImporter<GameObject> {
-    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<GameObject>) {
+export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
+    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<WorldItem>) {
         super(scene, canvas, meshFactoryProducer);
     }
 
     public create(strWorld: string): Promise<World> {
-        const gameObjects = <GameObject<AdditionalData>[]> new GameObjectParser().parse<AdditionalData>(strWorld, parseJsonAdditionalData);
+        debugger;
+        const worldParsingResult = new WorldMapParser().parse<AdditionalData>(strWorld, parseJsonAdditionalData);
+        const worldItems = worldParsingResult.items;
 
         const world = new World();
 
         world.lightController = new LightController(this.hemisphericLight);
-        world.dimensions = this.getWorldDimensions(gameObjects);
+        world.dimensions = this.getWorldDimensions(worldItems);
         world.camera = this.camera;
 
         return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
             .then(meshFactory => {
 
-                this.setMeshes(gameObjects, meshFactory, world);
+                this.setMeshes(worldItems, meshFactory, world);
 
                 return world;
             });
     }
 
-    protected setMeshes(gameObjects: GameObject[], meshFactory: MeshFactory<GameObject>, world: World): void {
-        const meshes = gameObjects.map(gameObject => this.createMesh(gameObject, meshFactory, world));
+    protected setMeshes(worldItems: WorldItem[], meshFactory: MeshFactory<WorldItem>, world: World): void {
+        const meshes = worldItems.map(worldItem => this.createMesh(worldItem, meshFactory, world));
 
         world.gameObjects = meshes;
         world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
         world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
     }
 
-    private getWorldDimensions(gameObjects: GameObject[]): Vector2Model {
-        const floor = gameObjects.filter(gameObject => gameObject.name === 'floor')[0];
+    private getWorldDimensions(gameObjects: WorldItem[]): Vector2Model {
+        const floor = gameObjects.filter(worldItem => worldItem.name === 'floor')[0];
 
         return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
     }

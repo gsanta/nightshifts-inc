@@ -1,8 +1,8 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { GameObject } from 'game-worldmap-generator';
+import { WorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
+import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { World } from '../../../../model/World';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
@@ -15,14 +15,14 @@ import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
 
 export class GwmPlayerImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
-    private gameObjectTranslator: GameObjectTranslator;
+    private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
     private scene: Scene;
     private spotLight: SpotLight;
 
     constructor(
         meshModelTemplate: MeshTemplate,
-        gameObjectTranslator: GameObjectTranslator,
+        gameObjectTranslator: WorldItemTranslator,
         scene: Scene,
         shadowGenerator: ShadowGenerator,
         spotLight: SpotLight
@@ -35,12 +35,12 @@ export class GwmPlayerImporter implements GwmItemImporter {
     }
 
 
-    public createItem(gameObject: GameObject, world: World): MeshModel {
+    public createItem(worldItem: WorldItem, world: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
 
         world.camera.lockedTarget = mesh;
 
-        const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world);
+        const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 

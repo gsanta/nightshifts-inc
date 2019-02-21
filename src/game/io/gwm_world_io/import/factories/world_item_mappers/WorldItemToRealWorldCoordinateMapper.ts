@@ -1,32 +1,32 @@
-import { GameObject, Rectangle } from 'game-worldmap-generator';
-import { Direction } from '../../../../model/utils/Direction';
-import { Vector2Model } from '../../../../model/utils/Vector2Model';
-import { AdditionalData } from '../AdditionalData';
-import { Orientation } from '../../../../model/utils/Orientation';
-import { World } from '../../../../model/World';
+import { WorldItem, Rectangle } from 'game-worldmap-generator';
+import { Direction } from '../../../../../model/utils/Direction';
+import { Vector2Model } from '../../../../../model/utils/Vector2Model';
+import { AdditionalData } from '../../AdditionalData';
+import { Orientation } from '../../../../../model/utils/Orientation';
+import { World } from '../../../../../model/World';
 
-export interface GameObjectTranslator {
-    getTranslate(gameObject: GameObject, world: World, realMeshDimensions?: Vector2Model): Vector2Model;
-    getDimensions(gameObject: GameObject): Vector2Model;
-    getRotation(gameObject: GameObject): number;
+export interface WorldItemTranslator {
+    getTranslate(worldItem: WorldItem, world: World, realMeshDimensions?: Vector2Model): Vector2Model;
+    getDimensions(worldItem: WorldItem): Vector2Model;
+    getRotation(worldItem: WorldItem): number;
 }
 
-export class GameObjectToRealWorldCoordinateMapper implements GameObjectTranslator {
+export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator {
     private gameObjectToMeshSizeRatio: number;
 
     constructor(gameObjectToMeshSizeRatio: number) {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public getTranslate(gameObject: GameObject, world: World, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
-        const realDimensions = this.changeToRealWorldDimensions(gameObject.dimensions, this.gameObjectToMeshSizeRatio);
+    public getTranslate(worldItem: WorldItem, world: World, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
+        const realDimensions = this.changeToRealWorldDimensions(worldItem.dimensions, this.gameObjectToMeshSizeRatio);
 
-        const dock = gameObject.additionalData && gameObject.additionalData.dock !== undefined ? gameObject.additionalData.dock : Direction.MIDDLE;
+        const dock = worldItem.additionalData && worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
         return this.getDockPosition(dock, realDimensions, realMeshDimensions);
     }
 
-    public getDimensions(gameObject: GameObject): Vector2Model {
-        const rect = gameObject.dimensions;
+    public getDimensions(worldItem: WorldItem): Vector2Model {
+        const rect = worldItem.dimensions;
         if (rect.width > rect.height) {
             return new Vector2Model(rect.width * this.gameObjectToMeshSizeRatio, this.gameObjectToMeshSizeRatio);
         } else {
@@ -34,8 +34,8 @@ export class GameObjectToRealWorldCoordinateMapper implements GameObjectTranslat
         }
     }
 
-    public getRotation(gameObject: GameObject<AdditionalData>) {
-        const orientation = gameObject.additionalData.orientation;
+    public getRotation(worldItem: WorldItem<AdditionalData>) {
+        const orientation = worldItem.additionalData.orientation;
 
         return this.getRotationForOrientation(orientation);
     }

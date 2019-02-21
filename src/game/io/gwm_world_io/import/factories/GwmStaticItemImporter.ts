@@ -1,8 +1,8 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { GameObject } from 'game-worldmap-generator';
+import { WorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
+import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { AdditionalData } from '../AdditionalData';
@@ -13,12 +13,12 @@ import { World } from '../../../../model/World';
 
 export class GwmStaticItemImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
-    private gameObjectTranslator: GameObjectTranslator;
+    private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
         meshModelTemplate: MeshTemplate,
-        gameObjectTranslator: GameObjectTranslator,
+        gameObjectTranslator: WorldItemTranslator,
         shadowGenerator: ShadowGenerator
     ) {
         this.meshModelTemplate = meshModelTemplate;
@@ -26,15 +26,15 @@ export class GwmStaticItemImporter implements GwmItemImporter {
         this.shadowGenerator = shadowGenerator;
     }
 
-    public createItem(gameObject: GameObject, world: World): MeshModel {
+    public createItem(worldItem: WorldItem, world: World): MeshModel {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new MeshModel(meshes[0], gameObject.name);
+        const meshModel = new MeshModel(meshes[0], worldItem.name);
 
         meshes.forEach(mesh => {
-            const realMeshDimensions = this.getRealMeshDimensions(mesh, gameObject);
-            const translate2 = this.gameObjectTranslator.getTranslate(gameObject, world, realMeshDimensions);
+            const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
+            const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world, realMeshDimensions);
             const translate = new VectorModel(translate2.x(), 0, -translate2.y());
-            const rotation = this.gameObjectTranslator.getRotation(gameObject);
+            const rotation = this.gameObjectTranslator.getRotation(worldItem);
 
             mesh.rotation.y = rotation;
 
@@ -47,11 +47,11 @@ export class GwmStaticItemImporter implements GwmItemImporter {
         return meshModel;
     }
 
-    private getRealMeshDimensions(mesh: Mesh, gameObject: GameObject<AdditionalData>): Vector2Model {
+    private getRealMeshDimensions(mesh: Mesh, worldItem: WorldItem<AdditionalData>): Vector2Model {
         const xExtend = mesh.getBoundingInfo().boundingBox.extendSize.x * mesh.scaling.x;
         const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.y * mesh.scaling.y;
 
-        switch (gameObject.additionalData.orientation) {
+        switch (worldItem.additionalData.orientation) {
             case Orientation.NORTH:
             case Orientation.SOUTH:
             default:

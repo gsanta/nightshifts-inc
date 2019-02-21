@@ -5,19 +5,18 @@ import { GwmPlayerImporter } from './GwmPlayerImporter';
 import { GwmFloorImporter } from './GwmFloorImporter';
 import { GwmWindowImporter } from './GwmWindowImporter';
 import { GwmStaticItemImporter } from './GwmStaticItemImporter';
-import { Vector2Model } from '../../../../model/utils/Vector2Model';
-import { GameObjectToWorldCenterTranslatorDecorator } from '../game_object_mappers/GameObjectToWorldCenterTranslatorDecorator';
-import { GameObjectToRealWorldCoordinateMapper } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
-import { GameObject } from 'game-worldmap-generator';
+import { WorldItemToWorldCenterTranslatorDecorator } from './world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
+import { WorldItemToRealWorldCoordinateMapper } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { WorldItem } from 'game-worldmap-generator';
 import { AbstractMeshFactoryProducer } from '../../../../model/core/factories/AbstractMeshFactoryProducer';
 import { MeshFactory } from '../../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
 import { World } from '../../../../model/World';
 
-export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<GameObject> {
+export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<WorldItem> {
 
-    public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<GameObject>> {
-        const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(1, new GameObjectToRealWorldCoordinateMapper(1));
+    public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<WorldItem>> {
+        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(1, new WorldItemToRealWorldCoordinateMapper(1));
 
         return this.getTemplateProducers(scene)
             .then(meshMap => {
