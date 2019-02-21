@@ -4,7 +4,7 @@
 import { GwmItemImporter } from './GwmItemImporter';
 import { WorldItem} from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
-import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
+import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { AdditionalData } from '../AdditionalData';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
@@ -13,13 +13,13 @@ import { World } from '../../../../model/World';
 
 export class GwmWindowImporter implements GwmItemImporter {
     private windowTemplate: Window;
-    private gameObjectTranslator: GameObjectTranslator;
+    private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
     private gameObjectToMeshSizeRatio: number;
 
     constructor(
         windowTemplate: Window,
-        gameObjectTranslator: GameObjectTranslator,
+        gameObjectTranslator: WorldItemTranslator,
         shadowGenerator: ShadowGenerator,
         gameObjectToMeshSizeRatio: number
     ) {

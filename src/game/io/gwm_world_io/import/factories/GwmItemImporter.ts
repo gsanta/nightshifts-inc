@@ -4,5 +4,5 @@ import { World } from '../../../../model/World';
 import { GenericItemImporter } from '../../../../model/core/factories/MeshFactory';
 
 export interface GwmItemImporter extends GenericItemImporter<WorldItem> {
-    createItem(gameObject: WorldItem, worldMap?: World): MeshModel;
+    createItem(worldItem: WorldItem, worldMap?: World): MeshModel;
 }

@@ -1,7 +1,6 @@
 import { Player } from '../type/Player';
 import { World } from '../../World';
 import { MeshModel } from '../../core/MeshModel';
-import { GameObject } from 'game-worldmap-generator';
 import { VectorModel } from '../../core/VectorModel';
 
 

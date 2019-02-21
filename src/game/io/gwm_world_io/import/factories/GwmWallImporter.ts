@@ -2,20 +2,20 @@ import { GwmItemImporter } from './GwmItemImporter';
 import { WorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { GameObjectTranslator } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
+import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { MeshModel } from '../../../../model/core/MeshModel';
 import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
 
 export class GwmWallImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
-    private gameObjectTranslator: GameObjectTranslator;
+    private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
     private gameObjectToMeshSizeRatio: number;
 
     constructor(
         meshModelTemplate: MeshTemplate,
-        gameObjectTranslator: GameObjectTranslator,
+        gameObjectTranslator: WorldItemTranslator,
         shadowGenerator: ShadowGenerator,
         gameObjectToMeshSizeRatio: number
     ) {

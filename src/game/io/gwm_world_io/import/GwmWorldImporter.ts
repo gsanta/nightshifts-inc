@@ -16,6 +16,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
     }
 
     public create(strWorld: string): Promise<World> {
+        debugger;
         const worldParsingResult = new WorldMapParser().parse<AdditionalData>(strWorld, parseJsonAdditionalData);
         const worldItems = worldParsingResult.items;
 
@@ -35,7 +36,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
     }
 
     protected setMeshes(worldItems: WorldItem[], meshFactory: MeshFactory<WorldItem>, world: World): void {
-        const meshes = worldItems.map(gameObject => this.createMesh(gameObject, meshFactory, world));
+        const meshes = worldItems.map(worldItem => this.createMesh(worldItem, meshFactory, world));
 
         world.gameObjects = meshes;
         world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
@@ -43,7 +44,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
     }
 
     private getWorldDimensions(gameObjects: WorldItem[]): Vector2Model {
-        const floor = gameObjects.filter(gameObject => gameObject.name === 'floor')[0];
+        const floor = gameObjects.filter(worldItem => worldItem.name === 'floor')[0];
 
         return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
     }

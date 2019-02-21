@@ -5,8 +5,8 @@ import { GwmPlayerImporter } from './GwmPlayerImporter';
 import { GwmFloorImporter } from './GwmFloorImporter';
 import { GwmWindowImporter } from './GwmWindowImporter';
 import { GwmStaticItemImporter } from './GwmStaticItemImporter';
-import { GameObjectToWorldCenterTranslatorDecorator } from '../game_object_mappers/GameObjectToWorldCenterTranslatorDecorator';
-import { GameObjectToRealWorldCoordinateMapper } from '../game_object_mappers/GameObjectToRealWorldCoordinateMapper';
+import { WorldItemToWorldCenterTranslatorDecorator } from './world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
+import { WorldItemToRealWorldCoordinateMapper } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { WorldItem } from 'game-worldmap-generator';
 import { AbstractMeshFactoryProducer } from '../../../../model/core/factories/AbstractMeshFactoryProducer';
 import { MeshFactory } from '../../../../model/core/factories/MeshFactory';
@@ -16,7 +16,7 @@ import { World } from '../../../../model/World';
 export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<WorldItem> {
 
     public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<WorldItem>> {
-        const gameObjectTranslator = new GameObjectToWorldCenterTranslatorDecorator(1, new GameObjectToRealWorldCoordinateMapper(1));
+        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(1, new WorldItemToRealWorldCoordinateMapper(1));
 
         return this.getTemplateProducers(scene)
             .then(meshMap => {
