@@ -12,6 +12,7 @@ import { AbstractMeshFactoryProducer } from '../../../../model/core/factories/Ab
 import { MeshFactory } from '../../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
 import { World } from '../../../../model/World';
+import { GwmRoomImporter } from './GwmRoomImporter';
 
 export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<WorldItem> {
 
@@ -32,7 +33,8 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<WorldIte
                         bathtub: new GwmStaticItemImporter(meshMap.bathtub.create(world), gameObjectTranslator, shadowGenerator),
                         washbasin: new GwmStaticItemImporter(meshMap.washbasin.create(world), gameObjectTranslator, shadowGenerator),
                         bed: new GwmStaticItemImporter(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator)
-                    }
+                    },
+                    new GwmRoomImporter(scene)
                 );
             });
     }

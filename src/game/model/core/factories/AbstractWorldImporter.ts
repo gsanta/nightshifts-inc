@@ -3,9 +3,8 @@ import { MeshFactory } from './MeshFactory';
 import { MeshModel } from '../MeshModel';
 import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from './AbstractMeshFactoryProducer';
-import { Vector2Model } from '../../utils/Vector2Model';
 import { Promise } from 'es6-promise';
-import { LightController } from '../../light/LightController';
+import { Polygon } from 'game-worldmap-generator';
 
 
 export abstract class AbstractWorldImporter<T extends {name: string}> {
@@ -54,6 +53,10 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
             default:
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);
         }
+    }
+
+    protected createRoom(polygon: Polygon, meshFactory: MeshFactory<T>) {
+        return meshFactory.createRoom(polygon);
     }
 
     // const initMeshFactory = (

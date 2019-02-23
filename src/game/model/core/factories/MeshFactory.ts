@@ -1,5 +1,6 @@
 import { MeshModel } from '../MeshModel';
 import { World } from '../../World';
+import { Polygon } from 'game-worldmap-generator';
 
 export interface GenericItemImporter<T> {
     createItem(itemInfo: T, world: World): MeshModel;
@@ -7,9 +8,11 @@ export interface GenericItemImporter<T> {
 
 export class MeshFactory<T> {
     private factories: {[key: string]: GenericItemImporter<T>};
+    private roomFactory: GenericItemImporter<Polygon>;
 
-    constructor(factories: {[key: string]: GenericItemImporter<T>}) {
+    constructor(factories: {[key: string]: GenericItemImporter<T>}, roomFactory: GenericItemImporter<Polygon>) {
         this.factories = factories;
+        this.roomFactory = roomFactory;
     }
 
     public createWall(itemInfo: T, world: World): MeshModel {
@@ -50,5 +53,9 @@ export class MeshFactory<T> {
 
     public createCupboard(itemInfo: T, world: World): MeshModel {
         return this.factories.cupboard.createItem(itemInfo, world);
+    }
+
+    public createRoom(polygon: Polygon): MeshModel {
+        return this.roomFactory.createItem(polygon, null);
     }
 }

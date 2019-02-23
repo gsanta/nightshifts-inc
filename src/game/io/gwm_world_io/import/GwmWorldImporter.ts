@@ -9,6 +9,7 @@ import { Scene } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
 import { LightController } from '../../../model/light/LightController';
 import { AbstractWorldImporter } from '../../../model/core/factories/AbstractWorldImporter';
+import { defaultParseConfig } from 'game-worldmap-generator/build/WorldMapParser';
 
 export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<WorldItem>) {
@@ -16,9 +17,12 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
     }
 
     public create(strWorld: string): Promise<World> {
-        debugger;
-        const worldParsingResult = new WorldMapParser().parse<AdditionalData>(strWorld, parseJsonAdditionalData);
+        const worldParsingResult = new WorldMapParser().parse<AdditionalData>(
+            strWorld,
+            {...defaultParseConfig, ...{additionalDataConverter: parseJsonAdditionalData}}
+        );
         const worldItems = worldParsingResult.items;
+        const rooms = worldParsingResult.rooms;
 
         const world = new World();
 
@@ -31,6 +35,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
 
                 this.setMeshes(worldItems, meshFactory, world);
 
+                world.rooms = rooms.map(polygon => this.createRoom(polygon, meshFactory));
                 return world;
             });
     }

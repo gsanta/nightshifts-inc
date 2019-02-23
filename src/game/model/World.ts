@@ -4,6 +4,7 @@ import { Player } from './creature/type/Player';
 import { LightController } from './light/LightController';
 import { Vector2Model } from './utils/Vector2Model';
 import { FollowCamera } from 'babylonjs';
+import { Room } from './creature/type/Room';
 
 
 export class World {
@@ -12,6 +13,7 @@ export class World {
     public floor: MeshModel;
     public enemies: Enemy[] = [];
     public player: Player = null;
+    public rooms: Room[];
 
     public camera: FollowCamera;
 
