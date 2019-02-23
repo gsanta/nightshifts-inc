@@ -16,7 +16,6 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
     }
 
     public create(strWorld: string): Promise<World> {
-        debugger;
         const worldParsingResult = new WorldMapParser().parse<AdditionalData>(strWorld, parseJsonAdditionalData);
         const worldItems = worldParsingResult.items;
 
