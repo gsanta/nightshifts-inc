@@ -28,8 +28,7 @@ export class JsonMeshFactoryProducer extends AbstractMeshFactoryProducer<Seriali
                         bathtub: new JsonStaticItemImporter(meshMap.bathtub.create(world), shadowGenerator),
                         washbasin: new JsonStaticItemImporter(meshMap.washbasin.create(world), shadowGenerator),
                         bed: new JsonStaticItemImporter(meshMap.bed.create(world), shadowGenerator)
-                    },
-                    null
+                    }
                 );
             });
     }

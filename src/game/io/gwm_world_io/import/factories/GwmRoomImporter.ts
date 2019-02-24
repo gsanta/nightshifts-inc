@@ -1,4 +1,4 @@
-import { Polygon } from 'game-worldmap-generator';
+import { Polygon, WorldItem } from 'game-worldmap-generator';
 import { Room } from '../../../../model/creature/type/Room';
 import { StandardMaterial, Scene, Vector3, Vector2 } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
@@ -23,9 +23,9 @@ export class GwmRoomImporter {
         this.worldItemTranslator = worldItemTranslator;
     }
 
-    public createItem(polygon: Polygon, world: World): Room {
-        let topLeft = new Vector2Model(polygon.points[0].x, polygon.points[0].y);
-        const positions = polygon.points.map(point => new Vector3(point.x - topLeft.x(), 2, -(point.y - topLeft.y())));
+    public createItem(worldItem: WorldItem, world: World): Room {
+        let topLeft = new Vector2Model(worldItem.dimensions.points[0].x, worldItem.dimensions.points[0].y);
+        const positions = worldItem.dimensions.points.map(point => new Vector3(point.x - topLeft.x(), 2, -(point.y - topLeft.y())));
 
         // let topLeft = new Vector2Model(positions[0].x, -positions[0].y);
         const translateX = - (world.dimensions.x() / 2);

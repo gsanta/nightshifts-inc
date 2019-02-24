@@ -32,9 +32,9 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<WorldIte
                         table: new GwmStaticItemImporter(meshMap.table.create(world), gameObjectTranslator, shadowGenerator),
                         bathtub: new GwmStaticItemImporter(meshMap.bathtub.create(world), gameObjectTranslator, shadowGenerator),
                         washbasin: new GwmStaticItemImporter(meshMap.washbasin.create(world), gameObjectTranslator, shadowGenerator),
-                        bed: new GwmStaticItemImporter(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator)
-                    },
-                    new GwmRoomImporter(scene, gameObjectTranslator)
+                        bed: new GwmStaticItemImporter(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator),
+                        room: new GwmRoomImporter(scene, gameObjectTranslator)
+                    }
                 );
             });
     }

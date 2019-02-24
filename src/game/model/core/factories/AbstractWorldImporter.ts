@@ -50,13 +50,11 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
                 return meshFactory.createBathtub(meshModelDescription, world);
             case 'washbasin':
                 return meshFactory.createWashbasin(meshModelDescription, world);
+            case 'room':
+                return meshFactory.createRoom(meshModelDescription, world);
             default:
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);
         }
-    }
-
-    protected createRoom(polygon: Polygon, world: World, meshFactory: MeshFactory<T>) {
-        return meshFactory.createRoom(polygon, world);
     }
 
     // const initMeshFactory = (

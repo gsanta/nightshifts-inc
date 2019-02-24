@@ -17,12 +17,10 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
     }
 
     public create(strWorld: string): Promise<World> {
-        const worldParsingResult = new WorldMapParser().parse<AdditionalData>(
+        const worldItems = new WorldMapParser().parse<AdditionalData>(
             strWorld,
             {...defaultParseConfig, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}}
         );
-        const worldItems = worldParsingResult.items;
-        const rooms = worldParsingResult.rooms;
 
         const world = new World();
 
@@ -37,7 +35,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
 
                 // world.rooms = [this.createRoom(rooms[0], world, meshFactory)];
 
-                world.rooms = rooms.map(polygon => this.createRoom(polygon, world, meshFactory));
+                // world.rooms = rooms.map(polygon => this.createRoom(polygon, world, meshFactory));
                 return world;
             });
     }

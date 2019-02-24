@@ -8,11 +8,9 @@ export interface GenericItemImporter<T> {
 
 export class MeshFactory<T> {
     private factories: {[key: string]: GenericItemImporter<T>};
-    private roomFactory: GenericItemImporter<Polygon>;
 
-    constructor(factories: {[key: string]: GenericItemImporter<T>}, roomFactory: GenericItemImporter<Polygon>) {
+    constructor(factories: {[key: string]: GenericItemImporter<T>}) {
         this.factories = factories;
-        this.roomFactory = roomFactory;
     }
 
     public createWall(itemInfo: T, world: World): MeshModel {
@@ -55,7 +53,7 @@ export class MeshFactory<T> {
         return this.factories.cupboard.createItem(itemInfo, world);
     }
 
-    public createRoom(polygon: Polygon, world: World): MeshModel {
-        return this.roomFactory.createItem(polygon, world);
+    public createRoom(itemInfo: T, world: World): MeshModel {
+        return this.factories.room.createItem(itemInfo, world);
     }
 }
