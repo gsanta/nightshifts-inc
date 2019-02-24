@@ -55,8 +55,8 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         }
     }
 
-    protected createRoom(polygon: Polygon, meshFactory: MeshFactory<T>) {
-        return meshFactory.createRoom(polygon);
+    protected createRoom(polygon: Polygon, world: World, meshFactory: MeshFactory<T>) {
+        return meshFactory.createRoom(polygon, world);
     }
 
     // const initMeshFactory = (

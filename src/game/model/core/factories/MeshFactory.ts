@@ -55,7 +55,7 @@ export class MeshFactory<T> {
         return this.factories.cupboard.createItem(itemInfo, world);
     }
 
-    public createRoom(polygon: Polygon): MeshModel {
-        return this.roomFactory.createItem(polygon, null);
+    public createRoom(polygon: Polygon, world: World): MeshModel {
+        return this.roomFactory.createItem(polygon, world);
     }
 }

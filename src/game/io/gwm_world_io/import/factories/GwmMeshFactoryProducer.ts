@@ -34,7 +34,7 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<WorldIte
                         washbasin: new GwmStaticItemImporter(meshMap.washbasin.create(world), gameObjectTranslator, shadowGenerator),
                         bed: new GwmStaticItemImporter(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator)
                     },
-                    new GwmRoomImporter(scene)
+                    new GwmRoomImporter(scene, gameObjectTranslator)
                 );
             });
     }
