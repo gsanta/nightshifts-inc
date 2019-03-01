@@ -52,7 +52,6 @@ export class CollisionDetector {
         let normal: Vector3 | null = null;
         let mesh: AbstractMesh | null = null;
         if (hit && hit.pickedMesh) {
-            console.log(hit.pickedMesh.name)
             normal = hit.getNormal();
             mesh = hit.pickedMesh;
         }
