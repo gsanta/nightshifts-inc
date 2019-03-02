@@ -7,16 +7,16 @@ import { GwmWindowImporter } from './GwmWindowImporter';
 import { GwmStaticItemImporter } from './GwmStaticItemImporter';
 import { WorldItemToWorldCenterTranslatorDecorator } from './world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
 import { WorldItemToRealWorldCoordinateMapper } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { WorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from 'game-worldmap-generator';
 import { AbstractMeshFactoryProducer } from '../../../../model/core/factories/AbstractMeshFactoryProducer';
 import { MeshFactory } from '../../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
 import { World } from '../../../../model/World';
 import { GwmRoomImporter } from './GwmRoomImporter';
 
-export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<WorldItem> {
+export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<GwmWorldItem> {
 
-    public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<WorldItem>> {
+    public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<GwmWorldItem>> {
         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(1, new WorldItemToRealWorldCoordinateMapper(1));
 
         return this.getTemplateProducers(scene)

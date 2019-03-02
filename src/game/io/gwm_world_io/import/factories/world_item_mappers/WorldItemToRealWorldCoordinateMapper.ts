@@ -1,4 +1,4 @@
-import { WorldItem, Rectangle } from 'game-worldmap-generator';
+import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
 import { Direction } from '../../../../../model/utils/Direction';
 import { Vector2Model } from '../../../../../model/utils/Vector2Model';
 import { AdditionalData } from '../../AdditionalData';
@@ -6,9 +6,9 @@ import { Orientation } from '../../../../../model/utils/Orientation';
 import { World } from '../../../../../model/World';
 
 export interface WorldItemTranslator {
-    getTranslate(worldItem: WorldItem, world: World, realMeshDimensions?: Vector2Model): Vector2Model;
-    getDimensions(worldItem: WorldItem): Vector2Model;
-    getRotation(worldItem: WorldItem): number;
+    getTranslate(worldItem: GwmWorldItem, world: World, realMeshDimensions?: Vector2Model): Vector2Model;
+    getDimensions(worldItem: GwmWorldItem): Vector2Model;
+    getRotation(worldItem: GwmWorldItem): number;
 }
 
 export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator {
@@ -18,14 +18,14 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public getTranslate(worldItem: WorldItem, world: World, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
+    public getTranslate(worldItem: GwmWorldItem, world: World, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
         const realDimensions = this.changeToRealWorldDimensions(worldItem.dimensions, this.gameObjectToMeshSizeRatio);
 
         const dock = worldItem.additionalData && worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
         return this.getDockPosition(dock, realDimensions, realMeshDimensions);
     }
 
-    public getDimensions(worldItem: WorldItem): Vector2Model {
+    public getDimensions(worldItem: GwmWorldItem): Vector2Model {
         const rect = worldItem.dimensions;
         if (rect.width > rect.height) {
             return new Vector2Model(rect.width * this.gameObjectToMeshSizeRatio, this.gameObjectToMeshSizeRatio);
@@ -34,7 +34,7 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
         }
     }
 
-    public getRotation(worldItem: WorldItem<AdditionalData>) {
+    public getRotation(worldItem: GwmWorldItem<AdditionalData>) {
         const orientation = worldItem.additionalData.orientation;
 
         return this.getRotationForOrientation(orientation);

@@ -1,5 +1,5 @@
 import { World } from '../../../model/World';
-import { WorldMapParser, WorldItem } from 'game-worldmap-generator';
+import { GwmWorldMapParser, GwmWorldItem } from 'game-worldmap-generator';
 import { Player } from '../../../model/creature/type/Player';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData, parseJsonAdditionalData } from './AdditionalData';
@@ -9,15 +9,15 @@ import { Scene } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
 import { LightController } from '../../../model/light/LightController';
 import { AbstractWorldImporter } from '../../../model/core/factories/AbstractWorldImporter';
-import { defaultParseOptions } from 'game-worldmap-generator/build/WorldMapParser';
+import { defaultParseOptions } from 'game-worldmap-generator/build/GwmWorldMapParser';
 
-export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
-    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<WorldItem>) {
+export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
+    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<GwmWorldItem>) {
         super(scene, canvas, meshFactoryProducer);
     }
 
     public create(strWorld: string): Promise<World> {
-        const worldItems = WorldMapParser
+        const worldItems = GwmWorldMapParser
             .createWithOptions<AdditionalData>({...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}})
             .parse(strWorld);
 
@@ -39,7 +39,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
             });
     }
 
-    protected setMeshes(worldItems: WorldItem[], meshFactory: MeshFactory<WorldItem>, world: World): void {
+    protected setMeshes(worldItems: GwmWorldItem[], meshFactory: MeshFactory<GwmWorldItem>, world: World): void {
         const meshes = worldItems.map(worldItem => this.createMesh(worldItem, meshFactory, world));
 
         world.gameObjects = meshes;
@@ -47,7 +47,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<WorldItem> {
         world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
     }
 
-    private getWorldDimensions(gameObjects: WorldItem[]): Vector2Model {
+    private getWorldDimensions(gameObjects: GwmWorldItem[]): Vector2Model {
         const floor = gameObjects.filter(worldItem => worldItem.name === 'floor')[0];
 
         return new Vector2Model(floor.dimensions.width, floor.dimensions.height);

@@ -1,5 +1,5 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { WorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
@@ -23,7 +23,7 @@ export class GwmFloorImporter implements GwmItemImporter {
     }
 
 
-    public createItem(worldItem: WorldItem, world: World): MeshModel {
+    public createItem(worldItem: GwmWorldItem, world: World): MeshModel {
         const mesh = this.meshModelTemplate.createMeshes()[0];
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());

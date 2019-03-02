@@ -1,5 +1,5 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { WorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
@@ -26,7 +26,7 @@ export class GwmStaticItemImporter implements GwmItemImporter {
         this.shadowGenerator = shadowGenerator;
     }
 
-    public createItem(worldItem: WorldItem, world: World): MeshModel {
+    public createItem(worldItem: GwmWorldItem, world: World): MeshModel {
         const meshes = this.meshModelTemplate.createMeshes();
         const meshModel = new MeshModel(meshes[0], worldItem.name);
 
@@ -47,7 +47,7 @@ export class GwmStaticItemImporter implements GwmItemImporter {
         return meshModel;
     }
 
-    private getRealMeshDimensions(mesh: Mesh, worldItem: WorldItem<AdditionalData>): Vector2Model {
+    private getRealMeshDimensions(mesh: Mesh, worldItem: GwmWorldItem<AdditionalData>): Vector2Model {
         const xExtend = mesh.getBoundingInfo().boundingBox.extendSize.x * mesh.scaling.x;
         const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.y * mesh.scaling.y;
 
