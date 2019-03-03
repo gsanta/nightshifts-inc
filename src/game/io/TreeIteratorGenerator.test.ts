@@ -1,34 +1,41 @@
 import { TreeIteratorGenerator, TreeNode } from './TreeIteratorGenerator';
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 
 describe('TreeIteratorGenerator', () => {
     it ('creates an iterator which yields every node in the tree structure', () => {
         const level2Nodes: TreeNode[] = [
             <TreeNode> {
                 name: 'node1',
+                addChild: sinon.spy()
             },
             <TreeNode> {
-                name: 'node2'
+                name: 'node2',
+                addChild: sinon.spy()
             },
             <TreeNode> {
-                name: 'node3'
+                name: 'node3',
+                addChild: sinon.spy()
             }
         ];
 
         const level1Nodes: TreeNode[] = [
             <TreeNode> {
                 name: 'node4',
-                children: level2Nodes
+                children: level2Nodes,
+                addChild: sinon.spy()
             },
             <TreeNode> {
-                name: 'node5'
+                name: 'node5',
+                addChild: sinon.spy()
             }
         ];
 
 
         const rootNode = <TreeNode>  {
             name: 'node6',
-            children: level1Nodes
+            children: level1Nodes,
+            addChild: sinon.spy()
         };
 
         const iterator: Iterator<any> = TreeIteratorGenerator(rootNode);

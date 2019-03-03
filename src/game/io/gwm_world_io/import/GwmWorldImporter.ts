@@ -21,7 +21,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
             .createWithOptions<AdditionalData>({...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}})
             .parse(strWorld);
 
-        const world = new World();
+        let world = new World();
 
         world.lightController = new LightController(this.hemisphericLight);
         world.dimensions = this.getWorldDimensions(worldItems);
@@ -30,7 +30,9 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
         return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
             .then(meshFactory => {
 
-                this.setMeshes(worldItems, meshFactory, world);
+                this.meshFactory = meshFactory;
+
+                world = this.createWorld(worldItems, world);
 
                 // world.rooms = [this.createRoom(rooms[0], world, meshFactory)];
 
