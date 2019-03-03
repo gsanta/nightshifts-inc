@@ -3,7 +3,7 @@ import { GwmWorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { MeshModel } from '../../../../model/core/MeshModel';
+import { VisualWorldItem } from '../../../../world_items/VisualWorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { AdditionalData } from '../AdditionalData';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
@@ -26,9 +26,9 @@ export class GwmStaticItemImporter implements GwmItemImporter {
         this.shadowGenerator = shadowGenerator;
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): MeshModel {
+    public createItem(worldItem: GwmWorldItem, world: World): VisualWorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new MeshModel(meshes[0], worldItem.name);
+        const meshModel = new VisualWorldItem(meshes[0], worldItem.name);
 
         meshes.forEach(mesh => {
             const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);

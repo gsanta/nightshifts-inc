@@ -1,4 +1,4 @@
-import { MeshModel } from './core/MeshModel';
+import { VisualWorldItem } from '../world_items/VisualWorldItem';
 import { Enemy } from './creature/type/Enemy';
 import { Player } from './creature/type/Player';
 import { LightController } from './light/LightController';
@@ -9,8 +9,8 @@ import { Room } from './creature/type/Room';
 
 export class World {
     public dimensions: Vector2Model;
-    public gameObjects: MeshModel[];
-    public floor: MeshModel;
+    public gameObjects: VisualWorldItem[];
+    public floor: VisualWorldItem;
     public enemies: Enemy[] = [];
     public player: Player = null;
     public rooms: Room[];

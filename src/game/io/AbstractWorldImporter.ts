@@ -1,8 +1,8 @@
-import { World } from '../../World';
-import { MeshFactory } from './MeshFactory';
-import { MeshModel } from '../MeshModel';
+import { World } from '../model/World';
+import { MeshFactory } from '../model/core/factories/MeshFactory';
+import { VisualWorldItem } from '../world_items/VisualWorldItem';
 import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
-import { AbstractMeshFactoryProducer } from './AbstractMeshFactoryProducer';
+import { AbstractMeshFactoryProducer } from '../model/core/factories/AbstractMeshFactoryProducer';
 import { Promise } from 'es6-promise';
 import { Polygon } from 'game-worldmap-generator';
 
@@ -28,7 +28,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
 
     protected abstract setMeshes(meshModelDescription: T[], meshFactory: MeshFactory<T>, world: World): void;
 
-    protected createMesh(meshModelDescription: T, meshFactory: MeshFactory<T>, world: World): MeshModel {
+    protected createMesh(meshModelDescription: T, meshFactory: MeshFactory<T>, world: World): VisualWorldItem {
         switch (meshModelDescription.name) {
             case 'wall':
                 return meshFactory.createWall(meshModelDescription, world);
@@ -56,20 +56,6 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);
         }
     }
-
-    // const initMeshFactory = (
-    //     scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory<GameObject>> => {
-    //     const meshFactoryProducer = new GwmMeshFactoryProducer();
-    //     return meshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight);
-    // }
-
-    // private getWorldDimensions(gameObjects: GameObject[]): Vector2Model => {
-    //     const floor = gameObjects.filter(gameObject => gameObject.name === 'floor')[0];
-
-    //     return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
-    // }
-
-    // protected abstract getWorldDimensions(items: T[]): Vector2Model;
 
     private createShadowGenerator(scene: Scene, spotLight: SpotLight): ShadowGenerator {
         const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);

@@ -1,5 +1,5 @@
 import { FieldMap } from './FieldMap';
-import { MeshModel } from '../core/MeshModel';
+import { VisualWorldItem } from '../../world_items/VisualWorldItem';
 import { Enemy } from '../creature/type/Enemy';
 import { MotionStrategy } from '../creature/motion/MotionStrategy';
 import { Creature } from '../creature/type/Creature';
@@ -9,7 +9,7 @@ import { CollisionDetector } from '../creature/collision/CollisionDetector';
 
 export class FieldMapBuilder extends FieldMap {
 
-    public addObstacles(obstacles: MeshModel[]) {
+    public addObstacles(obstacles: VisualWorldItem[]) {
         this.obstacles = obstacles;
     }
 

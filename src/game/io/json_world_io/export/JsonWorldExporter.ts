@@ -1,6 +1,6 @@
 import { World } from '../../../model/World';
 import { JsonWorldSchema } from '../import/JsonWorldSchema';
-import { SerializedMeshModel, MeshModel } from '../../../model/core/MeshModel';
+import { SerializedMeshModel, VisualWorldItem } from '../../../world_items/VisualWorldItem';
 import { JsonDefaultItemExporter } from './serializers/JsonDefaultItemExporter';
 
 
@@ -36,7 +36,7 @@ export class JsonWorldExporter {
         return items;
     }
 
-    private serializeItem(meshModel: MeshModel): SerializedMeshModel {
+    private serializeItem(meshModel: VisualWorldItem): SerializedMeshModel {
         switch (meshModel.name) {
             case 'wall':
                 return meshModel.serialize();

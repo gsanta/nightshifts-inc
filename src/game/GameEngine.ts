@@ -2,7 +2,7 @@ import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { World } from './model/World';
-import { AbstractWorldImporter } from './model/core/factories/AbstractWorldImporter';
+import { AbstractWorldImporter } from './io/AbstractWorldImporter';
 
 export class GameEngine {
     private scene: Scene;

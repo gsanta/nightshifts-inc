@@ -2,7 +2,7 @@ import { JsonDefaultItemExporter } from './serializers/JsonDefaultItemExporter';
 import { JsonWorldExporter } from './JsonWorldExporter';
 import { World } from '../../../model/World';
 import sinon = require('sinon');
-import { MeshModel } from '../../../model/core/MeshModel';
+import { VisualWorldItem } from '../../../world_items/VisualWorldItem';
 import { Player } from '../../../model/creature/type/Player';
 
 describe('JsonWorldExporter', () => {
@@ -24,7 +24,7 @@ describe('JsonWorldExporter', () => {
                 dimensions: <any> {
                     serialize: sinon.spy()
                 },
-                gameObjects: [<MeshModel> wallMock, <MeshModel> floorMock, <Player> playerMock]
+                gameObjects: [<VisualWorldItem> wallMock, <VisualWorldItem> floorMock, <Player> playerMock]
             };
 
             const serialize = sinon.stub();

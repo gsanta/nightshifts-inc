@@ -1,7 +1,7 @@
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
-import { SerializedMeshModel, MeshModel } from '../../../model/core/MeshModel';
+import { SerializedMeshModel, VisualWorldItem } from '../../../world_items/VisualWorldItem';
 import { World } from '../../../model/World';
-import { AbstractWorldImporter } from '../../../model/core/factories/AbstractWorldImporter';
+import { AbstractWorldImporter } from '../../AbstractWorldImporter';
 import { Player } from '../../../model/creature/type/Player';
 import { Promise } from 'es6-promise';
 import { Scene } from 'babylonjs';

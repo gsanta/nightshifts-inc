@@ -1,10 +1,10 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from './VectorModel';
 import _ = require('lodash');
-import { MeshModel } from './MeshModel';
+import { VisualWorldItem } from '../../world_items/VisualWorldItem';
 
 
-export class MultiMeshModel extends MeshModel {
+export class MultiMeshModel extends VisualWorldItem {
     protected meshes: Mesh[];
     public name: string;
 

@@ -1,8 +1,8 @@
-import { Polygon, GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from 'game-worldmap-generator';
 import { Room } from '../../../../model/creature/type/Room';
 import { StandardMaterial, Scene, Vector3, Vector2 } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
-import { MeshModel } from '../../../../model/core/MeshModel';
+import { VisualWorldItem } from '../../../../world_items/VisualWorldItem';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { World } from '../../../../model/World';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
@@ -27,7 +27,6 @@ export class GwmRoomImporter {
         let topLeft = new Vector2Model(worldItem.dimensions.points[0].x, worldItem.dimensions.points[0].y);
         const positions = worldItem.dimensions.points.map(point => new Vector3(point.x - topLeft.x(), 2, -(point.y - topLeft.y())));
 
-        // let topLeft = new Vector2Model(positions[0].x, -positions[0].y);
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
         topLeft = topLeft.add(new Vector2Model(translateX, translateY));
@@ -48,7 +47,7 @@ export class GwmRoomImporter {
 
         room.material = this.material;
 
-        return new MeshModel(room, 'room');
+        return new VisualWorldItem(room, 'room');
     }
 
     private createMaterial(): StandardMaterial {

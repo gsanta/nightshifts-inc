@@ -6,7 +6,7 @@ import { GwmWorldItem} from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { AdditionalData } from '../AdditionalData';
-import { MeshModel } from '../../../../model/core/MeshModel';
+import { VisualWorldItem } from '../../../../world_items/VisualWorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { Window } from '../../../../model/creature/type/Window';
 import { World } from '../../../../model/World';
@@ -30,7 +30,7 @@ export class GwmWindowImporter implements GwmItemImporter {
     }
 
 
-    public createItem(worldItem: GwmWorldItem<AdditionalData>, world: World): MeshModel {
+    public createItem(worldItem: GwmWorldItem<AdditionalData>, world: World): VisualWorldItem {
         const scaling = this.gameObjectTranslator.getDimensions(worldItem).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());

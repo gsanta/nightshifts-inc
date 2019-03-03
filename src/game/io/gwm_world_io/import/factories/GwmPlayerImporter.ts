@@ -4,7 +4,7 @@ import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { World } from '../../../../model/World';
-import { MeshModel } from '../../../../model/core/MeshModel';
+import { VisualWorldItem } from '../../../../world_items/VisualWorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { UserInputEventEmitter } from '../../../../model/creature/motion/UserInputEventEmitter';
 import { Player } from '../../../../model/creature/type/Player';
@@ -35,7 +35,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
     }
 
 
-    public createItem(worldItem: GwmWorldItem, world: World): MeshModel {
+    public createItem(worldItem: GwmWorldItem, world: World): VisualWorldItem {
         const mesh = this.meshModelTemplate.createMeshes()[0];
 
         world.camera.lockedTarget = mesh;

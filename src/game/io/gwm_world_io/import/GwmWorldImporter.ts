@@ -8,7 +8,7 @@ import { Promise } from 'es6-promise';
 import { Scene } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
 import { LightController } from '../../../model/light/LightController';
-import { AbstractWorldImporter } from '../../../model/core/factories/AbstractWorldImporter';
+import { AbstractWorldImporter } from '../../AbstractWorldImporter';
 import { defaultParseOptions } from 'game-worldmap-generator/build/GwmWorldMapParser';
 
 export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {

@@ -1,5 +1,5 @@
-import { MeshModel } from '../../core/MeshModel';
+import { VisualWorldItem } from '../../../world_items/VisualWorldItem';
 
-export class Furniture extends MeshModel {
+export class Furniture extends VisualWorldItem {
     public name = 'furniture';
 }

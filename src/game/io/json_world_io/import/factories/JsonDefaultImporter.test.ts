@@ -3,7 +3,7 @@ import { JsonDefaultImporter } from './JsonDefaultImporter';
 import sinon = require('sinon');
 import { ShadowGenerator, Vector3 } from 'babylonjs';
 import { expect } from 'chai';
-import { SerializedMeshModel } from '../../../../model/core/MeshModel';
+import { SerializedMeshModel } from '../../../../world_items/VisualWorldItem';
 
 describe('JsonDefaultImporter', () => {
     describe('createItem', () => {

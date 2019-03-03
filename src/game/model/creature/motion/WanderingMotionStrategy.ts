@@ -2,19 +2,19 @@ import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../core/VectorModel';
 import { SceneModel } from '../../core/SceneModel';
 import { Creature } from '../type/Creature';
-import { MeshModel } from '../../core/MeshModel';
+import { VisualWorldItem } from '../../../world_items/VisualWorldItem';
 import { CollisionDetector } from '../collision/CollisionDetector';
 
 export class WanderingMotionStrategy implements MotionStrategy {
     private speed = 100;
     private sceneModel: SceneModel;
     private creature: Creature;
-    private obstacles: MeshModel[];
+    private obstacles: VisualWorldItem[];
     private collisionDetector: CollisionDetector;
     private currentDestination: VectorModel = null;
     private previousSteps: VectorModel[] = [];
 
-    constructor(creature: Creature, sceneModel: SceneModel, obstacles: MeshModel[], collisionDetector: CollisionDetector) {
+    constructor(creature: Creature, sceneModel: SceneModel, obstacles: VisualWorldItem[], collisionDetector: CollisionDetector) {
         this.sceneModel = sceneModel;
         this.creature = creature;
         this.obstacles = obstacles;

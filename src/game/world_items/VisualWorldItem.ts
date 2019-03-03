@@ -1,6 +1,6 @@
 import { Mesh, Vector3, StandardMaterial } from 'babylonjs';
-import { VectorModel, toVector3 } from './VectorModel';
-import { MeshTemplateConfig } from './templates/MeshTemplate';
+import { VectorModel, toVector3 } from '../model/core/VectorModel';
+import { MeshTemplateConfig } from '../model/core/templates/MeshTemplate';
 
 export interface SerializedMeshModel {
     name: string;
@@ -35,7 +35,7 @@ export interface SerializedMeshModel {
     };
 }
 
-export class MeshModel {
+export class VisualWorldItem {
     public mesh: Mesh;
     public name: string;
     public hasDefaultAction = false;
@@ -105,7 +105,7 @@ export class MeshModel {
         };
     }
 
-    public unserialize(model: SerializedMeshModel): MeshModel {
+    public unserialize(model: SerializedMeshModel): VisualWorldItem {
         return null;
     }
 
@@ -114,13 +114,13 @@ export class MeshModel {
         clonedMesh.setEnabled(true);
         const name = this.name;
 
-        const clone = new MeshModel(clonedMesh, name);
+        const clone = new VisualWorldItem(clonedMesh, name);
         this.copyTo(clone);
 
         return clone;
     }
 
-    protected copyTo(meshModel: MeshModel): MeshModel {
+    protected copyTo(meshModel: VisualWorldItem): VisualWorldItem {
         meshModel.darkMaterial = this.darkMaterial;
         meshModel.defaultMaterial = this.defaultMaterial;
         meshModel.name = this.name;
