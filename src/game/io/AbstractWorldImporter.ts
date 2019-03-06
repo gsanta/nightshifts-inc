@@ -1,10 +1,9 @@
 import { World } from '../model/World';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
-import { VisualWorldItem } from '../world_items/VisualWorldItem';
-import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
+import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../model/core/factories/AbstractMeshFactoryProducer';
 import { Promise } from 'es6-promise';
-import { Polygon, GwmWorldItem, TreeIteratorGenerator } from 'game-worldmap-generator';
+import { GwmWorldItem, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
 import { Player } from '../model/creature/type/Player';
 import { WorldItem } from '../world_items/WorldItem';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
@@ -32,7 +31,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
 
     protected abstract setMeshes(meshModelDescription: T[], meshFactory: MeshFactory<T>, world: World): void;
 
-    protected createMesh(meshModelDescription: T, meshFactory: MeshFactory<T>, world: World): VisualWorldItem {
+    protected createMesh(meshModelDescription: T, meshFactory: MeshFactory<T>, world: World): WorldItem {
         switch (meshModelDescription.name) {
             case 'wall':
                 return meshFactory.createWall(meshModelDescription, world);
@@ -40,7 +39,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
                 return meshFactory.createDoor(meshModelDescription, world);
             case 'window':
                 return meshFactory.createWindow(meshModelDescription, world);
-            case 'floor':
+            case 'root':
                 return meshFactory.createFloor(meshModelDescription, world);
             case 'player':
                 return meshFactory.createPlayer(meshModelDescription, world);
@@ -75,12 +74,15 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
 
         const treeIterator = TreeIteratorGenerator(rootWorldItem as any);
 
-        const worldItems: VisualWorldItem[] = [];
+        const worldItems: WorldItem[] = [];
+        const map: Map<TreeNode, any> = new Map();
         for (const gwmWorldItem of treeIterator) {
-            worldItems.push(this.createMesh(gwmWorldItem, this.meshFactory, world));
+            const worldItem = this.createMesh(gwmWorldItem, this.meshFactory, world);
+            worldItems.push(worldItem);
+            map.set(gwmWorldItem, worldItem);
         }
 
-        // worldItemToTreeMapper.mapTree()
+        worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
         // const meshes = worldItems.map(worldItem => this.createMesh(worldItem, this.meshFactory, world));
 
         world.gameObjects = worldItems;

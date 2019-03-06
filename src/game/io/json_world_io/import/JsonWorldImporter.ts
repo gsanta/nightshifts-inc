@@ -1,5 +1,5 @@
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
-import { SerializedMeshModel, VisualWorldItem } from '../../../world_items/VisualWorldItem';
+import { SerializedMeshModel, WorldItem } from '../../../world_items/WorldItem';
 import { World } from '../../../model/World';
 import { AbstractWorldImporter } from '../../AbstractWorldImporter';
 import { Player } from '../../../model/creature/type/Player';

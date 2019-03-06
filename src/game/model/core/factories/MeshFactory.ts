@@ -1,9 +1,9 @@
-import { VisualWorldItem } from '../../../world_items/VisualWorldItem';
+import { WorldItem } from '../../../world_items/WorldItem';
 import { World } from '../../World';
 import { Polygon } from 'game-worldmap-generator';
 
 export interface GenericItemImporter<T> {
-    createItem(itemInfo: T, world: World): VisualWorldItem;
+    createItem(itemInfo: T, world: World): WorldItem;
 }
 
 export class MeshFactory<T> {
@@ -13,47 +13,47 @@ export class MeshFactory<T> {
         this.factories = factories;
     }
 
-    public createWall(itemInfo: T, world: World): VisualWorldItem {
+    public createWall(itemInfo: T, world: World): WorldItem {
         return this.factories.wall.createItem(itemInfo, world);
     }
 
-    public createPlayer(itemInfo: T, world: World): VisualWorldItem {
+    public createPlayer(itemInfo: T, world: World): WorldItem {
         return this.factories.player.createItem(itemInfo, world);
     }
 
-    public createWindow(itemInfo: T, world: World): VisualWorldItem {
+    public createWindow(itemInfo: T, world: World): WorldItem {
         return  this.factories.window.createItem(itemInfo, world);
     }
 
-    public createDoor(itemInfo: T, world: World): VisualWorldItem {
+    public createDoor(itemInfo: T, world: World): WorldItem {
         return this.factories.door.createItem(itemInfo, world);
     }
 
-    public createFloor(itemInfo: T, world: World): VisualWorldItem {
+    public createFloor(itemInfo: T, world: World): WorldItem {
         return this.factories.floor.createItem(itemInfo, world);
     }
 
-    public createBed(itemInfo: T, world: World): VisualWorldItem {
+    public createBed(itemInfo: T, world: World): WorldItem {
         return this.factories.bed.createItem(itemInfo, world);
     }
 
-    public createTable(itemInfo: T, world: World): VisualWorldItem {
+    public createTable(itemInfo: T, world: World): WorldItem {
         return this.factories.table.createItem(itemInfo, world);
     }
 
-    public createBathtub(itemInfo: T, world: World): VisualWorldItem {
+    public createBathtub(itemInfo: T, world: World): WorldItem {
         return this.factories.bathtub.createItem(itemInfo, world);
     }
 
-    public createWashbasin(itemInfo: T, world: World): VisualWorldItem {
+    public createWashbasin(itemInfo: T, world: World): WorldItem {
         return this.factories.washbasin.createItem(itemInfo, world);
     }
 
-    public createCupboard(itemInfo: T, world: World): VisualWorldItem {
+    public createCupboard(itemInfo: T, world: World): WorldItem {
         return this.factories.cupboard.createItem(itemInfo, world);
     }
 
-    public createRoom(itemInfo: T, world: World): VisualWorldItem {
+    public createRoom(itemInfo: T, world: World): WorldItem {
         return this.factories.room.createItem(itemInfo, world);
     }
 }

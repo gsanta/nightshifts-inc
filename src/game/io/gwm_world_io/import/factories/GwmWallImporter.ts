@@ -3,7 +3,7 @@ import { GwmWorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { VisualWorldItem } from '../../../../world_items/VisualWorldItem';
+import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
 
@@ -25,13 +25,13 @@ export class GwmWallImporter implements GwmItemImporter {
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): VisualWorldItem {
+    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const scaling = this.gameObjectTranslator.getDimensions(worldItem).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        const meshModel = new VisualWorldItem(mesh, worldItem.name);
+        const meshModel = new WorldItem(mesh, worldItem.name);
 
         meshModel.translate(translate);
         mesh.scaling.x = scaling.x();

@@ -3,10 +3,10 @@ import { VectorModel } from '../../core/VectorModel';
 import { MotionStrategy } from '../motion/MotionStrategy';
 import { Sensor } from '../sensor/Sensor';
 import { CollisionDetector } from '../collision/CollisionDetector';
-import { VisualWorldItem } from '../../../world_items/VisualWorldItem';
+import { WorldItem } from '../../../world_items/WorldItem';
 import { ActionStrategy } from '../action/ActionStrategy';
 
-export abstract class Creature extends VisualWorldItem {
+export abstract class Creature extends WorldItem {
     protected sensor: Sensor;
     protected motionStrategy: MotionStrategy;
     protected collisionDetector: CollisionDetector;

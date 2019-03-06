@@ -1,5 +1,5 @@
 import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
-import { SerializedMeshModel } from '../../../world_items/VisualWorldItem';
+import { SerializedMeshModel } from '../../../world_items/WorldItem';
 import { Scene, ShadowGenerator, SpotLight } from 'babylonjs';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';

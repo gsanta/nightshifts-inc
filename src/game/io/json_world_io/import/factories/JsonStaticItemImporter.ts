@@ -2,7 +2,7 @@
 import { ShadowGenerator } from 'babylonjs';
 import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { VisualWorldItem, SerializedMeshModel } from '../../../../world_items/VisualWorldItem';
+import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 
 export class JsonStaticItemImporter implements JsonItemImporter {
@@ -17,9 +17,9 @@ export class JsonStaticItemImporter implements JsonItemImporter {
         this.shadowGenerator = shadowGenerator;
     }
 
-    public createItem(serializedMeshModel: SerializedMeshModel): VisualWorldItem {
+    public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new VisualWorldItem(meshes[0], serializedMeshModel.name);
+        const meshModel = new WorldItem(meshes[0], serializedMeshModel.name);
 
         meshes.forEach(mesh => {
             mesh.rotation.y = serializedMeshModel.additionalData.rotation;

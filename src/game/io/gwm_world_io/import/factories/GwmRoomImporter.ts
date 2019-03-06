@@ -2,11 +2,12 @@ import { GwmWorldItem } from 'game-worldmap-generator';
 import { Room } from '../../../../model/creature/type/Room';
 import { StandardMaterial, Scene, Vector3, Vector2 } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
-import { VisualWorldItem } from '../../../../world_items/VisualWorldItem';
+import { WorldItem } from '../../../../world_items/WorldItem';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { World } from '../../../../model/World';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
+import { ContainerWorldItem } from '../../../../world_items/ContainerWorldItem';
 const colors = GameConstants.colors;
 
 export class GwmRoomImporter {
@@ -47,7 +48,7 @@ export class GwmRoomImporter {
 
         room.material = this.material;
 
-        return new VisualWorldItem(room, 'room');
+        return new ContainerWorldItem(room, 'room');
     }
 
     private createMaterial(): StandardMaterial {

@@ -1,4 +1,4 @@
-import { VisualWorldItem } from '../../world_items/VisualWorldItem';
+import { WorldItem } from '../../world_items/WorldItem';
 import { Enemy } from '../creature/type/Enemy';
 import { Creature } from '../creature/type/Creature';
 import { MotionStrategy } from '../creature/motion/MotionStrategy';
@@ -8,11 +8,11 @@ import { Player } from '../creature/type/Player';
 import { CollisionDetector } from '../creature/collision/CollisionDetector';
 
 export class FieldMap {
-    protected obstacles: VisualWorldItem[];
+    protected obstacles: WorldItem[];
     protected enemies: Enemy[];
     protected player: Player;
 
-    public getObstacles(): VisualWorldItem[] {
+    public getObstacles(): WorldItem[] {
         return this.obstacles;
     }
 

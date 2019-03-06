@@ -24,7 +24,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
         let world = new World();
 
         world.lightController = new LightController(this.hemisphericLight);
-        world.dimensions = this.getWorldDimensions([worldItems[0]]);
+        world.dimensions = new Vector2Model(worldItems[0].dimensions.width, worldItems[0].dimensions.height);
         world.camera = this.camera;
 
         return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
@@ -47,11 +47,5 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
         world.gameObjects = meshes;
         world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
         world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
-    }
-
-    private getWorldDimensions(gameObjects: GwmWorldItem[]): Vector2Model {
-        const floor = gameObjects.filter(worldItem => worldItem.name === 'floor')[0];
-
-        return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
     }
 }

@@ -2,7 +2,7 @@
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { VisualWorldItem, SerializedMeshModel } from '../../../../world_items/VisualWorldItem';
+import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { Player } from '../../../../model/creature/type/Player';
 import { UserInputEventEmitter } from '../../../../model/creature/motion/UserInputEventEmitter';
 import { CollisionDetector } from '../../../../model/creature/collision/CollisionDetector';
@@ -30,7 +30,7 @@ export class JsonPlayerImporter implements JsonItemImporter {
         this.spotLight = spotLight;
     }
 
-    public createItem(serializedMeshModel: SerializedMeshModel, world: World): VisualWorldItem {
+    public createItem(serializedMeshModel: SerializedMeshModel, world: World): WorldItem {
         const mesh = this.meshModelTemplate.createMeshes()[0];
         world.camera.lockedTarget = mesh;
 

@@ -1,4 +1,4 @@
-import { VisualWorldItem } from '../world_items/VisualWorldItem';
+import { WorldItem } from '../world_items/WorldItem';
 import { Enemy } from './creature/type/Enemy';
 import { Player } from './creature/type/Player';
 import { LightController } from './light/LightController';
@@ -9,8 +9,8 @@ import { Room } from './creature/type/Room';
 
 export class World {
     public dimensions: Vector2Model;
-    public gameObjects: VisualWorldItem[];
-    public floor: VisualWorldItem;
+    public gameObjects: WorldItem[];
+    public floor: WorldItem;
     public enemies: Enemy[] = [];
     public player: Player = null;
     public rooms: Room[];

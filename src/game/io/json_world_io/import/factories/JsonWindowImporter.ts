@@ -2,7 +2,7 @@
 import { ShadowGenerator } from 'babylonjs';
 import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { VisualWorldItem, SerializedMeshModel } from '../../../../world_items/VisualWorldItem';
+import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { Window } from '../../../../model/creature/type/Window';
 
@@ -18,7 +18,7 @@ export class JsonWindowImporter implements JsonItemImporter {
         this.shadowGenerator = shadowGenerator;
     }
 
-    public createItem(serializedMeshModel: SerializedMeshModel): VisualWorldItem {
+    public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
         const window = this.windowTemplate.clone();
 
         window.meshes[0].translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);

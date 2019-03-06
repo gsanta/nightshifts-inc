@@ -1,7 +1,7 @@
-import { VisualWorldItem, SerializedMeshModel } from '../../../../world_items/VisualWorldItem';
+import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 
 export class JsonDefaultItemExporter {
-    public serialize(meshModel: VisualWorldItem): SerializedMeshModel {
+    public serialize(meshModel: WorldItem): SerializedMeshModel {
         return {
             name: meshModel.name,
             scaling: {

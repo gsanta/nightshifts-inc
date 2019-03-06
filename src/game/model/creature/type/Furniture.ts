@@ -1,5 +1,5 @@
-import { VisualWorldItem } from '../../../world_items/VisualWorldItem';
+import { WorldItem } from '../../../world_items/WorldItem';
 
-export class Furniture extends VisualWorldItem {
+export class Furniture extends WorldItem {
     public name = 'furniture';
 }

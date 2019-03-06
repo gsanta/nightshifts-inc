@@ -1,9 +1,9 @@
-import { VisualWorldItem, SerializedMeshModel } from '../../../world_items/VisualWorldItem';
+import { WorldItem, SerializedMeshModel } from '../../../world_items/WorldItem';
 import { Mesh } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
 import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
 
-export class Door extends VisualWorldItem {
+export class Door extends WorldItem {
     public isOpen: boolean;
     private pivotAngle: number;
     private pivot: VectorModel;

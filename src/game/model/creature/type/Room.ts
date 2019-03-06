@@ -1,8 +1,8 @@
 import { Mesh } from 'babylonjs';
-import { VisualWorldItem } from '../../../world_items/VisualWorldItem';
+import { WorldItem } from '../../../world_items/WorldItem';
 
 
-export class Room extends VisualWorldItem {
+export class Room extends WorldItem {
     constructor(mesh: Mesh, name: string) {
         super(mesh, name);
     }
