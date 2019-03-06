@@ -1,5 +1,5 @@
 import { World } from '../../../model/World';
-import { GwmWorldMapParser, GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldMapParser, GwmWorldItem, TreeIteratorGenerator } from 'game-worldmap-generator';
 import { Player } from '../../../model/creature/type/Player';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData, parseJsonAdditionalData } from './AdditionalData';
@@ -24,7 +24,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
         let world = new World();
 
         world.lightController = new LightController(this.hemisphericLight);
-        world.dimensions = this.getWorldDimensions(worldItems);
+        world.dimensions = this.getWorldDimensions([worldItems[0]]);
         world.camera = this.camera;
 
         return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
@@ -32,7 +32,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
 
                 this.meshFactory = meshFactory;
 
-                world = this.createWorld(worldItems, world);
+                world = this.createWorld(worldItems[0], world);
 
                 // world.rooms = [this.createRoom(rooms[0], world, meshFactory)];
 

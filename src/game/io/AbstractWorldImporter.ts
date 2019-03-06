@@ -4,7 +4,7 @@ import { VisualWorldItem } from '../world_items/VisualWorldItem';
 import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../model/core/factories/AbstractMeshFactoryProducer';
 import { Promise } from 'es6-promise';
-import { Polygon, GwmWorldItem } from 'game-worldmap-generator';
+import { Polygon, GwmWorldItem, TreeIteratorGenerator } from 'game-worldmap-generator';
 import { Player } from '../model/creature/type/Player';
 import { WorldItem } from '../world_items/WorldItem';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
@@ -69,16 +69,23 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
     }
 
     //TODO: should produce world directly, not getting it through parameter
-    protected createWorld(worldItems: T[], world: World): World {
+    protected createWorld(rootWorldItem: T, world: World): World {
         const fromToMap: Map<GwmWorldItem, WorldItem> = new Map();
         const worldItemToTreeMapper = new WorldItemTreeMapper();
 
-        worldItemToTreeMapper.mapTree()
-        const meshes = worldItems.map(worldItem => this.createMesh(worldItem, this.meshFactory, world));
+        const treeIterator = TreeIteratorGenerator(rootWorldItem as any);
 
-        world.gameObjects = meshes;
-        world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
-        world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
+        const worldItems: VisualWorldItem[] = [];
+        for (const gwmWorldItem of treeIterator) {
+            worldItems.push(this.createMesh(gwmWorldItem, this.meshFactory, world));
+        }
+
+        // worldItemToTreeMapper.mapTree()
+        // const meshes = worldItems.map(worldItem => this.createMesh(worldItem, this.meshFactory, world));
+
+        world.gameObjects = worldItems;
+        world.floor = worldItems.filter(mesh => mesh.name === 'floor')[0];
+        world.player = <Player> worldItems.filter(mesh => mesh.name === 'player')[0];
 
         return world;
     }

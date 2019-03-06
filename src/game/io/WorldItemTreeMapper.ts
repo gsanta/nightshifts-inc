@@ -1,5 +1,4 @@
-import { TreeNode, TreeIteratorGenerator } from './TreeIteratorGenerator';
-
+import {TreeNode, TreeIteratorGenerator} from 'game-worldmap-generator';
 
 
 export class WorldItemTreeMapper {
