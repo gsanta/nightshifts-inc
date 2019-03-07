@@ -35,8 +35,8 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         this.config = {...defaultMeshConfig, ...config};
 
         materialFileNames.forEach((file, index) => {
-            this.materials[index] = new BABYLON.StandardMaterial(file, scene);
-            this.materials[index].diffuseTexture = new BABYLON.Texture(file, scene);
+            // this.materials[index] = new BABYLON.StandardMaterial(file, scene);
+            // this.materials[index].diffuseTexture = new BABYLON.Texture(file, scene);
         });
     }
 

@@ -39,8 +39,8 @@ export class WorldItem {
     public mesh: Mesh;
     public name: string;
     public hasDefaultAction = false;
-    private defaultMaterial: StandardMaterial;
-    private darkMaterial: StandardMaterial;
+
+    public materials: {[key: string]: StandardMaterial} = {};
 
     protected counter = 1;
 
@@ -121,8 +121,7 @@ export class WorldItem {
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {
-        meshModel.darkMaterial = this.darkMaterial;
-        meshModel.defaultMaterial = this.defaultMaterial;
+        meshModel.materials = {...this.materials};
         meshModel.name = this.name;
         meshModel.hasDefaultAction = this.hasDefaultAction;
 
@@ -130,6 +129,7 @@ export class WorldItem {
     }
 
     private initMesh(config: MeshTemplateConfig) {
+        this.materials = config.materials;
         this.mesh.isPickable = true;
         this.mesh.isVisible = false;
         this.mesh.checkCollisions = config.checkCollisions;

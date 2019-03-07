@@ -3,6 +3,8 @@ import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotion
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { World } from './model/World';
 import { AbstractWorldImporter } from './io/AbstractWorldImporter';
+import { ActionDispatcher } from './actions/ActionDispatcher';
+import { NotActiveRoomStylingActionHandler } from './actions/handlers/NotActiveRoomStylingActionHandler';
 
 export class GameEngine {
     private scene: Scene;
@@ -10,10 +12,16 @@ export class GameEngine {
     private previousTime: number = Date.now();
     private engine: Engine;
     private canvas: HTMLCanvasElement;
-    private worldGenerator: AbstractWorldImporter<any>;
     private isGameRunning = false;
+    private actionDispatcher: ActionDispatcher;
 
-    constructor(canvas: HTMLCanvasElement, scene: BABYLON.Scene, engine: BABYLON.Engine, worldGenerator: AbstractWorldImporter<any>) {
+    constructor(
+        canvas: HTMLCanvasElement,
+        scene: BABYLON.Scene,
+        engine: BABYLON.Engine,
+        world: World,
+        actionDispatcher: ActionDispatcher
+    ) {
         this.canvas = canvas;
         this.run = this.run.bind(this);
         this.engine = engine;
@@ -21,10 +29,13 @@ export class GameEngine {
 
         this.scene = scene;
         this.scene.collisionsEnabled = true;
-        this.worldGenerator = worldGenerator;
+        this.world = world;
+        this.actionDispatcher = actionDispatcher;
+
+        this.actionDispatcher.registerActionHandler(new NotActiveRoomStylingActionHandler());
     }
 
-    public runGame(strWorld: string) {
+    public run() {
         // const meshFactoryProducer = new GwmMeshFactoryProducer();
 
         // new GwmWorldGenerator(this.scene, this.canvas, meshFactoryProducer)
@@ -34,18 +45,8 @@ export class GameEngine {
         //         this.engine.runRenderLoop(this.run);
         //     })
         //     .catch(e => console.error(e));
-        this.isGameRunning = true;
 
-        this.worldGenerator
-            .create(strWorld)
-            .then((world) => {
-                this.world = world;
-                this.engine.runRenderLoop(this.run);
-            })
-            .catch(e => {
-                this.isGameRunning = false;
-                console.error(e);
-            });
+        this.engine.runRenderLoop(() => this.render());
     }
 
     public isRunning(): boolean {
@@ -56,7 +57,7 @@ export class GameEngine {
         return this.world;
     }
 
-    private run() {
+    private render() {
         if (!this.world.player || !this.world.player.getBody()) {
             return;
         }
@@ -68,6 +69,7 @@ export class GameEngine {
         this.world.lightController.timePassed(elapsedTime);
 
         this.movePlayer(elapsedTime);
+        this.actionDispatcher.dispatch('MOVE');
         // this.moveEnemies(elapsedTime);
         // this.testAndSetEnemyVisibility();
         // this.attackPlayerIfWithinSensorRange();

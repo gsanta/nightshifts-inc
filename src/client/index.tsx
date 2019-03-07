@@ -9,6 +9,9 @@ import { JsonMeshFactoryProducer } from '../game/io/json_world_io/import/JsonMas
 import { JsonWorldImporter } from '../game/io/json_world_io/import/JsonWorldImporter';
 import { GwmWorldImporter } from '../game/io/gwm_world_io/import/GwmWorldImporter';
 import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
+import { ActionDispatcher } from '../game/actions/ActionDispatcher';
+import { rejects } from 'assert';
+import { World } from '../game/model/World';
 
 export function render() {
     ReactDom.render(
@@ -20,36 +23,30 @@ export function render() {
 }
 
 
-export const renderGameFromJsonInput = (canvas: HTMLCanvasElement, jsonWorldPath: string) => {
+export const renderGameFromJsonInput = (canvas: HTMLCanvasElement, jsonWorldPath: string): Promise<GameEngine> => {
     const engine = new BABYLON.Engine(canvas);
     const scene = new BABYLON.Scene(engine);
     const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
 
-    const gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
-
-    axios.get(jsonWorldPath)
-        .then(response => {
-            gameEngine.runGame(JSON.stringify(response.data));
-        })
-        .catch(e => console.error(e));
-
-    return gameEngine;
+    return new Promise((resolve, reject) => {
+        axios.get(jsonWorldPath)
+        .then(response => resolve(worldGenerator.create(JSON.stringify(response.data))))
+        .catch(e => reject(e));
+    })
+    .then((world: World) => new GameEngine(canvas, scene, engine, world, new ActionDispatcher(world)));
 };
 
-export const renderGameFromGwmInput = (canvas: HTMLCanvasElement, gwmWorldPath: string) => {
+export const renderGameFromGwmInput = (canvas: HTMLCanvasElement, gwmWorldPath: string): Promise<GameEngine> => {
     const engine = new BABYLON.Engine(canvas);
     const scene = new BABYLON.Scene(engine);
     const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
 
-    const gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
-
-    axios.get(gwmWorldPath)
-        .then(response => {
-            gameEngine.runGame(response.data);
-        })
-        .catch(e => console.error(e));
-
-    return gameEngine;
+    return new Promise((resolve, reject) => {
+        axios.get(gwmWorldPath)
+        .then(response => resolve(worldGenerator.create(response.data)))
+        .catch(e => reject(e));
+    })
+    .then((world: World) => new GameEngine(canvas, scene, engine, world, new ActionDispatcher(world)));
 };
 
 
