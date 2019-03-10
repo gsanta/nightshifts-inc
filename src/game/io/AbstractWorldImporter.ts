@@ -12,6 +12,7 @@ import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 export abstract class AbstractWorldImporter<T extends {name: string}> {
     protected shadowGenerator: ShadowGenerator;
     protected hemisphericLight: HemisphericLight;
+    protected nightLight: HemisphericLight;
     protected spotLight: SpotLight;
     protected meshFactoryProducer: AbstractMeshFactoryProducer<T>;
     protected meshFactory: MeshFactory<T>;
@@ -23,6 +24,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         this.meshFactoryProducer = meshFactoryProducer;
         this.spotLight = this.createSpotLight(scene);
         this.hemisphericLight = this.createHemisphericLight(scene);
+        this.nightLight = this.createNightLight(scene);
         this.shadowGenerator = this.createShadowGenerator(scene, this.spotLight);
         this.camera = <FollowCamera> this.createCamera(scene, canvas);
     }
@@ -69,6 +71,9 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
 
     //TODO: should produce world directly, not getting it through parameter
     protected createWorld(rootWorldItem: T, world: World): World {
+        world.hemisphericLight = this.hemisphericLight;
+        world.nightLight = this.nightLight;
+
         const fromToMap: Map<GwmWorldItem, WorldItem> = new Map();
         const worldItemToTreeMapper = new WorldItemTreeMapper();
 
@@ -96,7 +101,16 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
         // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
         light.diffuse = new BABYLON.Color3(1, 1, 1);
-        light.intensity = 0.01;
+        light.intensity = 0.4;
+        return light;
+    }
+
+    private createNightLight(scene: Scene): HemisphericLight {
+        const light = new BABYLON.HemisphericLight('NightLight', new BABYLON.Vector3(0, 1, 0), scene);
+        // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
+        light.diffuse = new BABYLON.Color3(1, 1, 1);
+        light.intensity = 0.1;
+        light.setEnabled(false)
         return light;
     }
 

@@ -22,7 +22,7 @@ export class GameRequests {
                 {
                     id: null,
                     userId: user.id,
-                    world: this.jsonWorldExporter.export(world)
+                    world: null//this.jsonWorldExporter.export(world)
                 },
                 {
                     headers: {Authorization: `Token ${token}`}

@@ -1,13 +1,15 @@
 import { ActionHandler } from '../ActionHandler';
 import { World } from '../../model/World';
 import { ContainerWorldItem } from '../../world_items/ContainerWorldItem';
+import { WorldItem } from '../../world_items/WorldItem';
 
 export class NotActiveRoomStylingActionHandler implements ActionHandler {
+
+    private prevActiveRoom: WorldItem = null;
 
     public sendAction(type: string, world: World, ...payload: any[]) {
 
         switch (type) {
-
             case 'MOVE':
                 this.styleItemsInNotActiveRooms(world);
                 return;
@@ -19,28 +21,36 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
     private styleItemsInNotActiveRooms(world: World) {
         const rooms = world.gameObjects.filter(gameObj => gameObj.name === 'room');
 
-        rooms.forEach(room => {
-            if (room.mesh.intersectsMesh(world.player.mesh)) {
-                this.setDefaultMaterialForRoom(<ContainerWorldItem> room);
-            } else {
-                this.setDarkMaterialForRoom(<ContainerWorldItem> room);
-            }
+        // world.nightLight.excludedMeshes = [];
+
+        const intersectingRoom = rooms.filter(room => room.mesh.intersectsMesh(world.player.mesh))[0];
+
+        if (intersectingRoom !== this.prevActiveRoom && intersectingRoom) {
+            // world.hemisphericLight.setEnabled(false);
+            world.hemisphericLight.excludedMeshes.splice(0, 40);
+            rooms.forEach(room => {
+                if (room === intersectingRoom) {
+                    this.setDefaultMaterialForRoom(<ContainerWorldItem> room, world);
+                } else {
+                    this.setDarkMaterialForRoom(<ContainerWorldItem> room, world);
+                }
+            });
+
+            // world.hemisphericLight.setEnabled(true);
+        }
+
+        this.prevActiveRoom = intersectingRoom;
+    }
+
+    private setDarkMaterialForRoom(room: ContainerWorldItem, world: World) {
+        room.children.forEach(child => {
+            world.hemisphericLight.excludedMeshes.push(child.mesh);
         });
     }
 
-    private setDarkMaterialForRoom(room: ContainerWorldItem) {
+    private setDefaultMaterialForRoom(room: ContainerWorldItem, world: World) {
         room.children.forEach(child => {
-            if (child.materials.dark) {
-                child.mesh.material = child.materials.dark;
-            }
-        });
-    }
-
-    private setDefaultMaterialForRoom(room: ContainerWorldItem) {
-        room.children.forEach(child => {
-            if (child.materials.default) {
-                child.mesh.material = child.materials.default;
-            }
+            // world.nightLight.excludedMeshes.push(child.mesh);
         });
     }
 }

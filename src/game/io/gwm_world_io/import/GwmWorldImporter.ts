@@ -18,7 +18,10 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
 
     public create(strWorld: string): Promise<World> {
         const worldItems = GwmWorldMapParser
-            .createWithOptions<AdditionalData>({...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}})
+            .createWithOptions<AdditionalData>(
+                {furnitureCharacters: ['X', 'C', 'T', 'B', 'S', 'E'], roomSeparatorCharacters: ['W', 'D', 'I']},
+                {...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}}
+            )
             .parse(strWorld);
 
         let world = new World();

@@ -21,7 +21,7 @@
     "@types/sinon": "^5.0.7",
     "chai": "^4.2.0",
     "css-loader": "^1.0.1",
-    "game-worldmap-generator": "^5.1.1",
+    "game-worldmap-generator": "^6.0.0",
     "mini-css-extract-plugin": "^0.4.4",
     "mocha": "^5.2.0",
     "node-sass": "^4.10.0",
