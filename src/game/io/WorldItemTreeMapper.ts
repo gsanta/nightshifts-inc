@@ -9,6 +9,10 @@ export class WorldItemTreeMapper {
             if (from.children) {
                 from.children.forEach(child => to.addChild(fromToMap.get(child)));
             }
+
+            if (from.borderItems) {
+                from.borderItems.forEach(item => to.addBorderItem(fromToMap.get(item)));
+            }
         }
     }
 }

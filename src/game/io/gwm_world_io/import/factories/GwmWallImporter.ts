@@ -6,6 +6,7 @@ import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
 import { GameConstants } from '../../../../GameConstants';
+import { DoubleSidedWorldItem } from '../../../../world_items/DoubleSidedWorldItem';
 const colors = GameConstants.colors;
 
 export class GwmWallImporter implements GwmItemImporter {
@@ -51,7 +52,7 @@ export class GwmWallImporter implements GwmItemImporter {
         const material = new BABYLON.StandardMaterial('wallMaterial', this.scene);
         material.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
         material.emissiveColor = BABYLON.Color3.FromHexString('#111111');
-        wallPiece2.mesh.material = material;
+        // wallPiece2.mesh.material = material;
 
         if (this.isVerticalWallPiece(wallPiece1.mesh)) {
             this.verticalWallPieceDimensionsAdjustment(wallPiece1.mesh, this.gameObjectToMeshSizeRatio);
@@ -69,7 +70,7 @@ export class GwmWallImporter implements GwmItemImporter {
         }
 
         this.shadowGenerator.getShadowMap().renderList.push(wallPiece1.mesh);
-        return wallPiece1;
+        return new DoubleSidedWorldItem(wallPiece1, wallPiece2, 'wall');
     }
 
     private isVerticalWallPiece(mesh: Mesh) {
