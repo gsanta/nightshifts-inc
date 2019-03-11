@@ -8,18 +8,18 @@ import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
 
 export class GwmWallImporter implements GwmItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private wallTemplate: WorldItem;
     private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
     private gameObjectToMeshSizeRatio: number;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        wallTemplate: WorldItem,
         gameObjectTranslator: WorldItemTranslator,
         shadowGenerator: ShadowGenerator,
         gameObjectToMeshSizeRatio: number
     ) {
-        this.meshModelTemplate = meshModelTemplate;
+        this.wallTemplate = wallTemplate;
         this.gameObjectTranslator = gameObjectTranslator;
         this.shadowGenerator = shadowGenerator;
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
@@ -30,21 +30,19 @@ export class GwmWallImporter implements GwmItemImporter {
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
 
-        const mesh = this.meshModelTemplate.createMeshes()[0];
-        const meshModel = new WorldItem(mesh, worldItem.name);
+        const wall = this.wallTemplate.clone();
 
-        meshModel.translate(translate);
-        mesh.scaling.x = scaling.x();
-        mesh.scaling.y = scaling.y();
-        mesh.scaling.z = scaling.z();
+        wall.translate(translate);
+        wall.mesh.scaling.x = scaling.x();
+        wall.mesh.scaling.y = scaling.y();
+        wall.mesh.scaling.z = scaling.z();
 
-        if (this.isVerticalWallPiece(mesh)) {
-            this.verticalWallPieceDimensionsAdjustment(mesh, this.gameObjectToMeshSizeRatio);
+        if (this.isVerticalWallPiece(wall.mesh)) {
+            this.verticalWallPieceDimensionsAdjustment(wall.mesh, this.gameObjectToMeshSizeRatio);
         }
 
-        this.shadowGenerator.getShadowMap().renderList.push(mesh);
-
-        return meshModel;
+        this.shadowGenerator.getShadowMap().renderList.push(wall.mesh);
+        return wall;
     }
 
     private isVerticalWallPiece(mesh: Mesh) {

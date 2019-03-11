@@ -111,6 +111,7 @@ export class WorldItem {
 
     public clone() {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
+        clonedMesh.isVisible = true;
         clonedMesh.setEnabled(true);
         const name = this.name;
 

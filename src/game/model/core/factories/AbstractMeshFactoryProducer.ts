@@ -12,7 +12,7 @@ import { Promise } from 'es6-promise';
 import { World } from '../../World';
 
 interface MeshMap<V> {
-    wall: V;
+    wall: WallTemplateCreator;
     door: DoorTemplateCreator;
     player: V;
     cupboard: V;

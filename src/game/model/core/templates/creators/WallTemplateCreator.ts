@@ -3,9 +3,10 @@ import { TemplateCreator } from '../TemplateCreator';
 import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
+import { WorldItem } from '../../../../world_items/WorldItem';
 const colors = GameConstants.colors;
 
-export class WallTemplateCreator implements TemplateCreator {
+export class WallTemplateCreator {
     private scene: Scene;
     private material: StandardMaterial;
     private mesh: Mesh;
@@ -17,9 +18,10 @@ export class WallTemplateCreator implements TemplateCreator {
         this.mesh = this.createMesh();
     }
 
-    public create(): MeshTemplate {
+    public create(): WorldItem {
         this.mesh.material = this.material;
-        return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
+
+        return new WorldItem(this.mesh, 'wall', { ...defaultMeshConfig });
     }
 
     private createMaterial(): StandardMaterial {
