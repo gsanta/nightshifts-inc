@@ -18,7 +18,7 @@ export class JsonDefaultImporter implements JsonItemImporter {
     }
 
     public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
-        const worldItem = this.worldItemTemplate.clone();
+        const worldItem = this.worldItemTemplate.clone()[0];
 
         worldItem.translate(VectorModel.deserialize(serializedMeshModel.translate));
         worldItem.mesh.scaling.x = serializedMeshModel.scaling.x;

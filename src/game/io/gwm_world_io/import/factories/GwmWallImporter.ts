@@ -49,10 +49,16 @@ export class GwmWallImporter implements GwmItemImporter {
         wallPiece2.mesh.scaling.y = scaling.y();
         wallPiece2.mesh.scaling.z = scaling.z();
 
-        const material = new BABYLON.StandardMaterial('wallMaterial', this.scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
-        material.emissiveColor = BABYLON.Color3.FromHexString('#111111');
-        // wallPiece2.mesh.material = material;
+        // const material = new BABYLON.StandardMaterial('wallMaterial', this.scene);
+        // material.diffuseColor = BABYLON.Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
+        // material.emissiveColor = BABYLON.Color3.FromHexString('#111111');
+        // wallPiece1.mesh.material = material;
+
+
+        // const material2 = new BABYLON.StandardMaterial('wallMaterial', this.scene);
+        // material2.diffuseColor = BABYLON.Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
+        // material2.emissiveColor = BABYLON.Color3.FromHexString('#111111');
+        // wallPiece2.mesh.material = material2;
 
         if (this.isVerticalWallPiece(wallPiece1.mesh)) {
             this.verticalWallPieceDimensionsAdjustment(wallPiece1.mesh, this.gameObjectToMeshSizeRatio);

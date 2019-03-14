@@ -10,6 +10,17 @@ import { AbstractMeshFactoryProducer } from '../../../model/core/factories/Abstr
 import { LightController } from '../../../model/light/LightController';
 import { AbstractWorldImporter } from '../../AbstractWorldImporter';
 import { defaultParseOptions } from 'game-worldmap-generator/build/GwmWorldMapParser';
+import { AdditionalDataConvertingWorldItemDecorator } from 'game-worldmap-generator/build/parsing/decorators/AdditionalDataConvertingWorldItemDecorator';
+import { ScalingWorldItemGeneratorDecorator } from 'game-worldmap-generator/build/parsing/decorators/ScalingWorldItemGeneratorDecorator';
+import { CombinedWorldItemGenerator } from 'game-worldmap-generator/build/parsing/decorators/CombinedWorldItemGenerator';
+import { FurnitureInfoGenerator } from 'game-worldmap-generator/build/parsing/furniture_parsing/FurnitureInfoGenerator';
+import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
+import { RoomInfoGenerator } from 'game-worldmap-generator/build/parsing/room_parsing/RoomInfoGenerator';
+import { BorderItemAddingWorldItemGeneratorDecorator } from 'game-worldmap-generator/build/parsing/decorators/BorderItemAddingWorldItemGeneratorDecorator';
+import { HierarchyBuildingWorldItemGeneratorDecorator } from 'game-worldmap-generator/build/parsing/decorators/HierarchyBuildingWorldItemGeneratorDecorator';
+import { RoomSeparatorGenerator } from 'game-worldmap-generator/build/parsing/room_separator_parsing/RoomSeparatorGenerator';
+import { RootWorldItemGenerator } from 'game-worldmap-generator/build/parsing/RootWorldItemGenerator';
+import { BorderItemSegmentingWorldItemGeneratorDecorator } from 'game-worldmap-generator/build/parsing/decorators/BorderItemSegmentingWorldItemGeneratorDecorator';
 
 export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<GwmWorldItem>) {
@@ -17,12 +28,37 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
     }
 
     public create(strWorld: string): Promise<World> {
-        const worldItems = GwmWorldMapParser
-            .createWithOptions<AdditionalData>(
-                {furnitureCharacters: ['X', 'C', 'T', 'B', 'S', 'E'], roomSeparatorCharacters: ['W', 'D', 'I']},
-                {...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}}
+
+        const options = {...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}};
+        const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E'];
+        const roomSeparatorCharacters = ['W', 'D', 'I'];
+
+        const worldItems = GwmWorldMapParser.createWithCustomWorldItemGenerator(
+            new AdditionalDataConvertingWorldItemDecorator(
+                new BorderItemAddingWorldItemGeneratorDecorator(
+                    new HierarchyBuildingWorldItemGeneratorDecorator(
+                        new BorderItemSegmentingWorldItemGeneratorDecorator(
+                            new ScalingWorldItemGeneratorDecorator(
+                                new CombinedWorldItemGenerator(
+                                    [
+                                        new FurnitureInfoGenerator(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
+                                        new RoomSeparatorGenerator(roomSeparatorCharacters),
+                                        new RoomInfoGenerator(),
+                                        new RootWorldItemGenerator()
+                                    ]
+                                ),
+                                { x: options.xScale, y: options.yScale }
+                            ),
+                            ['wall', 'door', 'window']
+                        )
+                    ),
+                    ['wall', 'door', 'window']
+                ),
+                options.additionalDataConverter
             )
-            .parse(strWorld);
+        )
+        .parse(strWorld);
+
 
         let world = new World();
 

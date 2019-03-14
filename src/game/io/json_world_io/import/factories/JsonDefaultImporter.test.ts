@@ -1,9 +1,9 @@
-import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { JsonDefaultImporter } from './JsonDefaultImporter';
 import sinon = require('sinon');
 import { ShadowGenerator, Vector3 } from 'babylonjs';
 import { expect } from 'chai';
 import { SerializedMeshModel, WorldItem } from '../../../../world_items/WorldItem';
+import { VectorModel } from '../../../../model/core/VectorModel';
 
 describe('JsonDefaultImporter', () => {
     describe('createItem', () => {
@@ -22,7 +22,8 @@ describe('JsonDefaultImporter', () => {
                 mesh: {
                     scaling: {},
                     translate: sinon.spy()
-                }
+                },
+                translate: sinon.spy()
             };
             const cloneStub = sinon.stub().returns([clonedWorldItemMock]);
             const worldItemMock: Partial<WorldItem> = {
@@ -41,7 +42,7 @@ describe('JsonDefaultImporter', () => {
 
             const meshModel = wallDeserializerFactory.createItem(<SerializedMeshModel> serializedMeshModelMock);
 
-            expect(clonedWorldItemMock.mesh.translate.getCall(0).args[0]).to.eql(new Vector3(1, 2, 3));
+            expect(clonedWorldItemMock.translate.getCall(0).args[0]).to.eql(new VectorModel(1, 2, 3));
             expect(meshModel.mesh).to.eql(clonedWorldItemMock.mesh);
         });
     });

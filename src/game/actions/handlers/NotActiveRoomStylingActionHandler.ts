@@ -47,6 +47,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
     }
 
     private setDarkMaterialForRoom(room: ContainerWorldItem, world: World) {
+        world.hemisphericLight.excludedMeshes.push(room.mesh);
         room.children.forEach(child => {
             world.hemisphericLight.excludedMeshes.push(child.mesh);
         });
@@ -55,7 +56,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
             if (child instanceof DoubleSidedWorldItem) {
                 const activeWorldItem = this.getActiveSideOfBorderWorldItem(child, room);
                 if (activeWorldItem) {
-                    world.hemisphericLight.excludedMeshes.push(child.worldItem1 === activeWorldItem ? child.worldItem2.mesh : child.worldItem1.mesh);
+                    world.hemisphericLight.excludedMeshes.push(child.worldItem1 === activeWorldItem ? child.worldItem1.mesh : child.worldItem2.mesh);
                 } else {
                     world.hemisphericLight.excludedMeshes.push(child.worldItem1.mesh);
                     world.hemisphericLight.excludedMeshes.push(child.worldItem2.mesh);
