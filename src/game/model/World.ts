@@ -1,17 +1,21 @@
-import { MeshModel } from './core/MeshModel';
+import { WorldItem } from '../world_items/WorldItem';
 import { Enemy } from './creature/type/Enemy';
 import { Player } from './creature/type/Player';
 import { LightController } from './light/LightController';
 import { Vector2Model } from './utils/Vector2Model';
-import { FollowCamera } from 'babylonjs';
+import { FollowCamera, Light } from 'babylonjs';
+import { Room } from './creature/type/Room';
 
 
 export class World {
+    public hemisphericLight: Light;
+    public nightLight: Light;
     public dimensions: Vector2Model;
-    public gameObjects: MeshModel[];
-    public floor: MeshModel;
+    public gameObjects: WorldItem[];
+    public floor: WorldItem;
     public enemies: Enemy[] = [];
     public player: Player = null;
+    public rooms: Room[];
 
     public camera: FollowCamera;
 

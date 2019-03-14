@@ -1,18 +1,21 @@
-import { World } from '../../World';
-import { MeshFactory } from './MeshFactory';
-import { MeshModel } from '../MeshModel';
-import { Scene, HemisphericLight, Light, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
-import { AbstractMeshFactoryProducer } from './AbstractMeshFactoryProducer';
-import { Vector2Model } from '../../utils/Vector2Model';
+import { World } from '../model/World';
+import { MeshFactory } from '../model/core/factories/MeshFactory';
+import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
+import { AbstractMeshFactoryProducer } from '../model/core/factories/AbstractMeshFactoryProducer';
 import { Promise } from 'es6-promise';
-import { LightController } from '../../light/LightController';
+import { GwmWorldItem, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
+import { Player } from '../model/creature/type/Player';
+import { WorldItem } from '../world_items/WorldItem';
+import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 
 
 export abstract class AbstractWorldImporter<T extends {name: string}> {
     protected shadowGenerator: ShadowGenerator;
     protected hemisphericLight: HemisphericLight;
+    protected nightLight: HemisphericLight;
     protected spotLight: SpotLight;
     protected meshFactoryProducer: AbstractMeshFactoryProducer<T>;
+    protected meshFactory: MeshFactory<T>;
     protected scene: Scene;
     protected camera: FollowCamera;
 
@@ -21,6 +24,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         this.meshFactoryProducer = meshFactoryProducer;
         this.spotLight = this.createSpotLight(scene);
         this.hemisphericLight = this.createHemisphericLight(scene);
+        this.nightLight = this.createNightLight(scene);
         this.shadowGenerator = this.createShadowGenerator(scene, this.spotLight);
         this.camera = <FollowCamera> this.createCamera(scene, canvas);
     }
@@ -29,7 +33,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
 
     protected abstract setMeshes(meshModelDescription: T[], meshFactory: MeshFactory<T>, world: World): void;
 
-    protected createMesh(meshModelDescription: T, meshFactory: MeshFactory<T>, world: World): MeshModel {
+    protected createMesh(meshModelDescription: T, meshFactory: MeshFactory<T>, world: World): WorldItem {
         switch (meshModelDescription.name) {
             case 'wall':
                 return meshFactory.createWall(meshModelDescription, world);
@@ -37,7 +41,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
                 return meshFactory.createDoor(meshModelDescription, world);
             case 'window':
                 return meshFactory.createWindow(meshModelDescription, world);
-            case 'floor':
+            case 'root':
                 return meshFactory.createFloor(meshModelDescription, world);
             case 'player':
                 return meshFactory.createPlayer(meshModelDescription, world);
@@ -51,24 +55,12 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
                 return meshFactory.createBathtub(meshModelDescription, world);
             case 'washbasin':
                 return meshFactory.createWashbasin(meshModelDescription, world);
+            case 'room':
+                return meshFactory.createRoom(meshModelDescription, world);
             default:
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);
         }
     }
-
-    // const initMeshFactory = (
-    //     scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight, worldDimensions: Vector2Model): Promise<MeshFactory<GameObject>> => {
-    //     const meshFactoryProducer = new GwmMeshFactoryProducer();
-    //     return meshFactoryProducer.getFactory(scene, worldDimensions, shadowGenerator, spotLight);
-    // }
-
-    // private getWorldDimensions(gameObjects: GameObject[]): Vector2Model => {
-    //     const floor = gameObjects.filter(gameObject => gameObject.name === 'floor')[0];
-
-    //     return new Vector2Model(floor.dimensions.width, floor.dimensions.height);
-    // }
-
-    // protected abstract getWorldDimensions(items: T[]): Vector2Model;
 
     private createShadowGenerator(scene: Scene, spotLight: SpotLight): ShadowGenerator {
         const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);
@@ -77,11 +69,48 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         return shadowGenerator;
     }
 
+    //TODO: should produce world directly, not getting it through parameter
+    protected createWorld(rootWorldItem: T, world: World): World {
+        world.hemisphericLight = this.hemisphericLight;
+        world.nightLight = this.nightLight;
+
+        const fromToMap: Map<GwmWorldItem, WorldItem> = new Map();
+        const worldItemToTreeMapper = new WorldItemTreeMapper();
+
+        const treeIterator = TreeIteratorGenerator(rootWorldItem as any);
+
+        const worldItems: WorldItem[] = [];
+        const map: Map<TreeNode, any> = new Map();
+        for (const gwmWorldItem of treeIterator) {
+            const worldItem = this.createMesh(gwmWorldItem, this.meshFactory, world);
+            worldItems.push(worldItem);
+            map.set(gwmWorldItem, worldItem);
+        }
+
+        worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
+        // const meshes = worldItems.map(worldItem => this.createMesh(worldItem, this.meshFactory, world));
+
+        world.gameObjects = worldItems;
+        world.floor = worldItems.filter(mesh => mesh.name === 'floor')[0];
+        world.player = <Player> worldItems.filter(mesh => mesh.name === 'player')[0];
+
+        return world;
+    }
+
     private createHemisphericLight(scene: Scene): HemisphericLight {
         const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
         // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
         light.diffuse = new BABYLON.Color3(1, 1, 1);
-        light.intensity = 0.01;
+        light.intensity = 0.4;
+        return light;
+    }
+
+    private createNightLight(scene: Scene): HemisphericLight {
+        const light = new BABYLON.HemisphericLight('NightLight', new BABYLON.Vector3(0, 1, 0), scene);
+        // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
+        light.diffuse = new BABYLON.Color3(1, 1, 1);
+        light.intensity = 0.1;
+        light.setEnabled(false)
         return light;
     }
 

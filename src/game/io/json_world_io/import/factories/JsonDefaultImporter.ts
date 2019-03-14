@@ -2,32 +2,31 @@
 import { ShadowGenerator } from 'babylonjs';
 import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { MeshModel, SerializedMeshModel } from '../../../../model/core/MeshModel';
+import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { VectorModel } from '../../../../model/core/VectorModel';
 
 export class JsonDefaultImporter implements JsonItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private worldItemTemplate: WorldItem;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        worldItemTemplate: WorldItem,
         shadowGenerator: ShadowGenerator,
     ) {
-        this.meshModelTemplate = meshModelTemplate;
+        this.worldItemTemplate = worldItemTemplate;
         this.shadowGenerator = shadowGenerator;
     }
 
-    public createItem(serializedMeshModel: SerializedMeshModel): MeshModel {
-        const mesh = this.meshModelTemplate.createMeshes()[0];
-        const meshModel = new MeshModel(mesh, serializedMeshModel.name);
+    public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
+        const worldItem = this.worldItemTemplate.clone()[0];
 
-        meshModel.translate(VectorModel.deserialize(serializedMeshModel.translate));
-        mesh.scaling.x = serializedMeshModel.scaling.x;
-        mesh.scaling.y = serializedMeshModel.scaling.y;
-        mesh.scaling.z = serializedMeshModel.scaling.z;
+        worldItem.translate(VectorModel.deserialize(serializedMeshModel.translate));
+        worldItem.mesh.scaling.x = serializedMeshModel.scaling.x;
+        worldItem.mesh.scaling.y = serializedMeshModel.scaling.y;
+        worldItem.mesh.scaling.z = serializedMeshModel.scaling.z;
 
-        this.shadowGenerator.getShadowMap().renderList.push(mesh);
+        this.shadowGenerator.getShadowMap().renderList.push(worldItem.mesh);
 
-        return meshModel;
+        return worldItem;
     }
 }

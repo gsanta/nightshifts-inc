@@ -25,6 +25,7 @@ export class FloorTemplateCreator implements TemplateCreator {
         }
 
         this.mesh.material = this.material;
+        this.mesh.material.alpha = 0;
         return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
     }
 

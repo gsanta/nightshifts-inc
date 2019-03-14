@@ -10,6 +10,7 @@ import { World } from '../../game/model/World';
 import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSchema';
 import UpdateWorldActions from '../state/game/actions/UpdateWorldActions';
 import GetWorldActions from '../state/game/actions/GetWorldActions';
+import { ActionDispatcher } from '../../game/actions/ActionDispatcher';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
@@ -55,16 +56,23 @@ class Game extends React.Component<GameProps, GameState> {
 
         // const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
         const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
-        this.gameEngine = new GameEngine(canvas, scene, engine, worldGenerator);
-        // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
-        this.gameEngine.runGame(gwmGameWorldMap);
+        worldGenerator
+            .create(gwmGameWorldMap)
+            .then((world) => {
+                this.gameEngine = new GameEngine(canvas, scene, engine, world, new ActionDispatcher(world));
+                // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
+                this.gameEngine.run();
 
-        this.intervalTimeout = setInterval(
-            () => {
-                this.props.updateGame(this.gameEngine.getWorld());
-            },
-            1000
-        );
+                this.intervalTimeout = setInterval(
+                    () => {
+                        this.props.updateGame(this.gameEngine.getWorld());
+                    },
+                    1000
+                );
+            })
+            .catch(e => console.error(e));
+
+
     }
 
     public componentDidUpdate() {
@@ -73,7 +81,7 @@ class Game extends React.Component<GameProps, GameState> {
 
         if (this.props.worldSchema && !this.gameEngine.isRunning()) {
             const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
-            this.gameEngine.runGame(JSON.stringify(this.props.worldSchema));
+            // this.gameEngine.run(JSON.stringify(this.props.worldSchema));
         }
     }
 

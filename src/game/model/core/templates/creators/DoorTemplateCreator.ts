@@ -19,7 +19,7 @@ export class DoorTemplateCreator {
     public create(): Door {
         this.mesh.material = this.material;
 
-        return new Door(this.mesh, 'wall', {...defaultMeshConfig});
+        return new Door(this.mesh, 'door', {...defaultMeshConfig});
     }
 
     private createMaterial(): StandardMaterial {

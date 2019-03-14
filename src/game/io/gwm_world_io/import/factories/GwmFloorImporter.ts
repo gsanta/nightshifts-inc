@@ -1,11 +1,12 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { WorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { MeshModel } from '../../../../model/core/MeshModel';
+import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
+import { ContainerWorldItem } from '../../../../world_items/ContainerWorldItem';
 
 export class GwmFloorImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
@@ -23,13 +24,13 @@ export class GwmFloorImporter implements GwmItemImporter {
     }
 
 
-    public createItem(worldItem: WorldItem, world: World): MeshModel {
+    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const mesh = this.meshModelTemplate.createMeshes()[0];
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 
-        const meshModel = new MeshModel(mesh, 'floor');
+        const meshModel = new ContainerWorldItem(mesh, 'floor');
         meshModel.translate(translate);
 
         return meshModel;

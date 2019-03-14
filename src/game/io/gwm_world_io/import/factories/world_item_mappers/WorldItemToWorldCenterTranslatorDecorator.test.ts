@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import { WorldItemTranslator } from './WorldItemToRealWorldCoordinateMapper';
 import { WorldItemToWorldCenterTranslatorDecorator } from './WorldItemToWorldCenterTranslatorDecorator';
 import { Vector2Model } from '../../../../../model/utils/Vector2Model';
-import { WorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from 'game-worldmap-generator';
 import { expect } from 'chai';
 import { World } from '../../../../../model/World';
 
@@ -25,9 +25,9 @@ describe('WorldItemToWorldCenterTranslatorDecorator', () => {
 
             const worldMock: Partial<World> = { dimensions: new Vector2Model(1, 1) };
 
-            const worldItem: Partial<WorldItem> = {};
+            const worldItem: Partial<GwmWorldItem> = {};
             getTranslateStub.withArgs(worldItem).returns(new Vector2Model(1, 1));
-            worldItemToWorldCenterTranslatorDecorator.getTranslate(<WorldItem> worldItem, <World> worldMock, null);
+            worldItemToWorldCenterTranslatorDecorator.getTranslate(<GwmWorldItem> worldItem, <World> worldMock, null);
 
             sinon.assert.called(getTranslateStub);
         });
@@ -40,10 +40,10 @@ describe('WorldItemToWorldCenterTranslatorDecorator', () => {
 
             const worldMock: Partial<World> = { dimensions: new Vector2Model(5, 5) };
 
-            const worldItem: Partial<WorldItem> = {};
+            const worldItem: Partial<GwmWorldItem> = {};
             getTranslateStub.returns(new Vector2Model(1, 1));
 
-            const vector = worldItemToWorldCenterTranslatorDecorator.getTranslate(<WorldItem> worldItem, <World> worldMock, null);
+            const vector = worldItemToWorldCenterTranslatorDecorator.getTranslate(<GwmWorldItem> worldItem, <World> worldMock, null);
 
             expect(vector).to.eql(new Vector2Model(-1.5, -1.5));
         });

@@ -1,6 +1,6 @@
 import { Mesh, Vector3, StandardMaterial } from 'babylonjs';
-import { VectorModel, toVector3 } from './VectorModel';
-import { MeshTemplateConfig } from './templates/MeshTemplate';
+import { VectorModel, toVector3 } from '../model/core/VectorModel';
+import { MeshTemplateConfig } from '../model/core/templates/MeshTemplate';
 
 export interface SerializedMeshModel {
     name: string;
@@ -35,12 +35,12 @@ export interface SerializedMeshModel {
     };
 }
 
-export class MeshModel {
+export class WorldItem {
     public mesh: Mesh;
     public name: string;
     public hasDefaultAction = false;
-    private defaultMaterial: StandardMaterial;
-    private darkMaterial: StandardMaterial;
+
+    public materials: {[key: string]: StandardMaterial} = {};
 
     protected counter = 1;
 
@@ -105,24 +105,24 @@ export class MeshModel {
         };
     }
 
-    public unserialize(model: SerializedMeshModel): MeshModel {
+    public unserialize(model: SerializedMeshModel): WorldItem {
         return null;
     }
 
     public clone() {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
+        clonedMesh.isVisible = true;
         clonedMesh.setEnabled(true);
         const name = this.name;
 
-        const clone = new MeshModel(clonedMesh, name);
+        const clone = new WorldItem(clonedMesh, name);
         this.copyTo(clone);
 
         return clone;
     }
 
-    protected copyTo(meshModel: MeshModel): MeshModel {
-        meshModel.darkMaterial = this.darkMaterial;
-        meshModel.defaultMaterial = this.defaultMaterial;
+    protected copyTo(meshModel: WorldItem): WorldItem {
+        meshModel.materials = {...this.materials};
         meshModel.name = this.name;
         meshModel.hasDefaultAction = this.hasDefaultAction;
 
@@ -130,6 +130,7 @@ export class MeshModel {
     }
 
     private initMesh(config: MeshTemplateConfig) {
+        this.materials = config.materials;
         this.mesh.isPickable = true;
         this.mesh.isVisible = false;
         this.mesh.checkCollisions = config.checkCollisions;

@@ -1,13 +1,13 @@
 import { Player } from '../type/Player';
 import { World } from '../../World';
-import { MeshModel } from '../../core/MeshModel';
+import { WorldItem } from '../../../world_items/WorldItem';
 import { VectorModel } from '../../core/VectorModel';
 
 
 export class ActionStrategy {
     private player: Player;
     private worldMap: World;
-    private actionableObjects: MeshModel[];
+    private actionableObjects: WorldItem[];
 
     constructor(player: Player, worldMap: World) {
         this.player = player;
@@ -19,7 +19,7 @@ export class ActionStrategy {
      */
     public activateClosestMeshAction() {
         this.actionableObjects = this.filterActionableObjects(this.worldMap);
-        const reduceToClosestMeshModel = (val: [MeshModel, number], current: MeshModel): [MeshModel, number] => {
+        const reduceToClosestMeshModel = (val: [WorldItem, number], current: WorldItem): [WorldItem, number] => {
             const distance = VectorModel.Distance(this.player.getCenterPosition(), current.getPosition());
             return !val || val[1] > distance ? [current, distance] : val;
         };

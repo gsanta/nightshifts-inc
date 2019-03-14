@@ -1,4 +1,4 @@
-import { MeshModel } from '../core/MeshModel';
+import { WorldItem } from '../../world_items/WorldItem';
 import { Enemy } from '../creature/type/Enemy';
 import { Creature } from '../creature/type/Creature';
 import { MotionStrategy } from '../creature/motion/MotionStrategy';
@@ -8,11 +8,11 @@ import { Player } from '../creature/type/Player';
 import { CollisionDetector } from '../creature/collision/CollisionDetector';
 
 export class FieldMap {
-    protected obstacles: MeshModel[];
+    protected obstacles: WorldItem[];
     protected enemies: Enemy[];
     protected player: Player;
 
-    public getObstacles(): MeshModel[] {
+    public getObstacles(): WorldItem[] {
         return this.obstacles;
     }
 

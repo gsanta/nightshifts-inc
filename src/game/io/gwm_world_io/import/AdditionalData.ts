@@ -24,6 +24,10 @@ export interface AdditionalData {
 }
 
 export const parseJsonAdditionalData = (additionalData): AdditionalData => {
+    if (!additionalData) {
+        return undefined;
+    }
+
     if (additionalData.dock) {
         additionalData.dock = Direction[additionalData.dock];
     }

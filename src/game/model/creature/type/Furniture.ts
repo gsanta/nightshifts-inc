@@ -1,5 +1,5 @@
-import { MeshModel } from '../../core/MeshModel';
+import { WorldItem } from '../../../world_items/WorldItem';
 
-export class Furniture extends MeshModel {
+export class Furniture extends WorldItem {
     public name = 'furniture';
 }

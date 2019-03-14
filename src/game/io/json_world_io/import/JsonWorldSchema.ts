@@ -1,4 +1,4 @@
-import { SerializedMeshModel } from '../../../model/core/MeshModel';
+import { SerializedMeshModel } from '../../../world_items/WorldItem';
 
 export interface JsonWorldSchema {
     dimensions: {

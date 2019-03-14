@@ -1,4 +1,4 @@
-import { WorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from 'game-worldmap-generator';
 import { WorldItemTranslator } from './WorldItemToRealWorldCoordinateMapper';
 import { Vector2Model } from '../../../../../model/utils/Vector2Model';
 import { World } from '../../../../../model/World';
@@ -13,7 +13,7 @@ export class WorldItemToWorldCenterTranslatorDecorator implements WorldItemTrans
         this.gameObjectToRealWorldCoordinateMapper = gameObjectToRealWorldCoordinateWrapper;
     }
 
-    public getTranslate(worldItem: WorldItem, world: World, realMeshDimensions: Vector2Model): Vector2Model {
+    public getTranslate(worldItem: GwmWorldItem, world: World, realMeshDimensions: Vector2Model): Vector2Model {
         const vector2 = this.gameObjectToRealWorldCoordinateMapper.getTranslate(worldItem, world, realMeshDimensions);
 
         const translateX = - (world.dimensions.x() / 2);
@@ -21,11 +21,11 @@ export class WorldItemToWorldCenterTranslatorDecorator implements WorldItemTrans
         return vector2.add(new Vector2Model(translateX, translateY));
     }
 
-    public getDimensions(worldItem: WorldItem): Vector2Model {
+    public getDimensions(worldItem: GwmWorldItem): Vector2Model {
         return this.gameObjectToRealWorldCoordinateMapper.getDimensions(worldItem);
     }
 
-    public getRotation(worldItem: WorldItem) {
+    public getRotation(worldItem: GwmWorldItem) {
         return this.gameObjectToRealWorldCoordinateMapper.getRotation(worldItem);
     }
 }

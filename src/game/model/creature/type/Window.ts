@@ -1,10 +1,10 @@
-import { MeshModel, SerializedMeshModel } from '../../core/MeshModel';
+import { WorldItem, SerializedMeshModel } from '../../../world_items/WorldItem';
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
 import _ = require('lodash');
 import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
 
-export class Window extends MeshModel {
+export class Window extends WorldItem {
     public isOpen: boolean;
     private pivotAngle: number;
     public meshes: Mesh[];
