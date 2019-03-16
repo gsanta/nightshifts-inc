@@ -1,6 +1,6 @@
 import {TreeNode, TreeIteratorGenerator} from 'game-worldmap-generator';
 import { WorldItem } from '../world_items/WorldItem';
-import { ContainerWorldItem } from '../world_items/ContainerWorldItem';
+import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
 
 
 export class WorldItemTreeMapper {

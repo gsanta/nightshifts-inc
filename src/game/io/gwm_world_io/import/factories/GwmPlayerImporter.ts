@@ -57,7 +57,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
         // player.translate(translate);
-        player.mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+        player.mesh.translate(translate);
 
         return player;
     }

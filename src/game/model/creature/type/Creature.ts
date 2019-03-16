@@ -5,6 +5,7 @@ import { Sensor } from '../sensor/Sensor';
 import { CollisionDetector } from '../collision/CollisionDetector';
 import { WorldItem } from '../../../world_items/WorldItem';
 import { ActionStrategy } from '../action/ActionStrategy';
+import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 
 export abstract class Creature extends WorldItem {
     protected sensor: Sensor;
@@ -12,20 +13,20 @@ export abstract class Creature extends WorldItem {
     protected collisionDetector: CollisionDetector;
     protected actionStrategy: ActionStrategy;
 
-    constructor(mesh: Mesh, name: string) {
+    constructor(mesh: MeshWrapper<any>, name: string) {
         super(mesh, name);
     }
 
     public getBody(): Mesh {
-        return this.mesh;
+        return this.mesh.wrappedMesh;
     }
 
     public setRotation(distance: number) {
-        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.wrappedMesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public setPosition(position: VectorModel) {
-        this.mesh.position = new Vector3(position.x(), position.y(), position.z());
+        this.mesh.wrappedMesh.position = new Vector3(position.x, position.y, position.z);
     }
 
     public getSensor(): Sensor {

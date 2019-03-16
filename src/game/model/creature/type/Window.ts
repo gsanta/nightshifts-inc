@@ -28,8 +28,8 @@ export class Window extends WorldItem {
         this.pivot1 = pivot1;
         this.pivot2 = pivot2;
 
-        this.meshes[2].setPivotMatrix(BABYLON.Matrix.Translation(pivot1.x(), pivot1.y(), pivot1.z()));
-        this.meshes[3].setPivotMatrix(BABYLON.Matrix.Translation(pivot2.x(), pivot2.y(), pivot2.z()));
+        this.meshes[2].setPivotMatrix(BABYLON.Matrix.Translation(pivot1.x, pivot1.y, pivot1.z));
+        this.meshes[3].setPivotMatrix(BABYLON.Matrix.Translation(pivot2.x, pivot2.y, pivot2.z));
     }
 
     public doDefaultAction() {
@@ -55,11 +55,11 @@ export class Window extends WorldItem {
     }
 
     public translate(vectorModel: VectorModel) {
-        this.meshes.forEach(mesh => mesh.translate(new Vector3(vectorModel.x(), vectorModel.y(), vectorModel.z()), 1));
+        this.meshes.forEach(mesh => mesh.translate(new Vector3(vectorModel.x, vectorModel.y, vectorModel.z), 1));
     }
 
     public intersectsPoint(vector: VectorModel) {
-        return _.some(this.meshes, mesh => mesh.intersectsPoint(new Vector3(vector.x(), vector.y(), vector.z())));
+        return _.some(this.meshes, mesh => mesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z)));
     }
 
     public serialize(): SerializedMeshModel {

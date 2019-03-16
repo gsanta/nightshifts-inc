@@ -1,5 +1,4 @@
 import { GwmWorldItem } from 'game-worldmap-generator';
-import { Room } from '../../../../model/creature/type/Room';
 import { StandardMaterial, Scene, Vector3, Vector2 } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { WorldItem } from '../../../../world_items/WorldItem';
@@ -7,7 +6,7 @@ import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCo
 import { World } from '../../../../model/World';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { ContainerWorldItem } from '../../../../world_items/ContainerWorldItem';
+import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerWorldItem';
 const colors = GameConstants.colors;
 
 export class GwmRoomImporter {
@@ -24,7 +23,7 @@ export class GwmRoomImporter {
         this.worldItemTranslator = worldItemTranslator;
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): Room {
+    public createItem(worldItem: GwmWorldItem, world: World): ContainerWorldItem {
         let topLeft = new Vector2Model(worldItem.dimensions.points[0].x, worldItem.dimensions.points[0].y);
         const positions = worldItem.dimensions.points.map(point => new Vector3(point.x - topLeft.x(), 2, -(point.y - topLeft.y())));
 

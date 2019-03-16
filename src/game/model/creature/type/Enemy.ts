@@ -1,5 +1,6 @@
 import { Creature } from './Creature';
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
+import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 declare const DEBUG;
 
 export class Enemy extends Creature {
@@ -8,23 +9,23 @@ export class Enemy extends Creature {
     private scene: Scene;
     private isVisible = true;
 
-    constructor(scene: Scene) {
-        super(MeshBuilder.CreateSphere('enemy', { diameter: 3 }, scene), null);
+    constructor(mesh: MeshWrapper<any>, scene: Scene) {
+        super(mesh, null);
         this.scene = scene;
 
         this.initMaterials();
-        this.mesh.material = this.visibleMaterial;
-        this.mesh.checkCollisions = true;
-        this.mesh.position = new Vector3(20, 0, 30);
-        this.mesh.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
+        this.mesh.wrappedMesh.material = this.visibleMaterial;
+        this.mesh.wrappedMesh.checkCollisions = true;
+        this.mesh.wrappedMesh.position = new Vector3(20, 0, 30);
+        this.mesh.wrappedMesh.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
     }
 
     public setRotation(distance: number) {
-        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.wrappedMesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public getBody(): Mesh {
-        return this.mesh;
+        return this.mesh.wrappedMesh;
     }
 
     public playWalkingAnimation() {
@@ -43,9 +44,9 @@ export class Enemy extends Creature {
         this.sensor.setIsVisible(this.isVisible);
 
         if (isVisible) {
-            this.mesh.material = this.visibleMaterial;
+            this.mesh.wrappedMesh.material = this.visibleMaterial;
         } else {
-            this.mesh.material = this.inVisibleMaterial;
+            this.mesh.wrappedMesh.material = this.inVisibleMaterial;
         }
     }
 

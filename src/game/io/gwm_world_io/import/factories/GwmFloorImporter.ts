@@ -6,7 +6,7 @@ import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCo
 import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
-import { ContainerWorldItem } from '../../../../world_items/ContainerWorldItem';
+import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerWorldItem';
 
 export class GwmFloorImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
@@ -31,7 +31,7 @@ export class GwmFloorImporter implements GwmItemImporter {
         translate.addZ(-2);
 
         const meshModel = new ContainerWorldItem(mesh, 'floor');
-        meshModel.translate(translate);
+        meshModel.mesh.translate(translate);
 
         return meshModel;
     }

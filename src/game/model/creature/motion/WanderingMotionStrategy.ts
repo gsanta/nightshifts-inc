@@ -25,9 +25,9 @@ export class WanderingMotionStrategy implements MotionStrategy {
     public calcNextPositionDelta(elapsedTime: number): VectorModel {
         let distance = elapsedTime / this.speed;
 
-        const direction = this.currentDestination.subtract(this.creature.getPosition()).normalize();
+        const direction = this.currentDestination.subtract(this.creature.mesh.getPosition()).normalize();
 
-        this.savePreviousPosition(this.creature.getPosition());
+        this.savePreviousPosition(this.creature.mesh.getPosition());
 
         if (this.isDestinationReached() || this.noProgressHappening()) {
             this.currentDestination = this.chooseNextDestination();
@@ -78,7 +78,7 @@ export class WanderingMotionStrategy implements MotionStrategy {
 
     private isDestinationReachable(destination: VectorModel) {
         for (let i = 0; i < this.obstacles.length; i++) {
-            if (this.obstacles[i].intersectsPoint(destination)) {
+            if (this.obstacles[i].mesh.intersectsPoint(destination)) {
                 return false;
             }
         }
@@ -86,7 +86,7 @@ export class WanderingMotionStrategy implements MotionStrategy {
     }
 
     private isDestinationReached() {
-        const distanceToDestination = this.currentDestination.subtract(this.creature.getPosition());
+        const distanceToDestination = this.currentDestination.subtract(this.creature.mesh.getPosition());
         return distanceToDestination.length() < 1;
     }
 }

@@ -73,8 +73,8 @@ export class ManualMotionStrategy implements MotionStrategy {
 
     private calcNextPositionDeltaConsideringRotation(delta: VectorModel) {
         let rotation = this.player.getBody().rotationQuaternion.toEulerAngles().y;
-        const verticalDirection = Math.sin(rotation) * delta.z();
-        const horizontalDirection = Math.cos(rotation) * delta.z();
+        const verticalDirection = Math.sin(rotation) * delta.z;
+        const horizontalDirection = Math.cos(rotation) * delta.z;
 
         return new VectorModel(verticalDirection, 0, horizontalDirection);
     }

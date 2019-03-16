@@ -1,8 +1,8 @@
 import { ActionHandler } from '../ActionHandler';
 import { World } from '../../model/World';
-import { ContainerWorldItem } from '../../world_items/ContainerWorldItem';
+import { ContainerWorldItem } from '../../../engine/world_items/ContainerWorldItem';
 import { WorldItem } from '../../world_items/WorldItem';
-import { DoubleSidedWorldItem } from '../../world_items/DoubleSidedWorldItem';
+import { Room } from '../../../engine/world_items/Room';
 import _ = require('lodash');
 
 export class NotActiveRoomStylingActionHandler implements ActionHandler {
@@ -25,7 +25,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
         // world.nightLight.excludedMeshes = [];
 
-        const intersectingRoom = rooms.filter(room => room.mesh.intersectsMesh(world.player.mesh))[0];
+        const intersectingRoom = rooms.filter(room => room.mesh.wrappedMesh.intersectsMesh(world.player.mesh))[0];
         const otherRooms = _.without(rooms, intersectingRoom);
 
         if (intersectingRoom !== this.prevActiveRoom && intersectingRoom) {
@@ -36,7 +36,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
                 if (room === intersectingRoom) {
                     this.setDefaultMaterialForRoom(<ContainerWorldItem> room, world);
                 } else {
-                    this.setDarkMaterialForRoom(<ContainerWorldItem> room, world);
+                    this.setDarkMaterialForRoom(<Room> room, world);
                 }
             });
 
@@ -46,43 +46,44 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
         this.prevActiveRoom = intersectingRoom;
     }
 
-    private setDarkMaterialForRoom(room: ContainerWorldItem, world: World) {
-        world.hemisphericLight.excludedMeshes.push(room.mesh);
+    private setDarkMaterialForRoom(room: Room, world: World) {
+        world.hemisphericLight.excludedMeshes.push(room.mesh.wrappedMesh);
         room.children.forEach(child => {
-            world.hemisphericLight.excludedMeshes.push(child.mesh);
+            world.hemisphericLight.excludedMeshes.push(child.mesh.wrappedMesh);
         });
 
         room.borderItems.forEach((child: WorldItem) => {
-            if (child instanceof DoubleSidedWorldItem) {
+            if (child instanceof ContainerWorldItem) {
                 const activeWorldItem = this.getActiveSideOfBorderWorldItem(child, room);
                 if (activeWorldItem) {
-                    world.hemisphericLight.excludedMeshes.push(child.worldItem1 === activeWorldItem ? child.worldItem1.mesh : child.worldItem2.mesh);
+                    const mesh = child.children[0] === activeWorldItem ? child.children[0].mesh.wrappedMesh : child.children[1].mesh.wrappedMesh;
+                    world.hemisphericLight.excludedMeshes.push(mesh);
                 } else {
-                    world.hemisphericLight.excludedMeshes.push(child.worldItem1.mesh);
-                    world.hemisphericLight.excludedMeshes.push(child.worldItem2.mesh);
+                    world.hemisphericLight.excludedMeshes.push(child.children[0].mesh.wrappedMesh);
+                    world.hemisphericLight.excludedMeshes.push(child.children[1].mesh.wrappedMesh);
                 }
             }
         });
     }
 
-    private getActiveSideOfBorderWorldItem(borderWorldItem: DoubleSidedWorldItem, room: WorldItem): WorldItem {
-        const scaling = borderWorldItem.mesh.scaling;
+    private getActiveSideOfBorderWorldItem(borderWorldItem: ContainerWorldItem, room: WorldItem): WorldItem {
+        const scaling = borderWorldItem.mesh.getScale();
 
         if (scaling.x > scaling.z) {
-            const dist1 = Math.abs(room.mesh.getAbsolutePosition().z - borderWorldItem.worldItem1.mesh.getAbsolutePosition().z);
-            const dist2 = Math.abs(room.mesh.getAbsolutePosition().z - borderWorldItem.worldItem2.mesh.getAbsolutePosition().z);
+            const dist1 = Math.abs(room.mesh.getPosition().z - borderWorldItem[0].mesh.getAbsolutePosition().z);
+            const dist2 = Math.abs(room.mesh.getPosition().z - borderWorldItem[1].mesh.getAbsolutePosition().z);
             if (dist1 < dist2) {
-                return borderWorldItem.worldItem1;
+                return borderWorldItem[0];
             } else {
-                return borderWorldItem.worldItem2;
+                return borderWorldItem[1];
             }
         } else {
-            const dist1 = Math.abs(room.mesh.getAbsolutePosition().x - borderWorldItem.worldItem1.mesh.getAbsolutePosition().x);
-            const dist2 = Math.abs(room.mesh.getAbsolutePosition().x - borderWorldItem.worldItem2.mesh.getAbsolutePosition().x);
+            const dist1 = Math.abs(room.mesh.getPosition().x - borderWorldItem.children[0].mesh.getPosition().x);
+            const dist2 = Math.abs(room.mesh.getPosition().x - borderWorldItem.children[1].mesh.getPosition().x);
             if (dist1 < dist2) {
-                return borderWorldItem.worldItem1;
+                return borderWorldItem[0];
             } else {
-                return borderWorldItem.worldItem2;
+                return borderWorldItem[1];
             }
         }
     }

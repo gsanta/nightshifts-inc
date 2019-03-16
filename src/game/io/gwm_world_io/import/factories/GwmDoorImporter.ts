@@ -30,15 +30,15 @@ export class GwmDoorImporter implements GwmItemImporter {
     public createItem(worldItem: GwmWorldItem<AdditionalData>, world: World): WorldItem {
         const scaling = this.gameObjectTranslator.getDimensions(worldItem).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
-        const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
+        const translate = new VectorModel(translate2.x(), scaling.y / 2, -translate2.y());
 
         const door = this.doorTemplate.clone();
 
-        door.mesh.translate(toVector3(translate), 1);
+        door.mesh.wrappedMesh.translate(toVector3(translate), 1);
 
         this.setPivotMatrix(worldItem, door);
 
-        this.shadowGenerator.getShadowMap().renderList.push(door.mesh);
+        this.shadowGenerator.getShadowMap().renderList.push(door.mesh.wrappedMesh);
 
         return door;
     }
@@ -46,7 +46,7 @@ export class GwmDoorImporter implements GwmItemImporter {
     private setPivotMatrix(worldItem: GwmWorldItem<AdditionalData>, door: Door) {
         const angle = worldItem.additionalData.angle;
         if (this.isHorizontal(door)) {
-            const xExtent = door.getXExtent();
+            const xExtent = door.mesh.getXExtent();
             if (worldItem.additionalData.axis.x === worldItem.dimensions.left + worldItem.dimensions.width) {
                 door.setPivot(new VectorModel(xExtent, 0, 0), angle);
             } else if (worldItem.additionalData.axis.x === worldItem.dimensions.left) {
@@ -58,6 +58,6 @@ export class GwmDoorImporter implements GwmItemImporter {
     }
 
     private isHorizontal(meshModel: WorldItem) {
-        return meshModel.getXExtent() > meshModel.getZExtent();
+        return meshModel.mesh.getXExtent() > meshModel.mesh.getZExtent();
     }
 }

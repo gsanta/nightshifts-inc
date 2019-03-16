@@ -2,13 +2,14 @@ import { WorldItem, SerializedMeshModel } from '../../../world_items/WorldItem';
 import { Mesh } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
 import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
+import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 
 export class Door extends WorldItem {
     public isOpen: boolean;
     private pivotAngle: number;
     private pivot: VectorModel;
 
-    constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
+    constructor(mesh: MeshWrapper<any>, name: string, config?: MeshTemplateConfig) {
         super(mesh, name, config);
 
         this.hasDefaultAction = true;
@@ -17,15 +18,15 @@ export class Door extends WorldItem {
     public setPivot(axis: VectorModel, angle: number) {
         this.pivotAngle = angle;
         this.pivot = axis;
-        this.mesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x(), axis.y(), axis.z()));
+        this.mesh.wrappedMesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x, axis.y, axis.z));
     }
 
     public doDefaultAction() {
         if (this.isOpen) {
-            this.mesh.rotation.y = 0;
+            this.mesh.wrappedMesh.rotation.y = 0;
             this.isOpen = false;
         } else {
-            this.mesh.rotation.y = this.pivotAngle;
+            this.mesh.wrappedMesh.rotation.y = this.pivotAngle;
             this.isOpen = true;
         }
     }
@@ -42,9 +43,7 @@ export class Door extends WorldItem {
     }
 
     public clone(): Door {
-        const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
-        clonedMesh.setEnabled(true);
-        clonedMesh.isVisible = true;
+        const clonedMesh = this.mesh.clone(`${this.mesh.getId()}-${this.counter++}`);
         const name = this.name;
 
         const door = new Door(clonedMesh, name);

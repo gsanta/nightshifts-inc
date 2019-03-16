@@ -95,7 +95,7 @@ export class GameEngine {
 
         if (!player.getMotionStrategy().isIdle()) {
             const delta = player.getMotionStrategy().calcNextPositionDelta(elapsedTime);
-            player.setPosition(player.getPosition().add(delta));
+            player.setPosition(player.mesh.getPosition().add(delta));
         }
 
         const rotationDelta = player.getMotionStrategy().calcNextRotationDelta(elapsedTime);
@@ -107,7 +107,7 @@ export class GameEngine {
             const enemyDelta = enemy.getMotionStrategy().calcNextPositionDelta(elapsedTime);
 
             if (enemyDelta) {
-                enemy.setPosition(enemy.getPosition().add(enemyDelta));
+                enemy.setPosition(enemy.mesh.getPosition().add(enemyDelta));
             }
         });
     }

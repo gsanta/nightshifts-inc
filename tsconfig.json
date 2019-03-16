@@ -10,7 +10,7 @@
     },
     "include": [
       "src/game/**/*.ts",
-      "src/gui/**/*.tsx?", "src/gui/index.tsx", "src/gui/form/TextField.tsx"
+      "src/gui/**/*.tsx?", "src/gui/index.tsx", "src/gui/form/TextField.tsx", "src/engine/world_items/ContainerWorldItem.ts"
     ],
     "exclude": [
       "node_modules"

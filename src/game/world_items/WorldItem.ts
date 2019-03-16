@@ -1,6 +1,7 @@
 import { Mesh, Vector3, StandardMaterial } from 'babylonjs';
 import { VectorModel, toVector3 } from '../model/core/VectorModel';
 import { MeshTemplateConfig } from '../model/core/templates/MeshTemplate';
+import { MeshWrapper } from '../../engine/wrappers/MeshWrapper';
 
 export interface SerializedMeshModel {
     name: string;
@@ -35,8 +36,8 @@ export interface SerializedMeshModel {
     };
 }
 
-export class WorldItem {
-    public mesh: Mesh;
+export class WorldItem<M = any> {
+    public mesh: MeshWrapper<M>;
     public name: string;
     public hasDefaultAction = false;
 
@@ -44,7 +45,7 @@ export class WorldItem {
 
     protected counter = 1;
 
-    constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
+    constructor(mesh: MeshWrapper<M>, name: string, config?: MeshTemplateConfig) {
         this.mesh = mesh;
         this.name = name;
 
@@ -53,66 +54,35 @@ export class WorldItem {
         }
     }
 
-    public translate(vectorModel: VectorModel) {
-        this.mesh.translate(new Vector3(vectorModel.x(), vectorModel.y(), vectorModel.z()), 1);
-    }
-
-    public intersectsPoint(vector: VectorModel) {
-        return this.mesh.intersectsPoint(new Vector3(vector.x(), vector.y(), vector.z()));
-    }
-
-    public getPosition(): VectorModel {
-        const position = this.mesh.getAbsolutePosition();
-        return new VectorModel(position.x, position.y, position.z);
-    }
-
     public doDefaultAction() {
         throw new Error('No default action defined');
-    }
-
-    public getXExtent() {
-        return this.mesh.getBoundingInfo().boundingBox.extendSize.x;
-    }
-
-    public getYExtent() {
-        return this.mesh.getBoundingInfo().boundingBox.extendSize.y;
-    }
-
-    public getZExtent() {
-        return this.mesh.getBoundingInfo().boundingBox.extendSize.z;
-    }
-
-    public getScale(): VectorModel {
-        return new VectorModel(this.mesh.scaling.x, this.mesh.scaling.y, this.mesh.scaling.z);
     }
 
     public serialize(): SerializedMeshModel {
         return {
             name: this.name,
             scaling: {
-                x: this.getScale().x(),
-                y: this.getScale().y(),
-                z: this.getScale().z(),
+                x: this.mesh.getScale().x,
+                y: this.mesh.getScale().y,
+                z: this.mesh.getScale().z,
             },
             translate: {
-                x: this.getPosition().x(),
-                y: this.getPosition().y(),
-                z: this.getPosition().z()
+                x: this.mesh.getPosition().x,
+                y: this.mesh.getPosition().y,
+                z: this.mesh.getPosition().z
             },
             additionalData: {
-                rotation: this.mesh.rotation.y
+                rotation: this.mesh.getRotation().y
             }
         };
     }
 
-    public unserialize(model: SerializedMeshModel): WorldItem {
+    public unserialize(model: SerializedMeshModel): WorldItem<M> {
         return null;
     }
 
     public clone() {
-        const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
-        clonedMesh.isVisible = true;
-        clonedMesh.setEnabled(true);
+        const clonedMesh = this.mesh.clone(`${this.mesh.getId()}-${this.counter++}`);
         const name = this.name;
 
         const clone = new WorldItem(clonedMesh, name);
@@ -121,7 +91,7 @@ export class WorldItem {
         return clone;
     }
 
-    protected copyTo(meshModel: WorldItem): WorldItem {
+    protected copyTo(meshModel: WorldItem<M>): WorldItem<M> {
         meshModel.materials = {...this.materials};
         meshModel.name = this.name;
         meshModel.hasDefaultAction = this.hasDefaultAction;
@@ -131,14 +101,5 @@ export class WorldItem {
 
     private initMesh(config: MeshTemplateConfig) {
         this.materials = config.materials;
-        this.mesh.isPickable = true;
-        this.mesh.isVisible = false;
-        this.mesh.checkCollisions = config.checkCollisions;
-        this.mesh.receiveShadows = config.receiveShadows;
-        this.mesh.scaling = toVector3(config.scaling);
-
-        if (!config.singleton) {
-            this.mesh.setEnabled(false);
-        }
     }
 }

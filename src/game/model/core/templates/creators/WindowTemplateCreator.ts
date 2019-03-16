@@ -62,12 +62,12 @@ export class WindowTemplateCreator {
 
         const topMesh = MeshBuilder.CreateBox(
             'window-top',
-            { width: width, depth: this.dimensions.z(), height: this.dimensions.y() / 6 },
+            { width: width, depth: this.dimensions.z, height: this.dimensions.y / 6 },
             this.scene
         );
 
 
-        topMesh.translate(new Vector3(0, this.dimensions.y() / 2 - this.dimensions.y() / 12, 0), 1);
+        topMesh.translate(new Vector3(0, this.dimensions.y / 2 - this.dimensions.y / 12, 0), 1);
 
         topMesh.material = this.windowFrameMaterial;
 
@@ -93,21 +93,21 @@ export class WindowTemplateCreator {
     private createWindowGlassMeshes() {
         const middle1 = MeshBuilder.CreateBox(
             'window-middle-left',
-            { width: this.dimensions.x() / 2, depth: this.dimensions.z(), height: 4 * this.dimensions.y() / 6 },
+            { width: this.dimensions.x / 2, depth: this.dimensions.z, height: 4 * this.dimensions.y / 6 },
             this.scene
         );
 
-        middle1.translate(new Vector3(- this.dimensions.x() / 4, 0, 0), 1);
+        middle1.translate(new Vector3(- this.dimensions.x / 4, 0, 0), 1);
         middle1.material = this.windowGlassMaterial;
         // middle1.isVisible = false;
 
         const middle2 = MeshBuilder.CreateBox(
             'window-middle-right',
-            { width: this.dimensions.x() / 2, depth: this.dimensions.z(), height: 4 * this.dimensions.y() / 6 },
+            { width: this.dimensions.x / 2, depth: this.dimensions.z, height: 4 * this.dimensions.y / 6 },
             this.scene
         );
 
-        middle2.translate(new Vector3(+ this.dimensions.x() / 4, 0, 0), 1);
+        middle2.translate(new Vector3(+ this.dimensions.x / 4, 0, 0), 1);
 
         middle2.material = this.windowGlassMaterial;
 

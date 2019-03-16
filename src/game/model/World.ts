@@ -4,7 +4,7 @@ import { Player } from './creature/type/Player';
 import { LightController } from './light/LightController';
 import { Vector2Model } from './utils/Vector2Model';
 import { FollowCamera, Light } from 'babylonjs';
-import { Room } from './creature/type/Room';
+import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
 
 
 export class World {
@@ -15,7 +15,7 @@ export class World {
     public floor: WorldItem;
     public enemies: Enemy[] = [];
     public player: Player = null;
-    public rooms: Room[];
+    public rooms: ContainerWorldItem[];
 
     public camera: FollowCamera;
 
