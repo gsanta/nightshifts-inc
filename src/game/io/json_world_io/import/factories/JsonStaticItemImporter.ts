@@ -22,13 +22,13 @@ export class JsonStaticItemImporter implements JsonItemImporter {
         const meshModel = new WorldItem(meshes[0], serializedMeshModel.name);
 
         meshes.forEach(mesh => {
-            mesh.rotation.y = serializedMeshModel.additionalData.rotation;
+            mesh.wrappedMesh.rotation.y = serializedMeshModel.additionalData.rotation;
 
-            mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
+            mesh.wrappedMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
             // mesh.scaling.x = serializedMeshModel.scaling.x;
             // mesh.scaling.y = serializedMeshModel.scaling.y;
             // mesh.scaling.z = serializedMeshModel.scaling.z;
-            this.shadowGenerator.getShadowMap().renderList.push(mesh);
+            this.shadowGenerator.getShadowMap().renderList.push(mesh.wrappedMesh);
         });
 
 

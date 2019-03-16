@@ -7,6 +7,7 @@ import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
 import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerWorldItem';
+import { Room } from '../../../../../engine/world_items/Room';
 
 export class GwmFloorImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
@@ -30,7 +31,7 @@ export class GwmFloorImporter implements GwmItemImporter {
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 
-        const meshModel = new ContainerWorldItem(mesh, 'floor');
+        const meshModel = new Room(mesh, 'floor');
         meshModel.mesh.translate(translate);
 
         return meshModel;

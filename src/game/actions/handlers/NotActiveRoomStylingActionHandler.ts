@@ -25,7 +25,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
         // world.nightLight.excludedMeshes = [];
 
-        const intersectingRoom = rooms.filter(room => room.mesh.wrappedMesh.intersectsMesh(world.player.mesh))[0];
+        const intersectingRoom = rooms.filter(room => room.mesh.wrappedMesh.intersectsMesh(world.player.mesh.wrappedMesh))[0];
         const otherRooms = _.without(rooms, intersectingRoom);
 
         if (intersectingRoom !== this.prevActiveRoom && intersectingRoom) {
@@ -70,20 +70,20 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
         const scaling = borderWorldItem.mesh.getScale();
 
         if (scaling.x > scaling.z) {
-            const dist1 = Math.abs(room.mesh.getPosition().z - borderWorldItem[0].mesh.getAbsolutePosition().z);
-            const dist2 = Math.abs(room.mesh.getPosition().z - borderWorldItem[1].mesh.getAbsolutePosition().z);
+            const dist1 = Math.abs(room.mesh.getPosition().z - borderWorldItem.children[0].mesh.getPosition().z);
+            const dist2 = Math.abs(room.mesh.getPosition().z - borderWorldItem.children[1].mesh.getPosition().z);
             if (dist1 < dist2) {
-                return borderWorldItem[0];
+                return borderWorldItem.children[0];
             } else {
-                return borderWorldItem[1];
+                return borderWorldItem.children[1];
             }
         } else {
             const dist1 = Math.abs(room.mesh.getPosition().x - borderWorldItem.children[0].mesh.getPosition().x);
             const dist2 = Math.abs(room.mesh.getPosition().x - borderWorldItem.children[1].mesh.getPosition().x);
             if (dist1 < dist2) {
-                return borderWorldItem[0];
+                return borderWorldItem.children[0];
             } else {
-                return borderWorldItem[1];
+                return borderWorldItem.children[1];
             }
         }
     }

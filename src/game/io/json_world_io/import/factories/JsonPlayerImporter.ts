@@ -32,7 +32,7 @@ export class JsonPlayerImporter implements JsonItemImporter {
 
     public createItem(serializedMeshModel: SerializedMeshModel, world: World): WorldItem {
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        world.camera.lockedTarget = mesh;
+        world.camera.lockedTarget = mesh.wrappedMesh;
 
         const keyboardHandler = new UserInputEventEmitter();
         keyboardHandler.subscribe();
@@ -51,7 +51,7 @@ export class JsonPlayerImporter implements JsonItemImporter {
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
         // player.translate(translate);
-        player.mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
+        player.mesh.wrappedMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
 
         return player;
     }

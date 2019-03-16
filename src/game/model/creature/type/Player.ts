@@ -4,6 +4,7 @@ import { ModelFileBasedTemplateCreator } from '../../core/templates/creators/Mod
 import { MeshTemplate } from '../../core/templates/MeshTemplate';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
+import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 
 export interface Interval {
     from: number;
@@ -39,7 +40,7 @@ export class Player extends Creature {
     public name = 'player';
     private skeleton: Skeleton;
 
-    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
+    constructor(mesh: MeshWrapper<any>, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
         super(mesh, 'player');
 
         this.skeleton = skeleton;
@@ -50,12 +51,12 @@ export class Player extends Creature {
         this.subscribeToUserInput();
 
         const quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
-        this.mesh.rotationQuaternion = quaternion;
-        this.light.parent = this.mesh;
+        this.mesh.wrappedMesh.rotationQuaternion = quaternion;
+        this.light.parent = this.mesh.wrappedMesh;
     }
 
     public setRotation(distance: number) {
-        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.wrappedMesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public playWalkingAnimation() {
@@ -68,7 +69,7 @@ export class Player extends Creature {
     }
 
     public getBody(): Mesh {
-        return this.mesh;
+        return this.mesh.wrappedMesh;
     }
 
     public getRotationAngle(): number {
@@ -80,11 +81,11 @@ export class Player extends Creature {
     }
 
     public getRotation(): Vector3 {
-        return this.mesh.rotationQuaternion.toEulerAngles();
+        return this.mesh.wrappedMesh.rotationQuaternion.toEulerAngles();
     }
 
     public getCenterPosition() {
-        return this.getPosition();
+        return this.mesh.getPosition();
     }
 
     private subscribeToUserInput() {

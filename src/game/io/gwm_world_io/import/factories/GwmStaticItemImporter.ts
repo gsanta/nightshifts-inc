@@ -31,16 +31,16 @@ export class GwmStaticItemImporter implements GwmItemImporter {
         const meshModel = new WorldItem(meshes[0], worldItem.name);
 
         meshes.forEach(mesh => {
-            const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
+            const realMeshDimensions = this.getRealMeshDimensions(mesh.wrappedMesh, worldItem);
             const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world, realMeshDimensions);
             const translate = new VectorModel(translate2.x(), 0, -translate2.y());
             const rotation = this.gameObjectTranslator.getRotation(worldItem);
 
-            mesh.rotation.y = rotation;
+            mesh.wrappedMesh.rotation.y = rotation;
 
-            mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+            mesh.wrappedMesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
-            this.shadowGenerator.getShadowMap().renderList.push(mesh);
+            this.shadowGenerator.getShadowMap().renderList.push(mesh.wrappedMesh);
         });
 
 

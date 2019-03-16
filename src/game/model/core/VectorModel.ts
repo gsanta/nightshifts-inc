@@ -2,7 +2,7 @@ import { Vector3 } from 'babylonjs';
 
 export const toVector3 = (vectorModel: VectorModel) => {
     return new Vector3(vectorModel.x, vectorModel.y, vectorModel.z);
-}
+};
 export class VectorModel {
     public x: number;
     public y: number;

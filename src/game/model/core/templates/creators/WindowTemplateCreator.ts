@@ -5,14 +5,16 @@ import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { VectorModel } from '../../VectorModel';
 import { Window } from '../../../creature/type/Window';
+import { MeshWrapper } from '../../../../../engine/wrappers/MeshWrapper';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 const colors = GameConstants.colors;
 
 export class WindowTemplateCreator {
     private scene: Scene;
     private windowGlassMaterial: StandardMaterial;
     private windowFrameMaterial: StandardMaterial;
-    private meshes: Mesh[];
-    private containerMesh: Mesh;
+    private meshes: MeshWrapper<any>[];
+    private containerMesh: MeshWrapper<any>;
     private dimensions = new VectorModel(8, 5, 1);
 
     constructor(scene: Scene) {
@@ -43,7 +45,7 @@ export class WindowTemplateCreator {
         return windowFrame;
     }
 
-    private createMeshes(): Mesh[] {
+    private createMeshes(): MeshWrapper<any>[] {
         const width = 8;
         const depth = 1;
         const height = 5;
@@ -71,10 +73,15 @@ export class WindowTemplateCreator {
 
         topMesh.material = this.windowFrameMaterial;
 
-        return [bottom, topMesh, middle1, middle2];
+        return [
+            new BabylonMeshWrapper(bottom),
+            new BabylonMeshWrapper(topMesh),
+            new BabylonMeshWrapper(middle1),
+            new BabylonMeshWrapper(middle2)
+        ];
     }
 
-    private createCntainerMesh(): Mesh {
+    private createCntainerMesh(): MeshWrapper<any> {
         const width = 8;
         const depth = 1;
         const height = 5;
@@ -87,7 +94,7 @@ export class WindowTemplateCreator {
 
         containerMesh.isVisible = false;
 
-        return containerMesh;
+        return new BabylonMeshWrapper(containerMesh);
     }
 
     private createWindowGlassMeshes() {

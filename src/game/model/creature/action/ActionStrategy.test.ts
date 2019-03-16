@@ -5,6 +5,7 @@ import { World } from '../../World';
 import { ActionStrategy } from './ActionStrategy';
 import { expect } from 'chai';
 import sinon = require('sinon');
+import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 
 describe('ActionStrategy', () => {
     describe('activateClosestMeshAction', () => {
@@ -20,13 +21,17 @@ describe('ActionStrategy', () => {
             const doDefaultAction = sinon.spy();
             const actionableObj1: Partial<WorldItem> = {
                 hasDefaultAction: true,
-                getPosition: () => new VectorModel(2, 0, 0),
+                mesh: <MeshWrapper<any>> {
+                    getPosition: () => new VectorModel(2, 0, 0),
+                },
                 doDefaultAction: doDefaultAction
             };
 
             const actionableObj2: Partial<WorldItem> = {
                 hasDefaultAction: true,
-                getPosition: () => new VectorModel(3, 0, 0),
+                mesh: <MeshWrapper<any>> {
+                    getPosition: () => new VectorModel(3, 0, 0),
+                }
             };
 
             const worldMap: Partial<World> = {

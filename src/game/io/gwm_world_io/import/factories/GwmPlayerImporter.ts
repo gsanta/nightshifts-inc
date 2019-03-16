@@ -38,7 +38,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const mesh = this.meshModelTemplate.createMeshes()[0];
 
-        world.camera.lockedTarget = mesh;
+        world.camera.lockedTarget = mesh.wrappedMesh;
 
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
@@ -57,7 +57,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
         // player.translate(translate);
-        player.mesh.translate(translate);
+        player.mesh.wrappedMesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
         return player;
     }

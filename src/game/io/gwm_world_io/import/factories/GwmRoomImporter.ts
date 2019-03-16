@@ -7,6 +7,8 @@ import { World } from '../../../../model/World';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerWorldItem';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
+import { Room } from '../../../../../engine/world_items/Room';
 const colors = GameConstants.colors;
 
 export class GwmRoomImporter {
@@ -47,7 +49,7 @@ export class GwmRoomImporter {
 
         room.material = this.material;
 
-        return new ContainerWorldItem(room, 'room');
+        return new Room(new BabylonMeshWrapper(room), 'room');
     }
 
     private createMaterial(): StandardMaterial {

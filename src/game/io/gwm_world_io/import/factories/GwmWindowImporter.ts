@@ -33,13 +33,13 @@ export class GwmWindowImporter implements GwmItemImporter {
     public createItem(worldItem: GwmWorldItem<AdditionalData>, world: World): WorldItem {
         const scaling = this.gameObjectTranslator.getDimensions(worldItem).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
-        const translate = new VectorModel(translate2.x(), scaling.y() / 2, -translate2.y());
+        const translate = new VectorModel(translate2.x(), scaling.y / 2, -translate2.y());
 
         const window = this.windowTemplate.clone();
 
-        window.containerMesh.translate(toVector3(translate), 1);
+        window.containerMesh.wrappedMesh.translate(toVector3(translate), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(...window.meshes);
+        this.shadowGenerator.getShadowMap().renderList.push(...window.meshes.map(mesh => mesh.wrappedMesh));
 
 
         window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), worldItem.additionalData.angle);
