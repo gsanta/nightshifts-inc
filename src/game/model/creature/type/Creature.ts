@@ -3,11 +3,11 @@ import { VectorModel } from '../../core/VectorModel';
 import { MotionStrategy } from '../motion/MotionStrategy';
 import { Sensor } from '../sensor/Sensor';
 import { CollisionDetector } from '../collision/CollisionDetector';
-import { WorldItem } from '../../../world_items/WorldItem';
 import { ActionStrategy } from '../action/ActionStrategy';
 import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
+import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
 
-export abstract class Creature extends WorldItem {
+export abstract class Creature extends SimpleWorldItem<any> {
     protected sensor: Sensor;
     protected motionStrategy: MotionStrategy;
     protected collisionDetector: CollisionDetector;

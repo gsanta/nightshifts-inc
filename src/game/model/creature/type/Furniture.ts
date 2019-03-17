@@ -1,5 +1,5 @@
-import { WorldItem } from '../../../world_items/WorldItem';
+import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
 
-export class Furniture extends WorldItem {
+export class Furniture extends SimpleWorldItem<any> {
     public name = 'furniture';
 }

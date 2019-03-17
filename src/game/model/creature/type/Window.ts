@@ -4,8 +4,9 @@ import { VectorModel } from '../../core/VectorModel';
 import _ = require('lodash');
 import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
 import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
+import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
 
-export class Window extends WorldItem {
+export class Window extends SimpleWorldItem<any> {
     public isOpen: boolean;
     private pivotAngle: number;
     private isHorizontal = true;

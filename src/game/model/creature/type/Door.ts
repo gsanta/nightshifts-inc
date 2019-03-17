@@ -3,8 +3,9 @@ import { Mesh } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
 import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
 import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
+import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
 
-export class Door extends WorldItem {
+export class Door extends SimpleWorldItem<any> {
     public isOpen: boolean;
     private pivotAngle: number;
     private pivot: VectorModel;

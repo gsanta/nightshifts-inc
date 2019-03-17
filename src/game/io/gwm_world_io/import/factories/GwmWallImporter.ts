@@ -10,14 +10,14 @@ import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerW
 const colors = GameConstants.colors;
 
 export class GwmWallImporter implements GwmItemImporter {
-    private wallTemplate: WorldItem<any>;
+    private wallTemplate: WorldItem;
     private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
     private gameObjectToMeshSizeRatio: number;
     private scene: Scene;
 
     constructor(
-        wallTemplate: WorldItem<any>,
+        wallTemplate: WorldItem,
         gameObjectTranslator: WorldItemTranslator,
         shadowGenerator: ShadowGenerator,
         gameObjectToMeshSizeRatio: number,
@@ -30,7 +30,7 @@ export class GwmWallImporter implements GwmItemImporter {
         this.scene = scene;
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): WorldItem<any> {
+    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const scaling = this.gameObjectTranslator.getDimensions(worldItem).toVector3(5);
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), scaling.y / 2, -translate2.y());
@@ -64,7 +64,7 @@ export class GwmWallImporter implements GwmItemImporter {
 
         this.shadowGenerator.getShadowMap().renderList.push(wallPiece1.mesh.wrappedMesh);
 
-        const container = new ContainerWorldItem(wallPiece1.mesh, 'wall');
+        const container = new ContainerWorldItem([wallPiece1, wallPiece2]);
         container.addChild(wallPiece1);
         container.addChild(wallPiece2);
 

@@ -67,7 +67,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
     }
 
     private getActiveSideOfBorderWorldItem(borderWorldItem: ContainerWorldItem, room: WorldItem): WorldItem {
-        const scaling = borderWorldItem.mesh.getScale();
+        const scaling = borderWorldItem.children[0].mesh.getScale();
 
         if (scaling.x > scaling.z) {
             const dist1 = Math.abs(room.mesh.getPosition().z - borderWorldItem.children[0].mesh.getPosition().z);

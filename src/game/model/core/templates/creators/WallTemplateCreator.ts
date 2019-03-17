@@ -1,11 +1,10 @@
-import { MeshTemplate } from '../MeshTemplate';
-import { TemplateCreator } from '../TemplateCreator';
-import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
+import { MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { WorldItem } from '../../../../world_items/WorldItem';
 import { MeshWrapper } from '../../../../../engine/wrappers/MeshWrapper';
 import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
+import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
 const colors = GameConstants.colors;
 
 export class WallTemplateCreator {
@@ -23,7 +22,7 @@ export class WallTemplateCreator {
     public create(): WorldItem {
         this.mesh.wrappedMesh.material = this.material;
 
-        return new WorldItem(this.mesh, 'wall', { ...defaultMeshConfig });
+        return new SimpleWorldItem(this.mesh, 'wall', { ...defaultMeshConfig });
     }
 
     private createMaterial(): StandardMaterial {

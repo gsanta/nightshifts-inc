@@ -9,6 +9,7 @@ import { AdditionalData } from '../AdditionalData';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { Orientation } from '../../../../model/utils/Orientation';
 import { World } from '../../../../model/World';
+import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
 
 
 export class GwmStaticItemImporter implements GwmItemImporter {
@@ -28,7 +29,7 @@ export class GwmStaticItemImporter implements GwmItemImporter {
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new WorldItem(meshes[0], worldItem.name);
+        const meshModel = new SimpleWorldItem(meshes[0], worldItem.name);
 
         meshes.forEach(mesh => {
             const realMeshDimensions = this.getRealMeshDimensions(mesh.wrappedMesh, worldItem);
