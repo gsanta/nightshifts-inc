@@ -24,9 +24,16 @@ export class WallTemplateCreator {
     public create(): WorldItem {
         this.mesh.wrappedMesh.material = this.material;
 
-        return new DefaultWall(
-            new SimpleWorldItem(this.mesh, 'wall', { ...defaultMeshConfig })
-        );
+        const config = { ...defaultMeshConfig,  ...{
+            default: this.material,
+            dark: this.material
+        }};
+
+        return DefaultWall.createFromTemplate(config, this.scene);
+
+        // return new DefaultWall(
+        //     new SimpleWorldItem(this.mesh, 'wall', { ...defaultMeshConfig })
+        // );
     }
 
     private createMaterial(): StandardMaterial {
