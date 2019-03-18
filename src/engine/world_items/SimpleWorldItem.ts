@@ -2,6 +2,8 @@ import { MeshWrapper } from '../wrappers/MeshWrapper';
 import { StandardMaterial } from 'babylonjs';
 import { MeshTemplateConfig } from '../../game/model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from '../../game/world_items/WorldItem';
+import { Vector2Model } from '../../game/model/utils/Vector2Model';
+import { VectorModel } from '../../game/model/core/VectorModel';
 
 
 export class SimpleWorldItem<M = any> implements WorldItem {
@@ -57,6 +59,22 @@ export class SimpleWorldItem<M = any> implements WorldItem {
         this.copyTo(clone);
 
         return clone;
+    }
+
+    public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
+        this.mesh.rotateAtCenter(vectorModel, amount);
+    }
+
+    public translate(vectorModel: VectorModel) {
+        this.mesh.translate(vectorModel);
+    }
+
+    public scale(vectorModel: VectorModel) {
+        this.mesh.setScale(vectorModel);
+    }
+
+    public getScale(): VectorModel {
+        return this.mesh.getScale();
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {

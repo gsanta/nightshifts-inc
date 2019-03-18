@@ -35,44 +35,27 @@ export class GwmWallImporter implements GwmItemImporter {
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), scaling.y / 2, -translate2.y());
 
-        const wallPiece1 = this.wallTemplate.clone();
-        const wallPiece2 = this.wallTemplate.clone();
+        const wall = <ContainerWorldItem> this.wallTemplate.clone();
 
-        wallPiece1.mesh.translate(translate);
-        wallPiece2.mesh.translate(translate);
+        if (this.isVerticalWallPiece(scaling)) {
+            wall.rotateAtCenter(VectorModel.yUint(), Math.PI / 2);
+            wall.translate(translate);
+            wall.scale(new VectorModel(scaling.z, scaling.y, scaling.x));
 
-        wallPiece1.mesh.setScale(new VectorModel(scaling.x, scaling.y, scaling.z));
-        wallPiece2.mesh.setScale(new VectorModel(scaling.x, scaling.y, scaling.z));
-
-        if (this.isVerticalWallPiece(wallPiece1.mesh.wrappedMesh)) {
-            this.verticalWallPieceDimensionsAdjustment(wallPiece1.mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
-            this.verticalWallPieceDimensionsAdjustment(wallPiece2.mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
-
-            wallPiece1.mesh.setScale(new VectorModel(wallPiece1.mesh.getScale().x / 2, undefined, undefined));
-            wallPiece1.mesh.translate(new VectorModel(-wallPiece1.mesh.getScale().x, 0, 0));
-
-            wallPiece2.mesh.setScale(new VectorModel(wallPiece2.mesh.getScale().x / 2, undefined, undefined));
-            wallPiece2.mesh.translate(new VectorModel(wallPiece2.mesh.getScale().x, 0, 0));
-
+            this.verticalWallPieceDimensionsAdjustment(wall.children[0].mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
+            this.verticalWallPieceDimensionsAdjustment(wall.children[1].mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
         } else {
-            wallPiece1.mesh.setScale(new VectorModel(undefined, undefined, wallPiece1.mesh.getScale().z / 2));
-            wallPiece1.mesh.translate(new VectorModel(0, 0, -wallPiece1.mesh.getScale().z));
-
-            wallPiece2.mesh.setScale(new VectorModel(undefined, undefined, wallPiece2.mesh.getScale().z / 2));
-            wallPiece2.mesh.translate(new VectorModel(0, 0, wallPiece1.mesh.getScale().z));
+            wall.translate(translate);
+            wall.scale(new VectorModel(scaling.x, scaling.y, scaling.z));
         }
 
-        this.shadowGenerator.getShadowMap().renderList.push(wallPiece1.mesh.wrappedMesh);
+        this.shadowGenerator.getShadowMap().renderList.push(wall.children[0].mesh.wrappedMesh);
 
-        const container = new ContainerWorldItem([wallPiece1, wallPiece2]);
-        container.addChild(wallPiece1);
-        container.addChild(wallPiece2);
-
-        return container;
+        return wall;
     }
 
-    private isVerticalWallPiece(mesh: Mesh) {
-        return mesh.scaling.z > mesh.scaling.x;
+    private isVerticalWallPiece(vector: VectorModel) {
+        return vector.z > vector.x;
     }
 
     private verticalWallPieceDimensionsAdjustment(mesh: Mesh, gameObjectToMeshSizeRatio: number) {

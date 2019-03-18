@@ -57,4 +57,17 @@ export interface WorldItem {
     serialize(): SerializedMeshModel;
     unserialize(model: SerializedMeshModel): WorldItem;
     clone();
+
+    /**
+     * Rotates around the `WorldItem`s center at the given axis with the given amont
+     */
+    rotateAtCenter(vectorModel: VectorModel, amount: number): void;
+
+    translate(vectorModel: VectorModel): void;
+    /**
+     * scales the underlying Mesh (or Mesh system if it is a `ContainerWorldItem`) on the x, y, z plane given
+     * the corresponding coordinates of the `VectorModel` parameter.
+     */
+    scale(vectorModel: VectorModel): void;
+    getScale(): VectorModel;
 }

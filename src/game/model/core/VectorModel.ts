@@ -72,6 +72,18 @@ export class VectorModel {
         );
     }
 
+    public static zUint(): VectorModel {
+        return new VectorModel(0, 0, 1);
+    }
+
+    public static xUint(): VectorModel {
+        return new VectorModel(1, 0, 0);
+    }
+
+    public static yUint(): VectorModel {
+        return new VectorModel(0, 1, 0);
+    }
+
     public static Distance(vectorModel1: VectorModel, vectorModel2: VectorModel) {
         return Vector3.Distance(toVector3(vectorModel1), toVector3(vectorModel2));
     }

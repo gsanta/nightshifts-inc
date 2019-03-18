@@ -59,6 +59,10 @@ export class BabylonMeshWrapper implements MeshWrapper<Mesh> {
         return this.toVectorModel(this.wrappedMesh.rotation);
     }
 
+    public rotateAtCenter(vectorModel: VectorModel, amount: number) {
+        this.wrappedMesh.rotate(this.toVector3(vectorModel), amount);
+    }
+
     public clone(id: string): BabylonMeshWrapper {
         const clonedMesh = this.wrappedMesh.clone(id);
         clonedMesh.isVisible = true;
@@ -73,6 +77,10 @@ export class BabylonMeshWrapper implements MeshWrapper<Mesh> {
 
     private toVectorModel(vector3: Vector3): VectorModel {
         return new VectorModel(vector3.x, vector3.y, vector3.z);
+    }
+
+    private toVector3(vectorModel: VectorModel): Vector3 {
+        return new Vector3(vectorModel.x, vectorModel.y, vectorModel.z);
     }
 
     private initMesh(config: MeshTemplateConfig) {

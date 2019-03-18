@@ -1,5 +1,6 @@
 import { WorldItem, SerializedMeshModel } from '../../game/world_items/WorldItem';
 import { StandardMaterial } from 'babylonjs';
+import { VectorModel } from '../../game/model/core/VectorModel';
 
 export class ContainerWorldItem implements WorldItem {
     public children: WorldItem[] = [];
@@ -25,6 +26,22 @@ export class ContainerWorldItem implements WorldItem {
 
     public unserialize(model: SerializedMeshModel): WorldItem {
         throw new Error('Not yet implemented');
+    }
+
+    public translate(vectorModel: VectorModel) {
+        this.children.forEach(child => child.translate(vectorModel));
+    }
+
+    public scale(vectorModel: VectorModel) {
+        this.children.forEach(child => child.scale(vectorModel));
+    }
+
+    public getScale(): VectorModel {
+        return this.children[0].getScale();
+    }
+
+    public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
+        this.children.forEach(child => child.rotateAtCenter(vectorModel, amount));
     }
 
     public clone(): ContainerWorldItem {

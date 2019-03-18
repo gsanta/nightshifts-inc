@@ -5,6 +5,8 @@ import { WorldItem } from '../../../../world_items/WorldItem';
 import { MeshWrapper } from '../../../../../engine/wrappers/MeshWrapper';
 import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
+import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerWorldItem';
+import { DefaultWall } from '../../../../../engine/world_items/DefaultWall';
 const colors = GameConstants.colors;
 
 export class WallTemplateCreator {
@@ -22,7 +24,9 @@ export class WallTemplateCreator {
     public create(): WorldItem {
         this.mesh.wrappedMesh.material = this.material;
 
-        return new SimpleWorldItem(this.mesh, 'wall', { ...defaultMeshConfig });
+        return new DefaultWall(
+            new SimpleWorldItem(this.mesh, 'wall', { ...defaultMeshConfig })
+        );
     }
 
     private createMaterial(): StandardMaterial {

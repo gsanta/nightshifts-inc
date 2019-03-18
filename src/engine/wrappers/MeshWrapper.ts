@@ -12,6 +12,7 @@ export interface MeshWrapper<M> {
     intersectsPoint(vector: VectorModel);
     getPosition(): VectorModel;
 
+    rotateAtCenter(vectorModel: VectorModel, amount: number): void;
     getRotation(): VectorModel;
 
     getScale(): VectorModel;
