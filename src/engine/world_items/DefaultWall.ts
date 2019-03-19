@@ -9,11 +9,13 @@ import { SimpleWorldItem } from './SimpleWorldItem';
 
 export class DefaultWall extends ContainerWorldItem {
     private parentMesh: WorldItem;
+    private rotation: VectorModel = new VectorModel(0, 0, 0);
 
     private constructor(parent: WorldItem, wallSide1: WorldItem, wallSide2: WorldItem) {
         super([]);
 
         this.parentMesh = parent;
+        this.parentMesh.mesh.wrappedMesh.visibility = 0;
 
         this.addChild(wallSide1);
         this.addChild(wallSide2);
@@ -27,12 +29,17 @@ export class DefaultWall extends ContainerWorldItem {
 
     public scale(vectorModel: VectorModel) {
         this.parentMesh.scale(vectorModel);
-        this.children[0].scale(new VectorModel(vectorModel.x, 1, 1));
-        this.children[0].scale(new VectorModel(vectorModel.x, 1, 1));
+        // this.children[0].scale(new VectorModel(vectorModel.x, 1, 1));
+        // this.children[0].scale(new VectorModel(vectorModel.x, 1, 1));
     }
 
     public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
         this.parentMesh.rotateAtCenter(vectorModel, amount);
+        this.rotation = vectorModel.scale(amount);
+    }
+
+    public getRotation(): VectorModel {
+        return this.rotation;
     }
 
     public clone(): ContainerWorldItem {
@@ -40,6 +47,8 @@ export class DefaultWall extends ContainerWorldItem {
         const parentClone = this.parentMesh.clone();
         clonedChildren[0].mesh.wrappedMesh.parent = parentClone.mesh.wrappedMesh;
         clonedChildren[1].mesh.wrappedMesh.parent = parentClone.mesh.wrappedMesh;
+        clonedChildren[0].mesh.wrappedMesh.visibility = true;
+        clonedChildren[1].mesh.wrappedMesh.visibility = true;
 
         return new DefaultWall(parentClone, clonedChildren[0], clonedChildren[1]);
     }
@@ -52,7 +61,8 @@ export class DefaultWall extends ContainerWorldItem {
         //     this.children[0].translate(new VectorModel(-this.getScale().x, 0, 0));
         //     this.children[1].translate(new VectorModel(this.getScale().x, 0, 0));
         // } else {
-            this.scale(new VectorModel(undefined, undefined, this.getScale().z / 2));
+            this.children[0].scale(new VectorModel(undefined, undefined, this.getScale().z / 2));
+            this.children[1].scale(new VectorModel(undefined, undefined, this.getScale().z / 2));
 
             this.children[0].translate(new VectorModel(0, 0, -this.getScale().z));
             this.children[1].translate(new VectorModel(0, 0, this.getScale().z));
@@ -73,6 +83,8 @@ export class DefaultWall extends ContainerWorldItem {
         wallSide1.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
         wallSide2.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
 
+        wallSide1.mesh.wrappedMesh.visibility = 0;
+        wallSide2.mesh.wrappedMesh.visibility = 0;
 
         return new DefaultWall(parent, wallSide1, wallSide2);
     }

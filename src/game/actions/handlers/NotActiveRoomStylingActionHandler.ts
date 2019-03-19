@@ -4,6 +4,7 @@ import { ContainerWorldItem } from '../../../engine/world_items/ContainerWorldIt
 import { WorldItem } from '../../world_items/WorldItem';
 import { Room } from '../../../engine/world_items/Room';
 import _ = require('lodash');
+import { Mesh } from 'babylonjs';
 
 export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
@@ -40,36 +41,70 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
                 }
             });
 
+            rooms.forEach(room => this.darkenWalls(<Room> room, world));
+
+            this.removeWallsOfRoom(<Room> intersectingRoom, world);
+
             // world.hemisphericLight.setEnabled(true);
         }
 
         this.prevActiveRoom = intersectingRoom;
     }
 
-    private setDarkMaterialForRoom(room: Room, world: World) {
-        world.hemisphericLight.excludedMeshes.push(room.mesh.wrappedMesh);
-        room.children.forEach(child => {
-            world.hemisphericLight.excludedMeshes.push(child.mesh.wrappedMesh);
-        });
-
+    private removeWallsOfRoom(room: Room, world: World) {
         room.borderItems.forEach((child: WorldItem) => {
             if (child instanceof ContainerWorldItem) {
-                const activeWorldItem = this.getActiveSideOfBorderWorldItem(child, room);
-                if (activeWorldItem) {
-                    const mesh = child.children[0] === activeWorldItem ? child.children[0].mesh.wrappedMesh : child.children[1].mesh.wrappedMesh;
-                    world.hemisphericLight.excludedMeshes.push(mesh);
-                } else {
-                    world.hemisphericLight.excludedMeshes.push(child.children[0].mesh.wrappedMesh);
-                    world.hemisphericLight.excludedMeshes.push(child.children[1].mesh.wrappedMesh);
+
+                const activeSide = this.getActiveSideOfBorderWorldItem(child, room);
+                const activeSideIndex = world.hemisphericLight.excludedMeshes.indexOf(activeSide.mesh.wrappedMesh);
+                // const wallSide2Index = world.hemisphericLight.excludedMeshes.indexOf(child.children[1].mesh.wrappedMesh);
+
+                if (activeSideIndex !== -1) {
+                    world.hemisphericLight.excludedMeshes.splice(activeSideIndex, 1);
                 }
+
+                // if (wallSide2Index !== -1) {
+                //     world.hemisphericLight.excludedMeshes.splice(wallSide2Index, 1);
+                // }
             }
         });
     }
 
+    private darkenWalls(room: Room, world: World) {
+        room.borderItems.forEach((child: WorldItem) => {
+            if (child instanceof ContainerWorldItem) {
+                this.addToExcludedMeshesIfNotAdded(child.children[0].mesh.wrappedMesh, world);
+                this.addToExcludedMeshesIfNotAdded(child.children[1].mesh.wrappedMesh, world);
+
+                // world.hemisphericLight.excludedMeshes.push(child.children[0].mesh.wrappedMesh);
+                // world.hemisphericLight.excludedMeshes.push(child.children[1].mesh.wrappedMesh);
+                // const activeWorldItem = this.getActiveSideOfBorderWorldItem(child, room);
+                // if (activeWorldItem) {
+                //     const mesh = child.children[0] === activeWorldItem ? child.children[0].mesh.wrappedMesh : child.children[1].mesh.wrappedMesh;
+                //     // world.hemisphericLight.excludedMeshes.push(mesh);
+                // } else {
+                //     world.hemisphericLight.excludedMeshes.push(child.children[0].mesh.wrappedMesh);
+                //     world.hemisphericLight.excludedMeshes.push(child.children[1].mesh.wrappedMesh);
+                // }
+            }
+        });
+    }
+
+    private setDarkMaterialForRoom(room: Room, world: World) {
+        this.addToExcludedMeshesIfNotAdded(room.mesh.wrappedMesh, world);
+        // world.hemisphericLight.excludedMeshes.push(room.mesh.wrappedMesh);
+        room.children.forEach(child => {
+            this.addToExcludedMeshesIfNotAdded(child.mesh.wrappedMesh, world);
+
+            // world.hemisphericLight.excludedMeshes.push(child.mesh.wrappedMesh);
+        });
+    }
+
     private getActiveSideOfBorderWorldItem(borderWorldItem: ContainerWorldItem, room: WorldItem): WorldItem {
+        const isHorizontal = borderWorldItem.getRotation().y === 0;
         const scaling = borderWorldItem.children[0].mesh.getScale();
 
-        if (scaling.x > scaling.z) {
+        if (isHorizontal) {
             const dist1 = Math.abs(room.mesh.getPosition().z - borderWorldItem.children[0].mesh.getPosition().z);
             const dist2 = Math.abs(room.mesh.getPosition().z - borderWorldItem.children[1].mesh.getPosition().z);
             if (dist1 < dist2) {
@@ -85,6 +120,12 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
             } else {
                 return borderWorldItem.children[1];
             }
+        }
+    }
+
+    private addToExcludedMeshesIfNotAdded(mesh: Mesh, world: World) {
+        if (world.hemisphericLight.excludedMeshes.indexOf(mesh) === -1) {
+            world.hemisphericLight.excludedMeshes.push(mesh);
         }
     }
 

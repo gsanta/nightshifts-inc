@@ -70,4 +70,5 @@ export interface WorldItem {
      */
     scale(vectorModel: VectorModel): void;
     getScale(): VectorModel;
+    getRotation(): VectorModel;
 }

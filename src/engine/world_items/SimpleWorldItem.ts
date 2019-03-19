@@ -77,6 +77,10 @@ export class SimpleWorldItem<M = any> implements WorldItem {
         return this.mesh.getScale();
     }
 
+    public getRotation(): VectorModel {
+        return null;
+    }
+
     protected copyTo(meshModel: WorldItem): WorldItem {
         meshModel.materials = {...this.materials};
         meshModel.name = this.name;

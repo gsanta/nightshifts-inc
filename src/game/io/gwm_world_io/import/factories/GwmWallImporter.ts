@@ -40,16 +40,16 @@ export class GwmWallImporter implements GwmItemImporter {
         // wall.translate(translate);
         // wall.scale(new VectorModel(scaling.x, scaling.y, scaling.z));
 
-        const material = new BABYLON.StandardMaterial('wallMaterial', this.scene);
+        // const material = new BABYLON.StandardMaterial('wallMaterial', this.scene);
 
-        material.diffuseColor = BABYLON.Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
+        // material.diffuseColor = BABYLON.Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
 
-        wall.children[0].mesh.wrappedMesh.material = material;
+        // wall.children[0].mesh.wrappedMesh.material = material;
 
-        const material2 = new BABYLON.StandardMaterial('wallMaterial', this.scene);
-        material2.diffuseColor = BABYLON.Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
+        // const material2 = new BABYLON.StandardMaterial('wallMaterial', this.scene);
+        // material2.diffuseColor = BABYLON.Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
 
-        wall.children[1].mesh.wrappedMesh.material = material2;
+        // wall.children[1].mesh.wrappedMesh.material = material2;
 
 
         if (this.isVerticalWallPiece(scaling)) {
@@ -59,17 +59,18 @@ export class GwmWallImporter implements GwmItemImporter {
             // const currentPivotPoint1 = wall.children[1].mesh.wrappedMesh.getPivotPoint();
             // wall.children[1].mesh.wrappedMesh.setPivotPoint(new Vector3(-currentPivotPoint1.z, currentPivotPoint0.y, currentPivotPoint1.x));
             // wall.translate(translate);
-            wall.rotateAtCenter(VectorModel.yUint(), Math.PI / 2);
             // wall.scale(new VectorModel(scaling.z, scaling.y, scaling.x));
 
             // this.verticalWallPieceDimensionsAdjustment(wall.children[0].mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
             // this.verticalWallPieceDimensionsAdjustment(wall.children[1].mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
 
             wall.translate(translate);
-            // wall.scale(new VectorModel(scaling.x, scaling.y, scaling.z));
+            wall.rotateAtCenter(VectorModel.yUint(), Math.PI / 2);
+
+            wall.scale(new VectorModel(scaling.z, scaling.y, scaling.x));
         } else {
             wall.translate(translate);
-            // wall.scale(new VectorModel(scaling.x, scaling.y, scaling.z));
+            wall.scale(new VectorModel(scaling.x, scaling.y, scaling.z));
         }
 
         this.shadowGenerator.getShadowMap().renderList.push(wall.children[0].mesh.wrappedMesh);

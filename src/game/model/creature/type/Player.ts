@@ -80,8 +80,9 @@ export class Player extends Creature {
         return Math.PI / 4;
     }
 
-    public getRotation(): Vector3 {
-        return this.mesh.wrappedMesh.rotationQuaternion.toEulerAngles();
+    public getRotation(): VectorModel {
+        const vector = this.mesh.wrappedMesh.rotationQuaternion.toEulerAngles();
+        return new VectorModel(vector.x, vector.y, vector.z);
     }
 
     public getCenterPosition() {
