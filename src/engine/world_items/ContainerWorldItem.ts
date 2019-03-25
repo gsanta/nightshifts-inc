@@ -1,6 +1,7 @@
 import { WorldItem, SerializedMeshModel } from '../../game/world_items/WorldItem';
 import { StandardMaterial } from 'babylonjs';
 import { VectorModel } from '../../game/model/core/VectorModel';
+import { Polygon } from 'game-worldmap-generator';
 
 export class ContainerWorldItem implements WorldItem {
     public children: WorldItem[] = [];
@@ -52,5 +53,9 @@ export class ContainerWorldItem implements WorldItem {
         const clonedChildren = this.children.map(child => child.clone());
 
         return new ContainerWorldItem(clonedChildren);
+    }
+
+    public getBoundingPolygon(): Polygon {
+        throw new Error('method not implemented');
     }
 }

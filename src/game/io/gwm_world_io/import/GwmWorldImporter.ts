@@ -49,10 +49,12 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
                                 ),
                                 { x: options.xScale, y: options.yScale }
                             ),
-                            ['wall', 'door', 'window']
+                            ['wall', 'door', 'window'],
+                            { xScale: options.xScale, yScale: options.yScale }
                         )
                     ),
-                    ['wall', 'door', 'window']
+                    ['wall', 'door', 'window'],
+                    { xScale: options.xScale, yScale: options.yScale }
                 ),
                 options.additionalDataConverter
             )

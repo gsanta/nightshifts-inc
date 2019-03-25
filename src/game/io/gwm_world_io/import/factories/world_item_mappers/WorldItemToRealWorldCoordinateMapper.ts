@@ -1,4 +1,4 @@
-import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
+import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
 import { Direction } from '../../../../../model/utils/Direction';
 import { Vector2Model } from '../../../../../model/utils/Vector2Model';
 import { AdditionalData } from '../../AdditionalData';
@@ -54,7 +54,7 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
         }
     }
 
-    private changeToRealWorldDimensions(rect: Rectangle, gameObjectToMeshSizeRatio: number) {
+    private changeToRealWorldDimensions(rect: Polygon, gameObjectToMeshSizeRatio: number) {
         const ratio = gameObjectToMeshSizeRatio;
         return new Rectangle(rect.left * ratio, rect.top * ratio, rect.width * ratio, rect.height * ratio);
     }

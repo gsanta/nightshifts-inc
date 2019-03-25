@@ -4,6 +4,7 @@ import { MeshTemplateConfig } from '../../game/model/core/templates/MeshTemplate
 import { SerializedMeshModel, WorldItem } from '../../game/world_items/WorldItem';
 import { Vector2Model } from '../../game/model/utils/Vector2Model';
 import { VectorModel } from '../../game/model/core/VectorModel';
+import { Polygon, Rectangle } from 'game-worldmap-generator';
 
 
 export class SimpleWorldItem<M = any> implements WorldItem {
@@ -78,7 +79,11 @@ export class SimpleWorldItem<M = any> implements WorldItem {
     }
 
     public getRotation(): VectorModel {
-        return null;
+        return new VectorModel(0, 0, 0);
+    }
+
+    public getBoundingPolygon(): Polygon {
+        throw new Error('Not yet implemented.');
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {

@@ -33,6 +33,10 @@ export class DefaultWall extends ContainerWorldItem {
         // this.children[0].scale(new VectorModel(vectorModel.x, 1, 1));
     }
 
+    public getScale(): VectorModel {
+        return this.parentMesh.getScale();
+    }
+
     public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
         this.parentMesh.rotateAtCenter(vectorModel, amount);
         this.rotation = vectorModel.scale(amount);
@@ -61,11 +65,11 @@ export class DefaultWall extends ContainerWorldItem {
         //     this.children[0].translate(new VectorModel(-this.getScale().x, 0, 0));
         //     this.children[1].translate(new VectorModel(this.getScale().x, 0, 0));
         // } else {
-            this.children[0].scale(new VectorModel(undefined, undefined, this.getScale().z / 2));
-            this.children[1].scale(new VectorModel(undefined, undefined, this.getScale().z / 2));
+            this.children[0].scale(new VectorModel(undefined, undefined, this.children[0].getScale().z / 2));
+            this.children[1].scale(new VectorModel(undefined, undefined, this.children[1].getScale().z / 2));
 
-            this.children[0].translate(new VectorModel(0, 0, -this.getScale().z));
-            this.children[1].translate(new VectorModel(0, 0, this.getScale().z));
+            this.children[0].translate(new VectorModel(0, 0, -this.children[0].getScale().z / 2));
+            this.children[1].translate(new VectorModel(0, 0, this.children[1].getScale().z / 2));
         // }
     }
 

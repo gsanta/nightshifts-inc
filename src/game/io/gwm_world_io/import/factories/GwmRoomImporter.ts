@@ -26,30 +26,7 @@ export class GwmRoomImporter {
     }
 
     public createItem(worldItem: GwmWorldItem, world: World): ContainerWorldItem {
-        let topLeft = new Vector2Model(worldItem.dimensions.points[0].x, worldItem.dimensions.points[0].y);
-        const positions = worldItem.dimensions.points.map(point => new Vector3(point.x - topLeft.x(), 2, -(point.y - topLeft.y())));
-
-        const translateX = - (world.dimensions.x() / 2);
-        const translateY = - (world.dimensions.y() / 2);
-        topLeft = topLeft.add(new Vector2Model(translateX, translateY));
-
-        const translate = new VectorModel(topLeft.x(), 0, -topLeft.y());
-
-        const room = BABYLON.MeshBuilder.CreatePolygon(
-            'room',
-            {
-                shape: positions,
-                depth: 2,
-                updatable: true
-                },
-            this.scene
-        );
-
-        room.translate(toVector3(translate), 1);
-
-        room.material = this.material;
-
-        return new Room(new BabylonMeshWrapper(room), 'room');
+        return Room.fromGwmWorldItem(worldItem, this.scene, world);
     }
 
     private createMaterial(): StandardMaterial {

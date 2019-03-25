@@ -37,37 +37,13 @@ export class GwmWallImporter implements GwmItemImporter {
 
         const wall = <ContainerWorldItem> this.wallTemplate.clone();
 
-        // wall.translate(translate);
-        // wall.scale(new VectorModel(scaling.x, scaling.y, scaling.z));
-
-        // const material = new BABYLON.StandardMaterial('wallMaterial', this.scene);
-
-        // material.diffuseColor = BABYLON.Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
-
-        // wall.children[0].mesh.wrappedMesh.material = material;
-
-        // const material2 = new BABYLON.StandardMaterial('wallMaterial', this.scene);
-        // material2.diffuseColor = BABYLON.Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
-
-        // wall.children[1].mesh.wrappedMesh.material = material2;
-
-
         if (this.isVerticalWallPiece(scaling)) {
-            // const currentPivotPoint0 = wall.children[0].mesh.wrappedMesh.getPivotPoint();
-            // wall.children[0].mesh.wrappedMesh.setPivotPoint(new Vector3(-currentPivotPoint0.z, currentPivotPoint0.y, currentPivotPoint0.x));
-
-            // const currentPivotPoint1 = wall.children[1].mesh.wrappedMesh.getPivotPoint();
-            // wall.children[1].mesh.wrappedMesh.setPivotPoint(new Vector3(-currentPivotPoint1.z, currentPivotPoint0.y, currentPivotPoint1.x));
-            // wall.translate(translate);
-            // wall.scale(new VectorModel(scaling.z, scaling.y, scaling.x));
-
-            // this.verticalWallPieceDimensionsAdjustment(wall.children[0].mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
-            // this.verticalWallPieceDimensionsAdjustment(wall.children[1].mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
-
             wall.translate(translate);
             wall.rotateAtCenter(VectorModel.yUint(), Math.PI / 2);
 
             wall.scale(new VectorModel(scaling.z, scaling.y, scaling.x));
+            this.verticalWallPieceDimensionsAdjustment(wall, this.gameObjectToMeshSizeRatio);
+            // this.verticalWallPieceDimensionsAdjustment(wall.children[1].mesh.wrappedMesh, this.gameObjectToMeshSizeRatio);
         } else {
             wall.translate(translate);
             wall.scale(new VectorModel(scaling.x, scaling.y, scaling.z));
@@ -82,7 +58,10 @@ export class GwmWallImporter implements GwmItemImporter {
         return vector.z > vector.x;
     }
 
-    private verticalWallPieceDimensionsAdjustment(mesh: Mesh, gameObjectToMeshSizeRatio: number) {
-        mesh.scaling.z = mesh.scaling.z - gameObjectToMeshSizeRatio;
+
+    private verticalWallPieceDimensionsAdjustment(wall: WorldItem, gameObjectToMeshSizeRatio: number) {
+        const currentScale = wall.getScale();
+        wall.scale(new VectorModel(currentScale.x - gameObjectToMeshSizeRatio, currentScale.y, currentScale.z));
+        // wall.scaling.x = wall.scaling.x - gameObjectToMeshSizeRatio;
     }
 }

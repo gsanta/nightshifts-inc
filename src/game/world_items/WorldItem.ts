@@ -2,6 +2,7 @@ import { Mesh, Vector3, StandardMaterial } from 'babylonjs';
 import { VectorModel, toVector3 } from '../model/core/VectorModel';
 import { MeshTemplateConfig } from '../model/core/templates/MeshTemplate';
 import { MeshWrapper } from '../../engine/wrappers/MeshWrapper';
+import { Polygon } from 'game-worldmap-generator';
 
 export interface SerializedMeshModel {
     name: string;
@@ -71,4 +72,5 @@ export interface WorldItem {
     scale(vectorModel: VectorModel): void;
     getScale(): VectorModel;
     getRotation(): VectorModel;
+    getBoundingPolygon(): Polygon;
 }

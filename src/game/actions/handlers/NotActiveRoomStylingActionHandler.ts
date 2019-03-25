@@ -5,6 +5,7 @@ import { WorldItem } from '../../world_items/WorldItem';
 import { Room } from '../../../engine/world_items/Room';
 import _ = require('lodash');
 import { Mesh } from 'babylonjs';
+import { DefaultWall } from '../../../engine/world_items/DefaultWall';
 
 export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
@@ -41,7 +42,12 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
                 }
             });
 
-            rooms.forEach(room => this.darkenWalls(<Room> room, world));
+            world.gameObjects.filter(gameObj => gameObj instanceof DefaultWall).forEach((wall: DefaultWall) => {
+                world.hemisphericLight.excludedMeshes.push(wall.children[0].mesh.wrappedMesh);
+                world.hemisphericLight.excludedMeshes.push(wall.children[1].mesh.wrappedMesh);
+            });
+
+            // rooms.forEach(room => this.darkenWalls(<Room> room, world));
 
             this.removeWallsOfRoom(<Room> intersectingRoom, world);
 
@@ -52,22 +58,24 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
     }
 
     private removeWallsOfRoom(room: Room, world: World) {
-        room.borderItems.forEach((child: WorldItem) => {
-            if (child instanceof ContainerWorldItem) {
+        room.borderItems
+            .filter(borderItem => borderItem instanceof DefaultWall)
+            .forEach((child: WorldItem) => {
+                // if (child instanceof ContainerWorldItem) {
 
-                const activeSide = this.getActiveSideOfBorderWorldItem(child, room);
-                const activeSideIndex = world.hemisphericLight.excludedMeshes.indexOf(activeSide.mesh.wrappedMesh);
-                // const wallSide2Index = world.hemisphericLight.excludedMeshes.indexOf(child.children[1].mesh.wrappedMesh);
+                    const activeSide = this.getActiveSideOfBorderWorldItem(child as any, room);
+                    const activeSideIndex = world.hemisphericLight.excludedMeshes.indexOf(activeSide.mesh.wrappedMesh);
+                    // const wallSide2Index = world.hemisphericLight.excludedMeshes.indexOf(child.children[1].mesh.wrappedMesh);
 
-                if (activeSideIndex !== -1) {
-                    world.hemisphericLight.excludedMeshes.splice(activeSideIndex, 1);
-                }
+                    if (activeSideIndex !== -1) {
+                        world.hemisphericLight.excludedMeshes.splice(activeSideIndex, 1);
+                    }
 
-                // if (wallSide2Index !== -1) {
-                //     world.hemisphericLight.excludedMeshes.splice(wallSide2Index, 1);
+                    // if (wallSide2Index !== -1) {
+                    //     world.hemisphericLight.excludedMeshes.splice(wallSide2Index, 1);
+                    // }
                 // }
-            }
-        });
+            });
     }
 
     private darkenWalls(room: Room, world: World) {
@@ -124,9 +132,9 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
     }
 
     private addToExcludedMeshesIfNotAdded(mesh: Mesh, world: World) {
-        if (world.hemisphericLight.excludedMeshes.indexOf(mesh) === -1) {
+        // if (world.hemisphericLight.excludedMeshes.indexOf(mesh) === -1) {
             world.hemisphericLight.excludedMeshes.push(mesh);
-        }
+        // }
     }
 
 
