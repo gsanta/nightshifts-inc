@@ -1,15 +1,20 @@
 import { ContainerWorldItem } from './ContainerWorldItem';
 import { WorldItem } from '../../game/world_items/WorldItem';
-import { Mesh, MeshBuilder, Scene } from 'babylonjs';
+import { Mesh, MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
 import { VectorModel } from '../../game/model/core/VectorModel';
 import { MeshTemplateConfig } from '../../game/model/core/templates/MeshTemplate';
 import { BabylonMeshWrapper } from '../wrappers/babylon/BabylonMeshWrapper';
 import { SimpleWorldItem } from './SimpleWorldItem';
-
+import { GwmWorldItem } from 'game-worldmap-generator';
+import { GameConstants } from '../../game/GameConstants';
+import { MeshWrapper } from '../wrappers/MeshWrapper';
+import { World } from '../../game/model/World';
+const colors = GameConstants.colors;
 
 export class DefaultWall extends ContainerWorldItem {
     private parentMesh: WorldItem;
     private rotation: VectorModel = new VectorModel(0, 0, 0);
+    private static index = 0;
 
     private constructor(parent: WorldItem, wallSide1: WorldItem, wallSide2: WorldItem) {
         super([]);
@@ -20,7 +25,45 @@ export class DefaultWall extends ContainerWorldItem {
         this.addChild(wallSide1);
         this.addChild(wallSide2);
 
-        this.transformWallSides();
+    }
+
+    public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): DefaultWall {
+        const material = this.createMaterial(scene);
+
+        const mesh1 = new BabylonMeshWrapper(
+            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: 1, depth: 1, height: 1 }, scene)
+        );
+
+        const mesh2 = new BabylonMeshWrapper(
+            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: 1, depth: 1, height: 1 }, scene)
+        );
+
+        const wallSide1 = new SimpleWorldItem(mesh1, 'wall');
+        wallSide1.mesh.wrappedMesh.material = material;
+        const wallSide2 = new SimpleWorldItem(mesh2, 'wall');
+        wallSide2.mesh.wrappedMesh.material = material;
+
+        const parentMesh = new BabylonMeshWrapper(
+            MeshBuilder.CreateBox(`default-wall-container-${this.index}`, { width: 1, depth: 1, height: 1 }, scene)
+        );
+        const parent = new SimpleWorldItem(parentMesh, 'default-wall-container');
+        wallSide1.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
+        wallSide2.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
+
+        wallSide1.mesh.wrappedMesh.visibility = 1;
+        wallSide2.mesh.wrappedMesh.visibility = 1;
+
+        this.transformWallSides(wallSide1, wallSide2);
+        this.index++;
+        return new DefaultWall(parent, wallSide1, wallSide2);
+    }
+
+    private static createMaterial(scene: Scene): StandardMaterial {
+        const material = new BABYLON.StandardMaterial('wallMaterial', scene);
+        material.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
+        material.emissiveColor = BABYLON.Color3.FromHexString('#111111');
+
+        return material;
     }
 
     public translate(vectorModel: VectorModel): void {
@@ -57,7 +100,7 @@ export class DefaultWall extends ContainerWorldItem {
         return new DefaultWall(parentClone, clonedChildren[0], clonedChildren[1]);
     }
 
-    private transformWallSides(): void {
+    private static transformWallSides(wallSide1: SimpleWorldItem, wallSide2: SimpleWorldItem): void {
 
         // if (this.isVerticalWallPiece(this.children[0].mesh.wrappedMesh)) {
         //     this.scale(new VectorModel(this.getScale().x / 2, undefined, undefined));
@@ -65,31 +108,11 @@ export class DefaultWall extends ContainerWorldItem {
         //     this.children[0].translate(new VectorModel(-this.getScale().x, 0, 0));
         //     this.children[1].translate(new VectorModel(this.getScale().x, 0, 0));
         // } else {
-            this.children[0].scale(new VectorModel(undefined, undefined, this.children[0].getScale().z / 2));
-            this.children[1].scale(new VectorModel(undefined, undefined, this.children[1].getScale().z / 2));
+            wallSide1.scale(new VectorModel(wallSide1.getScale().x / 2, undefined, undefined));
+            wallSide2.scale(new VectorModel(wallSide2.getScale().z / 2, undefined, undefined));
 
-            this.children[0].translate(new VectorModel(0, 0, -this.children[0].getScale().z / 2));
-            this.children[1].translate(new VectorModel(0, 0, this.children[1].getScale().z / 2));
+            wallSide1.translate(new VectorModel(-wallSide1.getScale().x / 2, 0, 0));
+            wallSide2.translate(new VectorModel(wallSide2.getScale().x / 2, 0, 0));
         // }
-    }
-
-    public static createFromTemplate(config: MeshTemplateConfig, scene: Scene): DefaultWall {
-        const mesh = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox('wall-template', { width: 1, depth: 1, height: 1 }, scene)
-        );
-
-        const wallSide1 = new SimpleWorldItem(mesh, 'wall', { ...config });
-        const wallSide2 = wallSide1.clone();
-        const parentMesh = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox('default-wall-container', { width: 1, depth: 1, height: 1 }, scene)
-        );
-        const parent = new SimpleWorldItem(parentMesh, 'default-wall-container');
-        wallSide1.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
-        wallSide2.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
-
-        wallSide1.mesh.wrappedMesh.visibility = 0;
-        wallSide2.mesh.wrappedMesh.visibility = 0;
-
-        return new DefaultWall(parent, wallSide1, wallSide2);
     }
 }

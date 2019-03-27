@@ -19,7 +19,7 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
     }
 
     public getTranslate(worldItem: GwmWorldItem, world: World, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
-        const realDimensions = this.changeToRealWorldDimensions(worldItem.dimensions, this.gameObjectToMeshSizeRatio);
+        const realDimensions = <Rectangle> worldItem.dimensions; //this.changeToRealWorldDimensions(worldItem.dimensions, this.gameObjectToMeshSizeRatio);
 
         const dock = worldItem.additionalData && worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
         return this.getDockPosition(dock, realDimensions, realMeshDimensions);

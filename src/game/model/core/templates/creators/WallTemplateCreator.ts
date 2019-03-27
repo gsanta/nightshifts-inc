@@ -29,7 +29,9 @@ export class WallTemplateCreator {
             dark: this.material
         }};
 
-        return DefaultWall.createFromTemplate(config, this.scene);
+        return null;
+
+        // return DefaultWall.createFromTemplate(this.scene);
 
         // return new DefaultWall(
         //     new SimpleWorldItem(this.mesh, 'wall', { ...defaultMeshConfig })
