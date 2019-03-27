@@ -27,6 +27,7 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
 
     public getDimensions(worldItem: GwmWorldItem): Vector2Model {
         const rect = worldItem.dimensions;
+        // return new Vector2Model(rect.width, rect.height);
         if (rect.width > rect.height) {
             return new Vector2Model(rect.width * this.gameObjectToMeshSizeRatio, this.gameObjectToMeshSizeRatio);
         } else {

@@ -54,6 +54,15 @@ export class GwmWallImporter implements GwmItemImporter {
         return wall;
     }
 
+    // private getDimensions() {
+    //     const rect = worldItem.dimensions;
+    //     if (rect.width > rect.height) {
+    //         return new Vector2Model(rect.width * this.gameObjectToMeshSizeRatio, this.gameObjectToMeshSizeRatio);
+    //     } else {
+    //         return new Vector2Model(this.gameObjectToMeshSizeRatio, rect.height * this.gameObjectToMeshSizeRatio);
+    //     }
+    // }
+
     private isVerticalWallPiece(vector: VectorModel) {
         return vector.z > vector.x;
     }
