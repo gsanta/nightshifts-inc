@@ -4,7 +4,7 @@ import { ContainerWorldItem } from '../../../engine/world_items/ContainerWorldIt
 import { WorldItem } from '../../world_items/WorldItem';
 import { Room } from '../../../engine/world_items/Room';
 import _ = require('lodash');
-import { Mesh } from 'babylonjs';
+import { Mesh, Vector3 } from 'babylonjs';
 import { DefaultWall } from '../../../engine/world_items/DefaultWall';
 
 export class NotActiveRoomStylingActionHandler implements ActionHandler {
@@ -112,17 +112,18 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
         const isHorizontal = borderWorldItem.getRotation().y === 0;
         const scaling = borderWorldItem.children[0].mesh.getScale();
 
-        if (isHorizontal) {
-            const dist1 = Math.abs(room.mesh.getPosition().z - borderWorldItem.children[0].mesh.getPosition().z);
-            const dist2 = Math.abs(room.mesh.getPosition().z - borderWorldItem.children[1].mesh.getPosition().z);
+        const boundingSphereCenter: Vector3 = room.mesh.wrappedMesh.getBoundingInfo().boundingSphere.center;
+        if (!isHorizontal) {
+            const dist1 = Math.abs(boundingSphereCenter.z - borderWorldItem.children[0].mesh.getPosition().z);
+            const dist2 = Math.abs(boundingSphereCenter.z - borderWorldItem.children[1].mesh.getPosition().z);
             if (dist1 < dist2) {
                 return borderWorldItem.children[0];
             } else {
                 return borderWorldItem.children[1];
             }
         } else {
-            const dist1 = Math.abs(room.mesh.getPosition().x - borderWorldItem.children[0].mesh.getPosition().x);
-            const dist2 = Math.abs(room.mesh.getPosition().x - borderWorldItem.children[1].mesh.getPosition().x);
+            const dist1 = Math.abs(boundingSphereCenter.x - borderWorldItem.children[0].mesh.getPosition().x);
+            const dist2 = Math.abs(boundingSphereCenter.x - borderWorldItem.children[1].mesh.getPosition().x);
             if (dist1 < dist2) {
                 return borderWorldItem.children[0];
             } else {
