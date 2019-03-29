@@ -60,6 +60,8 @@ export class WindowTemplateCreator {
 
         bottom.material = this.windowFrameMaterial;
 
+        bottom.isVisible = false;
+
         let [middle1, middle2] = this.createWindowGlassMeshes();
 
         const topMesh = MeshBuilder.CreateBox(
@@ -72,6 +74,8 @@ export class WindowTemplateCreator {
         topMesh.translate(new Vector3(0, this.dimensions.y / 2 - this.dimensions.y / 12, 0), 1);
 
         topMesh.material = this.windowFrameMaterial;
+
+        topMesh.isVisible = false;
 
         return [
             new BabylonMeshWrapper(bottom),
@@ -106,7 +110,7 @@ export class WindowTemplateCreator {
 
         middle1.translate(new Vector3(- this.dimensions.x / 4, 0, 0), 1);
         middle1.material = this.windowGlassMaterial;
-        // middle1.isVisible = false;
+        middle1.isVisible = false;
 
         const middle2 = MeshBuilder.CreateBox(
             'window-middle-right',
@@ -117,6 +121,9 @@ export class WindowTemplateCreator {
         middle2.translate(new Vector3(+ this.dimensions.x / 4, 0, 0), 1);
 
         middle2.material = this.windowGlassMaterial;
+
+
+        middle2.isVisible = false;
 
         return [middle1, middle2];
     }

@@ -20,6 +20,7 @@ export class DoorTemplateCreator {
 
     public create(): Door {
         this.mesh.wrappedMesh.material = this.material;
+        this.mesh.wrappedMesh.isVisible = false;
 
         return new Door(this.mesh, 'door', {...defaultMeshConfig});
     }

@@ -69,7 +69,7 @@ export class DefaultWall extends ContainerWorldItem {
         this.index++;
 
         const wall = new DefaultWall(parent, wallSide1, wallSide2);
-        wall.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 0, -gwmWorldItem.dimensions.getBoundingCenter().y));
+        wall.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
         wallSide1.translate(new VectorModel(wallSide1Dim.left, 0, wallSide1Dim.top));
         wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));
         // wall.translate()

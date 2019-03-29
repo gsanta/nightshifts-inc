@@ -23,6 +23,7 @@ export class WallTemplateCreator {
 
     public create(): WorldItem {
         this.mesh.wrappedMesh.material = this.material;
+        this.mesh.wrappedMesh.isVisible = false;
 
         const config = { ...defaultMeshConfig,  ...{
             default: this.material,
