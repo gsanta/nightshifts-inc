@@ -32,7 +32,9 @@ export class GameEngine {
         this.world = world;
         this.actionDispatcher = actionDispatcher;
 
-        this.actionDispatcher.registerActionHandler(new NotActiveRoomStylingActionHandler());
+        setTimeout(() => {
+            this.actionDispatcher.registerActionHandler(new NotActiveRoomStylingActionHandler());
+        }, 100);
     }
 
     public run() {

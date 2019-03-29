@@ -29,21 +29,27 @@ export class DefaultWall extends ContainerWorldItem {
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): DefaultWall {
-        const material = this.createMaterial(scene);
-        let dimensions = <Rectangle> gwmWorldItem.dimensions;
+        const translateX = - (world.dimensions.x() / 2);
+        const translateY = - (world.dimensions.y() / 2);
 
-        if (dimensions.width > dimensions.height) {
-            dimensions =  <Rectangle> new Rectangle(dimensions.left, dimensions.top, dimensions.width, 1)
+        const material = this.createMaterial(scene);
+
+        if (gwmWorldItem.dimensions.width > gwmWorldItem.dimensions.height) {
+            gwmWorldItem.dimensions =  <Rectangle> new Rectangle(gwmWorldItem.dimensions.left, gwmWorldItem.dimensions.top, gwmWorldItem.dimensions.width, 1)
                 .translate(new Point(0, 0.5));
-            // dimensions = <Rectangle> dimensions.stretchX(0.5);
         }
 
+        gwmWorldItem.dimensions = gwmWorldItem.dimensions
+            .translate(new Point(translateX, translateY));
+
+        const [wallSide1Dim, wallSide2Dim] = this.getWallSideDimensions(gwmWorldItem);
+
         const mesh1 = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: dimensions.width, depth: dimensions.height, height: 5 }, scene)
+            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 5 }, scene)
         );
 
         const mesh2 = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: dimensions.width, depth: dimensions.height, height: 5  }, scene)
+            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 5  }, scene)
         );
 
         const wallSide1 = new SimpleWorldItem(mesh1, 'wall');
@@ -52,18 +58,22 @@ export class DefaultWall extends ContainerWorldItem {
         wallSide2.mesh.wrappedMesh.material = material;
 
         const parentMesh = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(`default-wall-container-${this.index}`, {  width: dimensions.width, depth: dimensions.height, height: 5  }, scene)
+            MeshBuilder.CreateBox(
+                `default-wall-container-${this.index}`, {  width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 5  }, scene)
         );
         const parent = new SimpleWorldItem(parentMesh, 'default-wall-container');
         wallSide1.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
         wallSide2.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
 
-        wallSide1.mesh.wrappedMesh.visibility = 1;
-        wallSide2.mesh.wrappedMesh.visibility = 1;
-
-        // this.transformWallSides(wallSide1, wallSide2);
+        this.transformWallSides(gwmWorldItem, wallSide1, wallSide2);
         this.index++;
-        return new DefaultWall(parent, wallSide1, wallSide2);
+
+        const wall = new DefaultWall(parent, wallSide1, wallSide2);
+        wall.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 0, -gwmWorldItem.dimensions.getBoundingCenter().y));
+        wallSide1.translate(new VectorModel(wallSide1Dim.left, 0, wallSide1Dim.top));
+        wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));
+        // wall.translate()
+        return wall;
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
@@ -108,19 +118,64 @@ export class DefaultWall extends ContainerWorldItem {
         return new DefaultWall(parentClone, clonedChildren[0], clonedChildren[1]);
     }
 
-    private static transformWallSides(wallSide1: SimpleWorldItem, wallSide2: SimpleWorldItem): void {
+    private static getWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {
+        if (gwmWorldItem.dimensions.height > gwmWorldItem.dimensions.width) {
+            return this.getVerticalWallSideDimensions(gwmWorldItem);
+        } else {
+            return this.getHorizontalWallSideDimensions(gwmWorldItem);
+        }
+    }
 
-        // if (this.isVerticalWallPiece(this.children[0].mesh.wrappedMesh)) {
-        //     this.scale(new VectorModel(this.getScale().x / 2, undefined, undefined));
+    private static getVerticalWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {
+        const originalDimensions = gwmWorldItem.dimensions;
+        const rect1 = new Rectangle(
+            -originalDimensions.width / 8,
+            0,
+            originalDimensions.width / 4,
+            originalDimensions.height
+        );
 
-        //     this.children[0].translate(new VectorModel(-this.getScale().x, 0, 0));
-        //     this.children[1].translate(new VectorModel(this.getScale().x, 0, 0));
-        // } else {
-            wallSide1.scale(new VectorModel(undefined, undefined, wallSide1.getScale().z / 2));
-            wallSide2.scale(new VectorModel(undefined, undefined, wallSide2.getScale().z / 2));
-            // wallSide2.mesh.wrappedMesh.visibility = 0;
-            wallSide1.translate(new VectorModel(0, 0, -wallSide1.getScale().z));
-            wallSide2.translate(new VectorModel(0, 0, wallSide2.getScale().z));
-        // }
+        const rect2 = new Rectangle(
+            originalDimensions.width / 8,
+            0,
+            originalDimensions.width / 4,
+            originalDimensions.height
+        );
+
+        return [rect1, rect2];
+    }
+
+    private static getHorizontalWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {
+        const originalDimensions = gwmWorldItem.dimensions;
+        const rect1 = new Rectangle(
+            0,
+            - originalDimensions.height / 8,
+            originalDimensions.width,
+            originalDimensions.height / 4
+        );
+
+        const rect2 = new Rectangle(
+            0,
+            originalDimensions.height / 8,
+            originalDimensions.width,
+            originalDimensions.height / 4
+        );
+
+        return [rect1, rect2];
+    }
+
+    private static transformWallSides(gwmWorldItem: GwmWorldItem, wallSide1: SimpleWorldItem, wallSide2: SimpleWorldItem): void {
+
+        if (gwmWorldItem.dimensions.height > gwmWorldItem.dimensions.width) {
+            // wallSide1.scale(new VectorModel(wallSide1.getScale().x / 2, undefined, undefined));
+            // wallSide2.scale(new VectorModel(wallSide2.getScale().x / 2, undefined, undefined));
+            // wallSide1.translate(new VectorModel(-wallSide1.getScale().x, 0, 0));
+            // wallSide2.translate(new VectorModel(wallSide2.getScale().x, 0, 0));
+        } else {
+            // wallSide1.scale(new VectorModel(undefined, undefined, wallSide1.getScale().z / 2));
+            // wallSide2.scale(new VectorModel(undefined, undefined, wallSide2.getScale().z / 2));
+            // wallSide1.translate(new VectorModel(0, 0, -wallSide1.getScale().z));
+            // wallSide2.translate(new VectorModel(0, 0, wallSide2.getScale().z));
+        }
     }
 }

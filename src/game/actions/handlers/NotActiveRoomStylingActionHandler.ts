@@ -112,24 +112,33 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
         const isHorizontal = borderWorldItem.getRotation().y === 0;
         const scaling = borderWorldItem.children[0].mesh.getScale();
 
-        const boundingSphereCenter: Vector3 = room.mesh.wrappedMesh.getBoundingInfo().boundingSphere.center;
-        if (!isHorizontal) {
-            const dist1 = Math.abs(boundingSphereCenter.z - borderWorldItem.children[0].mesh.getPosition().z);
-            const dist2 = Math.abs(boundingSphereCenter.z - borderWorldItem.children[1].mesh.getPosition().z);
-            if (dist1 < dist2) {
-                return borderWorldItem.children[0];
-            } else {
-                return borderWorldItem.children[1];
-            }
+        const borderItemBoundingPolygon = borderWorldItem.children[0].getBoundingPolygon();
+        const borderItemBoundingPolygon2 = borderWorldItem.children[1].getBoundingPolygon();
+        const boundingPolygon = room.getBoundingPolygon();
+
+        if (boundingPolygon.containsMoreThenHalf(borderItemBoundingPolygon)) {
+            return borderWorldItem.children[0];
         } else {
-            const dist1 = Math.abs(boundingSphereCenter.x - borderWorldItem.children[0].mesh.getPosition().x);
-            const dist2 = Math.abs(boundingSphereCenter.x - borderWorldItem.children[1].mesh.getPosition().x);
-            if (dist1 < dist2) {
-                return borderWorldItem.children[0];
-            } else {
-                return borderWorldItem.children[1];
-            }
+            return borderWorldItem.children[1];
         }
+        // const boundingSphereCenter: Vector3 = room.mesh.wrappedMesh.getBoundingInfo().boundingSphere.center;
+        // if (!isHorizontal) {
+        //     const dist1 = Math.abs(boundingSphereCenter.z - borderWorldItem.children[0].mesh.getPosition().z);
+        //     const dist2 = Math.abs(boundingSphereCenter.z - borderWorldItem.children[1].mesh.getPosition().z);
+        //     if (dist1 < dist2) {
+        //         return borderWorldItem.children[0];
+        //     } else {
+        //         return borderWorldItem.children[1];
+        //     }
+        // } else {
+        //     const dist1 = Math.abs(boundingSphereCenter.x - borderWorldItem.children[0].mesh.getPosition().x);
+        //     const dist2 = Math.abs(boundingSphereCenter.x - borderWorldItem.children[1].mesh.getPosition().x);
+        //     if (dist1 < dist2) {
+        //         return borderWorldItem.children[0];
+        //     } else {
+        //         return borderWorldItem.children[1];
+        //     }
+        // }
     }
 
     private addToExcludedMeshesIfNotAdded(mesh: Mesh, world: World) {

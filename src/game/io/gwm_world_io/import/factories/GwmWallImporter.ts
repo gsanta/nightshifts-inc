@@ -38,7 +38,7 @@ export class GwmWallImporter implements GwmItemImporter {
 
         // this.makeWallNarrower(worldItem);
 
-        worldItem.dimensions = worldItem.dimensions.translate(new Point(translateX, translateY));
+        // worldItem.dimensions = worldItem.dimensions.translate(new Point(translateX, translateY));
         const dimensions = worldItem.dimensions;
         // .negateY();
 
@@ -50,7 +50,7 @@ export class GwmWallImporter implements GwmItemImporter {
             // const dimensions = worldItem.dimensions
             //     .negateY()
             //     .translate(new Point(translateX, -translateY));
-            wall.translate(translate);
+            // wall.translate(translate);
             // wall.rotateAtCenter(VectorModel.yUint(), Math.PI / 2);
             // wall.scale(new VectorModel(dimensions.height, 5, dimensions.width));
             // wall.children[0].mesh.wrappedMesh.visibility = 0;
@@ -60,8 +60,8 @@ export class GwmWallImporter implements GwmItemImporter {
             //     .negateY()
             //     .translate(new Point(translateX, -translateY));
             // wall.scale(new VectorModel(dimensions.width, 5, dimensions.height));
-            this.verticalWallPieceDimensionsAdjustment(wall, this.gameObjectToMeshSizeRatio);
-            wall.translate(translate);
+            // this.verticalWallPieceDimensionsAdjustment(wall, this.gameObjectToMeshSizeRatio);
+            // wall.translate(translate);
             // wall.children[0].mesh.wrappedMesh.visibility = 0;
             // wall.children[1].mesh.wrappedMesh.visibility = 0;
         }

@@ -1,13 +1,14 @@
 import { MeshWrapper } from '../wrappers/MeshWrapper';
-import { StandardMaterial } from 'babylonjs';
+import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
 import { MeshTemplateConfig } from '../../game/model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from '../../game/world_items/WorldItem';
 import { Vector2Model } from '../../game/model/utils/Vector2Model';
 import { VectorModel } from '../../game/model/core/VectorModel';
 import { Polygon, Rectangle } from 'game-worldmap-generator';
+import { Point } from 'game-worldmap-generator/build/model/Point';
 
 
-export class SimpleWorldItem<M = any> implements WorldItem {
+export class SimpleWorldItem<M = Mesh> implements WorldItem {
     public mesh: MeshWrapper<M>;
     public name: string;
     public hasDefaultAction = false;
@@ -83,7 +84,13 @@ export class SimpleWorldItem<M = any> implements WorldItem {
     }
 
     public getBoundingPolygon(): Polygon {
-        throw new Error('Not yet implemented.');
+        const mesh: any = this.mesh.wrappedMesh;
+        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
+        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
+        const position = (this.mesh.wrappedMesh as any).getAbsolutePosition();
+        const centerPoint = new Point(position.x, position.z);
+
+        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {
