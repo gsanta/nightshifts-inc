@@ -19,7 +19,7 @@ export class JsonDoorImporter implements JsonItemImporter {
     }
 
     public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
-        const door = this.doorTemplate.clone();
+        const door = <Door> this.doorTemplate.clone();
 
         door.mesh.wrappedMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
 

@@ -22,7 +22,8 @@ export class DoorTemplateCreator {
         this.mesh.wrappedMesh.material = this.material;
         this.mesh.wrappedMesh.isVisible = false;
 
-        return new Door(this.mesh, 'door', {...defaultMeshConfig});
+        return null;
+        // return new Door(this.mesh, 'door', {...defaultMeshConfig});
     }
 
     private createMaterial(): StandardMaterial {

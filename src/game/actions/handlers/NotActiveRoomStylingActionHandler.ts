@@ -6,6 +6,7 @@ import { Room } from '../../../engine/world_items/Room';
 import _ = require('lodash');
 import { Mesh, Vector3 } from 'babylonjs';
 import { DefaultWall } from '../../../engine/world_items/DefaultWall';
+import { Door } from '../../model/creature/type/Door';
 
 export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
@@ -42,7 +43,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
                 }
             });
 
-            world.gameObjects.filter(gameObj => gameObj instanceof DefaultWall).forEach((wall: DefaultWall) => {
+            world.gameObjects.filter(gameObj => gameObj instanceof DefaultWall || gameObj instanceof Door).forEach((wall: DefaultWall) => {
                 world.hemisphericLight.excludedMeshes.push(wall.children[0].mesh.wrappedMesh);
                 world.hemisphericLight.excludedMeshes.push(wall.children[1].mesh.wrappedMesh);
             });
@@ -59,7 +60,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
     private removeWallsOfRoom(room: Room, world: World) {
         room.borderItems
-            .filter(borderItem => borderItem instanceof DefaultWall)
+            .filter(borderItem => borderItem instanceof DefaultWall || borderItem instanceof Door)
             .forEach((child: WorldItem) => {
                 // if (child instanceof ContainerWorldItem) {
 
@@ -109,11 +110,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
     }
 
     private getActiveSideOfBorderWorldItem(borderWorldItem: ContainerWorldItem, room: WorldItem): WorldItem {
-        const isHorizontal = borderWorldItem.getRotation().y === 0;
-        const scaling = borderWorldItem.children[0].mesh.getScale();
-
         const borderItemBoundingPolygon = borderWorldItem.children[0].getBoundingPolygon();
-        const borderItemBoundingPolygon2 = borderWorldItem.children[1].getBoundingPolygon();
         const boundingPolygon = room.getBoundingPolygon();
 
         if (boundingPolygon.containsMoreThenHalf(borderItemBoundingPolygon)) {
@@ -121,24 +118,6 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
         } else {
             return borderWorldItem.children[1];
         }
-        // const boundingSphereCenter: Vector3 = room.mesh.wrappedMesh.getBoundingInfo().boundingSphere.center;
-        // if (!isHorizontal) {
-        //     const dist1 = Math.abs(boundingSphereCenter.z - borderWorldItem.children[0].mesh.getPosition().z);
-        //     const dist2 = Math.abs(boundingSphereCenter.z - borderWorldItem.children[1].mesh.getPosition().z);
-        //     if (dist1 < dist2) {
-        //         return borderWorldItem.children[0];
-        //     } else {
-        //         return borderWorldItem.children[1];
-        //     }
-        // } else {
-        //     const dist1 = Math.abs(boundingSphereCenter.x - borderWorldItem.children[0].mesh.getPosition().x);
-        //     const dist2 = Math.abs(boundingSphereCenter.x - borderWorldItem.children[1].mesh.getPosition().x);
-        //     if (dist1 < dist2) {
-        //         return borderWorldItem.children[0];
-        //     } else {
-        //         return borderWorldItem.children[1];
-        //     }
-        // }
     }
 
     private addToExcludedMeshesIfNotAdded(mesh: Mesh, world: World) {
