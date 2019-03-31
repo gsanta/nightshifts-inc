@@ -4,26 +4,27 @@ import { VectorModel } from '../../core/VectorModel';
 import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
 import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
-import { GwmWorldItem, Polygon } from 'game-worldmap-generator';
+import { GwmWorldItem, Polygon, Rectangle } from 'game-worldmap-generator';
 import { World } from '../../World';
 import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 import { GameConstants } from '../../../GameConstants';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { AdditionalData } from '../../../io/gwm_world_io/import/AdditionalData';
 import { ContainerWorldItem } from '../../../../engine/world_items/ContainerWorldItem';
+import { DoubleSidedWorldItem } from './DoubleSidedWorldItem';
 const colors = GameConstants.colors;
 
-export class Door extends ContainerWorldItem {
+export class Door extends ContainerWorldItem implements DoubleSidedWorldItem {
     public isOpen: boolean;
     private pivotAngle: number;
     private pivot: VectorModel;
-    public mesh: MeshWrapper<Mesh>;
+    public containerMesh: MeshWrapper<Mesh>;
 
     constructor(mesh: MeshWrapper<any>, side1: WorldItem, side2: WorldItem) {
         super([]);
 
         this.hasDefaultAction = true;
-        this.mesh = mesh;
+        this.containerMesh = mesh;
 
         this.addChild(side1);
         this.addChild(side2);
@@ -32,15 +33,15 @@ export class Door extends ContainerWorldItem {
     public setPivot(axis: VectorModel, angle: number) {
         this.pivotAngle = angle;
         this.pivot = axis;
-        this.mesh.wrappedMesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x, axis.y, axis.z));
+        this.containerMesh.wrappedMesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x, axis.y, axis.z));
     }
 
     public doDefaultAction() {
         if (this.isOpen) {
-            this.mesh.wrappedMesh.rotation.y = 0;
+            this.containerMesh.wrappedMesh.rotation.y = 0;
             this.isOpen = false;
         } else {
-            this.mesh.wrappedMesh.rotation.y = this.pivotAngle;
+            this.containerMesh.wrappedMesh.rotation.y = this.pivotAngle;
             this.isOpen = true;
         }
     }
@@ -54,6 +55,22 @@ export class Door extends ContainerWorldItem {
         };
 
         return baseInfo;
+    }
+
+    public getSide1BoundingPolygon() {
+        return this.children[0].getBoundingPolygon();
+    }
+
+    public getSide2BoundingPolygon() {
+        return this.children[1].getBoundingPolygon();
+    }
+
+    public getSide1Meshes(): Mesh[] {
+        return [this.children[0].mesh.wrappedMesh];
+    }
+
+    public getSide2Meshes(): Mesh[] {
+        return [this.children[1].mesh.wrappedMesh];
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Door {
@@ -106,7 +123,7 @@ export class Door extends ContainerWorldItem {
 
     private static setPivotMatrix(worldItem: GwmWorldItem<AdditionalData>, door: Door) {
         const angle = worldItem.additionalData.angle;
-        const xExtent = door.mesh.wrappedMesh.getBoundingInfo().boundingBox.extendSize.x;
+        const xExtent = door.containerMesh.wrappedMesh.getBoundingInfo().boundingBox.extendSize.x;
         door.setPivot(new VectorModel(xExtent, 0, 0), angle);
         // if (this.isHorizontal(door)) {
         //     if (worldItem.additionalData.axis.x === worldItem.dimensions.left + worldItem.dimensions.width) {

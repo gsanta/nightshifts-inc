@@ -88,6 +88,23 @@ export class DefaultWall extends ContainerWorldItem {
         this.parentMesh.translate(vectorModel);
     }
 
+
+    public getSide1BoundingPolygon() {
+        return this.children[0].getBoundingPolygon();
+    }
+
+    public getSide2BoundingPolygon() {
+        return this.children[1].getBoundingPolygon();
+    }
+
+    public getSide1Meshes(): Mesh[] {
+        return [this.children[0].mesh.wrappedMesh];
+    }
+
+    public getSide2Meshes(): Mesh[] {
+        return [this.children[1].mesh.wrappedMesh];
+    }
+
     public scale(vectorModel: VectorModel) {
         this.parentMesh.scale(vectorModel);
         // this.children[0].scale(new VectorModel(vectorModel.x, 1, 1));

@@ -7,10 +7,11 @@ import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
 import { ContainerWorldItem } from '../../../../engine/world_items/ContainerWorldItem';
 import { GameConstants } from '../../../GameConstants';
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
 import { World } from '../../World';
 import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 import { Point } from 'game-worldmap-generator/build/model/Point';
+import { DoubleSidedWorldItem } from './DoubleSidedWorldItem';
 const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {
@@ -20,14 +21,19 @@ export class WindowGlass extends ContainerWorldItem {
         this.containerMesh = new BabylonMeshWrapper(containerMesh);
     }
 
+    public setPivotMatrix(matrix: any) {
+        this.children[0].mesh.wrappedMesh.setPivotMatrix(matrix);
+        this.children[1].mesh.wrappedMesh.setPivotMatrix(matrix);
+    }
+
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): WindowGlass {
         const containerMesh = this.createContainerMesh(gwmWorldItem, scene);
         const side1 = this.createMesh(gwmWorldItem, scene);
         const side2 = this.createMesh(gwmWorldItem, scene);
         side1.mesh.wrappedMesh.parent = containerMesh;
         side2.mesh.wrappedMesh.parent = containerMesh;
-        side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.width / 8));
-        side1.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.width / 8));
+        side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.height / 16));
+        side2.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.height / 16));
 
         return new WindowGlass(containerMesh, [side1, side2]);
     }
@@ -36,7 +42,7 @@ export class WindowGlass extends ContainerWorldItem {
         const dimensions = gwmWorldItem.dimensions;
         const middle1 = MeshBuilder.CreateBox(
             'window-middle-left',
-            { width: dimensions.width / 4, depth: dimensions.height / 4, height: 4 * 5 / 6 },
+            { width: dimensions.width / 2, depth: dimensions.height / 8, height: 4 * 5 / 6 },
             scene
         );
 
@@ -67,29 +73,34 @@ export class WindowGlass extends ContainerWorldItem {
     }
 }
 
-class WindowFrame extends SimpleWorldItem {
-    public constructor(mesh: BabylonMeshWrapper) {
-        super(mesh, 'window-glass');
-    }
+class WindowFrame extends ContainerWorldItem {
+    public constructor(containerMesh: Mesh, children: WorldItem[]) {
+        super(children);
+        this.containerMesh = new BabylonMeshWrapper(containerMesh);    }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): WindowFrame {
-        const mesh = this.createMesh(gwmWorldItem, scene);
+        const containerMesh = this.createContainerMesh(gwmWorldItem, scene);
+        const side1 = this.createMesh(gwmWorldItem, scene);
+        const side2 = this.createMesh(gwmWorldItem, scene);
+        side1.mesh.wrappedMesh.parent = containerMesh;
+        side2.mesh.wrappedMesh.parent = containerMesh;
+        side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.height / 16));
+        side2.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.height / 16));
 
-        return new WindowFrame(new BabylonMeshWrapper(mesh));
-    }
+        return new WindowGlass(containerMesh, [side1, side2]);    }
 
-    private static createMesh(gwmWorldItem: GwmWorldItem, scene: Scene): Mesh {
+    private static createMesh(gwmWorldItem: GwmWorldItem, scene: Scene): SimpleWorldItem {
         const dimensions = gwmWorldItem.dimensions;
 
         const mesh = MeshBuilder.CreateBox(
             'window-bottom',
-            { width: dimensions.width, depth: dimensions.height / 4, height: 5 / 6 },
+            { width: dimensions.width, depth: dimensions.height / 8, height: 5 / 6 },
             scene
         );
 
         mesh.material = this.createMaterial(scene);
 
-        return mesh;
+        return new SimpleWorldItem(new BabylonMeshWrapper(mesh), '');
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
@@ -99,9 +110,23 @@ class WindowFrame extends SimpleWorldItem {
 
         return windowFrame;
     }
+
+    private static createContainerMesh(gwmWorldItem: GwmWorldItem, scene: Scene) {
+        const dimensions = gwmWorldItem.dimensions;
+
+        const mesh = MeshBuilder.CreateBox(
+            'window-glass-left-container',
+            { width: dimensions.width, depth: dimensions.height / 4, height: 5 / 6 },
+            scene
+        );
+
+        mesh.isVisible = false;
+
+        return mesh;
+    }
 }
 
-export class Window extends ContainerWorldItem {
+export class Window extends ContainerWorldItem implements DoubleSidedWorldItem {
     public isOpen: boolean;
     private pivotAngle: number;
     private isHorizontal = true;
@@ -122,8 +147,8 @@ export class Window extends ContainerWorldItem {
         this.pivot1 = pivot1;
         this.pivot2 = pivot2;
 
-        this.children[2].mesh.wrappedMesh.setPivotMatrix(BABYLON.Matrix.Translation(pivot1.x, pivot1.y, pivot1.z));
-        this.children[3].mesh.wrappedMesh.setPivotMatrix(BABYLON.Matrix.Translation(pivot2.x, pivot2.y, pivot2.z));
+        // (<WindowGlass> this.children[2]).setPivotMatrix(BABYLON.Matrix.Translation(pivot1.x, pivot1.y, pivot1.z));
+        // (<WindowGlass> this.children[3]).setPivotMatrix(BABYLON.Matrix.Translation(pivot2.x, pivot2.y, pivot2.z));
     }
 
     public doDefaultAction() {
@@ -170,6 +195,44 @@ export class Window extends ContainerWorldItem {
 
     public translate(vectorModel: VectorModel) {
         this.containerMesh.translate(vectorModel);
+    }
+
+    public getSide1BoundingPolygon() {
+        const mesh: any = (<ContainerWorldItem> this.children[2]).children[0].mesh.wrappedMesh;
+        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
+        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
+        const position = mesh.getAbsolutePosition();
+        const centerPoint = new Point(position.x, position.z);
+
+        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
+    }
+
+    public getSide2BoundingPolygon() {
+        const mesh: any = (<ContainerWorldItem> this.children[2]).children[1].mesh.wrappedMesh;
+        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
+        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
+        const position = mesh.getAbsolutePosition();
+        const centerPoint = new Point(position.x, position.z);
+
+        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
+    }
+
+    public getSide1Meshes(): Mesh[] {
+        return [
+            (<ContainerWorldItem> this.children[0]).children[0].mesh.wrappedMesh,
+            (<ContainerWorldItem> this.children[1]).children[0].mesh.wrappedMesh,
+            (<ContainerWorldItem> this.children[2]).children[0].mesh.wrappedMesh,
+            (<ContainerWorldItem> this.children[3]).children[0].mesh.wrappedMesh
+        ];
+    }
+
+    public getSide2Meshes(): Mesh[] {
+        return [
+            (<ContainerWorldItem> this.children[0]).children[1].mesh.wrappedMesh,
+            (<ContainerWorldItem> this.children[1]).children[1].mesh.wrappedMesh,
+            (<ContainerWorldItem> this.children[2]).children[1].mesh.wrappedMesh,
+            (<ContainerWorldItem> this.children[3]).children[1].mesh.wrappedMesh
+        ];
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Window {

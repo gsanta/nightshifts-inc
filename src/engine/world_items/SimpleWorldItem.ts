@@ -77,6 +77,10 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
         this.mesh.setScale(vectorModel);
     }
 
+    public getCenterPosition(): VectorModel {
+        return this.mesh.getPosition();
+    }
+
     public getScale(): VectorModel {
         return this.mesh.getScale();
     }

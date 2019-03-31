@@ -72,6 +72,7 @@ export interface WorldItem {
     scale(vectorModel: VectorModel): void;
     getScale(): VectorModel;
     getRotation(): VectorModel;
+    getCenterPosition(): VectorModel;
     getBoundingPolygon(): Polygon;
     setParent(worldItem: WorldItem);
 }

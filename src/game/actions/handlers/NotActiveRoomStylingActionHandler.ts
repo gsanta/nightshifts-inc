@@ -7,6 +7,8 @@ import _ = require('lodash');
 import { Mesh, Vector3 } from 'babylonjs';
 import { DefaultWall } from '../../../engine/world_items/DefaultWall';
 import { Door } from '../../model/creature/type/Door';
+import { Window } from '../../model/creature/type/Window';
+import { DoubleSidedWorldItem } from '../../model/creature/type/DoubleSidedWorldItem';
 
 export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
@@ -43,9 +45,10 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
                 }
             });
 
-            world.gameObjects.filter(gameObj => gameObj instanceof DefaultWall || gameObj instanceof Door).forEach((wall: DefaultWall) => {
-                world.hemisphericLight.excludedMeshes.push(wall.children[0].mesh.wrappedMesh);
-                world.hemisphericLight.excludedMeshes.push(wall.children[1].mesh.wrappedMesh);
+            world.gameObjects
+                .filter(gameObj => gameObj instanceof DefaultWall || gameObj instanceof Door || gameObj instanceof Window).forEach((wall: DefaultWall) => {
+                world.hemisphericLight.excludedMeshes.push(...wall.getSide1Meshes());
+                world.hemisphericLight.excludedMeshes.push(...wall.getSide2Meshes());
             });
 
             // rooms.forEach(room => this.darkenWalls(<Room> room, world));
@@ -60,17 +63,17 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
     private removeWallsOfRoom(room: Room, world: World) {
         room.borderItems
-            .filter(borderItem => borderItem instanceof DefaultWall || borderItem instanceof Door)
+            .filter(borderItem => borderItem instanceof DefaultWall || borderItem instanceof Door || borderItem instanceof Window)
             .forEach((child: WorldItem) => {
                 // if (child instanceof ContainerWorldItem) {
-
-                    const activeSide = this.getActiveSideOfBorderWorldItem(child as any, room);
-                    const activeSideIndex = world.hemisphericLight.excludedMeshes.indexOf(activeSide.mesh.wrappedMesh);
+                    this.excludeActiveSideOfWorldItem(<DoubleSidedWorldItem> <unknown> child, room, world);
+                    // const activeSide = this.getActiveSideOfBorderWorldItem(child as any, room);
+                    // const activeSideIndex = world.hemisphericLight.excludedMeshes.indexOf(activeSide.mesh.wrappedMesh);
                     // const wallSide2Index = world.hemisphericLight.excludedMeshes.indexOf(child.children[1].mesh.wrappedMesh);
 
-                    if (activeSideIndex !== -1) {
-                        world.hemisphericLight.excludedMeshes.splice(activeSideIndex, 1);
-                    }
+                    // if (activeSideIndex !== -1) {
+                        // world.hemisphericLight.excludedMeshes.splice(activeSideIndex, 1);
+                    // }
 
                     // if (wallSide2Index !== -1) {
                     //     world.hemisphericLight.excludedMeshes.splice(wallSide2Index, 1);
@@ -106,6 +109,26 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
             this.addToExcludedMeshesIfNotAdded(child.mesh.wrappedMesh, world);
 
             // world.hemisphericLight.excludedMeshes.push(child.mesh.wrappedMesh);
+        });
+    }
+
+    private excludeActiveSideOfWorldItem(borderWorldItem: DoubleSidedWorldItem, room: WorldItem, world: World) {
+        const borderItemBoundingPolygon = borderWorldItem.getSide1BoundingPolygon();
+        const boundingPolygon = room.getBoundingPolygon();
+
+        const activeItems: Mesh[] = [];
+        if (boundingPolygon.containsMoreThenHalf(borderItemBoundingPolygon)) {
+            activeItems.push(...borderWorldItem.getSide1Meshes());
+        } else {
+            activeItems.push(...borderWorldItem.getSide2Meshes());
+        }
+
+        activeItems.forEach(item => {
+            const activeSideIndex = world.hemisphericLight.excludedMeshes.indexOf(item);
+
+            if (activeSideIndex !== -1) {
+                world.hemisphericLight.excludedMeshes.splice(activeSideIndex, 1);
+            }
         });
     }
 

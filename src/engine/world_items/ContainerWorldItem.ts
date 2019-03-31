@@ -39,6 +39,10 @@ export class ContainerWorldItem implements WorldItem {
         this.children.forEach(child => child.scale(vectorModel));
     }
 
+    public getCenterPosition() {
+        return this.containerMesh.getPosition();
+    }
+
     public getScale(): VectorModel {
         return this.children[0].getScale();
     }
