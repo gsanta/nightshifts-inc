@@ -5,6 +5,7 @@ import { MeshTemplate } from '../../core/templates/MeshTemplate';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
 import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
+import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export interface Interval {
     from: number;
@@ -40,7 +41,7 @@ export class Player extends Creature {
     public name = 'player';
     private skeleton: Skeleton;
 
-    constructor(mesh: MeshWrapper<any>, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
+    constructor(mesh: BabylonMeshWrapper, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
         super(mesh, 'player');
 
         this.skeleton = skeleton;

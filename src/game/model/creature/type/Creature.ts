@@ -6,6 +6,7 @@ import { CollisionDetector } from '../collision/CollisionDetector';
 import { ActionStrategy } from '../action/ActionStrategy';
 import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
+import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export abstract class Creature extends SimpleWorldItem<any> {
     protected sensor: Sensor;
@@ -13,7 +14,7 @@ export abstract class Creature extends SimpleWorldItem<any> {
     protected collisionDetector: CollisionDetector;
     protected actionStrategy: ActionStrategy;
 
-    constructor(mesh: MeshWrapper<any>, name: string) {
+    constructor(mesh: BabylonMeshWrapper, name: string) {
         super(mesh, name);
     }
 

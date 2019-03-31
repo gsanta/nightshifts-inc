@@ -5,6 +5,7 @@ import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export class JsonStaticItemImporter implements JsonItemImporter {
     private meshModelTemplate: MeshTemplate;
@@ -20,7 +21,7 @@ export class JsonStaticItemImporter implements JsonItemImporter {
 
     public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new SimpleWorldItem(meshes[0], serializedMeshModel.name);
+        const meshModel = new SimpleWorldItem(<BabylonMeshWrapper> meshes[0], serializedMeshModel.name);
 
         meshes.forEach(mesh => {
             mesh.wrappedMesh.rotation.y = serializedMeshModel.additionalData.rotation;

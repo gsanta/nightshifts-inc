@@ -2,9 +2,11 @@ import { WorldItem, SerializedMeshModel } from '../../game/world_items/WorldItem
 import { StandardMaterial } from 'babylonjs';
 import { VectorModel } from '../../game/model/core/VectorModel';
 import { Polygon } from 'game-worldmap-generator';
+import { MeshWrapper } from '../wrappers/MeshWrapper';
 
 export class ContainerWorldItem implements WorldItem {
     public children: WorldItem[] = [];
+    public containerMesh: MeshWrapper<any>;
 
     public hasDefaultAction = false;
     materials: {[key: string]: StandardMaterial} = {};
@@ -57,5 +59,9 @@ export class ContainerWorldItem implements WorldItem {
 
     public getBoundingPolygon(): Polygon {
         throw new Error('method not implemented');
+    }
+
+    public setParent(worldItem: WorldItem) {
+        this.containerMesh.wrappedMesh.parent = (<ContainerWorldItem> worldItem).containerMesh.wrappedMesh;
     }
 }

@@ -3,7 +3,7 @@
 
 import { GwmItemImporter } from './GwmItemImporter';
 import { GwmWorldItem} from 'game-worldmap-generator';
-import { ShadowGenerator } from 'babylonjs';
+import { ShadowGenerator, Scene } from 'babylonjs';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { AdditionalData } from '../AdditionalData';
 import { WorldItem } from '../../../../world_items/WorldItem';
@@ -16,17 +16,20 @@ export class GwmWindowImporter implements GwmItemImporter {
     private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
     private gameObjectToMeshSizeRatio: number;
+    private scene: Scene;
 
     constructor(
         windowTemplate: Window,
         gameObjectTranslator: WorldItemTranslator,
         shadowGenerator: ShadowGenerator,
-        gameObjectToMeshSizeRatio: number
+        gameObjectToMeshSizeRatio: number,
+        scene: Scene
     ) {
         this.windowTemplate = windowTemplate;
         this.gameObjectTranslator = gameObjectTranslator;
         this.shadowGenerator = shadowGenerator;
         this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
+        this.scene = scene;
     }
 
 
@@ -35,12 +38,13 @@ export class GwmWindowImporter implements GwmItemImporter {
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), scaling.y / 2, -translate2.y());
 
-        const window = this.windowTemplate.clone();
+        const window = Window.fromGwmWorldItem(worldItem, this.scene, world);
 
-        window.containerMesh.wrappedMesh.translate(toVector3(translate), 1);
+        // window.containerMesh.wrappedMesh.translate(toVector3(translate), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(...window.meshes.map(mesh => mesh.wrappedMesh));
 
+        // const meshes = window.children.map(child => child.mesh.wrappedMesh);
+        // this.shadowGenerator.getShadowMap().renderList.push(...meshes);
 
         window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), worldItem.additionalData.angle);
 

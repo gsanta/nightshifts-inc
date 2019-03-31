@@ -6,10 +6,12 @@ import { Vector2Model } from '../../game/model/utils/Vector2Model';
 import { VectorModel } from '../../game/model/core/VectorModel';
 import { Polygon, Rectangle } from 'game-worldmap-generator';
 import { Point } from 'game-worldmap-generator/build/model/Point';
+import { ContainerWorldItem } from './ContainerWorldItem';
+import { BabylonMeshWrapper } from '../wrappers/babylon/BabylonMeshWrapper';
 
 
 export class SimpleWorldItem<M = Mesh> implements WorldItem {
-    public mesh: MeshWrapper<M>;
+    public mesh: BabylonMeshWrapper;
     public name: string;
     public hasDefaultAction = false;
 
@@ -17,7 +19,7 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
 
     protected counter = 1;
 
-    constructor(mesh: MeshWrapper<M>, name: string, config?: MeshTemplateConfig) {
+    constructor(mesh: BabylonMeshWrapper, name: string, config?: MeshTemplateConfig) {
         this.mesh = mesh;
         this.name = name;
 
@@ -91,6 +93,10 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
         const centerPoint = new Point(position.x, position.z);
 
         return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
+    }
+
+    public setParent(worldItem: WorldItem) {
+        this.mesh.wrappedMesh.parent = (<ContainerWorldItem> worldItem).containerMesh.wrappedMesh;
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {

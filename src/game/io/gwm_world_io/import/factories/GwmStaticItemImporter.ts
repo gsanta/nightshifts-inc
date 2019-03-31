@@ -10,6 +10,7 @@ import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { Orientation } from '../../../../model/utils/Orientation';
 import { World } from '../../../../model/World';
 import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 
 export class GwmStaticItemImporter implements GwmItemImporter {
@@ -29,7 +30,7 @@ export class GwmStaticItemImporter implements GwmItemImporter {
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new SimpleWorldItem(meshes[0], worldItem.name);
+        const meshModel = new SimpleWorldItem(<BabylonMeshWrapper> meshes[0], worldItem.name);
 
         meshes.forEach(mesh => {
             const realMeshDimensions = this.getRealMeshDimensions(mesh.wrappedMesh, worldItem);

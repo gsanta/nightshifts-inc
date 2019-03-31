@@ -27,7 +27,8 @@ export class WindowTemplateCreator {
     }
 
     public create(): Window {
-        return new Window([this.containerMesh, ...this.meshes], {...defaultMeshConfig});
+        return null;
+        // return new Window([this.containerMesh, ...this.meshes], {...defaultMeshConfig});
     }
 
     private createWindowGlassMaterial(): StandardMaterial {
