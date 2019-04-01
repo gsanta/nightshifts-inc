@@ -7,26 +7,22 @@ import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { Window } from '../../../../model/creature/type/Window';
 
 export class JsonWindowImporter implements JsonItemImporter {
-    private windowTemplate: Window;
     private shadowGenerator: ShadowGenerator;
 
-    constructor(
-        windowTemplate: Window,
-        shadowGenerator: ShadowGenerator,
-    ) {
-        this.windowTemplate = windowTemplate;
+    constructor(shadowGenerator: ShadowGenerator) {
         this.shadowGenerator = shadowGenerator;
     }
 
     public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
-        const window = this.windowTemplate.clone();
 
-        window.meshes[0].translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
+        // window.meshes[0].wrappedMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(...window.meshes);
+        // this.shadowGenerator.getShadowMap().renderList.push(...window.meshes.map(mesh => mesh.wrappedMesh));
 
-        window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), serializedMeshModel.additionalData.angle);
+        // window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), serializedMeshModel.additionalData.angle);
 
-        return window;
+        // return window;
+
+        return null;
     }
 }

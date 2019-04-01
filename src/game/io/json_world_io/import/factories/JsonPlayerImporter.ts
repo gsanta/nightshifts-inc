@@ -11,6 +11,7 @@ import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
 import { ActionStrategy } from '../../../../model/creature/action/ActionStrategy';
 import { World } from '../../../../model/World';
 import { toVector3, VectorModel } from '../../../../model/core/VectorModel';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export class JsonPlayerImporter implements JsonItemImporter {
     private meshModelTemplate: MeshTemplate;
@@ -32,12 +33,12 @@ export class JsonPlayerImporter implements JsonItemImporter {
 
     public createItem(serializedMeshModel: SerializedMeshModel, world: World): WorldItem {
         const mesh = this.meshModelTemplate.createMeshes()[0];
-        world.camera.lockedTarget = mesh;
+        world.camera.lockedTarget = mesh.wrappedMesh;
 
         const keyboardHandler = new UserInputEventEmitter();
         keyboardHandler.subscribe();
 
-        const player = new Player(mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
+        const player = new Player(<BabylonMeshWrapper> mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
         // mesh.scaling.x = 1
         // mesh.scaling.y = 1
         // mesh.scaling.z = 1
@@ -51,7 +52,7 @@ export class JsonPlayerImporter implements JsonItemImporter {
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
         // player.translate(translate);
-        player.mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
+        player.mesh.wrappedMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
 
         return player;
     }

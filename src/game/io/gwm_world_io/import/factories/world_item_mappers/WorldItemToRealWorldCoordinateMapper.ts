@@ -1,4 +1,4 @@
-import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
+import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
 import { Direction } from '../../../../../model/utils/Direction';
 import { Vector2Model } from '../../../../../model/utils/Vector2Model';
 import { AdditionalData } from '../../AdditionalData';
@@ -19,7 +19,7 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
     }
 
     public getTranslate(worldItem: GwmWorldItem, world: World, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Vector2Model {
-        const realDimensions = this.changeToRealWorldDimensions(worldItem.dimensions, this.gameObjectToMeshSizeRatio);
+        const realDimensions = <Rectangle> worldItem.dimensions; //this.changeToRealWorldDimensions(worldItem.dimensions, this.gameObjectToMeshSizeRatio);
 
         const dock = worldItem.additionalData && worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
         return this.getDockPosition(dock, realDimensions, realMeshDimensions);
@@ -27,6 +27,7 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
 
     public getDimensions(worldItem: GwmWorldItem): Vector2Model {
         const rect = worldItem.dimensions;
+        // return new Vector2Model(rect.width, rect.height);
         if (rect.width > rect.height) {
             return new Vector2Model(rect.width * this.gameObjectToMeshSizeRatio, this.gameObjectToMeshSizeRatio);
         } else {
@@ -54,7 +55,7 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
         }
     }
 
-    private changeToRealWorldDimensions(rect: Rectangle, gameObjectToMeshSizeRatio: number) {
+    private changeToRealWorldDimensions(rect: Polygon, gameObjectToMeshSizeRatio: number) {
         const ratio = gameObjectToMeshSizeRatio;
         return new Rectangle(rect.left * ratio, rect.top * ratio, rect.width * ratio, rect.height * ratio);
     }

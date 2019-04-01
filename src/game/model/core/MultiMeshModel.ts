@@ -1,10 +1,10 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from './VectorModel';
 import _ = require('lodash');
-import { WorldItem } from '../../world_items/WorldItem';
+import { SimpleWorldItem } from '../../../engine/world_items/SimpleWorldItem';
 
 
-export class MultiMeshModel extends WorldItem {
+export class MultiMeshModel extends SimpleWorldItem<any> {
     protected meshes: Mesh[];
     public name: string;
 
@@ -14,10 +14,10 @@ export class MultiMeshModel extends WorldItem {
     }
 
     public translate(vectorModel: VectorModel) {
-        this.meshes.forEach(mesh => mesh.translate(new Vector3(vectorModel.x(), vectorModel.y(), vectorModel.z()), 1));
+        this.meshes.forEach(mesh => mesh.translate(new Vector3(vectorModel.x, vectorModel.y, vectorModel.z), 1));
     }
 
     public intersectsPoint(vector: VectorModel) {
-        return _.some(this.meshes, mesh => mesh.intersectsPoint(new Vector3(vector.x(), vector.y(), vector.z())));
+        return _.some(this.meshes, mesh => mesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z)));
     }
 }

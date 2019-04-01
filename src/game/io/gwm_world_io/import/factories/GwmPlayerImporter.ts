@@ -12,6 +12,7 @@ import { ActionStrategy } from '../../../../model/creature/action/ActionStrategy
 import { CollisionDetector } from '../../../../model/creature/collision/CollisionDetector';
 import { ManualMotionStrategy } from '../../../../model/creature/motion/ManualMotionStrategy';
 import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export class GwmPlayerImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
@@ -38,7 +39,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const mesh = this.meshModelTemplate.createMeshes()[0];
 
-        world.camera.lockedTarget = mesh;
+        world.camera.lockedTarget = mesh.wrappedMesh;
 
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
@@ -46,7 +47,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
 
         const keyboardHandler = new UserInputEventEmitter();
         keyboardHandler.subscribe();
-        const player = new Player(mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
+        const player = new Player(<BabylonMeshWrapper> mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
 
         const actionStrategy = new ActionStrategy(player, world);
 
@@ -57,7 +58,7 @@ export class GwmPlayerImporter implements GwmItemImporter {
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
         // player.translate(translate);
-        player.mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+        player.mesh.wrappedMesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
         return player;
     }

@@ -9,7 +9,8 @@ import { AdditionalData } from '../AdditionalData';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { Orientation } from '../../../../model/utils/Orientation';
 import { World } from '../../../../model/World';
-
+import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export class GwmStaticItemImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
@@ -28,19 +29,19 @@ export class GwmStaticItemImporter implements GwmItemImporter {
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new WorldItem(meshes[0], worldItem.name);
+        const meshModel = new SimpleWorldItem(<BabylonMeshWrapper> meshes[0], worldItem.name);
 
         meshes.forEach(mesh => {
-            const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
+            const realMeshDimensions = this.getRealMeshDimensions(mesh.wrappedMesh, worldItem);
             const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world, realMeshDimensions);
             const translate = new VectorModel(translate2.x(), 0, -translate2.y());
             const rotation = this.gameObjectTranslator.getRotation(worldItem);
 
-            mesh.rotation.y = rotation;
+            mesh.wrappedMesh.rotation.y = rotation;
 
-            mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+            mesh.wrappedMesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
-            this.shadowGenerator.getShadowMap().renderList.push(mesh);
+            this.shadowGenerator.getShadowMap().renderList.push(mesh.wrappedMesh);
         });
 
 

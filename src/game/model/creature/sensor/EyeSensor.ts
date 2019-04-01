@@ -27,8 +27,8 @@ export class EyeSensor implements Sensor {
     }
 
     private isInsideVisibleRange(enemy: Enemy): boolean {
-        const playerVector = this.player.getPosition();
-        const enemyVector = enemy.getPosition();
+        const playerVector = this.player.mesh.getPosition();
+        const enemyVector = enemy.mesh.getPosition();
         const playerToEnemyVector = enemyVector.subtract(playerVector);
         const negativeZUnitVector = new VectorModel(0, 0, -1);
 
@@ -38,7 +38,7 @@ export class EyeSensor implements Sensor {
     }
 
     private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: Enemy):  boolean {
-        return this.rayCaster.testCollision(this.player.getPosition(), enemy.getPosition(), enemy);
+        return this.rayCaster.testCollision(this.player.mesh.getPosition(), enemy.mesh.getPosition(), enemy);
     }
 
     public static isAngleBetweenFieldOfView(fieldOfViewCenter: number, fieldOfViewAngle: number, angleToTest: number) {

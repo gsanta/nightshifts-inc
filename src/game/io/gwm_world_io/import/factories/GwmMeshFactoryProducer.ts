@@ -23,17 +23,17 @@ export class GwmMeshFactoryProducer extends AbstractMeshFactoryProducer<GwmWorld
             .then(meshMap => {
                 return new MeshFactory(
                     {
-                        wall: new GwmWallImporter(meshMap.wall.create(), gameObjectTranslator, shadowGenerator, 1, scene),
-                        door: new GwmDoorImporter(meshMap.door.create(), gameObjectTranslator, shadowGenerator, 1),
+                        wall: new GwmWallImporter(shadowGenerator, scene),
+                        door: new GwmDoorImporter(scene, shadowGenerator),
                         player: new GwmPlayerImporter(meshMap.player.create(world), gameObjectTranslator, scene, shadowGenerator, spotLight),
                         floor: new GwmFloorImporter(meshMap.floor.create(world), gameObjectTranslator, shadowGenerator),
-                        window: new GwmWindowImporter(meshMap.window.create(), gameObjectTranslator, shadowGenerator, 1),
+                        window: new GwmWindowImporter(scene),
                         cupboard: new GwmStaticItemImporter(meshMap.cupboard.create(world), gameObjectTranslator, shadowGenerator),
                         table: new GwmStaticItemImporter(meshMap.table.create(world), gameObjectTranslator, shadowGenerator),
                         bathtub: new GwmStaticItemImporter(meshMap.bathtub.create(world), gameObjectTranslator, shadowGenerator),
                         washbasin: new GwmStaticItemImporter(meshMap.washbasin.create(world), gameObjectTranslator, shadowGenerator),
                         bed: new GwmStaticItemImporter(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator),
-                        room: new GwmRoomImporter(scene, gameObjectTranslator)
+                        room: new GwmRoomImporter(scene)
                     }
                 );
             });

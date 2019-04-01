@@ -1,5 +1,5 @@
 import { World } from '../../../model/World';
-import { GwmWorldMapParser, GwmWorldItem, TreeIteratorGenerator } from 'game-worldmap-generator';
+import { GwmWorldMapParser, GwmWorldItem, TreeIteratorGenerator, generators } from 'game-worldmap-generator';
 import { Player } from '../../../model/creature/type/Player';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData, parseJsonAdditionalData } from './AdditionalData';
@@ -10,17 +10,7 @@ import { AbstractMeshFactoryProducer } from '../../../model/core/factories/Abstr
 import { LightController } from '../../../model/light/LightController';
 import { AbstractWorldImporter } from '../../AbstractWorldImporter';
 import { defaultParseOptions } from 'game-worldmap-generator/build/GwmWorldMapParser';
-import { AdditionalDataConvertingWorldItemDecorator } from 'game-worldmap-generator/build/parsing/decorators/AdditionalDataConvertingWorldItemDecorator';
-import { ScalingWorldItemGeneratorDecorator } from 'game-worldmap-generator/build/parsing/decorators/ScalingWorldItemGeneratorDecorator';
-import { CombinedWorldItemGenerator } from 'game-worldmap-generator/build/parsing/decorators/CombinedWorldItemGenerator';
-import { FurnitureInfoGenerator } from 'game-worldmap-generator/build/parsing/furniture_parsing/FurnitureInfoGenerator';
 import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
-import { RoomInfoGenerator } from 'game-worldmap-generator/build/parsing/room_parsing/RoomInfoGenerator';
-import { BorderItemAddingWorldItemGeneratorDecorator } from 'game-worldmap-generator/build/parsing/decorators/BorderItemAddingWorldItemGeneratorDecorator';
-import { HierarchyBuildingWorldItemGeneratorDecorator } from 'game-worldmap-generator/build/parsing/decorators/HierarchyBuildingWorldItemGeneratorDecorator';
-import { RoomSeparatorGenerator } from 'game-worldmap-generator/build/parsing/room_separator_parsing/RoomSeparatorGenerator';
-import { RootWorldItemGenerator } from 'game-worldmap-generator/build/parsing/RootWorldItemGenerator';
-import { BorderItemSegmentingWorldItemGeneratorDecorator } from 'game-worldmap-generator/build/parsing/decorators/BorderItemSegmentingWorldItemGeneratorDecorator';
 
 export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<GwmWorldItem>) {
@@ -34,25 +24,30 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
         const roomSeparatorCharacters = ['W', 'D', 'I'];
 
         const worldItems = GwmWorldMapParser.createWithCustomWorldItemGenerator(
-            new AdditionalDataConvertingWorldItemDecorator(
-                new BorderItemAddingWorldItemGeneratorDecorator(
-                    new HierarchyBuildingWorldItemGeneratorDecorator(
-                        new BorderItemSegmentingWorldItemGeneratorDecorator(
-                            new ScalingWorldItemGeneratorDecorator(
-                                new CombinedWorldItemGenerator(
-                                    [
-                                        new FurnitureInfoGenerator(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
-                                        new RoomSeparatorGenerator(roomSeparatorCharacters),
-                                        new RoomInfoGenerator(),
-                                        new RootWorldItemGenerator()
-                                    ]
+            new generators.AdditionalDataConvertingWorldItemDecorator(
+                new generators.StretchRoomsSoTheyJoinWorldItemGeneratorDecorator(
+                    new generators.BorderItemAddingWorldItemGeneratorDecorator(
+                        new generators.HierarchyBuildingWorldItemGeneratorDecorator(
+                            new generators.BorderItemSegmentingWorldItemGeneratorDecorator(
+                                new generators.ScalingWorldItemGeneratorDecorator(
+                                    new generators.CombinedWorldItemGenerator(
+                                        [
+                                            new generators.FurnitureInfoGenerator(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
+                                            new generators.RoomSeparatorGenerator(roomSeparatorCharacters),
+                                            new generators.RoomInfoGenerator(),
+                                            new generators.RootWorldItemGenerator()
+                                        ]
+                                    ),
+                                    { x: options.xScale, y: options.yScale }
                                 ),
-                                { x: options.xScale, y: options.yScale }
-                            ),
-                            ['wall', 'door', 'window']
-                        )
+                                ['wall', 'door', 'window'],
+                                { xScale: options.xScale, yScale: options.yScale }
+                            )
+                        ),
+                        ['wall', 'door', 'window'],
+                        { xScale: options.xScale, yScale: options.yScale }
                     ),
-                    ['wall', 'door', 'window']
+                    { xScale: options.xScale, yScale: options.yScale }
                 ),
                 options.additionalDataConverter
             )

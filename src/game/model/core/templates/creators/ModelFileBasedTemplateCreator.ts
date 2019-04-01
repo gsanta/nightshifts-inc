@@ -3,6 +3,8 @@ import {Promise} from 'es6-promise';
 import { MeshTemplate, MeshTemplateConfig } from '../MeshTemplate';
 import { VectorModel } from '../../VectorModel';
 import { AsyncTemplateCreator } from '../AsyncTemplateCreator';
+import { MeshWrapper } from '../../../../../engine/wrappers/MeshWrapper';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export const defaultMeshConfig: MeshTemplateConfig = {
     checkCollisions: true,
@@ -23,7 +25,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
     private fileName: string;
     private config: MeshTemplateConfig;
 
-    private meshes: Mesh[];
+    private meshes: MeshWrapper<any>[];
     private skeletons: Skeleton[];
     private materials: StandardMaterial[] = [];
     private isAsyncWorkDone = false;
@@ -43,7 +45,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
     public doAsyncWork(): Promise<void> {
         return new Promise(resolve => {
             const onSuccess = (meshes: AbstractMesh[], ps: ParticleSystem[], skeletons: Skeleton[], ag: AnimationGroup[]) => {
-                this.meshes = <Mesh[]> meshes;
+                this.meshes = meshes.map(mesh => new BabylonMeshWrapper(<Mesh> mesh));
                 this.skeletons = skeletons;
                 this.isAsyncWorkDone = true;
                 resolve();
@@ -71,7 +73,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
                 call and wait for doAsyncWork() before calling this method.`);
         }
 
-        this.meshes.forEach(m => m.material = this.materials[0]);
+        this.meshes.forEach(m => m.wrappedMesh.material = this.materials[0]);
 
         return new MeshTemplate(null, this.meshes, this.skeletons, this.config);
     }

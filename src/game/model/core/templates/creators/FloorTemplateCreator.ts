@@ -5,13 +5,15 @@ import { MeshTemplate } from '../MeshTemplate';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { GameConstants } from '../../../../GameConstants';
 import { World } from '../../../World';
+import { MeshWrapper } from '../../../../../engine/wrappers/MeshWrapper';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 const colors = GameConstants.colors;
 
 export class FloorTemplateCreator implements TemplateCreator {
     private scene: Scene;
     private material: StandardMaterial;
-    private mesh: Mesh;
+    private mesh: MeshWrapper<any>;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -24,8 +26,8 @@ export class FloorTemplateCreator implements TemplateCreator {
             this.mesh = this.createMesh(world);
         }
 
-        this.mesh.material = this.material;
-        this.mesh.material.alpha = 0;
+        this.mesh.wrappedMesh.material = this.material;
+        this.mesh.wrappedMesh.material.alpha = 0;
         return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
     }
 
@@ -36,11 +38,13 @@ export class FloorTemplateCreator implements TemplateCreator {
         return material;
     }
 
-    private createMesh(world: World): Mesh {
-        return BABYLON.MeshBuilder.CreateGround(
-            'floor',
-            { width: world.dimensions.x(), height: world.dimensions.y(), updatable: true },
-            this.scene
+    private createMesh(world: World): MeshWrapper<any> {
+        return new BabylonMeshWrapper(
+            BABYLON.MeshBuilder.CreateGround(
+                'floor',
+                { width: world.dimensions.x(), height: world.dimensions.y(), updatable: true },
+                this.scene
+            )
         );
     }
 }

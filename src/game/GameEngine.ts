@@ -32,7 +32,9 @@ export class GameEngine {
         this.world = world;
         this.actionDispatcher = actionDispatcher;
 
-        this.actionDispatcher.registerActionHandler(new NotActiveRoomStylingActionHandler());
+        setTimeout(() => {
+            this.actionDispatcher.registerActionHandler(new NotActiveRoomStylingActionHandler());
+        }, 100);
     }
 
     public run() {
@@ -95,7 +97,7 @@ export class GameEngine {
 
         if (!player.getMotionStrategy().isIdle()) {
             const delta = player.getMotionStrategy().calcNextPositionDelta(elapsedTime);
-            player.setPosition(player.getPosition().add(delta));
+            player.setPosition(player.mesh.getPosition().add(delta));
         }
 
         const rotationDelta = player.getMotionStrategy().calcNextRotationDelta(elapsedTime);
@@ -107,7 +109,7 @@ export class GameEngine {
             const enemyDelta = enemy.getMotionStrategy().calcNextPositionDelta(elapsedTime);
 
             if (enemyDelta) {
-                enemy.setPosition(enemy.getPosition().add(enemyDelta));
+                enemy.setPosition(enemy.mesh.getPosition().add(enemyDelta));
             }
         });
     }

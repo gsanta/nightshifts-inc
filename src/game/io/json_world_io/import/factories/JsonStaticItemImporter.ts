@@ -4,6 +4,8 @@ import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
+import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
+import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export class JsonStaticItemImporter implements JsonItemImporter {
     private meshModelTemplate: MeshTemplate;
@@ -19,16 +21,16 @@ export class JsonStaticItemImporter implements JsonItemImporter {
 
     public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new WorldItem(meshes[0], serializedMeshModel.name);
+        const meshModel = new SimpleWorldItem(<BabylonMeshWrapper> meshes[0], serializedMeshModel.name);
 
         meshes.forEach(mesh => {
-            mesh.rotation.y = serializedMeshModel.additionalData.rotation;
+            mesh.wrappedMesh.rotation.y = serializedMeshModel.additionalData.rotation;
 
-            mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
+            mesh.wrappedMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
             // mesh.scaling.x = serializedMeshModel.scaling.x;
             // mesh.scaling.y = serializedMeshModel.scaling.y;
             // mesh.scaling.z = serializedMeshModel.scaling.z;
-            this.shadowGenerator.getShadowMap().renderList.push(mesh);
+            this.shadowGenerator.getShadowMap().renderList.push(mesh.wrappedMesh);
         });
 
 

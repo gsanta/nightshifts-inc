@@ -20,7 +20,7 @@ export class ActionStrategy {
     public activateClosestMeshAction() {
         this.actionableObjects = this.filterActionableObjects(this.worldMap);
         const reduceToClosestMeshModel = (val: [WorldItem, number], current: WorldItem): [WorldItem, number] => {
-            const distance = VectorModel.Distance(this.player.getCenterPosition(), current.getPosition());
+            const distance = VectorModel.Distance(this.player.getCenterPosition(), current.getCenterPosition());
             return !val || val[1] > distance ? [current, distance] : val;
         };
 

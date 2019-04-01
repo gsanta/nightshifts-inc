@@ -117,7 +117,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
     private createSpotLight(scene: Scene): SpotLight {
         const spotLight = new BABYLON.SpotLight('spotLight', new BABYLON.Vector3(0, 2, 1), new BABYLON.Vector3(0, 0.5, -5), Math.PI / 8, 1, scene);
         spotLight.diffuse = new BABYLON.Color3(1, 1, 1);
-
+        spotLight.setEnabled(false);
         return spotLight;
     }
 
