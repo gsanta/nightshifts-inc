@@ -12,7 +12,6 @@ import { World } from '../../../../model/World';
 import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
 import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
-
 export class GwmStaticItemImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: WorldItemTranslator;

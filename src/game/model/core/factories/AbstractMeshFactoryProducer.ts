@@ -7,7 +7,6 @@ import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../templates/c
 import { AsyncTemplateCreator } from '../templates/AsyncTemplateCreator';
 import { VectorModel } from '../VectorModel';
 import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator';
-import { WindowTemplateCreator } from '../templates/creators/WindowTemplateCreator';
 import { Promise } from 'es6-promise';
 import { World } from '../../World';
 
@@ -18,7 +17,7 @@ interface MeshMap<V> {
     cupboard: V;
     table: V;
     floor: V;
-    window: WindowTemplateCreator;
+    window: V;
     bathtub: V;
     washbasin: V;
     bed: V;
@@ -79,7 +78,7 @@ export abstract class AbstractMeshFactoryProducer<T> {
                 {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.3, 0.3, 0.3)}
             ),
             floor: new FloorTemplateCreator(scene),
-            window: new WindowTemplateCreator(scene),
+            window: null,
             bathtub: new ModelFileBasedTemplateCreator(
                 scene,
                 this.FURITURE_3_BASE_PATH,

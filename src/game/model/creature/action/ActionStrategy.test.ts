@@ -21,17 +21,13 @@ describe('ActionStrategy', () => {
             const doDefaultAction = sinon.spy();
             const actionableObj1: Partial<WorldItem> = {
                 hasDefaultAction: true,
-                mesh: <MeshWrapper<any>> {
-                    getPosition: () => new VectorModel(2, 0, 0),
-                },
+                getCenterPosition: () => new VectorModel(2, 0, 0),
                 doDefaultAction: doDefaultAction
             };
 
             const actionableObj2: Partial<WorldItem> = {
                 hasDefaultAction: true,
-                mesh: <MeshWrapper<any>> {
-                    getPosition: () => new VectorModel(3, 0, 0),
-                }
+                getCenterPosition: () => new VectorModel(3, 0, 0)
             };
 
             const worldMap: Partial<World> = {

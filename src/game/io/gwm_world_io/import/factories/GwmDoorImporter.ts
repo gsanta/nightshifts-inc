@@ -9,24 +9,12 @@ import { Door } from '../../../../model/creature/type/Door';
 import { World } from '../../../../model/World';
 
 export class GwmDoorImporter implements GwmItemImporter {
-    private doorTemplate: Door;
-    private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
-    private gameObjectToMeshSizeRatio: number;
     private scene: Scene;
 
-    constructor(
-        doorTemplate: Door,
-        scene: Scene,
-        gameObjectTranslator: WorldItemTranslator,
-        shadowGenerator: ShadowGenerator,
-        gameObjectToMeshSizeRatio: number
-    ) {
-        this.doorTemplate = doorTemplate;
+    constructor(scene: Scene, shadowGenerator: ShadowGenerator) {
         this.scene = scene;
-        this.gameObjectTranslator = gameObjectTranslator;
         this.shadowGenerator = shadowGenerator;
-        this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
     }
 
 
