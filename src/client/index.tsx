@@ -11,7 +11,6 @@ import { GwmWorldImporter } from '../game/io/gwm_world_io/import/GwmWorldImporte
 import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 import { ActionDispatcher } from '../game/actions/ActionDispatcher';
 import { World } from '../game/model/World';
-import DialogTemplate from './gui/components/dialogs/DialogTemplate';
 import InventoryDialog from './gui/components/dialogs/inventory/InventoryDialog';
 
 export function render() {
@@ -62,7 +61,7 @@ export {GameEngine} from '../game/GameEngine';
 
 export const renderDialog = (root: HTMLDivElement, options: {headerColor: string, bodyColor: string, headerBorderColor: string}) => {
     ReactDom.render(
-        <InventoryDialog/>,
+        <InventoryDialog tools={[]} grabTool={() => null}/>,
         root
     );
 };

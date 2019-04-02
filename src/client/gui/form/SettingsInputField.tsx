@@ -44,7 +44,7 @@ export const SettingsInputField: React.SFC<SettingsInputFieldProps> = (props: Se
             <FormControl.Feedback />
             <HelpBlockStyled>{props.errorMessage}</HelpBlockStyled>
         </React.Fragment>
-    )
+    );
 };
 
 SettingsInputField.defaultProps = {

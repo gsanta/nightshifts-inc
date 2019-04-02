@@ -3,6 +3,7 @@ import { ActionType } from '../ActionType';
 import { UserQuery } from '../../query/user/UserQuery';
 import { User } from '../user/User';
 import { GameRequests } from '../game/GameRequests';
+import { Tool } from '../../gui/components/dialogs/inventory/Tool';
 
 const initialState: AppState = {
     config: {
@@ -13,6 +14,7 @@ const initialState: AppState = {
         game: new GameRequests()
     },
     world: null,
+    tools: [],
     user: User.NULL_USER_MODEL,
     appLoadingState: 'loading',
     dataLoadingState: 'loaded',
@@ -27,7 +29,7 @@ export interface Action {
     world?: any;
 }
 
-export const appReducer = (state: AppState = initialState, action: Action): AppState => {
+export const appReducer = (state: AppState = initialState, action: any): AppState => {
     switch (action.type) {
         case ActionType.GET_USER_FAILURE:
             return {...state, ...{
@@ -86,6 +88,15 @@ export const appReducer = (state: AppState = initialState, action: Action): AppS
         case ActionType.UPDATE_GAME_REQUEST:
             return {...state, ...{
                 world: action.world
+            }};
+
+        case ActionType.GRAB_TOOL:
+            const updatedTool: Tool = {...action.tool, ...{isCarrying: true}};
+
+            const tools = [...state.tools];
+            tools.splice(tools.indexOf(action.tool), 1, updatedTool);
+            return {...state, ...{
+                tools: tools
             }};
         default:
           return state;

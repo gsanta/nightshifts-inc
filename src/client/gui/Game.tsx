@@ -11,6 +11,7 @@ import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSch
 import UpdateWorldActions from '../state/game/actions/UpdateWorldActions';
 import GetWorldActions from '../state/game/actions/GetWorldActions';
 import { ActionDispatcher } from '../../game/actions/ActionDispatcher';
+import { ConnectedInventoryDialog } from './components/dialogs/inventory/ConnectedInventoryDialog';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
@@ -91,7 +92,10 @@ class Game extends React.Component<GameProps, GameState> {
 
     public render() {
         return (
-            <canvas ref={this.state.canvasRef}></canvas>
+            <div>
+                <canvas ref={this.state.canvasRef}></canvas>
+                <ConnectedInventoryDialog/>
+            </div>
         );
     }
 }
