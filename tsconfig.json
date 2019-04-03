@@ -4,15 +4,19 @@
       "target": "es6",
       "sourceMap": true,
       "moduleResolution": "node",
+      "outDir": "build/modules",
       "module": "commonjs",
       // "strictNullChecks": true,
       "jsx": "react"
     },
     "include": [
       "src/game/**/*.ts",
-      "src/gui/**/*.tsx?", "src/gui/index.tsx", "src/gui/form/TextField.tsx", "src/engine/world_items/ContainerWorldItem.ts"
+      "src/client/**/*.ts",
+      "src/client/**/*.tsx",
+      "src/engine/**/*.ts"
     ],
     "exclude": [
-      "node_modules"
+      "node_modules",
+      "build"
     ]
   }

@@ -218,17 +218,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
     private updatePassword() {
         this.props.updatePassword(this.state.newPassword, this.state.oldPassword);
-        // this.props.userActions.updatePassword({
-        //     id: this.props.userStore.getModel().id,
-        //     oldPassword: this.state.oldPassword,
-        //     newPassword: this.state.newPassword
-        // });
     }
 
     private updateUser() {
-        // this.props.userActions
-        //     .updateUser(this.state.user);
-
         this.setState({
             isSaveButtonPopoverOpen: false
         });
@@ -239,15 +231,6 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                 this.setState({
                     isSaveButtonPopoverOpen: true
                 });
-            // if (this.props.appStore.getModel().lastActiontType === ActionType.UPDATE_PASSWORD) {
-            //     this.setState({
-            //         isSavePasswordButtonPopoverOpen: true
-            //     });
-            // } else {
-            //     this.setState({
-            //         isSaveButtonPopoverOpen: true
-            //     });
-            // }
         } else {
             this.setState({
                 isSaveButtonPopoverOpen: false,

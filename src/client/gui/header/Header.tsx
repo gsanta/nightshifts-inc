@@ -6,6 +6,9 @@ import { withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
 import { AppState } from '../../state/root/RootState';
+import SignoutActions from '../../state/user/actions/SignoutActions';
+import { SignoutIcon } from '../components/icons/SignoutIcon';
+import SettingsIcon from '../components/icons/SettingsIcon';
 
 const HeaderDiv = styled.div`
     width: 100%;
@@ -39,6 +42,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        signout: () => dispatch(SignoutActions.request()),
     };
 };
 
@@ -62,23 +66,9 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         const getProfileSection = () => {
             return (
                 <ProfileSection>
-                    <StyledMenuIcon onClick={this.props.openSidebar}/>
-
-                        {/* <Button
-                            className={this.props.classes.menuButton}
-                            aria-haspopup="true"
-                            onClick={this.handleClick}
-                        >
-                            {user.getEmail()}
-                        </Button>
-                        <Menu
-                            anchorEl={this.state.anchorElement}
-                            open={!!this.state.anchorElement}
-                            onClose={this.handleClose}
-                        >
-                            <MenuItem onClick={this.handleOpenSettings}>Settings</MenuItem>
-                            <MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
-                        </Menu> */}
+                    {/* <StyledMenuIcon onClick={this.props.openSidebar}/> */}
+                    <SettingsIcon activate={() => null}/>
+                    <SignoutIcon activate={this.props.signout}/>
                 </ProfileSection>
             );
         };
@@ -130,4 +120,5 @@ export interface HeaderProps {
     history: any;
     openSidebar(): void;
     user: User;
+    signout(): void;
 }

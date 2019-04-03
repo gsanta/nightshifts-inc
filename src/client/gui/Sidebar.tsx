@@ -25,8 +25,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     };
 };
 
-
-
 const SidebarHeader = styled.div`
     height: 100px;
     width: 100%;

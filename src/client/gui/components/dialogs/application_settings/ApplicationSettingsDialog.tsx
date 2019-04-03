@@ -1,15 +1,16 @@
-import DialogTemplate from './ApplicationSettingsDialog';
-
+import * as React from 'react';
+import DialogTemplate from '../DialogTemplate';
+import Settings from '../../../routes/settings/Settings';
 
 const ApplicationSettingsDialog = () => {
-    return (<div>Settings</div>);
+    return <Settings/>;
 };
 
 
 export default DialogTemplate(ApplicationSettingsDialog, {
     colors: {
-        header: '#B1D9FE',
-        headerBorder: '#389FFF',
-        body: '#E2F1FF'
+        header: '#FFDBA6',
+        headerBorder: '#FF9D0A',
+        body: '#FFF3E2'
     }
 });
