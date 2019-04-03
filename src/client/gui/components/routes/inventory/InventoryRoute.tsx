@@ -1,8 +1,9 @@
+
 import { AppState } from '../../../../state/root/RootState';
-import { Tool } from './Tool';
 import GrabToolActions from '../../../../state/game/actions/GrabToolActions';
 import { connect } from 'react-redux';
-import InventoryDialog from './InventoryDialog';
+import { Tool } from '../../dialogs/inventory/Tool';
+import InventoryDialog from '../../dialogs/inventory/InventoryDialog';
 
 
 const mapStateToProps = (state: AppState) => {
@@ -15,4 +16,4 @@ const mapDispatchToProps = dispatch => ({
     grabTool: (tool: Tool) => dispatch(GrabToolActions.request(tool))
 });
 
-export const ConnectedInventoryDialog = connect(mapStateToProps, mapDispatchToProps)(InventoryDialog);
+export const InventoryRoute = connect(mapStateToProps, mapDispatchToProps)(InventoryDialog);

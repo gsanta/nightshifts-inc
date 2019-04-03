@@ -12,7 +12,8 @@
     "build": "./node_modules/.bin/tsc --project tsconfig-server.json",
     "start": "node ./build/server/server.js",
     "heroku-postbuild": "./node_modules/.bin/tsc --project tsconfig-server.json && ./node_modules/.bin/webpack",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "fix-memory-limit": "cross-env LIMIT=4092 increase-memory-limit"
   },
   "author": "",
   "license": "ISC",
@@ -25,8 +26,10 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
     "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.1",
     "game-worldmap-generator": "^6.13.2",
+    "increase-memory-limit": "^1.0.6",
     "mini-css-extract-plugin": "^0.4.4",
     "mocha": "^5.2.0",
     "node-sass": "^4.10.0",
