@@ -3,23 +3,25 @@ import DialogTemplate from '../DialogTemplate';
 import {Highlight} from '@material-ui/icons';
 import styled from 'styled-components';
 import { Tool } from './Tool';
+import * as _ from 'lodash';
 
 const TOOL_WIDGET_SIZE = 50;
 
 const ToolWidgetBackground = styled.div`
     background: repeating-linear-gradient(
         45deg,
-        #389FFF,
-        #389FFF 5px,
+        #E2F1FF,
+        #E2F1FF 5px,
         #B1D9FE 5px,
         #B1D9FE 10px
     );
     width: ${TOOL_WIDGET_SIZE}px;
     height: ${TOOL_WIDGET_SIZE}px;
     margin: 5px;
+    cursor: ${(props: {draggable: boolean}) => props.draggable ? 'pointer' : 'drag'};
 `;
 
-const ToolWidget: React.SFC<{draggable?: boolean, tool: Tool}> = (props: {draggable?: boolean, tool: Tool}) => {
+const ToolWidget: React.SFC<ToolWidgetProps> = (props: ToolWidgetProps) => {
     return (
         <ToolWidgetBackground draggable={props.draggable} onDragStart={(e) => e.dataTransfer.setData('id', props.tool.name)}>
             <Highlight style={{width: `${TOOL_WIDGET_SIZE}px`, height: `${TOOL_WIDGET_SIZE}px`}}/>
@@ -27,13 +29,18 @@ const ToolWidget: React.SFC<{draggable?: boolean, tool: Tool}> = (props: {dragga
     );
 };
 
+export interface ToolWidgetProps {
+    draggable?: boolean;
+    tool: Tool;
+}
+
 ToolWidget.defaultProps = {
     draggable: false
 };
 
 const InventoryDialogStyle = styled.div`
     > div:first-child {
-        border-bottom: 1px solid #E2F1FF;
+        border-bottom: 1px solid #389FFF;
         min-height: ${TOOL_WIDGET_SIZE + 10}px;
     }
 
@@ -50,11 +57,21 @@ const InventoryDialog = (props: InventoryDialogProps) => {
         [],
     );
 
+    const onDrop = React.useCallback(
+        (e: React.DragEvent) => {
+            const toolName = e.dataTransfer.getData('id');
+            props.grabTool(_.find(props.tools, tool => tool.name === toolName));
+        },
+        [],
+    );
+
+    const carriedTools = props.tools.filter(tool => tool.isCarrying).map(tool =>  <ToolWidget  tool={tool}/>);
     const tools = props.tools.map(tool =>  <ToolWidget draggable={true} tool={tool}/>);
 
     return (
         <InventoryDialogStyle>
-            <div onDragOver={onDragOver}>
+            <div onDragOver={onDragOver} onDrop={onDrop}>
+                {carriedTools}
             </div>
             <div>
                 {tools}
@@ -66,8 +83,8 @@ const InventoryDialog = (props: InventoryDialogProps) => {
 export default DialogTemplate(InventoryDialog, {
     colors: {
         header: '#B1D9FE',
-        headerBorder: '#E2F1FF',
-        body: '#389FFF'
+        headerBorder: '#389FFF',
+        body: '#E2F1FF'
     }
 });
 

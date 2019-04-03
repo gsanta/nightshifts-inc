@@ -4,7 +4,7 @@ import { Tool } from '../../../gui/components/dialogs/inventory/Tool';
 class GrabToolActions {
     public request(tool: Tool) {
         return {
-            type: ActionType.UPDATE_GAME_REQUEST,
+            type: ActionType.GRAB_TOOL,
             tool
         };
     }

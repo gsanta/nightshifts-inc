@@ -14,7 +14,10 @@ const initialState: AppState = {
         game: new GameRequests()
     },
     world: null,
-    tools: [],
+    tools: [{
+        name: 'flashlight',
+        isCarrying: false
+    }],
     user: User.NULL_USER_MODEL,
     appLoadingState: 'loading',
     dataLoadingState: 'loaded',
