@@ -94,7 +94,7 @@ class Game extends React.Component<GameProps, GameState> {
         return (
             <div>
                 <canvas ref={this.state.canvasRef}></canvas>
-                <ConnectedInventoryDialog/>
+                {/* <ConnectedInventoryDialog/> */}
             </div>
         );
     }

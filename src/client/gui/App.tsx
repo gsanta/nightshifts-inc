@@ -92,46 +92,12 @@ class App extends React.Component<any, AppComponentState> {
         return (
             <div>
                 <Header openSidebar={this.openSidebar}/>
-                <Switch>
-                    <Route exact path="/settings" component={Settings}/>
-                    <Route component={Game}/>
-                </Switch>
                 <Sidebar isOpen={this.state.isSidebarOpen} isPermanent={this.state.isSidebarPermanent} close={this.closeSidebar}/>
-                <Route path="/" exact render={(props) => <RootRoute {...props} user={this.state.user}/>}/>
-                <Route
-                    path="/login"
-                    exact
-                    render={
-                        (props) => {
-                            return (
-                                <Login
-                                    {...props}
-                                    user={this.props.user}
-                                    login={this.props.login}
-                                    loginFacebook={(accessToken: string) => this.props.loginFacebook(accessToken)}
-                                    errors={this.props.errors}
-                                />
-                            );
-                        }
-                    }
-                />
-                <Route
-                    path="/signup"
-                    exact
-                    render={
-                        (props) => {
-                            return (
-                                <Signup
-                                    {...props}
-                                    signup={this.props.signup}
-                                    signupFacebook={(accessToken: string) => this.props.loginFacebook(accessToken)}
-                                    user={this.props.user}
-                                    errors={this.props.errors}
-                                />
-                            );
-                        }
-                    }
-                />
+
+                <Route exact path="/settings" component={Settings}/>
+                <Route exact path="/" component={Game}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/signup" component={Signup}/>
             </div>
         );
     }

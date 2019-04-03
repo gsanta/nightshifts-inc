@@ -9,6 +9,10 @@ import { FacebookLoginButton } from './form/FacebookLoginButton';
 import * as _ from 'lodash';
 import { ErrorMessage } from './ErrorMessage';
 import FormDialogWrapper, { hasError, getErrorMessage } from './dialogs/FormDialogWrapper';
+import { AppState } from '../state/root/RootState';
+import LoginFacebookActions from '../state/user/actions/LoginFacebookActions';
+import SignupActions from '../state/user/actions/SignupActions';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
     paper: {
@@ -26,6 +30,20 @@ const Footer = styled.div`
     display: flex;
     justify-content: space-between;
 `;
+
+const mapStateToProps = (state: AppState) => {
+    return {
+        user: state.user,
+        errors: state.errors
+    };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        loginFacebook: (accessToken: string) => dispatch(LoginFacebookActions.request(accessToken)),
+        signup: (email: string, password: string) => dispatch(SignupActions.request({email, password}))
+    };
+};
 
 class Signup extends React.Component<SignupProps, SignupState> {
 
@@ -93,7 +111,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
     }
 }
 
-export default withStyles(styles)(Signup);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Signup));
 
 export interface SignupState {
     email: string;

@@ -8,6 +8,10 @@ import { FacebookLoginButton } from './form/FacebookLoginButton';
 import FormDialogWrapper, { getMultiFieldErrorMessage } from './dialogs/FormDialogWrapper';
 import { ErrorMessage } from './ErrorMessage';
 import { hasError, getErrorMessage } from './dialogs/FormDialogWrapper';
+import { AppState } from '../state/root/RootState';
+import LoginActions from '../state/user/actions/LoginActions';
+import LoginFacebookActions from '../state/user/actions/LoginFacebookActions';
+import { connect } from 'react-redux';
 
 const styles = theme => ({
     paper: {
@@ -19,6 +23,20 @@ const styles = theme => ({
         paddingTop: '10px',
     }
 });
+
+const mapStateToProps = (state: AppState) => {
+    return {
+        user: state.user,
+        errors: state.errors
+    };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        login: (email: string, password: string) => dispatch(LoginActions.request({email, password})),
+        loginFacebook: (accessToken: string) => dispatch(LoginFacebookActions.request(accessToken)),
+    };
+};
 
 class Login extends React.Component<LoginProps, LoginState> {
 
@@ -81,7 +99,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 }
 
-export default withStyles(styles)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
 
 export interface LoginState {
     email: string;
