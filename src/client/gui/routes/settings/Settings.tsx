@@ -13,11 +13,12 @@ import { connect } from 'react-redux';
 import { ErrorMessage } from '../../ErrorMessage';
 import UpdateUserActions from '../../../state/user/actions/UpdateUserActions';
 import UpdatePasswordActions from '../../../state/user/actions/UpdatePasswordActions';
+import TextField from '../../components/form_elements/text_field/TextField';
+import Button from '../../components/form_elements/text_field/Button';
 
 const SettingsRoot = styled.div`
     width: 100%;
-    margin-left: 240px;
-    display: flex;
+    padding: 10px;
 `;
 
 const FormControlStyled = styled(FormControl)`
@@ -104,6 +105,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         this.savePasswordButtonRef = React.createRef();
 
         this.state = {
+            didUserPropsArrive: props.user ? true : false,
             user: props.user,
             newPassword: '',
             oldPassword: '',
@@ -113,43 +115,47 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 
     public static getDerivedStateFromProps(props: SettingsProps, state: SettingsState) {
-        const isSaveButtonPopoverOpen = props.dataLoadingState === 'recently_loaded' ? true : false;
-
-        return {...state, isSaveButtonPopoverOpen: isSaveButtonPopoverOpen};
+        if (props.user && !state.didUserPropsArrive) {
+            return {
+                ...state,
+                user: props.user.clone(),
+                didUserPropsArrive: true
+            };
+        }
     }
 
     public render() {
-        const user = this.state.user;
+        const email = this.state.user ? this.state.user.email : null;
+        const authStrategy = this.state.user ? this.state.user.authStrategy : null;
+
         return (
             <SettingsRoot>
-                <SettingsLeftColumn>
-                    <SmallButton
-                        ref={this.saveButtonRef}
-                        onClick={() => this.props.updateUser(this.state.user)}
-                        isDisabled={this.props.dataLoadingState === 'loading'}
-                    >
-                        Save changes
-                    </SmallButton>
-                    <StatusPopover
-                        open={this.state.isSaveButtonPopoverOpen}
-                        anchorEl={ReactDom.findDOMNode(this.saveButtonRef.current) as HTMLElement}
-                        onClose={() => null}
-                        >
-                        Changes saved.
-                    </StatusPopover>
-                </SettingsLeftColumn>
-                <SettingsRightColumn>
-                    <SettingsInputField
-                        type="text"
+                <div>
+                    <TextField
                         label="Email"
-                        value={this.state.user.email}
-                        onChange={email => this.changeEmail(email)}
+                        value={email}
+                        onChange={newEmail => this.changeEmail(newEmail)}
+                        disabled={authStrategy === 'facebook'}
                         hasError={false}
                         errorMessage={getErrorMessage(this.props.errors, 'email')}
                     />
+                </div>
 
-                    {user.authStrategy === 'local' ? this.renderPasswordChangeForm() : this.renderLoggedInWithFacebookText()}
-                </SettingsRightColumn>
+                <div>
+                    {authStrategy === 'facebook' ? this.renderLoggedInWithFacebookText() : this.renderPasswordChangeForm()}
+                </div>
+
+                <div>
+                    <Button/>
+
+                    <SmallButton
+                            ref={this.saveButtonRef}
+                            onClick={() => this.props.updateUser(this.state.user)}
+                            isDisabled={this.props.dataLoadingState === 'loading'}
+                        >
+                        Save changes
+                    </SmallButton>
+                </div>
             </SettingsRoot>
         );
     }
@@ -248,6 +254,7 @@ export interface SettingsState {
     newPassword: string;
     isSaveButtonPopoverOpen: boolean;
     isSavePasswordButtonPopoverOpen: boolean;
+    didUserPropsArrive: boolean;
 }
 
 export interface SettingsProps {

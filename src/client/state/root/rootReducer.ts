@@ -18,7 +18,7 @@ const initialState: AppState = {
         name: 'flashlight',
         isCarrying: false
     }],
-    user: User.NULL_USER_MODEL,
+    user: null,
     appLoadingState: 'loading',
     dataLoadingState: 'loaded',
     errors: []

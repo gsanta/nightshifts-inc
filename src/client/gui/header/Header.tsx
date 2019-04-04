@@ -66,7 +66,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         const getProfileSection = () => {
             return (
                 <ProfileSection>
-                    {/* <StyledMenuIcon onClick={this.props.openSidebar}/> */}
                     <SettingsIcon activate={() => null}/>
                     <SignoutIcon activate={this.props.signout}/>
                 </ProfileSection>
@@ -103,12 +102,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 
 const StyledHeader = withStyles(styles)(Header);
 
-// export default (props: any) => (
-//     <GlobalContext.Consumer>
-//         {(globalProps: GlobalProps) => <StyledHeader {...globalProps} {...props}/>}
-//     </GlobalContext.Consumer>
-// );
-
 export default connect(mapStateToProps, mapDispatchToProps)(StyledHeader);
 
 export interface HeaderState {
@@ -118,7 +111,6 @@ export interface HeaderState {
 export interface HeaderProps {
     classes: any;
     history: any;
-    openSidebar(): void;
     user: User;
     signout(): void;
 }
