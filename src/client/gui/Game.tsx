@@ -13,6 +13,8 @@ import GetWorldActions from '../state/game/actions/GetWorldActions';
 import { ActionDispatcher } from '../../game/actions/ActionDispatcher';
 import { InventoryRoute } from './components/routes/inventory/InventoryRoute';
 import ApplicationSettingsDialog from './components/dialogs/application_settings/ApplicationSettingsDialog';
+import { colors } from './styles';
+import { Color4 } from 'babylonjs';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
@@ -51,6 +53,7 @@ class Game extends React.Component<GameProps, GameState> {
         const canvas = this.state.canvasRef.current;
         const engine = new BABYLON.Engine(canvas);
         const scene = new BABYLON.Scene(engine);
+        scene.clearColor = Color4.FromHexString(colors.Black);
         this.setState({
             engine,
             scene

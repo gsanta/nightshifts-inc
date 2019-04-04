@@ -3,7 +3,12 @@ import * as React from 'react';
 
 const wrapWithStyles = <P extends any>(Component: React.ComponentType<P>) => {
     const ComponentWithStyles = styled(Component)`
-            color: green;
+            &:not(:last-child) {
+                margin-right: 10px;
+            }
+
+            cursor: grab;
+            color: black;
         `;
 
     return (props: P) => {

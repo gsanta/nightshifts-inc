@@ -3,11 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import Header from './header/Header';
-import { RootRoute } from './routes/root/RootRoute';
 import ClearErrorActions from '../state/root/actions/ClearErrorActions';
-import { UserQuery } from '../query/user/UserQuery';
-import Settings from './routes/settings/Settings';
-import Sidebar from './Sidebar';
 import Game from './Game';
 import { withRouter } from 'react-router-dom';
 import { User } from '../state/user/User';
@@ -18,6 +14,7 @@ import { ErrorMessage } from './ErrorMessage';
 import LoginFacebookActions from '../state/user/actions/LoginFacebookActions';
 import SignupActions from '../state/user/actions/SignupActions';
 import LoginActions from '../state/user/actions/LoginActions';
+import { ApplicationSettingsRoute } from './components/routes/application_settings/ApplicationSettingsRoute';
 
 require('bootstrap/dist/css/bootstrap.css');
 
@@ -92,10 +89,10 @@ class App extends React.Component<any, AppComponentState> {
         return (
             <div>
                 <Header openSidebar={this.openSidebar}/>
-                <Sidebar isOpen={this.state.isSidebarOpen} isPermanent={this.state.isSidebarPermanent} close={this.closeSidebar}/>
 
-                <Route exact path="/settings" component={Settings}/>
-                <Route exact path="/" component={Game}/>
+                <Game/>
+
+                <Route exact path="/settings" component={ApplicationSettingsRoute}/>
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/signup" component={Signup}/>
             </div>
