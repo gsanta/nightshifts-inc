@@ -1,9 +1,10 @@
 import * as React from 'react';
-import DialogTemplate from '../DialogTemplate';
+import withDialog from '../dialog_template/withDialog';
 import {Highlight} from '@material-ui/icons';
 import styled from 'styled-components';
 import { Tool } from './Tool';
 import * as _ from 'lodash';
+import { DialogTemplateProps } from '../dialog_template/withDialog';
 
 const TOOL_WIDGET_SIZE = 50;
 
@@ -80,7 +81,7 @@ const InventoryDialog = (props: InventoryDialogProps) => {
     );
 };
 
-export default DialogTemplate(InventoryDialog, {
+export default withDialog(InventoryDialog, {
     colors: {
         header: '#B1D9FE',
         headerBorder: '#389FFF',
@@ -89,7 +90,7 @@ export default DialogTemplate(InventoryDialog, {
 });
 
 
-export interface InventoryDialogProps {
+export interface InventoryDialogProps extends DialogTemplateProps {
     tools: Tool[];
     grabTool(tool: Tool);
 }
