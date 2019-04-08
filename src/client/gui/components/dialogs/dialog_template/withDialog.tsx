@@ -21,7 +21,7 @@ const DialogTemplateRender = (props: DialogTemplateProps & {classes: any, childr
     const {children, classes} = props;
 
     const Footer = props.footerOptions ? (
-        <DialogTemplateFooter onSubmit={props.footerOptions.onSubmit} borderColor={props.colors.headerBorder}/>
+        <DialogTemplateFooter onSubmit={props.footerOptions.onSubmit} borderColor={props.colors.headerBorder} submitLabel={props.footerOptions.submitLabel}/>
      ) : null;
 
     return (
@@ -60,6 +60,7 @@ export default withDialog;
 
 export interface DialogTemplateProps {
     footerOptions?: {
+        submitLabel: string;
         onSubmit(): void;
     };
     colors?: {

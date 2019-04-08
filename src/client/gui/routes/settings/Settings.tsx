@@ -21,41 +21,9 @@ const SettingsRoot = styled.div`
     padding: 10px;
 `;
 
-const FormControlStyled = styled(FormControl)`
-    height: 25px;
-    border-radius: 0;
-    width: 300px;
-    margin-bottom: 2px;
-    color: black;
-    background-color: ${colors.LightBlue};
-    border: 1px solid ${colors.LightBlue};
-
-    &:focus {
-        box-shadow: none;
-        color: black;
-        background-color: ${colors.LightBlue};
-        border: 1px solid ${colors.Blue};
-    }
-`;
-
 const ControlLabelStyled = styled(ControlLabel)`
     font-size: 12px;
     margin-bottom: 0;
-`;
-
-const SettingsLeftColumn = styled.div`
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-`;
-
-const SettingsRightColumn = styled.div`
-    width: 500px;
-    margin: 20px 0;
-    padding-left: 20px;
-    border-left: 1px solid ${colors.Blue};
 `;
 
 const PasswordChangeFormGroup = styled.div`
@@ -146,7 +114,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
                 </div>
 
                 <div>
-                    <Button/>
+                    <Button label="Done"/>
 
                     <SmallButton
                             ref={this.saveButtonRef}

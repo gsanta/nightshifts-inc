@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import * as React from 'react';
 
-export default styled(({className}: ButtonProps) => {
+export default styled(({className, label}: ButtonProps) => {
     return (
         <Button variant="contained"  color="primary" className={className}>
-            Default
+            {label}
         </Button>
     );
 })`
@@ -14,4 +14,5 @@ export default styled(({className}: ButtonProps) => {
 
 export interface ButtonProps {
     className?: string;
+    label: string;
 }
