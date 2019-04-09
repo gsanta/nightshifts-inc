@@ -14,5 +14,7 @@ export default {
     BlueVeryDark: '#389FFF',
     BlueLight: '#E2F1FF',
 
-    MainTextGray: '#7B7B7B'
+    MainTextGray: '#7B7B7B',
+    MainInputBackgroundGray: '#EDEDED',
+    ActionBlue: '#76B1E7'
 };

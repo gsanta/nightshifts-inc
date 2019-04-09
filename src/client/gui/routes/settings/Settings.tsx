@@ -13,7 +13,7 @@ import { ErrorMessage } from '../../ErrorMessage';
 import UpdateUserActions from '../../../state/user/actions/UpdateUserActions';
 import UpdatePasswordActions from '../../../state/user/actions/UpdatePasswordActions';
 import TextField from '../../components/form_elements/text_field/TextField';
-import Button from '../../components/form_elements/text_field/Button';
+import Button from '../../components/form_elements/Button';
 
 const SettingsRoot = styled.div`
     width: 100%;

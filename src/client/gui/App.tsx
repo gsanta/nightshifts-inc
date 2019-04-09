@@ -12,8 +12,6 @@ import Signup from './Signup';
 import { InventoryRoute } from './components/routes/inventory/InventoryRoute';
 import { LoginRoute } from './components/routes/login_route/LoginRoute';
 
-require('bootstrap/dist/css/bootstrap.css');
-
 const mapStateToProps = (state: AppState) => {
     return {
         user: state.user,

@@ -5,9 +5,8 @@ import { User } from '../../../../state/user/User';
 import TextField from '../../../components/form_elements/text_field/TextField';
 import { ErrorMessage } from '../../../ErrorMessage';
 import styled from 'styled-components';
-import { FormGroup, ControlLabel } from 'react-bootstrap';
 
-const ControlLabelStyled = styled(ControlLabel)`
+const ControlLabelStyled = styled.div`
     font-size: 12px;
     margin-bottom: 0;
 `;
@@ -68,12 +67,10 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
 
 const renderLoggedInWithFacebookText = () => {
     return (
-        <FormGroup
-        validationState={'success'}
-        >
+        <div>
             <ControlLabelStyled>Password</ControlLabelStyled>
             <LoggedInWithFacebookText>Logged in with facebook</LoggedInWithFacebookText>
-        </FormGroup>
+        </div>
     );
 };
 

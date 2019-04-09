@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import Button from '../../form_elements/text_field/Button';
+import Button from '../../form_elements/Button';
 
 const DialogTemplateFooter = styled(({className, onSubmit, submitLabel}: DialogTemplateFooterProps) => {
     return (

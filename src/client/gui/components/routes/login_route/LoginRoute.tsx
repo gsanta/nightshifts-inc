@@ -14,8 +14,6 @@ const mapDispatchToProps = dispatch => ({
 export const LoginRoute = connect(mapStateToProps, mapDispatchToProps)((props: {}) => {
 
     return (
-        <LoginDialog
-            footerOptions={{onSubmit: () => alert('submit'), submitLabel: 'Submit'}}
-        />
+        <LoginDialog/>
     );
 });

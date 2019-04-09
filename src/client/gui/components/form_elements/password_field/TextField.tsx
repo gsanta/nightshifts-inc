@@ -48,10 +48,10 @@ const TextFieldStyled: React.SFC<TextFieldProps> = (props: TextFieldProps) => {
                     id="component-filled"
                     value={props.value}
                     onChange={(event) => props.onChange(event.target.value)}
+                    type="text"
                     classes={{
                         underline: props.classes.cssUnderline,
                     }}
-                    type={props.type}
                 />
             </FormControl>
             <ErrorLabel>{props.errorMessage}</ErrorLabel>
@@ -62,8 +62,7 @@ const TextFieldStyled: React.SFC<TextFieldProps> = (props: TextFieldProps) => {
 TextFieldStyled.defaultProps = {
     errorMessage: null,
     hasError: false,
-    disabled: false,
-    type: 'text'
+    disabled: false
 };
 
 export interface TextFieldProps {
@@ -74,7 +73,6 @@ export interface TextFieldProps {
     errorMessage?: string;
     disabled?: boolean;
     classes?: any;
-    type?: string;
 }
 
 export default withStyles(styles)(TextFieldStyled);

@@ -8,7 +8,7 @@ import DialogTemplateBody from './DialogTemplateBody';
 const DialogTemplateStyles = {
     root: {
         width: '500px',
-        height: '300px',
+        minHeight: '300px',
         borderRadius: '0',
         backgroundColor: (props: DialogTemplateProps)  => {
             return props.colors.body;
