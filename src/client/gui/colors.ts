@@ -1,5 +1,5 @@
 
-export const colors = {
+export default {
     Brown: '#993c22',
     Black: '#000000',
     White: '#ffffff',
@@ -12,5 +12,7 @@ export const colors = {
 
     BlueDark: '#B1D9FE',
     BlueVeryDark: '#389FFF',
-    BlueLight: '#E2F1FF'
+    BlueLight: '#E2F1FF',
+
+    MainTextGray: '#7B7B7B'
 };

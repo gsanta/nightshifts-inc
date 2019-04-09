@@ -1,7 +1,7 @@
 import Popover from '@material-ui/core/Popover';
 import * as React from 'react';
 import styled from 'styled-components';
-import { colors } from '../styles';
+import colors from '../colors';
 
 const PopoverStyled = styled(Popover)`
     & > div:last-child {

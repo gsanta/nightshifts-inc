@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { colors } from '../styles';
+import colors from '../colors';
 import { User } from '../../state/user/User';
 import { withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';

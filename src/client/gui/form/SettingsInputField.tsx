@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
-import { colors } from '../styles';
+import colors from '../colors';
 
 const ControlLabelStyled = styled(ControlLabel)`
     font-size: 12px;

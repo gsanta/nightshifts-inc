@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
-import { colors } from '../../styles';
 import { SmallButton } from '../../form/SmallButton';
 import { User } from '../../../state/user/User';
 import * as ReactDom from 'react-dom';

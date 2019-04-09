@@ -1,6 +1,6 @@
 import {Modal, withStyles} from '@material-ui/core';
 import styled from 'styled-components';
-import { colors } from '../styles';
+import colors from '../colors';
 import * as React from 'react';
 import { ErrorMessage } from '../ErrorMessage';
 import * as _ from 'lodash';

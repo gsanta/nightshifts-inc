@@ -20,6 +20,10 @@ const DialogTemplateStyles = {
 const DialogTemplateRender = (props: DialogTemplateProps & {classes: any, children: JSX.Element}) => {
     const {children, classes} = props;
 
+    const Header = props.headerOptions ? (
+        <DialogTemplateHeader backgroundColor={props.colors.header} borderColor={props.colors.headerBorder}/>
+    ) : null;
+
     const Footer = props.footerOptions ? (
         <DialogTemplateFooter onSubmit={props.footerOptions.onSubmit} borderColor={props.colors.headerBorder} submitLabel={props.footerOptions.submitLabel}/>
      ) : null;
@@ -33,7 +37,7 @@ const DialogTemplateRender = (props: DialogTemplateProps & {classes: any, childr
                 }
             }}
         >
-            <DialogTemplateHeader backgroundColor={props.colors.header} borderColor={props.colors.headerBorder}/>
+            {Header}
             <DialogTemplateBody>{children}</DialogTemplateBody>
             {Footer}
         </Dialog>
@@ -62,6 +66,9 @@ export interface DialogTemplateProps {
     footerOptions?: {
         submitLabel: string;
         onSubmit(): void;
+    };
+    headerOptions?: {
+        headerColor: string;
     };
     colors?: {
         header?: string,

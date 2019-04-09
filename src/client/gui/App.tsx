@@ -9,6 +9,8 @@ import Game from './Game';
 import Header from './header/Header';
 import Login from './Login';
 import Signup from './Signup';
+import { InventoryRoute } from './components/routes/inventory/InventoryRoute';
+import { LoginRoute } from './components/routes/login_route/LoginRoute';
 
 require('bootstrap/dist/css/bootstrap.css');
 
@@ -46,7 +48,9 @@ class App extends React.Component<any, AppComponentState> {
                 <Game/>
 
                 <Route exact path="/settings" component={ApplicationSettingsRoute}/>
+                <Route exact path="/inventory" component={InventoryRoute}/>
                 <Route exact path="/login" component={Login}/>
+                <Route exact path="/login2" component={LoginRoute}/>
                 <Route exact path="/signup" component={Signup}/>
             </div>
         );

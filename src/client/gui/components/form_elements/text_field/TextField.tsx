@@ -3,7 +3,7 @@
 import { TextField } from '@material-ui/core';
 import * as React from 'react';
 import styled from 'styled-components';
-import { colors } from '../../../styles';
+import colors from '../../../colors';
 
 const Wrapper = styled.div`
     display: flex;

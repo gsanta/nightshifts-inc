@@ -30,7 +30,11 @@ export const getErrorMessage = (errors: ErrorMessage[], propertyName: string) =>
     return null;
 };
 
-const ApplicationSettingsDialog = (props: ApplicationSettingsDialogProps) => {
+const ApplicationSettingsDialogBodyStyle = styled.div`
+    padding: 10px;
+`;
+
+const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) => {
     const [didUserPropsArrive, setDidUserPropsArrive] = useState(props.user ? true : false);
     const [localUserCopy, setLocalUserCopy] = useState(props.user ? props.user.clone() : null);
 
@@ -43,7 +47,7 @@ const ApplicationSettingsDialog = (props: ApplicationSettingsDialogProps) => {
     const authStrategy = localUserCopy ? localUserCopy.authStrategy : null;
 
     return (
-        <div>
+        <ApplicationSettingsDialogBodyStyle>
             <div>
                 <TextField
                     label="Email"
@@ -58,10 +62,8 @@ const ApplicationSettingsDialog = (props: ApplicationSettingsDialogProps) => {
             <div>
                 {authStrategy === 'facebook' ? renderLoggedInWithFacebookText() : <span>No facebook</span>}
             </div>
-        </div>
+        </ApplicationSettingsDialogBodyStyle>
     );
-
-    // return <Settings/>;
 };
 
 const renderLoggedInWithFacebookText = () => {
@@ -77,7 +79,7 @@ const renderLoggedInWithFacebookText = () => {
 
 
 
-export default withDialog(ApplicationSettingsDialog, {
+export default withDialog(ApplicationSettingsDialogBody, {
     colors: {
         header: '#FFDBA6',
         headerBorder: '#FF9D0A',

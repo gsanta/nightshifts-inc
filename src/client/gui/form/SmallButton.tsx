@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap';
 import * as React from 'react';
 import styled from 'styled-components';
-import { colors } from '../styles';
+import colors from '../colors';
 
 const ButtonStyled: any = styled(Button)`
     height: 30px;

@@ -57,7 +57,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
     }
 
     public render() {
-        if (this.props.user !== User.NULL_USER_MODEL) {
+        if (this.props.user) {
             return <Redirect to="/"/>;
         }
 
