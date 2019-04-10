@@ -11,6 +11,7 @@ import Login from './Login';
 import Signup from './Signup';
 import { InventoryRoute } from './components/routes/inventory/InventoryRoute';
 import { LoginRoute } from './components/routes/login_route/LoginRoute';
+import { SignupRoute } from './components/routes/signup_route/SignupRoute';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -50,6 +51,7 @@ class App extends React.Component<any, AppComponentState> {
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/login2" component={LoginRoute}/>
                 <Route exact path="/signup" component={Signup}/>
+                <Route exact path="/signup2" component={SignupRoute}/>
             </div>
         );
     }

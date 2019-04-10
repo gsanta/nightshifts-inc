@@ -7,7 +7,7 @@ const wrapWithStyles = <P extends any>(Component: React.ComponentType<P>) => {
                 margin-right: 10px;
             }
 
-            cursor: grab;
+            cursor: pointer;
             color: black;
         `;
 

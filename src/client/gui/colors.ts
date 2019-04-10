@@ -16,5 +16,8 @@ export default {
 
     MainTextGray: '#7B7B7B',
     MainInputBackgroundGray: '#EDEDED',
-    ActionBlue: '#76B1E7'
+    SubmitAction: '#76B1E7',
+    SubmitActionFocused: '#5395D3',
+    CreateAction: '#94D097',
+    CreateActionFocus: '#6BA16D'
 };

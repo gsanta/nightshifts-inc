@@ -1,13 +1,15 @@
-import withDialog from '../dialog_template/withDialog';
+import withDialog, { DialogTemplateProps } from '../dialog_template/withDialog';
 import * as React from 'react';
-import { DialogTemplateProps } from '../dialog_template/withDialog';
 import colors from '../../../colors';
-import styled from 'styled-components';
-import TextField from '../../../components/form_elements/text_field/TextField';
-import Button from '../../form_elements/Button';
-import Link from '../../form_elements/link/Link';
 import { TitleLine } from '../dialog_template/TitleLine';
+import TextField from '../../form_elements/text_field/TextField';
 import { ButtonLine } from '../dialog_template/ButtonLine';
+import styled from 'styled-components';
+import Button from '../../form_elements/Button';
+
+const SignupDialogBodySyled = styled.div`
+    margin-bottom: 54px;
+`;
 
 const InputSectionStyled = styled.div`
     margin-left: 10px;
@@ -18,10 +20,10 @@ const LoginButtonStyled = styled(Button)`
     && {
         margin-left: auto;
         margin-right: 10px;
-        background-color: ${colors.SubmitAction};
+        background-color: ${colors.CreateAction};
 
         &:hover {
-            background-color: ${colors.SubmitActionFocused};
+            background-color: ${colors.CreateActionFocus};
         }
     }
 `;
@@ -35,16 +37,10 @@ const FacebookButtonStyled = styled(Button)`
     }
 `;
 
-const BottomLine = styled.div`
-    margin: 30px 3px 5px 3px;
-    display: flex;
-    justify-content: space-between;
-`;
-
-const LoginDialogBody = (props: LoginDialogProps) => {
+const SignupDialogBody = (props: DialogTemplateProps) => {
     return (
-        <div>
-            <TitleLine>log in with</TitleLine>
+        <SignupDialogBodySyled>
+            <TitleLine>create account</TitleLine>
             <InputSectionStyled>
                 <TextField
                     label="Email"
@@ -61,28 +57,20 @@ const LoginDialogBody = (props: LoginDialogProps) => {
                 />
             </InputSectionStyled>
             <ButtonLine>
-                <LoginButtonStyled label={'Log in'}/>
+                <LoginButtonStyled label={'Create'}/>
             </ButtonLine>
-            <TitleLine>or with</TitleLine>
+            <TitleLine>or create with</TitleLine>
             <ButtonLine>
                 <FacebookButtonStyled label={'Facebook'}/>
             </ButtonLine>
-            <BottomLine>
-                <Link to="/">Forgot password</Link>
-                <Link to="/signup2">Create account</Link>
-            </BottomLine>
-        </div>
+        </SignupDialogBodySyled>
     );
 };
 
-export default withDialog(LoginDialogBody, {
+export default withDialog(SignupDialogBody, {
     colors: {
         header: colors.White,
         headerBorder: colors.White,
         body: colors.White
     }
 });
-
-export interface LoginDialogProps extends DialogTemplateProps {
-
-}

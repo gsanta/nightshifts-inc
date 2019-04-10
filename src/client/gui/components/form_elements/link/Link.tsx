@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import colors from '../../../colors';
+import { Link } from 'react-router-dom';
 
 
-export default styled.a`
-    color: ${colors.ActionBlue};
-    cursor: grab;
+export default styled(Link)`
+    color: ${colors.SubmitAction};
+    cursor: pointer;
 `;
