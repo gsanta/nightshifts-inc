@@ -89,7 +89,6 @@ class Signup extends React.Component<SignupProps, SignupState> {
                         <Button text="Sign up" onClick={() => this.props.signup(this.state.email, this.state.password)}/>
                         <FacebookLoginButton
                             callback={(event: {accessToken: string}) => this.props.signupFacebook(event.accessToken)}
-                            text="Signup with Facebook"
                         />
                     </React.Fragment>
                 }

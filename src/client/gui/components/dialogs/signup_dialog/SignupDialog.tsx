@@ -6,10 +6,14 @@ import TextField from '../../form_elements/text_field/TextField';
 import { ButtonLine } from '../dialog_template/ButtonLine';
 import styled from 'styled-components';
 import Button from '../../form_elements/Button';
-
-const SignupDialogBodySyled = styled.div`
-    margin-bottom: 54px;
-`;
+import Link from '../../form_elements/link/Link';
+import { FacebookLoginButton } from '../../../form/FacebookLoginButton';
+import { Redirect } from 'react-router-dom';
+import { User } from '../../../../state/user/User';
+import { useState } from 'react';
+import { ErrorMessage } from '../../../ErrorMessage';
+import _ = require('lodash');
+import StandaloneErrorLabel from '../../miscellaneous/StandaloneErrorLabel';
 
 const InputSectionStyled = styled.div`
     margin-left: 10px;
@@ -28,7 +32,7 @@ const LoginButtonStyled = styled(Button)`
     }
 `;
 
-const FacebookButtonStyled = styled(Button)`
+const FacebookButtonStyled = styled(FacebookLoginButton)`
     /* to overwrite material-ui's style we have to increase the specificity */
     && {
         margin-left: auto;
@@ -37,34 +41,74 @@ const FacebookButtonStyled = styled(Button)`
     }
 `;
 
-const SignupDialogBody = (props: DialogTemplateProps) => {
+const BottomLine = styled.div`
+    margin: 30px 3px 5px 3px;
+    display: flex;
+    justify-content: space-between;
+`;
+
+const GotoLoginLinkStyled = styled.div`
+    margin-left: auto;
+`;
+
+const TextFieldWithValidationStyled = styled.div`
+    display: flex;
+`;
+
+const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps) => {
+    if (props.user) {
+        return <Redirect to="/"/>;
+    }
+
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+
+    const emailError = _.find(props.errors, error => error.properties.indexOf('email') !== -1);
+    const emailErrorMessage = emailError ? <StandaloneErrorLabel>{emailError.message}</StandaloneErrorLabel> : null;
+
+    const passwordError = _.find(props.errors, error => error.properties.indexOf('password') !== -1);
+    const passwordErrorMessage = passwordError ? <StandaloneErrorLabel>{passwordError.message}</StandaloneErrorLabel> : null;
+
     return (
-        <SignupDialogBodySyled>
+        <div>
             <TitleLine>create account</TitleLine>
             <InputSectionStyled>
-                <TextField
-                    label="Email"
-                    value={null}
-                    onChange={newEmail => () => null}
-                    hasError={false}
-                />
-                <TextField
-                    label="Password"
-                    value={null}
-                    onChange={newEmail => () => null}
-                    hasError={false}
-                    type="password"
-                />
+                <TextFieldWithValidationStyled>
+                    <TextField
+                        label="Email"
+                        value={null}
+                        onChange={setEmail}
+                        hasError={!!emailError}
+                    />
+                    {emailErrorMessage}
+                </TextFieldWithValidationStyled>
+                <TextFieldWithValidationStyled>
+                    <TextField
+                        label="Password"
+                        value={null}
+                        onChange={setPassword}
+                        hasError={false}
+                        type="password"
+                    />
+                    {passwordErrorMessage}
+                </TextFieldWithValidationStyled>
             </InputSectionStyled>
             <ButtonLine>
-                <LoginButtonStyled label={'Create'}/>
+                <LoginButtonStyled label={'Create'} onClick={() => props.signup(email, password)}/>
             </ButtonLine>
             <TitleLine>or create with</TitleLine>
             <ButtonLine>
-                <FacebookButtonStyled label={'Facebook'}/>
+                <FacebookButtonStyled callback={(event: {accessToken: string}) => props.loginFacebook(event.accessToken)}/>
             </ButtonLine>
-        </SignupDialogBodySyled>
+            <BottomLine>
+                <GotoLoginLinkStyled>Already have an account <Link to="/login">Go to login</Link></GotoLoginLinkStyled>
+            </BottomLine>
+        </div>
     );
+};
+
+SignupDialogBody.defaultProps = {
+    errors: []
 };
 
 export default withDialog(SignupDialogBody, {
@@ -74,3 +118,10 @@ export default withDialog(SignupDialogBody, {
         body: colors.White
     }
 });
+
+export interface SignupDialogProps extends DialogTemplateProps {
+    loginFacebook(accessToken: string): void;
+    signup(email: string, password: string): void;
+    user: User;
+    errors: ErrorMessage[];
+}

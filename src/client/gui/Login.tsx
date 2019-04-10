@@ -83,7 +83,6 @@ class Login extends React.Component<LoginProps, LoginState> {
                         <Button text="Sign in" onClick={() => this.props.login(this.state.email, this.state.password)}/>
                         <FacebookLoginButton
                             callback={(event: {accessToken: string}) => this.props.loginFacebook(event.accessToken)}
-                            text="Signin with Facebook"
                         />
                     </React.Fragment>
                 }

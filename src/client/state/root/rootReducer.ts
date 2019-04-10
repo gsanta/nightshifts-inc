@@ -75,7 +75,7 @@ export const appReducer = (state: AppState = initialState, action: any): AppStat
 
         case ActionType.SIGNOUT_SUCCESS:
             return {...state, ...{
-                user: User.NULL_USER_MODEL
+                user: null
             }};
 
         case ActionType.CLEAR_ERRORS:

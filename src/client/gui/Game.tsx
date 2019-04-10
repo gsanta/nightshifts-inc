@@ -82,10 +82,10 @@ class Game extends React.Component<GameProps, GameState> {
         const canvas = this.state.canvasRef.current;
         const scene = this.state.scene;
 
-        if (this.props.worldSchema && !this.gameEngine.isRunning()) {
-            const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
+        // if (this.props.worldSchema && !this.gameEngine.isRunning()) {
+        //     const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
             // this.gameEngine.run(JSON.stringify(this.props.worldSchema));
-        }
+        // }
     }
 
     public componentWillUnmount() {

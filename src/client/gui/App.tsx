@@ -21,18 +21,13 @@ const mapStateToProps = (state: AppState) => {
 };
 
 class App extends React.Component<any, AppComponentState> {
-    private unlisten: any;
 
     constructor(props: any) {
         super(props);
 
         this.state = {
-            user: User.NULL_USER_MODEL
+            user: null
         };
-    }
-
-    public componentWillUnmount() {
-        this.unlisten();
     }
 
     public render() {
@@ -48,17 +43,17 @@ class App extends React.Component<any, AppComponentState> {
 
                 <Route exact path="/settings" component={ApplicationSettingsRoute}/>
                 <Route exact path="/inventory" component={InventoryRoute}/>
-                <Route exact path="/login" component={Login}/>
-                <Route exact path="/login2" component={LoginRoute}/>
-                <Route exact path="/signup" component={Signup}/>
-                <Route exact path="/signup2" component={SignupRoute}/>
+                <Route exact path="/login2" component={Login}/>
+                <Route exact path="/login" component={LoginRoute}/>
+                <Route exact path="/signup2" component={Signup}/>
+                <Route exact path="/signup" component={SignupRoute}/>
             </div>
         );
     }
 
     private shouldRedirectToLoginPage() {
         return this.props.appLoadingState !== 'loading' &&
-            this.props.user === User.NULL_USER_MODEL &&
+            this.props.user === null &&
             this.props.history.location.pathname !== '/login' &&
             this.props.history.location.pathname !== '/signup';
     }

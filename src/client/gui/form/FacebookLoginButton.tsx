@@ -1,16 +1,7 @@
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import styled from 'styled-components';
 import * as React from 'react';
-
-const ButtonStyled = styled.button`
-    height: 60px;
-    width: 100%;
-    margin-top: 10px;
-    background: #4567B0;
-    color: white;
-    text-transform: uppercase;
-    cursor: pointer;
-`;
+import Button from '../components/form_elements/Button';
 
 export const FacebookLoginButton = (props: FacebookLoginButtonProps) => {
     return (
@@ -20,7 +11,7 @@ export const FacebookLoginButton = (props: FacebookLoginButtonProps) => {
             fields="name,email,picture"
             callback={props.callback}
             render={renderProps => (
-                <ButtonStyled onClick={renderProps.onClick}>{props.text}</ButtonStyled>
+                <Button label="Facebook" onClick={renderProps.onClick} className={props.className}/>
             )}
         />
     );
@@ -28,5 +19,5 @@ export const FacebookLoginButton = (props: FacebookLoginButtonProps) => {
 
 export interface FacebookLoginButtonProps {
     callback(event: {accessToken: string}): void;
-    text: string;
+    className?: string;
 }

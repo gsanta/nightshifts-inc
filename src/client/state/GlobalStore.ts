@@ -31,7 +31,7 @@ sagaMiddleware.run(function* rootSaga() {
         UpdatePasswordActions.watch(),
         SetDataLoadedActions.watch(),
         UpdateUserActions.watch(),
-        UpdateWorldActions.watch(),
+        // UpdateWorldActions.watch(),
         GetWorldActions.watch()
     ]);
 });

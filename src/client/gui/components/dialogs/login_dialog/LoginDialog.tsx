@@ -8,6 +8,9 @@ import Button from '../../form_elements/Button';
 import Link from '../../form_elements/link/Link';
 import { TitleLine } from '../dialog_template/TitleLine';
 import { ButtonLine } from '../dialog_template/ButtonLine';
+import { FacebookLoginButton } from '../../../form/FacebookLoginButton';
+import { User } from '../../../../state/user/User';
+import { Redirect } from 'react-router-dom';
 
 const InputSectionStyled = styled.div`
     margin-left: 10px;
@@ -26,7 +29,7 @@ const LoginButtonStyled = styled(Button)`
     }
 `;
 
-const FacebookButtonStyled = styled(Button)`
+const FacebookButtonStyled = styled(FacebookLoginButton)`
     /* to overwrite material-ui's style we have to increase the specificity */
     && {
         margin-left: auto;
@@ -42,6 +45,10 @@ const BottomLine = styled.div`
 `;
 
 const LoginDialogBody = (props: LoginDialogProps) => {
+    if (props.user) {
+        return <Redirect to="/"/>;
+    }
+
     return (
         <div>
             <TitleLine>log in with</TitleLine>
@@ -65,11 +72,11 @@ const LoginDialogBody = (props: LoginDialogProps) => {
             </ButtonLine>
             <TitleLine>or with</TitleLine>
             <ButtonLine>
-                <FacebookButtonStyled label={'Facebook'}/>
+                <FacebookButtonStyled callback={(event: {accessToken: string}) => props.loginFacebook(event.accessToken)}/>
             </ButtonLine>
             <BottomLine>
                 <Link to="/">Forgot password</Link>
-                <Link to="/signup2">Create account</Link>
+                <Link to="/signup">Create account</Link>
             </BottomLine>
         </div>
     );
@@ -84,5 +91,6 @@ export default withDialog(LoginDialogBody, {
 });
 
 export interface LoginDialogProps extends DialogTemplateProps {
-
+    loginFacebook(accessToken: string): void;
+    user: User;
 }

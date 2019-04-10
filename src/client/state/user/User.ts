@@ -5,8 +5,6 @@ export class User {
     public id: string;
     public authStrategy: 'facebook' | 'local';
 
-    public static NULL_USER_MODEL = new User();
-
     public setEmail(email: string) {
         this.email = email;
     }

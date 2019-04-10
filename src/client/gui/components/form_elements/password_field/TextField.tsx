@@ -23,7 +23,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     margin-bottom: 5px;
     height: 78px;
-    max-width: 300px;
+    width: 300px;
 `;
 
 const ErrorLabel = styled.div`
