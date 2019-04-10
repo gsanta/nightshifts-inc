@@ -30,7 +30,6 @@ export const ApplicationSettingsRoute = connect(mapStateToProps, mapDispatchToPr
 
     return (
         <ApplicationSettingsDialog
-            footerOptions={{onSubmit: () => alert('submit'), submitLabel: 'Submit'}}
             user={props.user}
         />
     );

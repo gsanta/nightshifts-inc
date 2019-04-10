@@ -5,6 +5,10 @@ import { User } from '../../../../state/user/User';
 import TextField from '../../../components/form_elements/text_field/TextField';
 import { ErrorMessage } from '../../../ErrorMessage';
 import styled from 'styled-components';
+import colors from '../../../colors';
+import { TitleLine } from '../dialog_template/TitleLine';
+import { ButtonLine } from '../dialog_template/ButtonLine';
+import Button from '../../form_elements/Button';
 
 const ControlLabelStyled = styled.div`
     font-size: 12px;
@@ -30,7 +34,25 @@ export const getErrorMessage = (errors: ErrorMessage[], propertyName: string) =>
 };
 
 const ApplicationSettingsDialogBodyStyle = styled.div`
-    padding: 10px;
+
+`;
+
+const DoneButtonStyled = styled(Button)`
+    /* to overwrite material-ui's style we have to increase the specificity */
+    && {
+        margin-left: auto;
+        margin-right: auto;
+        background-color: blue;
+        background-color: ${colors.SubmitAction};
+
+        &:hover {
+            background-color: ${colors.SubmitActionFocused};
+        }
+    }
+`;
+
+const ApplicationSettingsMainContentStyled = styled.div`
+    margin-bottom: 30px;
 `;
 
 const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) => {
@@ -47,20 +69,26 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
 
     return (
         <ApplicationSettingsDialogBodyStyle>
-            <div>
-                <TextField
-                    label="Email"
-                    value={email}
-                    onChange={newEmail => this.changeEmail(newEmail)}
-                    disabled={authStrategy === 'facebook'}
-                    hasError={false}
-                    errorMessage={getErrorMessage([], 'email')}
-                />
-            </div>
+            <TitleLine>settings</TitleLine>
+            <ApplicationSettingsMainContentStyled>
+                <div>
+                    <TextField
+                        label="Email"
+                        value={email}
+                        onChange={newEmail => this.changeEmail(newEmail)}
+                        disabled={authStrategy === 'facebook'}
+                        hasError={false}
+                        errorMessage={getErrorMessage([], 'email')}
+                    />
+                </div>
 
-            <div>
-                {authStrategy === 'facebook' ? renderLoggedInWithFacebookText() : <span>No facebook</span>}
-            </div>
+                <div>
+                    {authStrategy === 'facebook' ? renderLoggedInWithFacebookText() : <span>No facebook</span>}
+                </div>
+            </ApplicationSettingsMainContentStyled>
+            <ButtonLine>
+                <DoneButtonStyled label="Done"/>
+            </ButtonLine>
         </ApplicationSettingsDialogBodyStyle>
     );
 };
@@ -78,9 +106,9 @@ const renderLoggedInWithFacebookText = () => {
 
 export default withDialog(ApplicationSettingsDialogBody, {
     colors: {
-        header: '#FFDBA6',
-        headerBorder: '#FF9D0A',
-        body: '#FFF3E2'
+        header: colors.White,
+        headerBorder: colors.White,
+        body: colors.White
     }
 });
 
