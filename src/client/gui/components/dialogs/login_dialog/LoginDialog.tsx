@@ -11,6 +11,10 @@ import { ButtonLine } from '../dialog_template/ButtonLine';
 import { FacebookLoginButton } from '../../../form/FacebookLoginButton';
 import { User } from '../../../../state/user/User';
 import { Redirect } from 'react-router-dom';
+import { ErrorMessage } from '../../../ErrorMessage';
+import _ = require('lodash');
+import StandaloneErrorLabel from '../../miscellaneous/StandaloneErrorLabel';
+import { useState } from 'react';
 
 const InputSectionStyled = styled.div`
     margin-left: 10px;
@@ -44,31 +48,50 @@ const BottomLine = styled.div`
     justify-content: space-between;
 `;
 
+const TextFieldWithValidationStyled = styled.div`
+    display: flex;
+`;
+
 const LoginDialogBody = (props: LoginDialogProps) => {
     if (props.user) {
         return <Redirect to="/"/>;
     }
 
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+
+    const emailError = _.find(props.errors, error => error.properties.indexOf('email') !== -1);
+    const emailErrorMessage = emailError ? <StandaloneErrorLabel>{emailError.message}</StandaloneErrorLabel> : null;
+
+    const passwordError = _.find(props.errors, error => error.properties.indexOf('password') !== -1);
+    const passwordErrorMessage = passwordError ? <StandaloneErrorLabel>{passwordError.message}</StandaloneErrorLabel> : null;
+
     return (
         <div>
             <TitleLine>log in with</TitleLine>
             <InputSectionStyled>
-                <TextField
-                    label="Email"
-                    value={null}
-                    onChange={newEmail => () => null}
-                    hasError={false}
-                />
-                <TextField
-                    label="Password"
-                    value={null}
-                    onChange={newEmail => () => null}
-                    hasError={false}
-                    type="password"
-                />
+                <TextFieldWithValidationStyled>
+                    <TextField
+                        label="Email"
+                        value={email}
+                        onChange={setEmail}
+                        hasError={!!emailError}
+                    />
+                    {emailErrorMessage}
+                </TextFieldWithValidationStyled>
+                <TextFieldWithValidationStyled>
+                    <TextField
+                        label="Password"
+                        value={password}
+                        onChange={setPassword}
+                        hasError={!!passwordError}
+                        type="password"
+                    />
+                    {passwordErrorMessage}
+                </TextFieldWithValidationStyled>
             </InputSectionStyled>
             <ButtonLine>
-                <LoginButtonStyled label={'Log in'}/>
+                <LoginButtonStyled label={'Log in'} onClick={() => props.login(email, password)}/>
             </ButtonLine>
             <TitleLine>or with</TitleLine>
             <ButtonLine>
@@ -92,5 +115,7 @@ export default withDialog(LoginDialogBody, {
 
 export interface LoginDialogProps extends DialogTemplateProps {
     loginFacebook(accessToken: string): void;
+    login(email: string, password: string): void;
     user: User;
+    errors: ErrorMessage[];
 }

@@ -76,7 +76,7 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
                 <TextFieldWithValidationStyled>
                     <TextField
                         label="Email"
-                        value={null}
+                        value={email}
                         onChange={setEmail}
                         hasError={!!emailError}
                     />
@@ -85,9 +85,9 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
                 <TextFieldWithValidationStyled>
                     <TextField
                         label="Password"
-                        value={null}
+                        value={password}
                         onChange={setPassword}
-                        hasError={false}
+                        hasError={!!passwordError}
                         type="password"
                     />
                     {passwordErrorMessage}
