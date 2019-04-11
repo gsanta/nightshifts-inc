@@ -85,7 +85,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
         if (props.user && !state.didUserPropsArrive) {
             return {
                 ...state,
-                user: props.user.clone(),
+                user: {...props.user},
                 didUserPropsArrive: true
             };
         }
@@ -182,10 +182,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     }
 
     private changeEmail(newEmail: string) {
-        const clone = this.state.user.clone();
-        clone.setEmail(newEmail);
         this.setState({
-            user: clone
+            user: {...this.state.user, ...{ email: newEmail}}
         });
     }
 

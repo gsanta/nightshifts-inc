@@ -9,6 +9,7 @@ import colors from '../../../colors';
 import { TitleLine } from '../dialog_template/TitleLine';
 import { ButtonLine } from '../dialog_template/ButtonLine';
 import Button from '../../form_elements/Button';
+import { PasswordUpdateSection } from './PasswordUpdateSection';
 
 const ControlLabelStyled = styled.div`
     font-size: 12px;
@@ -57,15 +58,20 @@ const ApplicationSettingsMainContentStyled = styled.div`
 
 const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) => {
     const [didUserPropsArrive, setDidUserPropsArrive] = useState(props.user ? true : false);
-    const [localUserCopy, setLocalUserCopy] = useState(props.user ? props.user.clone() : null);
+
+    const [email, setEmail] = useState(props.user ? props.user.email : null);
+    const [authStrategy, setAuthStrategy] = useState(props.user ? props.user.authStrategy : null);
+    const [password, setPassword] = useState(null);
 
     if (props.user && !didUserPropsArrive) {
-        setLocalUserCopy(props.user.clone());
+        setEmail(props.user.email);
+        setAuthStrategy(props.user.authStrategy);
         setDidUserPropsArrive(true);
     }
 
-    const email = localUserCopy ? localUserCopy.email : null;
-    const authStrategy = localUserCopy ? localUserCopy.authStrategy : null;
+    const updatePassword = (newPassword: string, oldPassword: string) => {
+        props.updatePassword({...props.user, email: email}, newPassword, oldPassword);
+    };
 
     return (
         <ApplicationSettingsDialogBodyStyle>
@@ -75,7 +81,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
                     <TextField
                         label="Email"
                         value={email}
-                        onChange={newEmail => this.changeEmail(newEmail)}
+                        onChange={newEmail => setEmail(newEmail)}
                         disabled={authStrategy === 'facebook'}
                         hasError={false}
                         errorMessage={getErrorMessage([], 'email')}
@@ -83,11 +89,17 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
                 </div>
 
                 <div>
-                    {authStrategy === 'facebook' ? renderLoggedInWithFacebookText() : <span>No facebook</span>}
+                    {authStrategy === 'facebook' ?
+                        renderLoggedInWithFacebookText() :
+                        <PasswordUpdateSection
+                            errors={props.errors}
+                            updatePassword={updatePassword}
+                        />
+                    }
                 </div>
             </ApplicationSettingsMainContentStyled>
             <ButtonLine>
-                <DoneButtonStyled label="Done"/>
+                <DoneButtonStyled label="Done" onClick={() => props.updateUser({...props.user, email: email})}/>
             </ButtonLine>
         </ApplicationSettingsDialogBodyStyle>
     );
@@ -115,4 +127,7 @@ export default withDialog(ApplicationSettingsDialogBody, {
 
 export interface ApplicationSettingsDialogProps extends DialogTemplateProps {
     user: User;
+    errors: ErrorMessage[];
+    updatePassword(user: User, newPassword: string, oldPassword: string);
+    updateUser(user: User);
 }

@@ -6,8 +6,6 @@ import { User } from '../../../../state/user/User';
 import { ErrorMessage } from '../../../ErrorMessage';
 import UpdatePasswordActions from '../../../../state/user/actions/UpdatePasswordActions';
 import UpdateUserActions from '../../../../state/user/actions/UpdateUserActions';
-import { FormGroup } from 'react-bootstrap';
-import styled from 'styled-components';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -31,6 +29,9 @@ export const ApplicationSettingsRoute = connect(mapStateToProps, mapDispatchToPr
     return (
         <ApplicationSettingsDialog
             user={props.user}
+            updateUser={props.updateUser}
+            updatePassword={props.updatePassword}
+            errors={props.errors}
         />
     );
 });
@@ -38,6 +39,6 @@ export const ApplicationSettingsRoute = connect(mapStateToProps, mapDispatchToPr
 export interface SettingsProps {
     user: User;
     errors: ErrorMessage[];
-    updatePassword(newPassword: string, oldPassword: string);
+    updatePassword(user: User, newPassword: string, oldPassword: string);
     updateUser(user: User);
 }
