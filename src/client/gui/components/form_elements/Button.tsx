@@ -9,11 +9,11 @@ export default styled(({className, label, onClick}: ButtonProps) => {
         </Button>
     );
 })`
-
+    height: 40px;
 `;
 
 export interface ButtonProps {
     className?: string;
-    label: string;
+    label: string | JSX.Element;
     onClick?: () => void;
 }

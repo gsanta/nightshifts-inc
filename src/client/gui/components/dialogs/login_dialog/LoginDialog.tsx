@@ -15,6 +15,7 @@ import { ErrorMessage } from '../../../ErrorMessage';
 import _ = require('lodash');
 import StandaloneErrorLabel from '../../miscellaneous/StandaloneErrorLabel';
 import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 const InputSectionStyled = styled.div`
     margin-left: 10px;
@@ -91,7 +92,10 @@ const LoginDialogBody = (props: LoginDialogProps) => {
                 </TextFieldWithValidationStyled>
             </InputSectionStyled>
             <ButtonLine>
-                <LoginButtonStyled label={'Log in'} onClick={() => props.login(email, password)}/>
+                <LoginButtonStyled
+                    label={<FormattedMessage id="login" defaultMessage={'Login'}/>}
+                    onClick={() => props.login(email, password)}
+                />
             </ButtonLine>
             <TitleLine>or with</TitleLine>
             <ButtonLine>

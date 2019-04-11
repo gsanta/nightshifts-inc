@@ -12,12 +12,29 @@ import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories
 import { ActionDispatcher } from '../game/actions/ActionDispatcher';
 import { World } from '../game/model/World';
 import InventoryDialog from './gui/components/dialogs/inventory/InventoryDialog';
+import { IntlProvider } from 'react-intl';
+
+import { addLocaleData } from 'react-intl';
+import * as localeHu from 'react-intl/locale-data/hu';
+import * as localeEn from 'react-intl/locale-data/en';
+
+addLocaleData([...localeEn, ...localeHu]);
+
+const messagesHu = require('../translations/hu.json');
+
+const messages = {
+    hu: messagesHu
+};
+
+const language = navigator.language.split(/[-_]/)[0];
 
 export function render() {
     ReactDom.render(
-        <Router>
-            <App/>
-        </Router>,
+        <IntlProvider locale={language} messages={messages[language]}>
+            <Router>
+                <App/>
+            </Router>
+        </IntlProvider>,
         document.getElementById('the-game-root')
     );
 }

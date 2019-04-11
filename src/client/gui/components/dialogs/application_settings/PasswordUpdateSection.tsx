@@ -5,6 +5,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../form_elements/Button';
 import _ = require('lodash');
+import { FormattedMessage } from 'react-intl';
+import colors from '../../../colors';
 
 const PasswordUpdateSectionStyled = styled.div`
     display: flex;
@@ -13,6 +15,35 @@ const PasswordUpdateSectionStyled = styled.div`
 const TextFieldGroupStyled = styled.div`
     display: flex;
     flex-direction: column;
+`;
+
+const SavePasswordButtonDecoratorStyled = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 130px;
+    margin-left: 20px;
+    padding: 5px;
+    justify-content: center;
+
+    background: repeating-linear-gradient(
+        45deg,
+        #EFEFEF,
+        #EFEFEF 5px,
+        #FFFFFF 5px,
+        #FFFFFF 10px
+    );
+`;
+
+const SavePasswordButtonStyled = styled(Button)`
+
+    && {
+        background-color: ${colors.SubmitAction};
+
+        &:hover {
+            background-color: ${colors.SubmitActionFocused};
+        }
+    }
 `;
 
 export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
@@ -41,7 +72,12 @@ export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
                     type="password"
                 />
             </TextFieldGroupStyled>
-            <Button label="Done" onClick={() => props.updatePassword(newPassword, oldPassword)}/>
+            <SavePasswordButtonDecoratorStyled>
+                <SavePasswordButtonStyled
+                    label={<FormattedMessage id="save" defaultMessage={'Save password'}/>}
+                    onClick={() => props.updatePassword(newPassword, oldPassword)}
+                />
+            </SavePasswordButtonDecoratorStyled>
         </PasswordUpdateSectionStyled>
     );
 };

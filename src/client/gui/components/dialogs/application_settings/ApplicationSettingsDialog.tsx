@@ -34,7 +34,7 @@ export const getErrorMessage = (errors: ErrorMessage[], propertyName: string) =>
     return null;
 };
 
-const ApplicationSettingsDialogBodyStyle = styled.div`
+const ApplicationSettingsDialogBodyStyled = styled.div`
 
 `;
 
@@ -43,7 +43,6 @@ const DoneButtonStyled = styled(Button)`
     && {
         margin-left: auto;
         margin-right: auto;
-        background-color: blue;
         background-color: ${colors.SubmitAction};
 
         &:hover {
@@ -53,6 +52,7 @@ const DoneButtonStyled = styled(Button)`
 `;
 
 const ApplicationSettingsMainContentStyled = styled.div`
+    padding: 0px 5px;
     margin-bottom: 30px;
 `;
 
@@ -74,7 +74,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
     };
 
     return (
-        <ApplicationSettingsDialogBodyStyle>
+        <ApplicationSettingsDialogBodyStyled>
             <TitleLine>settings</TitleLine>
             <ApplicationSettingsMainContentStyled>
                 <div>
@@ -101,7 +101,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
             <ButtonLine>
                 <DoneButtonStyled label="Done" onClick={() => props.updateUser({...props.user, email: email})}/>
             </ButtonLine>
-        </ApplicationSettingsDialogBodyStyle>
+        </ApplicationSettingsDialogBodyStyled>
     );
 };
 
