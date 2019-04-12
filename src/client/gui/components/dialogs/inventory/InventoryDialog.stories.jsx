@@ -3,6 +3,15 @@ import * as React from 'react';
 import InventoryDialog from './InventoryDialog';
 
 storiesOf('InventoryDialog', module)
-    .add('basic dialog', () => (
-        <InventoryDialog tools={[]} grabTool={() => null}/>
+    .add('InventoryDialog', () => (
+        <InventoryDialog
+            tools={[
+                {
+                    isCarrying: true,
+                    name: 'flashlight'
+                }
+            ]}
+            grabTool={() => null}
+            headerOptions={{close: () => null, title: 'inventory'}}
+        />
     ));

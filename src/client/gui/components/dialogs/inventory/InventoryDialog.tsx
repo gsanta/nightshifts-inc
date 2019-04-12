@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { Tool } from './Tool';
 import * as _ from 'lodash';
 import { DialogTemplateProps } from '../dialog_template/withDialog';
+import colors from '../../../colors';
+import { TitleLine } from '../dialog_template/TitleLine';
 
 const TOOL_WIDGET_SIZE = 50;
 
@@ -40,14 +42,14 @@ ToolWidget.defaultProps = {
 };
 
 const InventoryDialogStyle = styled.div`
-    > div:first-child {
-        border-bottom: 1px solid #389FFF;
-        min-height: ${TOOL_WIDGET_SIZE + 10}px;
-    }
+`;
 
-    > div {
-        width: 100%;
-    }
+const ToolsOnYouSectionStyled = styled.div`
+    min-height: ${TOOL_WIDGET_SIZE + 10}px;
+`;
+
+const ToolsInTheLockerStyled = styled.div`
+    width: 100%;
 `;
 
 const InventoryDialog = (props: InventoryDialogProps) => {
@@ -71,21 +73,23 @@ const InventoryDialog = (props: InventoryDialogProps) => {
 
     return (
         <InventoryDialogStyle>
-            <div onDragOver={onDragOver} onDrop={onDrop}>
+            <TitleLine marginBottom={15} marginTop={15}>tools on you</TitleLine>
+            <ToolsOnYouSectionStyled onDragOver={onDragOver} onDrop={onDrop}>
                 {carriedTools}
-            </div>
-            <div>
+            </ToolsOnYouSectionStyled>
+            <TitleLine marginBottom={15} marginTop={10}>tools in the locker</TitleLine>
+            <ToolsInTheLockerStyled>
                 {tools}
-            </div>
+            </ToolsInTheLockerStyled>
         </InventoryDialogStyle>
     );
 };
 
 export default withDialog(InventoryDialog, {
     colors: {
-        header: '#B1D9FE',
-        headerBorder: '#389FFF',
-        body: '#E2F1FF'
+        header: colors.White,
+        headerBorder: colors.White,
+        body: colors.White
     }
 });
 

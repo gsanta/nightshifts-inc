@@ -27,7 +27,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 export const ApplicationSettingsRoute = withRouter(connect(mapStateToProps, mapDispatchToProps)((props: RouteComponentProps & SettingsProps) => {
     const headerOptions = {
-        close: () => props.history.push('/')
+        close: () => props.history.push('/'),
+        title: 'settings'
     };
 
     const updateUser = (user: User) => {

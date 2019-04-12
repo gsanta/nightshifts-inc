@@ -25,7 +25,7 @@ const DialogTemplateRender = (props: DialogTemplateProps & {classes: any, childr
     const {children, classes} = props;
 
     const Header = props.headerOptions ? (
-        <DialogTemplateHeader close={props.headerOptions.close}/>
+        <DialogTemplateHeader close={props.headerOptions.close} title={props.headerOptions.title}/>
     ) : null;
 
     const Footer = props.footerOptions ? (
@@ -78,6 +78,7 @@ export interface DialogTemplateProps {
     };
     headerOptions?: {
         close(): void;
+        title?: string;
     };
     colors?: {
         header?: string,
