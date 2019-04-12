@@ -4,7 +4,6 @@ import colors from '../../../colors';
 
 const TitleLineStyle = styled.div`
     text-align: center;
-    margin: 40px 0px;
 `;
 
 const TitleLineHorizontalLine = styled.hr`
@@ -20,11 +19,25 @@ const TitleLineText = styled.div`
     padding: 0 2px;
 `;
 
-export const TitleLine = ({children}: {children: JSX.Element | string}) => {
+export const TitleLine: React.SFC<TitleLineProps> = (props: TitleLineProps) => {
     return (
-        <TitleLineStyle>
-            <TitleLineText>{children}</TitleLineText>
+        <TitleLineStyle style={{
+            marginTop: `${props.marginTop}px`,
+            marginBottom: `${props.marginBottom}px`,
+        }}>
+            <TitleLineText>{props.children}</TitleLineText>
             <TitleLineHorizontalLine/>
         </TitleLineStyle>
     );
 };
+
+TitleLine.defaultProps = {
+    marginTop: 40,
+    marginBottom: 40
+};
+
+export interface TitleLineProps {
+    children: JSX.Element | string;
+    marginTop?: number;
+    marginBottom?: number;
+}

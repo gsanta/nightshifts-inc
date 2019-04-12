@@ -10,7 +10,6 @@ import { TitleLine } from '../dialog_template/TitleLine';
 import { ButtonLine } from '../dialog_template/ButtonLine';
 import Button from '../../form_elements/Button';
 import { PasswordUpdateSection } from './PasswordUpdateSection';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const ControlLabelStyled = styled.div`
     font-size: 12px;
@@ -36,7 +35,7 @@ export const getErrorMessage = (errors: ErrorMessage[], propertyName: string) =>
 };
 
 const ApplicationSettingsDialogBodyStyled = styled.div`
-
+    margin-bottom: 10px;
 `;
 
 const DoneButtonStyled = styled(Button)`
@@ -57,21 +56,11 @@ const ApplicationSettingsMainContentStyled = styled.div`
     margin-bottom: 30px;
 `;
 
-const DoneButtonWithRouter = withRouter((props: RouteComponentProps & {updateUser(user: User), email: string, user: User}) => {
-    return <DoneButtonStyled label="Done"
-        onClick={() => {
-            props.updateUser({...props.user, email: props.email});
-            props.history.push('/');
-        }}
-    />;
-});
-
 const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) => {
     const [didUserPropsArrive, setDidUserPropsArrive] = useState(props.user ? true : false);
 
     const [email, setEmail] = useState(props.user ? props.user.email : null);
     const [authStrategy, setAuthStrategy] = useState(props.user ? props.user.authStrategy : null);
-    const [password, setPassword] = useState(null);
 
     if (props.user && !didUserPropsArrive) {
         setEmail(props.user.email);
@@ -85,7 +74,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
 
     return (
         <ApplicationSettingsDialogBodyStyled>
-            <TitleLine>settings</TitleLine>
+            <TitleLine marginTop={25}>settings</TitleLine>
             <ApplicationSettingsMainContentStyled>
                 <div>
                     <TextField
@@ -109,8 +98,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
                 </div>
             </ApplicationSettingsMainContentStyled>
             <ButtonLine>
-                <DoneButtonWithRouter updateUser={props.updateUser} user={props.user} email={email}/>
-                {/* <DoneButtonStyled label="Done" onClick={() => props.updateUser({...props.user, email: email})}/> */}
+                <DoneButtonStyled label="Done" onClick={() => props.updateUser({...props.user, email: email})}/>
             </ButtonLine>
         </ApplicationSettingsDialogBodyStyled>
     );

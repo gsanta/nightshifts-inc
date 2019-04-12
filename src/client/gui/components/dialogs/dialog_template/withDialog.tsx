@@ -14,14 +14,18 @@ const DialogTemplateStyles = {
             return props.colors.body;
         },
         border: (props: DialogTemplateProps) => `1px solid ${props.colors.headerBorder}`
-    } as any
+    } as any,
+
+    backdrop: {
+        background: 'transparent'
+    }
 };
 
 const DialogTemplateRender = (props: DialogTemplateProps & {classes: any, children: JSX.Element}) => {
     const {children, classes} = props;
 
     const Header = props.headerOptions ? (
-        <DialogTemplateHeader backgroundColor={props.colors.header} borderColor={props.colors.headerBorder}/>
+        <DialogTemplateHeader close={props.headerOptions.close}/>
     ) : null;
 
     const Footer = props.footerOptions ? (
@@ -34,6 +38,11 @@ const DialogTemplateRender = (props: DialogTemplateProps & {classes: any, childr
             PaperProps={{
                 classes: {
                     root: classes.root
+                }
+            }}
+            BackdropProps={{
+                classes: {
+                    root: classes.backdrop
                 }
             }}
         >
@@ -50,10 +59,10 @@ const withDialog = <P extends DialogTemplateProps>(Component: React.ComponentTyp
 
     return (props: P) => {
         const mergedProps = {...defaults, ...props};
-        const {colors, footerOptions} = mergedProps;
+        const {colors, footerOptions, headerOptions} = mergedProps;
 
         return (
-            <DialogWrapper colors={colors} footerOptions={footerOptions}>
+            <DialogWrapper colors={colors} footerOptions={footerOptions} headerOptions={headerOptions}>
                 <Component {...props}/>
             </DialogWrapper>
         );
@@ -68,7 +77,7 @@ export interface DialogTemplateProps {
         onSubmit(): void;
     };
     headerOptions?: {
-        headerColor: string;
+        close(): void;
     };
     colors?: {
         header?: string,

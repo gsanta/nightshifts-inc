@@ -1,16 +1,26 @@
 import styled from 'styled-components';
+import * as React from 'react';
+import {Close} from '@material-ui/icons';
 
-const DialogTemplateHeader = styled.div`
-    background-color: ${(props: DialogTemplateHeaderProps)  => props.backgroundColor};
-    border-bottom-color: ${(props: DialogTemplateHeaderProps) => props.borderColor};
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    height: 30px;
+const DialogTemplateHeaderStyled = styled.div`
+    display: flex;
 `;
+
+const CloseStyled = styled(Close)`
+    margin-left: auto;
+    cursor: pointer;
+`;
+
+const DialogTemplateHeader = ({close}: DialogTemplateHeaderProps) => {
+    return (
+        <DialogTemplateHeaderStyled>
+            <CloseStyled onClick={close}/>
+        </DialogTemplateHeaderStyled>
+    );
+};
 
 export default DialogTemplateHeader;
 
 export interface DialogTemplateHeaderProps {
-    backgroundColor: string;
-    borderColor: string;
+    close(): void;
 }

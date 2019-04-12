@@ -6,6 +6,7 @@ import { User } from '../../../../state/user/User';
 import { ErrorMessage } from '../../../ErrorMessage';
 import UpdatePasswordActions from '../../../../state/user/actions/UpdatePasswordActions';
 import UpdateUserActions from '../../../../state/user/actions/UpdateUserActions';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -24,12 +25,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     };
 };
 
-export const ApplicationSettingsRoute = connect(mapStateToProps, mapDispatchToProps)((props: SettingsProps) => {
+export const ApplicationSettingsRoute = withRouter(connect(mapStateToProps, mapDispatchToProps)((props: RouteComponentProps & SettingsProps) => {
+    const headerOptions = {
+        close: () => props.history.push('/')
+    };
+
+    const updateUser = (user: User) => {
+        props.updateUser(user);
+        props.history.push('/');
+    };
 
     return (
-        <ApplicationSettingsDialog {...props}/>
+        <ApplicationSettingsDialog {...props} headerOptions={headerOptions} updateUser={updateUser}/>
     );
-});
+}));
 
 export interface SettingsProps {
     user: User;
