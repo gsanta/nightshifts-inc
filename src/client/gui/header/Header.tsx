@@ -20,12 +20,6 @@ const ProfileSection = styled.div`
     padding: 5px 10px;
 `;
 
-const StyledMenuIcon = styled(MenuIcon)`
-    color: white;
-    width: 30px;
-    cursor: pointer;
-`;
-
 const styles = theme => ({
     menuButton: {
         // d.ts did not recognize textTransform so casting to any

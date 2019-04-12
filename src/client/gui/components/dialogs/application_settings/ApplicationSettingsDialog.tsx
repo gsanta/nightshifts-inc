@@ -10,6 +10,7 @@ import { TitleLine } from '../dialog_template/TitleLine';
 import { ButtonLine } from '../dialog_template/ButtonLine';
 import Button from '../../form_elements/Button';
 import { PasswordUpdateSection } from './PasswordUpdateSection';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const ControlLabelStyled = styled.div`
     font-size: 12px;
@@ -56,6 +57,15 @@ const ApplicationSettingsMainContentStyled = styled.div`
     margin-bottom: 30px;
 `;
 
+const DoneButtonWithRouter = withRouter((props: RouteComponentProps & {updateUser(user: User), email: string, user: User}) => {
+    return <DoneButtonStyled label="Done"
+        onClick={() => {
+            props.updateUser({...props.user, email: props.email});
+            props.history.push('/');
+        }}
+    />;
+});
+
 const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) => {
     const [didUserPropsArrive, setDidUserPropsArrive] = useState(props.user ? true : false);
 
@@ -99,7 +109,8 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
                 </div>
             </ApplicationSettingsMainContentStyled>
             <ButtonLine>
-                <DoneButtonStyled label="Done" onClick={() => props.updateUser({...props.user, email: email})}/>
+                <DoneButtonWithRouter updateUser={props.updateUser} user={props.user} email={email}/>
+                {/* <DoneButtonStyled label="Done" onClick={() => props.updateUser({...props.user, email: email})}/> */}
             </ButtonLine>
         </ApplicationSettingsDialogBodyStyled>
     );

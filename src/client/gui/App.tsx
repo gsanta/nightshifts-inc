@@ -7,8 +7,6 @@ import { User } from '../state/user/User';
 import { ApplicationSettingsRoute } from './components/routes/application_settings/ApplicationSettingsRoute';
 import Game from './Game';
 import Header from './header/Header';
-import Login from './Login';
-import Signup from './Signup';
 import { InventoryRoute } from './components/routes/inventory/InventoryRoute';
 import { LoginRoute } from './components/routes/login_route/LoginRoute';
 import { SignupRoute } from './components/routes/signup_route/SignupRoute';
@@ -43,9 +41,7 @@ class App extends React.Component<any, AppComponentState> {
 
                 <Route exact path="/settings" component={ApplicationSettingsRoute}/>
                 <Route exact path="/inventory" component={InventoryRoute}/>
-                <Route exact path="/login2" component={Login}/>
                 <Route exact path="/login" component={LoginRoute}/>
-                <Route exact path="/signup2" component={Signup}/>
                 <Route exact path="/signup" component={SignupRoute}/>
             </div>
         );

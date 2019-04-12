@@ -7,7 +7,7 @@ import { ButtonLine } from '../dialog_template/ButtonLine';
 import styled from 'styled-components';
 import Button from '../../form_elements/Button';
 import Link from '../../form_elements/link/Link';
-import { FacebookLoginButton } from '../../../form/FacebookLoginButton';
+import { FacebookLoginButton } from '../../form_elements/facebook_button/FacebookLoginButton';
 import { Redirect } from 'react-router-dom';
 import { User } from '../../../../state/user/User';
 import { useState } from 'react';

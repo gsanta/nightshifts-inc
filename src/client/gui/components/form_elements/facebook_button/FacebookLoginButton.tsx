@@ -1,7 +1,6 @@
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import styled from 'styled-components';
 import * as React from 'react';
-import Button from '../components/form_elements/Button';
+import Button from '../Button';
 
 export const FacebookLoginButton = (props: FacebookLoginButtonProps) => {
     return (

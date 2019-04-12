@@ -27,12 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export const ApplicationSettingsRoute = connect(mapStateToProps, mapDispatchToProps)((props: SettingsProps) => {
 
     return (
-        <ApplicationSettingsDialog
-            user={props.user}
-            updateUser={props.updateUser}
-            updatePassword={props.updatePassword}
-            errors={props.errors}
-        />
+        <ApplicationSettingsDialog {...props}/>
     );
 });
 
