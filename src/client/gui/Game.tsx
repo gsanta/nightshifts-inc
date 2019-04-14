@@ -3,7 +3,7 @@ import { GameEngine } from '../../game/GameEngine';
 import { GwmWorldImporter } from '../../game/io/gwm_world_io/import/GwmWorldImporter';
 import { GwmMeshFactoryProducer } from '../../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 import {connect} from 'react-redux';
-import { AppState } from '../state/root/RootState';
+import { AppState } from '../state/app/AppState';
 import { JsonWorldImporter } from '../../game/io/json_world_io/import/JsonWorldImporter';
 import { JsonMeshFactoryProducer } from '../../game/io/json_world_io/import/JsonMashFactoryProducer';
 import { World } from '../../game/model/World';

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { AppState } from '../../../../state/root/RootState';
+import { AppState } from '../../../../state/app/AppState';
 import ApplicationSettingsDialog from '../../dialogs/application_settings/ApplicationSettingsDialog';
 import * as React from 'react';
 import { User } from '../../../../state/user/User';
@@ -11,7 +11,6 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 const mapStateToProps = (state: AppState) => {
     return {
         user: state.user,
-        dataLoadingState: state.dataLoadingState,
         errors: state.errors,
         userQuery: state.query.user
     };

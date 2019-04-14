@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect, Provider } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
-import { GlobalStore } from '../state/GlobalStore';
-import { AppLoadingState, AppState } from '../state/root/RootState';
+import { AppStore } from '../state/app/AppStore';
+import { AppLoadingState, AppState } from '../state/app/AppState';
 import { User } from '../state/user/User';
 import { ApplicationSettingsRoute } from './components/routes/application_settings/ApplicationSettingsRoute';
 import Game from './Game';
@@ -65,7 +65,7 @@ const RouterApp = withRouter(connect(mapStateToProps)(App));
 
 export default () => {
     return (
-        <Provider store={GlobalStore}>
+        <Provider store={AppStore}>
             <RouterApp/>
         </Provider>
     );

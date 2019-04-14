@@ -1,4 +1,4 @@
-import { AppState } from '../root/RootState';
+import { AppState } from '../app/AppState';
 
 
 export default class UserSelections {

@@ -1,5 +1,5 @@
 import { ActionType } from '../../ActionType';
-import { AppState } from '../../root/RootState';
+import { AppState } from '../../app/AppState';
 import { select, call, put, take, takeEvery } from 'redux-saga/effects';
 import { GameRequests } from '../GameRequests';
 import { WatchableAction } from '../../ActionType';

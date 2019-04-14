@@ -10,9 +10,6 @@ export type AppLoadingState = 'loading' | 'ready';
 export type DataLoadingState = 'loading' | 'recently_loaded' | 'loaded';
 
 export interface AppState {
-    config: {
-        baseUrl: string;
-    };
     query: {
         user: UserQuery;
         game: GameRequests;
@@ -22,7 +19,6 @@ export interface AppState {
     tools: Tool[];
 
     appLoadingState: AppLoadingState;
-    dataLoadingState: DataLoadingState;
     errors: ErrorMessage[];
 
     gameActionDispatcher: ActionDispatcher;

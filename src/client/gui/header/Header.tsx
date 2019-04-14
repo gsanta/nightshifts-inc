@@ -5,7 +5,7 @@ import { User } from '../../state/user/User';
 import { withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
-import { AppState } from '../../state/root/RootState';
+import { AppState } from '../../state/app/AppState';
 import SignoutActions from '../../state/user/actions/SignoutActions';
 import SignoutIcon from '../components/icons/SignoutIcon';
 import SettingsIcon from '../components/icons/SettingsIcon';

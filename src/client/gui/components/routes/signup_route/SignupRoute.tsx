@@ -1,4 +1,4 @@
-import { AppState } from '../../../../state/root/RootState';
+import { AppState } from '../../../../state/app/AppState';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import SignupDialog from '../../dialogs/signup_dialog/SignupDialog';
