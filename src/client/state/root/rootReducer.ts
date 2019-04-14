@@ -1,9 +1,9 @@
 import { AppState } from './RootState';
 import { ActionType } from '../ActionType';
 import { UserQuery } from '../../query/user/UserQuery';
-import { User } from '../user/User';
 import { GameRequests } from '../game/GameRequests';
 import { Tool } from '../../gui/components/dialogs/inventory/Tool';
+import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 
 const initialState: AppState = {
     config: {
@@ -21,7 +21,8 @@ const initialState: AppState = {
     user: null,
     appLoadingState: 'loading',
     dataLoadingState: 'loaded',
-    errors: []
+    errors: [],
+    gameActionDispatcher: null
 };
 
 export interface Action {
@@ -101,6 +102,13 @@ export const appReducer = (state: AppState = initialState, action: any): AppStat
             return {...state, ...{
                 tools: tools
             }};
+
+        case ActionType.SET_WORLD_REQUEST:
+            return {...state, ...{
+                world: action.world,
+                gameActionDispatcher: new ActionDispatcher(action.world)
+            }};
+
         default:
           return state;
     }

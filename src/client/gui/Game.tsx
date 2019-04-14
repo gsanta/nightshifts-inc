@@ -13,18 +13,22 @@ import GetWorldActions from '../state/game/actions/GetWorldActions';
 import { ActionDispatcher } from '../../game/actions/ActionDispatcher';
 import colors from './colors';
 import { Color4 } from 'babylonjs';
+import * as request from 'request';
+import SetWorldAction from '../state/game/actions/SetWorldAction';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
 const mapStateToProps = (state: AppState) => {
     return {
-        worldSchema: state.world
+        worldSchema: state.world,
+        actionDispatcher: state.gameActionDispatcher
     };
 };
 
 const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(GetWorldActions.request()),
-    updateGame: (world: World) => dispatch(UpdateWorldActions.request(world))
+    updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
+    setWorld: (world: World) => dispatch(SetWorldAction.request(world))
 });
 
 class Game extends React.Component<GameProps, GameState> {
@@ -62,16 +66,17 @@ class Game extends React.Component<GameProps, GameState> {
         worldGenerator
             .create(gwmGameWorldMap)
             .then((world) => {
-                this.gameEngine = new GameEngine(canvas, scene, engine, world, new ActionDispatcher(world));
+                this.props.setWorld(world);
+                this.gameEngine = new GameEngine(canvas, scene, engine, world, this.props.actionDispatcher);
                 // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
                 this.gameEngine.run();
 
-                this.intervalTimeout = setInterval(
-                    () => {
-                        this.props.updateGame(this.gameEngine.getWorld());
-                    },
-                    1000
-                );
+                // this.intervalTimeout = setInterval(
+                //     () => {
+                //         this.props.updateGame(this.gameEngine.getWorld());
+                //     },
+                //     1000
+                // );
             })
             .catch(e => console.error(e));
 
@@ -106,7 +111,9 @@ class Game extends React.Component<GameProps, GameState> {
 export interface GameProps {
     loadGame(): void;
     updateGame(world: World): void;
+    setWorld(world: World): void;
     worldSchema: JsonWorldSchema;
+    actionDispatcher: ActionDispatcher;
 }
 
 export interface GameState {

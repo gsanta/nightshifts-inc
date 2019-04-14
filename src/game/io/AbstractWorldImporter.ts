@@ -73,6 +73,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
     protected createWorld(rootWorldItem: T, world: World): World {
         world.hemisphericLight = this.hemisphericLight;
         world.nightLight = this.nightLight;
+        world.spotLight = this.spotLight;
 
         const fromToMap: Map<GwmWorldItem, WorldItem> = new Map();
         const worldItemToTreeMapper = new WorldItemTreeMapper();
@@ -110,7 +111,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
         light.diffuse = new BABYLON.Color3(1, 1, 1);
         light.intensity = 0.1;
-        light.setEnabled(false)
+        light.setEnabled(false);
         return light;
     }
 

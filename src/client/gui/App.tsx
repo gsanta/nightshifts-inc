@@ -10,6 +10,7 @@ import Header from './header/Header';
 import { InventoryRoute } from './components/routes/inventory/InventoryRoute';
 import { LoginRoute } from './components/routes/login_route/LoginRoute';
 import { SignupRoute } from './components/routes/signup_route/SignupRoute';
+import * as Mousetrap from 'mousetrap';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -22,6 +23,10 @@ class App extends React.Component<any, AppComponentState> {
 
     constructor(props: any) {
         super(props);
+
+        Mousetrap.bind('shift+i', () => {
+            props.history.push('/inventory');
+        });
 
         this.state = {
             user: null
