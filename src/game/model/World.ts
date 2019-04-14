@@ -3,8 +3,9 @@ import { Enemy } from './creature/type/Enemy';
 import { Player } from './creature/type/Player';
 import { LightController } from './light/LightController';
 import { Vector2Model } from './utils/Vector2Model';
-import { FollowCamera, Light } from 'babylonjs';
+import { FollowCamera, Light, SpotLight } from 'babylonjs';
 import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
+import { Tool } from '../../client/gui/components/dialogs/inventory/Tool';
 
 
 export class World {
@@ -20,4 +21,7 @@ export class World {
     public camera: FollowCamera;
 
     public lightController: LightController;
+
+    public tools: Tool[];
+    public spotLight: SpotLight;
 }

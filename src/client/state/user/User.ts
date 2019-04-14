@@ -5,24 +5,6 @@ export class User {
     public id: string;
     public authStrategy: 'facebook' | 'local';
 
-    public static NULL_USER_MODEL = new User();
-
-    public setEmail(email: string) {
-        this.email = email;
-    }
-
-    public getEmail() {
-        return this.email;
-    }
-
-    clone(): User {
-        const clone = new User();
-        clone.email = this.email;
-        clone.id = this.id;
-        clone.authStrategy = this.authStrategy;
-        return clone;
-    }
-
     public static fromDto(userDto: UserDto): User {
         const user = new User();
         user.email = userDto.email;

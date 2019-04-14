@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { colors } from '../styles';
+import colors from '../colors';
 import { User } from '../../state/user/User';
 import { withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
 import { AppState } from '../../state/root/RootState';
+import SignoutActions from '../../state/user/actions/SignoutActions';
+import SignoutIcon from '../components/icons/SignoutIcon';
+import SettingsIcon from '../components/icons/SettingsIcon';
 
 const HeaderDiv = styled.div`
     width: 100%;
@@ -15,12 +18,6 @@ const HeaderDiv = styled.div`
 
 const ProfileSection = styled.div`
     padding: 5px 10px;
-`;
-
-const StyledMenuIcon = styled(MenuIcon)`
-    color: white;
-    width: 30px;
-    cursor: pointer;
 `;
 
 const styles = theme => ({
@@ -39,6 +36,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        signout: () => dispatch(SignoutActions.request()),
     };
 };
 
@@ -62,23 +60,8 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         const getProfileSection = () => {
             return (
                 <ProfileSection>
-                    <StyledMenuIcon onClick={this.props.openSidebar}/>
-
-                        {/* <Button
-                            className={this.props.classes.menuButton}
-                            aria-haspopup="true"
-                            onClick={this.handleClick}
-                        >
-                            {user.getEmail()}
-                        </Button>
-                        <Menu
-                            anchorEl={this.state.anchorElement}
-                            open={!!this.state.anchorElement}
-                            onClose={this.handleClose}
-                        >
-                            <MenuItem onClick={this.handleOpenSettings}>Settings</MenuItem>
-                            <MenuItem onClick={this.handleSignOut}>Sign out</MenuItem>
-                        </Menu> */}
+                    <SettingsIcon activate={() => null}/>
+                    <SignoutIcon activate={this.props.signout}/>
                 </ProfileSection>
             );
         };
@@ -113,12 +96,6 @@ class Header extends React.Component<HeaderProps, HeaderState> {
 
 const StyledHeader = withStyles(styles)(Header);
 
-// export default (props: any) => (
-//     <GlobalContext.Consumer>
-//         {(globalProps: GlobalProps) => <StyledHeader {...globalProps} {...props}/>}
-//     </GlobalContext.Consumer>
-// );
-
 export default connect(mapStateToProps, mapDispatchToProps)(StyledHeader);
 
 export interface HeaderState {
@@ -128,6 +105,6 @@ export interface HeaderState {
 export interface HeaderProps {
     classes: any;
     history: any;
-    openSidebar(): void;
     user: User;
+    signout(): void;
 }

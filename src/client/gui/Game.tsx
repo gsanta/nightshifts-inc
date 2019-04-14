@@ -11,18 +11,24 @@ import { JsonWorldSchema } from '../../game/io/json_world_io/import/JsonWorldSch
 import UpdateWorldActions from '../state/game/actions/UpdateWorldActions';
 import GetWorldActions from '../state/game/actions/GetWorldActions';
 import { ActionDispatcher } from '../../game/actions/ActionDispatcher';
+import colors from './colors';
+import { Color4 } from 'babylonjs';
+import * as request from 'request';
+import SetWorldAction from '../state/game/actions/SetWorldAction';
 const gwmGameWorldMap = require('../../../assets/world_maps/new_world_map.gwm');
 const jsonGameWorldMap = require('../../../assets/world_maps/json/world_map_complex.json');
 
 const mapStateToProps = (state: AppState) => {
     return {
-        worldSchema: state.world
+        worldSchema: state.world,
+        actionDispatcher: state.gameActionDispatcher
     };
 };
 
 const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(GetWorldActions.request()),
-    updateGame: (world: World) => dispatch(UpdateWorldActions.request(world))
+    updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
+    setWorld: (world: World) => dispatch(SetWorldAction.request(world))
 });
 
 class Game extends React.Component<GameProps, GameState> {
@@ -49,6 +55,7 @@ class Game extends React.Component<GameProps, GameState> {
         const canvas = this.state.canvasRef.current;
         const engine = new BABYLON.Engine(canvas);
         const scene = new BABYLON.Scene(engine);
+        scene.clearColor = Color4.FromHexString(colors.Black);
         this.setState({
             engine,
             scene
@@ -59,16 +66,17 @@ class Game extends React.Component<GameProps, GameState> {
         worldGenerator
             .create(gwmGameWorldMap)
             .then((world) => {
-                this.gameEngine = new GameEngine(canvas, scene, engine, world, new ActionDispatcher(world));
+                this.props.setWorld(world);
+                this.gameEngine = new GameEngine(canvas, scene, engine, world, this.props.actionDispatcher);
                 // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
                 this.gameEngine.run();
 
-                this.intervalTimeout = setInterval(
-                    () => {
-                        this.props.updateGame(this.gameEngine.getWorld());
-                    },
-                    1000
-                );
+                // this.intervalTimeout = setInterval(
+                //     () => {
+                //         this.props.updateGame(this.gameEngine.getWorld());
+                //     },
+                //     1000
+                // );
             })
             .catch(e => console.error(e));
 
@@ -79,10 +87,10 @@ class Game extends React.Component<GameProps, GameState> {
         const canvas = this.state.canvasRef.current;
         const scene = this.state.scene;
 
-        if (this.props.worldSchema && !this.gameEngine.isRunning()) {
-            const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
+        // if (this.props.worldSchema && !this.gameEngine.isRunning()) {
+        //     const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
             // this.gameEngine.run(JSON.stringify(this.props.worldSchema));
-        }
+        // }
     }
 
     public componentWillUnmount() {
@@ -91,7 +99,11 @@ class Game extends React.Component<GameProps, GameState> {
 
     public render() {
         return (
-            <canvas ref={this.state.canvasRef}></canvas>
+            <div>
+                <canvas ref={this.state.canvasRef}></canvas>
+                {/* <ApplicationSettingsDialog/> */}
+                {/* <InventoryRoute/> */}
+            </div>
         );
     }
 }
@@ -99,7 +111,9 @@ class Game extends React.Component<GameProps, GameState> {
 export interface GameProps {
     loadGame(): void;
     updateGame(world: World): void;
+    setWorld(world: World): void;
     worldSchema: JsonWorldSchema;
+    actionDispatcher: ActionDispatcher;
 }
 
 export interface GameState {

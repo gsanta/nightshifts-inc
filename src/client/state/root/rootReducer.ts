@@ -1,8 +1,9 @@
 import { AppState } from './RootState';
 import { ActionType } from '../ActionType';
 import { UserQuery } from '../../query/user/UserQuery';
-import { User } from '../user/User';
 import { GameRequests } from '../game/GameRequests';
+import { Tool } from '../../gui/components/dialogs/inventory/Tool';
+import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 
 const initialState: AppState = {
     config: {
@@ -13,10 +14,15 @@ const initialState: AppState = {
         game: new GameRequests()
     },
     world: null,
-    user: User.NULL_USER_MODEL,
+    tools: [{
+        name: 'flashlight',
+        isCarrying: false
+    }],
+    user: null,
     appLoadingState: 'loading',
     dataLoadingState: 'loaded',
-    errors: []
+    errors: [],
+    gameActionDispatcher: null
 };
 
 export interface Action {
@@ -27,7 +33,7 @@ export interface Action {
     world?: any;
 }
 
-export const appReducer = (state: AppState = initialState, action: Action): AppState => {
+export const appReducer = (state: AppState = initialState, action: any): AppState => {
     switch (action.type) {
         case ActionType.GET_USER_FAILURE:
             return {...state, ...{
@@ -70,7 +76,7 @@ export const appReducer = (state: AppState = initialState, action: Action): AppS
 
         case ActionType.SIGNOUT_SUCCESS:
             return {...state, ...{
-                user: User.NULL_USER_MODEL
+                user: null
             }};
 
         case ActionType.CLEAR_ERRORS:
@@ -87,6 +93,22 @@ export const appReducer = (state: AppState = initialState, action: Action): AppS
             return {...state, ...{
                 world: action.world
             }};
+
+        case ActionType.GRAB_TOOL:
+            const updatedTool: Tool = {...action.tool, ...{isCarrying: true}};
+
+            const tools = [...state.tools];
+            tools.splice(tools.indexOf(action.tool), 1, updatedTool);
+            return {...state, ...{
+                tools: tools
+            }};
+
+        case ActionType.SET_WORLD_REQUEST:
+            return {...state, ...{
+                world: action.world,
+                gameActionDispatcher: new ActionDispatcher(action.world)
+            }};
+
         default:
           return state;
     }

@@ -1,5 +1,3 @@
-import { AppState } from "./root/RootState";
-
 export enum ActionType {
     UPDATE_USER = 'UPDATE_USER',
     UPDATE_PASSWORD = 'UPDATE_USER',
@@ -38,13 +36,17 @@ export enum ActionType {
     GET_WORLD_SUCCESS = 'GET_WORLD_SUCCESS',
     GET_WORLD_FAILURE = 'GET_WORLD_FAILURE',
 
+    SET_WORLD_REQUEST = 'SET_WORLD',
+
     DATA_LOADED = 'DATA_LOADED',
 
     CLEAR_ERRORS = 'CLEAR_ERRORS',
 
     UPDATE_GAME_REQUEST = 'UPDATE_GAME_REQUEST',
     UPDATE_GAME_SUCCESS = 'UPDATE_GAME_SUCCESS',
-    UPDATE_GAME_FAILURE = 'UPDATE_GAME_FAILURE'
+    UPDATE_GAME_FAILURE = 'UPDATE_GAME_FAILURE',
+
+    GRAB_TOOL = 'GRAB_TOOL'
 }
 
 export interface WatchableAction<T> {

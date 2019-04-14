@@ -10,14 +10,31 @@ import { JsonWorldImporter } from '../game/io/json_world_io/import/JsonWorldImpo
 import { GwmWorldImporter } from '../game/io/gwm_world_io/import/GwmWorldImporter';
 import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 import { ActionDispatcher } from '../game/actions/ActionDispatcher';
-import { rejects } from 'assert';
 import { World } from '../game/model/World';
+import InventoryDialog from './gui/components/dialogs/inventory/InventoryDialog';
+import { IntlProvider } from 'react-intl';
+
+import { addLocaleData } from 'react-intl';
+import * as localeHu from 'react-intl/locale-data/hu';
+import * as localeEn from 'react-intl/locale-data/en';
+
+addLocaleData([...localeEn, ...localeHu]);
+
+const messagesHu = require('../translations/hu.json');
+
+const messages = {
+    hu: messagesHu
+};
+
+const language = navigator.language.split(/[-_]/)[0];
 
 export function render() {
     ReactDom.render(
-        <Router>
-            <App/>
-        </Router>,
+        <IntlProvider locale={language} messages={messages[language]}>
+            <Router>
+                <App/>
+            </Router>
+        </IntlProvider>,
         document.getElementById('the-game-root')
     );
 }
@@ -58,3 +75,10 @@ export const renderTestControls = (div: HTMLDivElement, gameEngine: GameEngine) 
 };
 
 export {GameEngine} from '../game/GameEngine';
+
+export const renderDialog = (root: HTMLDivElement, options: {headerColor: string, bodyColor: string, headerBorderColor: string}) => {
+    ReactDom.render(
+        <InventoryDialog tools={[]} grabTool={() => null}/>,
+        root
+    );
+};
