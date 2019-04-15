@@ -2,7 +2,7 @@ import { ActionHandler } from '../ActionHandler';
 import { World } from '../../model/World';
 import { GameActionType } from '../GameActionType';
 import { ToolActivationPlugin } from './ToolActivationPlugin';
-import { Tool } from '../../../client/gui/components/dialogs/inventory/Tool';
+import { Tool } from '../../../client/components/dialogs/inventory_dialog/Tool';
 import _ = require('lodash');
 
 

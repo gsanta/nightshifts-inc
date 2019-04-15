@@ -1,6 +1,6 @@
 import { ActionType } from '../../ActionType';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
-import { ErrorMessage } from '../../../gui/ErrorMessage';
+import { ErrorMessage } from '../../../components/miscellaneous/ErrorMessage';
 import { WatchableAction } from '../../ActionType';
 import UserSelections from '../UserSelections';
 

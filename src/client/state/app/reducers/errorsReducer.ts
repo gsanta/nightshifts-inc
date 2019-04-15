@@ -1,4 +1,4 @@
-import { ErrorMessage } from '../../../gui/ErrorMessage';
+import { ErrorMessage } from '../../../components/miscellaneous/ErrorMessage';
 import { ActionType } from '../../ActionType';
 
 export const errorsReducer = (state = [], action): ErrorMessage[] => {

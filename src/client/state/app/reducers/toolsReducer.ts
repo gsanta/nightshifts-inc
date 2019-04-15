@@ -1,4 +1,4 @@
-import { Tool } from '../../../gui/components/dialogs/inventory/Tool';
+import { Tool } from '../../../components/dialogs/inventory_dialog/Tool';
 import { ActionType } from '../../ActionType';
 
 const initialState = [{

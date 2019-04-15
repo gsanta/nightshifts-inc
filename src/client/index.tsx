@@ -1,22 +1,21 @@
-import App from './gui/App';
+import App from './components/panels/App';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import axios from 'axios';
 import { HashRouter as Router } from 'react-router-dom';
 import { GameEngine } from '../game/GameEngine';
-import { TestControls } from './gui/test_page/TestControls';
 import { JsonMeshFactoryProducer } from '../game/io/json_world_io/import/JsonMashFactoryProducer';
 import { JsonWorldImporter } from '../game/io/json_world_io/import/JsonWorldImporter';
 import { GwmWorldImporter } from '../game/io/gwm_world_io/import/GwmWorldImporter';
 import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 import { ActionDispatcher } from '../game/actions/ActionDispatcher';
 import { World } from '../game/model/World';
-import InventoryDialog from './gui/components/dialogs/inventory/InventoryDialog';
 import { IntlProvider } from 'react-intl';
 
 import { addLocaleData } from 'react-intl';
 import * as localeHu from 'react-intl/locale-data/hu';
 import * as localeEn from 'react-intl/locale-data/en';
+import InventoryDialog from './components/dialogs/inventory_dialog/InventoryDialog';
 
 addLocaleData([...localeEn, ...localeHu]);
 
@@ -64,14 +63,6 @@ export const renderGameFromGwmInput = (canvas: HTMLCanvasElement, gwmWorldPath: 
         .catch(e => reject(e));
     })
     .then((world: World) => new GameEngine(canvas, scene, engine, world, new ActionDispatcher(world)));
-};
-
-
-export const renderTestControls = (div: HTMLDivElement, gameEngine: GameEngine) => {
-    return ReactDom.render(
-        <TestControls gameEngine={gameEngine} />,
-        div
-    );
 };
 
 export {GameEngine} from '../game/GameEngine';
