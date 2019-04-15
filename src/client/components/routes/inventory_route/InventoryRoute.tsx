@@ -2,7 +2,7 @@
 import { AppState } from '../../../state/app/AppState';
 import GrabToolActions from '../../../state/game/actions/GrabToolActions';
 import { connect } from 'react-redux';
-import { Tool } from '../../dialogs/inventory_dialog/Tool';
+import { Tool } from '../../../../game/tools/Tool';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
 import InventoryDialog, { InventoryDialogProps } from '../../dialogs/inventory_dialog/InventoryDialog';

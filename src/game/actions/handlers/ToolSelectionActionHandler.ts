@@ -2,7 +2,7 @@ import { ActionHandler } from '../../../engine/actions/ActionHandler';
 import { World } from '../../model/World';
 import { GameActionType } from '../GameActionType';
 import { ToolActivationPlugin } from './ToolActivationPlugin';
-import { Tool } from '../../../client/components/dialogs/inventory_dialog/Tool';
+import { Tool } from '../../tools/Tool';
 import _ = require('lodash');
 
 
@@ -27,10 +27,10 @@ export class ToolSelectionActionHandler implements ActionHandler {
     }
 
     private selectToolToActivate(tool: Tool) {
-        const toolToActivate = _.find(this.toolActivationPlugins, plugin => plugin.toolName === tool.name);
+        const toolToActivate = _.find(this.toolActivationPlugins, plugin => plugin.toolName === tool.getName());
 
         if (!toolToActivate) {
-            throw new Error(`No matching ToolActivationPlugin for tool: ${tool.name}`);
+            throw new Error(`No matching ToolActivationPlugin for tool: ${tool.getName()}`);
         }
 
         return toolToActivate;

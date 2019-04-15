@@ -5,7 +5,7 @@ import { LightController } from './light/LightController';
 import { Vector2Model } from './utils/Vector2Model';
 import { FollowCamera, Light, SpotLight } from 'babylonjs';
 import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
-import { Tool } from '../../client/components/dialogs/inventory_dialog/Tool';
+import { Tool } from '../tools/Tool';
 
 
 export class World {
