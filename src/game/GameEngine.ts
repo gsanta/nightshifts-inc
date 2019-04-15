@@ -6,7 +6,6 @@ import { AbstractWorldImporter } from './io/AbstractWorldImporter';
 import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
 import { NotActiveRoomStylingActionHandler } from './actions/handlers/NotActiveRoomStylingActionHandler';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
-import { FlashlightActivationToolPlugin } from './actions/handlers/FlashlightActivationToolPlugin';
 
 export class GameEngine {
     private scene: Scene;
@@ -36,7 +35,7 @@ export class GameEngine {
 
         setTimeout(() => {
             this.actionDispatcher.registerActionHandler(new NotActiveRoomStylingActionHandler());
-            this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler([new FlashlightActivationToolPlugin(world)]));
+            this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
         }, 100);
     }
 

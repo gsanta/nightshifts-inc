@@ -6,6 +6,7 @@ import { Vector2Model } from './utils/Vector2Model';
 import { FollowCamera, Light, SpotLight } from 'babylonjs';
 import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
 import { Tool } from '../tools/Tool';
+import { ToolMesh } from '../../engine/tools/ToolMesh';
 
 
 export class World {
@@ -22,6 +23,6 @@ export class World {
 
     public lightController: LightController;
 
-    public tools: Tool[];
+    public tools: ToolMesh[];
     public spotLight: SpotLight;
 }
