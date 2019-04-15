@@ -1,4 +1,4 @@
-import { TokenHandler } from '../../query/TokenHandler';
+import { TokenHandler } from '../TokenHandler';
 import { Promise } from 'es6-promise';
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../user/User';

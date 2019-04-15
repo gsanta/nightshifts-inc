@@ -1,4 +1,4 @@
-import { UserQuery } from '../../query/user/UserQuery';
+import { UserRequests } from '../user/UserRequests';
 import { User } from '../user/User';
 import { ErrorMessage } from '../../gui/ErrorMessage';
 import { GameRequests } from '../game/GameRequests';
@@ -11,7 +11,7 @@ export type DataLoadingState = 'loading' | 'recently_loaded' | 'loaded';
 
 export interface AppState {
     query: {
-        user: UserQuery;
+        user: UserRequests;
         game: GameRequests;
     };
     world: JsonWorldSchema;

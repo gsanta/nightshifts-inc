@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { UserLoginDto } from './UserLoginDto';
-import { User } from '../../state/user/User';
+import { UserLoginDto } from './dto/UserLoginDto';
+import { User } from './User';
 import { Promise } from 'es6-promise';
-import { UserDto } from './UserDto';
+import { UserDto } from './dto/UserDto';
 import { TokenHandler } from '../TokenHandler';
-import { PasswordUpdateDto } from './PasswordUpdateDto';
+import { PasswordUpdateDto } from './dto/PasswordUpdateDto';
 
-export class UserQuery {
+export class UserRequests {
     private tokenHandler: TokenHandler;
 
     constructor(tokenHandler: TokenHandler = new TokenHandler()) {

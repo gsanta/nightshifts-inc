@@ -1,4 +1,4 @@
-import { UserDto } from '../../query/user/UserDto';
+import { UserDto } from './dto/UserDto';
 
 export class User {
     public email: string;

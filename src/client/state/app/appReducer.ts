@@ -1,6 +1,6 @@
 import { AppState, AppLoadingState } from './AppState';
 import { ActionType } from '../ActionType';
-import { UserQuery } from '../../query/user/UserQuery';
+import { UserRequests } from '../user/UserRequests';
 import { GameRequests } from '../game/GameRequests';
 import { Tool } from '../../gui/components/dialogs/inventory/Tool';
 import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
@@ -13,7 +13,7 @@ import { errorsReducer } from './reducers/errorsReducer';
 import { gameActionDispatcherReducer } from './reducers/gameActionDispatcherReducer';
 
 export default combineReducers({
-    query: (state = {user: new UserQuery(), game: new GameRequests()}) => state,
+    query: (state = {user: new UserRequests(), game: new GameRequests()}) => state,
     world: worldReducer,
     tools: toolsReducer,
     user: userReducer,

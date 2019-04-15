@@ -1,5 +1,5 @@
 import { ActionType, WatchableAction } from '../../ActionType';
-import { UserQuery } from '../../../query/user/UserQuery';
+import { UserRequests } from '../UserRequests';
 import { select, call, put, takeEvery } from 'redux-saga/effects';
 import UserSelections from '../UserSelections';
 
@@ -12,7 +12,7 @@ class GetUserActions implements WatchableAction<null> {
 
     public *fetch() {
         try {
-            const userQuery: UserQuery = yield select(UserSelections.getUserQuery);
+            const userQuery: UserRequests = yield select(UserSelections.getUserQuery);
             const user = yield call([userQuery, userQuery.fetchUser]);
 
             yield put({type: ActionType.GET_USER_SUCCESS, user});
