@@ -1,4 +1,4 @@
-import { World } from '../model/World';
+import { World } from '../../game/model/World';
 
 
 export interface SendActionFunc<T> {

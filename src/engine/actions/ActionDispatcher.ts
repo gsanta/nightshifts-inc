@@ -1,6 +1,6 @@
 import { Dispatcher } from 'flux';
 import { ActionHandler, SendActionFunc } from './ActionHandler';
-import { World } from '../model/World';
+import { World } from '../../game/model/World';
 
 
 export class ActionDispatcher {

@@ -8,7 +8,7 @@ import { JsonMeshFactoryProducer } from '../game/io/json_world_io/import/JsonMas
 import { JsonWorldImporter } from '../game/io/json_world_io/import/JsonWorldImporter';
 import { GwmWorldImporter } from '../game/io/gwm_world_io/import/GwmWorldImporter';
 import { GwmMeshFactoryProducer } from '../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
-import { ActionDispatcher } from '../game/actions/ActionDispatcher';
+import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
 import { World } from '../game/model/World';
 import { IntlProvider } from 'react-intl';
 

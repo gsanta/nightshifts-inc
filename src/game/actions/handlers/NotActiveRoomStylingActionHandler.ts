@@ -1,4 +1,4 @@
-import { ActionHandler } from '../ActionHandler';
+import { ActionHandler } from '../../../engine/actions/ActionHandler';
 import { World } from '../../model/World';
 import { ContainerWorldItem } from '../../../engine/world_items/ContainerWorldItem';
 import { WorldItem } from '../../world_items/WorldItem';

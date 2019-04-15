@@ -10,7 +10,7 @@ import { World } from '../../../game/model/World';
 import { JsonWorldSchema } from '../../../game/io/json_world_io/import/JsonWorldSchema';
 import UpdateWorldActions from '../../state/game/actions/UpdateWorldActions';
 import GetWorldActions from '../../state/game/actions/GetWorldActions';
-import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
+import { ActionDispatcher } from '../../../engine/actions/ActionDispatcher';
 import colors from '../miscellaneous/colors';
 import { Color4 } from 'babylonjs';
 import * as request from 'request';

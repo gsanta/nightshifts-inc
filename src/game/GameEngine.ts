@@ -3,7 +3,7 @@ import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotion
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { World } from './model/World';
 import { AbstractWorldImporter } from './io/AbstractWorldImporter';
-import { ActionDispatcher } from './actions/ActionDispatcher';
+import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
 import { NotActiveRoomStylingActionHandler } from './actions/handlers/NotActiveRoomStylingActionHandler';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
 import { FlashlightActivationToolPlugin } from './actions/handlers/FlashlightActivationToolPlugin';

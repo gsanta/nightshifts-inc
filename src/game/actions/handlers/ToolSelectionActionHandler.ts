@@ -1,4 +1,4 @@
-import { ActionHandler } from '../ActionHandler';
+import { ActionHandler } from '../../../engine/actions/ActionHandler';
 import { World } from '../../model/World';
 import { GameActionType } from '../GameActionType';
 import { ToolActivationPlugin } from './ToolActivationPlugin';
