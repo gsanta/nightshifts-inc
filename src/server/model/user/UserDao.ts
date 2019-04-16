@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { UserModel } from './UserModel';
-import { PasswordUpdateDto } from '../../../client/query/user/PasswordUpdateDto';
+import { PasswordUpdateDto } from '../../../client/state/user/dto/PasswordUpdateDto';
 
 export interface MongooseUserModel extends mongoose.Document {
     email: string;
