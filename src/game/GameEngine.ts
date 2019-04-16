@@ -6,6 +6,8 @@ import { AbstractWorldImporter } from './io/AbstractWorldImporter';
 import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
 import { NotActiveRoomStylingActionHandler } from './actions/handlers/NotActiveRoomStylingActionHandler';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
+import { GameActionType } from './actions/GameActionType';
+import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';
 
 export class GameEngine {
     private scene: Scene;
@@ -36,6 +38,7 @@ export class GameEngine {
         setTimeout(() => {
             this.actionDispatcher.registerActionHandler(new NotActiveRoomStylingActionHandler());
             this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
+            this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
         }, 100);
     }
 
@@ -73,7 +76,7 @@ export class GameEngine {
         this.world.lightController.timePassed(elapsedTime);
 
         this.movePlayer(elapsedTime);
-        this.actionDispatcher.dispatch('MOVE');
+        this.actionDispatcher.dispatch(GameActionType.MOVE);
         // this.moveEnemies(elapsedTime);
         // this.testAndSetEnemyVisibility();
         // this.attackPlayerIfWithinSensorRange();

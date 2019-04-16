@@ -9,6 +9,7 @@ import { DefaultWall } from '../../../engine/world_items/DefaultWall';
 import { Door } from '../../model/creature/type/Door';
 import { Window } from '../../model/creature/type/Window';
 import { DoubleSidedWorldItem } from '../../model/creature/type/DoubleSidedWorldItem';
+import { GameActionType } from '../GameActionType';
 
 export class NotActiveRoomStylingActionHandler implements ActionHandler {
 
@@ -17,7 +18,7 @@ export class NotActiveRoomStylingActionHandler implements ActionHandler {
     public sendAction(type: string, world: World, ...payload: any[]) {
 
         switch (type) {
-            case 'MOVE':
+            case GameActionType.MOVE:
                 this.styleItemsInNotActiveRooms(world);
                 return;
             default:
