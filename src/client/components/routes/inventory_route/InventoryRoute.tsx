@@ -6,6 +6,7 @@ import { Tool } from '../../../../game/tools/Tool';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
 import InventoryDialog, { InventoryDialogProps } from '../../dialogs/inventory_dialog/InventoryDialog';
+import ReleaseToolActions from '../../../state/game/actions/ReleaseToolActions';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -14,7 +15,8 @@ const mapStateToProps = (state: AppState) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    grabTool: (tool: Tool) => dispatch(GrabToolActions.request(tool))
+    grabTool: (tool: Tool) => dispatch(GrabToolActions.request(tool)),
+    releaseTool: (tool: Tool) => dispatch(ReleaseToolActions.request(tool))
 });
 
 export const InventoryRoute = withRouter(connect(mapStateToProps, mapDispatchToProps)((props: RouteComponentProps & InventoryDialogProps) => {

@@ -1,11 +1,12 @@
 import { Tool } from './Tool';
 import styled from 'styled-components';
 import * as React from 'react';
+const thermometer = require('../../../assets/images/thermometer.png');
 
 export const ThermometerIconStyled = styled.div`
     width: ${(props: {size: number}) => props.size}px;
     height: ${(props: {size: number}) => props.size}px;
-    background-image: url('../../../assets/images/thermometer.png');
+    background-image: url(${thermometer});
 `;
 
 export class ThermometerTool implements Tool {

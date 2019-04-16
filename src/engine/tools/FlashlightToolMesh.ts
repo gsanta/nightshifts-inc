@@ -2,7 +2,7 @@ import { ToolMesh } from './ToolMesh';
 import { SpotLight } from 'babylonjs';
 
 export class FlashlightToolMesh implements ToolMesh {
-    public name = 'thermometer';
+    public name = 'flashlight';
     private spotLight: SpotLight;
 
 

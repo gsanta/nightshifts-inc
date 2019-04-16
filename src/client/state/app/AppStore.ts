@@ -10,8 +10,8 @@ import LoginActions from '../user/actions/LoginActions';
 import SignupActions from '../user/actions/SignupActions';
 import UpdatePasswordActions from '../user/actions/UpdatePasswordActions';
 import UpdateUserActions from '../user/actions/UpdateUserActions';
-import UpdateWorldActions from '../game/actions/UpdateWorldActions';
 import GrabToolActions from '../game/actions/GrabToolActions';
+import ReleaseToolActions from '../game/actions/ReleaseToolActions';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -32,7 +32,8 @@ sagaMiddleware.run(function* rootSaga() {
         UpdateUserActions.watch(),
         // UpdateWorldActions.watch(),
         GetWorldActions.watch(),
-        GrabToolActions.watch()
+        GrabToolActions.watch(),
+        ReleaseToolActions.watch()
     ]);
 });
 

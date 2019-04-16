@@ -34,6 +34,7 @@ const ToolWidgetCloseButton = styled(Close)`
         height: 50px;
     }
     color: red;
+    cursor: pointer;
 `;
 
 const ToolWidget: React.SFC<ToolWidgetProps> = (props: ToolWidgetProps) => {
@@ -85,8 +86,9 @@ const InventoryDialog = (props: InventoryDialogProps) => {
         [],
     );
 
-    const carriedTools = props.tools.filter(tool => tool.isCarrying()).map(tool =>  <ToolWidget  tool={tool} close={() => null}/>);
-    const tools = props.tools.map(tool =>  <ToolWidget draggable={true} tool={tool}/>);
+    const carriedTools = props.tools
+        .filter(tool => tool.isCarrying()).map(tool =>  <ToolWidget key={tool.getName()} tool={tool} close={() => props.releaseTool(tool)}/>);
+    const tools = props.tools.map(tool =>  <ToolWidget key={tool.getName()} draggable={true} tool={tool}/>);
 
     return (
         <InventoryDialogStyle>
@@ -114,4 +116,5 @@ export default withDialog(InventoryDialog, {
 export interface InventoryDialogProps extends DialogTemplateProps {
     tools: Tool[];
     grabTool(tool: Tool);
+    releaseTool(tool: Tool);
 }

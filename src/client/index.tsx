@@ -66,10 +66,3 @@ export const renderGameFromGwmInput = (canvas: HTMLCanvasElement, gwmWorldPath: 
 };
 
 export {GameEngine} from '../game/GameEngine';
-
-export const renderDialog = (root: HTMLDivElement, options: {headerColor: string, bodyColor: string, headerBorderColor: string}) => {
-    ReactDom.render(
-        <InventoryDialog tools={[]} grabTool={() => null}/>,
-        root
-    );
-};
