@@ -7,24 +7,14 @@ import { Room } from '../../../engine/world_items/Room';
 export class ThermometerUpdateHandler implements ActionHandler {
     private prevRoom: Room;
 
-    public sendAction(type: string, world: World) {
+    public sendAction(type: string, world: World, room: Room) {
         switch (type) {
-            case GameActionType.MOVE:
-                this.updateTehrmometerColor(world);
+            case GameActionType.ENTER_ROOM:
+                (<ThermometerToolMesh> world.tools[0]).updateTemperature(room.temperature);
+
                 break;
             default:
                 break;
-        }
-    }
-
-    private updateTehrmometerColor(world: World) {
-        const rooms = world.gameObjects.filter(gameObj => gameObj.name === 'room');
-
-        const intersectingRoom = <Room> rooms.filter(room => room.mesh.wrappedMesh.intersectsMesh(world.player.mesh.wrappedMesh))[0];
-
-        if (intersectingRoom !== this.prevRoom) {
-            (<ThermometerToolMesh> world.tools[0]).updateTemperature(intersectingRoom.temperature);
-            this.prevRoom = intersectingRoom;
         }
     }
 }

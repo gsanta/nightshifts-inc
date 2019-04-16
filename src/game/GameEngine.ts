@@ -4,10 +4,11 @@ import { CollisionDetector } from './model/creature/collision/CollisionDetector'
 import { World } from './model/World';
 import { AbstractWorldImporter } from './io/AbstractWorldImporter';
 import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
-import { NotActiveRoomStylingActionHandler } from './actions/handlers/NotActiveRoomStylingActionHandler';
+import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLightingActionHandler';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
 import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';
+import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandler';
 
 export class GameEngine {
     private scene: Scene;
@@ -36,9 +37,10 @@ export class GameEngine {
         this.actionDispatcher = actionDispatcher;
 
         setTimeout(() => {
-            this.actionDispatcher.registerActionHandler(new NotActiveRoomStylingActionHandler());
+            this.actionDispatcher.registerActionHandler(new ActiveRoomLightingActionHandler());
             this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
             this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
+            this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
         }, 100);
     }
 
