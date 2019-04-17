@@ -12,6 +12,7 @@ export class Room extends ContainerWorldItem {
     public mesh: MeshWrapper<any>;
     public name: string;
     private boundingPolygon: Polygon;
+    public temperature = 20 + Math.floor(Math.random() * 10);
 
     constructor(mesh: MeshWrapper<any>, boundingPolygon: Polygon, name: string) {
         super([]);

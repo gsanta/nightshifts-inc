@@ -7,6 +7,8 @@ import { GwmWorldItem, TreeIteratorGenerator, TreeNode } from 'game-worldmap-gen
 import { Player } from '../model/creature/type/Player';
 import { WorldItem } from '../world_items/WorldItem';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
+import { ThermometerToolMesh } from '../../engine/tools/ThermometerToolMesh';
+import { FlashlightToolMesh } from '../../engine/tools/FlashlightToolMesh';
 
 
 export abstract class AbstractWorldImporter<T extends {name: string}> {
@@ -94,6 +96,11 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         world.gameObjects = worldItems;
         world.floor = worldItems.filter(mesh => mesh.name === 'floor')[0];
         world.player = <Player> worldItems.filter(mesh => mesh.name === 'player')[0];
+
+        world.tools = [
+            new ThermometerToolMesh(this.scene, world.player),
+            new FlashlightToolMesh(world.spotLight)
+        ];
 
         return world;
     }

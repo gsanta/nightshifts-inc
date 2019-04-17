@@ -5,23 +5,22 @@ import { takeEvery, select } from 'redux-saga/effects';
 import GameSelections from '../GameSelections';
 import { GameActionType } from '../../../../game/actions/GameActionType';
 
-class GrabToolActions implements WatchableAction<any> {
+class ReleaseToolActions implements WatchableAction<any> {
     public request(tool: Tool) {
-
         return {
-            type: ActionType.GRAB_TOOL,
+            type: ActionType.RELEASE_TOOL,
             tool
         };
     }
 
     public *watch() {
-        yield takeEvery(ActionType.GRAB_TOOL, this.activateTool);
+        yield takeEvery(ActionType.RELEASE_TOOL, this.activateTool);
     }
 
     private *activateTool(action: {tool: Tool}) {
         const gameActionDispatcher: ActionDispatcher = yield select(GameSelections.getGameActionDispatcher);
-        gameActionDispatcher.dispatch(GameActionType.ACTIVATE_TOOL, action.tool);
+        gameActionDispatcher.dispatch(GameActionType.DEACTIVATE_TOOL, action.tool);
     }
 }
 
-export default new GrabToolActions();
+export default new ReleaseToolActions();

@@ -25,28 +25,28 @@ interface MeshMap<V> {
 
 export abstract class AbstractMeshFactoryProducer<T> {
 
-    private readonly FURNITURE_1_MATERIAL = 'assets/models/furniture_1/material/beds.png';
-    private readonly FURNITURE_1_BASE_PATH = '/assets/models/furniture_1/';
+    private readonly FURNITURE_1_MATERIAL = 'models/furniture_1/material/beds.png';
+    private readonly FURNITURE_1_BASE_PATH = 'models/furniture_1/';
     private readonly BED_MODEL_FILE = 'bed.babylon';
 
-    private readonly FURNITURE_2_MATERIAL = 'assets/models/furniture_2/material/furniture.png';
-    private readonly FURITURE_2_BASE_PATH = '/assets/models/furniture_2/';
+    private readonly FURNITURE_2_MATERIAL = 'models/furniture_2/material/furniture.png';
+    private readonly FURITURE_2_BASE_PATH = 'models/furniture_2/';
     private readonly CUPBOARD_MODEL_FILE = 'cupboard.babylon';
     private readonly TABLE_MODEL_FILE = 'table.babylon';
 
-    private readonly FURNITURE_3_MATERIAL = 'assets/models/furniture_3/material/bathroom.png';
-    private readonly FURITURE_3_BASE_PATH = '/assets/models/furniture_3/';
+    private readonly FURNITURE_3_MATERIAL = 'models/furniture_3/material/bathroom.png';
+    private readonly FURITURE_3_BASE_PATH = 'models/furniture_3/';
     private readonly BATHTUB_MODEL_FILE = 'bathtub.babylon';
     private readonly WASHBASIN_MODEL_FILE = 'wash_basin.babylon';
 
 
-    private readonly PLAYER_BASE_PATH = 'assets/models/player/';
+    private readonly PLAYER_BASE_PATH = 'models/player/';
     private readonly PLAYER_MODEL_FILE = 'player.babylon';
     private readonly PLAYER_MATERIALS = [
-        'assets/models/player/material/0.jpg',
-        'assets/models/player/material/1.jpg',
-        'assets/models/player/material/2.jpg',
-        'assets/models/player/material/3.jpg'
+        'models/player/material/0.jpg',
+        'models/player/material/1.jpg',
+        'models/player/material/2.jpg',
+        'models/player/material/3.jpg'
     ];
 
     public abstract getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<T>>;

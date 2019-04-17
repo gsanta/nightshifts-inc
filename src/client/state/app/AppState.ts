@@ -3,7 +3,7 @@ import { User } from '../user/User';
 import { ErrorMessage } from '../../components/miscellaneous/ErrorMessage';
 import { GameRequests } from '../game/GameRequests';
 import { JsonWorldSchema } from '../../../game/io/json_world_io/import/JsonWorldSchema';
-import { Tool } from '../../components/dialogs/inventory_dialog/Tool';
+import { Tool } from '../../../game/tools/Tool';
 import { ActionDispatcher } from '../../../engine/actions/ActionDispatcher';
 
 export type AppLoadingState = 'loading' | 'ready';

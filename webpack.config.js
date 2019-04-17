@@ -30,6 +30,15 @@ module.exports = env => {
                 {
                     test: /\.gwm$/,
                     use: 'raw-loader'
+                },
+                {
+                    test: /\.(png|jpg|gif)$/,
+                    use: [
+                        {
+                            loader: 'file-loader',
+                            options: {}
+                        }
+                    ]
                 }
             ]
         },
@@ -58,7 +67,7 @@ module.exports = env => {
                     secure: false
                 }
             },
-            contentBase: ['.', './test'],
+            contentBase: ['.', './test', './assets'],
             port: 8765
         }
     }

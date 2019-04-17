@@ -2,6 +2,7 @@ import { ActionDispatcher } from './ActionDispatcher';
 import { World } from '../../game/model/World';
 import * as sinon from 'sinon';
 import { ActionHandler } from './ActionHandler';
+import { GameActionType } from '../../game/actions/GameActionType';
 
 
 describe('ActionDispatcher', () => {
@@ -24,7 +25,7 @@ describe('ActionDispatcher', () => {
             actionDispatcher.registerActionHandler(actionHandler1);
             actionDispatcher.registerActionHandler(actionHandler2);
 
-            const actionType = 'MOVE';
+            const actionType = GameActionType.MOVE;
             const destX = 1;
             const destY = 2;
             actionDispatcher.dispatch(actionType, destX, destY);
@@ -52,10 +53,10 @@ describe('ActionDispatcher', () => {
             actionDispatcher.registerActionHandler(actionHandler1);
             actionDispatcher.registerActionHandler(actionHandler2);
 
-            actionDispatcher.dispatch('MOVE');
+            actionDispatcher.dispatch(GameActionType.MOVE);
 
-            sinon.assert.calledWith(sendAction1Spy, 'MOVE', world);
-            sinon.assert.calledWith(sendAction2Spy, 'MOVE', world);
+            sinon.assert.calledWith(sendAction1Spy, GameActionType.MOVE, world);
+            sinon.assert.calledWith(sendAction2Spy, GameActionType.MOVE, world);
 
             actionDispatcher.unregisterActionHandler(actionHandler2);
 

@@ -46,7 +46,7 @@ export class CollisionDetector {
         const ray = new BABYLON.Ray(new Vector3(origin.x, 0.1, origin.z), delta, 3);
 
         const hit = this.scene.pickWithRay(ray, (mesh: AbstractMesh) => {
-            return ['ray', 'ground'].indexOf(mesh.name) === -1;
+            return ['ray', 'ground', 'thermometer'].indexOf(mesh.name) === -1;
         });
 
         let normal: Vector3 | null = null;

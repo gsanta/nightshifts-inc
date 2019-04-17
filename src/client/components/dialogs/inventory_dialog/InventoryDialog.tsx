@@ -1,16 +1,17 @@
 import * as React from 'react';
 import withDialog from '../../../components/dialogs/dialog_template/withDialog';
-import {Highlight} from '@material-ui/icons';
 import styled from 'styled-components';
-import { Tool } from './Tool';
+import { Tool } from '../../../../game/tools/Tool';
 import * as _ from 'lodash';
 import { DialogTemplateProps } from '../../../components/dialogs/dialog_template/withDialog';
 import { TitleLine } from '../../../components/dialogs/dialog_template/TitleLine';
 import colors from '../../miscellaneous/colors';
+import { Close } from '@material-ui/icons';
 
 const TOOL_WIDGET_SIZE = 50;
 
 const ToolWidgetBackground = styled.div`
+    position: relative;
     background: repeating-linear-gradient(
         45deg,
         #E2F1FF,
@@ -24,10 +25,24 @@ const ToolWidgetBackground = styled.div`
     cursor: ${(props: {draggable: boolean}) => props.draggable ? 'pointer' : 'drag'};
 `;
 
+const ToolWidgetCloseButton = styled(Close)`
+    position: absolute;
+    right: 0;
+    top: 0;
+    && {
+        width: 50px;
+        height: 50px;
+    }
+    color: red;
+    cursor: pointer;
+`;
+
 const ToolWidget: React.SFC<ToolWidgetProps> = (props: ToolWidgetProps) => {
+    const closeButton = props.close ? <ToolWidgetCloseButton onClick={props.close}/> : null;
     return (
-        <ToolWidgetBackground draggable={props.draggable} onDragStart={(e) => e.dataTransfer.setData('id', props.tool.name)}>
-            <Highlight style={{width: `${TOOL_WIDGET_SIZE}px`, height: `${TOOL_WIDGET_SIZE}px`}}/>
+        <ToolWidgetBackground draggable={props.draggable} onDragStart={(e) => e.dataTransfer.setData('id', props.tool.getName())}>
+            {closeButton}
+            {props.tool.getIcon(TOOL_WIDGET_SIZE)}
         </ToolWidgetBackground>
     );
 };
@@ -35,6 +50,7 @@ const ToolWidget: React.SFC<ToolWidgetProps> = (props: ToolWidgetProps) => {
 export interface ToolWidgetProps {
     draggable?: boolean;
     tool: Tool;
+    close?(): void;
 }
 
 ToolWidget.defaultProps = {
@@ -46,10 +62,12 @@ const InventoryDialogStyle = styled.div`
 
 const ToolsOnYouSectionStyled = styled.div`
     min-height: ${TOOL_WIDGET_SIZE + 10}px;
+    display: flex;
 `;
 
 const ToolsInTheLockerStyled = styled.div`
     width: 100%;
+    display: flex;
 `;
 
 const InventoryDialog = (props: InventoryDialogProps) => {
@@ -63,13 +81,14 @@ const InventoryDialog = (props: InventoryDialogProps) => {
     const onDrop = React.useCallback(
         (e: React.DragEvent) => {
             const toolName = e.dataTransfer.getData('id');
-            props.grabTool(_.find(props.tools, tool => tool.name === toolName));
+            props.grabTool(_.find(props.tools, tool => tool.getName() === toolName));
         },
         [],
     );
 
-    const carriedTools = props.tools.filter(tool => tool.isCarrying).map(tool =>  <ToolWidget  tool={tool}/>);
-    const tools = props.tools.map(tool =>  <ToolWidget draggable={true} tool={tool}/>);
+    const carriedTools = props.tools
+        .filter(tool => tool.isCarrying()).map(tool =>  <ToolWidget key={tool.getName()} tool={tool} close={() => props.releaseTool(tool)}/>);
+    const tools = props.tools.map(tool =>  <ToolWidget key={tool.getName()} draggable={true} tool={tool}/>);
 
     return (
         <InventoryDialogStyle>
@@ -97,4 +116,5 @@ export default withDialog(InventoryDialog, {
 export interface InventoryDialogProps extends DialogTemplateProps {
     tools: Tool[];
     grabTool(tool: Tool);
+    releaseTool(tool: Tool);
 }
