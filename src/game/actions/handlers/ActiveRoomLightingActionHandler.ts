@@ -11,7 +11,7 @@ import { Window } from '../../model/creature/type/Window';
 import { DoubleSidedWorldItem } from '../../model/creature/type/DoubleSidedWorldItem';
 import { GameActionType } from '../GameActionType';
 
-export class ActiveRoomLightingActionHandlernpm implements ActionHandler {
+export class ActiveRoomLightingActionHandler implements ActionHandler {
 
     public sendAction(type: string, world: World, activeRoom: Room) {
 

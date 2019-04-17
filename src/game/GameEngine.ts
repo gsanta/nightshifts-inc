@@ -4,11 +4,11 @@ import { CollisionDetector } from './model/creature/collision/CollisionDetector'
 import { World } from './model/World';
 import { AbstractWorldImporter } from './io/AbstractWorldImporter';
 import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
-import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLightingActionHandler';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
 import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';
 import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandler';
+import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLightingActionHandler';
 
 export class GameEngine {
     private scene: Scene;

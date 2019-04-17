@@ -1,6 +1,5 @@
 import { JwtTokenExtracter } from '../../security/JwtTokenExtracter';
 import { UserDao } from './UserDao';
-import { PasswordUpdateDto } from '../../../client/query/user/PasswordUpdateDto';
 import * as express from 'express';
 import {
     LoginInputValidator,
@@ -12,6 +11,7 @@ import { LocalAuthentication } from '../../security/LocalAuthentication';
 import { LocalUserRegistration } from '../../security/LocalUserRegistration';
 import { FacebookUserRegistration } from '../../security/FacebookUserRegistration';
 import { FieldError } from '../FieldError';
+import { PasswordUpdateDto } from '../../../client/state/user/dto/PasswordUpdateDto';
 
 const send400 = (message: string, res: express.Response) => res.status(400).json(new FieldError(message).toJson());
 

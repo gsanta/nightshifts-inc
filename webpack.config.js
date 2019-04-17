@@ -67,7 +67,7 @@ module.exports = env => {
                     secure: false
                 }
             },
-            contentBase: ['.', './test'],
+            contentBase: ['.', './test', './assets'],
             port: 8765
         }
     }
