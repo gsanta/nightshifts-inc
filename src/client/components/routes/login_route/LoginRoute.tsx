@@ -6,6 +6,7 @@ import LoginFacebookActions from '../../../state/user/actions/LoginFacebookActio
 import { User } from '../../../state/user/User';
 import LoginActions from '../../../state/user/actions/LoginActions';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
+import LoginWithTemporaryUserActions from '../../../state/user/actions/LoginWithTemporaryUserActions';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -16,7 +17,8 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = dispatch => ({
     loginFacebook: (accessToken: string) => dispatch(LoginFacebookActions.request(accessToken)),
-    login: (email: string, password: string) => dispatch(LoginActions.request({email, password}))
+    login: (email: string, password: string) => dispatch(LoginActions.request({email, password})),
+    loginWithTemporaryUser: () => dispatch(LoginWithTemporaryUserActions.request())
 });
 
 export const LoginRoute = connect(mapStateToProps, mapDispatchToProps)((props: LoginRouteProps) => {
@@ -29,6 +31,7 @@ export const LoginRoute = connect(mapStateToProps, mapDispatchToProps)((props: L
 export interface LoginRouteProps {
     loginFacebook(accessToken: string): void;
     login(email: string, password: string): void;
+    loginWithTemporaryUser(): void;
     user: User;
     errors: ErrorMessage[];
 }

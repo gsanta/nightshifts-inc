@@ -43,6 +43,19 @@ const FacebookButtonStyled = styled(FacebookLoginButton)`
     }
 `;
 
+const TryoutButtonStyled = styled(Button)`
+    /* to overwrite material-ui's style we have to increase the specificity */
+    && {
+        margin-left: auto;
+        margin-right: auto;
+        background-color: ${colors.SubmitAction};
+
+        &:hover {
+            background-color: ${colors.SubmitActionFocused};
+        }
+    }
+`;
+
 const BottomLine = styled.div`
     margin: 30px 3px 5px 3px;
     display: flex;
@@ -101,6 +114,13 @@ const LoginDialogBody = (props: LoginDialogProps) => {
             <ButtonLine>
                 <FacebookButtonStyled callback={(event: {accessToken: string}) => props.loginFacebook(event.accessToken)}/>
             </ButtonLine>
+            <TitleLine>or</TitleLine>
+            <ButtonLine>
+                <TryoutButtonStyled
+                    label={<FormattedMessage id="tryOut" defaultMessage={'Try out without login'}/>}
+                    onClick={() => props.loginWithTemporaryUser()}
+                />
+            </ButtonLine>
             <BottomLine>
                 <Link to="/">Forgot password</Link>
                 <Link to="/signup">Create account</Link>
@@ -120,6 +140,7 @@ export default withDialog(LoginDialogBody, {
 export interface LoginDialogProps extends DialogTemplateProps {
     loginFacebook(accessToken: string): void;
     login(email: string, password: string): void;
+    loginWithTemporaryUser(): void;
     user: User;
     errors: ErrorMessage[];
 }

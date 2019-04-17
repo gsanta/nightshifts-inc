@@ -3,7 +3,7 @@ import { UserDto } from './dto/UserDto';
 export class User {
     public email: string;
     public id: string;
-    public authStrategy: 'facebook' | 'local';
+    public authStrategy: 'facebook' | 'local' | 'unauthenticated';
 
     public static fromDto(userDto: UserDto): User {
         const user = new User();
