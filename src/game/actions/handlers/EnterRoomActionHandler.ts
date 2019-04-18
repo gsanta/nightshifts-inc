@@ -15,7 +15,7 @@ export class EnterRoomActionHandler implements ActionHandler {
 
     public sendAction(type: string, world: World) {
         switch (type) {
-            case GameActionType.ENTER_ROOM:
+            case GameActionType.MOVE:
                 this.dispatchEventIfRoomChanged(world);
                 break;
             default:
