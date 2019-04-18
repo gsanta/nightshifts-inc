@@ -9,7 +9,7 @@ import { GameActionType } from './actions/GameActionType';
 import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';
 import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandler';
 import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLightingActionHandler';
-import { Timer } from './Timer';
+import { Timer } from './actions/handlers/Timer';
 import { TimeActionHandler } from './actions/handlers/TimeActionHandler';
 
 export class GameEngine {
@@ -38,15 +38,17 @@ export class GameEngine {
         this.scene.collisionsEnabled = true;
         this.world = world;
         this.actionDispatcher = actionDispatcher;
-        this.timer = new Timer();
 
-        setTimeout(() => {
-            this.actionDispatcher.registerActionHandler(new ActiveRoomLightingActionHandler());
-            this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
-            this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
-            this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
-            this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
-        }, 100);
+        setTimeout(
+            () => {
+                this.actionDispatcher.registerActionHandler(new ActiveRoomLightingActionHandler());
+                this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
+                this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
+                this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
+                this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
+            },
+            100
+        );
     }
 
     public run() {
@@ -59,7 +61,7 @@ export class GameEngine {
         //         this.engine.runRenderLoop(this.run);
         //     })
         //     .catch(e => console.error(e));
-        this.timer.reset();
+        this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);
         this.engine.runRenderLoop(() => this.render());
     }
 
@@ -83,7 +85,7 @@ export class GameEngine {
         this.world.lightController.timePassed(elapsedTime);
 
         this.movePlayer(elapsedTime);
-        this.actionDispatcher.dispatch(GameActionType.NEXT_TICK, this.timer.getDelta());
+        // this.actionDispatcher.dispatch(GameActionType.NEXT_TICK, this.timer.getDelta());
         // this.moveEnemies(elapsedTime);
         // this.testAndSetEnemyVisibility();
         // this.attackPlayerIfWithinSensorRange();
