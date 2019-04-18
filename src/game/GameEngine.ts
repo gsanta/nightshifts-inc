@@ -2,7 +2,6 @@ import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './model/creature/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './model/creature/collision/CollisionDetector';
 import { World } from './model/World';
-import { AbstractWorldImporter } from './io/AbstractWorldImporter';
 import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
@@ -11,6 +10,7 @@ import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandle
 import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLightingActionHandler';
 import { Timer } from './actions/handlers/Timer';
 import { TimeActionHandler } from './actions/handlers/TimeActionHandler';
+import { RoomReservationAction } from './actions/room_reservation_action/RoomReservationAction';
 
 export class GameEngine {
     private scene: Scene;
@@ -20,7 +20,6 @@ export class GameEngine {
     private canvas: HTMLCanvasElement;
     private isGameRunning = false;
     private actionDispatcher: ActionDispatcher;
-    private timer: Timer;
 
     constructor(
         canvas: HTMLCanvasElement,
@@ -46,22 +45,15 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
                 this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
+                this.actionDispatcher.registerActionHandler(new RoomReservationAction());
+
+                this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);
             },
             100
         );
     }
 
     public run() {
-        // const meshFactoryProducer = new GwmMeshFactoryProducer();
-
-        // new GwmWorldGenerator(this.scene, this.canvas, meshFactoryProducer)
-        //     .create(strWorld)
-        //     .then((worldMap) => {
-        //         this.worldMap = worldMap;
-        //         this.engine.runRenderLoop(this.run);
-        //     })
-        //     .catch(e => console.error(e));
-        this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);
         this.engine.runRenderLoop(() => this.render());
     }
 
@@ -85,10 +77,8 @@ export class GameEngine {
         this.world.lightController.timePassed(elapsedTime);
 
         this.movePlayer(elapsedTime);
-        // this.actionDispatcher.dispatch(GameActionType.NEXT_TICK, this.timer.getDelta());
-        // this.moveEnemies(elapsedTime);
-        // this.testAndSetEnemyVisibility();
-        // this.attackPlayerIfWithinSensorRange();
+        this.actionDispatcher.dispatch(GameActionType.NEXT_TICK);
+
 
         this.scene.render();
     }

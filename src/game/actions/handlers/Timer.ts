@@ -16,7 +16,7 @@ export class Timer extends EventEmitter {
      * @param samplingInterval The interval the timer updates itself and checks wheter a specific event has been reached.
      * @param dayDuration The duration of an day in the game in milliseconds
      */
-    constructor(samplingInterval: number, dayDuration = 10000) {
+    constructor(samplingInterval: number, dayDuration = 1000) {
         super();
         this.prevTime = Date.now();
         this.updateInterval = samplingInterval;

@@ -20,14 +20,15 @@ export class TimeActionHandler implements ActionHandler {
         switch (type) {
             case GameActionType.GAME_IS_READY:
                 this.timer = new Timer(100);
-                this.timer.onDayPassed(() => this.onHourPassed());
+                this.timer.onDayPassed(() => this.onDayPassed());
+                this.timer.startTimer();
                 break;
             default:
                 break;
         }
     }
 
-    private onHourPassed() {
+    private onDayPassed() {
         this.actionDispatcher.dispatch(GameActionType.DAY_PASSED);
     }
 }

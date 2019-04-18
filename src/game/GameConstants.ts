@@ -2,6 +2,7 @@
 export const GameConstants = {
     colors: {
         door: '#8C4512',
+        doorClosed: '#FF0000',
         window: '#52ACE1',
         floor: '#CDA671',
         wall: '#FFFFFF',

@@ -8,10 +8,14 @@ describe('Timer', () => {
         fakeTimer = sinon.useFakeTimers();
     });
 
+    afterEach(() => {
+        fakeTimer.restore();
+    });
+
     it ('emits `dayPassed` events every time a day passes', () => {
         const callback = sinon.spy();
 
-        const timer = new Timer(100);
+        const timer = new Timer(100, 10000);
         timer.onDayPassed(callback);
         timer.startTimer();
 

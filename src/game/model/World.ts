@@ -3,10 +3,11 @@ import { Enemy } from './creature/type/Enemy';
 import { Player } from './creature/type/Player';
 import { LightController } from './light/LightController';
 import { Vector2Model } from './utils/Vector2Model';
-import { FollowCamera, Light, SpotLight } from 'babylonjs';
+import { FollowCamera, Light, SpotLight, StandardMaterial } from 'babylonjs';
 import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
 import { Tool } from '../tools/Tool';
 import { ToolMesh } from '../../engine/tools/ToolMesh';
+import { Room } from '../../engine/world_items/Room';
 
 
 export class World {
@@ -17,7 +18,7 @@ export class World {
     public floor: WorldItem;
     public enemies: Enemy[] = [];
     public player: Player = null;
-    public rooms: ContainerWorldItem[];
+    public rooms: Room[];
 
     public camera: FollowCamera;
 
@@ -25,4 +26,6 @@ export class World {
 
     public tools: ToolMesh[];
     public spotLight: SpotLight;
+
+    public materials: {[key: string]: StandardMaterial};
 }

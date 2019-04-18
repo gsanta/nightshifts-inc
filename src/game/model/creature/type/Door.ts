@@ -1,10 +1,9 @@
 import { WorldItem, SerializedMeshModel } from '../../../world_items/WorldItem';
 import { Mesh, Scene, MeshBuilder, StandardMaterial } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
-import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
 import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
-import { GwmWorldItem, Polygon, Rectangle } from 'game-worldmap-generator';
+import { GwmWorldItem, Polygon } from 'game-worldmap-generator';
 import { World } from '../../World';
 import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 import { GameConstants } from '../../../GameConstants';
@@ -19,6 +18,7 @@ export class Door extends ContainerWorldItem implements DoubleSidedWorldItem {
     private pivotAngle: number;
     private pivot: VectorModel;
     public containerMesh: MeshWrapper<Mesh>;
+    public name: 'door';
 
     constructor(mesh: MeshWrapper<any>, side1: WorldItem, side2: WorldItem) {
         super([]);
@@ -71,6 +71,10 @@ export class Door extends ContainerWorldItem implements DoubleSidedWorldItem {
 
     public getSide2Meshes(): Mesh[] {
         return [this.children[1].mesh.wrappedMesh];
+    }
+
+    public setMaterial(material: StandardMaterial) {
+        this.children.forEach(child => child.mesh.wrappedMesh.material = material);
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Door {

@@ -1,6 +1,6 @@
 import { World } from '../model/World';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
-import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCamera } from 'babylonjs';
+import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCamera, StandardMaterial } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../model/core/factories/AbstractMeshFactoryProducer';
 import { Promise } from 'es6-promise';
 import { GwmWorldItem, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
@@ -9,7 +9,8 @@ import { WorldItem } from '../world_items/WorldItem';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 import { ThermometerToolMesh } from '../../engine/tools/ThermometerToolMesh';
 import { FlashlightToolMesh } from '../../engine/tools/FlashlightToolMesh';
-
+import { GameConstants } from '../GameConstants';
+const colors = GameConstants.colors;
 
 export abstract class AbstractWorldImporter<T extends {name: string}> {
     protected shadowGenerator: ShadowGenerator;
@@ -77,6 +78,8 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         world.nightLight = this.nightLight;
         world.spotLight = this.spotLight;
 
+        world.materials = this.createMaterials(this.scene);
+
         const fromToMap: Map<GwmWorldItem, WorldItem> = new Map();
         const worldItemToTreeMapper = new WorldItemTreeMapper();
 
@@ -139,5 +142,18 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         camera.maxCameraSpeed = 20;
 
         return camera;
+    }
+
+    private createMaterials(scene: Scene): {[key: string]: StandardMaterial} {
+        const doorMaterial = new BABYLON.StandardMaterial('door-material', scene);
+        doorMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
+
+        const doorClosedMaterial = new BABYLON.StandardMaterial('door-closed-material', scene);
+        doorClosedMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.doorClosed);
+
+        return {
+            door: doorMaterial,
+            doorClosed: doorClosedMaterial
+        };
     }
 }
