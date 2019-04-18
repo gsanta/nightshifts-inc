@@ -13,7 +13,7 @@ import { GameActionType } from '../GameActionType';
 
 export class ActiveRoomLightingActionHandler implements ActionHandler {
 
-    public sendAction(type: string, world: World, activeRoom: Room) {
+    public handle(type: string, world: World, activeRoom: Room) {
 
         switch (type) {
             case GameActionType.ENTER_ROOM:

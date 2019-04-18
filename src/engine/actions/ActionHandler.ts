@@ -6,5 +6,5 @@ export interface SendActionFunc<T> {
 }
 
 export interface ActionHandler {
-    sendAction(type: string, world: World, ...payload: any[]);
+    handle(type: string, world: World, ...payload: any[]);
 }

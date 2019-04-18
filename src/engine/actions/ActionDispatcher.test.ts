@@ -13,19 +13,19 @@ describe('ActionDispatcher', () => {
 
             const sendAction1Spy = sinon.spy();
             const actionHandler1: ActionHandler = {
-                sendAction: sendAction1Spy
+                handle: sendAction1Spy
             };
 
             const sendAction2Spy = sinon.spy();
             const actionHandler2: ActionHandler = {
-                sendAction: sendAction2Spy
+                handle: sendAction2Spy
             };
 
 
             actionDispatcher.registerActionHandler(actionHandler1);
             actionDispatcher.registerActionHandler(actionHandler2);
 
-            const actionType = GameActionType.MOVE;
+            const actionType = GameActionType.NEXT_TICK;
             const destX = 1;
             const destY = 2;
             actionDispatcher.dispatch(actionType, destX, destY);
@@ -42,21 +42,21 @@ describe('ActionDispatcher', () => {
 
             const sendAction1Spy = sinon.spy();
             const actionHandler1: ActionHandler = {
-                sendAction: sendAction1Spy
+                handle: sendAction1Spy
             };
 
             const sendAction2Spy = sinon.spy();
             const actionHandler2: ActionHandler = {
-                sendAction: sendAction2Spy
+                handle: sendAction2Spy
             };
 
             actionDispatcher.registerActionHandler(actionHandler1);
             actionDispatcher.registerActionHandler(actionHandler2);
 
-            actionDispatcher.dispatch(GameActionType.MOVE);
+            actionDispatcher.dispatch(GameActionType.NEXT_TICK);
 
-            sinon.assert.calledWith(sendAction1Spy, GameActionType.MOVE, world);
-            sinon.assert.calledWith(sendAction2Spy, GameActionType.MOVE, world);
+            sinon.assert.calledWith(sendAction1Spy, GameActionType.NEXT_TICK, world);
+            sinon.assert.calledWith(sendAction2Spy, GameActionType.NEXT_TICK, world);
 
             actionDispatcher.unregisterActionHandler(actionHandler2);
 

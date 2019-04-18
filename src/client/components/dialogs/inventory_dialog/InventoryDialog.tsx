@@ -6,59 +6,7 @@ import * as _ from 'lodash';
 import { DialogTemplateProps } from '../../../components/dialogs/dialog_template/withDialog';
 import { TitleLine } from '../../../components/dialogs/dialog_template/TitleLine';
 import colors from '../../miscellaneous/colors';
-import { Close } from '@material-ui/icons';
-
-const TOOL_WIDGET_SIZE = 50;
-
-const ToolWidgetBackground = styled.div`
-    position: relative;
-    background: repeating-linear-gradient(
-        45deg,
-        #E2F1FF,
-        #E2F1FF 5px,
-        #B1D9FE 5px,
-        #B1D9FE 10px
-    );
-    width: ${TOOL_WIDGET_SIZE}px;
-    height: ${TOOL_WIDGET_SIZE}px;
-    margin: 5px;
-    cursor: ${(props: {draggable: boolean}) => props.draggable ? 'pointer' : 'drag'};
-`;
-
-const ToolWidgetCloseButton = styled(Close)`
-    position: absolute;
-    right: 0;
-    top: 0;
-    && {
-        width: 50px;
-        height: 50px;
-    }
-    color: red;
-    cursor: pointer;
-`;
-
-const ToolWidget: React.SFC<ToolWidgetProps> = (props: ToolWidgetProps) => {
-    const closeButton = props.close ? <ToolWidgetCloseButton onClick={props.close}/> : null;
-    return (
-        <ToolWidgetBackground draggable={props.draggable} onDragStart={(e) => e.dataTransfer.setData('id', props.tool.getName())}>
-            {closeButton}
-            {props.tool.getIcon(TOOL_WIDGET_SIZE)}
-        </ToolWidgetBackground>
-    );
-};
-
-export interface ToolWidgetProps {
-    draggable?: boolean;
-    tool: Tool;
-    close?(): void;
-}
-
-ToolWidget.defaultProps = {
-    draggable: false
-};
-
-const InventoryDialogStyle = styled.div`
-`;
+import { TOOL_WIDGET_SIZE, ToolWidget } from './ToolWidget';
 
 const ToolsOnYouSectionStyled = styled.div`
     min-height: ${TOOL_WIDGET_SIZE + 10}px;
@@ -91,7 +39,7 @@ const InventoryDialog = (props: InventoryDialogProps) => {
     const tools = props.tools.map(tool =>  <ToolWidget key={tool.getName()} draggable={true} tool={tool}/>);
 
     return (
-        <InventoryDialogStyle>
+        <div>
             <TitleLine marginBottom={15} marginTop={15}>tools on you</TitleLine>
             <ToolsOnYouSectionStyled onDragOver={onDragOver} onDrop={onDrop}>
                 {carriedTools}
@@ -100,7 +48,7 @@ const InventoryDialog = (props: InventoryDialogProps) => {
             <ToolsInTheLockerStyled>
                 {tools}
             </ToolsInTheLockerStyled>
-        </InventoryDialogStyle>
+        </div>
     );
 };
 

@@ -13,7 +13,7 @@ export class ToolSelectionActionHandler implements ActionHandler {
         this.toolMeshes = toolMeshes;
     }
 
-    public sendAction(type: string, world: World, tool: Tool) {
+    public handle(type: string, world: World, tool: Tool) {
         switch (type) {
             case GameActionType.ACTIVATE_TOOL:
                 this.selectToolToActivate(tool).enable();

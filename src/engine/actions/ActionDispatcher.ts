@@ -21,6 +21,6 @@ export class ActionDispatcher {
     }
 
     public dispatch(type: string, ...payload: any[]) {
-        this.handlers.forEach(handler => handler.sendAction(type, this.world, ...payload));
+        this.handlers.forEach(handler => handler.handle(type, this.world, ...payload));
     }
 }
