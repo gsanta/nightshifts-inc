@@ -6,8 +6,11 @@ import { Scene, Vector3 } from 'babylonjs';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { World } from '../../game/model/World';
 import { BabylonMeshWrapper } from '../wrappers/babylon/BabylonMeshWrapper';
+import { Door } from '../../game/model/creature/type/Door';
+import { RoomState } from './room/RoomState';
 
 export class Room extends ContainerWorldItem {
+    public state: RoomState;
     public borderItems: WorldItem[] = [];
     public mesh: MeshWrapper<any>;
     public name: string;
@@ -27,6 +30,10 @@ export class Room extends ContainerWorldItem {
 
     public getBoundingPolygon(): Polygon {
         return this.boundingPolygon;
+    }
+
+    public getDoors(): Door[] {
+        return <Door[]> this.children.filter(child => child.name === 'door');
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Room {
