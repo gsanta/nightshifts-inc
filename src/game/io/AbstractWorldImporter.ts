@@ -10,6 +10,7 @@ import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 import { ThermometerToolMesh } from '../../engine/tools/ThermometerToolMesh';
 import { FlashlightToolMesh } from '../../engine/tools/FlashlightToolMesh';
 import { GameConstants } from '../GameConstants';
+import { Room } from '../../engine/world_items/Room';
 const colors = GameConstants.colors;
 
 export abstract class AbstractWorldImporter<T extends {name: string}> {
@@ -95,6 +96,8 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
 
         worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
         // const meshes = worldItems.map(worldItem => this.createMesh(worldItem, this.meshFactory, world));
+
+        worldItems.filter(mesh => mesh.name === 'room').forEach((room: Room) => room.state.activate(room));
 
         world.gameObjects = worldItems;
         world.floor = worldItems.filter(mesh => mesh.name === 'floor')[0];

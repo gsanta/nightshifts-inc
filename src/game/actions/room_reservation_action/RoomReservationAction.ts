@@ -12,11 +12,14 @@ export class RoomReservationAction implements ActionHandler {
         switch (type) {
             case GameActionType.DAY_PASSED:
                 const room = this.getRandomRoom(world);
-                if (this.reservedRooms) {
-                    this.reservedRooms.forEach(reservedRoom => this.makeRoomFree(reservedRoom, world));
+
+                this.reservedRooms.forEach(reservedRoom => reservedRoom.makeInactive());
+
+                if (room.canGoReserved()) {
+                    room.makeReserved();
+                    this.reservedRooms = [room];
                 }
-                this.makeRoomReserved(room, world);
-                this.reservedRooms = [room];
+
                 break;
             default:
                 break;

@@ -22,30 +22,30 @@ describe('ActiveRoomState', () => {
 
         it ('returns true if the prev state was `InactiveRoomState` ', () => {
             const roomMock: Partial<Room> = {
-                state: new InactiveRoomState(<World> worldMock)
+                state: InactiveRoomState.getInstance(<World> worldMock)
             };
 
-            const activeRoomState = new ActiveRoomState(<World> worldMock);
+            const activeRoomState = ActiveRoomState.getInstance(<World> worldMock);
 
             expect(activeRoomState.canRoomTransitionToThis(<Room> roomMock)).to.eq(true);
         });
 
         it ('returns false if the prev state was `ActiveRoomState` ', () => {
             const roomMock: Partial<Room> = {
-                state: new ActiveRoomState(<World> worldMock)
+                state: ActiveRoomState.getInstance(<World> worldMock)
             };
 
-            const activeRoomState = new ActiveRoomState(<World> worldMock);
+            const activeRoomState = ActiveRoomState.getInstance(<World> worldMock);
 
             expect(activeRoomState.canRoomTransitionToThis(<Room> roomMock)).to.eq(false);
         });
 
         it ('returns false if the prev state was `ReservedRoomState` ', () => {
             const roomMock: Partial<Room> = {
-                state: new ReservedRoomState(<World> worldMock)
+                state: ReservedRoomState.getInstance(<World> worldMock)
             };
 
-            const activeRoomState = new ActiveRoomState(<World> worldMock);
+            const activeRoomState = ActiveRoomState.getInstance(<World> worldMock);
 
             expect(activeRoomState.canRoomTransitionToThis(<Room> roomMock)).to.eq(false);
         });

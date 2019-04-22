@@ -42,6 +42,9 @@ export interface WorldItem {
     name?: string;
     hasDefaultAction: boolean;
     materials: {[key: string]: StandardMaterial};
+    neighbours: WorldItem[];
+    getAllMeshes(): Mesh[];
+    parent: WorldItem;
 
     // protected counter = 1;
 

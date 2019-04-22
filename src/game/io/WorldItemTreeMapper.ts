@@ -2,6 +2,7 @@ import {TreeNode, TreeIteratorGenerator} from 'game-worldmap-generator';
 import { WorldItem } from '../world_items/WorldItem';
 import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
 import { Room } from '../../engine/world_items/Room';
+import { Border } from '../model/creature/type/Border';
 
 
 export class WorldItemTreeMapper {
@@ -13,8 +14,25 @@ export class WorldItemTreeMapper {
             }
 
             if (from.borderItems) {
-                from.borderItems.forEach(item => (<Room> to).addBorderItem(fromToMap.get(item)));
+                from.borderItems.forEach(item => {
+                    // to.neighbours.push(fromToMap.get(item));
+                    this.setNeigbourForRoom(<Room> to, <Border><unknown> fromToMap.get(item));
+                });
             }
+        }
+    }
+
+    private setNeigbourForRoom(room: Room, borderItem:  Border) {
+        const side1 = borderItem.sides[0];
+        const side2 = borderItem.sides[1];
+
+        const side1BoundingPolygon = side1.getBoundingPolygon();
+        const roomBoundingPolygon = room.getBoundingPolygon();
+
+        if (roomBoundingPolygon.containsMoreThenHalf(side1BoundingPolygon)) {
+            room.neighbours.push(side1);
+        } else {
+            room.neighbours.push(side2);
         }
     }
 }

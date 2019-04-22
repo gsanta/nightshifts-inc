@@ -11,11 +11,10 @@ import { ReservedRoomState } from './ReservedRoomState';
 export class InactiveRoomState extends RoomState {
     private doorMaterial: StandardMaterial;
 
-    private room: Room;
     private world: World;
     private lightHandler: LightHandler;
 
-    constructor(world: World) {
+    private constructor(world: World) {
         super();
 
         this.world = world;
@@ -23,9 +22,47 @@ export class InactiveRoomState extends RoomState {
         this.doorMaterial = world.materials.door;
     }
 
-    public activate() {
-        this.disableLightForRoom();
-        this.room.getDoors().forEach(door => door.setMaterial(this.doorMaterial));
+    public static getInstance(world: World): InactiveRoomState {
+        return new InactiveRoomState(world);
+    }
+
+    public makeInactive(room: Room): RoomState {
+        // throw new Error();
+        return this;
+    }
+
+    public canGoInactive(): boolean {
+        return false;
+    }
+
+
+    public makeReserved(room: Room): RoomState {
+        const newState = ReservedRoomState.getInstance(this.world);
+        newState.activate(room);
+
+        // return newState;
+        return this;
+    }
+
+    public canGoReserved(): boolean {
+        return true;
+    }
+
+    public makeActive(room: Room): RoomState {
+        const newState = ActiveRoomState.getInstance(this.world);
+        newState.activate(room);
+
+        // return newState;
+        return this;
+    }
+
+    public canGoActive(): boolean {
+        return false;
+    }
+
+    public activate(room: Room) {
+        this.disableLightForRoom(room);
+        room.getDoors().forEach(door => door.setMaterial(this.doorMaterial));
     }
 
     public canRoomTransitionToThis(room: Room): boolean {
@@ -36,8 +73,8 @@ export class InactiveRoomState extends RoomState {
         return false;
     }
 
-    private disableLightForRoom() {
-        const items = [this.room, ...this.room.children];
+    private disableLightForRoom(room: Room) {
+        const items = [room, ...room.children, ...room.neighbours];
 
         items.forEach(item => this.lightHandler.disableLight(item));
     }

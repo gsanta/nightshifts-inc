@@ -8,16 +8,24 @@ import { Mesh, Vector3 } from 'babylonjs';
 import { DefaultWall } from '../../../engine/world_items/DefaultWall';
 import { Door } from '../../model/creature/type/Door';
 import { Window } from '../../model/creature/type/Window';
-import { DoubleSidedWorldItem } from '../../model/creature/type/DoubleSidedWorldItem';
+import { Border } from '../../model/creature/type/Border';
 import { GameActionType } from '../GameActionType';
 
 export class ActiveRoomLightingActionHandler implements ActionHandler {
+    private prevActiveRoom: Room;
 
     public handle(type: string, world: World, activeRoom: Room) {
 
         switch (type) {
             case GameActionType.ENTER_ROOM:
-                this.styleItemsInNotActiveRooms(world, activeRoom);
+
+                activeRoom.makeActive();
+
+                if (this.prevActiveRoom) {
+                    this.prevActiveRoom.makeInactive();
+                }
+
+                this.prevActiveRoom = activeRoom;
                 return;
             default:
                 return;
@@ -48,7 +56,7 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
         room.borderItems
             .filter(borderItem => borderItem instanceof DefaultWall || borderItem instanceof Door || borderItem instanceof Window)
             .forEach((child: WorldItem) => {
-                this.excludeActiveSideOfWorldItem(<DoubleSidedWorldItem> <unknown> child, room, world);
+                this.excludeActiveSideOfWorldItem(<Border> <unknown> child, room, world);
             });
     }
 
@@ -60,7 +68,7 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
         });
     }
 
-    private excludeActiveSideOfWorldItem(borderWorldItem: DoubleSidedWorldItem, room: WorldItem, world: World) {
+    private excludeActiveSideOfWorldItem(borderWorldItem: Border, room: WorldItem, world: World) {
         const borderItemBoundingPolygon = borderWorldItem.getSide1BoundingPolygon();
         const boundingPolygon = room.getBoundingPolygon();
 

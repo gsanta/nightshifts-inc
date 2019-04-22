@@ -5,17 +5,19 @@ import { VectorModel } from '../../game/model/core/VectorModel';
 import { MeshTemplateConfig } from '../../game/model/core/templates/MeshTemplate';
 import { BabylonMeshWrapper } from '../wrappers/babylon/BabylonMeshWrapper';
 import { SimpleWorldItem } from './SimpleWorldItem';
-import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
+import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
 import { GameConstants } from '../../game/GameConstants';
 import { MeshWrapper } from '../wrappers/MeshWrapper';
 import { World } from '../../game/model/World';
 import { Point } from 'game-worldmap-generator/build/model/Point';
+import { Border } from '../../game/model/creature/type/Border';
 const colors = GameConstants.colors;
 
-export class DefaultWall extends ContainerWorldItem {
+export class DefaultWall extends ContainerWorldItem implements Border {
     private parentMesh: WorldItem;
     private rotation: VectorModel = new VectorModel(0, 0, 0);
     private static index = 0;
+    public sides: [WorldItem, WorldItem];
 
     private constructor(parent: WorldItem, wallSide1: WorldItem, wallSide2: WorldItem) {
         super([]);
@@ -26,6 +28,10 @@ export class DefaultWall extends ContainerWorldItem {
         this.addChild(wallSide1);
         this.addChild(wallSide2);
 
+        this.sides = [wallSide1, wallSide2];
+
+        wallSide1.parent = this;
+        wallSide2.parent = this;
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): DefaultWall {
@@ -35,8 +41,11 @@ export class DefaultWall extends ContainerWorldItem {
         const material = this.createMaterial(scene);
 
         if (gwmWorldItem.dimensions.width > gwmWorldItem.dimensions.height) {
-            gwmWorldItem.dimensions =  <Rectangle> new Rectangle(gwmWorldItem.dimensions.left, gwmWorldItem.dimensions.top, gwmWorldItem.dimensions.width, 1)
-                .translate(new Point(0, 0.5));
+            gwmWorldItem.dimensions.height = 0.5;
+            // gwmWorldItem.dimensions =  <Rectangle> new Rectangle(gwmWorldItem.dimensions.left, gwmWorldItem.dimensions.top, gwmWorldItem.dimensions.width, 1)
+            //     .translate(new Point(0, 0.5));
+        } else {
+            gwmWorldItem.dimensions.width = 0.5;
         }
 
         gwmWorldItem.dimensions = gwmWorldItem.dimensions
@@ -86,6 +95,10 @@ export class DefaultWall extends ContainerWorldItem {
 
     public translate(vectorModel: VectorModel): void {
         this.parentMesh.translate(vectorModel);
+    }
+
+    public getBoundingPolygon(): Polygon {
+        return this.parentMesh.getBoundingPolygon();
     }
 
 
@@ -146,16 +159,16 @@ export class DefaultWall extends ContainerWorldItem {
     private static getVerticalWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {
         const originalDimensions = gwmWorldItem.dimensions;
         const rect1 = new Rectangle(
-            -originalDimensions.width / 8,
+            -originalDimensions.width / 4,
             0,
-            originalDimensions.width / 4,
+            originalDimensions.width / 2,
             originalDimensions.height
         );
 
         const rect2 = new Rectangle(
-            originalDimensions.width / 8,
-            0,
             originalDimensions.width / 4,
+            0,
+            originalDimensions.width / 2,
             originalDimensions.height
         );
 
@@ -166,16 +179,16 @@ export class DefaultWall extends ContainerWorldItem {
         const originalDimensions = gwmWorldItem.dimensions;
         const rect1 = new Rectangle(
             0,
-            - originalDimensions.height / 8,
+            - originalDimensions.height / 4,
             originalDimensions.width,
-            originalDimensions.height / 4
+            originalDimensions.height / 2
         );
 
         const rect2 = new Rectangle(
             0,
-            originalDimensions.height / 8,
+            originalDimensions.height / 4,
             originalDimensions.width,
-            originalDimensions.height / 4
+            originalDimensions.height / 2
         );
 
         return [rect1, rect2];

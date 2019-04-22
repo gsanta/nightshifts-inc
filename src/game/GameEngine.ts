@@ -43,9 +43,9 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new ActiveRoomLightingActionHandler());
                 this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
                 this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
-                this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
+                // this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new RoomReservationAction());
+                // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 
                 this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);
             },

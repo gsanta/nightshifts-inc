@@ -10,13 +10,15 @@ import { GameConstants } from '../../../GameConstants';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { AdditionalData } from '../../../io/gwm_world_io/import/AdditionalData';
 import { ContainerWorldItem } from '../../../../engine/world_items/ContainerWorldItem';
-import { DoubleSidedWorldItem } from './DoubleSidedWorldItem';
+import { Border } from './Border';
 const colors = GameConstants.colors;
 
-export class Door extends ContainerWorldItem implements DoubleSidedWorldItem {
+export class Door extends ContainerWorldItem implements Border {
     public isOpen: boolean;
     private pivotAngle: number;
     private pivot: VectorModel;
+    public sides: [WorldItem, WorldItem];
+
     public containerMesh: MeshWrapper<Mesh>;
     public name: 'door';
 
@@ -28,6 +30,7 @@ export class Door extends ContainerWorldItem implements DoubleSidedWorldItem {
 
         this.addChild(side1);
         this.addChild(side2);
+        this.sides = [side1, side2];
     }
 
     public setPivot(axis: VectorModel, angle: number) {

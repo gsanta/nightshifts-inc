@@ -11,7 +11,7 @@ import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
 import { World } from '../../World';
 import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 import { Point } from 'game-worldmap-generator/build/model/Point';
-import { DoubleSidedWorldItem } from './DoubleSidedWorldItem';
+import { Border } from './Border';
 const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {
@@ -126,10 +126,11 @@ class WindowFrame extends ContainerWorldItem {
     }
 }
 
-export class Window extends ContainerWorldItem implements DoubleSidedWorldItem {
+export class Window extends ContainerWorldItem implements Border {
     public isOpen: boolean;
     private pivotAngle: number;
     private isHorizontal = true;
+    public sides: [WorldItem, WorldItem];
 
     private pivot1: VectorModel;
     private pivot2: VectorModel;
@@ -140,6 +141,25 @@ export class Window extends ContainerWorldItem implements DoubleSidedWorldItem {
 
         children.forEach(child => child.setParent(this));
         this.hasDefaultAction = true;
+
+        this.sides = [
+            new ContainerWorldItem(
+                [
+                    (<ContainerWorldItem> this.children[0]).children[0],
+                    (<ContainerWorldItem> this.children[1]).children[0],
+                    (<ContainerWorldItem> this.children[2]).children[0],
+                    (<ContainerWorldItem> this.children[3]).children[0]
+                ]
+            ),
+            new ContainerWorldItem(
+                [
+                    (<ContainerWorldItem> this.children[0]).children[1],
+                    (<ContainerWorldItem> this.children[1]).children[1],
+                    (<ContainerWorldItem> this.children[2]).children[1],
+                    (<ContainerWorldItem> this.children[3]).children[1]
+                ]
+            )
+        ];
     }
 
     public setPivots(pivot1: VectorModel, pivot2: VectorModel, pivotAngle: number) {

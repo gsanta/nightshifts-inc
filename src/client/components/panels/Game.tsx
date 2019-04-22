@@ -16,7 +16,7 @@ import { Color4 } from 'babylonjs';
 import * as request from 'request';
 import SetWorldAction from '../../state/game/actions/SetWorldAction';
 
-const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
+const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.1.gwm');
 const jsonGameWorldMap = require('../../../../assets/world_maps/json/world_map_complex.json');
 
 const mapStateToProps = (state: AppState) => {

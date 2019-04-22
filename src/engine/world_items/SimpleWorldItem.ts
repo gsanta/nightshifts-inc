@@ -14,6 +14,8 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     public mesh: BabylonMeshWrapper;
     public name: string;
     public hasDefaultAction = false;
+    public parent: WorldItem;
+    public neighbours: WorldItem[] = [];
 
     public materials: {[key: string]: StandardMaterial} = {};
 
@@ -26,6 +28,10 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
         if (config) {
             this.initMesh(config);
         }
+    }
+
+    public getAllMeshes(): Mesh[] {
+        return [this.mesh.wrappedMesh];
     }
 
     public doDefaultAction() {

@@ -9,11 +9,10 @@ import { InactiveRoomState } from './InactiveRoomState';
 export class ActiveRoomState extends RoomState {
     private doorMaterial: StandardMaterial;
 
-    private room: Room;
     private world: World;
     private lightHandler: LightHandler;
 
-    constructor(world: World) {
+    private constructor(world: World) {
         super();
 
         this.world = world;
@@ -21,10 +20,41 @@ export class ActiveRoomState extends RoomState {
         this.doorMaterial = world.materials.door;
     }
 
-    public activate() {
-        this.enableLightForRoom();
+    public static getInstance(world: World): ActiveRoomState {
+        return new ActiveRoomState(world);
+    }
 
-        this.room.getDoors().forEach(door => door.setMaterial(this.doorMaterial));
+
+    public makeInactive(room: Room): RoomState {
+        const newState = InactiveRoomState.getInstance(this.world);
+        newState.activate(room);
+
+        return newState;    }
+
+    public canGoInactive(): boolean {
+        return true;
+    }
+
+
+    public makeReserved(room: Room): RoomState {
+        throw new Error();
+    }
+
+    public canGoReserved(): boolean {
+        return false;
+    }
+
+    public makeActive(room: Room): RoomState {
+        throw new Error();
+    }
+
+    public canGoActive(): boolean {
+        return false;
+    }
+
+    public activate(room: Room) {
+        this.enableLightForRoom(room);
+        room.getDoors().forEach(door => door.setMaterial(this.doorMaterial));
     }
 
     public canRoomTransitionToThis(room: Room): boolean {
@@ -35,9 +65,9 @@ export class ActiveRoomState extends RoomState {
         return false;
     }
 
-    private enableLightForRoom() {
-        const items = [this.room, ...this.room.children];
+    private enableLightForRoom(room: Room) {
+        const items = [room, ...room.children, ...room.neighbours];
 
-        items.forEach(item => this.lightHandler.disableLight(item));
+        items.forEach(item => this.lightHandler.enableLight(item));
     }
 }

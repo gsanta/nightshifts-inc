@@ -2,12 +2,13 @@ import { ContainerWorldItem } from './ContainerWorldItem';
 import { WorldItem } from '../../game/world_items/WorldItem';
 import { MeshWrapper } from '../wrappers/MeshWrapper';
 import { Polygon, GwmWorldItem } from 'game-worldmap-generator';
-import { Scene, Vector3 } from 'babylonjs';
+import { Scene, Vector3, Mesh } from 'babylonjs';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { World } from '../../game/model/World';
 import { BabylonMeshWrapper } from '../wrappers/babylon/BabylonMeshWrapper';
 import { Door } from '../../game/model/creature/type/Door';
 import { RoomState } from './room/RoomState';
+import { InactiveRoomState } from './room/InactiveRoomState';
 
 export class Room extends ContainerWorldItem {
     public state: RoomState;
@@ -24,8 +25,8 @@ export class Room extends ContainerWorldItem {
         this.boundingPolygon = boundingPolygon;
     }
 
-    public addBorderItem(worldItem: WorldItem) {
-        this.borderItems.push(worldItem);
+    public getAllMeshes(): Mesh[] {
+        return [this.mesh.wrappedMesh, ...super.getAllMeshes()];
     }
 
     public getBoundingPolygon(): Polygon {
@@ -33,7 +34,31 @@ export class Room extends ContainerWorldItem {
     }
 
     public getDoors(): Door[] {
-        return <Door[]> this.children.filter(child => child.name === 'door');
+        return <Door[]> this.borderItems.filter(child => child instanceof Door);
+    }
+
+    public makeInactive() {
+        this.state = this.state.makeInactive(this);
+    }
+
+    public canGoInactive(): boolean {
+        return this.state.canGoInactive();
+    }
+
+    public makeReserved() {
+        this.state = this.state.makeReserved(this);
+    }
+
+    public canGoReserved(): boolean {
+        return this.state.canGoReserved();
+    }
+
+    public makeActive() {
+        this.state = this.state.makeActive(this);
+    }
+
+    public canGoActive(): boolean {
+        return this.state.canGoActive();
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Room {
@@ -44,7 +69,7 @@ export class Room extends ContainerWorldItem {
             .negateY()
             .translate(new Point(translateX, -translateY));
 
-        const room = BABYLON.MeshBuilder.CreatePolygon(
+        const roomMesh = BABYLON.MeshBuilder.CreatePolygon(
             'room',
             {
                 shape: dimensions.points.map(point => new Vector3(point.x, 2, point.y)),
@@ -55,6 +80,9 @@ export class Room extends ContainerWorldItem {
         );
 
 
-        return new Room(new BabylonMeshWrapper(room), dimensions, 'room');
+        const room = new Room(new BabylonMeshWrapper(roomMesh), dimensions, 'room');
+        room.state = InactiveRoomState.getInstance(world);
+        room.state.activate(room);
+        return room;
     }
 }
