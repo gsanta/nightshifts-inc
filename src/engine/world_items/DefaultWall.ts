@@ -2,7 +2,6 @@ import { ContainerWorldItem } from './ContainerWorldItem';
 import { WorldItem } from '../../game/world_items/WorldItem';
 import { Mesh, MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
 import { VectorModel } from '../../game/model/core/VectorModel';
-import { BabylonMeshWrapper } from '../wrappers/babylon/BabylonMeshWrapper';
 import { SimpleWorldItem } from './SimpleWorldItem';
 import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
 import { GameConstants } from '../../game/GameConstants';
@@ -20,6 +19,7 @@ export class DefaultWall extends ContainerWorldItem implements Border {
     private constructor(parent: WorldItem, wallSide1: WorldItem, wallSide2: WorldItem) {
         super([]);
 
+        this.containerMesh = parent.mesh;
         this.parentMesh = parent;
         this.parentMesh.mesh.visibility = 0;
 
@@ -44,9 +44,10 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         .translate(new Point(translateX, translateY));
 
         if (gwmWorldItem.dimensions.width > gwmWorldItem.dimensions.height) {
-            gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.5);
-            [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true);
+            gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
+            [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true)
         } else {
+            gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchX(-0.25);
             [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualVerticalSlices(1, true);
         }
 
@@ -69,11 +70,13 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));
 
         wallSide2.mesh.material = material;
+        // wallSide2.mesh.visibility = 0;
 
 
         const parent = new SimpleWorldItem(parentMesh, 'default-wall-container');
         wallSide1.mesh.parent = parent.mesh;
         wallSide2.mesh.parent = parent.mesh;
+        parent.mesh.material = this.createMaterial2(scene);
 
         this.index++;
 
@@ -91,12 +94,32 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         return material;
     }
 
+    private static createMaterial2(scene: Scene): StandardMaterial {
+        const material = new BABYLON.StandardMaterial('wallMaterial', scene);
+        material.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
+        material.emissiveColor = BABYLON.Color3.FromHexString('#FF0000');
+
+        return material;
+    }
+
+    private static createMaterial3(scene: Scene): StandardMaterial {
+        const material = new BABYLON.StandardMaterial('wallMaterial', scene);
+        material.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
+        material.emissiveColor = BABYLON.Color3.FromHexString('#00FF00');
+
+        return material;
+    }
+
     public translate(vectorModel: VectorModel): void {
         this.parentMesh.translate(vectorModel);
     }
 
     public getBoundingPolygon(): Polygon {
         return this.parentMesh.getBoundingPolygon();
+    }
+
+    public getAbsoluteBoundingPolygon(): Polygon {
+        return this.getBoundingPolygon();
     }
 
 

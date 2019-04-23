@@ -1,18 +1,13 @@
-import { MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
+import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { WorldItem } from '../../../../world_items/WorldItem';
-import { MeshWrapper } from '../../../../../engine/wrappers/MeshWrapper';
-import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
-import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
-import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerWorldItem';
-import { DefaultWall } from '../../../../../engine/world_items/DefaultWall';
 const colors = GameConstants.colors;
 
 export class WallTemplateCreator {
     private scene: Scene;
     private material: StandardMaterial;
-    private mesh: MeshWrapper<any>;
+    private mesh: Mesh;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -22,8 +17,8 @@ export class WallTemplateCreator {
     }
 
     public create(): WorldItem {
-        this.mesh.wrappedMesh.material = this.material;
-        this.mesh.wrappedMesh.isVisible = false;
+        this.mesh.material = this.material;
+        this.mesh.isVisible = false;
 
         const config = { ...defaultMeshConfig,  ...{
             default: this.material,
@@ -47,9 +42,7 @@ export class WallTemplateCreator {
         return material;
     }
 
-    private createMesh(): MeshWrapper<any> {
-        return new BabylonMeshWrapper(
-            MeshBuilder.CreateBox('wall-template', { width: 1, depth: 1, height: 1 }, this.scene)
-        );
+    private createMesh(): Mesh {
+        return MeshBuilder.CreateBox('wall-template', { width: 1, depth: 1, height: 1 }, this.scene);
     }
 }

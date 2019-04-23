@@ -1,6 +1,6 @@
 import { WorldItem, SerializedMeshModel } from '../../game/world_items/WorldItem';
 import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
-import { VectorModel } from '../../game/model/core/VectorModel';
+import { VectorModel, toVector3 } from '../../game/model/core/VectorModel';
 import { Polygon } from 'game-worldmap-generator';
 import _ = require('lodash');
 
@@ -38,7 +38,10 @@ export class ContainerWorldItem implements WorldItem {
     }
 
     public translate(vectorModel: VectorModel) {
-        this.children.forEach(child => child.translate(vectorModel));
+        if (this.containerMesh) {
+            this.containerMesh.translate(toVector3(vectorModel), 1);
+        }
+        // this.children.forEach(child => child.translate(vectorModel));
     }
 
     public scale(vectorModel: VectorModel) {
@@ -69,6 +72,10 @@ export class ContainerWorldItem implements WorldItem {
     }
 
     public getBoundingPolygon(): Polygon {
+        return this.children[0].getBoundingPolygon();
+    }
+
+    public getAbsoluteBoundingPolygon(): Polygon {
         return this.children[0].getBoundingPolygon();
     }
 

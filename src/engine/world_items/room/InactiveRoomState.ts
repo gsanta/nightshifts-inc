@@ -40,8 +40,8 @@ export class InactiveRoomState extends RoomState {
         const newState = ReservedRoomState.getInstance(this.world);
         newState.activate(room);
 
-        // return newState;
-        return this;
+        return newState;
+        // return this;
     }
 
     public canGoReserved(): boolean {
@@ -52,8 +52,8 @@ export class InactiveRoomState extends RoomState {
         const newState = ActiveRoomState.getInstance(this.world);
         newState.activate(room);
 
-        // return newState;
-        return this;
+        return newState;
+        // return this;
     }
 
     public canGoActive(): boolean {

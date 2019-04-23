@@ -8,7 +8,6 @@ import { ContainerWorldItem } from '../../../../engine/world_items/ContainerWorl
 import { GameConstants } from '../../../GameConstants';
 import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
 import { World } from '../../World';
-import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { Border } from './Border';
 const colors = GameConstants.colors;
@@ -173,16 +172,16 @@ export class Window extends ContainerWorldItem implements Border {
     public doDefaultAction() {
         if (this.isOpen) {
             if (this.isHorizontal) {
-                this.children[2].mesh.rotation.y = 0;
-                this.children[3].mesh.rotation.y = 0;
+                (<ContainerWorldItem> this.children[2]).children[0].mesh.rotation.y = 0;
+                (<ContainerWorldItem> this.children[3]).children[0].mesh.rotation.y = 0;
             } else {
-                this.children[2].mesh.rotation.y = 0;
-                this.children[3].mesh.rotation.y = 0;
+                (<ContainerWorldItem> this.children[2]).children[0].mesh.rotation.y = 0;
+                (<ContainerWorldItem> this.children[3]).children[0].mesh.rotation.y = 0;
             }
             this.isOpen = false;
         } else {
-            this.children[2].mesh.rotation.y = this.pivotAngle;
-            this.children[3].mesh.rotation.y = - this.pivotAngle;
+            (<ContainerWorldItem> this.children[2]).children[0].mesh.rotation.y = this.pivotAngle;
+            (<ContainerWorldItem> this.children[3]).children[0].mesh.rotation.y = - this.pivotAngle;
             this.isOpen = true;
         }
     }

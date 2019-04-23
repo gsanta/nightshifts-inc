@@ -5,7 +5,6 @@ import { World } from '../../World';
 import { ActionStrategy } from './ActionStrategy';
 import { expect } from 'chai';
 import sinon = require('sinon');
-import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 
 describe('ActionStrategy', () => {
     describe('activateClosestMeshAction', () => {

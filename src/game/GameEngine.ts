@@ -8,6 +8,7 @@ import { GameActionType } from './actions/GameActionType';
 import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';
 import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLightingActionHandler';
 import { TimeActionHandler } from './actions/handlers/TimeActionHandler';
+import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandler';
 
 export class GameEngine {
     private scene: Scene;
@@ -40,7 +41,7 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new ActiveRoomLightingActionHandler());
                 this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
                 this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
-                // this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
+                this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 

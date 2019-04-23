@@ -4,9 +4,7 @@ import { MotionStrategy } from '../motion/MotionStrategy';
 import { Sensor } from '../sensor/Sensor';
 import { CollisionDetector } from '../collision/CollisionDetector';
 import { ActionStrategy } from '../action/ActionStrategy';
-import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
-import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export abstract class Creature extends SimpleWorldItem<any> {
     protected sensor: Sensor;

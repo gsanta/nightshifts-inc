@@ -1,15 +1,12 @@
 import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
-import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { Door } from '../../../creature/type/Door';
-import { MeshWrapper } from '../../../../../engine/wrappers/MeshWrapper';
-import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 const colors = GameConstants.colors;
 
 export class DoorTemplateCreator {
     private scene: Scene;
     private material: StandardMaterial;
-    private mesh: MeshWrapper<any>;
+    private mesh: Mesh;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -19,8 +16,8 @@ export class DoorTemplateCreator {
     }
 
     public create(): Door {
-        this.mesh.wrappedMesh.material = this.material;
-        this.mesh.wrappedMesh.isVisible = false;
+        this.mesh.material = this.material;
+        this.mesh.isVisible = false;
 
         return null;
         // return new Door(this.mesh, 'door', {...defaultMeshConfig});
@@ -33,7 +30,7 @@ export class DoorTemplateCreator {
         return material;
     }
 
-    private createMesh(): MeshWrapper<any> {
-        return new BabylonMeshWrapper(MeshBuilder.CreateBox('door-template', { width: 8, depth: 1, height: 5 }, this.scene));
+    private createMesh(): Mesh {
+        return MeshBuilder.CreateBox('door-template', { width: 8, depth: 1, height: 5 }, this.scene);
     }
 }

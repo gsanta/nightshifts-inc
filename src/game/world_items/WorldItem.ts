@@ -1,7 +1,5 @@
 import { Mesh, Vector3, StandardMaterial } from 'babylonjs';
 import { VectorModel, toVector3 } from '../model/core/VectorModel';
-import { MeshTemplateConfig } from '../model/core/templates/MeshTemplate';
-import { MeshWrapper } from '../../engine/wrappers/MeshWrapper';
 import { Polygon } from 'game-worldmap-generator';
 
 export interface SerializedMeshModel {
@@ -77,6 +75,7 @@ export interface WorldItem {
     getRotation(): VectorModel;
     getCenterPosition(): VectorModel;
     getBoundingPolygon(): Polygon;
+    getAbsoluteBoundingPolygon(): Polygon;
     setParent(worldItem: WorldItem);
     intersectsPoint(vector: VectorModel);
 }

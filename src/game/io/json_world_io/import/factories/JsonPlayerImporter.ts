@@ -11,7 +11,6 @@ import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
 import { ActionStrategy } from '../../../../model/creature/action/ActionStrategy';
 import { World } from '../../../../model/World';
 import { toVector3, VectorModel } from '../../../../model/core/VectorModel';
-import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export class JsonPlayerImporter implements JsonItemImporter {
     private meshModelTemplate: MeshTemplate;

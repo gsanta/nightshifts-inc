@@ -1,7 +1,5 @@
 import { Creature } from './Creature';
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
-import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
-import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 declare const DEBUG;
 
 export class Enemy extends Creature {

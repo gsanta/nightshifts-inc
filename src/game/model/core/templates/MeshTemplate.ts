@@ -1,6 +1,5 @@
 import { Mesh, Skeleton, StandardMaterial, TransformNode } from 'babylonjs';
 import { VectorModel, toVector3 } from '../VectorModel';
-import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 
 export interface MeshTemplateConfig {
     checkCollisions: boolean;

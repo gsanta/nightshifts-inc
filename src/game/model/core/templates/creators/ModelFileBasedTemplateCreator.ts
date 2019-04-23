@@ -3,8 +3,6 @@ import {Promise} from 'es6-promise';
 import { MeshTemplate, MeshTemplateConfig } from '../MeshTemplate';
 import { VectorModel } from '../../VectorModel';
 import { AsyncTemplateCreator } from '../AsyncTemplateCreator';
-import { MeshWrapper } from '../../../../../engine/wrappers/MeshWrapper';
-import { BabylonMeshWrapper } from '../../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export const defaultMeshConfig: MeshTemplateConfig = {
     checkCollisions: true,

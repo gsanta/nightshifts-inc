@@ -2,7 +2,6 @@ import { Light, Mesh } from 'babylonjs';
 import { WorldItem } from '../../../game/world_items/WorldItem';
 import { LightHandler } from './LightHandler';
 import sinon = require('sinon');
-import { BabylonMeshWrapper } from '../../wrappers/babylon/BabylonMeshWrapper';
 import { expect } from 'chai';
 
 describe('LightHandler', () => {

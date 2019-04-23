@@ -5,6 +5,7 @@ import { VectorModel, toVector3 } from '../../game/model/core/VectorModel';
 import { Polygon, Rectangle } from 'game-worldmap-generator';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { ContainerWorldItem } from './ContainerWorldItem';
+import { Vector2Model } from '../../game/model/utils/Vector2Model';
 import _ = require('lodash');
 
 
@@ -112,6 +113,23 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
         const centerPoint = new Point(position.x, position.z);
 
         return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
+    }
+
+    public getAbsoluteBoundingPolygon(): Polygon {
+        const parentCenter = this.parent ? this.parent.getCenterPosition() : new VectorModel(0, 0, 0);
+        const mesh: any = this.mesh;
+        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
+        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
+        const position = this.mesh.getPositionExpressedInLocalSpace();
+        const centerPoint = new Point(position.x, position.z);
+
+        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height).translate(new Point(parentCenter.x, parentCenter.z));
+        // if (this.parent) {
+        //     const parentBoundingPolygon = this.parent.getBoundingPolygon();
+        //     return this.getBoundingPolygon().translate(new Point(parentBoundingPolygon.left, parentBoundingPolygon.top));
+        // }
+
+        return this.getBoundingPolygon();
     }
 
     public setParent(worldItem: WorldItem) {

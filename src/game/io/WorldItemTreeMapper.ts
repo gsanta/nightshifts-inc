@@ -26,7 +26,7 @@ export class WorldItemTreeMapper {
         const side1 = borderItem.sides[0];
         const side2 = borderItem.sides[1];
 
-        const side1BoundingPolygon = side1.getBoundingPolygon();
+        const side1BoundingPolygon = side1.getAbsoluteBoundingPolygon();
         const roomBoundingPolygon = room.getBoundingPolygon();
 
         if (roomBoundingPolygon.containsMoreThenHalf(side1BoundingPolygon)) {

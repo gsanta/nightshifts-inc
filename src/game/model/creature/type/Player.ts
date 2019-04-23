@@ -1,11 +1,8 @@
 import { Creature } from './Creature';
-import { Scene, Vector3, Mesh, Light, Skeleton } from 'babylonjs';
-import { ModelFileBasedTemplateCreator } from '../../core/templates/creators/ModelFileBasedTemplateCreator';
+import { Scene, Mesh, Light, Skeleton } from 'babylonjs';
 import { MeshTemplate } from '../../core/templates/MeshTemplate';
 import { VectorModel } from '../../core/VectorModel';
 import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
-import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
-import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 
 export interface Interval {
     from: number;

@@ -1,11 +1,9 @@
 import { WorldItem, SerializedMeshModel } from '../../../world_items/WorldItem';
 import { Mesh, Scene, MeshBuilder, StandardMaterial } from 'babylonjs';
 import { VectorModel } from '../../core/VectorModel';
-import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
 import { GwmWorldItem, Polygon } from 'game-worldmap-generator';
 import { World } from '../../World';
-import { BabylonMeshWrapper } from '../../../../engine/wrappers/babylon/BabylonMeshWrapper';
 import { GameConstants } from '../../../GameConstants';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { AdditionalData } from '../../../io/gwm_world_io/import/AdditionalData';
