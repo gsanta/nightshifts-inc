@@ -38,7 +38,7 @@ export interface SerializedMeshModel {
 }
 
 export interface WorldItem {
-    mesh?: MeshWrapper<any>;
+    mesh?: Mesh;
     name?: string;
     hasDefaultAction: boolean;
     materials: {[key: string]: StandardMaterial};
@@ -78,4 +78,5 @@ export interface WorldItem {
     getCenterPosition(): VectorModel;
     getBoundingPolygon(): Polygon;
     setParent(worldItem: WorldItem);
+    intersectsPoint(vector: VectorModel);
 }

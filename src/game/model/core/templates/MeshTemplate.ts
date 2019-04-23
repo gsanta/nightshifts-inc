@@ -16,27 +16,27 @@ export interface MeshTemplateConfig {
 }
 
 export class MeshTemplate {
-    private meshes: MeshWrapper<any>[];
+    private meshes: Mesh[];
     private skeletons: Skeleton[];
     private counter = 1;
     private config: MeshTemplateConfig;
-    private containerMesh: MeshWrapper<any>;
+    private containerMesh: Mesh;
 
-    constructor(containerMesh: MeshWrapper<any>, meshes: MeshWrapper<any>[], skeletons: Skeleton[], config: MeshTemplateConfig) {
+    constructor(containerMesh: Mesh, meshes: Mesh[], skeletons: Skeleton[], config: MeshTemplateConfig) {
         this.containerMesh = containerMesh;
         this.meshes = meshes;
         this.config = config;
 
         this.meshes.forEach(m => {
-            m.wrappedMesh.isPickable = true;
-            m.wrappedMesh.isVisible = false;
-            m.wrappedMesh.checkCollisions = config.checkCollisions;
-            m.wrappedMesh.receiveShadows = config.receiveShadows;
-            m.wrappedMesh.scaling = toVector3(config.scaling);
+            m.isPickable = true;
+            m.isVisible = false;
+            m.checkCollisions = config.checkCollisions;
+            m.receiveShadows = config.receiveShadows;
+            m.scaling = toVector3(config.scaling);
         });
 
         if (!this.config.singleton) {
-            this.meshes.forEach(m => m.wrappedMesh.setEnabled(false));
+            this.meshes.forEach(m => m.setEnabled(false));
         }
         this.skeletons = skeletons;
     }
@@ -45,9 +45,9 @@ export class MeshTemplate {
         return this.meshes;
     }
 
-    public createMeshes(): MeshWrapper<any>[] {
+    public createMeshes(): Mesh[] {
         if (this.config.singleton) {
-            this.meshes.forEach(mesh => mesh.wrappedMesh.isVisible = true);
+            this.meshes.forEach(mesh => mesh.isVisible = true);
             return this.meshes;
         }
 
@@ -60,19 +60,19 @@ export class MeshTemplate {
 
     private cloneMeshes() {
         return this.meshes.map(mesh => {
-            const clonedMesh = mesh.clone(`${mesh.getId()}-${this.counter++}`);
-            clonedMesh.wrappedMesh.isVisible = true;
+            const clonedMesh = mesh.clone(`${mesh.name}-${this.counter++}`);
+            clonedMesh.isVisible = true;
             return clonedMesh;
         });
     }
 
     private cloneMeshesAndPutUnderContainer() {
-        const containerMesh = this.containerMesh.clone(`${this.containerMesh.getId()}-${this.counter++}`);
-        containerMesh.wrappedMesh.isVisible = false;
+        const containerMesh = this.containerMesh.clone(`${this.containerMesh.name}-${this.counter++}`);
+        containerMesh.isVisible = false;
 
         const meshes = this.cloneMeshes();
 
-        meshes.forEach(mesh => mesh.wrappedMesh.parent = containerMesh);
+        meshes.forEach(mesh => mesh.parent = containerMesh);
 
         return [containerMesh, ...meshes];
     }

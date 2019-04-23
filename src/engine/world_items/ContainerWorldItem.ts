@@ -1,13 +1,12 @@
 import { WorldItem, SerializedMeshModel } from '../../game/world_items/WorldItem';
-import { StandardMaterial, Mesh } from 'babylonjs';
+import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../../game/model/core/VectorModel';
 import { Polygon } from 'game-worldmap-generator';
-import { MeshWrapper } from '../wrappers/MeshWrapper';
 import _ = require('lodash');
 
 export class ContainerWorldItem implements WorldItem {
     public children: WorldItem[] = [];
-    public containerMesh: MeshWrapper<any>;
+    public containerMesh: Mesh;
     public neighbours: WorldItem[] = [];
     public parent: WorldItem;
 
@@ -47,7 +46,8 @@ export class ContainerWorldItem implements WorldItem {
     }
 
     public getCenterPosition() {
-        return this.containerMesh.getPosition();
+        const position = this.containerMesh.getAbsolutePosition();
+        return new VectorModel(position.x, position.y, position.z);
     }
 
     public getScale(): VectorModel {
@@ -73,6 +73,10 @@ export class ContainerWorldItem implements WorldItem {
     }
 
     public setParent(worldItem: WorldItem) {
-        this.containerMesh.wrappedMesh.parent = (<ContainerWorldItem> worldItem).containerMesh.wrappedMesh;
+        this.containerMesh.parent = (<ContainerWorldItem> worldItem).containerMesh;
+    }
+
+    public intersectsPoint(vector: VectorModel) {
+        return this.containerMesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z));
     }
 }

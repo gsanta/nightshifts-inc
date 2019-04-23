@@ -2,12 +2,10 @@ import { ContainerWorldItem } from './ContainerWorldItem';
 import { WorldItem } from '../../game/world_items/WorldItem';
 import { Mesh, MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
 import { VectorModel } from '../../game/model/core/VectorModel';
-import { MeshTemplateConfig } from '../../game/model/core/templates/MeshTemplate';
 import { BabylonMeshWrapper } from '../wrappers/babylon/BabylonMeshWrapper';
 import { SimpleWorldItem } from './SimpleWorldItem';
 import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
 import { GameConstants } from '../../game/GameConstants';
-import { MeshWrapper } from '../wrappers/MeshWrapper';
 import { World } from '../../game/model/World';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { Border } from '../../game/model/creature/type/Border';
@@ -23,7 +21,7 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         super([]);
 
         this.parentMesh = parent;
-        this.parentMesh.mesh.wrappedMesh.visibility = 0;
+        this.parentMesh.mesh.visibility = 0;
 
         this.addChild(wallSide1);
         this.addChild(wallSide2);
@@ -52,34 +50,30 @@ export class DefaultWall extends ContainerWorldItem implements Border {
             [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualVerticalSlices(1, true);
         }
 
-        const parentMesh = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(
-                `default-wall-container-${this.index}`, {  width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 5  }, scene)
-        );
+        const parentMesh = MeshBuilder.CreateBox(
+                `default-wall-container-${this.index}`, {  width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 5  }, scene);
 
-        const mesh1 = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 5 }, scene)
-        );
-        mesh1.wrappedMesh.parent = parentMesh.wrappedMesh;
+        const mesh1 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 5 }, scene);
+
+        mesh1.parent = parentMesh;
 
         const wallSide1 = new SimpleWorldItem(mesh1, 'wall');
-        wallSide1.mesh.wrappedMesh.material = material;
+        wallSide1.mesh.material = material;
         wallSide1.translate(new VectorModel(wallSide1Dim.left, 0, wallSide1Dim.top));
 
-        const mesh2 = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 5  }, scene)
-        );
-        mesh2.wrappedMesh.parent = parentMesh.wrappedMesh;
+        const mesh2 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 5  }, scene);
+
+        mesh2.parent = parentMesh;
 
         const wallSide2 = new SimpleWorldItem(mesh2, 'wall');
         wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));
 
-        wallSide2.mesh.wrappedMesh.material = material;
+        wallSide2.mesh.material = material;
 
 
         const parent = new SimpleWorldItem(parentMesh, 'default-wall-container');
-        wallSide1.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
-        wallSide2.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
+        wallSide1.mesh.parent = parent.mesh;
+        wallSide2.mesh.parent = parent.mesh;
 
         this.index++;
 
@@ -115,11 +109,11 @@ export class DefaultWall extends ContainerWorldItem implements Border {
     }
 
     public getSide1Meshes(): Mesh[] {
-        return [this.children[0].mesh.wrappedMesh];
+        return [this.children[0].mesh];
     }
 
     public getSide2Meshes(): Mesh[] {
-        return [this.children[1].mesh.wrappedMesh];
+        return [this.children[1].mesh];
     }
 
     public scale(vectorModel: VectorModel) {

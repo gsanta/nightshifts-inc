@@ -18,7 +18,7 @@ export class ThermometerToolMesh implements ToolMesh {
         const material = new StandardMaterial('thermometer-material', scene);
         material.diffuseColor = BABYLON.Color3.FromHexString(colors.window);
         this.mesh.material = this.materials[0];
-        this.mesh.parent = player.mesh.wrappedMesh;
+        this.mesh.parent = player.mesh;
         this.mesh.setEnabled(false);
     }
 

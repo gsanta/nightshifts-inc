@@ -6,11 +6,8 @@ import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
 import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';
-import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandler';
 import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLightingActionHandler';
-import { Timer } from './actions/handlers/Timer';
 import { TimeActionHandler } from './actions/handlers/TimeActionHandler';
-import { RoomReservationAction } from './actions/room_reservation_action/RoomReservationAction';
 
 export class GameEngine {
     private scene: Scene;
@@ -101,7 +98,7 @@ export class GameEngine {
 
         if (!player.getMotionStrategy().isIdle()) {
             const delta = player.getMotionStrategy().calcNextPositionDelta(elapsedTime);
-            player.setPosition(player.mesh.getPosition().add(delta));
+            player.setPosition(player.getCenterPosition().add(delta));
         }
 
         const rotationDelta = player.getMotionStrategy().calcNextRotationDelta(elapsedTime);
@@ -113,7 +110,7 @@ export class GameEngine {
             const enemyDelta = enemy.getMotionStrategy().calcNextPositionDelta(elapsedTime);
 
             if (enemyDelta) {
-                enemy.setPosition(enemy.mesh.getPosition().add(enemyDelta));
+                enemy.setPosition(enemy.getCenterPosition().add(enemyDelta));
             }
         });
     }

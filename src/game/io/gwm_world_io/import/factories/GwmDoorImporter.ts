@@ -21,7 +21,7 @@ export class GwmDoorImporter implements GwmItemImporter {
     public createItem(worldItem: GwmWorldItem<AdditionalData>, world: World): WorldItem {
         const door = Door.fromGwmWorldItem(worldItem, this.scene, world);
 
-        this.shadowGenerator.getShadowMap().renderList.push(door.containerMesh.wrappedMesh);
+        this.shadowGenerator.getShadowMap().renderList.push(door.containerMesh);
 
         return door;
     }

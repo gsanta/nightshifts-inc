@@ -17,8 +17,8 @@ export class AttackingMotionStrategy implements MotionStrategy {
 
     public calcNextPositionDelta(elapsedTime: number): VectorModel {
         let distance = elapsedTime / this.speed;
-        const destination = this.target.mesh.getPosition();
-        const currentPosition = this.attacker.mesh.getPosition();
+        const destination = this.target.getCenterPosition();
+        const currentPosition = this.attacker.getCenterPosition();
 
         const direction = destination.subtract(currentPosition).normalize();
 

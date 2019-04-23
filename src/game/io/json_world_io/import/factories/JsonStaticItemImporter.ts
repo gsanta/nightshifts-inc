@@ -21,16 +21,16 @@ export class JsonStaticItemImporter implements JsonItemImporter {
 
     public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new SimpleWorldItem(<BabylonMeshWrapper> meshes[0], serializedMeshModel.name);
+        const meshModel = new SimpleWorldItem(meshes[0], serializedMeshModel.name);
 
         meshes.forEach(mesh => {
-            mesh.wrappedMesh.rotation.y = serializedMeshModel.additionalData.rotation;
+            mesh.rotation.y = serializedMeshModel.additionalData.rotation;
 
-            mesh.wrappedMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
+            mesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1, BABYLON.Space.WORLD);
             // mesh.scaling.x = serializedMeshModel.scaling.x;
             // mesh.scaling.y = serializedMeshModel.scaling.y;
             // mesh.scaling.z = serializedMeshModel.scaling.z;
-            this.shadowGenerator.getShadowMap().renderList.push(mesh.wrappedMesh);
+            this.shadowGenerator.getShadowMap().renderList.push(mesh);
         });
 
 

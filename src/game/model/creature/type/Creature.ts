@@ -14,20 +14,20 @@ export abstract class Creature extends SimpleWorldItem<any> {
     protected collisionDetector: CollisionDetector;
     protected actionStrategy: ActionStrategy;
 
-    constructor(mesh: BabylonMeshWrapper, name: string) {
+    constructor(mesh: Mesh, name: string) {
         super(mesh, name);
     }
 
     public getBody(): Mesh {
-        return this.mesh.wrappedMesh;
+        return this.mesh;
     }
 
     public setRotation(distance: number) {
-        this.mesh.wrappedMesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public setPosition(position: VectorModel) {
-        this.mesh.wrappedMesh.position = new Vector3(position.x, position.y, position.z);
+        this.mesh.position = new Vector3(position.x, position.y, position.z);
     }
 
     public getSensor(): Sensor {

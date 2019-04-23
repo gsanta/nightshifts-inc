@@ -19,10 +19,10 @@ export class Door extends ContainerWorldItem implements Border {
     private pivot: VectorModel;
     public sides: [WorldItem, WorldItem];
 
-    public containerMesh: MeshWrapper<Mesh>;
+    public containerMesh: Mesh;
     public name: 'door';
 
-    constructor(mesh: MeshWrapper<any>, side1: WorldItem, side2: WorldItem) {
+    constructor(mesh: Mesh, side1: WorldItem, side2: WorldItem) {
         super([]);
 
         this.hasDefaultAction = true;
@@ -36,15 +36,15 @@ export class Door extends ContainerWorldItem implements Border {
     public setPivot(axis: VectorModel, angle: number) {
         this.pivotAngle = angle;
         this.pivot = axis;
-        this.containerMesh.wrappedMesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x, axis.y, axis.z));
+        this.containerMesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x, axis.y, axis.z));
     }
 
     public doDefaultAction() {
         if (this.isOpen) {
-            this.containerMesh.wrappedMesh.rotation.y = 0;
+            this.containerMesh.rotation.y = 0;
             this.isOpen = false;
         } else {
-            this.containerMesh.wrappedMesh.rotation.y = this.pivotAngle;
+            this.containerMesh.rotation.y = this.pivotAngle;
             this.isOpen = true;
         }
     }
@@ -69,15 +69,15 @@ export class Door extends ContainerWorldItem implements Border {
     }
 
     public getSide1Meshes(): Mesh[] {
-        return [this.children[0].mesh.wrappedMesh];
+        return [this.children[0].mesh];
     }
 
     public getSide2Meshes(): Mesh[] {
-        return [this.children[1].mesh.wrappedMesh];
+        return [this.children[1].mesh];
     }
 
     public setMaterial(material: StandardMaterial) {
-        this.children.forEach(child => child.mesh.wrappedMesh.material = material);
+        this.children.forEach(child => child.mesh.material = material);
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Door {
@@ -93,26 +93,24 @@ export class Door extends ContainerWorldItem implements Border {
 
         const material = this.createMaterial(scene);
         const mesh = this.createMesh(scene);
-        mesh.wrappedMesh.isVisible = false;
-        mesh.wrappedMesh.material = material;
-        side1.mesh.wrappedMesh.parent = mesh.wrappedMesh;
+        mesh.isVisible = false;
+        mesh.material = material;
+        side1.mesh.parent = mesh;
         side1.translate(new VectorModel(0, 0, 1.25 / 8));
-        side2.mesh.wrappedMesh.parent = mesh.wrappedMesh;
+        side2.mesh.parent = mesh;
         side2.translate(new VectorModel(0, 0, -1.25 / 8));
 
-        mesh.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
 
         const door = new Door(mesh, side1, side2);
+        door.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
         this.setPivotMatrix(gwmWorldItem, door);
         return door;
     }
 
     private static createSide(dimensions: Polygon, scene: Scene): WorldItem {
-        const mesh = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(`wall-side-1`, { width: 8, depth: 0.25, height: 5 }, scene)
-        );
+        const mesh = MeshBuilder.CreateBox(`wall-side-1`, { width: 8, depth: 0.25, height: 5 }, scene);
 
-        mesh.wrappedMesh.material = this.createMaterial(scene);
+        mesh.material = this.createMaterial(scene);
 
         return new SimpleWorldItem(mesh, 'door');
     }
@@ -124,13 +122,13 @@ export class Door extends ContainerWorldItem implements Border {
         return material;
     }
 
-    private static createMesh(scene: Scene): MeshWrapper<any> {
-        return new BabylonMeshWrapper(MeshBuilder.CreateBox('door-template', { width: 8, depth: 1, height: 5 }, scene));
+    private static createMesh(scene: Scene): Mesh {
+        return MeshBuilder.CreateBox('door-template', { width: 8, depth: 1, height: 5 }, scene);
     }
 
     private static setPivotMatrix(worldItem: GwmWorldItem<AdditionalData>, door: Door) {
         const angle = worldItem.additionalData.angle;
-        const xExtent = door.containerMesh.wrappedMesh.getBoundingInfo().boundingBox.extendSize.x;
+        const xExtent = door.containerMesh.getBoundingInfo().boundingBox.extendSize.x;
         door.setPivot(new VectorModel(xExtent, 0, 0), angle);
         // if (this.isHorizontal(door)) {
         //     if (worldItem.additionalData.axis.x === worldItem.dimensions.left + worldItem.dimensions.width) {

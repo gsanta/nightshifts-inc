@@ -13,12 +13,12 @@ import { InactiveRoomState } from './room/InactiveRoomState';
 export class Room extends ContainerWorldItem {
     public state: RoomState;
     public borderItems: WorldItem[] = [];
-    public mesh: MeshWrapper<any>;
+    public mesh: Mesh;
     public name: string;
     private boundingPolygon: Polygon;
     public temperature = 20 + Math.floor(Math.random() * 10);
 
-    constructor(mesh: MeshWrapper<any>, boundingPolygon: Polygon, name: string) {
+    constructor(mesh: Mesh, boundingPolygon: Polygon, name: string) {
         super([]);
         this.name = name;
         this.mesh = mesh;
@@ -26,7 +26,7 @@ export class Room extends ContainerWorldItem {
     }
 
     public getAllMeshes(): Mesh[] {
-        return [this.mesh.wrappedMesh, ...super.getAllMeshes()];
+        return [this.mesh, ...super.getAllMeshes()];
     }
 
     public getBoundingPolygon(): Polygon {
@@ -80,7 +80,7 @@ export class Room extends ContainerWorldItem {
         );
 
 
-        const room = new Room(new BabylonMeshWrapper(roomMesh), dimensions, 'room');
+        const room = new Room(roomMesh, dimensions, 'room');
         room.state = InactiveRoomState.getInstance(world);
         room.state.activate(room);
         return room;

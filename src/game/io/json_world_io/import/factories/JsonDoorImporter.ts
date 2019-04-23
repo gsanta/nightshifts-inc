@@ -21,9 +21,9 @@ export class JsonDoorImporter implements JsonItemImporter {
     public createItem(serializedMeshModel: SerializedMeshModel): WorldItem {
         const door = <Door> this.doorTemplate.clone();
 
-        door.containerMesh.wrappedMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
+        door.containerMesh.translate(toVector3(VectorModel.deserialize(serializedMeshModel.translate)), 1);
 
-        this.shadowGenerator.getShadowMap().renderList.push(door.containerMesh.wrappedMesh);
+        this.shadowGenerator.getShadowMap().renderList.push(door.containerMesh);
 
         door.setPivot(VectorModel.deserialize(serializedMeshModel.additionalData.axis), serializedMeshModel.additionalData.angle);
 

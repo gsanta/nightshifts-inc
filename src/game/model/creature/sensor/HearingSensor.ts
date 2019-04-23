@@ -25,8 +25,8 @@ export class HearingSensor implements Sensor {
     }
 
     public testIsWithinRange(testingCreature: Creature) {
-        const hearingCreaturePos = this.hearingCreature.mesh.getPosition();
-        const testingCreaturePos = testingCreature.mesh.getPosition();
+        const hearingCreaturePos = this.hearingCreature.getCenterPosition();
+        const testingCreaturePos = testingCreature.getCenterPosition();
 
         const distance = VectorModel.Distance(hearingCreaturePos, testingCreaturePos);
         if (distance < this.range) {

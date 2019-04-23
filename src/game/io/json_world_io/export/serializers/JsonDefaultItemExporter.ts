@@ -5,14 +5,14 @@ export class JsonDefaultItemExporter {
         return {
             name: meshModel.name,
             scaling: {
-                x: meshModel.mesh.getScale().x,
-                y: meshModel.mesh.getScale().y,
-                z: meshModel.mesh.getScale().z,
+                x: meshModel.getScale().x,
+                y: meshModel.getScale().y,
+                z: meshModel.getScale().z,
             },
             translate: {
-                x: meshModel.mesh.getPosition().x,
-                y: meshModel.mesh.getPosition().y,
-                z: meshModel.mesh.getPosition().z
+                x: meshModel.getCenterPosition().x,
+                y: meshModel.getCenterPosition().y,
+                z: meshModel.getCenterPosition().z
             }
         };
     }

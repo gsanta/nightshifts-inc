@@ -1,17 +1,15 @@
-import { MeshWrapper } from '../wrappers/MeshWrapper';
 import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
 import { MeshTemplateConfig } from '../../game/model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from '../../game/world_items/WorldItem';
-import { Vector2Model } from '../../game/model/utils/Vector2Model';
-import { VectorModel } from '../../game/model/core/VectorModel';
+import { VectorModel, toVector3 } from '../../game/model/core/VectorModel';
 import { Polygon, Rectangle } from 'game-worldmap-generator';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { ContainerWorldItem } from './ContainerWorldItem';
-import { BabylonMeshWrapper } from '../wrappers/babylon/BabylonMeshWrapper';
+import _ = require('lodash');
 
 
 export class SimpleWorldItem<M = Mesh> implements WorldItem {
-    public mesh: BabylonMeshWrapper;
+    public mesh: Mesh;
     public name: string;
     public hasDefaultAction = false;
     public parent: WorldItem;
@@ -21,7 +19,7 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
 
     protected counter = 1;
 
-    constructor(mesh: BabylonMeshWrapper, name: string, config?: MeshTemplateConfig) {
+    constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
         this.mesh = mesh;
         this.name = name;
 
@@ -31,7 +29,7 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     public getAllMeshes(): Mesh[] {
-        return [this.mesh.wrappedMesh];
+        return [this.mesh];
     }
 
     public doDefaultAction() {
@@ -42,17 +40,17 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
         return {
             name: this.name,
             scaling: {
-                x: this.mesh.getScale().x,
-                y: this.mesh.getScale().y,
-                z: this.mesh.getScale().z,
+                x: this.getScale().x,
+                y: this.getScale().y,
+                z: this.getScale().z,
             },
             translate: {
-                x: this.mesh.getPosition().x,
-                y: this.mesh.getPosition().y,
-                z: this.mesh.getPosition().z
+                x: this.getCenterPosition().x,
+                y: this.getCenterPosition().y,
+                z: this.getCenterPosition().z
             },
             additionalData: {
-                rotation: this.mesh.getRotation().y
+                rotation: this.getRotation().y
             }
         };
     }
@@ -62,7 +60,7 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     public clone() {
-        const clonedMesh = this.mesh.clone(`${this.mesh.getId()}-${this.counter++}`);
+        const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
         const name = this.name;
 
         const clone = new SimpleWorldItem(clonedMesh, name);
@@ -72,23 +70,34 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
-        this.mesh.rotateAtCenter(vectorModel, amount);
+        this.mesh.rotate(toVector3(vectorModel), amount);
     }
 
     public translate(vectorModel: VectorModel) {
-        this.mesh.translate(vectorModel);
+        this.mesh.translate(new Vector3(vectorModel.x, vectorModel.y, vectorModel.z), 1);
     }
 
     public scale(vectorModel: VectorModel) {
-        this.mesh.setScale(vectorModel);
+        if (_.isNumber(vectorModel.x)) {
+            this.mesh.scaling.x = vectorModel.x;
+        }
+
+        if (_.isNumber(vectorModel.y)) {
+            this.mesh.scaling.y = vectorModel.y;
+        }
+
+        if (_.isNumber(vectorModel.z)) {
+            this.mesh.scaling.z = vectorModel.z;
+        }
     }
 
     public getCenterPosition(): VectorModel {
-        return this.mesh.getPosition();
+        const position = this.mesh.getAbsolutePosition();
+        return new VectorModel(position.x, position.y, position.z);
     }
 
     public getScale(): VectorModel {
-        return this.mesh.getScale();
+        return new VectorModel(this.mesh.scaling.x, this.mesh.scaling.y, this.mesh.scaling.z);
     }
 
     public getRotation(): VectorModel {
@@ -96,17 +105,21 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     public getBoundingPolygon(): Polygon {
-        const mesh: any = this.mesh.wrappedMesh;
+        const mesh: any = this.mesh;
         const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
         const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
-        const position = (this.mesh.wrappedMesh as any).getAbsolutePosition();
+        const position = (this.mesh as any).getAbsolutePosition();
         const centerPoint = new Point(position.x, position.z);
 
         return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
     }
 
     public setParent(worldItem: WorldItem) {
-        this.mesh.wrappedMesh.parent = (<ContainerWorldItem> worldItem).containerMesh.wrappedMesh;
+        this.mesh.parent = (<ContainerWorldItem> worldItem).containerMesh;
+    }
+
+    public intersectsPoint(vector: VectorModel) {
+        return this.mesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z));
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {

@@ -1,9 +1,8 @@
 import { SerializedMeshModel, WorldItem } from '../../../world_items/WorldItem';
-import { Vector3, StandardMaterial, Scene, MeshBuilder, Mesh } from 'babylonjs';
-import { VectorModel, toVector3 } from '../../core/VectorModel';
+import { StandardMaterial, Scene, MeshBuilder, Mesh } from 'babylonjs';
+import { VectorModel } from '../../core/VectorModel';
 import _ = require('lodash');
 import { MeshTemplateConfig } from '../../core/templates/MeshTemplate';
-import { MeshWrapper } from '../../../../engine/wrappers/MeshWrapper';
 import { SimpleWorldItem } from '../../../../engine/world_items/SimpleWorldItem';
 import { ContainerWorldItem } from '../../../../engine/world_items/ContainerWorldItem';
 import { GameConstants } from '../../../GameConstants';
@@ -18,20 +17,20 @@ export class WindowGlass extends ContainerWorldItem {
 
     public constructor(containerMesh: Mesh, children: WorldItem[]) {
         super(children);
-        this.containerMesh = new BabylonMeshWrapper(containerMesh);
+        this.containerMesh = containerMesh;
     }
 
     public setPivotMatrix(matrix: any) {
-        this.children[0].mesh.wrappedMesh.setPivotMatrix(matrix);
-        this.children[1].mesh.wrappedMesh.setPivotMatrix(matrix);
+        this.children[0].mesh.setPivotMatrix(matrix);
+        this.children[1].mesh.setPivotMatrix(matrix);
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): WindowGlass {
         const containerMesh = this.createContainerMesh(gwmWorldItem, scene);
         const side1 = this.createMesh(gwmWorldItem, scene);
         const side2 = this.createMesh(gwmWorldItem, scene);
-        side1.mesh.wrappedMesh.parent = containerMesh;
-        side2.mesh.wrappedMesh.parent = containerMesh;
+        side1.mesh.parent = containerMesh;
+        side2.mesh.parent = containerMesh;
         side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.height / 16));
         side2.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.height / 16));
 
@@ -48,7 +47,7 @@ export class WindowGlass extends ContainerWorldItem {
 
         middle1.material = this.createMaterial(scene);
 
-        return new SimpleWorldItem(new BabylonMeshWrapper(middle1), '');
+        return new SimpleWorldItem(middle1, '');
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
@@ -76,14 +75,14 @@ export class WindowGlass extends ContainerWorldItem {
 class WindowFrame extends ContainerWorldItem {
     public constructor(containerMesh: Mesh, children: WorldItem[]) {
         super(children);
-        this.containerMesh = new BabylonMeshWrapper(containerMesh);    }
+        this.containerMesh = containerMesh;    }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): WindowFrame {
         const containerMesh = this.createContainerMesh(gwmWorldItem, scene);
         const side1 = this.createMesh(gwmWorldItem, scene);
         const side2 = this.createMesh(gwmWorldItem, scene);
-        side1.mesh.wrappedMesh.parent = containerMesh;
-        side2.mesh.wrappedMesh.parent = containerMesh;
+        side1.mesh.parent = containerMesh;
+        side2.mesh.parent = containerMesh;
         side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.height / 16));
         side2.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.height / 16));
 
@@ -100,7 +99,7 @@ class WindowFrame extends ContainerWorldItem {
 
         mesh.material = this.createMaterial(scene);
 
-        return new SimpleWorldItem(new BabylonMeshWrapper(mesh), '');
+        return new SimpleWorldItem(mesh, '');
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
@@ -137,7 +136,7 @@ export class Window extends ContainerWorldItem implements Border {
 
     constructor(containerMesh: Mesh, children: WorldItem[], config?: MeshTemplateConfig) {
         super(children);
-        this.containerMesh = new BabylonMeshWrapper(containerMesh);
+        this.containerMesh = containerMesh;
 
         children.forEach(child => child.setParent(this));
         this.hasDefaultAction = true;
@@ -174,27 +173,27 @@ export class Window extends ContainerWorldItem implements Border {
     public doDefaultAction() {
         if (this.isOpen) {
             if (this.isHorizontal) {
-                this.children[2].mesh.wrappedMesh.rotation.y = 0;
-                this.children[3].mesh.wrappedMesh.rotation.y = 0;
+                this.children[2].mesh.rotation.y = 0;
+                this.children[3].mesh.rotation.y = 0;
             } else {
-                this.children[2].mesh.wrappedMesh.rotation.y = 0;
-                this.children[3].mesh.wrappedMesh.rotation.y = 0;
+                this.children[2].mesh.rotation.y = 0;
+                this.children[3].mesh.rotation.y = 0;
             }
             this.isOpen = false;
         } else {
-            this.children[2].mesh.wrappedMesh.rotation.y = this.pivotAngle;
-            this.children[3].mesh.wrappedMesh.rotation.y = - this.pivotAngle;
+            this.children[2].mesh.rotation.y = this.pivotAngle;
+            this.children[3].mesh.rotation.y = - this.pivotAngle;
             this.isOpen = true;
         }
     }
 
     public getPosition(): VectorModel {
-        const position = this.containerMesh.wrappedMesh.getAbsolutePosition();
+        const position = this.containerMesh.getAbsolutePosition();
         return new VectorModel(position.x, position.y, position.z);
     }
 
     public intersectsPoint(vector: VectorModel) {
-        return this.containerMesh.intersectsPoint(new VectorModel(vector.x, vector.y, vector.z));
+        return this.intersectsPoint(new VectorModel(vector.x, vector.y, vector.z));
     }
 
     public serialize(): SerializedMeshModel {
@@ -213,12 +212,8 @@ export class Window extends ContainerWorldItem implements Border {
         return null;
     }
 
-    public translate(vectorModel: VectorModel) {
-        this.containerMesh.translate(vectorModel);
-    }
-
     public getSide1BoundingPolygon() {
-        const mesh: any = (<ContainerWorldItem> this.children[2]).children[0].mesh.wrappedMesh;
+        const mesh: any = (<ContainerWorldItem> this.children[2]).children[0].mesh;
         const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
         const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
         const position = mesh.getAbsolutePosition();
@@ -228,7 +223,7 @@ export class Window extends ContainerWorldItem implements Border {
     }
 
     public getSide2BoundingPolygon() {
-        const mesh: any = (<ContainerWorldItem> this.children[2]).children[1].mesh.wrappedMesh;
+        const mesh: any = (<ContainerWorldItem> this.children[2]).children[1].mesh;
         const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
         const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
         const position = mesh.getAbsolutePosition();
@@ -239,19 +234,19 @@ export class Window extends ContainerWorldItem implements Border {
 
     public getSide1Meshes(): Mesh[] {
         return [
-            (<ContainerWorldItem> this.children[0]).children[0].mesh.wrappedMesh,
-            (<ContainerWorldItem> this.children[1]).children[0].mesh.wrappedMesh,
-            (<ContainerWorldItem> this.children[2]).children[0].mesh.wrappedMesh,
-            (<ContainerWorldItem> this.children[3]).children[0].mesh.wrappedMesh
+            (<ContainerWorldItem> this.children[0]).children[0].mesh,
+            (<ContainerWorldItem> this.children[1]).children[0].mesh,
+            (<ContainerWorldItem> this.children[2]).children[0].mesh,
+            (<ContainerWorldItem> this.children[3]).children[0].mesh
         ];
     }
 
     public getSide2Meshes(): Mesh[] {
         return [
-            (<ContainerWorldItem> this.children[0]).children[1].mesh.wrappedMesh,
-            (<ContainerWorldItem> this.children[1]).children[1].mesh.wrappedMesh,
-            (<ContainerWorldItem> this.children[2]).children[1].mesh.wrappedMesh,
-            (<ContainerWorldItem> this.children[3]).children[1].mesh.wrappedMesh
+            (<ContainerWorldItem> this.children[0]).children[1].mesh,
+            (<ContainerWorldItem> this.children[1]).children[1].mesh,
+            (<ContainerWorldItem> this.children[2]).children[1].mesh,
+            (<ContainerWorldItem> this.children[3]).children[1].mesh
         ];
     }
 
@@ -278,7 +273,7 @@ export class Window extends ContainerWorldItem implements Border {
         const containerMesh = this.createContainerMesh(scene);
 
         const window = new Window(containerMesh, [ topFrame, bottomFrame, leftGlass, rightGlass ]);
-        window.containerMesh.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
+        window.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
 
         return window;
     }

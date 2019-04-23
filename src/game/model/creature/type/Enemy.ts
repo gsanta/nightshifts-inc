@@ -10,23 +10,23 @@ export class Enemy extends Creature {
     private scene: Scene;
     private isVisible = true;
 
-    constructor(mesh: BabylonMeshWrapper, scene: Scene) {
+    constructor(mesh: Mesh, scene: Scene) {
         super(mesh, null);
         this.scene = scene;
 
         this.initMaterials();
-        this.mesh.wrappedMesh.material = this.visibleMaterial;
-        this.mesh.wrappedMesh.checkCollisions = true;
-        this.mesh.wrappedMesh.position = new Vector3(20, 0, 30);
-        this.mesh.wrappedMesh.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
+        this.mesh.material = this.visibleMaterial;
+        this.mesh.checkCollisions = true;
+        this.mesh.position = new Vector3(20, 0, 30);
+        this.mesh.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
     }
 
     public setRotation(distance: number) {
-        this.mesh.wrappedMesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
     }
 
     public getBody(): Mesh {
-        return this.mesh.wrappedMesh;
+        return this.mesh;
     }
 
     public playWalkingAnimation() {
@@ -45,9 +45,9 @@ export class Enemy extends Creature {
         this.sensor.setIsVisible(this.isVisible);
 
         if (isVisible) {
-            this.mesh.wrappedMesh.material = this.visibleMaterial;
+            this.mesh.material = this.visibleMaterial;
         } else {
-            this.mesh.wrappedMesh.material = this.inVisibleMaterial;
+            this.mesh.material = this.inVisibleMaterial;
         }
     }
 

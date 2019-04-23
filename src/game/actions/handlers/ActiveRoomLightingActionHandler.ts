@@ -1,10 +1,9 @@
 import { ActionHandler } from '../../../engine/actions/ActionHandler';
 import { World } from '../../model/World';
-import { ContainerWorldItem } from '../../../engine/world_items/ContainerWorldItem';
 import { WorldItem } from '../../world_items/WorldItem';
 import { Room } from '../../../engine/world_items/Room';
 import _ = require('lodash');
-import { Mesh, Vector3 } from 'babylonjs';
+import { Mesh } from 'babylonjs';
 import { DefaultWall } from '../../../engine/world_items/DefaultWall';
 import { Door } from '../../model/creature/type/Door';
 import { Window } from '../../model/creature/type/Window';
@@ -61,10 +60,10 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
     }
 
     private setDarkMaterialForRoom(room: Room, world: World) {
-        this.addToExcludedMeshesIfNotAdded(room.mesh.wrappedMesh, world);
+        this.addToExcludedMeshesIfNotAdded(room.mesh, world);
 
         room.children.forEach(child => {
-            this.addToExcludedMeshesIfNotAdded(child.mesh.wrappedMesh, world);
+            this.addToExcludedMeshesIfNotAdded(child.mesh, world);
         });
     }
 

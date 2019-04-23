@@ -25,7 +25,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
     private fileName: string;
     private config: MeshTemplateConfig;
 
-    private meshes: MeshWrapper<any>[];
+    private meshes: Mesh[];
     private skeletons: Skeleton[];
     private materials: StandardMaterial[] = [];
     private isAsyncWorkDone = false;
@@ -45,7 +45,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
     public doAsyncWork(): Promise<void> {
         return new Promise(resolve => {
             const onSuccess = (meshes: AbstractMesh[], ps: ParticleSystem[], skeletons: Skeleton[], ag: AnimationGroup[]) => {
-                this.meshes = meshes.map(mesh => new BabylonMeshWrapper(<Mesh> mesh));
+                this.meshes = <Mesh[]> meshes;
                 this.skeletons = skeletons;
                 this.isAsyncWorkDone = true;
                 resolve();
@@ -73,7 +73,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
                 call and wait for doAsyncWork() before calling this method.`);
         }
 
-        this.meshes.forEach(m => m.wrappedMesh.material = this.materials[0]);
+        this.meshes.forEach(m => m.material = this.materials[0]);
 
         return new MeshTemplate(null, this.meshes, this.skeletons, this.config);
     }

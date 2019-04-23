@@ -31,7 +31,7 @@ export class GwmFloorImporter implements GwmItemImporter {
         translate.addZ(-2);
 
         const meshModel = new Room(mesh, null, 'floor');
-        meshModel.mesh.translate(translate);
+        meshModel.translate(translate);
 
         return meshModel;
     }
