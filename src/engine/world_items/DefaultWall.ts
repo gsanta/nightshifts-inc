@@ -40,48 +40,52 @@ export class DefaultWall extends ContainerWorldItem implements Border {
 
         const material = this.createMaterial(scene);
 
-        if (gwmWorldItem.dimensions.width > gwmWorldItem.dimensions.height) {
-            gwmWorldItem.dimensions.height = 0.5;
-            // gwmWorldItem.dimensions =  <Rectangle> new Rectangle(gwmWorldItem.dimensions.left, gwmWorldItem.dimensions.top, gwmWorldItem.dimensions.width, 1)
-            //     .translate(new Point(0, 0.5));
-        } else {
-            gwmWorldItem.dimensions.width = 0.5;
-        }
+        let [wallSide1Dim, wallSide2Dim]: [Polygon, Polygon] = [null, null];
 
         gwmWorldItem.dimensions = gwmWorldItem.dimensions
-            .translate(new Point(translateX, translateY));
+        .translate(new Point(translateX, translateY));
 
-        const [wallSide1Dim, wallSide2Dim] = this.getWallSideDimensions(gwmWorldItem);
-
-        const mesh1 = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 5 }, scene)
-        );
-
-        const mesh2 = new BabylonMeshWrapper(
-            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 5  }, scene)
-        );
-
-        const wallSide1 = new SimpleWorldItem(mesh1, 'wall');
-        wallSide1.mesh.wrappedMesh.material = material;
-        const wallSide2 = new SimpleWorldItem(mesh2, 'wall');
-        wallSide2.mesh.wrappedMesh.material = material;
+        if (gwmWorldItem.dimensions.width > gwmWorldItem.dimensions.height) {
+            gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.5);
+            [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true);
+        } else {
+            [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualVerticalSlices(1, true);
+        }
 
         const parentMesh = new BabylonMeshWrapper(
             MeshBuilder.CreateBox(
                 `default-wall-container-${this.index}`, {  width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 5  }, scene)
         );
+
+        const mesh1 = new BabylonMeshWrapper(
+            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 5 }, scene)
+        );
+        mesh1.wrappedMesh.parent = parentMesh.wrappedMesh;
+
+        const wallSide1 = new SimpleWorldItem(mesh1, 'wall');
+        wallSide1.mesh.wrappedMesh.material = material;
+        wallSide1.translate(new VectorModel(wallSide1Dim.left, 0, wallSide1Dim.top));
+
+        const mesh2 = new BabylonMeshWrapper(
+            MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 5  }, scene)
+        );
+        mesh2.wrappedMesh.parent = parentMesh.wrappedMesh;
+
+        const wallSide2 = new SimpleWorldItem(mesh2, 'wall');
+        wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));
+
+        wallSide2.mesh.wrappedMesh.material = material;
+
+
         const parent = new SimpleWorldItem(parentMesh, 'default-wall-container');
         wallSide1.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
         wallSide2.mesh.wrappedMesh.parent = parent.mesh.wrappedMesh;
 
-        this.transformWallSides(gwmWorldItem, wallSide1, wallSide2);
         this.index++;
 
         const wall = new DefaultWall(parent, wallSide1, wallSide2);
         wall.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
-        wallSide1.translate(new VectorModel(wallSide1Dim.left, 0, wallSide1Dim.top));
-        wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));
-        // wall.translate()
+
         return wall;
     }
 
@@ -192,20 +196,5 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         );
 
         return [rect1, rect2];
-    }
-
-    private static transformWallSides(gwmWorldItem: GwmWorldItem, wallSide1: SimpleWorldItem, wallSide2: SimpleWorldItem): void {
-
-        if (gwmWorldItem.dimensions.height > gwmWorldItem.dimensions.width) {
-            // wallSide1.scale(new VectorModel(wallSide1.getScale().x / 2, undefined, undefined));
-            // wallSide2.scale(new VectorModel(wallSide2.getScale().x / 2, undefined, undefined));
-            // wallSide1.translate(new VectorModel(-wallSide1.getScale().x, 0, 0));
-            // wallSide2.translate(new VectorModel(wallSide2.getScale().x, 0, 0));
-        } else {
-            // wallSide1.scale(new VectorModel(undefined, undefined, wallSide1.getScale().z / 2));
-            // wallSide2.scale(new VectorModel(undefined, undefined, wallSide2.getScale().z / 2));
-            // wallSide1.translate(new VectorModel(0, 0, -wallSide1.getScale().z));
-            // wallSide2.translate(new VectorModel(0, 0, wallSide2.getScale().z));
-        }
     }
 }
