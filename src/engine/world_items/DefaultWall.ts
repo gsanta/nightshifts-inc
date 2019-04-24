@@ -45,7 +45,7 @@ export class DefaultWall extends ContainerWorldItem implements Border {
 
         if (gwmWorldItem.dimensions.width > gwmWorldItem.dimensions.height) {
             gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
-            [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true)
+            [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true);
         } else {
             gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchX(-0.25);
             [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualVerticalSlices(1, true);

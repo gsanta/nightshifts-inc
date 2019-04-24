@@ -6,6 +6,7 @@ import _ = require('lodash');
 
 export class ContainerWorldItem implements WorldItem {
     public children: WorldItem[] = [];
+    public container: WorldItem;
     public containerMesh: Mesh;
     public neighbours: WorldItem[] = [];
     public parent: WorldItem;

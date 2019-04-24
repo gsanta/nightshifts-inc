@@ -1,6 +1,6 @@
 import { Room } from '../../../engine/world_items/Room';
 import { World } from '../../model/World';
-import { Door } from '../../model/creature/type/Door';
+import { Door } from '../../model/world_items/Door';
 import { RoomReservationStrategy } from './RoomReservationStrategy';
 
 export class RoomReservationBookKeeper {

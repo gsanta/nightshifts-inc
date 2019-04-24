@@ -4,7 +4,7 @@ import { Polygon, GwmWorldItem } from 'game-worldmap-generator';
 import { Scene, Vector3, Mesh } from 'babylonjs';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { World } from '../../game/model/World';
-import { Door } from '../../game/model/creature/type/Door';
+import { Door } from '../../game/model/world_items/Door';
 import { RoomState } from './room/RoomState';
 import { InactiveRoomState } from './room/InactiveRoomState';
 

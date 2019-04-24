@@ -5,7 +5,7 @@ import { Room } from '../../../engine/world_items/Room';
 import _ = require('lodash');
 import { Mesh } from 'babylonjs';
 import { DefaultWall } from '../../../engine/world_items/DefaultWall';
-import { Door } from '../../model/creature/type/Door';
+import { Door } from '../../model/world_items/Door';
 import { Window } from '../../model/creature/type/Window';
 import { Border } from '../../model/creature/type/Border';
 import { GameActionType } from '../GameActionType';
