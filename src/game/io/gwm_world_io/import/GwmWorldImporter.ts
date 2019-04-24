@@ -1,6 +1,6 @@
 import { World } from '../../../model/World';
 import { GwmWorldMapParser, GwmWorldItem, TreeIteratorGenerator, generators } from 'game-worldmap-generator';
-import { Player } from '../../../model/creature/type/Player';
+import { Player } from '../../../model/world_items/Player';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData, parseJsonAdditionalData } from './AdditionalData';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';

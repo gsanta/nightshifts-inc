@@ -1,7 +1,7 @@
 import { Scene } from 'babylonjs';
 import { GwmWorldItem } from 'game-worldmap-generator';
 import { VectorModel } from '../../../../model/core/VectorModel';
-import { Window } from '../../../../model/creature/type/Window';
+import { Window } from '../../../../model/world_items/Window';
 import { World } from '../../../../model/World';
 import { WorldItem } from '../../../../world_items/WorldItem';
 import { AdditionalData } from '../AdditionalData';

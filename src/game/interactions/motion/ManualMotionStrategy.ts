@@ -1,6 +1,6 @@
-import { Creature } from '../type/Creature';
+import { Creature } from '../../model/world_items/Creature';
 import { MotionStrategy } from './MotionStrategy';
-import { VectorModel } from '../../core/VectorModel';
+import { VectorModel } from '../../model/core/VectorModel';
 import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';
 import { CollisionDetector } from '../collision/CollisionDetector';
 

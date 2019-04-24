@@ -3,12 +3,12 @@ import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
-import { Player } from '../../../../model/creature/type/Player';
-import { UserInputEventEmitter } from '../../../../model/creature/motion/UserInputEventEmitter';
-import { CollisionDetector } from '../../../../model/creature/collision/CollisionDetector';
-import { ManualMotionStrategy } from '../../../../model/creature/motion/ManualMotionStrategy';
-import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
-import { ActionStrategy } from '../../../../model/creature/action/ActionStrategy';
+import { Player } from '../../../../model/world_items/Player';
+import { UserInputEventEmitter } from '../../../../interactions/motion/UserInputEventEmitter';
+import { CollisionDetector } from '../../../../interactions/collision/CollisionDetector';
+import { ManualMotionStrategy } from '../../../../interactions/motion/ManualMotionStrategy';
+import { EyeSensor } from '../../../../interactions/sensor/EyeSensor';
+import { ActionStrategy } from '../../../../interactions/action/ActionStrategy';
 import { World } from '../../../../model/World';
 import { toVector3, VectorModel } from '../../../../model/core/VectorModel';
 

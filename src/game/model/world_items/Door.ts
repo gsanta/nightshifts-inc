@@ -5,7 +5,7 @@ import { GwmWorldItem } from 'game-worldmap-generator';
 import { World } from '../World';
 import { GameConstants } from '../../GameConstants';
 import { ContainerWorldItem } from '../../../engine/world_items/ContainerWorldItem';
-import { Border } from '../creature/type/Border';
+import { Border } from './Border';
 import { DividerWorldItemFactory } from './DividerWorldItemFactory';
 const colors = GameConstants.colors;
 

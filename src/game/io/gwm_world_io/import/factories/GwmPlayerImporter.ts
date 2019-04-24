@@ -6,12 +6,12 @@ import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCo
 import { World } from '../../../../model/World';
 import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { UserInputEventEmitter } from '../../../../model/creature/motion/UserInputEventEmitter';
-import { Player } from '../../../../model/creature/type/Player';
-import { ActionStrategy } from '../../../../model/creature/action/ActionStrategy';
-import { CollisionDetector } from '../../../../model/creature/collision/CollisionDetector';
-import { ManualMotionStrategy } from '../../../../model/creature/motion/ManualMotionStrategy';
-import { EyeSensor } from '../../../../model/creature/sensor/EyeSensor';
+import { UserInputEventEmitter } from '../../../../interactions/motion/UserInputEventEmitter';
+import { Player } from '../../../../model/world_items/Player';
+import { ActionStrategy } from '../../../../interactions/action/ActionStrategy';
+import { CollisionDetector } from '../../../../interactions/collision/CollisionDetector';
+import { ManualMotionStrategy } from '../../../../interactions/motion/ManualMotionStrategy';
+import { EyeSensor } from '../../../../interactions/sensor/EyeSensor';
 
 export class GwmPlayerImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;

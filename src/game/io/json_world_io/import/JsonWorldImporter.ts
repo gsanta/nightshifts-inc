@@ -2,7 +2,7 @@ import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { SerializedMeshModel, WorldItem } from '../../../world_items/WorldItem';
 import { World } from '../../../model/World';
 import { AbstractWorldImporter } from '../../AbstractWorldImporter';
-import { Player } from '../../../model/creature/type/Player';
+import { Player } from '../../../model/world_items/Player';
 import { Promise } from 'es6-promise';
 import { Scene } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';

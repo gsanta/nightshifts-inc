@@ -1,7 +1,7 @@
 import { Sensor } from './Sensor';
 import { Scene, StandardMaterial } from 'babylonjs';
-import { Creature } from '../type/Creature';
-import { VectorModel } from '../../core/VectorModel';
+import { Creature } from '../../model/world_items/Creature';
+import { VectorModel } from '../../model/core/VectorModel';
 declare const DEBUG: boolean;
 
 export class HearingSensor implements Sensor {

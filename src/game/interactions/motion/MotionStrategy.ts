@@ -1,4 +1,4 @@
-import { VectorModel } from '../../core/VectorModel';
+import { VectorModel } from '../../model/core/VectorModel';
 
 export interface MotionStrategy {
     calcNextPositionDelta(elapsedTime: number): VectorModel;

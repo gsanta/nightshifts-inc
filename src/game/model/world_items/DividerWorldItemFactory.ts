@@ -12,9 +12,9 @@ export class DividerWorldItemFactory {
     private scene: Scene;
     private dimensions: Vector2Model;
     private material: StandardMaterial;
-    private meshBuilder: MeshBuilder;
+    private meshBuilder: typeof MeshBuilder;
 
-    constructor(scene: Scene, meshBuilder: MeshBuilder, dimensions: Vector2Model, material: StandardMaterial) {
+    constructor(scene: Scene, meshBuilder: typeof MeshBuilder, dimensions: Vector2Model, material: StandardMaterial) {
         this.scene = scene;
         this.dimensions = dimensions;
         this.material = material;
@@ -48,7 +48,11 @@ export class DividerWorldItemFactory {
     }
 
     private createSideItem(container: WorldItem, dimension: Polygon, name: string): WorldItem {
-        const mesh = MeshBuilder.CreateBox(name, { width: 8, depth: 0.25, height: 5 }, this.scene);
+        const mesh = this.meshBuilder.CreateBox(
+            name,
+            { width: dimension.width, depth: dimension.height, height: 5 },
+            this.scene
+        );
 
         mesh.parent = container.mesh;
         mesh.material = this.material;
@@ -61,7 +65,11 @@ export class DividerWorldItemFactory {
     }
 
     private createContainerItem(gwmWorldItem: GwmWorldItem) {
-        const mesh = MeshBuilder.CreateBox(`${gwmWorldItem.name}-container`, { width: 8, depth: 1, height: 5 }, this.scene);
+        const mesh = this.meshBuilder.CreateBox(
+            `${gwmWorldItem.name}-container`,
+            { width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 5 },
+            this.scene
+        );
         mesh.isVisible = false;
 
         return new SimpleWorldItem(mesh, `${gwmWorldItem.name}-container`);

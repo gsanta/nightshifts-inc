@@ -1,6 +1,6 @@
 import { ToolMesh } from './ToolMesh';
 import { Scene, Mesh, StandardMaterial } from 'babylonjs';
-import { Player } from '../../game/model/creature/type/Player';
+import { Player } from '../../game/model/world_items/Player';
 import { GameConstants } from '../../game/GameConstants';
 const colors = GameConstants.colors;
 

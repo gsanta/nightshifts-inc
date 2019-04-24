@@ -7,7 +7,7 @@ import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
 import { GameConstants } from '../../game/GameConstants';
 import { World } from '../../game/model/World';
 import { Point } from 'game-worldmap-generator/build/model/Point';
-import { Border } from '../../game/model/creature/type/Border';
+import { Border } from '../../game/model/world_items/Border';
 const colors = GameConstants.colors;
 
 export class DefaultWall extends ContainerWorldItem implements Border {

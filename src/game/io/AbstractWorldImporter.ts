@@ -4,7 +4,7 @@ import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCame
 import { AbstractMeshFactoryProducer } from '../model/core/factories/AbstractMeshFactoryProducer';
 import { Promise } from 'es6-promise';
 import { GwmWorldItem, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
-import { Player } from '../model/creature/type/Player';
+import { Player } from '../model/world_items/Player';
 import { WorldItem } from '../world_items/WorldItem';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 import { ThermometerToolMesh } from '../../engine/tools/ThermometerToolMesh';

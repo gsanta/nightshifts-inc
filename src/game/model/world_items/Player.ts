@@ -1,8 +1,8 @@
 import { Creature } from './Creature';
 import { Scene, Mesh, Light, Skeleton } from 'babylonjs';
-import { MeshTemplate } from '../../core/templates/MeshTemplate';
-import { VectorModel } from '../../core/VectorModel';
-import { UserInputEventEmitter } from '../motion/UserInputEventEmitter';
+import { MeshTemplate } from '../core/templates/MeshTemplate';
+import { VectorModel } from '../core/VectorModel';
+import { UserInputEventEmitter } from '../../interactions/motion/UserInputEventEmitter';
 
 export interface Interval {
     from: number;

@@ -2,7 +2,7 @@ import {TreeNode, TreeIteratorGenerator} from 'game-worldmap-generator';
 import { WorldItem } from '../world_items/WorldItem';
 import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
 import { Room } from '../../engine/world_items/Room';
-import { Border } from '../model/creature/type/Border';
+import { Border } from '../model/world_items/Border';
 
 
 export class WorldItemTreeMapper {

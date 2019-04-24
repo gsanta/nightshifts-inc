@@ -1,7 +1,7 @@
-import { Player } from '../type/Player';
-import { VectorModel } from '../../core/VectorModel';
-import { WorldItem } from '../../../world_items/WorldItem';
-import { World } from '../../World';
+import { Player } from '../../model/world_items/Player';
+import { VectorModel } from '../../model/core/VectorModel';
+import { WorldItem } from '../../world_items/WorldItem';
+import { World } from '../../model/World';
 import { ActionStrategy } from './ActionStrategy';
 import { expect } from 'chai';
 import sinon = require('sinon');

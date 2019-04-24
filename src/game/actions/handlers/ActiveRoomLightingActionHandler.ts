@@ -6,8 +6,8 @@ import _ = require('lodash');
 import { Mesh } from 'babylonjs';
 import { DefaultWall } from '../../../engine/world_items/DefaultWall';
 import { Door } from '../../model/world_items/Door';
-import { Window } from '../../model/creature/type/Window';
-import { Border } from '../../model/creature/type/Border';
+import { Window } from '../../model/world_items/Window';
+import { Border } from '../../model/world_items/Border';
 import { GameActionType } from '../GameActionType';
 
 export class ActiveRoomLightingActionHandler implements ActionHandler {
