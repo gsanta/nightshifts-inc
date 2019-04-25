@@ -1,5 +1,5 @@
 import { RoomReservationStrategy } from './RoomReservationStrategy';
-import { Room } from '../../../engine/world_items/Room';
+import { Room } from '../../world_items/room/Room';
 
 
 export class RandomRoomReservationStrategy implements RoomReservationStrategy {

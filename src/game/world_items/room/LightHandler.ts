@@ -1,5 +1,5 @@
 import { Light } from 'babylonjs';
-import { WorldItem } from '../../../game/world_items/WorldItem';
+import { WorldItem } from '../WorldItem';
 
 
 export class LightHandler {

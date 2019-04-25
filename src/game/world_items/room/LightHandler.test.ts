@@ -1,5 +1,5 @@
 import { Light, Mesh } from 'babylonjs';
-import { WorldItem } from '../../../game/world_items/WorldItem';
+import { WorldItem } from '../WorldItem';
 import { LightHandler } from './LightHandler';
 import sinon = require('sinon');
 import { expect } from 'chai';

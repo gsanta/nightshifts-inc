@@ -1,11 +1,11 @@
 import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
 import { Scene, StandardMaterial, MeshBuilder } from 'babylonjs';
-import { Vector2Model } from '../utils/Vector2Model';
+import { Vector2Model } from '../../model/utils/Vector2Model';
 import { Point } from 'game-worldmap-generator/build/model/Point';
-import { SimpleWorldItem } from '../../../engine/world_items/SimpleWorldItem';
-import { WorldItem } from '../../world_items/WorldItem';
-import { VectorModel } from '../core/VectorModel';
-import { Door } from './Door';
+import { SimpleWorldItem } from '../SimpleWorldItem';
+import { WorldItem } from '../WorldItem';
+import { VectorModel } from '../../model/core/VectorModel';
+import { Door } from '../Door';
 
 
 export class DividerWorldItemFactory {

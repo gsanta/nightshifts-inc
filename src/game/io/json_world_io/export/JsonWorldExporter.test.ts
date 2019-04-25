@@ -3,7 +3,7 @@ import { JsonWorldExporter } from './JsonWorldExporter';
 import { World } from '../../../model/World';
 import sinon = require('sinon');
 import { WorldItem } from '../../../world_items/WorldItem';
-import { Player } from '../../../model/world_items/Player';
+import { Player } from '../../../world_items/Player';
 
 describe('JsonWorldExporter', () => {
     describe('export', () => {

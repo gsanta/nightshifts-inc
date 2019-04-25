@@ -1,6 +1,6 @@
 import { MeshBuilder, Scene, StandardMaterial, Mesh } from 'babylonjs';
 import { GameConstants } from '../../../../GameConstants';
-import { Door } from '../../../world_items/Door';
+import { Door } from '../../../../world_items/Door';
 const colors = GameConstants.colors;
 
 export class DoorTemplateCreator {

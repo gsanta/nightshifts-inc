@@ -5,7 +5,7 @@ import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCo
 import { AdditionalData } from '../AdditionalData';
 import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { Door } from '../../../../model/world_items/Door';
+import { Door } from '../../../../world_items/Door';
 import { World } from '../../../../model/World';
 
 export class GwmDoorImporter implements GwmItemImporter {

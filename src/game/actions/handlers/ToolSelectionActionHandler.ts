@@ -2,7 +2,7 @@ import { ActionHandler } from '../../../engine/actions/ActionHandler';
 import { World } from '../../model/World';
 import { GameActionType } from '../GameActionType';
 import { Tool } from '../../tools/Tool';
-import { ToolMesh } from '../../../engine/tools/ToolMesh';
+import { ToolMesh } from '../../tools/ToolMesh';
 import _ = require('lodash');
 
 

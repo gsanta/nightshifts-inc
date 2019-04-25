@@ -1,6 +1,6 @@
-import { WorldItem, SerializedMeshModel } from '../../game/world_items/WorldItem';
+import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
-import { VectorModel, toVector3 } from '../../game/model/core/VectorModel';
+import { VectorModel, toVector3 } from '../model/core/VectorModel';
 import { Polygon } from 'game-worldmap-generator';
 import _ = require('lodash');
 

@@ -7,7 +7,7 @@ import { World } from '../../../../model/World';
 import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { UserInputEventEmitter } from '../../../../interactions/motion/UserInputEventEmitter';
-import { Player } from '../../../../model/world_items/Player';
+import { Player } from '../../../../world_items/Player';
 import { ActionStrategy } from '../../../../interactions/action/ActionStrategy';
 import { CollisionDetector } from '../../../../interactions/collision/CollisionDetector';
 import { ManualMotionStrategy } from '../../../../interactions/motion/ManualMotionStrategy';

@@ -1,8 +1,8 @@
 import { ActionDispatcher } from './ActionDispatcher';
-import { World } from '../../game/model/World';
+import { World } from '../model/World';
 import * as sinon from 'sinon';
 import { ActionHandler } from './ActionHandler';
-import { GameActionType } from '../../game/actions/GameActionType';
+import { GameActionType } from './GameActionType';
 
 
 describe('ActionDispatcher', () => {

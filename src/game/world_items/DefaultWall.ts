@@ -1,13 +1,13 @@
 import { ContainerWorldItem } from './ContainerWorldItem';
-import { WorldItem } from '../../game/world_items/WorldItem';
+import { WorldItem } from './WorldItem';
 import { Mesh, MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
-import { VectorModel } from '../../game/model/core/VectorModel';
+import { VectorModel } from '../model/core/VectorModel';
 import { SimpleWorldItem } from './SimpleWorldItem';
 import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
-import { GameConstants } from '../../game/GameConstants';
-import { World } from '../../game/model/World';
+import { GameConstants } from '../GameConstants';
+import { World } from '../model/World';
 import { Point } from 'game-worldmap-generator/build/model/Point';
-import { Border } from '../../game/model/world_items/Border';
+import { Border } from './Border';
 const colors = GameConstants.colors;
 
 export class DefaultWall extends ContainerWorldItem implements Border {

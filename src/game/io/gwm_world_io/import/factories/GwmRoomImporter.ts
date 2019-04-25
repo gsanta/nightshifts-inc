@@ -1,7 +1,7 @@
 import { Scene } from 'babylonjs';
 import { GwmWorldItem } from 'game-worldmap-generator';
-import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerWorldItem';
-import { Room } from '../../../../../engine/world_items/Room';
+import { ContainerWorldItem } from '../../../../world_items/ContainerWorldItem';
+import { Room } from '../../../../world_items/room/Room';
 import { GameConstants } from '../../../../GameConstants';
 import { World } from '../../../../model/World';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';

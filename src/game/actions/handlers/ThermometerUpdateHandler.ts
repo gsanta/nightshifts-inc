@@ -1,8 +1,8 @@
-import { ActionHandler } from '../../../engine/actions/ActionHandler';
 import { World } from '../../model/World';
 import { GameActionType } from '../GameActionType';
-import { ThermometerToolMesh } from '../../../engine/tools/ThermometerToolMesh';
-import { Room } from '../../../engine/world_items/Room';
+import { ThermometerToolMesh } from '../../tools/ThermometerToolMesh';
+import { Room } from '../../world_items/room/Room';
+import { ActionHandler } from '../ActionHandler';
 
 export class ThermometerUpdateHandler implements ActionHandler {
     private prevRoom: Room;

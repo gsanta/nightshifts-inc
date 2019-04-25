@@ -1,12 +1,11 @@
 import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
-import { MeshTemplateConfig } from '../../game/model/core/templates/MeshTemplate';
-import { SerializedMeshModel, WorldItem } from '../../game/world_items/WorldItem';
-import { VectorModel, toVector3 } from '../../game/model/core/VectorModel';
+import { MeshTemplateConfig } from '../model/core/templates/MeshTemplate';
+import { SerializedMeshModel, WorldItem } from './WorldItem';
+import { VectorModel, toVector3 } from '../model/core/VectorModel';
 import { Polygon, Rectangle } from 'game-worldmap-generator';
 import { Point } from 'game-worldmap-generator/build/model/Point';
-import { ContainerWorldItem } from './ContainerWorldItem';
-import { Vector2Model } from '../../game/model/utils/Vector2Model';
 import _ = require('lodash');
+import { ContainerWorldItem } from './ContainerWorldItem';
 
 
 export class SimpleWorldItem<M = Mesh> implements WorldItem {

@@ -9,7 +9,7 @@ import { AdditionalData } from '../AdditionalData';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { Orientation } from '../../../../model/utils/Orientation';
 import { World } from '../../../../model/World';
-import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
+import { SimpleWorldItem } from '../../../../world_items/SimpleWorldItem';
 
 export class GwmStaticItemImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;

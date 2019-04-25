@@ -1,7 +1,7 @@
 import { Scene, ShadowGenerator } from 'babylonjs';
 import { GwmWorldItem } from 'game-worldmap-generator';
-import { ContainerWorldItem } from '../../../../../engine/world_items/ContainerWorldItem';
-import { DefaultWall } from '../../../../../engine/world_items/DefaultWall';
+import { ContainerWorldItem } from '../../../../world_items/ContainerWorldItem';
+import { DefaultWall } from '../../../../world_items/DefaultWall';
 import { World } from '../../../../model/World';
 import { WorldItem } from '../../../../world_items/WorldItem';
 import { GwmItemImporter } from './GwmItemImporter';

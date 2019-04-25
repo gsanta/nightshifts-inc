@@ -1,6 +1,6 @@
 import { ActionType, WatchableAction } from '../../ActionType';
 import { Tool } from '../../../../game/tools/Tool';
-import { ActionDispatcher } from '../../../../engine/actions/ActionDispatcher';
+import { ActionDispatcher } from '../../../../game/actions/ActionDispatcher';
 import { takeEvery, select } from 'redux-saga/effects';
 import GameSelections from '../GameSelections';
 import { GameActionType } from '../../../../game/actions/GameActionType';

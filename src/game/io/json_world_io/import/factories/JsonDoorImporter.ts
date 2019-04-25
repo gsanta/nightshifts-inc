@@ -4,7 +4,7 @@ import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { Door } from '../../../../model/world_items/Door';
+import { Door } from '../../../../world_items/Door';
 
 export class JsonDoorImporter implements JsonItemImporter {
     private doorTemplate: Door;

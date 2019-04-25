@@ -1,8 +1,8 @@
-import { ActionHandler } from '../../../engine/actions/ActionHandler';
-import { Room } from '../../../engine/world_items/Room';
+import { Room } from '../../world_items/room/Room';
 import { World } from '../../model/World';
 import { GameActionType } from '../GameActionType';
-import { ActionDispatcher } from '../../../engine/actions/ActionDispatcher';
+import { ActionDispatcher } from '../ActionDispatcher';
+import { ActionHandler } from '../ActionHandler';
 
 
 export class EnterRoomActionHandler implements ActionHandler {

@@ -4,7 +4,7 @@ import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { Window } from '../../../../model/world_items/Window';
+import { Window } from '../../../../world_items/Window';
 
 export class JsonWindowImporter implements JsonItemImporter {
     private shadowGenerator: ShadowGenerator;

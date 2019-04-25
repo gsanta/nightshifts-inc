@@ -1,7 +1,7 @@
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../model/core/VectorModel';
 import { SceneModel } from '../../model/core/SceneModel';
-import { Creature } from '../../model/world_items/Creature';
+import { Creature } from '../../world_items/Creature';
 import { WorldItem } from '../../world_items/WorldItem';
 import { CollisionDetector } from '../collision/CollisionDetector';
 

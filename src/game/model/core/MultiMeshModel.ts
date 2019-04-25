@@ -1,7 +1,7 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from './VectorModel';
 import _ = require('lodash');
-import { SimpleWorldItem } from '../../../engine/world_items/SimpleWorldItem';
+import { SimpleWorldItem } from '../../world_items/SimpleWorldItem';
 
 
 export class MultiMeshModel extends SimpleWorldItem<any> {
