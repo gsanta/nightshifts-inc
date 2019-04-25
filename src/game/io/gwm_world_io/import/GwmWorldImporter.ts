@@ -6,14 +6,14 @@ import { AdditionalData, parseJsonAdditionalData } from './AdditionalData';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
 import { Scene } from 'babylonjs';
-import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
 import { LightController } from '../../../actions/handlers/LightController';
 import { AbstractWorldImporter } from '../../AbstractWorldImporter';
 import { defaultParseOptions } from 'game-worldmap-generator/build/GwmWorldMapParser';
 import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
+import { MeshFactoryProducer } from '../../../model/core/factories/MeshFactoryProducer';
 
 export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
-    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<GwmWorldItem>) {
+    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: MeshFactoryProducer) {
         super(scene, canvas, meshFactoryProducer);
     }
 
@@ -32,6 +32,7 @@ export class GwmWorldImporter extends AbstractWorldImporter<GwmWorldItem> {
                                 new generators.ScalingWorldItemGeneratorDecorator(
                                     new generators.CombinedWorldItemGenerator(
                                         [
+                                            new generators.PolygonAreaInfoGenerator('empty', '#'),
                                             new generators.FurnitureInfoGenerator(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
                                             new generators.RoomSeparatorGenerator(roomSeparatorCharacters),
                                             new generators.RoomInfoGenerator(),
