@@ -1,23 +1,19 @@
 import * as React from 'react';
 import { GameEngine } from '../../../game/GameEngine';
 import { GwmWorldImporter } from '../../../game/io/gwm_world_io/import/GwmWorldImporter';
-import { GwmMeshFactoryProducer } from '../../../game/io/gwm_world_io/import/factories/GwmMeshFactoryProducer';
 import {connect} from 'react-redux';
 import { AppState } from '../../state/app/AppState';
-import { JsonWorldImporter } from '../../../game/io/json_world_io/import/JsonWorldImporter';
-import { JsonMeshFactoryProducer } from '../../../game/io/json_world_io/import/JsonMashFactoryProducer';
 import { World } from '../../../game/model/World';
-import { JsonWorldSchema } from '../../../game/io/json_world_io/import/JsonWorldSchema';
 import UpdateWorldActions from '../../state/game/actions/UpdateWorldActions';
 import GetWorldActions from '../../state/game/actions/GetWorldActions';
 import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 import colors from '../miscellaneous/colors';
 import { Color4 } from 'babylonjs';
-import * as request from 'request';
 import SetWorldAction from '../../state/game/actions/SetWorldAction';
+import { MeshFactoryProducer } from '../../../game/model/core/factories/MeshFactoryProducer';
+import { JsonWorldSchema } from '../../../game/io/json_world_io/import/JsonWorldSchema';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
-const jsonGameWorldMap = require('../../../../assets/world_maps/json/world_map_complex.json');
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -63,7 +59,7 @@ class Game extends React.Component<GameProps, GameState> {
         });
 
         // const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
-        const worldGenerator = new GwmWorldImporter(scene, canvas, new GwmMeshFactoryProducer());
+        const worldGenerator = new GwmWorldImporter(scene, canvas, new MeshFactoryProducer());
         worldGenerator
             .create(gwmGameWorldMap)
             .then((world) => {

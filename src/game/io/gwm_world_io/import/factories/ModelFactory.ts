@@ -1,50 +1,45 @@
 import { GwmItemImporter } from './GwmItemImporter';
-import { GwmWorldItem } from 'game-worldmap-generator';
-import { ShadowGenerator, Mesh } from 'babylonjs';
-import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { ShadowGenerator, Mesh } from 'babylonjs';
+import { GwmWorldItem } from 'game-worldmap-generator';
+import { World } from '../../../../model/World';
 import { WorldItem } from '../../../../world_items/WorldItem';
+import { SimpleWorldItem } from '../../../../world_items/SimpleWorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 import { AdditionalData } from '../AdditionalData';
 import { Vector2Model } from '../../../../model/utils/Vector2Model';
 import { Orientation } from '../../../../model/utils/Orientation';
-import { World } from '../../../../model/World';
-import { SimpleWorldItem } from '../../../../world_items/SimpleWorldItem';
+import { WorldItemFactory } from '../../../../model/core/factories/WorldItemFactory';
 
-/**
- * @deprecated use `GwmModelImporter`
- */
-export class GwmStaticItemImporter implements GwmItemImporter {
-    private meshModelTemplate: MeshTemplate;
+export class ModelFactory implements WorldItemFactory {
+    private mesh: Mesh;
     private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        mesh: Mesh,
         gameObjectTranslator: WorldItemTranslator,
         shadowGenerator: ShadowGenerator
     ) {
-        this.meshModelTemplate = meshModelTemplate;
+        this.mesh = mesh;
         this.gameObjectTranslator = gameObjectTranslator;
         this.shadowGenerator = shadowGenerator;
     }
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new SimpleWorldItem(meshes[0], worldItem.name);
+        const mesh =  this.mesh.clone(`${this.mesh.name}`);
+        const meshModel = new SimpleWorldItem(mesh, worldItem.name);
 
-        meshes.forEach(mesh => {
-            const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
-            const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world, realMeshDimensions);
-            const translate = new VectorModel(translate2.x(), 0, -translate2.y());
-            const rotation = this.gameObjectTranslator.getRotation(worldItem);
+        const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
+        const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world, realMeshDimensions);
+        const translate = new VectorModel(translate2.x(), 0, -translate2.y());
+        const rotation = this.gameObjectTranslator.getRotation(worldItem);
 
-            mesh.rotation.y = rotation;
+        mesh.rotation.y = rotation;
 
-            mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+        mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
 
-            this.shadowGenerator.getShadowMap().renderList.push(mesh);
-        });
+        this.shadowGenerator.getShadowMap().renderList.push(mesh);
 
 
         return meshModel;

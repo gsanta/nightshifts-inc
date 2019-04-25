@@ -15,6 +15,7 @@ export const defaultMeshConfig: MeshTemplateConfig = {
 };
 
 /**
+ * @deprecated use `ModelFileLoader` to load models into `Mesh`s and use those to create the final `WorldItem`s.
  * Loads the model information from file, and creates the `MeshTemplate` based on the loaded `Mesh`.
  */
 export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {

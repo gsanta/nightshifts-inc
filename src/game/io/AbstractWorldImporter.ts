@@ -1,7 +1,6 @@
 import { World } from '../model/World';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCamera, StandardMaterial } from 'babylonjs';
-import { AbstractMeshFactoryProducer } from '../model/core/factories/AbstractMeshFactoryProducer';
 import { Promise } from 'es6-promise';
 import { GwmWorldItem, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
 import { Player } from '../world_items/Player';
@@ -50,7 +49,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
             case 'player':
                 return meshFactory.createPlayer(meshModelDescription, world);
             case 'bed':
-                return meshFactory.createBed(meshModelDescription, world);
+                return meshFactory.createBed(<any> meshModelDescription, world);
             case 'table':
                 return meshFactory.createTable(meshModelDescription, world);
             case 'cupboard':
@@ -60,6 +59,8 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
             case 'washbasin':
                 return meshFactory.createWashbasin(meshModelDescription, world);
             case 'room':
+                return meshFactory.createRoom(meshModelDescription, world);
+            case 'empty':
                 return meshFactory.createRoom(meshModelDescription, world);
             default:
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);

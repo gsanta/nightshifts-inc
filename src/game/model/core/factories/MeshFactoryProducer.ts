@@ -1,5 +1,5 @@
 import { TemplateCreator } from '../templates/TemplateCreator';
-import { Scene, SpotLight, ShadowGenerator } from 'babylonjs';
+import { Scene, SpotLight, ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshFactory } from './MeshFactory';
 import { WallTemplateCreator } from '../templates/creators/WallTemplateCreator';
 import { DoorTemplateCreator } from '../templates/creators/DoorTemplateCreator';
@@ -9,6 +9,19 @@ import { VectorModel } from '../VectorModel';
 import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator';
 import { Promise } from 'es6-promise';
 import { World } from '../../World';
+import { ModelFileLoader } from './ModelFileLoader';
+import { GwmWorldItem } from 'game-worldmap-generator';
+import { WorldItemToWorldCenterTranslatorDecorator } from '../../../io/gwm_world_io/import/factories/world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
+import { WorldItemToRealWorldCoordinateMapper } from '../../../io/gwm_world_io/import/factories/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { GwmWallImporter } from '../../../io/gwm_world_io/import/factories/GwmWallImporter';
+import { GwmDoorImporter } from '../../../io/gwm_world_io/import/factories/GwmDoorImporter';
+import { GwmPlayerImporter } from '../../../io/gwm_world_io/import/factories/GwmPlayerImporter';
+import { GwmFloorImporter } from '../../../io/gwm_world_io/import/factories/GwmFloorImporter';
+import { GwmWindowImporter } from '../../../io/gwm_world_io/import/factories/GwmWindowImporter';
+import { GwmStaticItemImporter } from '../../../io/gwm_world_io/import/factories/GwmStaticItemImporter';
+import { GwmRoomImporter } from '../../../io/gwm_world_io/import/factories/GwmRoomImporter';
+import { WorldItemFactory } from './WorldItemFactory';
+import { ModelFactory } from '../../../io/gwm_world_io/import/factories/ModelFactory';
 
 interface MeshMap<V> {
     wall: WallTemplateCreator;
@@ -23,7 +36,7 @@ interface MeshMap<V> {
     bed: V;
 }
 
-export abstract class AbstractMeshFactoryProducer<T> {
+export class MeshFactoryProducer {
 
     private readonly FURNITURE_1_MATERIAL = 'models/furniture_1/material/beds.png';
     private readonly FURNITURE_1_BASE_PATH = 'models/furniture_1/';
@@ -49,7 +62,63 @@ export abstract class AbstractMeshFactoryProducer<T> {
         'models/player/material/3.jpg'
     ];
 
-    public abstract getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<T>>;
+    public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<GwmWorldItem>> {
+        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(1, new WorldItemToRealWorldCoordinateMapper(1));
+
+        return this.getTemplateProducers(scene)
+            .then(meshMap => {
+
+                return this.getMeshTemplateStore(scene)
+                    .then(meshTemplateStore => {
+
+                        const bedFactory = new ModelFactory(meshTemplateStore.get('bed'), gameObjectTranslator, shadowGenerator);
+
+                        const map: Map<string, WorldItemFactory> = new Map();
+                        map.set('bed', bedFactory);
+
+                        return new MeshFactory(
+                            map,
+                            {
+                                wall: new GwmWallImporter(shadowGenerator, scene),
+                                door: new GwmDoorImporter(scene, shadowGenerator),
+                                player: new GwmPlayerImporter(meshMap.player.create(world), gameObjectTranslator, scene, shadowGenerator, spotLight),
+                                floor: new GwmFloorImporter(meshMap.floor.create(world), gameObjectTranslator, shadowGenerator),
+                                window: new GwmWindowImporter(scene),
+                                cupboard: new GwmStaticItemImporter(meshMap.cupboard.create(world), gameObjectTranslator, shadowGenerator),
+                                table: new GwmStaticItemImporter(meshMap.table.create(world), gameObjectTranslator, shadowGenerator),
+                                bathtub: new GwmStaticItemImporter(meshMap.bathtub.create(world), gameObjectTranslator, shadowGenerator),
+                                washbasin: new GwmStaticItemImporter(meshMap.washbasin.create(world), gameObjectTranslator, shadowGenerator),
+                                bed: new GwmStaticItemImporter(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator),
+                                room: new GwmRoomImporter(scene)
+                            }
+                        );
+                    });
+            });
+    }
+
+    protected getMeshTemplateStore(scene: Scene): Promise<Map<string, Mesh>> {
+
+        const modelFileLoader = new ModelFileLoader(scene);
+
+        return Promise.all([
+            modelFileLoader.load(
+                'bed',
+                this.FURNITURE_1_BASE_PATH,
+                this.BED_MODEL_FILE,
+                [this.FURNITURE_1_MATERIAL],
+                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+            )
+        ])
+        .then((meshes: Mesh[]) => {
+            const map = new Map<string, Mesh>();
+
+            meshes.forEach(mesh => {
+                map.set(mesh.name, mesh);
+            });
+
+            return map;
+        });
+    }
 
     protected getTemplateProducers(scene: Scene): Promise<MeshMap<TemplateCreator>> {
 

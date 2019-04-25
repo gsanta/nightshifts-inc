@@ -3,13 +3,12 @@ import { Promise } from 'es6-promise';
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../user/User';
 import { World } from '../../../game/model/World';
-import {JsonWorldExporter} from '../../../game/io/json_world_io/export/JsonWorldExporter';
 
 export class GameRequests {
-    private jsonWorldExporter: JsonWorldExporter;
+    private jsonWorldExporter: any;
     private tokenHandler: TokenHandler;
 
-    constructor(tokenHandler = new TokenHandler(), jsonWorldExporter: JsonWorldExporter = new JsonWorldExporter()) {
+    constructor(tokenHandler = new TokenHandler(), jsonWorldExporter: any) {
         this.jsonWorldExporter = jsonWorldExporter;
         this.tokenHandler = tokenHandler;
     }

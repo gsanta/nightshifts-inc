@@ -13,7 +13,7 @@ import { errorsReducer } from './reducers/errorsReducer';
 import { gameActionDispatcherReducer } from './reducers/gameActionDispatcherReducer';
 
 export default combineReducers({
-    query: (state = {user: new UserRequests(), game: new GameRequests()}) => state,
+    query: (state = {user: new UserRequests(), game: new GameRequests(null, null)}) => state,
     world: worldReducer,
     tools: toolsReducer,
     user: userReducer,
