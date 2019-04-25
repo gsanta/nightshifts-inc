@@ -1,5 +1,5 @@
 import { ActionType } from '../../ActionType';
-import { ActionDispatcher } from '../../../../engine/actions/ActionDispatcher';
+import { ActionDispatcher } from '../../../../game/actions/ActionDispatcher';
 
 export const gameActionDispatcherReducer = (state = null, action) => {
     switch (action.type) {

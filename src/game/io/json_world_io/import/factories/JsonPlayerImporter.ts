@@ -3,7 +3,7 @@ import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
 import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
-import { Player } from '../../../../model/world_items/Player';
+import { Player } from '../../../../world_items/Player';
 import { UserInputEventEmitter } from '../../../../interactions/motion/UserInputEventEmitter';
 import { CollisionDetector } from '../../../../interactions/collision/CollisionDetector';
 import { ManualMotionStrategy } from '../../../../interactions/motion/ManualMotionStrategy';

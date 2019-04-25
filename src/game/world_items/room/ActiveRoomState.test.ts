@@ -1,11 +1,10 @@
-import { Room } from '../Room';
+import { Room } from './Room';
 import { InactiveRoomState } from './InactiveRoomState';
-import { World } from '../../../game/model/World';
+import { World } from '../../model/World';
 import { Light, StandardMaterial } from 'babylonjs';
-import { ActiveRoomLightingActionHandler } from '../../../game/actions/handlers/ActiveRoomLightingActionHandler';
-import { ActiveRoomState } from './ActiveRoomState';
 import { expect } from 'chai';
 import { ReservedRoomState } from './ReservedRoomState';
+import { ActiveRoomState } from './ActiveRoomState';
 
 describe('ActiveRoomState', () => {
     describe('`canRoomTransitionToThis`', () => {

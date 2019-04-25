@@ -1,6 +1,6 @@
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../model/core/VectorModel';
-import { Creature } from '../../model/world_items/Creature';
+import { Creature } from '../../world_items/Creature';
 import { CollisionDetector } from '../collision/CollisionDetector';
 
 export class AttackingMotionStrategy implements MotionStrategy {

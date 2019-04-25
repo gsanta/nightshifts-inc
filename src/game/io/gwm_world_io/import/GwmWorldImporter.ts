@@ -1,13 +1,13 @@
 import { World } from '../../../model/World';
 import { GwmWorldMapParser, GwmWorldItem, TreeIteratorGenerator, generators } from 'game-worldmap-generator';
-import { Player } from '../../../model/world_items/Player';
+import { Player } from '../../../world_items/Player';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData, parseJsonAdditionalData } from './AdditionalData';
 import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { Promise } from 'es6-promise';
 import { Scene } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
-import { LightController } from '../../../model/light/LightController';
+import { LightController } from '../../../actions/handlers/LightController';
 import { AbstractWorldImporter } from '../../AbstractWorldImporter';
 import { defaultParseOptions } from 'game-worldmap-generator/build/GwmWorldMapParser';
 import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';

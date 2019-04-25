@@ -2,7 +2,7 @@ import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './interactions/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './interactions/collision/CollisionDetector';
 import { World } from './model/World';
-import { ActionDispatcher } from '../engine/actions/ActionDispatcher';
+import { ActionDispatcher } from './actions/ActionDispatcher';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
 import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';

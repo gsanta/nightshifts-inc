@@ -3,7 +3,7 @@ import { ActionType } from '../ActionType';
 import { UserRequests } from '../user/UserRequests';
 import { GameRequests } from '../game/GameRequests';
 import { Tool } from '../../../game/tools/Tool';
-import { ActionDispatcher } from '../../../engine/actions/ActionDispatcher';
+import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 import { combineReducers } from 'redux';
 import { worldReducer } from './reducers/worldReducer';
 import { toolsReducer } from './reducers/toolsReducer';

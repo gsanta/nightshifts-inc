@@ -1,10 +1,10 @@
 import { Mesh, Vector3 } from 'babylonjs';
-import { VectorModel } from '../core/VectorModel';
-import { Sensor } from '../../interactions/sensor/Sensor';
-import { CollisionDetector } from '../../interactions/collision/CollisionDetector';
-import { ActionStrategy } from '../../interactions/action/ActionStrategy';
-import { SimpleWorldItem } from '../../../engine/world_items/SimpleWorldItem';
-import { MotionStrategy } from '../../interactions/motion/MotionStrategy';
+import { VectorModel } from '../model/core/VectorModel';
+import { Sensor } from '../interactions/sensor/Sensor';
+import { CollisionDetector } from '../interactions/collision/CollisionDetector';
+import { ActionStrategy } from '../interactions/action/ActionStrategy';
+import { SimpleWorldItem } from './SimpleWorldItem';
+import { MotionStrategy } from '../interactions/motion/MotionStrategy';
 
 export abstract class Creature extends SimpleWorldItem<any> {
     protected sensor: Sensor;

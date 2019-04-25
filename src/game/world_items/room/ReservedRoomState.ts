@@ -1,10 +1,9 @@
 
 import { RoomState } from './RoomState';
 import { StandardMaterial } from 'babylonjs';
-import { Room } from '../Room';
-import { World } from '../../../game/model/World';
+import { Room } from './Room';
+import { World } from '../../model/World';
 import { LightHandler } from './LightHandler';
-import { ActiveRoomState } from './ActiveRoomState';
 import { InactiveRoomState } from './InactiveRoomState';
 
 

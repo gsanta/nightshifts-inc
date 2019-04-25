@@ -1,12 +1,12 @@
-import { WorldItem, SerializedMeshModel } from '../../world_items/WorldItem';
+import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { Mesh, Scene, MeshBuilder, StandardMaterial } from 'babylonjs';
-import { VectorModel } from '../core/VectorModel';
+import { VectorModel } from '../model/core/VectorModel';
 import { GwmWorldItem } from 'game-worldmap-generator';
-import { World } from '../World';
-import { GameConstants } from '../../GameConstants';
-import { ContainerWorldItem } from '../../../engine/world_items/ContainerWorldItem';
+import { World } from '../model/World';
+import { GameConstants } from '../GameConstants';
+import { ContainerWorldItem } from './ContainerWorldItem';
 import { Border } from './Border';
-import { DividerWorldItemFactory } from './DividerWorldItemFactory';
+import { DividerWorldItemFactory } from './world_item_factories/DividerWorldItemFactory';
 const colors = GameConstants.colors;
 
 export class Door extends ContainerWorldItem implements Border {

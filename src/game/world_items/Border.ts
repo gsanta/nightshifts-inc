@@ -1,6 +1,6 @@
 import { Polygon } from 'game-worldmap-generator';
 import { Mesh } from 'babylonjs';
-import { WorldItem } from '../../world_items/WorldItem';
+import { WorldItem } from './WorldItem';
 
 
 export interface Border {

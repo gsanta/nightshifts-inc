@@ -4,7 +4,7 @@ import { JsonItemImporter } from './JsonItemImporter';
 import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
 import { WorldItem, SerializedMeshModel } from '../../../../world_items/WorldItem';
 import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { SimpleWorldItem } from '../../../../../engine/world_items/SimpleWorldItem';
+import { SimpleWorldItem } from '../../../../world_items/SimpleWorldItem';
 
 export class JsonStaticItemImporter implements JsonItemImporter {
     private meshModelTemplate: MeshTemplate;

@@ -6,7 +6,7 @@ import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCo
 import { WorldItem } from '../../../../world_items/WorldItem';
 import { VectorModel } from '../../../../model/core/VectorModel';
 import { World } from '../../../../model/World';
-import { Room } from '../../../../../engine/world_items/Room';
+import { Room } from '../../../../world_items/room/Room';
 
 export class GwmFloorImporter implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;

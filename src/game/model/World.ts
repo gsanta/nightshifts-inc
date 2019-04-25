@@ -1,13 +1,13 @@
 import { WorldItem } from '../world_items/WorldItem';
-import { Enemy } from './world_items/Enemy';
-import { Player } from './world_items/Player';
-import { LightController } from './light/LightController';
+import { Enemy } from '../world_items/Enemy';
+import { Player } from '../world_items/Player';
+import { LightController } from '../actions/handlers/LightController';
 import { Vector2Model } from './utils/Vector2Model';
 import { FollowCamera, Light, SpotLight, StandardMaterial } from 'babylonjs';
-import { ContainerWorldItem } from '../../engine/world_items/ContainerWorldItem';
+import { ContainerWorldItem } from '../world_items/ContainerWorldItem';
 import { Tool } from '../tools/Tool';
-import { ToolMesh } from '../../engine/tools/ToolMesh';
-import { Room } from '../../engine/world_items/Room';
+import { ToolMesh } from '../tools/ToolMesh';
+import { Room } from '../world_items/room/Room';
 
 
 export class World {

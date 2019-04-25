@@ -4,13 +4,13 @@ import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCame
 import { AbstractMeshFactoryProducer } from '../model/core/factories/AbstractMeshFactoryProducer';
 import { Promise } from 'es6-promise';
 import { GwmWorldItem, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
-import { Player } from '../model/world_items/Player';
+import { Player } from '../world_items/Player';
 import { WorldItem } from '../world_items/WorldItem';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
-import { ThermometerToolMesh } from '../../engine/tools/ThermometerToolMesh';
-import { FlashlightToolMesh } from '../../engine/tools/FlashlightToolMesh';
+import { ThermometerToolMesh } from '../tools/ThermometerToolMesh';
+import { FlashlightToolMesh } from '../tools/FlashlightToolMesh';
 import { GameConstants } from '../GameConstants';
-import { Room } from '../../engine/world_items/Room';
+import { Room } from '../world_items/room/Room';
 const colors = GameConstants.colors;
 
 export abstract class AbstractWorldImporter<T extends {name: string}> {

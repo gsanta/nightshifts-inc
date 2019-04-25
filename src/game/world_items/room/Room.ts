@@ -1,12 +1,12 @@
-import { ContainerWorldItem } from './ContainerWorldItem';
-import { WorldItem } from '../../game/world_items/WorldItem';
+import { ContainerWorldItem } from '../ContainerWorldItem';
+import { WorldItem } from '../WorldItem';
 import { Polygon, GwmWorldItem } from 'game-worldmap-generator';
 import { Scene, Vector3, Mesh } from 'babylonjs';
 import { Point } from 'game-worldmap-generator/build/model/Point';
-import { World } from '../../game/model/World';
-import { Door } from '../../game/model/world_items/Door';
-import { RoomState } from './room/RoomState';
-import { InactiveRoomState } from './room/InactiveRoomState';
+import { World } from '../../model/World';
+import { Door } from '../Door';
+import { InactiveRoomState } from './InactiveRoomState';
+import { RoomState } from './RoomState';
 
 export class Room extends ContainerWorldItem {
     public state: RoomState;

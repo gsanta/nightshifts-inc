@@ -2,12 +2,12 @@ import { MeshFactory } from '../../../model/core/factories/MeshFactory';
 import { SerializedMeshModel, WorldItem } from '../../../world_items/WorldItem';
 import { World } from '../../../model/World';
 import { AbstractWorldImporter } from '../../AbstractWorldImporter';
-import { Player } from '../../../model/world_items/Player';
+import { Player } from '../../../world_items/Player';
 import { Promise } from 'es6-promise';
 import { Scene } from 'babylonjs';
 import { AbstractMeshFactoryProducer } from '../../../model/core/factories/AbstractMeshFactoryProducer';
 import { JsonWorldSchema, setDefaultsForJsonWorld } from './JsonWorldSchema';
-import { LightController } from '../../../model/light/LightController';
+import { LightController } from '../../../actions/handlers/LightController';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 
 

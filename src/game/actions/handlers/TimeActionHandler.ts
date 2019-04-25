@@ -1,9 +1,7 @@
-import { ActionHandler } from '../../../engine/actions/ActionHandler';
-import { Room } from '../../../engine/world_items/Room';
-import { World } from '../../model/World';
 import { GameActionType } from '../GameActionType';
-import { ActionDispatcher } from '../../../engine/actions/ActionDispatcher';
+import { ActionDispatcher } from '../ActionDispatcher';
 import { Timer } from './Timer';
+import { ActionHandler } from '../ActionHandler';
 
 
 export class TimeActionHandler implements ActionHandler {
