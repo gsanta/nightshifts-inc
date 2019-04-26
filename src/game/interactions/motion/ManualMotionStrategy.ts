@@ -1,4 +1,4 @@
-import { Creature } from '../../world_items/Creature';
+import { Creature } from '../../world/world_items/Creature';
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../model/core/VectorModel';
 import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';

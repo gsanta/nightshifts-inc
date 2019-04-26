@@ -1,4 +1,4 @@
-import { Creature } from '../../world_items/Creature';
+import { Creature } from '../../world/world_items/Creature';
 
 export interface Sensor {
     testIsWithinRange(creature: Creature);

@@ -1,8 +1,8 @@
-import { World } from '../../model/World';
+import { World } from '../../world/World';
 import { GameActionType } from '../GameActionType';
-import { Room } from '../../world_items/room/Room';
+import { Room } from '../../world/world_items/room/Room';
 import { ActionHandler } from '../ActionHandler';
-import { Door } from '../../world_items/door/Door';
+import { Door } from '../../world/world_items/door/Door';
 
 
 export class RoomReservationAction implements ActionHandler {

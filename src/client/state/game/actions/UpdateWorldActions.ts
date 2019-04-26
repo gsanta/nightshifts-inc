@@ -1,7 +1,7 @@
 import { ActionType } from '../../ActionType';
 import { select, call, put, delay, take } from 'redux-saga/effects';
 import { GameRequests } from '../GameRequests';
-import { World } from '../../../../game/model/World';
+import { World } from '../../../../game/world/World';
 import { WatchableAction } from '../../ActionType';
 import GameSelections from '../GameSelections';
 import UserSelections from '../../user/UserSelections';

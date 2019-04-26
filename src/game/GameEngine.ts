@@ -1,7 +1,7 @@
 import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './interactions/motion/AttackingMotionStrategy';
 import { CollisionDetector } from './interactions/collision/CollisionDetector';
-import { World } from './model/World';
+import { World } from './world/World';
 import { ActionDispatcher } from './actions/ActionDispatcher';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';

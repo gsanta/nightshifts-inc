@@ -1,7 +1,7 @@
-import { Room } from '../../world_items/room/Room';
-import { World } from '../../model/World';
+import { Room } from '../../world/world_items/room/Room';
+import { World } from '../../world/World';
 import { RoomReservationStrategy } from './RoomReservationStrategy';
-import { Door } from '../../world_items/door/Door';
+import { Door } from '../../world/world_items/door/Door';
 
 export class RoomReservationBookKeeper {
     private reservedRoom: Room;

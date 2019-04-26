@@ -1,5 +1,5 @@
 import { ActionType } from '../../ActionType';
-import { World } from '../../../../game/model/World';
+import { World } from '../../../../game/world/World';
 
 class SetWorldActions {
     public request(world: World) {
