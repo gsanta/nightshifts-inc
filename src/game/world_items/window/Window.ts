@@ -1,15 +1,15 @@
-import { SerializedMeshModel, WorldItem } from './WorldItem';
+import { SerializedMeshModel, WorldItem } from '../WorldItem';
 import { StandardMaterial, Scene, MeshBuilder, Mesh } from 'babylonjs';
-import { VectorModel } from '../model/core/VectorModel';
+import { VectorModel } from '../../model/core/VectorModel';
 import _ = require('lodash');
-import { MeshTemplateConfig } from '../model/core/templates/MeshTemplate';
-import { SimpleWorldItem } from './SimpleWorldItem';
-import { ContainerWorldItem } from './ContainerWorldItem';
-import { GameConstants } from '../GameConstants';
+import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
+import { SimpleWorldItem } from '../SimpleWorldItem';
+import { ContainerWorldItem } from '../ContainerWorldItem';
+import { GameConstants } from '../../GameConstants';
 import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
-import { World } from '../model/World';
+import { World } from '../../model/World';
 import { Point } from 'game-worldmap-generator/build/model/Point';
-import { Border } from './Border';
+import { Border } from '../Border';
 const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {

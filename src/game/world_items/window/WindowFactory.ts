@@ -1,13 +1,13 @@
 import { Scene, ShadowGenerator } from 'babylonjs';
 import { GwmWorldItem } from 'game-worldmap-generator';
-import { VectorModel } from '../../../../model/core/VectorModel';
-import { Window } from '../../../../world_items/Window';
-import { World } from '../../../../model/World';
-import { WorldItem } from '../../../../world_items/WorldItem';
-import { AdditionalData } from '../AdditionalData';
-import { GwmItemImporter } from './GwmItemImporter';
+import { VectorModel } from '../../model/core/VectorModel';
+import { Window } from './Window';
+import { World } from '../../model/World';
+import { WorldItem } from '../WorldItem';
+import { AdditionalData } from '../../io/gwm_world_io/import/AdditionalData';
+import { GwmItemImporter } from '../../io/gwm_world_io/import/factories/GwmItemImporter';
 
-export class GwmWindowImporter implements GwmItemImporter {
+export class WindowFactory implements GwmItemImporter {
     private scene: Scene;
     private shadowGenerator: ShadowGenerator;
 

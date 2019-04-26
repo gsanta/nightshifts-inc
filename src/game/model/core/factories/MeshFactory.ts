@@ -1,7 +1,6 @@
 import { WorldItem } from '../../../world_items/WorldItem';
 import { World } from '../../World';
 import { GwmWorldItem } from 'game-worldmap-generator';
-import { ModelFactory } from '../../../io/gwm_world_io/import/factories/ModelFactory';
 import { WorldItemFactory } from './WorldItemFactory';
 
 export interface GenericItemImporter<T> {
@@ -11,7 +10,6 @@ export interface GenericItemImporter<T> {
 export class MeshFactory {
     private factories: {[key: string]: GenericItemImporter<GwmWorldItem>};
     private worldItemFactoryMap: Map<string, WorldItemFactory>;
-    private bedFactory: ModelFactory;
 
     constructor(worldItemFactoryMap: Map<string, WorldItemFactory>, factories: {[key: string]: GenericItemImporter<GwmWorldItem>}) {
         this.factories = factories;
@@ -47,15 +45,15 @@ export class MeshFactory {
     }
 
     public createBathtub(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.factories.bathtub.createItem(itemInfo, world);
+        return this.worldItemFactoryMap.get('bathtub').createItem(itemInfo, world);
     }
 
     public createWashbasin(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.factories.washbasin.createItem(itemInfo, world);
+        return this.worldItemFactoryMap.get('washbasin').createItem(itemInfo, world);
     }
 
     public createCupboard(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.factories.cupboard.createItem(itemInfo, world);
+        return this.worldItemFactoryMap.get('cupboard').createItem(itemInfo, world);
     }
 
     public createRoom(itemInfo: GwmWorldItem, world: World): WorldItem {

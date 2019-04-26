@@ -3,7 +3,7 @@ import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCamera, StandardMaterial } from 'babylonjs';
 import { Promise } from 'es6-promise';
 import { GwmWorldItem, TreeIteratorGenerator, TreeNode, defaultParseOptions, GwmWorldMapParser, generators } from 'game-worldmap-generator';
-import { Player } from '../world_items/Player';
+import { Player } from '../world_items/player/Player';
 import { WorldItem } from '../world_items/WorldItem';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 import { ThermometerToolMesh } from '../tools/ThermometerToolMesh';

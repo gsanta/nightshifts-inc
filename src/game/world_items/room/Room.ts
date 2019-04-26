@@ -4,9 +4,9 @@ import { Polygon, GwmWorldItem } from 'game-worldmap-generator';
 import { Scene, Vector3, Mesh } from 'babylonjs';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { World } from '../../model/World';
-import { Door } from '../Door';
 import { InactiveRoomState } from './InactiveRoomState';
 import { RoomState } from './RoomState';
+import { Door } from '../door/Door';
 
 export class Room extends ContainerWorldItem {
     public state: RoomState;

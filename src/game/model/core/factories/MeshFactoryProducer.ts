@@ -1,8 +1,6 @@
 import { TemplateCreator } from '../templates/TemplateCreator';
 import { Scene, SpotLight, ShadowGenerator, Mesh } from 'babylonjs';
 import { MeshFactory } from './MeshFactory';
-import { WallTemplateCreator } from '../templates/creators/WallTemplateCreator';
-import { DoorTemplateCreator } from '../templates/creators/DoorTemplateCreator';
 import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../templates/creators/ModelFileBasedTemplateCreator';
 import { AsyncTemplateCreator } from '../templates/AsyncTemplateCreator';
 import { VectorModel } from '../VectorModel';
@@ -12,28 +10,21 @@ import { World } from '../../World';
 import { ModelFileLoader } from './ModelFileLoader';
 import { WorldItemToWorldCenterTranslatorDecorator } from '../../../io/gwm_world_io/import/factories/world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
 import { WorldItemToRealWorldCoordinateMapper } from '../../../io/gwm_world_io/import/factories/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { GwmWallImporter } from '../../../io/gwm_world_io/import/factories/GwmWallImporter';
-import { GwmDoorImporter } from '../../../io/gwm_world_io/import/factories/GwmDoorImporter';
-import { GwmPlayerImporter } from '../../../io/gwm_world_io/import/factories/GwmPlayerImporter';
-import { GwmFloorImporter } from '../../../io/gwm_world_io/import/factories/GwmFloorImporter';
-import { GwmWindowImporter } from '../../../io/gwm_world_io/import/factories/GwmWindowImporter';
+import { WallFactory } from '../../../world_items/wall/WallFactory';
+import { PlayerFactory } from '../../../world_items/player/PlayerFactory';
+import { FloorFactory } from '../../../world_items/floor/FloorFactory';
+import { WindowFactory } from '../../../world_items/window/WindowFactory';
 import { GwmStaticItemImporter } from '../../../io/gwm_world_io/import/factories/GwmStaticItemImporter';
-import { GwmRoomImporter } from '../../../io/gwm_world_io/import/factories/GwmRoomImporter';
+import { RoomFactory } from '../../../world_items/room/RoomFactory';
 import { WorldItemFactory } from './WorldItemFactory';
 import { ModelFactory } from '../../../io/gwm_world_io/import/factories/ModelFactory';
-import { EmptyAreaFactory } from '../../../io/gwm_world_io/import/factories/EmptyAreaFactory';
+import { EmptyAreaFactory } from '../../../world_items/empty_area/EmptyAreaFactory';
+import { DoorFactory } from '../../../world_items/door/DoorFactory';
 
 interface MeshMap<V> {
-    wall: WallTemplateCreator;
-    door: DoorTemplateCreator;
     player: V;
-    cupboard: V;
-    table: V;
     floor: V;
     window: V;
-    bathtub: V;
-    washbasin: V;
-    bed: V;
 }
 
 export class MeshFactoryProducer {
@@ -73,27 +64,28 @@ export class MeshFactoryProducer {
 
                         const bedFactory = new ModelFactory(meshTemplateStore.get('bed'), gameObjectTranslator, shadowGenerator);
                         const tableFactory = new ModelFactory(meshTemplateStore.get('table'), gameObjectTranslator, shadowGenerator);
+                        const cupboardFactory = new ModelFactory(meshTemplateStore.get('cupboard'), gameObjectTranslator, shadowGenerator);
+                        const bathtubFactory = new ModelFactory(meshTemplateStore.get('bathtub'), gameObjectTranslator, shadowGenerator);
+                        const washbasinFactory = new ModelFactory(meshTemplateStore.get('washbasin'), gameObjectTranslator, shadowGenerator);
                         const emptyAreaFactory = new EmptyAreaFactory(scene);
 
                         const map: Map<string, WorldItemFactory> = new Map();
                         map.set('bed', bedFactory);
                         map.set('empty', emptyAreaFactory);
                         map.set('table', tableFactory);
+                        map.set('cupboard', cupboardFactory);
+                        map.set('bathtub', bathtubFactory);
+                        map.set('washbasin', washbasinFactory);
 
                         return new MeshFactory(
                             map,
                             {
-                                wall: new GwmWallImporter(shadowGenerator, scene),
-                                door: new GwmDoorImporter(scene, shadowGenerator),
-                                player: new GwmPlayerImporter(meshMap.player.create(world), gameObjectTranslator, scene, shadowGenerator, spotLight),
-                                floor: new GwmFloorImporter(meshMap.floor.create(world), gameObjectTranslator, shadowGenerator),
-                                window: new GwmWindowImporter(scene, shadowGenerator),
-                                cupboard: new GwmStaticItemImporter(meshMap.cupboard.create(world), gameObjectTranslator, shadowGenerator),
-                                table: new GwmStaticItemImporter(meshMap.table.create(world), gameObjectTranslator, shadowGenerator),
-                                bathtub: new GwmStaticItemImporter(meshMap.bathtub.create(world), gameObjectTranslator, shadowGenerator),
-                                washbasin: new GwmStaticItemImporter(meshMap.washbasin.create(world), gameObjectTranslator, shadowGenerator),
-                                bed: new GwmStaticItemImporter(meshMap.bed.create(world), gameObjectTranslator, shadowGenerator),
-                                room: new GwmRoomImporter(scene)
+                                wall: new WallFactory(shadowGenerator, scene),
+                                door: new DoorFactory(scene, shadowGenerator),
+                                player: new PlayerFactory(meshMap.player.create(world), gameObjectTranslator, scene, shadowGenerator, spotLight),
+                                floor: new FloorFactory(meshMap.floor.create(world), gameObjectTranslator, shadowGenerator),
+                                window: new WindowFactory(scene, shadowGenerator),
+                                room: new RoomFactory(scene)
                             }
                         );
                     });
@@ -118,6 +110,27 @@ export class MeshFactoryProducer {
                 this.TABLE_MODEL_FILE,
                 [this.FURNITURE_2_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+            ),
+            modelFileLoader.load(
+                'cupboard',
+                this.FURITURE_2_BASE_PATH,
+                this.CUPBOARD_MODEL_FILE,
+                [this.FURNITURE_2_MATERIAL],
+                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+            ),
+            modelFileLoader.load(
+                'bathtub',
+                this.FURITURE_2_BASE_PATH,
+                this.CUPBOARD_MODEL_FILE,
+                [this.FURNITURE_2_MATERIAL],
+                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+            ),
+            modelFileLoader.load(
+                'washbasin',
+                this.FURITURE_3_BASE_PATH,
+                this.WASHBASIN_MODEL_FILE,
+                [this.FURNITURE_3_MATERIAL],
+                {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
             )
         ])
         .then((meshes: Mesh[]) => {
@@ -134,22 +147,6 @@ export class MeshFactoryProducer {
     protected getTemplateProducers(scene: Scene): Promise<MeshMap<TemplateCreator>> {
 
         const meshMap: MeshMap<TemplateCreator> = {
-            wall: new WallTemplateCreator(scene),
-            door: new DoorTemplateCreator(scene),
-            cupboard: new ModelFileBasedTemplateCreator(
-                scene,
-                this.FURITURE_2_BASE_PATH,
-                this.CUPBOARD_MODEL_FILE,
-                [this.FURNITURE_2_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
-            ),
-            table: new ModelFileBasedTemplateCreator(
-                scene,
-                this.FURITURE_2_BASE_PATH,
-                this.TABLE_MODEL_FILE,
-                [this.FURNITURE_2_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
-            ),
             player: new ModelFileBasedTemplateCreator(
                 scene,
                 this.PLAYER_BASE_PATH,
@@ -158,37 +155,11 @@ export class MeshFactoryProducer {
                 {...defaultMeshConfig, singleton: true, scaling: new VectorModel(0.3, 0.3, 0.3)}
             ),
             floor: new FloorTemplateCreator(scene),
-            window: null,
-            bathtub: new ModelFileBasedTemplateCreator(
-                scene,
-                this.FURITURE_3_BASE_PATH,
-                this.BATHTUB_MODEL_FILE,
-                [this.FURNITURE_3_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
-            ),
-            washbasin: new ModelFileBasedTemplateCreator(
-                scene,
-                this.FURITURE_3_BASE_PATH,
-                this.WASHBASIN_MODEL_FILE,
-                [this.FURNITURE_3_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
-            ),
-            bed: new ModelFileBasedTemplateCreator(
-                scene,
-                this.FURNITURE_1_BASE_PATH,
-                this.BED_MODEL_FILE,
-                [this.FURNITURE_1_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
-            )
+            window: null
         };
 
         return Promise.all([
-            (<AsyncTemplateCreator> meshMap.cupboard).doAsyncWork(),
-            (<AsyncTemplateCreator> meshMap.player).doAsyncWork(),
-            (<AsyncTemplateCreator> meshMap.table).doAsyncWork(),
-            (<AsyncTemplateCreator> meshMap.bathtub).doAsyncWork(),
-            (<AsyncTemplateCreator> meshMap.washbasin).doAsyncWork(),
-            (<AsyncTemplateCreator> meshMap.bed).doAsyncWork()
+            (<AsyncTemplateCreator> meshMap.player).doAsyncWork()
         ])
         .then(() => meshMap);
     }

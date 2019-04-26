@@ -1,16 +1,16 @@
-import { ContainerWorldItem } from './ContainerWorldItem';
-import { WorldItem } from './WorldItem';
+import { ContainerWorldItem } from '../ContainerWorldItem';
+import { WorldItem } from '../WorldItem';
 import { Mesh, MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
-import { VectorModel } from '../model/core/VectorModel';
-import { SimpleWorldItem } from './SimpleWorldItem';
+import { VectorModel } from '../../model/core/VectorModel';
+import { SimpleWorldItem } from '../SimpleWorldItem';
 import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
-import { GameConstants } from '../GameConstants';
-import { World } from '../model/World';
+import { GameConstants } from '../../GameConstants';
+import { World } from '../../model/World';
 import { Point } from 'game-worldmap-generator/build/model/Point';
-import { Border } from './Border';
+import { Border } from '../Border';
 const colors = GameConstants.colors;
 
-export class DefaultWall extends ContainerWorldItem implements Border {
+export class Wall extends ContainerWorldItem implements Border {
     private parentMesh: WorldItem;
     private rotation: VectorModel = new VectorModel(0, 0, 0);
     private static index = 0;
@@ -32,7 +32,7 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         wallSide2.parent = this;
     }
 
-    public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): DefaultWall {
+    public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Wall {
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
 
@@ -82,7 +82,7 @@ export class DefaultWall extends ContainerWorldItem implements Border {
 
         this.index++;
 
-        const wall = new DefaultWall(parent, wallSide1, wallSide2);
+        const wall = new Wall(parent, wallSide1, wallSide2);
         wall.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
 
         return wall;
@@ -168,7 +168,7 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         clonedChildren[0].mesh.wrappedMesh.visibility = true;
         clonedChildren[1].mesh.wrappedMesh.visibility = true;
 
-        return new DefaultWall(parentClone, clonedChildren[0], clonedChildren[1]);
+        return new Wall(parentClone, clonedChildren[0], clonedChildren[1]);
     }
 
     private static getWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {

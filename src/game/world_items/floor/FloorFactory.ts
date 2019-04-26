@@ -1,14 +1,14 @@
-import { GwmItemImporter } from './GwmItemImporter';
+import { GwmItemImporter } from '../../io/gwm_world_io/import/factories/GwmItemImporter';
 import { GwmWorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator } from 'babylonjs';
-import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { WorldItem } from '../../../../world_items/WorldItem';
-import { VectorModel } from '../../../../model/core/VectorModel';
-import { World } from '../../../../model/World';
-import { Room } from '../../../../world_items/room/Room';
+import { MeshTemplate } from '../../model/core/templates/MeshTemplate';
+import { WorldItemTranslator } from '../../io/gwm_world_io/import/factories/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { WorldItem } from '../WorldItem';
+import { VectorModel } from '../../model/core/VectorModel';
+import { World } from '../../model/World';
+import { Room } from '../room/Room';
 
-export class GwmFloorImporter implements GwmItemImporter {
+export class FloorFactory implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
