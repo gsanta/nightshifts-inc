@@ -10,7 +10,6 @@ import { FloorTemplateCreator } from '../templates/creators/FloorTemplateCreator
 import { Promise } from 'es6-promise';
 import { World } from '../../World';
 import { ModelFileLoader } from './ModelFileLoader';
-import { GwmWorldItem } from 'game-worldmap-generator';
 import { WorldItemToWorldCenterTranslatorDecorator } from '../../../io/gwm_world_io/import/factories/world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
 import { WorldItemToRealWorldCoordinateMapper } from '../../../io/gwm_world_io/import/factories/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { GwmWallImporter } from '../../../io/gwm_world_io/import/factories/GwmWallImporter';
@@ -62,7 +61,7 @@ export class MeshFactoryProducer {
         'models/player/material/3.jpg'
     ];
 
-    public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory<GwmWorldItem>> {
+    public getFactory(scene: Scene, world: World, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<MeshFactory> {
         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(1, new WorldItemToRealWorldCoordinateMapper(1));
 
         return this.getTemplateProducers(scene)

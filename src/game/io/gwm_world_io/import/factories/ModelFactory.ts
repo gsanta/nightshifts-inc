@@ -28,6 +28,7 @@ export class ModelFactory implements WorldItemFactory {
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const mesh =  this.mesh.clone(`${this.mesh.name}`);
+        mesh.isVisible = true;
         const meshModel = new SimpleWorldItem(mesh, worldItem.name);
 
         const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);

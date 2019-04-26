@@ -47,6 +47,7 @@ export class ModelFileLoader {
             m.checkCollisions = config.checkCollisions;
             m.receiveShadows = config.receiveShadows;
             m.scaling = toVector3(config.scaling);
+            m.isVisible = false;
         });
     }
 

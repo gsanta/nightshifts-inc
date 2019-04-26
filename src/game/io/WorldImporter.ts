@@ -2,7 +2,7 @@ import { World } from '../model/World';
 import { MeshFactory } from '../model/core/factories/MeshFactory';
 import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCamera, StandardMaterial } from 'babylonjs';
 import { Promise } from 'es6-promise';
-import { GwmWorldItem, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
+import { GwmWorldItem, TreeIteratorGenerator, TreeNode, defaultParseOptions, GwmWorldMapParser, generators } from 'game-worldmap-generator';
 import { Player } from '../world_items/Player';
 import { WorldItem } from '../world_items/WorldItem';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
@@ -10,19 +10,24 @@ import { ThermometerToolMesh } from '../tools/ThermometerToolMesh';
 import { FlashlightToolMesh } from '../tools/FlashlightToolMesh';
 import { GameConstants } from '../GameConstants';
 import { Room } from '../world_items/room/Room';
+import { parseJsonAdditionalData } from './gwm_world_io/import/AdditionalData';
+import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
+import { LightController } from '../actions/handlers/LightController';
+import { Vector2Model } from '../model/utils/Vector2Model';
+import { MeshFactoryProducer } from '../model/core/factories/MeshFactoryProducer';
 const colors = GameConstants.colors;
 
-export abstract class AbstractWorldImporter<T extends {name: string}> {
+export class WorldImporter {
     protected shadowGenerator: ShadowGenerator;
     protected hemisphericLight: HemisphericLight;
     protected nightLight: HemisphericLight;
     protected spotLight: SpotLight;
-    protected meshFactoryProducer: AbstractMeshFactoryProducer<T>;
-    protected meshFactory: MeshFactory<T>;
+    protected meshFactoryProducer: MeshFactoryProducer;
+    protected meshFactory: MeshFactory;
     protected scene: Scene;
     protected camera: FollowCamera;
 
-    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: AbstractMeshFactoryProducer<T>) {
+    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: MeshFactoryProducer) {
         this.scene = scene;
         this.meshFactoryProducer = meshFactoryProducer;
         this.spotLight = this.createSpotLight(scene);
@@ -32,11 +37,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
         this.camera = <FollowCamera> this.createCamera(scene, canvas);
     }
 
-    public abstract create(strWorld: string): Promise<World>;
-
-    protected abstract setMeshes(meshModelDescription: T[], meshFactory: MeshFactory<T>, world: World): void;
-
-    protected createMesh(meshModelDescription: T, meshFactory: MeshFactory<T>, world: World): WorldItem {
+    protected createMesh(meshModelDescription: GwmWorldItem, meshFactory: MeshFactory, world: World): WorldItem {
         switch (meshModelDescription.name) {
             case 'wall':
                 return meshFactory.createWall(meshModelDescription, world);
@@ -75,7 +76,7 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
     }
 
     //TODO: should produce world directly, not getting it through parameter
-    protected createWorld(rootWorldItem: T, world: World): World {
+    protected createWorld(rootWorldItem: GwmWorldItem, world: World): World {
         world.hemisphericLight = this.hemisphericLight;
         world.nightLight = this.nightLight;
         world.spotLight = this.spotLight;
@@ -159,5 +160,72 @@ export abstract class AbstractWorldImporter<T extends {name: string}> {
             door: doorMaterial,
             doorClosed: doorClosedMaterial
         };
+    }
+
+    public create(strWorld: string): Promise<World> {
+
+        const options = {...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}};
+        const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E'];
+        const roomSeparatorCharacters = ['W', 'D', 'I'];
+
+        const worldItems = GwmWorldMapParser.createWithCustomWorldItemGenerator(
+            new generators.AdditionalDataConvertingWorldItemDecorator(
+                new generators.StretchRoomsSoTheyJoinWorldItemGeneratorDecorator(
+                    new generators.BorderItemAddingWorldItemGeneratorDecorator(
+                        new generators.HierarchyBuildingWorldItemGeneratorDecorator(
+                            new generators.BorderItemSegmentingWorldItemGeneratorDecorator(
+                                new generators.ScalingWorldItemGeneratorDecorator(
+                                    new generators.CombinedWorldItemGenerator(
+                                        [
+                                            new generators.PolygonAreaInfoGenerator('empty', '#'),
+                                            new generators.FurnitureInfoGenerator(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
+                                            new generators.RoomSeparatorGenerator(roomSeparatorCharacters),
+                                            new generators.RoomInfoGenerator(),
+                                            new generators.RootWorldItemGenerator()
+                                        ]
+                                    ),
+                                    { x: options.xScale, y: options.yScale }
+                                ),
+                                ['wall', 'door', 'window'],
+                                { xScale: options.xScale, yScale: options.yScale }
+                            )
+                        ),
+                        ['wall', 'door', 'window'],
+                        { xScale: options.xScale, yScale: options.yScale }
+                    ),
+                    { xScale: options.xScale, yScale: options.yScale }
+                ),
+                options.additionalDataConverter
+            )
+        )
+        .parse(strWorld);
+
+
+        let world = new World();
+
+        world.lightController = new LightController(this.hemisphericLight);
+        world.dimensions = new Vector2Model(worldItems[0].dimensions.width, worldItems[0].dimensions.height);
+        world.camera = this.camera;
+
+        return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
+            .then(meshFactory => {
+
+                this.meshFactory = meshFactory;
+
+                world = this.createWorld(worldItems[0], world);
+
+                // world.rooms = [this.createRoom(rooms[0], world, meshFactory)];
+
+                // world.rooms = rooms.map(polygon => this.createRoom(polygon, world, meshFactory));
+                return world;
+            });
+    }
+
+    protected setMeshes(worldItems: GwmWorldItem[], meshFactory: MeshFactory, world: World): void {
+        const meshes = worldItems.map(worldItem => this.createMesh(worldItem, meshFactory, world));
+
+        world.gameObjects = meshes;
+        world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
+        world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
     }
 }
