@@ -19,6 +19,7 @@ export class GwmWallImporter implements GwmItemImporter {
         const wall = <ContainerWorldItem> DefaultWall.fromGwmWorldItem(worldItem, this.scene, world);
 
         this.shadowGenerator.getShadowMap().renderList.push(wall.children[0].mesh);
+        this.shadowGenerator.getShadowMap().renderList.push(wall.children[1].mesh);
 
         return wall;
     }

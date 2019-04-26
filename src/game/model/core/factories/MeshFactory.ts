@@ -43,7 +43,7 @@ export class MeshFactory {
     }
 
     public createTable(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.factories.table.createItem(itemInfo, world);
+        return this.worldItemFactoryMap.get('table').createItem(itemInfo, world);
     }
 
     public createBathtub(itemInfo: GwmWorldItem, world: World): WorldItem {
@@ -60,5 +60,9 @@ export class MeshFactory {
 
     public createRoom(itemInfo: GwmWorldItem, world: World): WorldItem {
         return this.factories.room.createItem(itemInfo, world);
+    }
+
+    public createEmptyArea(itemInfo: GwmWorldItem, world: World): WorldItem {
+        return this.worldItemFactoryMap.get('empty').createItem(itemInfo, world);
     }
 }
