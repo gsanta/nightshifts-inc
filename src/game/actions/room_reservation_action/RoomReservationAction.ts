@@ -4,7 +4,6 @@ import { Room } from '../../world/world_items/room/Room';
 import { ActionHandler } from '../ActionHandler';
 import { Door } from '../../world/world_items/door/Door';
 
-
 export class RoomReservationAction implements ActionHandler {
     private reservedRooms: Room[] = [];
 

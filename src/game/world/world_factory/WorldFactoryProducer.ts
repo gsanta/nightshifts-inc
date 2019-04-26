@@ -120,10 +120,10 @@ export class WorldFactoryProducer {
             ),
             modelFileLoader.load(
                 'bathtub',
-                this.FURITURE_2_BASE_PATH,
-                this.CUPBOARD_MODEL_FILE,
-                [this.FURNITURE_2_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+                this.FURITURE_3_BASE_PATH,
+                this.BATHTUB_MODEL_FILE,
+                [this.FURNITURE_3_MATERIAL],
+                {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
             ),
             modelFileLoader.load(
                 'washbasin',
