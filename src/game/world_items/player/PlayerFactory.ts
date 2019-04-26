@@ -1,19 +1,19 @@
-import { GwmItemImporter } from './GwmItemImporter';
+import { GwmItemImporter } from '../../io/gwm_world_io/import/factories/GwmItemImporter';
 import { GwmWorldItem } from 'game-worldmap-generator';
 import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
-import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { World } from '../../../../model/World';
-import { WorldItem } from '../../../../world_items/WorldItem';
-import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { UserInputEventEmitter } from '../../../../interactions/motion/UserInputEventEmitter';
-import { Player } from '../../../../world_items/Player';
-import { ActionStrategy } from '../../../../interactions/action/ActionStrategy';
-import { CollisionDetector } from '../../../../interactions/collision/CollisionDetector';
-import { ManualMotionStrategy } from '../../../../interactions/motion/ManualMotionStrategy';
-import { EyeSensor } from '../../../../interactions/sensor/EyeSensor';
+import { MeshTemplate } from '../../model/core/templates/MeshTemplate';
+import { WorldItemTranslator } from '../../io/gwm_world_io/import/factories/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { World } from '../../model/World';
+import { WorldItem } from '../WorldItem';
+import { VectorModel, toVector3 } from '../../model/core/VectorModel';
+import { UserInputEventEmitter } from '../../interactions/motion/UserInputEventEmitter';
+import { Player } from './Player';
+import { ActionStrategy } from '../../interactions/action/ActionStrategy';
+import { CollisionDetector } from '../../interactions/collision/CollisionDetector';
+import { ManualMotionStrategy } from '../../interactions/motion/ManualMotionStrategy';
+import { EyeSensor } from '../../interactions/sensor/EyeSensor';
 
-export class GwmPlayerImporter implements GwmItemImporter {
+export class PlayerFactory implements GwmItemImporter {
     private meshModelTemplate: MeshTemplate;
     private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;

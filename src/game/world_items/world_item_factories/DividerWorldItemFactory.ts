@@ -5,7 +5,7 @@ import { Point } from 'game-worldmap-generator/build/model/Point';
 import { SimpleWorldItem } from '../SimpleWorldItem';
 import { WorldItem } from '../WorldItem';
 import { VectorModel } from '../../model/core/VectorModel';
-import { Door } from '../Door';
+import { Door } from '../door/Door';
 
 
 export class DividerWorldItemFactory {

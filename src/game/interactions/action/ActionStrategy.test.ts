@@ -1,4 +1,4 @@
-import { Player } from '../../world_items/Player';
+import { Player } from '../../world_items/player/Player';
 import { VectorModel } from '../../model/core/VectorModel';
 import { WorldItem } from '../../world_items/WorldItem';
 import { World } from '../../model/World';

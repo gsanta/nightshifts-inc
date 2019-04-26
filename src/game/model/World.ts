@@ -1,6 +1,6 @@
 import { WorldItem } from '../world_items/WorldItem';
 import { Enemy } from '../world_items/Enemy';
-import { Player } from '../world_items/Player';
+import { Player } from '../world_items/player/Player';
 import { LightController } from '../actions/handlers/LightController';
 import { Vector2Model } from './utils/Vector2Model';
 import { FollowCamera, Light, SpotLight, StandardMaterial } from 'babylonjs';

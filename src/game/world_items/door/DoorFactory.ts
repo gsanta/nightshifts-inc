@@ -1,14 +1,12 @@
-import { GwmItemImporter } from './GwmItemImporter';
 import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmItemImporter } from '../../io/gwm_world_io/import/factories/GwmItemImporter';
 import { ShadowGenerator, Scene } from 'babylonjs';
-import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { AdditionalData } from '../AdditionalData';
-import { WorldItem } from '../../../../world_items/WorldItem';
-import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
-import { Door } from '../../../../world_items/Door';
-import { World } from '../../../../model/World';
+import { AdditionalData } from '../../io/gwm_world_io/import/AdditionalData';
+import { World } from '../../model/World';
+import { WorldItem } from '../WorldItem';
+import { Door } from './Door';
 
-export class GwmDoorImporter implements GwmItemImporter {
+export class DoorFactory implements GwmItemImporter {
     private shadowGenerator: ShadowGenerator;
     private scene: Scene;
 

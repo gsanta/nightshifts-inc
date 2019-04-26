@@ -1,11 +1,11 @@
-import { WorldItemFactory } from '../../../../model/core/factories/WorldItemFactory';
+import { WorldItemFactory } from '../../model/core/factories/WorldItemFactory';
 import { GwmWorldItem } from 'game-worldmap-generator';
-import { World } from '../../../../model/World';
-import { WorldItem } from '../../../../world_items/WorldItem';
+import { World } from '../../model/World';
+import { WorldItem } from '../WorldItem';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { Vector3, Scene, StandardMaterial } from 'babylonjs';
-import { SimpleWorldItem } from '../../../../world_items/SimpleWorldItem';
-import { GameConstants } from '../../../../GameConstants';
+import { SimpleWorldItem } from '../SimpleWorldItem';
+import { GameConstants } from '../../GameConstants';
 const colors = GameConstants.colors;
 
 export class EmptyAreaFactory implements WorldItemFactory {
