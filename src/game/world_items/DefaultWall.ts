@@ -57,6 +57,7 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         const mesh1 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 5 }, scene);
 
         mesh1.parent = parentMesh;
+        mesh1.receiveShadows = true;
 
         const wallSide1 = new SimpleWorldItem(mesh1, 'wall');
         wallSide1.mesh.material = material;
@@ -65,6 +66,7 @@ export class DefaultWall extends ContainerWorldItem implements Border {
         const mesh2 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 5  }, scene);
 
         mesh2.parent = parentMesh;
+        mesh2.receiveShadows = true;
 
         const wallSide2 = new SimpleWorldItem(mesh2, 'wall');
         wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));

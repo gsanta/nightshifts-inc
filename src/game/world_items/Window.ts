@@ -45,6 +45,7 @@ export class WindowGlass extends ContainerWorldItem {
         );
 
         middle1.material = this.createMaterial(scene);
+        middle1.receiveShadows = true;
 
         return new SimpleWorldItem(middle1, '');
     }
@@ -97,6 +98,7 @@ class WindowFrame extends ContainerWorldItem {
         );
 
         mesh.material = this.createMaterial(scene);
+        mesh.receiveShadows = true;
 
         return new SimpleWorldItem(mesh, '');
     }
@@ -128,7 +130,7 @@ export class Window extends ContainerWorldItem implements Border {
     public isOpen: boolean;
     private pivotAngle: number;
     private isHorizontal = true;
-    public sides: [WorldItem, WorldItem];
+    public sides: [ContainerWorldItem, ContainerWorldItem];
 
     private pivot1: VectorModel;
     private pivot2: VectorModel;

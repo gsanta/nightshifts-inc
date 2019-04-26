@@ -62,7 +62,7 @@ export class WorldImporter {
             case 'room':
                 return meshFactory.createRoom(meshModelDescription, world);
             case 'empty':
-                return meshFactory.createRoom(meshModelDescription, world);
+                return meshFactory.createEmptyArea(meshModelDescription, world);
             default:
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);
         }
@@ -131,7 +131,7 @@ export class WorldImporter {
     }
 
     private createSpotLight(scene: Scene): SpotLight {
-        const spotLight = new BABYLON.SpotLight('spotLight', new BABYLON.Vector3(0, 5, 1), new BABYLON.Vector3(0, 0.5, -5), Math.PI / 4, 1, scene);
+        const spotLight = new BABYLON.SpotLight('spotLight', new BABYLON.Vector3(0, 7, 1), new BABYLON.Vector3(0, 0, -5), Math.PI / 4, 3, scene);
         spotLight.diffuse = new BABYLON.Color3(1, 1, 1);
         spotLight.setEnabled(false);
         return spotLight;
@@ -177,10 +177,10 @@ export class WorldImporter {
                                 new generators.ScalingWorldItemGeneratorDecorator(
                                     new generators.CombinedWorldItemGenerator(
                                         [
-                                            new generators.PolygonAreaInfoGenerator('empty', '#'),
                                             new generators.FurnitureInfoGenerator(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
                                             new generators.RoomSeparatorGenerator(roomSeparatorCharacters),
                                             new generators.RoomInfoGenerator(),
+                                            new generators.PolygonAreaInfoGenerator('empty', '#'),
                                             new generators.RootWorldItemGenerator()
                                         ]
                                     ),

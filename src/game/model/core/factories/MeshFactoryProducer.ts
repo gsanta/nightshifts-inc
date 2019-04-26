@@ -21,6 +21,7 @@ import { GwmStaticItemImporter } from '../../../io/gwm_world_io/import/factories
 import { GwmRoomImporter } from '../../../io/gwm_world_io/import/factories/GwmRoomImporter';
 import { WorldItemFactory } from './WorldItemFactory';
 import { ModelFactory } from '../../../io/gwm_world_io/import/factories/ModelFactory';
+import { EmptyAreaFactory } from '../../../io/gwm_world_io/import/factories/EmptyAreaFactory';
 
 interface MeshMap<V> {
     wall: WallTemplateCreator;
@@ -71,9 +72,13 @@ export class MeshFactoryProducer {
                     .then(meshTemplateStore => {
 
                         const bedFactory = new ModelFactory(meshTemplateStore.get('bed'), gameObjectTranslator, shadowGenerator);
+                        const tableFactory = new ModelFactory(meshTemplateStore.get('table'), gameObjectTranslator, shadowGenerator);
+                        const emptyAreaFactory = new EmptyAreaFactory(scene);
 
                         const map: Map<string, WorldItemFactory> = new Map();
                         map.set('bed', bedFactory);
+                        map.set('empty', emptyAreaFactory);
+                        map.set('table', tableFactory);
 
                         return new MeshFactory(
                             map,
@@ -82,7 +87,7 @@ export class MeshFactoryProducer {
                                 door: new GwmDoorImporter(scene, shadowGenerator),
                                 player: new GwmPlayerImporter(meshMap.player.create(world), gameObjectTranslator, scene, shadowGenerator, spotLight),
                                 floor: new GwmFloorImporter(meshMap.floor.create(world), gameObjectTranslator, shadowGenerator),
-                                window: new GwmWindowImporter(scene),
+                                window: new GwmWindowImporter(scene, shadowGenerator),
                                 cupboard: new GwmStaticItemImporter(meshMap.cupboard.create(world), gameObjectTranslator, shadowGenerator),
                                 table: new GwmStaticItemImporter(meshMap.table.create(world), gameObjectTranslator, shadowGenerator),
                                 bathtub: new GwmStaticItemImporter(meshMap.bathtub.create(world), gameObjectTranslator, shadowGenerator),
@@ -105,6 +110,13 @@ export class MeshFactoryProducer {
                 this.FURNITURE_1_BASE_PATH,
                 this.BED_MODEL_FILE,
                 [this.FURNITURE_1_MATERIAL],
+                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+            ),
+            modelFileLoader.load(
+                'table',
+                this.FURITURE_2_BASE_PATH,
+                this.TABLE_MODEL_FILE,
+                [this.FURNITURE_2_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
             )
         ])

@@ -56,6 +56,7 @@ export class DividerWorldItemFactory {
 
         mesh.parent = container.mesh;
         mesh.material = this.material;
+        mesh.receiveShadows = true;
 
         const item = new SimpleWorldItem(mesh, name);
 
