@@ -3,7 +3,7 @@ import { Scene, StandardMaterial, Mesh } from 'babylonjs';
 import { MeshTemplate } from '../MeshTemplate';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { GameConstants } from '../../../../GameConstants';
-import { World } from '../../../World';
+import { World } from '../../../../world/World';
 
 const colors = GameConstants.colors;
 

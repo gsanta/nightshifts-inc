@@ -1,6 +1,6 @@
-import { Player } from '../../world_items/player/Player';
-import { World } from '../../model/World';
-import { WorldItem } from '../../world_items/WorldItem';
+import { Player } from '../../world/world_items/player/Player';
+import { World } from '../../world/World';
+import { WorldItem } from '../../world/world_items/WorldItem';
 import { VectorModel } from '../../model/core/VectorModel';
 
 

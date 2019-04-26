@@ -1,4 +1,4 @@
-import { World } from '../../model/World';
+import { World } from '../../world/World';
 import { GameActionType } from '../GameActionType';
 import { Tool } from '../../tools/Tool';
 import { ToolMesh } from '../../tools/ToolMesh';

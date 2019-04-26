@@ -1,5 +1,5 @@
 import { ActionDispatcher } from './ActionDispatcher';
-import { World } from '../model/World';
+import { World } from '../world/World';
 import * as sinon from 'sinon';
 import { ActionHandler } from './ActionHandler';
 import { GameActionType } from './GameActionType';

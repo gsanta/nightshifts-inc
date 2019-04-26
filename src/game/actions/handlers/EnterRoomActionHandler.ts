@@ -1,5 +1,5 @@
-import { Room } from '../../world_items/room/Room';
-import { World } from '../../model/World';
+import { Room } from '../../world/world_items/room/Room';
+import { World } from '../../world/World';
 import { GameActionType } from '../GameActionType';
 import { ActionDispatcher } from '../ActionDispatcher';
 import { ActionHandler } from '../ActionHandler';

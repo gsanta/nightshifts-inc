@@ -2,16 +2,16 @@ import * as React from 'react';
 import { GameEngine } from '../../../game/GameEngine';
 import {connect} from 'react-redux';
 import { AppState } from '../../state/app/AppState';
-import { World } from '../../../game/model/World';
+import { World } from '../../../game/world/World';
 import UpdateWorldActions from '../../state/game/actions/UpdateWorldActions';
 import GetWorldActions from '../../state/game/actions/GetWorldActions';
 import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 import colors from '../miscellaneous/colors';
 import { Color4 } from 'babylonjs';
 import SetWorldAction from '../../state/game/actions/SetWorldAction';
-import { MeshFactoryProducer } from '../../../game/model/core/factories/MeshFactoryProducer';
-import { JsonWorldSchema } from '../../../game/io/json_world_io/import/JsonWorldSchema';
-import { WorldImporter } from '../../../game/io/WorldImporter';
+import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFactoryProducer';
+import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchema';
+import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -59,7 +59,7 @@ class Game extends React.Component<GameProps, GameState> {
         });
 
         // const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
-        const worldGenerator = new WorldImporter(scene, canvas, new MeshFactoryProducer());
+        const worldGenerator = new WorldImporter(scene, canvas, new WorldFactoryProducer());
         worldGenerator
             .create(gwmGameWorldMap)
             .then((world) => {
