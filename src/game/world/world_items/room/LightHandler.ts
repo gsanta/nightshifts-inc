@@ -1,31 +1,37 @@
 import { Light } from 'babylonjs';
 import { WorldItem } from '../WorldItem';
+import { Room } from './Room';
+import { World } from '../../World';
 
 
 export class LightHandler {
-    private light: Light;
 
-    constructor(light: Light) {
-        this.light = light;
+    enableLight(room: Room, world: World) {
+        const items = [room, ...room.children, ...room.neighbours];
+        items.forEach(item => this.excludeMeshesForWorldItem(item, world));
     }
 
-    enableLight(worldItem: WorldItem) {
+    private excludeMeshesForWorldItem(worldItem: WorldItem, world: World) {
         worldItem.getAllMeshes().forEach(mesh => {
-            const index = this.light.excludedMeshes.indexOf(mesh);
+            const index = world.hemisphericLight.excludedMeshes.indexOf(mesh);
 
             if (index !== -1) {
-                this.light.excludedMeshes.splice(index, 1);
+                world.hemisphericLight.excludedMeshes.splice(index, 1);
             }
         });
     }
 
-    disableLight(worldItem: WorldItem) {
+    disableLight(room: Room, world: World) {
+        const items = [room, ...room.children, ...room.neighbours];
+        items.forEach(item => this.includeMeshesForWorldItem(item, world));
+    }
 
+    private includeMeshesForWorldItem(worldItem: WorldItem, world: World) {
         worldItem.getAllMeshes().forEach(mesh => {
-            const index = this.light.excludedMeshes.indexOf(mesh);
+            const index = world.hemisphericLight.excludedMeshes.indexOf(mesh);
 
             if (index === -1) {
-                this.light.excludedMeshes.push(mesh);
+                world.hemisphericLight.excludedMeshes.push(mesh);
             }
         });
     }

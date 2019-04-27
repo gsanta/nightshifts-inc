@@ -29,6 +29,10 @@ class App extends React.Component<any, AppComponentState> {
             props.history.push('/inventory');
         });
 
+        Mousetrap.bind('shift+d', () => {
+            props.history.push('/debug');
+        });
+
         this.state = {
             user: null
         };

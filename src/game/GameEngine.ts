@@ -40,7 +40,7 @@ export class GameEngine {
 
         setTimeout(
             () => {
-                this.actionDispatcher.registerActionHandler(new ActiveRoomLightingActionHandler(new LightHandler(this.world.hemisphericLight)));
+                this.actionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());
                 this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
                 this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
                 this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));

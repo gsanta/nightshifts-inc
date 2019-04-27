@@ -16,21 +16,25 @@ export class EnterRoomActionHandler implements ActionHandler {
     public handle(type: string, world: World) {
         switch (type) {
             case GameActionType.NEXT_TICK:
-                this.dispatchEventIfRoomChanged(world);
+                const activeRoom = this.getActiveRoom(world);
+
+                if (activeRoom !== this.prevRoom) {
+                    if (this.prevRoom) {
+                        this.prevRoom.isActive = false;
+                    }
+                    this.prevRoom = activeRoom;
+                    activeRoom.isActive = true;
+                    this.actionDispatcher.dispatch(GameActionType.ENTER_ROOM, activeRoom);
+                }
                 break;
             default:
                 break;
         }
     }
 
-    private dispatchEventIfRoomChanged(world: World) {
+    private getActiveRoom(world: World): Room {
         const rooms = world.worldItems.filter(gameObj => gameObj.name === 'room');
 
-        const intersectingRoom = <Room> rooms.filter(room => room.mesh.intersectsMesh(world.player.mesh))[0];
-
-        if (intersectingRoom !== this.prevRoom) {
-            this.prevRoom = intersectingRoom;
-            this.actionDispatcher.dispatch(GameActionType.ENTER_ROOM, intersectingRoom);
-        }
+        return <Room> rooms.filter(room => room.mesh.intersectsMesh(world.player.mesh))[0];
     }
 }

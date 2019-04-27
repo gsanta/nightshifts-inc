@@ -15,6 +15,7 @@ export class Room extends ContainerWorldItem {
     public name: string;
     private boundingPolygon: Polygon;
     public temperature = 20 + Math.floor(Math.random() * 10);
+    public isActive: boolean;
 
     constructor(mesh: Mesh, boundingPolygon: Polygon, name: string) {
         super([]);

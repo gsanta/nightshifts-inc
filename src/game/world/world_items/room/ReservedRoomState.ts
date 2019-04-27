@@ -17,7 +17,7 @@ export class ReservedRoomState extends RoomState {
         super();
 
         this.world = world;
-        this.lightHandler = new LightHandler(world.hemisphericLight);
+        this.lightHandler = new LightHandler();
         this.doorMaterial = world.materials.doorClosed;
     }
 
@@ -69,6 +69,6 @@ export class ReservedRoomState extends RoomState {
     private disableLightForRoom(room: Room) {
         const items = [room, ...room.children, ...room.neighbours];
 
-        items.forEach(item => this.lightHandler.disableLight(item));
+        // items.forEach(item => this.lightHandler.disableLight(item));
     }
 }
