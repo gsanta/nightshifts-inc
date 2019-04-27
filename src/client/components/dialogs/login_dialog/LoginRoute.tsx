@@ -1,12 +1,12 @@
-import { AppState } from '../../../state/app/AppState';
+import { AppState } from '../../../state/app_state/AppState';
 import { connect } from 'react-redux';
 import LoginDialog from './LoginDialog';
 import * as React from 'react';
-import LoginFacebookActions from '../../../state/user/actions/LoginFacebookActions';
-import { User } from '../../../state/user/User';
-import LoginActions from '../../../state/user/actions/LoginActions';
+import LoginFacebookActions from '../../../state/user_state/user_actions/LoginFacebookActions';
+import { User } from '../../../state/user_state/user_model/User';
+import LoginActions from '../../../state/user_state/user_actions/LoginActions';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
-import LoginWithTemporaryUserActions from '../../../state/user/actions/LoginWithTemporaryUserActions';
+import LoginWithTemporaryUserActions from '../../../state/user_state/user_actions/LoginWithTemporaryUserActions';
 
 const mapStateToProps = (state: AppState) => {
     return {

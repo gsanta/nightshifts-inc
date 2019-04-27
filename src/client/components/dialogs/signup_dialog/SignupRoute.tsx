@@ -1,10 +1,10 @@
-import { AppState } from '../../../state/app/AppState';
+import { AppState } from '../../../state/app_state/AppState';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import SignupDialog from '../../dialogs/signup_dialog/SignupDialog';
-import { User } from '../../../state/user/User';
-import LoginFacebookActions from '../../../state/user/actions/LoginFacebookActions';
-import SignupActions from '../../../state/user/actions/SignupActions';
+import { User } from '../../../state/user_state/user_model/User';
+import LoginFacebookActions from '../../../state/user_state/user_actions/LoginFacebookActions';
+import SignupActions from '../../../state/user_state/user_actions/SignupActions';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 
 const mapStateToProps = (state: AppState) => {

@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import colors from '../miscellaneous/colors';
-import { User } from '../../state/user/User';
+import { User } from '../../state/user_state/user_model/User';
 import { withStyles } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from 'react-redux';
-import { AppState } from '../../state/app/AppState';
-import SignoutActions from '../../state/user/actions/SignoutActions';
+import { AppState } from '../../state/app_state/AppState';
+import SignoutActions from '../../state/user_state/user_actions/SignoutActions';
 import SignoutIcon from '../icons/SignoutIcon';
 import SettingsIcon from '../icons/SettingsIcon';
 

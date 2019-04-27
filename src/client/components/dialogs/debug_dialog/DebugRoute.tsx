@@ -1,6 +1,6 @@
 import { RouteComponentProps, withRouter } from 'react-router';
-import { AppState } from '../../../state/app/AppState';
-import TurnOnAllLigthsActions from '../../../state/game/actions/debug_actions/TurnOnAllLigthsActions';
+import { AppState } from '../../../state/app_state/AppState';
+import TurnOnAllLigthsActions from '../../../state/debug_state/debug_actions/TurnOnAllLigthsActions';
 import DebugDialog, { DebugDialogProps } from './DebugDialog';
 import { connect } from 'react-redux';
 import React = require('react');

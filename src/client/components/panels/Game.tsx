@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { GameEngine } from '../../../game/GameEngine';
 import {connect} from 'react-redux';
-import { AppState } from '../../state/app/AppState';
+import { AppState } from '../../state/app_state/AppState';
 import { World } from '../../../game/world/World';
-import UpdateWorldActions from '../../state/game/actions/UpdateWorldActions';
-import GetWorldActions from '../../state/game/actions/GetWorldActions';
+import UpdateWorldActions from '../../state/world_state/world_actions/UpdateWorldActions';
+import GetWorldActions from '../../state/world_state/world_actions/GetWorldActions';
 import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 import colors from '../miscellaneous/colors';
 import { Color4 } from 'babylonjs';
-import SetWorldAction from '../../state/game/actions/SetWorldAction';
+import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
 import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFactoryProducer';
 import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchema';
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';

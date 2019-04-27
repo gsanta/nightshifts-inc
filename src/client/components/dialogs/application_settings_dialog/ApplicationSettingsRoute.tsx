@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { AppState } from '../../../state/app/AppState';
+import { AppState } from '../../../state/app_state/AppState';
 import ApplicationSettingsDialog from './ApplicationSettingsDialog';
 import * as React from 'react';
-import { User } from '../../../state/user/User';
+import { User } from '../../../state/user_state/user_model/User';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
-import UpdatePasswordActions from '../../../state/user/actions/UpdatePasswordActions';
-import UpdateUserActions from '../../../state/user/actions/UpdateUserActions';
+import UpdatePasswordActions from '../../../state/user_state/user_actions/UpdatePasswordActions';
+import UpdateUserActions from '../../../state/user_state/user_actions/UpdateUserActions';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const mapStateToProps = (state: AppState) => {

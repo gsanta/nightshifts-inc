@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect, Provider } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
-import { AppStore } from '../../state/app/AppStore';
-import { AppLoadingState, AppState } from '../../state/app/AppState';
-import { User } from '../../state/user/User';
+import { AppStore } from '../../state/app_state/AppStore';
+import { AppLoadingState, AppState } from '../../state/app_state/AppState';
+import { User } from '../../state/user_state/user_model/User';
 import { ApplicationSettingsRoute } from '../dialogs/application_settings_dialog/ApplicationSettingsRoute';
 import Game from './Game';
 import Header from './Header';
