@@ -10,7 +10,8 @@ describe('LightHandler', () => {
             const mesh = sinon.spy();
 
             const worldItemMock: Partial<WorldItem> = {
-                mesh: <any> mesh
+                mesh: <any> mesh,
+                getAllMeshes: () => [<any> mesh]
             };
 
             const lightMock: Partial<Light> = {
@@ -30,7 +31,8 @@ describe('LightHandler', () => {
             const mesh = sinon.spy();
 
             const worldItemMock: Partial<WorldItem> = {
-                mesh: <any> mesh
+                mesh: <any> mesh,
+                getAllMeshes: () => [<any> mesh]
             };
 
             const lightMock: Partial<Light> = {

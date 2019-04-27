@@ -10,6 +10,7 @@ import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLi
 import { TimeActionHandler } from './actions/handlers/TimeActionHandler';
 import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandler';
 import { ActiveEnemiesActionHandler } from './actions/active_enemies_action/ActiveEnemiesActionHandler';
+import { LightHandler } from './world/world_items/room/LightHandler';
 
 export class GameEngine {
     private scene: Scene;
@@ -39,7 +40,7 @@ export class GameEngine {
 
         setTimeout(
             () => {
-                this.actionDispatcher.registerActionHandler(new ActiveRoomLightingActionHandler());
+                this.actionDispatcher.registerActionHandler(new ActiveRoomLightingActionHandler(new LightHandler(this.world.hemisphericLight)));
                 this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
                 this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
                 this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));

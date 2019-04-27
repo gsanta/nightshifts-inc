@@ -4,7 +4,7 @@ import _ = require('lodash');
 type TIME_OF_DAY = {
     range: [number, number];
     lightIntensity: number;
-}
+};
 
 export class LightController {
     private hemisphericLight: HemisphericLight;

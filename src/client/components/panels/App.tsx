@@ -9,8 +9,9 @@ import Game from './Game';
 import Header from './Header';
 import { InventoryRoute } from '../dialogs/inventory_dialog/InventoryRoute';
 import { LoginRoute } from '../dialogs/login_dialog/LoginRoute';
-import { SignupRoute } from '../routes/signup_route/SignupRoute';
 import * as Mousetrap from 'mousetrap';
+import { SignupRoute } from '../dialogs/signup_dialog/SignupRoute';
+import { DebugRoute } from '../dialogs/debug_dialog/DebugRoute';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -48,6 +49,7 @@ class App extends React.Component<any, AppComponentState> {
                 <Route exact path="/inventory" component={InventoryRoute}/>
                 <Route exact path="/login" component={LoginRoute}/>
                 <Route exact path="/signup" component={SignupRoute}/>
+                <Route exact path="/debug" component={DebugRoute}/>
             </div>
         );
     }

@@ -49,7 +49,9 @@ export enum ActionType {
     UPDATE_GAME_FAILURE = 'UPDATE_GAME_FAILURE',
 
     GRAB_TOOL = 'GRAB_TOOL',
-    RELEASE_TOOL = 'RELEASE_TOOL'
+    RELEASE_TOOL = 'RELEASE_TOOL',
+
+    DEBUG_TURN_ON_ALL_LIGHTS = 'DEBUG_TURN_ON_ALL_LIGHTS'
 }
 
 export interface WatchableAction<T> {
