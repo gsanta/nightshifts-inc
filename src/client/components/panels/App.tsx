@@ -4,7 +4,7 @@ import { Redirect, Route, withRouter } from 'react-router-dom';
 import { AppStore } from '../../state/app/AppStore';
 import { AppLoadingState, AppState } from '../../state/app/AppState';
 import { User } from '../../state/user/User';
-import { ApplicationSettingsRoute } from '../routes/application_settings_route/ApplicationSettingsRoute';
+import { ApplicationSettingsRoute } from '../dialogs/application_settings_dialog/ApplicationSettingsRoute';
 import Game from './Game';
 import Header from './Header';
 import { InventoryRoute } from '../routes/inventory_route/InventoryRoute';

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { AppState } from '../../../state/app/AppState';
-import ApplicationSettingsDialog from '../../dialogs/application_settings_dialog/ApplicationSettingsDialog';
+import ApplicationSettingsDialog from './ApplicationSettingsDialog';
 import * as React from 'react';
 import { User } from '../../../state/user/User';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
