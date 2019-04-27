@@ -1,6 +1,6 @@
 import { AppState } from '../../../state/app/AppState';
 import { connect } from 'react-redux';
-import LoginDialog from '../../dialogs/login_dialog/LoginDialog';
+import LoginDialog from './LoginDialog';
 import * as React from 'react';
 import LoginFacebookActions from '../../../state/user/actions/LoginFacebookActions';
 import { User } from '../../../state/user/User';

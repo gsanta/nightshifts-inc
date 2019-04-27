@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Tool } from '../../../../game/tools/Tool';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
-import InventoryDialog, { InventoryDialogProps } from '../../dialogs/inventory_dialog/InventoryDialog';
+import InventoryDialog, { InventoryDialogProps } from './InventoryDialog';
 import ReleaseToolActions from '../../../state/game/actions/ReleaseToolActions';
 
 const mapStateToProps = (state: AppState) => {

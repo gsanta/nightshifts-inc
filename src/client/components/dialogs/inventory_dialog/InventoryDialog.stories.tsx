@@ -4,7 +4,7 @@ import InventoryDialog from './InventoryDialog';
 import ProviderWrapper from '../../../ProviderWrapper';
 import { AppStore } from '../../../state/app/AppStore';
 import { ThermometerTool } from '../../../../game/tools/ThermometerTool';
-import { InventoryRoute } from '../../routes/inventory_route/InventoryRoute';
+import { InventoryRoute } from './InventoryRoute';
 
 const withProvider = (story) => (
   <ProviderWrapper store={AppStore}>

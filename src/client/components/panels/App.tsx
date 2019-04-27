@@ -7,8 +7,8 @@ import { User } from '../../state/user/User';
 import { ApplicationSettingsRoute } from '../dialogs/application_settings_dialog/ApplicationSettingsRoute';
 import Game from './Game';
 import Header from './Header';
-import { InventoryRoute } from '../routes/inventory_route/InventoryRoute';
-import { LoginRoute } from '../routes/login_route/LoginRoute';
+import { InventoryRoute } from '../dialogs/inventory_dialog/InventoryRoute';
+import { LoginRoute } from '../dialogs/login_dialog/LoginRoute';
 import { SignupRoute } from '../routes/signup_route/SignupRoute';
 import * as Mousetrap from 'mousetrap';
 
