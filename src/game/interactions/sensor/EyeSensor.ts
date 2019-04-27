@@ -1,7 +1,7 @@
 import { Scene } from 'babylonjs';
 import { Sensor } from './Sensor';
 import { Player } from '../../world/world_items/player/Player';
-import { Enemy } from '../../world/world_items/Enemy';
+import { Enemy } from '../../world/world_items/enemy/Enemy';
 import { VectorModel } from '../../model/core/VectorModel';
 import { RayCaster } from '../collision/RayCaster';
 

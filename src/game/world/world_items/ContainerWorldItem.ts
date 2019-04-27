@@ -50,6 +50,7 @@ export class ContainerWorldItem implements WorldItem {
     }
 
     public getCenterPosition() {
+
         const position = this.containerMesh.getAbsolutePosition();
         return new VectorModel(position.x, position.y, position.z);
     }

@@ -1,4 +1,4 @@
-import { Creature } from './Creature';
+import { Creature } from '../Creature';
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
 declare const DEBUG;
 

@@ -20,6 +20,7 @@ import { WorldItemFactory } from './WorldItemFactory';
 import { ModelFactory } from './ModelFactory';
 import { EmptyAreaFactory } from '../world_items/empty_area/EmptyAreaFactory';
 import { DoorFactory } from '../world_items/door/DoorFactory';
+import { EnemyFactory } from '../world_items/enemy/EnemyFactory';
 
 interface MeshMap<V> {
     player: V;
@@ -78,6 +79,7 @@ export class WorldFactoryProducer {
                         map.set('washbasin', washbasinFactory);
 
                         return new WorldFactory(
+                            new EnemyFactory(scene),
                             map,
                             {
                                 wall: new WallFactory(shadowGenerator, scene),

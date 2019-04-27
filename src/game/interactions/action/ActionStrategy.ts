@@ -32,6 +32,6 @@ export class ActionStrategy {
     }
 
     private filterActionableObjects(worldMap: World) {
-        return worldMap.gameObjects.filter(obj => obj.hasDefaultAction);
+        return worldMap.worldItems.filter(obj => obj.hasDefaultAction);
     }
 }

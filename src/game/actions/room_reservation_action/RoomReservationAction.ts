@@ -26,7 +26,7 @@ export class RoomReservationAction implements ActionHandler {
     }
 
     private getRandomRoom(world: World): Room {
-        const rooms = world.gameObjects.filter(gameObj => gameObj.name === 'room');
+        const rooms = world.worldItems.filter(gameObj => gameObj.name === 'room');
 
         const randomRoomIndex = Math.floor(Math.random() * rooms.length);
 

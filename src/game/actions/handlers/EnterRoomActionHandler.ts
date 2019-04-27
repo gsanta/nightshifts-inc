@@ -24,7 +24,7 @@ export class EnterRoomActionHandler implements ActionHandler {
     }
 
     private dispatchEventIfRoomChanged(world: World) {
-        const rooms = world.gameObjects.filter(gameObj => gameObj.name === 'room');
+        const rooms = world.worldItems.filter(gameObj => gameObj.name === 'room');
 
         const intersectingRoom = <Room> rooms.filter(room => room.mesh.intersectsMesh(world.player.mesh))[0];
 

@@ -30,7 +30,7 @@ describe('ActionStrategy', () => {
             };
 
             const worldMap: Partial<World> = {
-                gameObjects: <WorldItem[]> [nonActionableObj, actionableObj1, actionableObj2]
+                worldItems: <WorldItem[]> [nonActionableObj, actionableObj1, actionableObj2]
             };
 
             const actionStrategy = new ActionStrategy(<Player> player, <World> worldMap);

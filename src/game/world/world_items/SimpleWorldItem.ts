@@ -92,8 +92,8 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     public getCenterPosition(): VectorModel {
-        const position = this.mesh.getAbsolutePosition();
-        return new VectorModel(position.x, position.y, position.z);
+        const center = (<Rectangle> this.getBoundingPolygon()).getBoundingCenter();
+        return new VectorModel(center.x, 0, center.y);
     }
 
     public getScale(): VectorModel {

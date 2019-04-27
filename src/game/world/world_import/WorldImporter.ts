@@ -23,7 +23,7 @@ export class WorldImporter {
     protected nightLight: HemisphericLight;
     protected spotLight: SpotLight;
     protected meshFactoryProducer: WorldFactoryProducer;
-    protected meshFactory: WorldFactory;
+    protected worldFactory: WorldFactory;
     protected scene: Scene;
     protected camera: FollowCamera;
 
@@ -77,6 +77,8 @@ export class WorldImporter {
 
     //TODO: should produce world directly, not getting it through parameter
     protected createWorld(rootWorldItem: GwmWorldItem, world: World): World {
+        world.factory = this.worldFactory;
+        world.scene = this.scene;
         world.hemisphericLight = this.hemisphericLight;
         world.nightLight = this.nightLight;
         world.spotLight = this.spotLight;
@@ -91,7 +93,7 @@ export class WorldImporter {
         const worldItems: WorldItem[] = [];
         const map: Map<TreeNode, any> = new Map();
         for (const gwmWorldItem of treeIterator) {
-            const worldItem = this.createMesh(gwmWorldItem, this.meshFactory, world);
+            const worldItem = this.createMesh(gwmWorldItem, this.worldFactory, world);
             worldItems.push(worldItem);
             map.set(gwmWorldItem, worldItem);
         }
@@ -101,7 +103,7 @@ export class WorldImporter {
 
         worldItems.filter(mesh => mesh.name === 'room').forEach((room: Room) => room.state.activate(room));
 
-        world.gameObjects = worldItems;
+        world.worldItems = worldItems;
         world.floor = worldItems.filter(mesh => mesh.name === 'floor')[0];
         world.player = <Player> worldItems.filter(mesh => mesh.name === 'player')[0];
 
@@ -210,7 +212,7 @@ export class WorldImporter {
         return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
             .then(meshFactory => {
 
-                this.meshFactory = meshFactory;
+                this.worldFactory = meshFactory;
 
                 world = this.createWorld(worldItems[0], world);
 
@@ -224,7 +226,7 @@ export class WorldImporter {
     protected setMeshes(worldItems: GwmWorldItem[], meshFactory: WorldFactory, world: World): void {
         const meshes = worldItems.map(worldItem => this.createMesh(worldItem, meshFactory, world));
 
-        world.gameObjects = meshes;
+        world.worldItems = meshes;
         world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
         world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
     }

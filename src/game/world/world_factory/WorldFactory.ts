@@ -1,7 +1,8 @@
 import { WorldItem } from '../world_items/WorldItem';
 import { World } from '../World';
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem, Polygon } from 'game-worldmap-generator';
 import { WorldItemFactory } from './WorldItemFactory';
+import { EnemyFactory } from '../world_items/enemy/EnemyFactory';
 
 export interface GenericItemImporter<T> {
     createItem(itemInfo: T, world: World): WorldItem;
@@ -10,10 +11,16 @@ export interface GenericItemImporter<T> {
 export class WorldFactory {
     private factories: {[key: string]: GenericItemImporter<GwmWorldItem>};
     private worldItemFactoryMap: Map<string, WorldItemFactory>;
+    private enemyFactory: EnemyFactory;
 
-    constructor(worldItemFactoryMap: Map<string, WorldItemFactory>, factories: {[key: string]: GenericItemImporter<GwmWorldItem>}) {
+    constructor(
+        enemyFactory: EnemyFactory,
+        worldItemFactoryMap: Map<string, WorldItemFactory>,
+        factories: {[key: string]: GenericItemImporter<GwmWorldItem>}
+    ) {
         this.factories = factories;
         this.worldItemFactoryMap = worldItemFactoryMap;
+        this.enemyFactory = enemyFactory;
     }
 
     public createWall(itemInfo: GwmWorldItem, world: World): WorldItem {
@@ -62,5 +69,9 @@ export class WorldFactory {
 
     public createEmptyArea(itemInfo: GwmWorldItem, world: World): WorldItem {
         return this.worldItemFactoryMap.get('empty').createItem(itemInfo, world);
+    }
+
+    public createEnemy(polygon: Polygon, world: World): WorldItem {
+        return this.enemyFactory.create(polygon, world);
     }
 }

@@ -70,6 +70,11 @@ export class Player extends Creature {
         return this.mesh;
     }
 
+    public getCenterPosition(): VectorModel {
+        const position = this.mesh.getAbsolutePosition();
+        return new VectorModel(position.x, position.y, position.z);
+    }
+
     public getRotationAngle(): number {
         return this.getRotation().y;
     }
