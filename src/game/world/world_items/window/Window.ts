@@ -14,9 +14,9 @@ const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {
 
-    public constructor(containerMesh: Mesh, children: WorldItem[]) {
+    public constructor(mesh: Mesh, children: WorldItem[]) {
         super(children);
-        this.containerMesh = containerMesh;
+        this.mesh = mesh;
     }
 
     public setPivotMatrix(matrix: any) {
@@ -75,7 +75,7 @@ export class WindowGlass extends ContainerWorldItem {
 class WindowFrame extends ContainerWorldItem {
     public constructor(containerMesh: Mesh, children: WorldItem[]) {
         super(children);
-        this.containerMesh = containerMesh;    }
+        this.mesh = containerMesh;    }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): WindowFrame {
         const containerMesh = this.createContainerMesh(gwmWorldItem, scene);
@@ -137,7 +137,7 @@ export class Window extends ContainerWorldItem implements Border {
 
     constructor(containerMesh: Mesh, children: WorldItem[], config?: MeshTemplateConfig) {
         super(children);
-        this.containerMesh = containerMesh;
+        this.mesh = containerMesh;
 
         children.forEach(child => child.setParent(this));
         this.hasDefaultAction = true;
@@ -189,7 +189,7 @@ export class Window extends ContainerWorldItem implements Border {
     }
 
     public getPosition(): VectorModel {
-        const position = this.containerMesh.getAbsolutePosition();
+        const position = this.mesh.getAbsolutePosition();
         return new VectorModel(position.x, position.y, position.z);
     }
 

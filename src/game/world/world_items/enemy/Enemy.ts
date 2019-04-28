@@ -15,7 +15,6 @@ export class Enemy extends Creature {
         this.initMaterials();
         this.mesh.material = this.visibleMaterial;
         this.mesh.checkCollisions = true;
-        this.mesh.position = new Vector3(20, 0, 30);
         this.mesh.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
     }
 

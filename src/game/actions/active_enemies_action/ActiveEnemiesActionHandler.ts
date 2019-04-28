@@ -5,16 +5,24 @@ import { Room } from '../../world/world_items/room/Room';
 import _ = require('lodash');
 import { Rectangle } from 'game-worldmap-generator';
 import { Enemy } from '../../world/world_items/enemy/Enemy';
+import { ActionDispatcher } from '../ActionDispatcher';
 
 
 export class ActiveEnemiesActionHandler implements ActionHandler {
     private  enemy: Enemy;
+
+    private actionDispatcher: ActionDispatcher;
+
+    constructor(actionDispatcher: ActionDispatcher) {
+        this.actionDispatcher = actionDispatcher;
+    }
 
     public handle(type: string, world: World) {
         switch (type) {
             case GameActionType.DAY_PASSED:
                 if (!this.enemy) {
                     this.enemy = this.createEnemy(world);
+                    this.actionDispatcher.dispatch(GameActionType.ENEMY_CREATED, this.enemy);
                 }
 
                 break;
@@ -24,7 +32,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
     }
 
     private createEnemy(world: World): Enemy {
-        const room = <Room> world.getWorldItemsByName('room')[2];
+        const room = <Room> world.getWorldItemsByName('room')[1];
         const emptyArea = _.find(room.children, child => child.name === 'empty');
 
         const material = new BABYLON.StandardMaterial('empty-area-material', world.scene);
@@ -32,8 +40,12 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
         emptyArea.mesh.material = material;
 
         const enemyPosition = emptyArea.getCenterPosition();
+
         const rect = new Rectangle(enemyPosition.x, enemyPosition.z, 1, 1);
 
-        return <Enemy> world.factory.createEnemy(rect, world);
+        const enemy = <Enemy> world.factory.createEnemy(rect, world);
+        room.addChild(enemy);
+
+        return enemy;
     }
 }

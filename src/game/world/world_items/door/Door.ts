@@ -16,14 +16,13 @@ export class Door extends ContainerWorldItem implements Border {
     private pivot: VectorModel;
     public sides: [WorldItem, WorldItem];
 
-    public containerMesh: Mesh;
     public name: 'door';
 
     constructor(container: WorldItem, side1: WorldItem, side2: WorldItem) {
         super([]);
 
         this.hasDefaultAction = true;
-        this.containerMesh = container.mesh;
+        this.mesh = container.mesh;
 
         this.container = container;
 
@@ -37,15 +36,15 @@ export class Door extends ContainerWorldItem implements Border {
     public setPivot(axis: VectorModel, angle: number) {
         this.pivotAngle = angle;
         this.pivot = axis;
-        this.containerMesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x, axis.y, axis.z));
+        this.mesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x, axis.y, axis.z));
     }
 
     public doDefaultAction() {
         if (this.isOpen) {
-            this.containerMesh.rotation.y = 0;
+            this.mesh.rotation.y = 0;
             this.isOpen = false;
         } else {
-            this.containerMesh.rotation.y = this.pivotAngle;
+            this.mesh.rotation.y = this.pivotAngle;
             this.isOpen = true;
         }
     }

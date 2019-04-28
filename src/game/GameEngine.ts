@@ -3,14 +3,15 @@ import { AttackingMotionStrategy } from './interactions/motion/AttackingMotionSt
 import { CollisionDetector } from './interactions/collision/CollisionDetector';
 import { World } from './world/World';
 import { ActionDispatcher } from './actions/ActionDispatcher';
-import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
+import { ToolSelectionActionHandler } from './actions/tool_selection_action/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
-import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';
+import { ThermometerUpdateHandler } from './actions/thermometer_update_action/ThermometerUpdateHandler';
 import { ActiveRoomLightingActionHandler } from './actions/active_room_lightning_action/ActiveRoomLightingActionHandler';
-import { TimeActionHandler } from './actions/handlers/TimeActionHandler';
-import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandler';
+import { TimeActionHandler } from './actions/time_action/TimeActionHandler';
+import { EnterRoomActionHandler } from './actions/enter_room_action/EnterRoomActionHandler';
 import { ActiveEnemiesActionHandler } from './actions/active_enemies_action/ActiveEnemiesActionHandler';
 import { LightHandler } from './world/world_items/room/LightHandler';
+import { EnemyAttackActionHandler } from './actions/enemy_attack_action/EnemyAttackActionHandler';
 
 export class GameEngine {
     private scene: Scene;
@@ -45,7 +46,8 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
                 this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler());
+                this.actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(this.actionDispatcher));
+                this.actionDispatcher.registerActionHandler(new EnemyAttackActionHandler());
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 
                 this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);
@@ -74,8 +76,6 @@ export class GameEngine {
         const currentTime = Date.now();
         const elapsedTime = currentTime - this.previousTime;
         this.previousTime = currentTime;
-
-        this.world.lightController.timePassed(elapsedTime);
 
         this.movePlayer(elapsedTime);
         this.actionDispatcher.dispatch(GameActionType.NEXT_TICK);

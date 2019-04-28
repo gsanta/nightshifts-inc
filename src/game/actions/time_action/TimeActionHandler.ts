@@ -1,7 +1,7 @@
 import { GameActionType } from '../GameActionType';
 import { ActionDispatcher } from '../ActionDispatcher';
-import { Timer } from './Timer';
 import { ActionHandler } from '../ActionHandler';
+import { Timer } from './Timer';
 
 
 export class TimeActionHandler implements ActionHandler {

@@ -7,7 +7,7 @@ import _ = require('lodash');
 export class ContainerWorldItem implements WorldItem {
     public children: WorldItem[] = [];
     public container: WorldItem;
-    public containerMesh: Mesh;
+    public mesh: Mesh;
     public neighbours: WorldItem[] = [];
     public parent: WorldItem;
 
@@ -24,6 +24,7 @@ export class ContainerWorldItem implements WorldItem {
 
     public addChild(worldItem: WorldItem) {
         this.children.push(worldItem);
+        worldItem.parent = this;
     }
 
     public doDefaultAction() {
@@ -39,8 +40,8 @@ export class ContainerWorldItem implements WorldItem {
     }
 
     public translate(vectorModel: VectorModel) {
-        if (this.containerMesh) {
-            this.containerMesh.translate(toVector3(vectorModel), 1);
+        if (this.mesh) {
+            this.mesh.translate(toVector3(vectorModel), 1);
         }
         // this.children.forEach(child => child.translate(vectorModel));
     }
@@ -51,7 +52,7 @@ export class ContainerWorldItem implements WorldItem {
 
     public getCenterPosition() {
 
-        const position = this.containerMesh.getAbsolutePosition();
+        const position = this.mesh.getAbsolutePosition();
         return new VectorModel(position.x, position.y, position.z);
     }
 
@@ -82,10 +83,10 @@ export class ContainerWorldItem implements WorldItem {
     }
 
     public setParent(worldItem: WorldItem) {
-        this.containerMesh.parent = (<ContainerWorldItem> worldItem).containerMesh;
+        this.mesh.parent = (<ContainerWorldItem> worldItem).mesh;
     }
 
     public intersectsPoint(vector: VectorModel) {
-        return this.containerMesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z));
+        return this.mesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z));
     }
 }

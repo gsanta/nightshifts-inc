@@ -7,6 +7,7 @@ import { World } from '../../World';
 import { InactiveRoomState } from './InactiveRoomState';
 import { RoomState } from './RoomState';
 import { Door } from '../door/Door';
+import { VectorModel } from '../../../model/core/VectorModel';
 
 export class Room extends ContainerWorldItem {
     public state: RoomState;
@@ -30,6 +31,11 @@ export class Room extends ContainerWorldItem {
 
     public getBoundingPolygon(): Polygon {
         return this.boundingPolygon;
+    }
+
+    public getCenterPosition(): VectorModel {
+        const center = this.boundingPolygon.getBoundingCenter();
+        return new VectorModel(center.x, 0, center.y);
     }
 
     public getDoors(): Door[] {

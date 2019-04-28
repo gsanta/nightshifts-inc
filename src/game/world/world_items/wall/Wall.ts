@@ -19,7 +19,7 @@ export class Wall extends ContainerWorldItem implements Border {
     private constructor(parent: WorldItem, wallSide1: WorldItem, wallSide2: WorldItem) {
         super([]);
 
-        this.containerMesh = parent.mesh;
+        this.mesh = parent.mesh;
         this.parentMesh = parent;
         this.parentMesh.mesh.visibility = 0;
 

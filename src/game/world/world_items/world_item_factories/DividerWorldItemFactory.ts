@@ -78,7 +78,7 @@ export class DividerWorldItemFactory {
 
     private setPivotMatrix(worldItem: GwmWorldItem, door: Door) {
         const angle = worldItem.additionalData.angle;
-        const xExtent = door.containerMesh.getBoundingInfo().boundingBox.extendSize.x;
+        const xExtent = door.mesh.getBoundingInfo().boundingBox.extendSize.x;
         door.setPivot(new VectorModel(xExtent, 0, 0), angle);
     }
 }

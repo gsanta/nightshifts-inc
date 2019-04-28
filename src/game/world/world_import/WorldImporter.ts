@@ -12,7 +12,6 @@ import { GameConstants } from '../../GameConstants';
 import { Room } from '../world_items/room/Room';
 import { parseJsonAdditionalData } from './AdditionalData';
 import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
-import { LightController } from '../../actions/handlers/LightController';
 import { Vector2Model } from '../../model/utils/Vector2Model';
 import { WorldFactoryProducer } from '../world_factory/WorldFactoryProducer';
 const colors = GameConstants.colors;
@@ -205,7 +204,6 @@ export class WorldImporter {
 
         let world = new World();
 
-        world.lightController = new LightController(this.hemisphericLight);
         world.dimensions = new Vector2Model(worldItems[0].dimensions.width, worldItems[0].dimensions.height);
         world.camera = this.camera;
 

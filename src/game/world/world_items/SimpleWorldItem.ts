@@ -92,7 +92,7 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     public getCenterPosition(): VectorModel {
-        const center = (<Rectangle> this.getBoundingPolygon()).getBoundingCenter();
+        const center = (<Rectangle> this.getAbsoluteBoundingPolygon()).getBoundingCenter();
         return new VectorModel(center.x, 0, center.y);
     }
 
@@ -132,7 +132,7 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     public setParent(worldItem: WorldItem) {
-        this.mesh.parent = (<ContainerWorldItem> worldItem).containerMesh;
+        this.mesh.parent = (<ContainerWorldItem> worldItem).mesh;
     }
 
     public intersectsPoint(vector: VectorModel) {

@@ -4,6 +4,7 @@ import { World } from '../../World';
 import { WorldItem } from '../WorldItem';
 import { Scene, StandardMaterial } from 'babylonjs';
 import { Enemy } from './Enemy';
+import { VectorModel } from '../../../model/core/VectorModel';
 
 
 export class EnemyFactory implements WorldItemFactory {
@@ -16,7 +17,9 @@ export class EnemyFactory implements WorldItemFactory {
     public create(polygon: Polygon, world: World): WorldItem {
         const mesh = this.createMesh(polygon);
         mesh.material = this.createMaterial();
-        return new Enemy(mesh, this.scene);
+        const enemy = new Enemy(mesh, this.scene);
+        enemy.translate(new VectorModel(polygon.left, 0, polygon.top));
+        return enemy;
     }
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {

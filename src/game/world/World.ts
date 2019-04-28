@@ -1,14 +1,11 @@
-import { WorldItem } from './world_items/WorldItem';
+import { FollowCamera, Light, Scene, SpotLight, StandardMaterial } from 'babylonjs';
+import { Vector2Model } from '../model/utils/Vector2Model';
+import { ToolMesh } from '../tools/ToolMesh';
+import { WorldFactory } from './world_factory/WorldFactory';
 import { Enemy } from './world_items/enemy/Enemy';
 import { Player } from './world_items/player/Player';
-import { LightController } from '../actions/handlers/LightController';
-import { Vector2Model } from '../model/utils/Vector2Model';
-import { FollowCamera, Light, SpotLight, StandardMaterial, Scene } from 'babylonjs';
-import { ContainerWorldItem } from './world_items/ContainerWorldItem';
-import { Tool } from '../tools/Tool';
-import { ToolMesh } from '../tools/ToolMesh';
 import { Room } from './world_items/room/Room';
-import { WorldFactory } from './world_factory/WorldFactory';
+import { WorldItem } from './world_items/WorldItem';
 
 
 export class World {
@@ -22,8 +19,6 @@ export class World {
     public rooms: Room[];
 
     public camera: FollowCamera;
-
-    public lightController: LightController;
 
     public tools: ToolMesh[];
     public spotLight: SpotLight;
