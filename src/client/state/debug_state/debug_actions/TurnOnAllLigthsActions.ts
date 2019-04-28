@@ -4,15 +4,16 @@ import { Tool } from '../../../../game/tools/Tool';
 import { ActionDispatcher } from '../../../../game/actions/ActionDispatcher';
 import WorldSelections from '../../world_state/world_actions/WorldSelections';
 import { GameActionType } from '../../../../game/actions/GameActionType';
-import { ActiveRoomLightingActionHandler } from '../../../../game/actions/handlers/ActiveRoomLightingActionHandler';
+import { ActiveRoomLightingActionHandler } from '../../../../game/actions/active_room_lightning_action/ActiveRoomLightingActionHandler';
 import { gameActionDispatcherReducer } from '../../world_state/gameActionDispatcherReducer';
+import { DebugOptions } from '../../../components/dialogs/debug_dialog/DebugOptions';
 
 
 class TurnOnAllLightsActions implements WatchableAction<any> {
     public request(activate: boolean) {
         return {
             type: ActionType.DEBUG_TURN_ON_ALL_LIGHTS,
-            activate
+            areAllLightsTurnedOn: activate
         };
     }
 
@@ -20,11 +21,10 @@ class TurnOnAllLightsActions implements WatchableAction<any> {
         yield takeEvery(ActionType.DEBUG_TURN_ON_ALL_LIGHTS, this.activateTool);
     }
 
-    private *activateTool({activate}: {activate: boolean}) {
+    private *activateTool({areAllLightsTurnedOn}: Partial<DebugOptions>) {
         const gameActionDispatcher: ActionDispatcher = yield select(WorldSelections.getGameActionDispatcher);
-        if (activate) {
+        if (areAllLightsTurnedOn) {
             gameActionDispatcher.dispatch(GameActionType.TURN_ON_ALL_LIGHTS);
-            // gameActionDispatcher.dispatch(GameActionType.TURN_ON_ALL_LIGHTS);
             gameActionDispatcher.unregisterActionHandler(ActiveRoomLightingActionHandler.getInstance());
         } else {
             gameActionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());

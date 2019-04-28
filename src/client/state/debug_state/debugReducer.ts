@@ -9,10 +9,7 @@ export const debugReducer = (state: DebugOptions = initialState, action: Partial
     switch (action.type) {
         case ActionType.DEBUG_TURN_ON_ALL_LIGHTS:
             return {
-                ...state,
-                ...{
-                    areAllLightsTurnedOn: action.areAllLightsTurnedOn
-                }
+                areAllLightsTurnedOn: action.areAllLightsTurnedOn
             };
         default:
             return state;

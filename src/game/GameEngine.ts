@@ -6,7 +6,7 @@ import { ActionDispatcher } from './actions/ActionDispatcher';
 import { ToolSelectionActionHandler } from './actions/handlers/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
 import { ThermometerUpdateHandler } from './actions/handlers/ThermometerUpdateHandler';
-import { ActiveRoomLightingActionHandler } from './actions/handlers/ActiveRoomLightingActionHandler';
+import { ActiveRoomLightingActionHandler } from './actions/active_room_lightning_action/ActiveRoomLightingActionHandler';
 import { TimeActionHandler } from './actions/handlers/TimeActionHandler';
 import { EnterRoomActionHandler } from './actions/handlers/EnterRoomActionHandler';
 import { ActiveEnemiesActionHandler } from './actions/active_enemies_action/ActiveEnemiesActionHandler';
