@@ -13,7 +13,7 @@ import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFac
 import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchema';
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
 
-const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.1.gwm');
+const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
 const mapStateToProps = (state: AppState) => {
     return {

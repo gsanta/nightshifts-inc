@@ -9,11 +9,9 @@ import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 
 export class WindowFactory implements GwmItemImporter {
     private scene: Scene;
-    private shadowGenerator: ShadowGenerator;
 
-    constructor(scene: Scene, shadowGenerator: ShadowGenerator) {
+    constructor(scene: Scene) {
         this.scene = scene;
-        this.shadowGenerator = shadowGenerator;
     }
 
     public createItem(worldItem: GwmWorldItem<AdditionalData>, world: World): WorldItem {
@@ -21,13 +19,6 @@ export class WindowFactory implements GwmItemImporter {
 
         window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), worldItem.additionalData.angle);
 
-        window.sides[0].children.forEach((child) => {
-            this.shadowGenerator.getShadowMap().renderList.push(child.mesh);
-        });
-
-        window.sides[1].children.forEach((child) => {
-            this.shadowGenerator.getShadowMap().renderList.push(child.mesh);
-        });
         // window.children[0].children[0];
 
         // this.shadowGenerator.getShadowMap().renderList.push(wall.children[0].mesh);

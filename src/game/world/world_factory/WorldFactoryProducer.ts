@@ -55,19 +55,19 @@ export class WorldFactoryProducer {
         'models/player/material/3.jpg'
     ];
 
-    public getFactory(scene: Scene, shadowGenerator: ShadowGenerator, spotLight: SpotLight): Promise<WorldFactory> {
+    public getFactory(scene: Scene): Promise<WorldFactory> {
         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(1, new WorldItemToRealWorldCoordinateMapper(1));
 
         return this.getMeshTemplateStore(scene)
             .then(meshTemplateStore => {
 
-                const bedFactory = new ModelFactory(meshTemplateStore.get('bed'), gameObjectTranslator, shadowGenerator);
-                const tableFactory = new ModelFactory(meshTemplateStore.get('table'), gameObjectTranslator, shadowGenerator);
-                const cupboardFactory = new ModelFactory(meshTemplateStore.get('cupboard'), gameObjectTranslator, shadowGenerator);
-                const bathtubFactory = new ModelFactory(meshTemplateStore.get('bathtub'), gameObjectTranslator, shadowGenerator);
-                const washbasinFactory = new ModelFactory(meshTemplateStore.get('washbasin'), gameObjectTranslator, shadowGenerator);
+                const bedFactory = new ModelFactory(meshTemplateStore.get('bed'), gameObjectTranslator);
+                const tableFactory = new ModelFactory(meshTemplateStore.get('table'), gameObjectTranslator);
+                const cupboardFactory = new ModelFactory(meshTemplateStore.get('cupboard'), gameObjectTranslator);
+                const bathtubFactory = new ModelFactory(meshTemplateStore.get('bathtub'), gameObjectTranslator);
+                const washbasinFactory = new ModelFactory(meshTemplateStore.get('washbasin'), gameObjectTranslator);
                 const emptyAreaFactory = new EmptyAreaFactory(scene);
-                const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), gameObjectTranslator, scene, spotLight);
+                const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), gameObjectTranslator, scene);
                 const floorFactory = new FloorFactory(scene, gameObjectTranslator);
 
                 const map: Map<string, WorldItemFactory> = new Map();
@@ -84,17 +84,16 @@ export class WorldFactoryProducer {
                     new EnemyFactory(scene),
                     map,
                     {
-                        wall: new WallFactory(shadowGenerator, scene),
-                        door: new DoorFactory(scene, shadowGenerator),
-                        floor: new FloorFactory(scene, gameObjectTranslator),
-                        window: new WindowFactory(scene, shadowGenerator),
+                        wall: new WallFactory(scene),
+                        door: new DoorFactory(scene),
+                        window: new WindowFactory(scene),
                         room: new RoomFactory(scene)
                     }
                 );
             });
     }
 
-    protected getMeshTemplateStore(scene: Scene): Promise<Map<string, [Mesh, Skeleton[]]>> {
+    protected getMeshTemplateStore(scene: Scene): Promise<Map<string, [Mesh[], Skeleton[]]>> {
 
         const modelFileLoader = new ModelFileLoader(scene);
 
@@ -149,12 +148,10 @@ export class WorldFactoryProducer {
                 {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
             )
         ])
-        .then((results: [Mesh, Skeleton[]][]) => {
-            const map = new Map<string, [Mesh, Skeleton[]]>();
+        .then((results: [Mesh[], Skeleton[]][]) => {
+            const map = new Map<string, [Mesh[], Skeleton[]]>();
 
-            results.forEach(model => {
-                map.set(model[0].name, model);
-            });
+            results.forEach(model => map.set(model[0][0].name, model));
 
             return map;
         });

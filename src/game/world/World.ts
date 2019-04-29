@@ -10,7 +10,6 @@ import { WorldItem } from './world_items/WorldItem';
 
 export class World {
     public hemisphericLight: Light;
-    public nightLight: Light;
     public dimensions: Vector2Model;
     public worldItems: WorldItem[];
     public floor: WorldItem;
@@ -21,7 +20,6 @@ export class World {
     public camera: FollowCamera;
 
     public tools: ToolMesh[];
-    public spotLight: SpotLight;
 
     public materials: {[key: string]: StandardMaterial};
     public scene: Scene;

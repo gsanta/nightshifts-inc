@@ -17,10 +17,7 @@ import { WorldFactoryProducer } from '../world_factory/WorldFactoryProducer';
 const colors = GameConstants.colors;
 
 export class WorldImporter {
-    protected shadowGenerator: ShadowGenerator;
     protected hemisphericLight: HemisphericLight;
-    protected nightLight: HemisphericLight;
-    protected spotLight: SpotLight;
     protected meshFactoryProducer: WorldFactoryProducer;
     protected scene: Scene;
     protected camera: FollowCamera;
@@ -28,10 +25,7 @@ export class WorldImporter {
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: WorldFactoryProducer) {
         this.scene = scene;
         this.meshFactoryProducer = meshFactoryProducer;
-        this.spotLight = this.createSpotLight(scene);
         this.hemisphericLight = this.createHemisphericLight(scene);
-        this.nightLight = this.createNightLight(scene);
-        this.shadowGenerator = this.createShadowGenerator(scene, this.spotLight);
         this.camera = <FollowCamera> this.createCamera(scene, canvas);
     }
 
@@ -66,13 +60,6 @@ export class WorldImporter {
         }
     }
 
-    private createShadowGenerator(scene: Scene, spotLight: SpotLight): ShadowGenerator {
-        const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);
-        shadowGenerator.usePoissonSampling = true;
-
-        return shadowGenerator;
-    }
-
     //TODO: should produce world directly, not getting it through parameter
     protected createWorld(rootWorldItem: GwmWorldItem, worldFactory: WorldFactory): World {
         let world = new World();
@@ -83,8 +70,6 @@ export class WorldImporter {
         world.factory = worldFactory;
         world.scene = this.scene;
         world.hemisphericLight = this.hemisphericLight;
-        world.nightLight = this.nightLight;
-        world.spotLight = this.spotLight;
 
         world.materials = this.createMaterials(this.scene);
 
@@ -111,7 +96,7 @@ export class WorldImporter {
 
         world.tools = [
             new ThermometerToolMesh(this.scene, world.player),
-            new FlashlightToolMesh(world.spotLight)
+            new FlashlightToolMesh(this.scene, world.player)
         ];
 
         return world;
@@ -123,22 +108,6 @@ export class WorldImporter {
         light.diffuse = new BABYLON.Color3(1, 1, 1);
         light.intensity = 1;
         return light;
-    }
-
-    private createNightLight(scene: Scene): HemisphericLight {
-        const light = new BABYLON.HemisphericLight('NightLight', new BABYLON.Vector3(0, 1, 0), scene);
-        // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
-        light.diffuse = new BABYLON.Color3(1, 1, 1);
-        light.intensity = 0.1;
-        light.setEnabled(false);
-        return light;
-    }
-
-    private createSpotLight(scene: Scene): SpotLight {
-        const spotLight = new BABYLON.SpotLight('spotLight', new BABYLON.Vector3(0, 7, 1), new BABYLON.Vector3(0, 0, -5), Math.PI / 4, 3, scene);
-        spotLight.diffuse = new BABYLON.Color3(1, 1, 1);
-        spotLight.setEnabled(false);
-        return spotLight;
     }
 
     private createCamera(scene: Scene, canvas: HTMLCanvasElement): Camera {
@@ -204,7 +173,6 @@ export class WorldImporter {
         )
         .parse(strWorld);
 
-        return this.meshFactoryProducer.getFactory(this.scene, this.shadowGenerator, this.spotLight)
-            .then(worldFactory => this.createWorld(worldItems[0], worldFactory));
+        return this.meshFactoryProducer.getFactory(this.scene).then(worldFactory => this.createWorld(worldItems[0], worldFactory));
     }
 }

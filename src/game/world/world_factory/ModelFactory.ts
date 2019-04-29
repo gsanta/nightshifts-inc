@@ -12,22 +12,16 @@ import { Orientation } from '../../model/utils/Orientation';
 import { WorldItemFactory } from './WorldItemFactory';
 
 export class ModelFactory implements WorldItemFactory {
-    private meshInfo: [Mesh, Skeleton[]];
+    private meshInfo: [Mesh[], Skeleton[]];
     private gameObjectTranslator: WorldItemTranslator;
-    private shadowGenerator: ShadowGenerator;
 
-    constructor(
-        meshInfo: [Mesh, Skeleton[]],
-        gameObjectTranslator: WorldItemTranslator,
-        shadowGenerator: ShadowGenerator
-    ) {
+    constructor(meshInfo: [Mesh[], Skeleton[]], gameObjectTranslator: WorldItemTranslator) {
         this.meshInfo = meshInfo;
         this.gameObjectTranslator = gameObjectTranslator;
-        this.shadowGenerator = shadowGenerator;
     }
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const mesh =  this.meshInfo[0].clone(`${this.meshInfo[0].name}`);
+        const mesh =  this.meshInfo[0][0].clone(`${this.meshInfo[0][0].name}`);
         mesh.isVisible = true;
         const meshModel = new SimpleWorldItem(mesh, worldItem.name);
 
@@ -39,9 +33,6 @@ export class ModelFactory implements WorldItemFactory {
         mesh.rotation.y = rotation;
 
         mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
-
-        this.shadowGenerator.getShadowMap().renderList.push(mesh);
-
 
         return meshModel;
     }

@@ -13,7 +13,7 @@ export class ModelFileLoader {
     }
 
     public load(name: string, base: string, fileName: string, materialFileNames: string[], config: Partial<MeshTemplateConfig>)
-        : Promise<[Mesh, Skeleton[]]> {
+        : Promise<[Mesh[], Skeleton[]]> {
         const materials = this.loadMaterials(materialFileNames);
 
         return new Promise(resolve => {
@@ -25,15 +25,14 @@ export class ModelFileLoader {
                     this.configMeshes(<Mesh[]> meshes, config);
                     meshes[0].name = name;
 
-                    resolve([<Mesh> meshes[0], skeletons]);
+                    resolve([<Mesh[]> meshes, skeletons]);
                 } else {
                     const material = new BABYLON.StandardMaterial('empty-area-material', this.scene);
                     material.diffuseColor = BABYLON.Color3.FromHexString('00FF00');
                     const mesh = BABYLON.Mesh.MergeMeshes(<Mesh[]> meshes);
                     mesh.material = material;
                     this.configMeshes([mesh], config);
-                    resolve([mesh, skeletons]);
-                    // meshes.forEach(mesh => mesh.material = material);
+                    resolve([<Mesh[]> meshes, skeletons]);
                 }
 
             };

@@ -32,25 +32,22 @@ export class CreatureAnimationMesh {
 
 
 export class Player extends Creature {
-    private light: Light;
     private scene: Scene;
     private keyboardHandler: UserInputEventEmitter;
     public name = 'player';
     private skeleton: Skeleton;
 
-    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, light: Light, keyboardHandler: UserInputEventEmitter) {
+    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, keyboardHandler: UserInputEventEmitter) {
         super(mesh, 'player');
 
         this.skeleton = skeleton;
 
-        this.light = light;
         this.scene = scene;
         this.keyboardHandler = keyboardHandler;
         this.subscribeToUserInput();
 
         const quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
         this.mesh.rotationQuaternion = quaternion;
-        this.light.parent = this.mesh;
     }
 
     public setRotation(distance: number) {
