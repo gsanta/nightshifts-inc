@@ -32,7 +32,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
     }
 
     private createEnemy(world: World): Enemy {
-        const room = <Room> world.getWorldItemsByName('room')[1];
+        const room = <Room> world.getWorldItemsByName('room')[0];
         const emptyArea = _.find(room.children, child => child.name === 'empty');
 
         const material = new BABYLON.StandardMaterial('empty-area-material', world.scene);

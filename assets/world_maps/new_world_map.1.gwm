@@ -5,7 +5,7 @@ W###############W
 W#######X#######W
 W###############W
 W###############W
-W###############W
+W#######T#######W
 W###############W
 W###############W
 W###############W
@@ -18,10 +18,11 @@ definitions `
 W = wall
 # = empty
 X = player
+T = table
 
 `
 
 details2 `
-
+T = type(table) pos(8,5) orientation(SOUTH)
 
 `

@@ -13,7 +13,7 @@ import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFac
 import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchema';
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
 
-const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
+const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.1.gwm');
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -61,7 +61,7 @@ class Game extends React.Component<GameProps, GameState> {
         // const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
         const worldGenerator = new WorldImporter(scene, canvas, new WorldFactoryProducer());
         worldGenerator
-            .create(gwmGameWorldMap)
+            .import(gwmGameWorldMap)
             .then((world) => {
                 this.props.setWorld(world);
                 this.gameEngine = new GameEngine(canvas, scene, engine, world, this.props.actionDispatcher);

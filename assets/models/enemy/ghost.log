@@ -1,0 +1,125 @@
+Exporter version: 5.6.4, Blender version: 2.79 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used :
+		export scope        :  ALL
+		inline textures     :  false
+		Positions Precision :  4
+		Normals Precision   :  3
+		UVs Precision       :  3
+		Vert Color Precision:  3
+		Mat Weight Precision:  2
+		texture directory   :  /home/gsanta/dev/other/thegame/assets/models/
+	Python World class constructor completed
+	WARNING: No active camera has been assigned, or is not in a currently selected Blender layer
+	processing begun of mesh:  Softbox_1
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Cap_11
+		processing begun of Standard material:  Black
+		num positions      :  29
+		num normals        :  29
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  81
+	processing begun of mesh:  Softbox
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Cap_1
+		registered as also a user of material:  Black
+		num positions      :  29
+		num normals        :  29
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  81
+	processing begun of mesh:  Spline_1
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Splin
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Ghost
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Extrude
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Spline
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of node:  $$$DUMMY.Spline_1
+	processing begun of node:  $$$DUMMY.Splin
+	processing begun of mesh:  Null
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Connect
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Null1
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Null2
+		processing begun of Standard material:  Mat
+		num positions      :  56979
+		num normals        :  56979
+		num uvs            :  113958
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  196314
+	processing begun of light (POINT):  Lamp.002
+	processing begun of light (POINT):  Lamp.001
+========= Writing of scene file started =========
+========= Writing of scene file completed =========
+========= end of processing =========
+elapsed time:  0 min, 2.8575 secs

@@ -1,7 +1,6 @@
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { GwmWorldItem } from 'game-worldmap-generator';
-import { ShadowGenerator, Scene, SpotLight } from 'babylonjs';
-import { MeshTemplate } from '../../../model/core/templates/MeshTemplate';
+import { ShadowGenerator, Scene, SpotLight, Mesh, Skeleton } from 'babylonjs';
 import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { World } from '../../World';
 import { WorldItem } from '../WorldItem';
@@ -14,29 +13,26 @@ import { ManualMotionStrategy } from '../../../interactions/motion/ManualMotionS
 import { EyeSensor } from '../../../interactions/sensor/EyeSensor';
 
 export class PlayerFactory implements GwmItemImporter {
-    private meshModelTemplate: MeshTemplate;
+    private meshInfo: [Mesh, Skeleton[]];
     private gameObjectTranslator: WorldItemTranslator;
-    private shadowGenerator: ShadowGenerator;
     private scene: Scene;
     private spotLight: SpotLight;
 
     constructor(
-        meshModelTemplate: MeshTemplate,
+        meshInfo: [Mesh, Skeleton[]],
         gameObjectTranslator: WorldItemTranslator,
         scene: Scene,
-        shadowGenerator: ShadowGenerator,
         spotLight: SpotLight
     ) {
-        this.meshModelTemplate = meshModelTemplate;
+        this.meshInfo = meshInfo;
         this.gameObjectTranslator = gameObjectTranslator;
-        this.shadowGenerator = shadowGenerator;
         this.scene = scene;
         this.spotLight = spotLight;
     }
 
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const mesh = this.meshModelTemplate.createMeshes()[0];
+        const mesh = this.meshInfo[0].clone(`${this.meshInfo[0].name}`);
 
         world.camera.lockedTarget = mesh;
 
@@ -46,7 +42,7 @@ export class PlayerFactory implements GwmItemImporter {
 
         const keyboardHandler = new UserInputEventEmitter();
         keyboardHandler.subscribe();
-        const player = new Player(mesh, this.meshModelTemplate.getSkeletons()[0], this.scene, this.spotLight, keyboardHandler);
+        const player = new Player(mesh, this.meshInfo[1][0], this.scene, this.spotLight, keyboardHandler);
 
         const actionStrategy = new ActionStrategy(player, world);
 

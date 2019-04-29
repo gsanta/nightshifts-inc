@@ -1,6 +1,6 @@
 import { GwmItemImporter } from './GwmItemImporter';
 import { WorldItemTranslator } from '../world_items/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { ShadowGenerator, Mesh } from 'babylonjs';
+import { ShadowGenerator, Mesh, Skeleton } from 'babylonjs';
 import { GwmWorldItem } from 'game-worldmap-generator';
 import { World } from '../World';
 import { WorldItem } from '../world_items/WorldItem';
@@ -12,22 +12,22 @@ import { Orientation } from '../../model/utils/Orientation';
 import { WorldItemFactory } from './WorldItemFactory';
 
 export class ModelFactory implements WorldItemFactory {
-    private mesh: Mesh;
+    private meshInfo: [Mesh, Skeleton[]];
     private gameObjectTranslator: WorldItemTranslator;
     private shadowGenerator: ShadowGenerator;
 
     constructor(
-        mesh: Mesh,
+        meshInfo: [Mesh, Skeleton[]],
         gameObjectTranslator: WorldItemTranslator,
         shadowGenerator: ShadowGenerator
     ) {
-        this.mesh = mesh;
+        this.meshInfo = meshInfo;
         this.gameObjectTranslator = gameObjectTranslator;
         this.shadowGenerator = shadowGenerator;
     }
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const mesh =  this.mesh.clone(`${this.mesh.name}`);
+        const mesh =  this.meshInfo[0].clone(`${this.meshInfo[0].name}`);
         mesh.isVisible = true;
         const meshModel = new SimpleWorldItem(mesh, worldItem.name);
 

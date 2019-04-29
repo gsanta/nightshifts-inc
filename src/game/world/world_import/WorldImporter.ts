@@ -22,7 +22,6 @@ export class WorldImporter {
     protected nightLight: HemisphericLight;
     protected spotLight: SpotLight;
     protected meshFactoryProducer: WorldFactoryProducer;
-    protected worldFactory: WorldFactory;
     protected scene: Scene;
     protected camera: FollowCamera;
 
@@ -75,8 +74,13 @@ export class WorldImporter {
     }
 
     //TODO: should produce world directly, not getting it through parameter
-    protected createWorld(rootWorldItem: GwmWorldItem, world: World): World {
-        world.factory = this.worldFactory;
+    protected createWorld(rootWorldItem: GwmWorldItem, worldFactory: WorldFactory): World {
+        let world = new World();
+
+        world.dimensions = new Vector2Model(rootWorldItem.dimensions.width, rootWorldItem.dimensions.height);
+        world.camera = this.camera;
+
+        world.factory = worldFactory;
         world.scene = this.scene;
         world.hemisphericLight = this.hemisphericLight;
         world.nightLight = this.nightLight;
@@ -84,7 +88,6 @@ export class WorldImporter {
 
         world.materials = this.createMaterials(this.scene);
 
-        const fromToMap: Map<GwmWorldItem, WorldItem> = new Map();
         const worldItemToTreeMapper = new WorldItemTreeMapper();
 
         const treeIterator = TreeIteratorGenerator(rootWorldItem as any);
@@ -92,7 +95,7 @@ export class WorldImporter {
         const worldItems: WorldItem[] = [];
         const map: Map<TreeNode, any> = new Map();
         for (const gwmWorldItem of treeIterator) {
-            const worldItem = this.createMesh(gwmWorldItem, this.worldFactory, world);
+            const worldItem = this.createMesh(gwmWorldItem, worldFactory, world);
             worldItems.push(worldItem);
             map.set(gwmWorldItem, worldItem);
         }
@@ -118,7 +121,7 @@ export class WorldImporter {
         const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
         // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
         light.diffuse = new BABYLON.Color3(1, 1, 1);
-        light.intensity = 0.4;
+        light.intensity = 1;
         return light;
     }
 
@@ -163,7 +166,7 @@ export class WorldImporter {
         };
     }
 
-    public create(strWorld: string): Promise<World> {
+    public import(strWorld: string): Promise<World> {
 
         const options = {...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}};
         const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E'];
@@ -201,31 +204,7 @@ export class WorldImporter {
         )
         .parse(strWorld);
 
-
-        let world = new World();
-
-        world.dimensions = new Vector2Model(worldItems[0].dimensions.width, worldItems[0].dimensions.height);
-        world.camera = this.camera;
-
-        return this.meshFactoryProducer.getFactory(this.scene, world, this.shadowGenerator, this.spotLight)
-            .then(meshFactory => {
-
-                this.worldFactory = meshFactory;
-
-                world = this.createWorld(worldItems[0], world);
-
-                // world.rooms = [this.createRoom(rooms[0], world, meshFactory)];
-
-                // world.rooms = rooms.map(polygon => this.createRoom(polygon, world, meshFactory));
-                return world;
-            });
-    }
-
-    protected setMeshes(worldItems: GwmWorldItem[], meshFactory: WorldFactory, world: World): void {
-        const meshes = worldItems.map(worldItem => this.createMesh(worldItem, meshFactory, world));
-
-        world.worldItems = meshes;
-        world.floor = meshes.filter(mesh => mesh.name === 'floor')[0];
-        world.player = <Player> meshes.filter(mesh => mesh.name === 'player')[0];
+        return this.meshFactoryProducer.getFactory(this.scene, this.shadowGenerator, this.spotLight)
+            .then(worldFactory => this.createWorld(worldItems[0], worldFactory));
     }
 }

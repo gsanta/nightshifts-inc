@@ -12,6 +12,7 @@ import { EnterRoomActionHandler } from './actions/enter_room_action/EnterRoomAct
 import { ActiveEnemiesActionHandler } from './actions/active_enemies_action/ActiveEnemiesActionHandler';
 import { LightHandler } from './world/world_items/room/LightHandler';
 import { EnemyAttackActionHandler } from './actions/enemy_attack_action/EnemyAttackActionHandler';
+import 'babylonjs-loaders';
 
 export class GameEngine {
     private scene: Scene;

@@ -28,7 +28,7 @@ export class WorldFactory {
     }
 
     public createPlayer(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.factories.player.createItem(itemInfo, world);
+        return this.worldItemFactoryMap.get('player').createItem(itemInfo, world);
     }
 
     public createWindow(itemInfo: GwmWorldItem, world: World): WorldItem {
@@ -40,7 +40,7 @@ export class WorldFactory {
     }
 
     public createFloor(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.factories.floor.createItem(itemInfo, world);
+        return this.worldItemFactoryMap.get('floor').createItem(itemInfo, world);
     }
 
     public createBed(itemInfo: GwmWorldItem, world: World): WorldItem {

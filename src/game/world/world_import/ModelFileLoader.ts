@@ -12,17 +12,30 @@ export class ModelFileLoader {
         this.scene = scene;
     }
 
-    public load(name: string, base: string, fileName: string, materialFileNames: string[], config: Partial<MeshTemplateConfig>): Promise<Mesh> {
+    public load(name: string, base: string, fileName: string, materialFileNames: string[], config: Partial<MeshTemplateConfig>)
+        : Promise<[Mesh, Skeleton[]]> {
         const materials = this.loadMaterials(materialFileNames);
 
         return new Promise(resolve => {
             const onSuccess = (meshes: AbstractMesh[], ps: ParticleSystem[], skeletons: Skeleton[], ag: AnimationGroup[]) => {
                 // TODO: probably not the best idea getting always material[0] then why do we load the other materials?
-                meshes.forEach(mesh => mesh.material = materials[0]);
-                this.configMeshes(<Mesh[]> meshes, config);
-                meshes[0].name = name;
+                if (materials.length > 0) {
+                    meshes.forEach(mesh => mesh.material = materials[0]);
 
-                resolve(<Mesh> meshes[0]);
+                    this.configMeshes(<Mesh[]> meshes, config);
+                    meshes[0].name = name;
+
+                    resolve([<Mesh> meshes[0], skeletons]);
+                } else {
+                    const material = new BABYLON.StandardMaterial('empty-area-material', this.scene);
+                    material.diffuseColor = BABYLON.Color3.FromHexString('00FF00');
+                    const mesh = BABYLON.Mesh.MergeMeshes(<Mesh[]> meshes);
+                    mesh.material = material;
+                    this.configMeshes([mesh], config);
+                    resolve([mesh, skeletons]);
+                    // meshes.forEach(mesh => mesh.material = material);
+                }
+
             };
 
             const onError = (scene: Scene, message: string) => {
