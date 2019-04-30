@@ -4,7 +4,6 @@ import { WorldFactory } from './WorldFactory';
 import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../../model/core/templates/creators/ModelFileBasedTemplateCreator';
 import { AsyncTemplateCreator } from '../../model/core/templates/AsyncTemplateCreator';
 import { VectorModel } from '../../model/core/VectorModel';
-import { FloorTemplateCreator } from '../../model/core/templates/creators/FloorTemplateCreator';
 import { Promise } from 'es6-promise';
 import { World } from '../World';
 import { ModelFileLoader } from '../world_import/ModelFileLoader';

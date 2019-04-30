@@ -22,16 +22,18 @@ export class FloorFactory implements GwmItemImporter {
 
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const mesh = this.createMesh(worldItem);
+        // const mesh = this.createMesh(worldItem);
 
-        mesh.material = this.createMaterial(this.scene);
-        mesh.material.alpha = 0;
+        // // mesh.material = this.createMaterial(this.scene);
+        // // mesh.material.alpha = 1;
+
+        // mesh.isVisible = false;
 
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 
-        const meshModel = new Room(mesh, null, 'floor');
+        const meshModel = new Room(null, null, 'floor');
         meshModel.translate(translate);
 
         return meshModel;
@@ -39,8 +41,7 @@ export class FloorFactory implements GwmItemImporter {
 
     private createMaterial(scene: Scene): StandardMaterial {
         const material = new BABYLON.StandardMaterial('empty-area-material', scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
-
+        material.diffuseColor = BABYLON.Color3.FromHexString(colors.cold);
         return material;
     }
 

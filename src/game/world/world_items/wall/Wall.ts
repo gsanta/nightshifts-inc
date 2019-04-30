@@ -75,7 +75,7 @@ export class Wall extends ContainerWorldItem implements Border {
         // wallSide2.mesh.visibility = 0;
 
 
-        const parent = new SimpleWorldItem(parentMesh, 'default-wall-container');
+        const parent = new SimpleWorldItem(parentMesh, 'wall');
         wallSide1.mesh.parent = parent.mesh;
         wallSide2.mesh.parent = parent.mesh;
         parent.mesh.material = this.createMaterial2(scene);

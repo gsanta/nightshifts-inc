@@ -15,7 +15,7 @@ export class FloorTemplateCreator implements TemplateCreator {
     constructor(scene: Scene) {
         this.scene = scene;
 
-        this.material = this.createMaterial();
+        // this.material = this.createMaterial();
     }
 
     public create(world: World): MeshTemplate {
@@ -23,8 +23,8 @@ export class FloorTemplateCreator implements TemplateCreator {
             this.mesh = this.createMesh(world);
         }
 
-        this.mesh.material = this.material;
-        this.mesh.material.alpha = 0;
+        // this.mesh.material = this.material;
+        // this.mesh.material.alpha = 0;
         return new MeshTemplate(null, [this.mesh], [], {...defaultMeshConfig});
     }
 

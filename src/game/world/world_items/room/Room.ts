@@ -57,6 +57,7 @@ export class Room extends ContainerWorldItem {
             scene
         );
 
+        roomMesh.receiveShadows = true;
 
         const room = new Room(roomMesh, dimensions, 'room');
         return room;

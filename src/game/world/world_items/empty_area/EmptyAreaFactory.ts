@@ -35,7 +35,7 @@ export class EmptyAreaFactory implements WorldItemFactory {
 
         mesh.material = this.createMaterial(this.scene);
 
-        mesh.isVisible = true;
+        mesh.isVisible = false;
 
         return new EmptyArea(mesh, dimensions);
     }

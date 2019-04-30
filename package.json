@@ -29,7 +29,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.1",
     "file-loader": "^3.0.1",
-    "game-worldmap-generator": "^6.19.0",
+    "game-worldmap-generator": "^6.20.0",
     "increase-memory-limit": "^1.0.6",
     "mini-css-extract-plugin": "^0.4.4",
     "mocha": "^5.2.0",

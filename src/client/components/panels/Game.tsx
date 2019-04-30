@@ -42,10 +42,6 @@ class Game extends React.Component<GameProps, GameState> {
         };
     }
 
-    public static getDerivedStateFromProps(props: GameProps, state: GameState) {
-
-    }
-
     public componentDidMount() {
         this.props.loadGame();
 
@@ -58,36 +54,17 @@ class Game extends React.Component<GameProps, GameState> {
             scene
         });
 
-        // const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
-        const worldGenerator = new WorldImporter(scene, canvas, new WorldFactoryProducer());
+        const worldGenerator = new WorldImporter(scene, new WorldFactoryProducer());
         worldGenerator
             .import(gwmGameWorldMap)
             .then((world) => {
                 this.props.setWorld(world);
                 this.gameEngine = new GameEngine(canvas, scene, engine, world, this.props.actionDispatcher);
-                // this.gameEngine.runGame(JSON.stringify(jsonGameWorldMap));
                 this.gameEngine.run();
-
-                // this.intervalTimeout = setInterval(
-                //     () => {
-                //         this.props.updateGame(this.gameEngine.getWorld());
-                //     },
-                //     1000
-                // );
             })
             .catch(e => console.error(e));
 
 
-    }
-
-    public componentDidUpdate() {
-        const canvas = this.state.canvasRef.current;
-        const scene = this.state.scene;
-
-        // if (this.props.worldSchema && !this.gameEngine.isRunning()) {
-        //     const worldGenerator = new JsonWorldImporter(scene, canvas, new JsonMeshFactoryProducer());
-            // this.gameEngine.run(JSON.stringify(this.props.worldSchema));
-        // }
     }
 
     public componentWillUnmount() {
@@ -98,8 +75,6 @@ class Game extends React.Component<GameProps, GameState> {
         return (
             <div>
                 <canvas ref={this.state.canvasRef}></canvas>
-                {/* <ApplicationSettingsDialog/> */}
-                {/* <InventoryRoute/> */}
             </div>
         );
     }

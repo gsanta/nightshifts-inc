@@ -1,6 +1,6 @@
 import { Scene } from 'babylonjs';
 import { Promise } from 'es6-promise';
-import { defaultParseOptions, generators, GwmWorldItem, GwmWorldMapParser, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
+import { defaultParseOptions, parsers, transformators, GwmWorldItem, GwmWorldMapParser, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
 import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
 import { Vector2Model } from '../../model/utils/Vector2Model';
 import { FlashlightToolMesh } from '../../tools/FlashlightToolMesh';
@@ -17,7 +17,7 @@ export class WorldImporter {
     private meshFactoryProducer: WorldFactoryProducer;
     private scene: Scene;
 
-    constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: WorldFactoryProducer) {
+    constructor(scene: Scene, meshFactoryProducer: WorldFactoryProducer) {
         this.scene = scene;
         this.meshFactoryProducer = meshFactoryProducer;
     }
@@ -33,7 +33,7 @@ export class WorldImporter {
 
         world.tools = [
             new ThermometerToolMesh(this.scene, world.player),
-            new FlashlightToolMesh(this.scene, world.player)
+            new FlashlightToolMesh(this.scene, world)
         ];
 
         return world;
@@ -54,7 +54,7 @@ export class WorldImporter {
 
         worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
 
-        world.floor = world.worldItems.filter(mesh => mesh.name === 'floor')[0];
+        world.floor = worldItems.filter(mesh => mesh.name === 'floor')[0];
         world.player = <Player> worldItems.filter(mesh => mesh.name === 'player')[0];
 
         return worldItems;
@@ -98,36 +98,28 @@ export class WorldImporter {
         const roomSeparatorCharacters = ['W', 'D', 'I'];
 
         const worldItems = GwmWorldMapParser.createWithCustomWorldItemGenerator(
-            new generators.AdditionalDataConvertingWorldItemDecorator(
-                new generators.StretchRoomsSoTheyJoinWorldItemGeneratorDecorator(
-                    new generators.BorderItemAddingWorldItemGeneratorDecorator(
-                        new generators.HierarchyBuildingWorldItemGeneratorDecorator(
-                            new generators.BorderItemSegmentingWorldItemGeneratorDecorator(
-                                new generators.ScalingWorldItemGeneratorDecorator(
-                                    new generators.CombinedWorldItemGenerator(
-                                        [
-                                            new generators.FurnitureInfoGenerator(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
-                                            new generators.RoomSeparatorGenerator(roomSeparatorCharacters),
-                                            new generators.RoomInfoGenerator(),
-                                            new generators.PolygonAreaInfoGenerator('empty', '#'),
-                                            new generators.RootWorldItemGenerator()
-                                        ]
-                                    ),
-                                    { x: options.xScale, y: options.yScale }
-                                ),
-                                ['wall', 'door', 'window'],
-                                { xScale: options.xScale, yScale: options.yScale }
-                            )
-                        ),
-                        ['wall', 'door', 'window'],
-                        { xScale: options.xScale, yScale: options.yScale }
-                    ),
+            new parsers.CombinedWorldItemParser(
+                [
+                    new parsers.FurnitureInfoParser(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
+                    new parsers.RoomSeparatorParser(roomSeparatorCharacters),
+                    new parsers.RoomInfoParser(),
+                    new parsers.PolygonAreaInfoParser('empty', '#'),
+                    new parsers.RootWorldItemParser()
+                ]
+            ),
+            [
+
+                new transformators.ScalingTransformator({ x: options.xScale, y: options.yScale }),
+                new transformators.BorderItemSegmentingTransformator(
+                    ['wall', 'door', 'window'],
                     { xScale: options.xScale, yScale: options.yScale }
                 ),
-                options.additionalDataConverter
-            )
-        )
-        .parse(strWorld);
+                new transformators.HierarchyBuildingTransformator(),
+                new transformators.BorderItemAddingTransformator(['wall', 'door', 'window']),
+                new transformators.StretchRoomsSoTheyJoinTransformator({ xScale: options.xScale, yScale: options.yScale }),
+                new transformators.AdditionalDataConvertingTransformator(options.additionalDataConverter)
+            ]
+        ).parse(strWorld);
 
         return this.meshFactoryProducer.getFactory(this.scene).then(worldFactory => this.createWorld(worldItems[0], worldFactory));
     }
