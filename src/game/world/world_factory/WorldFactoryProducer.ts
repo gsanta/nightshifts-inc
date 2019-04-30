@@ -42,7 +42,7 @@ export class WorldFactoryProducer {
     private readonly WASHBASIN_MODEL_FILE = 'wash_basin.babylon';
 
     private readonly ENEMY_PATH = 'models/enemy/';
-    private readonly GHOST_MODEL_FILE = 'ghost.babylon';
+    private readonly GHOST_MODEL_FILE = 'ghost.obj';
 
 
     private readonly PLAYER_BASE_PATH = 'models/player/';
@@ -66,6 +66,7 @@ export class WorldFactoryProducer {
                 const bathtubFactory = new ModelFactory(meshTemplateStore.get('bathtub'), gameObjectTranslator);
                 const washbasinFactory = new ModelFactory(meshTemplateStore.get('washbasin'), gameObjectTranslator);
                 const emptyAreaFactory = new EmptyAreaFactory(scene);
+                const enemyFactory = new EnemyFactory(meshTemplateStore.get('ghost'));
                 const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), gameObjectTranslator, scene);
                 const floorFactory = new FloorFactory(scene, gameObjectTranslator);
 
@@ -80,7 +81,7 @@ export class WorldFactoryProducer {
                 map.set('floor', floorFactory);
 
                 return new WorldFactory(
-                    new EnemyFactory(scene),
+                    enemyFactory,
                     map,
                     {
                         wall: new WallFactory(scene),
@@ -97,13 +98,13 @@ export class WorldFactoryProducer {
         const modelFileLoader = new ModelFileLoader(scene);
 
         return Promise.all([
-            // modelFileLoader.load(
-            //     'ghost',
-            //     this.ENEMY_PATH,
-            //     this.GHOST_MODEL_FILE,
-            //     [],
-            //     {...defaultMeshConfig, scaling: new VectorModel(1, 1, 1)}
-            // ),
+            modelFileLoader.load(
+                'ghost',
+                this.ENEMY_PATH,
+                this.GHOST_MODEL_FILE,
+                [],
+                {...defaultMeshConfig, scaling: new VectorModel(0.005, 0.005, 0.005)}
+            ),
             modelFileLoader.load(
                 'player',
                 this.PLAYER_BASE_PATH,

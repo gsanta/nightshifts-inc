@@ -21,19 +21,21 @@ export class ModelFileLoader {
                 // TODO: probably not the best idea getting always material[0] then why do we load the other materials?
                 if (materials.length > 0) {
                     meshes.forEach(mesh => mesh.material = materials[0]);
-
-                    this.configMeshes(<Mesh[]> meshes, config);
-                    meshes[0].name = name;
-
-                    resolve([<Mesh[]> meshes, skeletons]);
-                } else {
-                    const material = new BABYLON.StandardMaterial('empty-area-material', this.scene);
-                    material.diffuseColor = BABYLON.Color3.FromHexString('00FF00');
-                    const mesh = BABYLON.Mesh.MergeMeshes(<Mesh[]> meshes);
-                    mesh.material = material;
-                    this.configMeshes([mesh], config);
-                    resolve([<Mesh[]> meshes, skeletons]);
                 }
+
+                this.configMeshes(<Mesh[]> meshes, config);
+                meshes[0].name = name;
+
+                resolve([<Mesh[]> meshes, skeletons]);
+
+                // else {
+                //     const material = new BABYLON.StandardMaterial('empty-area-material', this.scene);
+                //     material.diffuseColor = BABYLON.Color3.FromHexString('00FF00');
+                //     const mesh = BABYLON.Mesh.MergeMeshes(<Mesh[]> meshes);
+                //     mesh.material = material;
+                //     this.configMeshes([mesh], config);
+                //     resolve([<Mesh[]> meshes, skeletons]);
+                // }
 
             };
 

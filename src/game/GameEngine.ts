@@ -53,7 +53,7 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
                 this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
-                // this.actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(this.actionDispatcher));
+                this.actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new EnemyAttackActionHandler());
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 

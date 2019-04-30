@@ -7,7 +7,6 @@ import { Rectangle } from 'game-worldmap-generator';
 import { Enemy } from '../../world/world_items/enemy/Enemy';
 import { ActionDispatcher } from '../ActionDispatcher';
 
-
 export class ActiveEnemiesActionHandler implements ActionHandler {
     private  enemy: Enemy;
 
@@ -32,7 +31,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
     }
 
     private createEnemy(world: World): Enemy {
-        const room = <Room> world.getWorldItemsByName('room')[0];
+        const room = <Room> world.getWorldItemsByName('room')[1];
         const emptyArea = _.find(room.children, child => child.name === 'empty');
 
         const material = new BABYLON.StandardMaterial('empty-area-material', world.scene);
