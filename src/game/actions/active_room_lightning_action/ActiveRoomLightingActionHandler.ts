@@ -3,7 +3,7 @@ import { Room } from '../../world/world_items/room/Room';
 import _ = require('lodash');
 import { GameActionType } from '../GameActionType';
 import { ActionHandler } from '../ActionHandler';
-import { LightHandler } from '../../world/world_items/room/LightHandler';
+import { LightHandler } from './LightHandler';
 
 export class ActiveRoomLightingActionHandler implements ActionHandler {
     private static instance: ActiveRoomLightingActionHandler;

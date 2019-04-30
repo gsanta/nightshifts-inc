@@ -1,5 +1,6 @@
 {
     "jsRules": {
+        "member-access": true,
         // Functionality
         //
         "curly": true,

@@ -10,9 +10,11 @@ import { ActiveRoomLightingActionHandler } from './actions/active_room_lightning
 import { TimeActionHandler } from './actions/time_action/TimeActionHandler';
 import { EnterRoomActionHandler } from './actions/enter_room_action/EnterRoomActionHandler';
 import { ActiveEnemiesActionHandler } from './actions/active_enemies_action/ActiveEnemiesActionHandler';
-import { LightHandler } from './world/world_items/room/LightHandler';
+import { LightHandler } from './actions/active_room_lightning_action/LightHandler';
 import { EnemyAttackActionHandler } from './actions/enemy_attack_action/EnemyAttackActionHandler';
 import 'babylonjs-loaders';
+import { CreateFollowCameraActionHandler } from './actions/create_main_camera_action/CreateFollowCameraActionHandler';
+import { CreateMainLightActionHandler } from './actions/create_main_light_action/CreateMainLightActionHandler';
 
 export class GameEngine {
     private scene: Scene;
@@ -39,9 +41,13 @@ export class GameEngine {
         this.scene.collisionsEnabled = true;
         this.world = world;
         this.actionDispatcher = actionDispatcher;
+    }
 
+    public run() {
         setTimeout(
             () => {
+                this.actionDispatcher.registerActionHandler(new CreateFollowCameraActionHandler());
+                this.actionDispatcher.registerActionHandler(new CreateMainLightActionHandler());
                 this.actionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());
                 this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
                 this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
@@ -52,13 +58,10 @@ export class GameEngine {
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 
                 this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);
+                this.engine.runRenderLoop(() => this.render());
             },
             100
         );
-    }
-
-    public run() {
-        this.engine.runRenderLoop(() => this.render());
     }
 
     public isRunning(): boolean {

@@ -4,13 +4,10 @@ import { Polygon, GwmWorldItem } from 'game-worldmap-generator';
 import { Scene, Vector3, Mesh } from 'babylonjs';
 import { Point } from 'game-worldmap-generator/build/model/Point';
 import { World } from '../../World';
-import { InactiveRoomState } from './InactiveRoomState';
-import { RoomState } from './RoomState';
 import { Door } from '../door/Door';
 import { VectorModel } from '../../../model/core/VectorModel';
 
 export class Room extends ContainerWorldItem {
-    public state: RoomState;
     public borderItems: WorldItem[] = [];
     public mesh: Mesh;
     public name: string;
@@ -42,30 +39,6 @@ export class Room extends ContainerWorldItem {
         return <Door[]> this.borderItems.filter(child => child instanceof Door);
     }
 
-    public makeInactive() {
-        this.state = this.state.makeInactive(this);
-    }
-
-    public canGoInactive(): boolean {
-        return this.state.canGoInactive();
-    }
-
-    public makeReserved() {
-        this.state = this.state.makeReserved(this);
-    }
-
-    public canGoReserved(): boolean {
-        return this.state.canGoReserved();
-    }
-
-    public makeActive() {
-        this.state = this.state.makeActive(this);
-    }
-
-    public canGoActive(): boolean {
-        return this.state.canGoActive();
-    }
-
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Room {
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
@@ -86,8 +59,6 @@ export class Room extends ContainerWorldItem {
 
 
         const room = new Room(roomMesh, dimensions, 'room');
-        room.state = InactiveRoomState.getInstance(world);
-        room.state.activate(room);
         return room;
     }
 }

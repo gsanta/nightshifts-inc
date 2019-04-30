@@ -12,7 +12,7 @@ export class ContainerWorldItem implements WorldItem {
     public parent: WorldItem;
 
     public hasDefaultAction = false;
-    materials: {[key: string]: StandardMaterial} = {};
+    material: StandardMaterial;
 
     constructor(children: WorldItem[]) {
         this.children = children;

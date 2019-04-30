@@ -28,7 +28,6 @@ export class PlayerFactory implements GwmItemImporter {
         // const meshes = this.meshInfo[0].map(mesh => mesh.clone(`${this.meshInfo[0][0].name}`));
         this.meshInfo[0].forEach(mesh => mesh.isVisible = true);
         // const mesh = this.meshInfo[0][0].clone(`${this.meshInfo[0][0].name}`);
-        world.camera.lockedTarget = this.meshInfo[0][0];
 
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());

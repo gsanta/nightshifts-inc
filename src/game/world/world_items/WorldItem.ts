@@ -39,22 +39,10 @@ export interface WorldItem {
     mesh?: Mesh;
     name?: string;
     hasDefaultAction: boolean;
-    materials: {[key: string]: StandardMaterial};
+    material: StandardMaterial;
     neighbours: WorldItem[];
     getAllMeshes(): Mesh[];
     parent: WorldItem;
-
-    // protected counter = 1;
-
-    // constructor(mesh: MeshWrapper<M>, name: string, config?: MeshTemplateConfig) {
-    //     this.mesh = mesh;
-    //     this.name = name;
-
-    //     if (config) {
-    //         this.initMesh(config);
-    //     }
-    // }
-
     doDefaultAction();
     serialize(): SerializedMeshModel;
     unserialize(model: SerializedMeshModel): WorldItem;

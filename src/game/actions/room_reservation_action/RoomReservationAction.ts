@@ -3,21 +3,22 @@ import { GameActionType } from '../GameActionType';
 import { Room } from '../../world/world_items/room/Room';
 import { ActionHandler } from '../ActionHandler';
 import { Door } from '../../world/world_items/door/Door';
+import { Scene, StandardMaterial } from 'babylonjs';
+import { GameConstants } from '../../GameConstants';
+const colors = GameConstants.colors;
 
 export class RoomReservationAction implements ActionHandler {
     private reservedRooms: Room[] = [];
+    private reservedRoomMaterial: StandardMaterial;
 
     public handle(type: string, world: World) {
         switch (type) {
             case GameActionType.DAY_PASSED:
                 const room = this.getRandomRoom(world);
 
-                this.reservedRooms.forEach(reservedRoom => reservedRoom.makeInactive());
-
-                if (room.canGoReserved()) {
-                    room.makeReserved();
-                    this.reservedRooms = [room];
-                }
+                this.reservedRooms.forEach(reservedRoom => this.makeRoomFree(reservedRoom, world));
+                this.makeRoomReserved(room, world);
+                this.reservedRooms = [room];
 
                 break;
             default:
@@ -37,15 +38,26 @@ export class RoomReservationAction implements ActionHandler {
         room.borderItems
         .filter(item => item instanceof Door)
         .forEach((door: Door) => {
-            door.setMaterial(world.materials.door);
+            door.setMaterial(door.material);
         });
     }
 
     private makeRoomReserved(room: Room, world: World) {
+        if (!this.reservedRoomMaterial) {
+            this.reservedRoomMaterial = this.createReservedRoomMaterial(world.scene);
+        }
+
         room.borderItems
         .filter(item => item instanceof Door)
         .forEach((door: Door) => {
-            door.setMaterial(world.materials.doorClosed);
+            door.setMaterial(this.reservedRoomMaterial);
         });
+    }
+
+    private createReservedRoomMaterial(scene: Scene): StandardMaterial {
+        const doorClosedMaterial = new BABYLON.StandardMaterial('door-closed-material', scene);
+        doorClosedMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.doorClosed);
+
+        return doorClosedMaterial;
     }
 }

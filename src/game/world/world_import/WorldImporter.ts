@@ -1,35 +1,66 @@
-import { World } from '../World';
-import { WorldFactory } from '../world_factory/WorldFactory';
-import { Scene, HemisphericLight, Camera, SpotLight, ShadowGenerator, FollowCamera, StandardMaterial } from 'babylonjs';
+import { Scene } from 'babylonjs';
 import { Promise } from 'es6-promise';
-import { GwmWorldItem, TreeIteratorGenerator, TreeNode, defaultParseOptions, GwmWorldMapParser, generators } from 'game-worldmap-generator';
-import { Player } from '../world_items/player/Player';
-import { WorldItem } from '../world_items/WorldItem';
-import { WorldItemTreeMapper } from './WorldItemTreeMapper';
-import { ThermometerToolMesh } from '../../tools/ThermometerToolMesh';
-import { FlashlightToolMesh } from '../../tools/FlashlightToolMesh';
-import { GameConstants } from '../../GameConstants';
-import { Room } from '../world_items/room/Room';
-import { parseJsonAdditionalData } from './AdditionalData';
+import { defaultParseOptions, generators, GwmWorldItem, GwmWorldMapParser, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
 import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
 import { Vector2Model } from '../../model/utils/Vector2Model';
+import { FlashlightToolMesh } from '../../tools/FlashlightToolMesh';
+import { ThermometerToolMesh } from '../../tools/ThermometerToolMesh';
+import { World } from '../World';
+import { WorldFactory } from '../world_factory/WorldFactory';
 import { WorldFactoryProducer } from '../world_factory/WorldFactoryProducer';
-const colors = GameConstants.colors;
+import { Player } from '../world_items/player/Player';
+import { WorldItem } from '../world_items/WorldItem';
+import { parseJsonAdditionalData } from './AdditionalData';
+import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 
 export class WorldImporter {
-    protected hemisphericLight: HemisphericLight;
-    protected meshFactoryProducer: WorldFactoryProducer;
-    protected scene: Scene;
-    protected camera: FollowCamera;
+    private meshFactoryProducer: WorldFactoryProducer;
+    private scene: Scene;
 
     constructor(scene: Scene, canvas: HTMLCanvasElement, meshFactoryProducer: WorldFactoryProducer) {
         this.scene = scene;
         this.meshFactoryProducer = meshFactoryProducer;
-        this.hemisphericLight = this.createHemisphericLight(scene);
-        this.camera = <FollowCamera> this.createCamera(scene, canvas);
     }
 
-    protected createMesh(meshModelDescription: GwmWorldItem, meshFactory: WorldFactory, world: World): WorldItem {
+    private createWorld(rootWorldItem: GwmWorldItem, worldFactory: WorldFactory): World {
+        let world = new World();
+
+        world.scene = this.scene;
+        world.dimensions = new Vector2Model(rootWorldItem.dimensions.width, rootWorldItem.dimensions.height);
+        world.factory = worldFactory;
+
+        world.worldItems = this.createWorldItems(rootWorldItem, world, worldFactory);
+
+        world.tools = [
+            new ThermometerToolMesh(this.scene, world.player),
+            new FlashlightToolMesh(this.scene, world.player)
+        ];
+
+        return world;
+    }
+
+    private createWorldItems(rootWorldItem: GwmWorldItem, world: World, worldFactory: WorldFactory): WorldItem[] {
+        const worldItemToTreeMapper = new WorldItemTreeMapper();
+
+        const treeIterator = TreeIteratorGenerator(rootWorldItem as any);
+
+        const worldItems: WorldItem[] = [];
+        const map: Map<TreeNode, any> = new Map();
+        for (const gwmWorldItem of treeIterator) {
+            const worldItem = this.createWorldItem(gwmWorldItem, worldFactory, world);
+            worldItems.push(worldItem);
+            map.set(gwmWorldItem, worldItem);
+        }
+
+        worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
+
+        world.floor = world.worldItems.filter(mesh => mesh.name === 'floor')[0];
+        world.player = <Player> worldItems.filter(mesh => mesh.name === 'player')[0];
+
+        return worldItems;
+    }
+
+    private createWorldItem(meshModelDescription: GwmWorldItem, meshFactory: WorldFactory, world: World): WorldItem {
         switch (meshModelDescription.name) {
             case 'wall':
                 return meshFactory.createWall(meshModelDescription, world);
@@ -58,81 +89,6 @@ export class WorldImporter {
             default:
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);
         }
-    }
-
-    //TODO: should produce world directly, not getting it through parameter
-    protected createWorld(rootWorldItem: GwmWorldItem, worldFactory: WorldFactory): World {
-        let world = new World();
-
-        world.dimensions = new Vector2Model(rootWorldItem.dimensions.width, rootWorldItem.dimensions.height);
-        world.camera = this.camera;
-
-        world.factory = worldFactory;
-        world.scene = this.scene;
-        world.hemisphericLight = this.hemisphericLight;
-
-        world.materials = this.createMaterials(this.scene);
-
-        const worldItemToTreeMapper = new WorldItemTreeMapper();
-
-        const treeIterator = TreeIteratorGenerator(rootWorldItem as any);
-
-        const worldItems: WorldItem[] = [];
-        const map: Map<TreeNode, any> = new Map();
-        for (const gwmWorldItem of treeIterator) {
-            const worldItem = this.createMesh(gwmWorldItem, worldFactory, world);
-            worldItems.push(worldItem);
-            map.set(gwmWorldItem, worldItem);
-        }
-
-        worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
-        // const meshes = worldItems.map(worldItem => this.createMesh(worldItem, this.meshFactory, world));
-
-        worldItems.filter(mesh => mesh.name === 'room').forEach((room: Room) => room.state.activate(room));
-
-        world.worldItems = worldItems;
-        world.floor = worldItems.filter(mesh => mesh.name === 'floor')[0];
-        world.player = <Player> worldItems.filter(mesh => mesh.name === 'player')[0];
-
-        world.tools = [
-            new ThermometerToolMesh(this.scene, world.player),
-            new FlashlightToolMesh(this.scene, world.player)
-        ];
-
-        return world;
-    }
-
-    private createHemisphericLight(scene: Scene): HemisphericLight {
-        const light = new BABYLON.HemisphericLight('HemiLight', new BABYLON.Vector3(0, 1, 0), scene);
-        // light.diffuse = new BABYLON.Color3(0.3, 0.3, 0.3);
-        light.diffuse = new BABYLON.Color3(1, 1, 1);
-        light.intensity = 1;
-        return light;
-    }
-
-    private createCamera(scene: Scene, canvas: HTMLCanvasElement): Camera {
-        const camera = new BABYLON.FollowCamera('camera', new BABYLON.Vector3(0, 120, 0), scene);
-
-        camera.radius = 60;
-        camera.heightOffset = 30;
-        camera.rotationOffset = 0;
-        camera.cameraAcceleration = 0.05;
-        camera.maxCameraSpeed = 20;
-
-        return camera;
-    }
-
-    private createMaterials(scene: Scene): {[key: string]: StandardMaterial} {
-        const doorMaterial = new BABYLON.StandardMaterial('door-material', scene);
-        doorMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
-
-        const doorClosedMaterial = new BABYLON.StandardMaterial('door-closed-material', scene);
-        doorClosedMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.doorClosed);
-
-        return {
-            door: doorMaterial,
-            doorClosed: doorClosedMaterial
-        };
     }
 
     public import(strWorld: string): Promise<World> {

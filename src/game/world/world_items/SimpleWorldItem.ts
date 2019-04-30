@@ -14,18 +14,13 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     public hasDefaultAction = false;
     public parent: WorldItem;
     public neighbours: WorldItem[] = [];
-
-    public materials: {[key: string]: StandardMaterial} = {};
+    public material: StandardMaterial;
 
     protected counter = 1;
 
     constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
         this.mesh = mesh;
         this.name = name;
-
-        if (config) {
-            this.initMesh(config);
-        }
     }
 
     public getAllMeshes(): Mesh[] {
@@ -140,14 +135,9 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {
-        meshModel.materials = {...this.materials};
         meshModel.name = this.name;
         meshModel.hasDefaultAction = this.hasDefaultAction;
 
         return meshModel;
-    }
-
-    private initMesh(config: MeshTemplateConfig) {
-        this.materials = config.materials;
     }
 }
