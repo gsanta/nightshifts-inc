@@ -1,4 +1,4 @@
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { WorldItem } from '../world_items/WorldItem';
 import { World } from '../World';
 import { GenericItemImporter } from './WorldFactory';

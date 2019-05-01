@@ -1,8 +1,9 @@
 import { WorldItem } from '../world_items/WorldItem';
 import { World } from '../World';
-import { GwmWorldItem, Polygon } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { WorldItemFactory } from './WorldItemFactory';
 import { EnemyFactory } from '../world_items/enemy/EnemyFactory';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 export interface GenericItemImporter<T> {
     createItem(itemInfo: T, world: World): WorldItem;

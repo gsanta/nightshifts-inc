@@ -1,5 +1,5 @@
 import { Scene } from 'babylonjs';
-import { Rectangle } from 'game-worldmap-generator';
+import { Rectangle } from '@nightshifts.inc/geometry';
 
 export class SceneModel {
     private scene: Scene;

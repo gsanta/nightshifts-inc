@@ -3,11 +3,11 @@ import { WorldItem } from '../WorldItem';
 import { Mesh, MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { SimpleWorldItem } from '../SimpleWorldItem';
-import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { GameConstants } from '../../../GameConstants';
 import { World } from '../../World';
-import { Point } from 'game-worldmap-generator/build/model/Point';
 import { Border } from '../Border';
+import { Polygon, Rectangle, Point } from '@nightshifts.inc/geometry';
 const colors = GameConstants.colors;
 
 export class Wall extends ContainerWorldItem implements Border {

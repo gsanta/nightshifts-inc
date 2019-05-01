@@ -1,4 +1,4 @@
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { WorldItemTranslator } from './WorldItemToRealWorldCoordinateMapper';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { World } from '../../World';

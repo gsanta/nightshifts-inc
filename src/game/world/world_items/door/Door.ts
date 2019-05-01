@@ -3,7 +3,7 @@ import { ContainerWorldItem } from '../ContainerWorldItem';
 import { Border } from '../Border';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { WorldItem, SerializedMeshModel } from '../WorldItem';
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { DividerWorldItemFactory } from '../world_item_factories/DividerWorldItemFactory';
 import { GameConstants } from '../../../GameConstants';

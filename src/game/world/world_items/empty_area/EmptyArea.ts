@@ -1,7 +1,7 @@
 import { SimpleWorldItem } from '../SimpleWorldItem';
 import { Mesh } from 'babylonjs';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Polygon } from 'game-worldmap-generator';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 export class EmptyArea extends SimpleWorldItem {
     private boundingPolygon: Polygon;

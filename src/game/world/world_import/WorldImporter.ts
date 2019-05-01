@@ -1,7 +1,6 @@
+import { defaultParseOptions, GwmWorldItem, GwmWorldMapParser, parsers, transformators, TreeIteratorGenerator, TreeNode } from '@nightshifts.inc/world-generator';
 import { Scene } from 'babylonjs';
 import { Promise } from 'es6-promise';
-import { defaultParseOptions, parsers, transformators, GwmWorldItem, GwmWorldMapParser, TreeIteratorGenerator, TreeNode } from 'game-worldmap-generator';
-import { WorldMapToMatrixGraphConverter } from 'game-worldmap-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
 import { Vector2Model } from '../../model/utils/Vector2Model';
 import { FlashlightToolMesh } from '../../tools/FlashlightToolMesh';
 import { ThermometerToolMesh } from '../../tools/ThermometerToolMesh';
@@ -12,6 +11,7 @@ import { Player } from '../world_items/player/Player';
 import { WorldItem } from '../world_items/WorldItem';
 import { parseJsonAdditionalData } from './AdditionalData';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
+import { WorldMapToMatrixGraphConverter } from '@nightshifts.inc/world-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
 
 export class WorldImporter {
     private meshFactoryProducer: WorldFactoryProducer;

@@ -1,6 +1,6 @@
-import { Mesh, Vector3, StandardMaterial } from 'babylonjs';
-import { VectorModel, toVector3 } from '../../model/core/VectorModel';
-import { Polygon } from 'game-worldmap-generator';
+import { Mesh, StandardMaterial } from 'babylonjs';
+import { VectorModel } from '../../model/core/VectorModel';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 export interface SerializedMeshModel {
     name: string;

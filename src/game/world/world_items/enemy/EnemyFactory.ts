@@ -1,10 +1,11 @@
 import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
-import { GwmWorldItem, Polygon } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { WorldItem } from '../WorldItem';
 import { Scene, StandardMaterial, Mesh, Skeleton } from 'babylonjs';
 import { Enemy } from './Enemy';
 import { VectorModel } from '../../../model/core/VectorModel';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 
 export class EnemyFactory implements WorldItemFactory {

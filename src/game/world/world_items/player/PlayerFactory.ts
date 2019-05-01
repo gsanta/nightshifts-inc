@@ -1,16 +1,16 @@
-import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
-import { GwmWorldItem } from 'game-worldmap-generator';
-import { ShadowGenerator, Scene, SpotLight, Mesh, Skeleton, Light } from 'babylonjs';
-import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { World } from '../../World';
-import { WorldItem } from '../WorldItem';
-import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
-import { UserInputEventEmitter } from '../../../interactions/motion/UserInputEventEmitter';
-import { Player } from './Player';
+import { Mesh, Scene, Skeleton } from 'babylonjs';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { ActionStrategy } from '../../../interactions/action/ActionStrategy';
 import { CollisionDetector } from '../../../interactions/collision/CollisionDetector';
 import { ManualMotionStrategy } from '../../../interactions/motion/ManualMotionStrategy';
+import { UserInputEventEmitter } from '../../../interactions/motion/UserInputEventEmitter';
 import { EyeSensor } from '../../../interactions/sensor/EyeSensor';
+import { toVector3, VectorModel } from '../../../model/core/VectorModel';
+import { World } from '../../World';
+import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
+import { WorldItem } from '../WorldItem';
+import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { Player } from './Player';
 
 export class PlayerFactory implements GwmItemImporter {
     private meshInfo: [Mesh[], Skeleton[]];

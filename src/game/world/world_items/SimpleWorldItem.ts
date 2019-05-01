@@ -2,10 +2,9 @@ import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
 import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from './WorldItem';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
-import { Polygon, Rectangle } from 'game-worldmap-generator';
-import { Point } from 'game-worldmap-generator/build/model/Point';
 import _ = require('lodash');
 import { ContainerWorldItem } from './ContainerWorldItem';
+import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 
 
 export class SimpleWorldItem<M = Mesh> implements WorldItem {

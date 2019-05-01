@@ -1,8 +1,8 @@
 import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
-import { Polygon } from 'game-worldmap-generator';
 import _ = require('lodash');
+import { Polygon } from '@nightshifts.inc/geometry';
 
 export class ContainerWorldItem implements WorldItem {
     public children: WorldItem[] = [];

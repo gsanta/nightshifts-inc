@@ -1,4 +1,4 @@
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { Scene, StandardMaterial } from 'babylonjs';
 import { AdditionalData } from '../../world_import/AdditionalData';

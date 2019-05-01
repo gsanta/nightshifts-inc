@@ -1,11 +1,11 @@
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { WorldItem } from '../WorldItem';
-import { Polygon, GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { Scene, Vector3, Mesh } from 'babylonjs';
-import { Point } from 'game-worldmap-generator/build/model/Point';
 import { World } from '../../World';
 import { Door } from '../door/Door';
 import { VectorModel } from '../../../model/core/VectorModel';
+import { Polygon, Point } from '@nightshifts.inc/geometry';
 
 export class Room extends ContainerWorldItem {
     public borderItems: WorldItem[] = [];

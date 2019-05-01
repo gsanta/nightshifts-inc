@@ -1,9 +1,10 @@
-import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { Direction } from '../../../model/utils/Direction';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData } from '../../world_import/AdditionalData';
 import { Orientation } from '../../../model/utils/Orientation';
 import { World } from '../../World';
+import { Rectangle, Polygon } from '@nightshifts.inc/geometry';
 
 export interface WorldItemTranslator {
     getTranslate(worldItem: GwmWorldItem, world: World, realMeshDimensions?: Vector2Model): Vector2Model;

@@ -1,5 +1,5 @@
 import { Scene } from 'babylonjs';
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { Room } from './Room';
 import { World } from '../../World';

@@ -1,13 +1,12 @@
-import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
-import { GwmWorldItem } from 'game-worldmap-generator';
-import { ShadowGenerator, Scene, StandardMaterial, Mesh } from 'babylonjs';
-import { MeshTemplate } from '../../../model/core/templates/MeshTemplate';
-import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { WorldItem } from '../WorldItem';
+import { Mesh, Scene, StandardMaterial } from 'babylonjs';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
+import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { Room } from '../room/Room';
-import { GameConstants } from '../../../GameConstants';
+import { WorldItem } from '../WorldItem';
+import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 const colors = GameConstants.colors;
 
 

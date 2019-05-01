@@ -1,6 +1,5 @@
-import {TreeNode, TreeIteratorGenerator} from 'game-worldmap-generator';
+import {TreeNode, TreeIteratorGenerator} from '@nightshifts.inc/world-generator';
 import { WorldItem } from '../world_items/WorldItem';
-import { ContainerWorldItem } from '../world_items/ContainerWorldItem';
 import { Room } from '../world_items/room/Room';
 import { Border } from '../world_items/Border';
 

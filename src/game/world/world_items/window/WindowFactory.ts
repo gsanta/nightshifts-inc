@@ -1,5 +1,5 @@
 import { Scene, ShadowGenerator } from 'babylonjs';
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Window } from './Window';
 import { World } from '../../World';

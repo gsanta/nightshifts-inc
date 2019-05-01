@@ -1,11 +1,11 @@
-import { GwmWorldItem, Rectangle, Polygon } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { Scene, StandardMaterial, MeshBuilder } from 'babylonjs';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
-import { Point } from 'game-worldmap-generator/build/model/Point';
 import { SimpleWorldItem } from '../SimpleWorldItem';
 import { WorldItem } from '../WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Door } from '../door/Door';
+import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 
 
 export class DividerWorldItemFactory {

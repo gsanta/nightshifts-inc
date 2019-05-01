@@ -1,8 +1,9 @@
-import { Rectangle, GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { expect } from 'chai';
 import { Direction } from '../../../model/utils/Direction';
 import { WorldItemToRealWorldCoordinateMapper } from './WorldItemToRealWorldCoordinateMapper';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
+import { Rectangle } from '@nightshifts.inc/geometry';
 
 
 describe('WorldItemToRealWorldCoordinateMapper', () => {

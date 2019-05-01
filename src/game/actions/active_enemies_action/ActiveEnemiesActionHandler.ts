@@ -3,9 +3,9 @@ import { ActionHandler } from '../ActionHandler';
 import { World } from '../../world/World';
 import { Room } from '../../world/world_items/room/Room';
 import _ = require('lodash');
-import { Rectangle } from 'game-worldmap-generator';
 import { Enemy } from '../../world/world_items/enemy/Enemy';
 import { ActionDispatcher } from '../ActionDispatcher';
+import { Rectangle } from '@nightshifts.inc/geometry';
 
 export class ActiveEnemiesActionHandler implements ActionHandler {
     private  enemy: Enemy;

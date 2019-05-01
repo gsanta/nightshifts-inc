@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import { WorldItemTranslator } from './WorldItemToRealWorldCoordinateMapper';
 import { WorldItemToWorldCenterTranslatorDecorator } from './WorldItemToWorldCenterTranslatorDecorator';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
-import { GwmWorldItem } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { expect } from 'chai';
 import { World } from '../../World';
 

@@ -6,10 +6,10 @@ import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 import { SimpleWorldItem } from '../SimpleWorldItem';
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { GameConstants } from '../../../GameConstants';
-import { GwmWorldItem, Rectangle } from 'game-worldmap-generator';
+import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
-import { Point } from 'game-worldmap-generator/build/model/Point';
 import { Border } from '../Border';
+import { Rectangle, Point } from '@nightshifts.inc/geometry';
 const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {
