@@ -1,5 +1,7 @@
 import { Creature } from '../Creature';
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial, Quaternion, Axis, Space, Color3 } from '@babylonjs/core';
+import { Rectangle } from '@nightshifts.inc/geometry';
+import { VectorModel } from '../../../model/core/VectorModel';
 declare const DEBUG;
 
 export class Enemy extends Creature {
@@ -7,10 +9,12 @@ export class Enemy extends Creature {
     private inVisibleMaterial: StandardMaterial = null;
     private scene: Scene;
     private isVisible = true;
+    private boundingPolygon: Rectangle;
 
-    constructor(mesh: Mesh, scene: Scene) {
+    constructor(mesh: Mesh, scene: Scene, boundingPolygon: Rectangle) {
         super(mesh, null);
         this.scene = scene;
+        this.boundingPolygon = boundingPolygon;
 
         this.initMaterials();
         this.mesh.material = this.visibleMaterial;
@@ -32,6 +36,10 @@ export class Enemy extends Creature {
     public playIdleAnimation() {
         throw new Error('Method not implemented.');
     }
+
+    // public getCenterPosition() {
+    //     return new VectorModel(this.boundingPolygon.left, 0, this.boundingPolygon.top);
+    // }
 
     public setIsVisible(isVisible: boolean) {
         if (this.isVisible === isVisible) {

@@ -5,7 +5,7 @@ import { WorldItem } from '../WorldItem';
 import { Scene, StandardMaterial, Mesh, Skeleton, MeshBuilder, Color3 } from '@babylonjs/core';
 import { Enemy } from './Enemy';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Polygon } from '@nightshifts.inc/geometry';
+import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
 
 
 export class EnemyFactory implements WorldItemFactory {
@@ -29,7 +29,7 @@ export class EnemyFactory implements WorldItemFactory {
 
         // const mesh = this.createMesh(polygon);
         // this.meshInfo[0][0].material = this.createMaterial();
-        const enemy = new Enemy(this.meshInfo[0][0], this.scene);
+        const enemy = new Enemy(this.meshInfo[0][0], this.scene, <Rectangle> polygon);
         enemy.setPosition(new VectorModel(polygon.left, 0, polygon.top));
         return enemy;
     }

@@ -7,6 +7,6 @@ const HealthWidgetContainer = styled.div`
     background: white;
 `;
 
-export const HealthWidget = ({world}: {world: World}) => {
-    return world ? <HealthWidgetContainer>Health: {world.player.health}%</HealthWidgetContainer> : null;
+export const HealthWidget = ({health}: {health: number}) => {
+    return <HealthWidgetContainer>Health: {health}%</HealthWidgetContainer>;
 };

@@ -51,7 +51,11 @@ export enum ActionType {
     GRAB_TOOL = 'GRAB_TOOL',
     RELEASE_TOOL = 'RELEASE_TOOL',
 
-    DEBUG_TURN_ON_ALL_LIGHTS = 'DEBUG_TURN_ON_ALL_LIGHTS'
+    DEBUG_TURN_ON_ALL_LIGHTS = 'DEBUG_TURN_ON_ALL_LIGHTS',
+
+    GAME_IS_READY = 'GAME_IS_READY',
+
+    WIDGET_UPDATE = 'WIDGET_UPDATE'
 }
 
 export interface WatchableAction<T> {

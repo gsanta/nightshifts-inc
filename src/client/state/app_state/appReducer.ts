@@ -8,11 +8,13 @@ import { gameActionDispatcherReducer } from '../world_state/gameActionDispatcher
 import { toolsReducer } from '../tools_state/toolsReducer';
 import { userReducer } from '../user_state/userReducer';
 import { worldReducer } from '../world_state/worldReducer';
+import { widgetReducer } from '../widget_state/widgetReducer';
 
 export default combineReducers({
     query: (state = {user: new UserRequests(), game: new WorldRequests(null, null)}) => state,
     world: worldReducer,
     tools: toolsReducer,
+    widgetInfo: widgetReducer,
     user: userReducer,
     debugOptions: debugReducer,
     appLoadingState: appLoadingStateReducer,

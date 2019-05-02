@@ -16,20 +16,23 @@ import { Engine } from '@babylonjs/core';
 import { Scene } from '@babylonjs/core';
 import { HealthWidget } from '../widgets/HealthWidget';
 import styled from 'styled-components';
+import WidgetAction from '../../state/world_state/world_actions/WidgetAction';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
 const mapStateToProps = (state: AppState) => {
     return {
         world: state.world,
-        actionDispatcher: state.gameActionDispatcher
+        actionDispatcher: state.gameActionDispatcher,
+        widgetInfo: state.widgetInfo
     };
 };
 
 const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(GetWorldActions.request()),
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
-    setWorld: (world: World) => dispatch(SetWorldAction.request(world))
+    setWorld: (world: World) => dispatch(SetWorldAction.request(world)),
+    setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health))
 });
 
 const WidgetContainer = styled.div`
@@ -69,6 +72,12 @@ class Game extends React.Component<GameProps, GameState> {
             .import(gwmGameWorldMap)
             .then((world) => {
                 this.props.setWorld(world);
+
+                this.props.actionDispatcher.registerActionHandler({
+                    handle: (type: string, w: World) => {
+                        this.props.setWidgetUpdate(w.player.health);
+                    }
+                });
                 this.gameEngine = new GameEngine(canvas, scene, engine, world, this.props.actionDispatcher);
                 this.gameEngine.run();
             })
@@ -87,7 +96,7 @@ class Game extends React.Component<GameProps, GameState> {
 
                 <canvas ref={this.state.canvasRef}></canvas>
                 <WidgetContainer>
-                    <HealthWidget world={this.props.world}/>
+                    <HealthWidget health={this.props.widgetInfo}/>
                 </WidgetContainer>
             </div>
         );
@@ -99,7 +108,9 @@ export interface GameProps {
     updateGame(world: World): void;
     setWorld(world: World): void;
     world: World;
+    widgetInfo: number;
     actionDispatcher: ActionDispatcher;
+    setWidgetUpdate(health: number): void;
 }
 
 export interface GameState {

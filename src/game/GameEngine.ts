@@ -57,7 +57,8 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new EnemyAttackActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new EnemyHitActionHandler());
+                this.actionDispatcher.registerActionHandler(new EnemyHitActionHandler(this.actionDispatcher));
+
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 
                 this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);

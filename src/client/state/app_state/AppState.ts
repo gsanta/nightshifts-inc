@@ -19,6 +19,8 @@ export interface AppState {
     user: User;
     tools: Tool[];
 
+    widgetInfo: number;
+
     debugOptions: DebugOptions;
     appLoadingState: AppLoadingState;
     errors: ErrorMessage[];
