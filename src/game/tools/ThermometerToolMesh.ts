@@ -1,5 +1,5 @@
 import { ToolMesh } from './ToolMesh';
-import { Scene, Mesh, StandardMaterial } from 'babylonjs';
+import { Scene, Mesh, StandardMaterial, MeshBuilder, Axis, Space, Color3 } from 'babylonjs';
 import { Player } from '../world/world_items/player/Player';
 import { GameConstants } from '../GameConstants';
 const colors = GameConstants.colors;
@@ -12,11 +12,11 @@ export class ThermometerToolMesh implements ToolMesh {
 
     constructor(scene: Scene, player: Player) {
         this.materials = this.initMaterials(scene);
-        this.mesh = BABYLON.MeshBuilder.CreateDisc('thermometer', {radius: 8, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-        this.mesh.translate(BABYLON.Axis.Y, 1, BABYLON.Space.LOCAL);
-        this.mesh.rotate(BABYLON.Axis.X, Math.PI / 2, BABYLON.Space.LOCAL);
+        this.mesh = MeshBuilder.CreateDisc('thermometer', {radius: 8, sideOrientation: Mesh.DOUBLESIDE}, scene);
+        this.mesh.translate(Axis.Y, 1, Space.LOCAL);
+        this.mesh.rotate(Axis.X, Math.PI / 2, Space.LOCAL);
         const material = new StandardMaterial('thermometer-material', scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.window);
+        material.diffuseColor = Color3.FromHexString(colors.window);
         this.mesh.material = this.materials[0];
         this.mesh.parent = player.mesh;
         this.mesh.setEnabled(false);
@@ -40,10 +40,10 @@ export class ThermometerToolMesh implements ToolMesh {
 
     private initMaterials(scene: Scene): StandardMaterial[] {
         const cold = new StandardMaterial('thermometer-material', scene);
-        cold.diffuseColor = BABYLON.Color3.FromHexString(colors.cold);
+        cold.diffuseColor = Color3.FromHexString(colors.cold);
 
         const warm = new StandardMaterial('thermometer-material', scene);
-        warm.diffuseColor = BABYLON.Color3.FromHexString(colors.warm);
+        warm.diffuseColor = Color3.FromHexString(colors.warm);
         return [
             cold, warm
         ];

@@ -1,4 +1,4 @@
-import { FollowCamera, Scene } from 'babylonjs';
+import { FollowCamera, Scene, Vector3 } from 'babylonjs';
 import { World } from '../../../world/World';
 import { ActionHandler } from '../../ActionHandler';
 import { GameActionType } from '../../GameActionType';
@@ -19,7 +19,7 @@ export class CreateFollowCameraActionHandler implements ActionHandler {
     }
 
     private createCamera(scene: Scene): FollowCamera {
-        const camera = new BABYLON.FollowCamera('camera', new BABYLON.Vector3(0, 120, 0), scene);
+        const camera = new FollowCamera('camera', new Vector3(0, 120, 0), scene);
 
         camera.radius = 60;
         camera.heightOffset = 30;

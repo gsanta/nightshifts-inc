@@ -1,5 +1,5 @@
 import { defaultParseOptions, GwmWorldItem, GwmWorldMapParser, parsers, transformators, TreeIteratorGenerator, TreeNode } from '@nightshifts.inc/world-generator';
-import { Scene } from 'babylonjs';
+import { Scene } from 'babylonjs/scene';
 import { Promise } from 'es6-promise';
 import { Vector2Model } from '../../model/utils/Vector2Model';
 import { FlashlightToolMesh } from '../../tools/FlashlightToolMesh';

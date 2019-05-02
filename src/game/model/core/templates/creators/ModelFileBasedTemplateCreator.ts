@@ -1,4 +1,4 @@
-import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup, StandardMaterial } from 'babylonjs';
+import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup, StandardMaterial, Texture, SceneLoader } from 'babylonjs';
 import {Promise} from 'es6-promise';
 import { MeshTemplate, MeshTemplateConfig } from '../MeshTemplate';
 import { VectorModel } from '../../VectorModel';
@@ -36,8 +36,8 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
         this.config = {...defaultMeshConfig, ...config};
 
         materialFileNames.forEach((file, index) => {
-            this.materials[index] = new BABYLON.StandardMaterial(file, scene);
-            this.materials[index].diffuseTexture = new BABYLON.Texture(file, scene);
+            this.materials[index] = new StandardMaterial(file, scene);
+            this.materials[index].diffuseTexture = new Texture(file, scene);
         });
     }
 
@@ -54,7 +54,7 @@ export class ModelFileBasedTemplateCreator implements AsyncTemplateCreator {
                 throw new Error(message);
             };
 
-            BABYLON.SceneLoader.ImportMesh(
+            SceneLoader.ImportMesh(
                 '',
                 this.base,
                 this.fileName,

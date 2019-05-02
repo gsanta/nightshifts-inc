@@ -1,4 +1,4 @@
-import { Mesh, Scene, Skeleton } from 'babylonjs';
+import { Mesh, Scene, Skeleton, Space } from 'babylonjs';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { ActionStrategy } from '../../../interactions/action/ActionStrategy';
 import { CollisionDetector } from '../../../actions/motion_actions/collision_detection/CollisionDetector';
@@ -45,7 +45,7 @@ export class PlayerFactory implements GwmItemImporter {
         player.setMotionStrategy(manualMotionStrategy);
         player.setSensor(new EyeSensor(player, this.scene));
         player.setActionStrategy(actionStrategy);
-        player.mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+        player.mesh.translate(toVector3(translate), 1, Space.WORLD);
 
         return player;
     }

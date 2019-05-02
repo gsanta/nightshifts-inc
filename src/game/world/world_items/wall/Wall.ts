@@ -8,6 +8,7 @@ import { GameConstants } from '../../../GameConstants';
 import { World } from '../../World';
 import { Border } from '../Border';
 import { Polygon, Rectangle, Point } from '@nightshifts.inc/geometry';
+import { Color3 } from 'babylonjs';
 const colors = GameConstants.colors;
 
 export class Wall extends ContainerWorldItem implements Border {
@@ -89,25 +90,25 @@ export class Wall extends ContainerWorldItem implements Border {
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('wallMaterial', scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
-        material.emissiveColor = BABYLON.Color3.FromHexString('#111111');
+        const material = new StandardMaterial('wallMaterial', scene);
+        material.diffuseColor = Color3.FromHexString(colors.wall);
+        material.emissiveColor = Color3.FromHexString('#111111');
 
         return material;
     }
 
     private static createMaterial2(scene: Scene): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('wallMaterial', scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
-        material.emissiveColor = BABYLON.Color3.FromHexString('#FF0000');
+        const material = new StandardMaterial('wallMaterial', scene);
+        material.diffuseColor = Color3.FromHexString(colors.wall);
+        material.emissiveColor = Color3.FromHexString('#FF0000');
 
         return material;
     }
 
     private static createMaterial3(scene: Scene): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('wallMaterial', scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
-        material.emissiveColor = BABYLON.Color3.FromHexString('#00FF00');
+        const material = new StandardMaterial('wallMaterial', scene);
+        material.diffuseColor = Color3.FromHexString(colors.wall);
+        material.emissiveColor = Color3.FromHexString('#00FF00');
 
         return material;
     }

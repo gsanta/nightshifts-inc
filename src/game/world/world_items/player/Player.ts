@@ -1,5 +1,5 @@
 import { Creature } from '../Creature';
-import { Scene, Mesh, Light, Skeleton } from 'babylonjs';
+import { Scene, Mesh, Skeleton, Axis, Space, Quaternion } from 'babylonjs';
 import { MeshTemplate } from '../../../model/core/templates/MeshTemplate';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { UserInputEventEmitter } from '../../../interactions/motion/UserInputEventEmitter';
@@ -46,12 +46,12 @@ export class Player extends Creature {
         this.keyboardHandler = keyboardHandler;
         this.subscribeToUserInput();
 
-        const quaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
+        const quaternion = Quaternion.RotationAxis(Axis.Y, 0);
         this.mesh.rotationQuaternion = quaternion;
     }
 
     public setRotation(distance: number) {
-        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.rotate(Axis.Y, distance, Space.WORLD);
     }
 
     public playWalkingAnimation() {

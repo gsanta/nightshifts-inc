@@ -6,6 +6,7 @@ import { Enemy } from '../../../world/world_items/enemy/Enemy';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { Rectangle } from '@nightshifts.inc/geometry';
 import find from 'lodash/find';
+import { StandardMaterial, Color3 } from 'babylonjs';
 
 export class ActiveEnemiesActionHandler implements ActionHandler {
     private  enemy: Enemy;
@@ -34,8 +35,8 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
         const room = <Room> world.getWorldItemsByName('room')[1];
         const emptyArea = find(room.children, child => child.name === 'empty');
 
-        const material = new BABYLON.StandardMaterial('empty-area-material', world.scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString('00FF00');
+        const material = new StandardMaterial('empty-area-material', world.scene);
+        material.diffuseColor = Color3.FromHexString('00FF00');
         emptyArea.mesh.material = material;
 
         const enemyPosition = emptyArea.getCenterPosition();

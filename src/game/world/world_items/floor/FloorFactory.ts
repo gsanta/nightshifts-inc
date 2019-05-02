@@ -1,4 +1,4 @@
-import { Mesh, Scene, StandardMaterial } from 'babylonjs';
+import { Mesh, Scene, StandardMaterial, MeshBuilder } from 'babylonjs';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -7,6 +7,7 @@ import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { Room } from '../room/Room';
 import { WorldItem } from '../WorldItem';
 import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { Color3 } from 'babylonjs';
 const colors = GameConstants.colors;
 
 
@@ -39,13 +40,13 @@ export class FloorFactory implements GwmItemImporter {
     }
 
     private createMaterial(scene: Scene): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('empty-area-material', scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.cold);
+        const material = new StandardMaterial('empty-area-material', scene);
+        material.diffuseColor = Color3.FromHexString(colors.cold);
         return material;
     }
 
     private createMesh(worldItem: GwmWorldItem): Mesh {
-        return BABYLON.MeshBuilder.CreateGround(
+        return MeshBuilder.CreateGround(
                 'floor',
                 { width: worldItem.dimensions.width, height: worldItem.dimensions.height, updatable: true },
                 this.scene

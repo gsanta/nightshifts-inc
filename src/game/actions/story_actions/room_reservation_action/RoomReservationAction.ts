@@ -3,7 +3,7 @@ import { GameActionType } from '../../GameActionType';
 import { Room } from '../../../world/world_items/room/Room';
 import { ActionHandler } from '../../ActionHandler';
 import { Door } from '../../../world/world_items/door/Door';
-import { Scene, StandardMaterial } from 'babylonjs';
+import { Scene, StandardMaterial, Color3 } from 'babylonjs';
 import { GameConstants } from '../../../GameConstants';
 const colors = GameConstants.colors;
 
@@ -55,8 +55,8 @@ export class RoomReservationAction implements ActionHandler {
     }
 
     private createReservedRoomMaterial(scene: Scene): StandardMaterial {
-        const doorClosedMaterial = new BABYLON.StandardMaterial('door-closed-material', scene);
-        doorClosedMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.doorClosed);
+        const doorClosedMaterial = new StandardMaterial('door-closed-material', scene);
+        doorClosedMaterial.diffuseColor = Color3.FromHexString(colors.doorClosed);
 
         return doorClosedMaterial;
     }

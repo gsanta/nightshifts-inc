@@ -1,7 +1,7 @@
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { Scene, HemisphericLight } from 'babylonjs';
+import { Scene, HemisphericLight, Vector3, Color3 } from 'babylonjs';
 
 
 /**
@@ -20,8 +20,8 @@ export class CreateMainLightActionHandler implements ActionHandler {
     }
 
     private createHemisphericLight(scene: Scene): HemisphericLight {
-        const light = new BABYLON.HemisphericLight('main-light', new BABYLON.Vector3(0, 1, 0), scene);
-        light.diffuse = new BABYLON.Color3(1, 1, 1);
+        const light = new HemisphericLight('main-light', new Vector3(0, 1, 0), scene);
+        light.diffuse = new Color3(1, 1, 1);
         light.intensity = 1;
         return light;
     }

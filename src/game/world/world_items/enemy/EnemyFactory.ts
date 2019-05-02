@@ -2,7 +2,7 @@ import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { WorldItem } from '../WorldItem';
-import { Scene, StandardMaterial, Mesh, Skeleton } from 'babylonjs';
+import { Scene, StandardMaterial, Mesh, Skeleton, MeshBuilder, Color3 } from 'babylonjs';
 import { Enemy } from './Enemy';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
@@ -39,7 +39,7 @@ export class EnemyFactory implements WorldItemFactory {
     }
 
     private createMesh(boundingBox: Polygon) {
-        return BABYLON.MeshBuilder.CreateSphere(
+        return MeshBuilder.CreateSphere(
             'enemy',
             { diameter: 2 },
             this.scene
@@ -47,8 +47,8 @@ export class EnemyFactory implements WorldItemFactory {
     }
 
     private createMaterial(): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('enemy-material', this.scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString('FF0000');
+        const material = new StandardMaterial('enemy-material', this.scene);
+        material.diffuseColor = Color3.FromHexString('FF0000');
 
         return material;
     }

@@ -1,5 +1,5 @@
 import { Sensor } from './Sensor';
-import { Scene, StandardMaterial } from 'babylonjs';
+import { Scene, StandardMaterial, MeshBuilder, Color3 } from 'babylonjs';
 import { Creature } from '../../world/world_items/Creature';
 import { VectorModel } from '../../model/core/VectorModel';
 declare const DEBUG: boolean;
@@ -17,7 +17,7 @@ export class HearingSensor implements Sensor {
 
         this.initMaterial();
 
-        const torus = BABYLON.MeshBuilder.CreateTorus('torus', {thickness: 0.2, diameter: this.range * 2, tessellation: 30}, scene);
+        const torus =  MeshBuilder.CreateTorus('torus', {thickness: 0.2, diameter: this.range * 2, tessellation: 30}, scene);
         torus.material = this.enemySensorRangeMaterial;
         torus.parent = creature.getBody();
         torus.checkCollisions = false;
@@ -47,7 +47,7 @@ export class HearingSensor implements Sensor {
 
     private initMaterial() {
         this.enemySensorRangeMaterial = new StandardMaterial('enemy-sensor-range-material', this.scene);
-        this.enemySensorRangeMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        this.enemySensorRangeMaterial.emissiveColor = new Color3(1, 0, 0);
 
         if (DEBUG) {
             this.enemySensorRangeMaterial.alpha = 1;

@@ -1,6 +1,6 @@
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
-import { Scene, StandardMaterial } from 'babylonjs';
+import { Scene, StandardMaterial, Color3 } from 'babylonjs';
 import { AdditionalData } from '../../world_import/AdditionalData';
 import { World } from '../../World';
 import { WorldItem } from '../WorldItem';
@@ -24,8 +24,8 @@ export class DoorFactory implements GwmItemImporter {
     }
 
     private createMaterial(): StandardMaterial {
-        const doorMaterial = new BABYLON.StandardMaterial('door-material', this.scene);
-        doorMaterial.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
+        const doorMaterial = new StandardMaterial('door-material', this.scene);
+        doorMaterial.diffuseColor = Color3.FromHexString(colors.door);
         return doorMaterial;
     }
 }

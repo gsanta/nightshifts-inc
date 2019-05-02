@@ -1,7 +1,7 @@
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { WorldItem } from '../WorldItem';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Scene, Vector3, Mesh } from 'babylonjs';
+import { Scene, Vector3, Mesh, MeshBuilder } from 'babylonjs';
 import { World } from '../../World';
 import { Door } from '../door/Door';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -47,7 +47,7 @@ export class Room extends ContainerWorldItem {
             .negateY()
             .translate(new Point(translateX, -translateY));
 
-        const roomMesh = BABYLON.MeshBuilder.CreatePolygon(
+        const roomMesh = MeshBuilder.CreatePolygon(
             'room',
             {
                 shape: dimensions.points.map(point => new Vector3(point.x, 2, point.y)),

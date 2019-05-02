@@ -16,6 +16,8 @@ import 'babylonjs-loaders';
 import { CreateFollowCameraActionHandler } from './actions/environment_actions/create_main_camera_action/CreateFollowCameraActionHandler';
 import { CreateMainLightActionHandler } from './actions/environment_actions/create_main_light_action/CreateMainLightActionHandler';
 
+(<any> window).earcut = require('earcut');
+
 export class GameEngine {
     private scene: Scene;
     private world: World;
@@ -27,8 +29,8 @@ export class GameEngine {
 
     constructor(
         canvas: HTMLCanvasElement,
-        scene: BABYLON.Scene,
-        engine: BABYLON.Engine,
+        scene: Scene,
+        engine: Engine,
         world: World,
         actionDispatcher: ActionDispatcher
     ) {

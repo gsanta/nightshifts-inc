@@ -1,5 +1,5 @@
 import { Creature } from '../Creature';
-import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial } from 'babylonjs';
+import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial, Quaternion, Axis, Space, Color3 } from 'babylonjs';
 declare const DEBUG;
 
 export class Enemy extends Creature {
@@ -15,11 +15,11 @@ export class Enemy extends Creature {
         this.initMaterials();
         this.mesh.material = this.visibleMaterial;
         this.mesh.checkCollisions = true;
-        this.mesh.rotationQuaternion = BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0);
+        this.mesh.rotationQuaternion = Quaternion.RotationAxis(Axis.Y, 0);
     }
 
     public setRotation(distance: number) {
-        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.rotate(Axis.Y, distance, Space.WORLD);
     }
 
     public getBody(): Mesh {
@@ -50,10 +50,10 @@ export class Enemy extends Creature {
 
     private initMaterials() {
         this.visibleMaterial = new StandardMaterial('enemy-visible-material', this.scene);
-        this.visibleMaterial.emissiveColor = new BABYLON.Color3(0, 0, 1);
+        this.visibleMaterial.emissiveColor = new Color3(0, 0, 1);
 
         this.inVisibleMaterial = new StandardMaterial('enemy-non-visible-material', this.scene);
-        this.inVisibleMaterial.emissiveColor = new BABYLON.Color3(0, 0, 1);
+        this.inVisibleMaterial.emissiveColor = new Color3(0, 0, 1);
 
         if (DEBUG) {
             this.inVisibleMaterial.alpha = 0.1;

@@ -2,10 +2,11 @@ import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { WorldItem } from '../WorldItem';
-import { Vector3, Scene, StandardMaterial } from 'babylonjs';
+import { Vector3, Scene, StandardMaterial, Color3 } from 'babylonjs';
 import { GameConstants } from '../../../GameConstants';
 import { EmptyArea } from './EmptyArea';
 import { Point } from '@nightshifts.inc/geometry';
+import { MeshBuilder } from 'babylonjs';
 const colors = GameConstants.colors;
 
 export class EmptyAreaFactory implements WorldItemFactory {
@@ -23,7 +24,7 @@ export class EmptyAreaFactory implements WorldItemFactory {
             .negateY()
             .translate(new Point(translateX, -translateY));
 
-        const mesh = BABYLON.MeshBuilder.CreatePolygon(
+        const mesh = MeshBuilder.CreatePolygon(
             worldItem.name,
             {
                 shape: dimensions.points.map(point => new Vector3(point.x, 2, point.y)),
@@ -41,8 +42,8 @@ export class EmptyAreaFactory implements WorldItemFactory {
     }
 
     private createMaterial(scene: Scene): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('empty-area-material', scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
+        const material = new StandardMaterial('empty-area-material', scene);
+        material.diffuseColor = Color3.FromHexString(colors.door);
 
         return material;
     }

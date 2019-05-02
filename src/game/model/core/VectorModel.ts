@@ -65,7 +65,7 @@ export class VectorModel {
     }
 
     public getAngleToVectorOnXZPlane(otherVector: VectorModel) {
-        return BABYLON.Vector3.GetAngleBetweenVectors(
+        return Vector3.GetAngleBetweenVectors(
             new Vector3(this.x, this.y, this.z),
             new Vector3(otherVector.x, otherVector.y, otherVector.z),
             new Vector3(0, 1, 0)

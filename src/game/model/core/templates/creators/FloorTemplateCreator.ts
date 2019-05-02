@@ -1,5 +1,5 @@
 import { TemplateCreator } from '../TemplateCreator';
-import { Scene, StandardMaterial, Mesh } from 'babylonjs';
+import { Scene, StandardMaterial, Mesh, Color3, MeshBuilder } from 'babylonjs';
 import { MeshTemplate } from '../MeshTemplate';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { GameConstants } from '../../../../GameConstants';
@@ -29,14 +29,14 @@ export class FloorTemplateCreator implements TemplateCreator {
     }
 
     private createMaterial(): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('floorMaterial', this.scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.floor);
+        const material = new StandardMaterial('floorMaterial', this.scene);
+        material.diffuseColor = Color3.FromHexString(colors.floor);
 
         return material;
     }
 
     private createMesh(world: World): Mesh {
-        return BABYLON.MeshBuilder.CreateGround(
+        return MeshBuilder.CreateGround(
                 'floor',
                 { width: world.dimensions.x(), height: world.dimensions.y(), updatable: true },
                 this.scene

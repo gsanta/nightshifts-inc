@@ -1,5 +1,4 @@
 import { SerializedMeshModel, WorldItem } from '../WorldItem';
-import { StandardMaterial, Scene, MeshBuilder, Mesh } from 'babylonjs';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 import { SimpleWorldItem } from '../SimpleWorldItem';
@@ -9,6 +8,11 @@ import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { Border } from '../Border';
 import { Rectangle, Point } from '@nightshifts.inc/geometry';
+import { Mesh } from 'babylonjs/Meshes/mesh';
+import { Scene } from 'babylonjs/scene';
+import {StandardMaterial} from 'babylonjs';
+import { Color3 } from 'babylonjs';
+import { MeshBuilder } from 'babylonjs';
 const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {
@@ -50,8 +54,8 @@ export class WindowGlass extends ContainerWorldItem {
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
-        const windowGlass = new BABYLON.StandardMaterial('window-glass-material', scene);
-        windowGlass.diffuseColor = BABYLON.Color3.FromHexString(colors.window);
+        const windowGlass = new StandardMaterial('window-glass-material', scene);
+        windowGlass.diffuseColor = Color3.FromHexString(colors.window);
 
         return windowGlass;
     }
@@ -103,9 +107,9 @@ class WindowFrame extends ContainerWorldItem {
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
-        const windowFrame = new BABYLON.StandardMaterial('window-frame-material', scene);
-        windowFrame.diffuseColor = BABYLON.Color3.FromHexString(colors.wall);
-        windowFrame.emissiveColor = BABYLON.Color3.FromHexString('#111111');
+        const windowFrame = new StandardMaterial('window-frame-material', scene);
+        windowFrame.diffuseColor = Color3.FromHexString(colors.wall);
+        windowFrame.emissiveColor = Color3.FromHexString('#111111');
 
         return windowFrame;
     }
@@ -166,8 +170,8 @@ export class Window extends ContainerWorldItem implements Border {
         this.pivot1 = pivot1;
         this.pivot2 = pivot2;
 
-        // (<WindowGlass> this.children[2]).setPivotMatrix(BABYLON.Matrix.Translation(pivot1.x, pivot1.y, pivot1.z));
-        // (<WindowGlass> this.children[3]).setPivotMatrix(BABYLON.Matrix.Translation(pivot2.x, pivot2.y, pivot2.z));
+        // (<WindowGlass> this.children[2]).setPivotMatrix(Matrix.Translation(pivot1.x, pivot1.y, pivot1.z));
+        // (<WindowGlass> this.children[3]).setPivotMatrix(Matrix.Translation(pivot2.x, pivot2.y, pivot2.z));
     }
 
     public doDefaultAction() {

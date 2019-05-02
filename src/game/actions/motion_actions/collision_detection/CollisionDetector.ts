@@ -1,5 +1,4 @@
-import { Vector3, Scene, Mesh, AbstractMesh } from 'babylonjs';
-import * as BABYLON from 'babylonjs';
+import { Vector3, Scene, AbstractMesh, Ray } from 'babylonjs';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Creature } from '../../../world/world_items/Creature';
 
@@ -18,7 +17,7 @@ export class CollisionDetector {
     }
 
     public getAdjustedDelta(delta: VectorModel): VectorModel {
-        const collisionInfo = this.castRay(new BABYLON.Vector3(delta.x, delta.y, delta.z));
+        const collisionInfo = this.castRay(new Vector3(delta.x, delta.y, delta.z));
 
         if (collisionInfo.mesh) {
             if (collisionInfo.mesh.name !== 'ray') {
@@ -26,7 +25,7 @@ export class CollisionDetector {
                 invNormal = invNormal.scale(delta.multiply(collisionInfo.normal!).length()); // Change normal to direction's length and normal's axis
                 let adjustedDelta = delta.subtract(invNormal);
 
-                const collisionInfo2 = this.castRay(new BABYLON.Vector3(adjustedDelta.x, adjustedDelta.y, adjustedDelta.z));
+                const collisionInfo2 = this.castRay(new Vector3(adjustedDelta.x, adjustedDelta.y, adjustedDelta.z));
 
                 if (collisionInfo2.mesh) {
                     return new VectorModel(0, 0, 0);
@@ -39,11 +38,11 @@ export class CollisionDetector {
     }
 
 
-    private  castRay(delta: BABYLON.Vector3):  CollisionInfo {
+    private  castRay(delta: Vector3):  CollisionInfo {
         const origin = this.creature.getCenterPosition().clone();
         origin.addY(origin.y + 1);
 
-        const ray = new BABYLON.Ray(new Vector3(origin.x, 0.1, origin.z), delta, 3);
+        const ray = new Ray(new Vector3(origin.x, 0.1, origin.z), delta, 3);
 
         const hit = this.scene.pickWithRay(ray, (mesh: AbstractMesh) => {
             return ['ray', 'ground', 'thermometer'].indexOf(mesh.name) === -1;

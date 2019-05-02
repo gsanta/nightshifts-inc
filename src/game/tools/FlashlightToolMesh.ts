@@ -1,5 +1,5 @@
 import { ToolMesh } from './ToolMesh';
-import { SpotLight, Scene, ShadowGenerator } from 'babylonjs';
+import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from 'babylonjs';
 import { Player } from '../world/world_items/player/Player';
 import { World } from '../world/World';
 import { Wall } from '../world/world_items/wall/Wall';
@@ -29,10 +29,10 @@ export class FlashlightToolMesh implements ToolMesh {
     }
 
     private createFlashLight(scene: Scene, world: World) {
-        const spotLight = new BABYLON.SpotLight('spot-light', new BABYLON.Vector3(0, 7, 1), new BABYLON.Vector3(0, 0, -5), Math.PI / 4, 3, scene);
+        const spotLight = new SpotLight('spot-light', new Vector3(0, 7, 1), new Vector3(0, 0, -5), Math.PI / 4, 3, scene);
         const shadowGenerator = this.createShadowGenerator(spotLight);
 
-        spotLight.diffuse = new BABYLON.Color3(1, 1, 1);
+        spotLight.diffuse = new Color3(1, 1, 1);
         spotLight.setEnabled(false);
 
 
@@ -43,7 +43,7 @@ export class FlashlightToolMesh implements ToolMesh {
     }
 
     private createShadowGenerator(spotLight: SpotLight): ShadowGenerator {
-        const shadowGenerator = new BABYLON.ShadowGenerator(1024, spotLight);
+        const shadowGenerator = new ShadowGenerator(1024, spotLight);
         shadowGenerator.usePoissonSampling = true;
 
         return shadowGenerator;

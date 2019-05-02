@@ -1,4 +1,4 @@
-import { Mesh, Vector3 } from 'babylonjs';
+import { Mesh, Vector3, Axis, Space } from 'babylonjs';
 import { VectorModel } from '../../model/core/VectorModel';
 import { Sensor } from '../../interactions/sensor/Sensor';
 import { CollisionDetector } from '../../actions/motion_actions/collision_detection/CollisionDetector';
@@ -21,7 +21,7 @@ export abstract class Creature extends SimpleWorldItem<any> {
     }
 
     public setRotation(distance: number) {
-        this.mesh.rotate(BABYLON.Axis.Y, distance, BABYLON.Space.WORLD);
+        this.mesh.rotate(Axis.Y, distance, Space.WORLD);
     }
 
     public setPosition(position: VectorModel) {

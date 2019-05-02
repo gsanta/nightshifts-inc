@@ -1,4 +1,4 @@
-import { Mesh, Scene, MeshBuilder, StandardMaterial } from 'babylonjs';
+import { Mesh, Scene, MeshBuilder, StandardMaterial, Color3, Matrix } from 'babylonjs';
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { Border } from '../Border';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -36,7 +36,7 @@ export class Door extends ContainerWorldItem implements Border {
     public setPivot(axis: VectorModel, angle: number) {
         this.pivotAngle = angle;
         this.pivot = axis;
-        this.mesh.setPivotMatrix(BABYLON.Matrix.Translation(axis.x, axis.y, axis.z));
+        this.mesh.setPivotMatrix(Matrix.Translation(axis.x, axis.y, axis.z));
     }
 
     public doDefaultAction() {
@@ -87,8 +87,8 @@ export class Door extends ContainerWorldItem implements Border {
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
-        const material = new BABYLON.StandardMaterial('doorMaterial', scene);
-        material.diffuseColor = BABYLON.Color3.FromHexString(colors.door);
+        const material = new StandardMaterial('doorMaterial', scene);
+        material.diffuseColor = Color3.FromHexString(colors.door);
 
         return material;
     }

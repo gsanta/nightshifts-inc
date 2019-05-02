@@ -1,6 +1,5 @@
-import { GwmItemImporter } from './GwmItemImporter';
 import { WorldItemTranslator } from '../world_items/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { ShadowGenerator, Mesh, Skeleton } from 'babylonjs';
+import { Mesh, Skeleton, Space } from 'babylonjs';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../World';
 import { WorldItem } from '../world_items/WorldItem';
@@ -32,7 +31,7 @@ export class ModelFactory implements WorldItemFactory {
 
         mesh.rotation.y = rotation;
 
-        mesh.translate(toVector3(translate), 1, BABYLON.Space.WORLD);
+        mesh.translate(toVector3(translate), 1, Space.WORLD);
 
         return meshModel;
     }

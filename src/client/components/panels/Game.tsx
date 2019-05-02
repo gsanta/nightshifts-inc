@@ -12,6 +12,8 @@ import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction
 import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFactoryProducer';
 import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchema';
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
+import { Engine } from 'babylonjs';
+import { Scene } from 'babylonjs';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -46,8 +48,8 @@ class Game extends React.Component<GameProps, GameState> {
         this.props.loadGame();
 
         const canvas = this.state.canvasRef.current;
-        const engine = new BABYLON.Engine(canvas);
-        const scene = new BABYLON.Scene(engine);
+        const engine = new Engine(canvas);
+        const scene = new Scene(engine);
         scene.clearColor = Color4.FromHexString(colors.Black);
         this.setState({
             engine,
@@ -90,8 +92,8 @@ export interface GameProps {
 
 export interface GameState {
     canvasRef: React.RefObject<HTMLCanvasElement>;
-    scene: BABYLON.Scene;
-    engine: BABYLON.Engine;
+    scene: Scene;
+    engine: Engine;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

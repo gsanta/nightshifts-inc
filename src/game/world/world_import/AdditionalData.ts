@@ -1,5 +1,6 @@
 import { Orientation } from '../../model/utils/Orientation';
 import { Direction } from '../../model/utils/Direction';
+import { Tools } from 'babylonjs';
 
 export interface AdditionalData {
     pos?: {
@@ -37,7 +38,7 @@ export const parseJsonAdditionalData = (additionalData): AdditionalData => {
     }
 
     if (additionalData.angle) {
-        additionalData.angle = BABYLON.Tools.ToRadians(additionalData.angle);
+        additionalData.angle = Tools.ToRadians(additionalData.angle);
     }
 
     if (additionalData.axis) {

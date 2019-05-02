@@ -1,4 +1,4 @@
-import { Scene, Mesh, Skeleton, StandardMaterial, AbstractMesh, ParticleSystem, AnimationGroup } from 'babylonjs';
+import { Scene, Mesh, Skeleton, StandardMaterial, AbstractMesh, ParticleSystem, AnimationGroup, Texture, SceneLoader } from 'babylonjs';
 import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
 import { toVector3 } from '../../model/core/VectorModel';
 
@@ -27,23 +27,13 @@ export class ModelFileLoader {
                 meshes[0].name = name;
 
                 resolve([<Mesh[]> meshes, skeletons]);
-
-                // else {
-                //     const material = new BABYLON.StandardMaterial('empty-area-material', this.scene);
-                //     material.diffuseColor = BABYLON.Color3.FromHexString('00FF00');
-                //     const mesh = BABYLON.Mesh.MergeMeshes(<Mesh[]> meshes);
-                //     mesh.material = material;
-                //     this.configMeshes([mesh], config);
-                //     resolve([<Mesh[]> meshes, skeletons]);
-                // }
-
             };
 
             const onError = (scene: Scene, message: string) => {
                 throw new Error(message);
             };
 
-            BABYLON.SceneLoader.ImportMesh(
+            SceneLoader.ImportMesh(
                 '',
                 base,
                 fileName,
@@ -67,8 +57,8 @@ export class ModelFileLoader {
 
     private loadMaterials(materialFileNames: string[]): StandardMaterial[] {
         return materialFileNames.map(file => {
-            const material = new BABYLON.StandardMaterial(file, this.scene);
-            material.diffuseTexture = new BABYLON.Texture(file, this.scene);
+            const material = new StandardMaterial(file, this.scene);
+            material.diffuseTexture = new Texture(file, this.scene);
 
             return material;
         });
