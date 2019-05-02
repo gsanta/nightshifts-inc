@@ -3,8 +3,9 @@ import { StandardMaterial, Mesh, Vector3 } from '@babylonjs/core';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 import flatten from 'lodash/flatten';
+import { SimpleWorldItem } from './SimpleWorldItem';
 
-export class ContainerWorldItem implements WorldItem {
+export class ContainerWorldItem extends SimpleWorldItem {
     public children: WorldItem[] = [];
     public container: WorldItem;
     public mesh: Mesh;
@@ -15,6 +16,7 @@ export class ContainerWorldItem implements WorldItem {
     material: StandardMaterial;
 
     constructor(children: WorldItem[]) {
+        super(null, '');
         this.children = children;
     }
 

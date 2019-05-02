@@ -14,12 +14,14 @@ import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchem
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
 import { Engine } from '@babylonjs/core';
 import { Scene } from '@babylonjs/core';
+import { HealthWidget } from '../widgets/HealthWidget';
+import styled from 'styled-components';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
 const mapStateToProps = (state: AppState) => {
     return {
-        worldSchema: state.world,
+        world: state.world,
         actionDispatcher: state.gameActionDispatcher
     };
 };
@@ -29,6 +31,12 @@ const mapDispatchToProps = dispatch => ({
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
     setWorld: (world: World) => dispatch(SetWorldAction.request(world))
 });
+
+const WidgetContainer = styled.div`
+    position: absolute;
+    left: 5px;
+    top: 35px;
+`;
 
 class Game extends React.Component<GameProps, GameState> {
     private gameEngine: GameEngine;
@@ -76,7 +84,11 @@ class Game extends React.Component<GameProps, GameState> {
     public render() {
         return (
             <div>
+
                 <canvas ref={this.state.canvasRef}></canvas>
+                <WidgetContainer>
+                    <HealthWidget world={this.props.world}/>
+                </WidgetContainer>
             </div>
         );
     }
@@ -86,7 +98,7 @@ export interface GameProps {
     loadGame(): void;
     updateGame(world: World): void;
     setWorld(world: World): void;
-    worldSchema: JsonWorldSchema;
+    world: World;
     actionDispatcher: ActionDispatcher;
 }
 

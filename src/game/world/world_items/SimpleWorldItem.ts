@@ -48,7 +48,7 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
         };
     }
 
-    public unserialize(model: SerializedMeshModel): SimpleWorldItem<M> {
+    public unserialize(model: SerializedMeshModel): WorldItem {
         return null;
     }
 
@@ -130,6 +130,10 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
 
     public intersectsPoint(vector: VectorModel) {
         return this.mesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z));
+    }
+
+    public intersectsWorldItem(otherWorldItem: WorldItem): boolean {
+        return this.mesh.intersectsMesh(otherWorldItem.mesh);
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {

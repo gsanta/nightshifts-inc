@@ -66,4 +66,5 @@ export interface WorldItem {
     getAbsoluteBoundingPolygon(): Polygon;
     setParent(worldItem: WorldItem);
     intersectsPoint(vector: VectorModel);
+    intersectsWorldItem(otherWorldItem: WorldItem);
 }

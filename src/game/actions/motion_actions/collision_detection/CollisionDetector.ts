@@ -1,4 +1,4 @@
-import { Vector3, Scene, AbstractMesh, Ray } from '@babylonjs/core';
+import { Vector3, Scene, AbstractMesh, Ray, Mesh } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Creature } from '../../../world/world_items/Creature';
 
@@ -16,7 +16,12 @@ export class CollisionDetector {
         this.scene = scene;
     }
 
+    public collidesWith(otherMesh: Mesh): boolean {
+        return this.creature.mesh.intersectsMesh(otherMesh);
+    }
+
     public getAdjustedDelta(delta: VectorModel): VectorModel {
+
         const collisionInfo = this.castRay(new Vector3(delta.x, delta.y, delta.z));
 
         if (collisionInfo.mesh) {
@@ -38,14 +43,14 @@ export class CollisionDetector {
     }
 
 
-    private  castRay(delta: Vector3):  CollisionInfo {
+    private castRay(delta: Vector3):  CollisionInfo {
         const origin = this.creature.getCenterPosition().clone();
         origin.addY(origin.y + 1);
 
         const ray = new Ray(new Vector3(origin.x, 0.1, origin.z), delta, 3);
 
-        const hit = this.scene.pickWithRay(ray, (mesh: AbstractMesh) => {
-            return ['ray', 'ground', 'thermometer'].indexOf(mesh.name) === -1;
+        const hit = this.scene.pickWithRay(ray, (pickedMesh: AbstractMesh) => {
+            return ['ray', 'ground', 'thermometer'].indexOf(pickedMesh.name) === -1;
         });
 
         let normal: Vector3 | null = null;

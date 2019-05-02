@@ -14,6 +14,7 @@ import { LightHandler } from './actions/environment_actions/active_room_lightnin
 import { EnemyAttackActionHandler } from './actions/motion_actions/enemy_attack_action/EnemyAttackActionHandler';
 import { CreateFollowCameraActionHandler } from './actions/environment_actions/create_main_camera_action/CreateFollowCameraActionHandler';
 import { CreateMainLightActionHandler } from './actions/environment_actions/create_main_light_action/CreateMainLightActionHandler';
+import { EnemyHitActionHandler } from './actions/enemy_hit_action/EnemyHitActionHandler';
 
 (<any> window).earcut = require('earcut');
 
@@ -55,7 +56,8 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new EnemyAttackActionHandler());
+                this.actionDispatcher.registerActionHandler(new EnemyAttackActionHandler(this.actionDispatcher));
+                this.actionDispatcher.registerActionHandler(new EnemyHitActionHandler());
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 
                 this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);

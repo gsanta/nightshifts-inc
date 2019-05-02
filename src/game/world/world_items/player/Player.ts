@@ -32,6 +32,7 @@ export class CreatureAnimationMesh {
 
 
 export class Player extends Creature {
+    public health = 100;
     private scene: Scene;
     private keyboardHandler: UserInputEventEmitter;
     public name = 'player';

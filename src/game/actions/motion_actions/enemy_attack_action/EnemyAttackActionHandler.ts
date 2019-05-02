@@ -6,11 +6,17 @@ import { Room } from '../../../world/world_items/room/Room';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
 import find from 'lodash/find';
 import { VectorModel } from '../../../model/core/VectorModel';
+import { ActionDispatcher } from '../../ActionDispatcher';
 
 export class EnemyAttackActionHandler implements ActionHandler {
     private enemy: Enemy;
     private activeRoom: Room;
     private collisionDetector: CollisionDetector;
+    private actionDispatcher: ActionDispatcher;
+
+    constructor(actionDispatcher: ActionDispatcher) {
+        this.actionDispatcher = actionDispatcher;
+    }
 
     public handle(type: string, world: World, enemy: Enemy) {
         switch (type) {
@@ -25,6 +31,8 @@ export class EnemyAttackActionHandler implements ActionHandler {
             case GameActionType.NEXT_TICK:
                 if (this.enemy && this.enemy.parent === this.activeRoom) {
                     this.calcNextPositionDelta(world);
+
+                    this.actionDispatcher.dispatch(GameActionType.ENEMY_MOVED, this.enemy);
                 }
                 break;
             default:
