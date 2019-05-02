@@ -3,7 +3,7 @@ import { GameActionType } from '../../GameActionType';
 import { Room } from '../../../world/world_items/room/Room';
 import { ActionHandler } from '../../ActionHandler';
 import { Door } from '../../../world/world_items/door/Door';
-import { Scene, StandardMaterial, Color3 } from 'babylonjs';
+import { Scene, StandardMaterial, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
 const colors = GameConstants.colors;
 

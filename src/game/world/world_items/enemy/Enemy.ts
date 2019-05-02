@@ -1,5 +1,5 @@
 import { Creature } from '../Creature';
-import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial, Quaternion, Axis, Space, Color3 } from 'babylonjs';
+import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial, Quaternion, Axis, Space, Color3 } from '@babylonjs/core';
 declare const DEBUG;
 
 export class Enemy extends Creature {

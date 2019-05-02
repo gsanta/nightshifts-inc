@@ -1,4 +1,4 @@
-import { Scene } from 'babylonjs';
+import { Scene } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { Wall } from './Wall';

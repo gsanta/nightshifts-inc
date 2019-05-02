@@ -1,4 +1,4 @@
-import { Light, Mesh } from 'babylonjs';
+import { Light, Mesh } from '@babylonjs/core';
 import { WorldItem } from '../../../world/world_items/WorldItem';
 import { LightHandler } from './LightHandler';
 import { expect } from 'chai';

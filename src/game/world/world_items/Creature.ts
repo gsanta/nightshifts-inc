@@ -1,4 +1,4 @@
-import { Mesh, Vector3, Axis, Space } from 'babylonjs';
+import { Mesh, Vector3, Axis, Space } from '@babylonjs/core';
 import { VectorModel } from '../../model/core/VectorModel';
 import { Sensor } from '../../interactions/sensor/Sensor';
 import { CollisionDetector } from '../../actions/motion_actions/collision_detection/CollisionDetector';

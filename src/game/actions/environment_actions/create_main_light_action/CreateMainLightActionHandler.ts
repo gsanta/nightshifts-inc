@@ -1,7 +1,7 @@
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { Scene, HemisphericLight, Vector3, Color3 } from 'babylonjs';
+import { Scene, HemisphericLight, Vector3, Color3 } from '@babylonjs/core';
 
 
 /**

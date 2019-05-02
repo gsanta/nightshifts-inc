@@ -1,6 +1,7 @@
-import { Scene, Mesh, Skeleton, StandardMaterial, AbstractMesh, ParticleSystem, AnimationGroup, Texture, SceneLoader } from 'babylonjs';
+import { Scene, Mesh, Skeleton, StandardMaterial, AbstractMesh, ParticleSystem, AnimationGroup, Texture, SceneLoader } from '@babylonjs/core';
 import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
 import { toVector3 } from '../../model/core/VectorModel';
+import '@babylonjs/loaders/OBJ';
 
 /**
  * Loads a model from file and gives back a `Mesh`.

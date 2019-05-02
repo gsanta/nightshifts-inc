@@ -1,4 +1,4 @@
-import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup, StandardMaterial, Texture, SceneLoader } from 'babylonjs';
+import { Scene, Mesh, AbstractMesh, ParticleSystem, Skeleton, AnimationGroup, StandardMaterial, Texture, SceneLoader } from '@babylonjs/core';
 import {Promise} from 'es6-promise';
 import { MeshTemplate, MeshTemplateConfig } from '../MeshTemplate';
 import { VectorModel } from '../../VectorModel';

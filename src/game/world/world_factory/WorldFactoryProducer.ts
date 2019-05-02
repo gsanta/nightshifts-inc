@@ -1,5 +1,5 @@
 import { TemplateCreator } from '../../model/core/templates/TemplateCreator';
-import { Scene, SpotLight, ShadowGenerator, Mesh, Skeleton } from 'babylonjs';
+import { Scene, SpotLight, ShadowGenerator, Mesh, Skeleton } from '@babylonjs/core';
 import { WorldFactory } from './WorldFactory';
 import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../../model/core/templates/creators/ModelFileBasedTemplateCreator';
 import { AsyncTemplateCreator } from '../../model/core/templates/AsyncTemplateCreator';

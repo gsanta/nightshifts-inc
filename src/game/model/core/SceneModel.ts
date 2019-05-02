@@ -1,4 +1,4 @@
-import { Scene } from 'babylonjs';
+import { Scene } from '@babylonjs/core';
 import { Rectangle } from '@nightshifts.inc/geometry';
 
 export class SceneModel {

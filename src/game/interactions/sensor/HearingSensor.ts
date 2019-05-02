@@ -1,5 +1,5 @@
 import { Sensor } from './Sensor';
-import { Scene, StandardMaterial, MeshBuilder, Color3 } from 'babylonjs';
+import { Scene, StandardMaterial, MeshBuilder, Color3 } from '@babylonjs/core';
 import { Creature } from '../../world/world_items/Creature';
 import { VectorModel } from '../../model/core/VectorModel';
 declare const DEBUG: boolean;

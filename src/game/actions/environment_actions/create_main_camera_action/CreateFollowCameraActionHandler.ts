@@ -1,4 +1,4 @@
-import { FollowCamera, Scene, Vector3 } from 'babylonjs';
+import { FollowCamera, Scene, Vector3 } from '@babylonjs/core';
 import { World } from '../../../world/World';
 import { ActionHandler } from '../../ActionHandler';
 import { GameActionType } from '../../GameActionType';

@@ -7,13 +7,13 @@ import UpdateWorldActions from '../../state/world_state/world_actions/UpdateWorl
 import GetWorldActions from '../../state/world_state/world_actions/GetWorldActions';
 import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 import colors from '../miscellaneous/colors';
-import { Color4 } from 'babylonjs';
+import { Color4 } from '@babylonjs/core';
 import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
 import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFactoryProducer';
 import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchema';
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
-import { Engine } from 'babylonjs';
-import { Scene } from 'babylonjs';
+import { Engine } from '@babylonjs/core';
+import { Scene } from '@babylonjs/core';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 

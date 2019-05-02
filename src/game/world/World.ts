@@ -1,4 +1,4 @@
-import { FollowCamera, Light, Scene, SpotLight, StandardMaterial } from 'babylonjs';
+import { FollowCamera, Light, Scene, SpotLight, StandardMaterial } from '@babylonjs/core';
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { ToolMesh } from '../tools/ToolMesh';
 import { WorldFactory } from './world_factory/WorldFactory';

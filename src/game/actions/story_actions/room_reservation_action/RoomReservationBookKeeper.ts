@@ -2,7 +2,7 @@ import { Room } from '../../../world/world_items/room/Room';
 import { World } from '../../../world/World';
 import { RoomReservationStrategy } from './RoomReservationStrategy';
 import { Door } from '../../../world/world_items/door/Door';
-import { StandardMaterial, Scene, Color3 } from 'babylonjs';
+import { StandardMaterial, Scene, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
 const colors = GameConstants.colors;
 

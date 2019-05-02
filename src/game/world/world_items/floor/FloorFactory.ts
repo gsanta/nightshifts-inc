@@ -1,4 +1,4 @@
-import { Mesh, Scene, StandardMaterial, MeshBuilder } from 'babylonjs';
+import { Mesh, Scene, StandardMaterial, MeshBuilder } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -7,7 +7,7 @@ import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { Room } from '../room/Room';
 import { WorldItem } from '../WorldItem';
 import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { Color3 } from 'babylonjs';
+import { Color3 } from '@babylonjs/core';
 const colors = GameConstants.colors;
 
 

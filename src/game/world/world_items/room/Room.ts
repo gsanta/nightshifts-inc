@@ -1,7 +1,7 @@
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { WorldItem } from '../WorldItem';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Scene, Vector3, Mesh, MeshBuilder } from 'babylonjs';
+import { Scene, Vector3, Mesh, MeshBuilder } from '@babylonjs/core';
 import { World } from '../../World';
 import { Door } from '../door/Door';
 import { VectorModel } from '../../../model/core/VectorModel';

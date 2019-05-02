@@ -1,6 +1,6 @@
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { WorldItem } from '../WorldItem';
-import { Mesh, MeshBuilder, Scene, StandardMaterial } from 'babylonjs';
+import { Mesh, MeshBuilder, Scene, StandardMaterial } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { SimpleWorldItem } from '../SimpleWorldItem';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
@@ -8,7 +8,7 @@ import { GameConstants } from '../../../GameConstants';
 import { World } from '../../World';
 import { Border } from '../Border';
 import { Polygon, Rectangle, Point } from '@nightshifts.inc/geometry';
-import { Color3 } from 'babylonjs';
+import { Color3 } from '@babylonjs/core';
 const colors = GameConstants.colors;
 
 export class Wall extends ContainerWorldItem implements Border {

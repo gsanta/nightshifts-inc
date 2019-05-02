@@ -1,4 +1,4 @@
-import { Scene } from 'babylonjs';
+import { Scene } from '@babylonjs/core';
 import { Sensor } from './Sensor';
 import { Player } from '../../world/world_items/player/Player';
 import { Enemy } from '../../world/world_items/enemy/Enemy';

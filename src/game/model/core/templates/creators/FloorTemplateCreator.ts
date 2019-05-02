@@ -1,5 +1,5 @@
 import { TemplateCreator } from '../TemplateCreator';
-import { Scene, StandardMaterial, Mesh, Color3, MeshBuilder } from 'babylonjs';
+import { Scene, StandardMaterial, Mesh, Color3, MeshBuilder } from '@babylonjs/core';
 import { MeshTemplate } from '../MeshTemplate';
 import { defaultMeshConfig } from './ModelFileBasedTemplateCreator';
 import { GameConstants } from '../../../../GameConstants';

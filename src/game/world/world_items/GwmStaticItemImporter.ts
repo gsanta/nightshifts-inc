@@ -1,6 +1,6 @@
 import { GwmItemImporter } from '../world_factory/GwmItemImporter';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { ShadowGenerator, Mesh, Space } from 'babylonjs';
+import { ShadowGenerator, Mesh, Space } from '@babylonjs/core';
 import { MeshTemplate } from '../../model/core/templates/MeshTemplate';
 import { WorldItemTranslator } from './world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { WorldItem } from './WorldItem';

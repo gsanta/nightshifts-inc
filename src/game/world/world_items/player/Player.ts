@@ -1,5 +1,5 @@
 import { Creature } from '../Creature';
-import { Scene, Mesh, Skeleton, Axis, Space, Quaternion } from 'babylonjs';
+import { Scene, Mesh, Skeleton, Axis, Space, Quaternion } from '@babylonjs/core';
 import { MeshTemplate } from '../../../model/core/templates/MeshTemplate';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { UserInputEventEmitter } from '../../../interactions/motion/UserInputEventEmitter';

@@ -1,5 +1,5 @@
 import { WorldItemTranslator } from '../world_items/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { Mesh, Skeleton, Space } from 'babylonjs';
+import { Mesh, Skeleton, Space } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../World';
 import { WorldItem } from '../world_items/WorldItem';

@@ -1,4 +1,4 @@
-import { Light } from 'babylonjs';
+import { Light } from '@babylonjs/core';
 import { WorldItem } from '../../../world/world_items/WorldItem';
 import { Room } from '../../../world/world_items/room/Room';
 import { World } from '../../../world/World';

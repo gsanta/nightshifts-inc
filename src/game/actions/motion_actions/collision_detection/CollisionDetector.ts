@@ -1,4 +1,4 @@
-import { Vector3, Scene, AbstractMesh, Ray } from 'babylonjs';
+import { Vector3, Scene, AbstractMesh, Ray } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Creature } from '../../../world/world_items/Creature';
 

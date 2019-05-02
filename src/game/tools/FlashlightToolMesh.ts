@@ -1,5 +1,5 @@
 import { ToolMesh } from './ToolMesh';
-import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from 'babylonjs';
+import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from '@babylonjs/core';
 import { Player } from '../world/world_items/player/Player';
 import { World } from '../world/World';
 import { Wall } from '../world/world_items/wall/Wall';

@@ -1,4 +1,4 @@
-import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
+import { StandardMaterial, Mesh, Vector3 } from '@babylonjs/core';
 import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from './WorldItem';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';

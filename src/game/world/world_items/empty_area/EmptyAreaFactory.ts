@@ -2,11 +2,11 @@ import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { WorldItem } from '../WorldItem';
-import { Vector3, Scene, StandardMaterial, Color3 } from 'babylonjs';
+import { Vector3, Scene, StandardMaterial, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
 import { EmptyArea } from './EmptyArea';
 import { Point } from '@nightshifts.inc/geometry';
-import { MeshBuilder } from 'babylonjs';
+import { MeshBuilder } from '@babylonjs/core';
 const colors = GameConstants.colors;
 
 export class EmptyAreaFactory implements WorldItemFactory {

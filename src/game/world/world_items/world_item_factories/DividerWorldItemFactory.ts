@@ -1,5 +1,5 @@
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Scene, StandardMaterial, MeshBuilder } from 'babylonjs';
+import { Scene, StandardMaterial, MeshBuilder } from '@babylonjs/core';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { SimpleWorldItem } from '../SimpleWorldItem';
 import { WorldItem } from '../WorldItem';

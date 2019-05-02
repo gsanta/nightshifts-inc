@@ -1,5 +1,5 @@
 import { ToolMesh } from './ToolMesh';
-import { Scene, Mesh, StandardMaterial, MeshBuilder, Axis, Space, Color3 } from 'babylonjs';
+import { Scene, Mesh, StandardMaterial, MeshBuilder, Axis, Space, Color3 } from '@babylonjs/core';
 import { Player } from '../world/world_items/player/Player';
 import { GameConstants } from '../GameConstants';
 const colors = GameConstants.colors;

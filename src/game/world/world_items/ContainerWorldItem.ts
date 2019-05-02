@@ -1,5 +1,5 @@
 import { WorldItem, SerializedMeshModel } from './WorldItem';
-import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
+import { StandardMaterial, Mesh, Vector3 } from '@babylonjs/core';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 import flatten from 'lodash/flatten';

@@ -1,4 +1,4 @@
-import { Mesh, Scene, Skeleton, Space } from 'babylonjs';
+import { Mesh, Scene, Skeleton, Space } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { ActionStrategy } from '../../../interactions/action/ActionStrategy';
 import { CollisionDetector } from '../../../actions/motion_actions/collision_detection/CollisionDetector';

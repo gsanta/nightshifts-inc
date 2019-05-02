@@ -1,4 +1,4 @@
-import { Mesh, Skeleton, StandardMaterial, TransformNode } from 'babylonjs';
+import { Mesh, Skeleton, StandardMaterial, TransformNode } from '@babylonjs/core';
 import { VectorModel, toVector3 } from '../VectorModel';
 
 export interface MeshTemplateConfig {

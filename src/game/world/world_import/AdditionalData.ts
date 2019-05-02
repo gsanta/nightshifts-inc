@@ -1,6 +1,6 @@
 import { Orientation } from '../../model/utils/Orientation';
 import { Direction } from '../../model/utils/Direction';
-import { Tools } from 'babylonjs';
+import { Tools } from '@babylonjs/core';
 
 export interface AdditionalData {
     pos?: {

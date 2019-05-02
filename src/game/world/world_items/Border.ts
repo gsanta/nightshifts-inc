@@ -1,4 +1,4 @@
-import { Mesh } from 'babylonjs';
+import { Mesh } from '@babylonjs/core';
 import { WorldItem } from './WorldItem';
 import { Polygon } from '@nightshifts.inc/geometry';
 

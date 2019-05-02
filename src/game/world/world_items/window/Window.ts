@@ -8,11 +8,11 @@ import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { Border } from '../Border';
 import { Rectangle, Point } from '@nightshifts.inc/geometry';
-import { Mesh } from 'babylonjs/Meshes/mesh';
-import { Scene } from 'babylonjs/scene';
-import {StandardMaterial} from 'babylonjs';
-import { Color3 } from 'babylonjs';
-import { MeshBuilder } from 'babylonjs';
+import { Mesh } from '@babylonjs/core';
+import { Scene } from '@babylonjs/core';
+import {StandardMaterial} from '@babylonjs/core';
+import { Color3 } from '@babylonjs/core';
+import { MeshBuilder } from '@babylonjs/core';
 const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {

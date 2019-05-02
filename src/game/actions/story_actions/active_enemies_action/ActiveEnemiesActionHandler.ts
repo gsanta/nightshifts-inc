@@ -6,7 +6,7 @@ import { Enemy } from '../../../world/world_items/enemy/Enemy';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { Rectangle } from '@nightshifts.inc/geometry';
 import find from 'lodash/find';
-import { StandardMaterial, Color3 } from 'babylonjs';
+import { StandardMaterial, Color3 } from '@babylonjs/core';
 
 export class ActiveEnemiesActionHandler implements ActionHandler {
     private  enemy: Enemy;

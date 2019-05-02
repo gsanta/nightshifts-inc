@@ -1,5 +1,5 @@
 import { SimpleWorldItem } from '../SimpleWorldItem';
-import { Mesh } from 'babylonjs';
+import { Mesh } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 
