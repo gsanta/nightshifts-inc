@@ -1,6 +1,6 @@
-import { ActionHandler } from '../ActionHandler';
-import { World } from '../../world/World';
-import { GameActionType } from '../GameActionType';
+import { ActionHandler } from '../../ActionHandler';
+import { World } from '../../../world/World';
+import { GameActionType } from '../../GameActionType';
 import { Scene, HemisphericLight } from 'babylonjs';
 
 

@@ -11,7 +11,6 @@ import { LocalAuthentication } from '../../security/LocalAuthentication';
 import { LocalUserRegistration } from '../../security/LocalUserRegistration';
 import { FacebookUserRegistration } from '../../security/FacebookUserRegistration';
 import { FieldError } from '../FieldError';
-import { PasswordUpdateDto } from '../../../client/state/user/dto/PasswordUpdateDto';
 
 const send400 = (message: string, res: express.Response) => res.status(400).json(new FieldError(message).toJson());
 
@@ -75,7 +74,7 @@ export class UserController {
 
                     validateNewPassword(req.body.newPassword);
 
-                    userModel = await this.userDao.updatePassword(<PasswordUpdateDto>req.body);
+                    userModel = await this.userDao.updatePassword(req.body);
                     if (!userModel) {
                         throw new Error('User not found');
                     }

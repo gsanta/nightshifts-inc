@@ -1,6 +1,9 @@
 
 
-import { withStyles, FormControl, InputLabel, FilledInput } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import FilledInput from '@material-ui/core/FilledInput';
+import withStyles from '@material-ui/styles/withStyles';
 import * as React from 'react';
 import styled from 'styled-components';
 import colors from '../../miscellaneous/colors';

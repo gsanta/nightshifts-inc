@@ -2,7 +2,7 @@ import { Creature } from '../../world/world_items/Creature';
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../model/core/VectorModel';
 import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';
-import { CollisionDetector } from '../collision/CollisionDetector';
+import { CollisionDetector } from '../../actions/motion_actions/collision_detection/CollisionDetector';
 
 export class ManualMotionStrategy implements MotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;

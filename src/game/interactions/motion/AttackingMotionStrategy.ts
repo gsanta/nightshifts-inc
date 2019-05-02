@@ -1,7 +1,7 @@
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../model/core/VectorModel';
 import { Creature } from '../../world/world_items/Creature';
-import { CollisionDetector } from '../collision/CollisionDetector';
+import { CollisionDetector } from '../../actions/motion_actions/collision_detection/CollisionDetector';
 
 export class AttackingMotionStrategy implements MotionStrategy {
     private attacker: Creature;

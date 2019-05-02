@@ -2,10 +2,9 @@ import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
 import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from './WorldItem';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
-import _ = require('lodash');
 import { ContainerWorldItem } from './ContainerWorldItem';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
-
+import isNumber from 'lodash/isNumber';
 
 export class SimpleWorldItem<M = Mesh> implements WorldItem {
     public mesh: Mesh;
@@ -72,15 +71,15 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
     }
 
     public scale(vectorModel: VectorModel) {
-        if (_.isNumber(vectorModel.x)) {
+        if (isNumber(vectorModel.x)) {
             this.mesh.scaling.x = vectorModel.x;
         }
 
-        if (_.isNumber(vectorModel.y)) {
+        if (isNumber(vectorModel.y)) {
             this.mesh.scaling.y = vectorModel.y;
         }
 
-        if (_.isNumber(vectorModel.z)) {
+        if (isNumber(vectorModel.z)) {
             this.mesh.scaling.z = vectorModel.z;
         }
     }

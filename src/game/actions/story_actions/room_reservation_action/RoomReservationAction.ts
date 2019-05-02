@@ -1,10 +1,10 @@
-import { World } from '../../world/World';
-import { GameActionType } from '../GameActionType';
-import { Room } from '../../world/world_items/room/Room';
-import { ActionHandler } from '../ActionHandler';
-import { Door } from '../../world/world_items/door/Door';
+import { World } from '../../../world/World';
+import { GameActionType } from '../../GameActionType';
+import { Room } from '../../../world/world_items/room/Room';
+import { ActionHandler } from '../../ActionHandler';
+import { Door } from '../../../world/world_items/door/Door';
 import { Scene, StandardMaterial } from 'babylonjs';
-import { GameConstants } from '../../GameConstants';
+import { GameConstants } from '../../../GameConstants';
 const colors = GameConstants.colors;
 
 export class RoomReservationAction implements ActionHandler {

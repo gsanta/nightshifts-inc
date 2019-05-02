@@ -1,7 +1,7 @@
 import { Mesh, Vector3 } from 'babylonjs';
 import { VectorModel } from '../../model/core/VectorModel';
 import { Sensor } from '../../interactions/sensor/Sensor';
-import { CollisionDetector } from '../../interactions/collision/CollisionDetector';
+import { CollisionDetector } from '../../actions/motion_actions/collision_detection/CollisionDetector';
 import { ActionStrategy } from '../../interactions/action/ActionStrategy';
 import { SimpleWorldItem } from './SimpleWorldItem';
 import { MotionStrategy } from '../../interactions/motion/MotionStrategy';

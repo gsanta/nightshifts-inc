@@ -1,12 +1,11 @@
-import { ActionHandler } from '../ActionHandler';
-import { World } from '../../world/World';
-import { GameActionType } from '../GameActionType';
-import { Enemy } from '../../world/world_items/enemy/Enemy';
-import { Room } from '../../world/world_items/room/Room';
-import { CollisionDetector } from '../../interactions/collision/CollisionDetector';
-import _ = require('lodash');
-import { VectorModel } from '../../model/core/VectorModel';
-
+import { ActionHandler } from '../../ActionHandler';
+import { World } from '../../../world/World';
+import { GameActionType } from '../../GameActionType';
+import { Enemy } from '../../../world/world_items/enemy/Enemy';
+import { Room } from '../../../world/world_items/room/Room';
+import { CollisionDetector } from '../collision_detection/CollisionDetector';
+import find from 'lodash/find';
+import { VectorModel } from '../../../model/core/VectorModel';
 
 export class EnemyAttackActionHandler implements ActionHandler {
     private enemy: Enemy;
@@ -21,7 +20,7 @@ export class EnemyAttackActionHandler implements ActionHandler {
                 break;
 
             case GameActionType.ENTER_ROOM:
-                this.activeRoom = <Room> _.find(world.getWorldItemsByName('room'), (room: Room) => room.isActive);
+                this.activeRoom = <Room> find(world.getWorldItemsByName('room'), (room: Room) => room.isActive);
                 break;
             case GameActionType.NEXT_TICK:
                 if (this.enemy && this.enemy.parent === this.activeRoom) {

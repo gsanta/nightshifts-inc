@@ -1,6 +1,6 @@
-import { GameActionType } from '../GameActionType';
-import { ActionDispatcher } from '../ActionDispatcher';
-import { ActionHandler } from '../ActionHandler';
+import { GameActionType } from '../../GameActionType';
+import { ActionDispatcher } from '../../ActionDispatcher';
+import { ActionHandler } from '../../ActionHandler';
 import { Timer } from './Timer';
 
 

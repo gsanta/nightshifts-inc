@@ -1,5 +1,5 @@
 import { Tool } from './Tool';
-import { Highlight } from '@material-ui/icons';
+import Highlight from '@material-ui/icons/Highlight';
 import * as React from 'react';
 
 export class FlashlightTool implements Tool {

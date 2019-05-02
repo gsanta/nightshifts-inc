@@ -1,11 +1,11 @@
-import { GameActionType } from '../GameActionType';
-import { ActionHandler } from '../ActionHandler';
-import { World } from '../../world/World';
-import { Room } from '../../world/world_items/room/Room';
-import _ = require('lodash');
-import { Enemy } from '../../world/world_items/enemy/Enemy';
-import { ActionDispatcher } from '../ActionDispatcher';
+import { GameActionType } from '../../GameActionType';
+import { ActionHandler } from '../../ActionHandler';
+import { World } from '../../../world/World';
+import { Room } from '../../../world/world_items/room/Room';
+import { Enemy } from '../../../world/world_items/enemy/Enemy';
+import { ActionDispatcher } from '../../ActionDispatcher';
 import { Rectangle } from '@nightshifts.inc/geometry';
+import find from 'lodash/find';
 
 export class ActiveEnemiesActionHandler implements ActionHandler {
     private  enemy: Enemy;
@@ -32,7 +32,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
 
     private createEnemy(world: World): Enemy {
         const room = <Room> world.getWorldItemsByName('room')[1];
-        const emptyArea = _.find(room.children, child => child.name === 'empty');
+        const emptyArea = find(room.children, child => child.name === 'empty');
 
         const material = new BABYLON.StandardMaterial('empty-area-material', world.scene);
         material.diffuseColor = BABYLON.Color3.FromHexString('00FF00');

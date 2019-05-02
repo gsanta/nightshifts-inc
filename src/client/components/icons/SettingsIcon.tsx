@@ -1,7 +1,7 @@
 import SettingsIcon from '@material-ui/icons/Settings';
 import * as React from 'react';
 import { IconProps } from './IconProps';
-import { Tooltip } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
 import IconStylesTemplate from './IconStylesTemplate';
 import { Link } from 'react-router-dom';
 

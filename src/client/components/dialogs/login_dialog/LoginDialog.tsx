@@ -11,7 +11,7 @@ import { FacebookLoginButton } from '../../form_elements/facebook_button/Faceboo
 import { User } from '../../../state/user_state/user_model/User';
 import { Redirect } from 'react-router-dom';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
-import _ = require('lodash');
+import find from 'lodash/find';
 import StandaloneErrorLabel from '../../miscellaneous/StandaloneErrorLabel';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -74,10 +74,10 @@ const LoginDialogBody = (props: LoginDialogProps) => {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
-    const emailError = _.find(props.errors, error => error.properties.indexOf('email') !== -1);
+    const emailError = find(props.errors, error => error.properties.indexOf('email') !== -1);
     const emailErrorMessage = emailError ? <StandaloneErrorLabel>{emailError.message}</StandaloneErrorLabel> : null;
 
-    const passwordError = _.find(props.errors, error => error.properties.indexOf('password') !== -1);
+    const passwordError = find(props.errors, error => error.properties.indexOf('password') !== -1);
     const passwordErrorMessage = passwordError ? <StandaloneErrorLabel>{passwordError.message}</StandaloneErrorLabel> : null;
 
     return (

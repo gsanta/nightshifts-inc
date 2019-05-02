@@ -1,4 +1,4 @@
-import { Room } from '../../world/world_items/room/Room';
+import { Room } from '../../../world/world_items/room/Room';
 
 
 export interface RoomReservationStrategy {

@@ -1,10 +1,9 @@
-import { World } from '../../world/World';
-import { GameActionType } from '../GameActionType';
-import { Tool } from '../../tools/Tool';
-import { ToolMesh } from '../../tools/ToolMesh';
-import _ = require('lodash');
-import { ActionHandler } from '../ActionHandler';
-
+import { World } from '../../../world/World';
+import { GameActionType } from '../../GameActionType';
+import { Tool } from '../../../tools/Tool';
+import { ToolMesh } from '../../../tools/ToolMesh';
+import { ActionHandler } from '../../ActionHandler';
+import find from 'lodash/find';
 
 export class ToolSelectionActionHandler implements ActionHandler {
     private toolMeshes: ToolMesh[];
@@ -27,7 +26,7 @@ export class ToolSelectionActionHandler implements ActionHandler {
     }
 
     private selectToolToActivate(tool: Tool) {
-        const toolToActivate = _.find(this.toolMeshes, toolMesh => toolMesh.name === tool.getName());
+        const toolToActivate = find(this.toolMeshes, toolMesh => toolMesh.name === tool.getName());
 
         if (!toolToActivate) {
             throw new Error(`No matching ToolActivationPlugin for tool: ${tool.getName()}`);

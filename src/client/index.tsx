@@ -5,8 +5,8 @@ import { HashRouter as Router } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 
 import { addLocaleData } from 'react-intl';
-import * as localeHu from 'react-intl/locale-data/hu';
-import * as localeEn from 'react-intl/locale-data/en';
+import localeHu from 'react-intl/locale-data/hu';
+import localeEn from 'react-intl/locale-data/en';
 
 addLocaleData([...localeEn, ...localeHu]);
 

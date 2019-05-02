@@ -3,7 +3,7 @@ import { VectorModel } from '../../model/core/VectorModel';
 import { SceneModel } from '../../model/core/SceneModel';
 import { Creature } from '../../world/world_items/Creature';
 import { WorldItem } from '../../world/world_items/WorldItem';
-import { CollisionDetector } from '../collision/CollisionDetector';
+import { CollisionDetector } from '../../actions/motion_actions/collision_detection/CollisionDetector';
 
 export class WanderingMotionStrategy implements MotionStrategy {
     private speed = 100;

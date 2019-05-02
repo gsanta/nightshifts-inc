@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Dialog, withStyles } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import withStyles from '@material-ui/styles/withStyles';
 import DialogTemplateFooter from './DialogTemplateFooter';
 import DialogTemplateHeader from './DialogTemplateHeader';
 import DialogTemplateBody from './DialogTemplateBody';

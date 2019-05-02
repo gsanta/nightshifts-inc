@@ -1,8 +1,8 @@
 import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { StandardMaterial, Mesh, Vector3 } from 'babylonjs';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
-import _ = require('lodash');
 import { Polygon } from '@nightshifts.inc/geometry';
+import flatten from 'lodash/flatten';
 
 export class ContainerWorldItem implements WorldItem {
     public children: WorldItem[] = [];
@@ -19,7 +19,7 @@ export class ContainerWorldItem implements WorldItem {
     }
 
     public getAllMeshes(): Mesh[] {
-        return _.flatten(this.children.map(child => child.getAllMeshes()));
+        return flatten(this.children.map(child => child.getAllMeshes()));
     }
 
     public addChild(worldItem: WorldItem) {

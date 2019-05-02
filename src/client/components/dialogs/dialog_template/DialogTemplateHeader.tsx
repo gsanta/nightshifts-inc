@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import {Close} from '@material-ui/icons';
+import Close from '@material-ui/icons/Close';
 import colors from '../../miscellaneous/colors';
 
 const DialogTemplateHeaderStyled = styled.div`

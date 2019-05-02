@@ -1,7 +1,7 @@
 import { Light } from 'babylonjs';
-import { WorldItem } from '../../world/world_items/WorldItem';
-import { Room } from '../../world/world_items/room/Room';
-import { World } from '../../world/World';
+import { WorldItem } from '../../../world/world_items/WorldItem';
+import { Room } from '../../../world/world_items/room/Room';
+import { World } from '../../../world/World';
 
 
 export class LightHandler {

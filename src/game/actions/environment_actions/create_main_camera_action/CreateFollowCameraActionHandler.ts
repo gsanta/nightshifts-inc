@@ -1,7 +1,7 @@
 import { FollowCamera, Scene } from 'babylonjs';
-import { World } from '../../world/World';
-import { ActionHandler } from '../ActionHandler';
-import { GameActionType } from '../GameActionType';
+import { World } from '../../../world/World';
+import { ActionHandler } from '../../ActionHandler';
+import { GameActionType } from '../../GameActionType';
 
 /**
  * Currently the main camera in the game, which works by following the user.

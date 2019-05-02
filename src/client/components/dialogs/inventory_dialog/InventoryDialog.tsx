@@ -2,7 +2,7 @@ import * as React from 'react';
 import withDialog from '../../../components/dialogs/dialog_template/withDialog';
 import styled from 'styled-components';
 import { Tool } from '../../../../game/tools/Tool';
-import * as _ from 'lodash';
+import find from 'lodash/find';
 import { DialogTemplateProps } from '../../../components/dialogs/dialog_template/withDialog';
 import { TitleLine } from '../../../components/dialogs/dialog_template/TitleLine';
 import colors from '../../miscellaneous/colors';
@@ -29,7 +29,7 @@ const InventoryDialog = (props: InventoryDialogProps) => {
     const onDrop = React.useCallback(
         (e: React.DragEvent) => {
             const toolName = e.dataTransfer.getData('id');
-            props.grabTool(_.find(props.tools, tool => tool.getName() === toolName));
+            props.grabTool(find(props.tools, tool => tool.getName() === toolName));
         },
         [],
     );

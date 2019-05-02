@@ -1,7 +1,6 @@
 import { SerializedMeshModel, WorldItem } from '../WorldItem';
 import { StandardMaterial, Scene, MeshBuilder, Mesh } from 'babylonjs';
 import { VectorModel } from '../../../model/core/VectorModel';
-import _ = require('lodash');
 import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 import { SimpleWorldItem } from '../SimpleWorldItem';
 import { ContainerWorldItem } from '../ContainerWorldItem';

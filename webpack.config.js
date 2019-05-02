@@ -71,6 +71,10 @@ module.exports = env => {
             },
             contentBase: ['.', './test', './assets'],
             port: 8765
+        },
+        externals: {
+            oimo: 'OIMO',
+            cannon: 'CANNON'
         }
     }
 };

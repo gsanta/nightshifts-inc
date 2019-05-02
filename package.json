@@ -98,7 +98,6 @@
     "lodash": "^4.17.11",
     "mongoose": "^5.3.9",
     "mousetrap": "^1.6.3",
-    "oimo": "^1.0.9",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-jwt": "^4.0.0",

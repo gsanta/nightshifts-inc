@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
 import { UserModel } from './UserModel';
-import { PasswordUpdateDto } from '../../../client/state/user/dto/PasswordUpdateDto';
 
 export interface MongooseUserModel extends mongoose.Document {
     email: string;
@@ -37,7 +36,7 @@ export class UserDao {
             });
     }
 
-    public updatePassword(passwordUpdateDto: PasswordUpdateDto) {
+    public updatePassword(passwordUpdateDto: {id: string, oldPassword: string, newPassword: string}) {
         return this.modelConstr.findOne({_id: passwordUpdateDto.id})
             .then(user => {
                 const userModel = this.schemaToModel(user);

@@ -1,9 +1,9 @@
 import { Light, Mesh } from 'babylonjs';
-import { WorldItem } from '../../world/world_items/WorldItem';
+import { WorldItem } from '../../../world/world_items/WorldItem';
 import { LightHandler } from './LightHandler';
 import { expect } from 'chai';
-import { Room } from '../../world/world_items/room/Room';
-import { World } from '../../world/World';
+import { Room } from '../../../world/world_items/room/Room';
+import { World } from '../../../world/World';
 
 const createWorldMock = (excludedMeshes: Mesh[]): World => {
 

@@ -11,7 +11,7 @@ import { Redirect } from 'react-router-dom';
 import { User } from '../../../state/user_state/user_model/User';
 import { useState } from 'react';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
-import _ = require('lodash');
+import find from 'lodash/find';
 import StandaloneErrorLabel from '../../miscellaneous/StandaloneErrorLabel';
 import TextField from '../../form_elements/text_field/TextField';
 
@@ -63,10 +63,10 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
-    const emailError = _.find(props.errors, error => error.properties.indexOf('email') !== -1);
+    const emailError = find(props.errors, error => error.properties.indexOf('email') !== -1);
     const emailErrorMessage = emailError ? <StandaloneErrorLabel>{emailError.message}</StandaloneErrorLabel> : null;
 
-    const passwordError = _.find(props.errors, error => error.properties.indexOf('password') !== -1);
+    const passwordError = find(props.errors, error => error.properties.indexOf('password') !== -1);
     const passwordErrorMessage = passwordError ? <StandaloneErrorLabel>{passwordError.message}</StandaloneErrorLabel> : null;
 
     return (

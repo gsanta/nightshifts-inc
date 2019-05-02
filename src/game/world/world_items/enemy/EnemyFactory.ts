@@ -22,14 +22,15 @@ export class EnemyFactory implements WorldItemFactory {
     // }
 
     public create(polygon: Polygon, world: World): WorldItem {
-        this.meshInfo[0].forEach(mesh => mesh.isVisible = true);
-
+        const material = this.createMaterial();
+        this.meshInfo[0].forEach(mesh => mesh.material = material);
+        this.meshInfo[0][0].isVisible = true;
         // const mesh =  this.meshInfo[0][0].clone(`${this.meshInfo[0][0].name}`);
 
         // const mesh = this.createMesh(polygon);
-        // mesh.material = this.createMaterial();
+        // this.meshInfo[0][0].material = this.createMaterial();
         const enemy = new Enemy(this.meshInfo[0][0], this.scene);
-        enemy.translate(new VectorModel(polygon.left, 0, polygon.top));
+        enemy.setPosition(new VectorModel(polygon.left, 0, polygon.top));
         return enemy;
     }
 

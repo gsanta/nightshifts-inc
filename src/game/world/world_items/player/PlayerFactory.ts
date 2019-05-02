@@ -1,7 +1,7 @@
 import { Mesh, Scene, Skeleton } from 'babylonjs';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { ActionStrategy } from '../../../interactions/action/ActionStrategy';
-import { CollisionDetector } from '../../../interactions/collision/CollisionDetector';
+import { CollisionDetector } from '../../../actions/motion_actions/collision_detection/CollisionDetector';
 import { ManualMotionStrategy } from '../../../interactions/motion/ManualMotionStrategy';
 import { UserInputEventEmitter } from '../../../interactions/motion/UserInputEventEmitter';
 import { EyeSensor } from '../../../interactions/sensor/EyeSensor';

@@ -1,20 +1,20 @@
 import { Scene, Engine } from 'babylonjs';
 import { AttackingMotionStrategy } from './interactions/motion/AttackingMotionStrategy';
-import { CollisionDetector } from './interactions/collision/CollisionDetector';
+import { CollisionDetector } from './actions/motion_actions/collision_detection/CollisionDetector';
 import { World } from './world/World';
 import { ActionDispatcher } from './actions/ActionDispatcher';
-import { ToolSelectionActionHandler } from './actions/tool_selection_action/ToolSelectionActionHandler';
+import { ToolSelectionActionHandler } from './actions/tool_actions/tool_selection_action/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
-import { ThermometerUpdateHandler } from './actions/thermometer_update_action/ThermometerUpdateHandler';
-import { ActiveRoomLightingActionHandler } from './actions/active_room_lightning_action/ActiveRoomLightingActionHandler';
-import { TimeActionHandler } from './actions/time_action/TimeActionHandler';
-import { EnterRoomActionHandler } from './actions/enter_room_action/EnterRoomActionHandler';
-import { ActiveEnemiesActionHandler } from './actions/active_enemies_action/ActiveEnemiesActionHandler';
-import { LightHandler } from './actions/active_room_lightning_action/LightHandler';
-import { EnemyAttackActionHandler } from './actions/enemy_attack_action/EnemyAttackActionHandler';
+import { ThermometerUpdateHandler } from './actions/tool_actions/thermometer_update_action/ThermometerUpdateHandler';
+import { ActiveRoomLightingActionHandler } from './actions/environment_actions/active_room_lightning_action/ActiveRoomLightingActionHandler';
+import { TimeActionHandler } from './actions/general_actions/time_action/TimeActionHandler';
+import { EnterRoomActionHandler } from './actions/motion_actions/enter_room_action/EnterRoomActionHandler';
+import { ActiveEnemiesActionHandler } from './actions/story_actions/active_enemies_action/ActiveEnemiesActionHandler';
+import { LightHandler } from './actions/environment_actions/active_room_lightning_action/LightHandler';
+import { EnemyAttackActionHandler } from './actions/motion_actions/enemy_attack_action/EnemyAttackActionHandler';
 import 'babylonjs-loaders';
-import { CreateFollowCameraActionHandler } from './actions/create_main_camera_action/CreateFollowCameraActionHandler';
-import { CreateMainLightActionHandler } from './actions/create_main_light_action/CreateMainLightActionHandler';
+import { CreateFollowCameraActionHandler } from './actions/environment_actions/create_main_camera_action/CreateFollowCameraActionHandler';
+import { CreateMainLightActionHandler } from './actions/environment_actions/create_main_light_action/CreateMainLightActionHandler';
 
 export class GameEngine {
     private scene: Scene;

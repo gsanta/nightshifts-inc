@@ -3,7 +3,7 @@ import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../form_elements/Button';
-import _ = require('lodash');
+import find from 'lodash/find';
 import { FormattedMessage } from 'react-intl';
 import colors from '../../miscellaneous/colors';
 import TextField from '../../form_elements/text_field/TextField';
@@ -51,7 +51,7 @@ export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
     const [oldPassword, setOldPassword] = useState(null);
     const [newPassword, setNewPassword] = useState(null);
 
-    const oldPasswordError = _.find(props.errors, error => error.properties.indexOf('oldPassword') !== -1);
+    const oldPasswordError = find(props.errors, error => error.properties.indexOf('oldPassword') !== -1);
 
     return (
         <PasswordUpdateSectionStyled>

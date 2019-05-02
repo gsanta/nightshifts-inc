@@ -1,9 +1,9 @@
-import { Room } from '../../world/world_items/room/Room';
-import { World } from '../../world/World';
+import { Room } from '../../../world/world_items/room/Room';
+import { World } from '../../../world/World';
 import { RoomReservationStrategy } from './RoomReservationStrategy';
-import { Door } from '../../world/world_items/door/Door';
+import { Door } from '../../../world/world_items/door/Door';
 import { StandardMaterial, Scene } from 'babylonjs';
-import { GameConstants } from '../../GameConstants';
+import { GameConstants } from '../../../GameConstants';
 const colors = GameConstants.colors;
 
 export class RoomReservationBookKeeper {

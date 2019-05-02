@@ -2,7 +2,7 @@ import InputIcon from '@material-ui/icons/Input';
 import * as React from 'react';
 import { IconProps } from './IconProps';
 import IconStylesTemplate from './IconStylesTemplate';
-import { Tooltip } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const SignoutIcon = ({activate, className}: IconProps) => {
     return (

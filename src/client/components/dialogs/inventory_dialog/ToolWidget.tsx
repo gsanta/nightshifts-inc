@@ -1,6 +1,6 @@
 import { Tool } from '../../../../game/tools/Tool';
 import styled from 'styled-components';
-import { Close } from '@material-ui/icons';
+import Close from '@material-ui/icons/Close';
 import * as React from 'react';
 
 export const TOOL_WIDGET_SIZE = 50;
