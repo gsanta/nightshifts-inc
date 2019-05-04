@@ -1,6 +1,6 @@
 import { Light, Mesh } from '@babylonjs/core';
 import { WorldItem } from '../../../world/world_items/WorldItem';
-import { LightHandler } from './LightHandler';
+import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { expect } from 'chai';
 import { Room } from '../../../world/world_items/room/Room';
 import { World } from '../../../world/World';
@@ -39,8 +39,8 @@ const createRoomMock = (roomMesh: Partial<Mesh>, childMeshes: Partial<Mesh>[], n
     };
 };
 
-describe('LightHandler', () => {
-    describe('enableLight', () => {
+describe('`LightSwitcher`', () => {
+    describe(`on`, () => {
         it ('removes the mesh from the `excludedMeshes` array', () => {
             const wallMesh: Partial<Mesh> = {
                 name: 'wall'
@@ -57,15 +57,17 @@ describe('LightHandler', () => {
             const world = createWorldMock([<Mesh> roomMesh, <Mesh> wallMesh, <Mesh> tableMesh]);
             const room = createRoomMock(roomMesh, [wallMesh], [tableMesh]);
 
-            const lightHandler = new LightHandler();
+            const lightHandler = new NormalLightSwitcher();
 
             expect(world.hemisphericLight.excludedMeshes.length).to.eq(3);
-            lightHandler.enableLight(room, world);
-            expect(world.hemisphericLight.excludedMeshes.length).to.eq(0);
+            return lightHandler.on(room, world)
+                .then(() => {
+                    expect(world.hemisphericLight.excludedMeshes.length).to.eq(0);
+                });
         });
     });
 
-    describe('disableLight', () => {
+    describe(`off`, () => {
         it ('adds the mesh to the `excludedMeshes` array', () => {
             const wallMesh: Partial<Mesh> = {
                 name: 'wall'
@@ -82,10 +84,10 @@ describe('LightHandler', () => {
             const world = createWorldMock([]);
             const room = createRoomMock(roomMesh, [wallMesh], [tableMesh]);
 
-            const lightHandler = new LightHandler();
+            const lightHandler = new NormalLightSwitcher();
 
             expect(world.hemisphericLight.excludedMeshes.length).to.eq(0);
-            lightHandler.disableLight(room, world);
+            lightHandler.off(room, world);
             expect(world.hemisphericLight.excludedMeshes).to.eql([<Mesh> roomMesh, <Mesh> wallMesh, <Mesh> tableMesh]);
         });
     });

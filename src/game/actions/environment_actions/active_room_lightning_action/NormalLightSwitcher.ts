@@ -1,14 +1,18 @@
-import { Light } from '@babylonjs/core';
 import { WorldItem } from '../../../world/world_items/WorldItem';
 import { Room } from '../../../world/world_items/room/Room';
 import { World } from '../../../world/World';
+import { LightSwitcher } from './LightSwitcher';
 
+/**
+ * Can turn on and off the lights for a given room
+ */
+export class NormalLightSwitcher implements LightSwitcher {
 
-export class LightHandler {
-
-    enableLight(room: Room, world: World) {
+    public on(room: Room, world: World): Promise<void> {
         const items = [room, ...room.children, ...room.neighbours];
         items.forEach(item => this.excludeMeshesForWorldItem(item, world));
+
+        return Promise.resolve();
     }
 
     private excludeMeshesForWorldItem(worldItem: WorldItem, world: World) {
@@ -21,9 +25,11 @@ export class LightHandler {
         });
     }
 
-    disableLight(room: Room, world: World) {
+    public off(room: Room, world: World): Promise<void> {
         const items = [room, ...room.children, ...room.neighbours];
         items.forEach(item => this.includeMeshesForWorldItem(item, world));
+
+        return Promise.resolve();
     }
 
     private includeMeshesForWorldItem(worldItem: WorldItem, world: World) {

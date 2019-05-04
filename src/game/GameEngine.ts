@@ -10,11 +10,12 @@ import { ActiveRoomLightingActionHandler } from './actions/environment_actions/a
 import { TimeActionHandler } from './actions/general_actions/time_action/TimeActionHandler';
 import { EnterRoomActionHandler } from './actions/motion_actions/enter_room_action/EnterRoomActionHandler';
 import { ActiveEnemiesActionHandler } from './actions/story_actions/active_enemies_action/ActiveEnemiesActionHandler';
-import { LightHandler } from './actions/environment_actions/active_room_lightning_action/LightHandler';
+import { NormalLightSwitcher } from './actions/environment_actions/active_room_lightning_action/NormalLightSwitcher';
 import { EnemyAttackActionHandler } from './actions/motion_actions/enemy_attack_action/EnemyAttackActionHandler';
 import { CreateFollowCameraActionHandler } from './actions/environment_actions/create_main_camera_action/CreateFollowCameraActionHandler';
 import { CreateMainLightActionHandler } from './actions/environment_actions/create_main_light_action/CreateMainLightActionHandler';
 import { EnemyHitActionHandler } from './actions/enemy_hit_action/EnemyHitActionHandler';
+import { LampBehaviourActionHandler } from './actions/environment_actions/lamp_behaviour_action/LampBehaviourActionHandler';
 
 (<any> window).earcut = require('earcut');
 
@@ -58,6 +59,7 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new EnemyAttackActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new EnemyHitActionHandler(this.actionDispatcher));
+                this.actionDispatcher.registerActionHandler(new LampBehaviourActionHandler());
 
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 

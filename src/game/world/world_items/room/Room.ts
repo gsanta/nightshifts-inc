@@ -14,6 +14,7 @@ export class Room extends ContainerWorldItem {
     private boundingPolygon: Polygon;
     public temperature = 20 + Math.floor(Math.random() * 10);
     public isActive: boolean;
+    public lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering' = 'onWhenActive';
 
     constructor(mesh: Mesh, boundingPolygon: Polygon, name: string) {
         super([]);
