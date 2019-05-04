@@ -1,9 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import InventoryDialog from './InventoryDialog';
 import ProviderWrapper from '../../../ProviderWrapper';
 import { AppStore } from '../../../state/app_state/AppStore';
-import { ThermometerTool } from '../../../../game/tools/ThermometerTool';
 import { InventoryRoute } from './InventoryRoute';
 
 const withProvider = (story) => (

@@ -14,7 +14,7 @@ import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchem
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
 import { Engine } from '@babylonjs/core';
 import { Scene } from '@babylonjs/core';
-import { HealthWidget } from '../widgets/HealthWidget';
+import { HealthWidget } from '../widgets/health_widget/HealthWidget';
 import styled from 'styled-components';
 import WidgetAction from '../../state/world_state/world_actions/WidgetAction';
 
@@ -38,7 +38,7 @@ const mapDispatchToProps = dispatch => ({
 const WidgetContainer = styled.div`
     position: absolute;
     left: 5px;
-    top: 35px;
+    top: 45px;
 `;
 
 class Game extends React.Component<GameProps, GameState> {

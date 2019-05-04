@@ -17,7 +17,7 @@ export class EnemyHitActionHandler implements ActionHandler {
             case GameActionType.ENEMY_MOVED:
                 if (enemy.intersectsWorldItem(world.player)) {
                     this.actionDispatcher.dispatch(GameActionType.ENEMY_STRIKED, enemy);
-                    world.player.health = world.player.health - 10;
+                    world.player.health = world.player.health - 30;
                 }
                 break;
             default:
