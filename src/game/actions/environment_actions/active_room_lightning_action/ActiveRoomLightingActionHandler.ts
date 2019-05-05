@@ -3,15 +3,18 @@ import { Room } from '../../../world/world_items/room/Room';
 import { GameActionType } from '../../GameActionType';
 import { ActionHandler } from '../../ActionHandler';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
+import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 
 export class ActiveRoomLightingActionHandler implements ActionHandler {
     private static instance: ActiveRoomLightingActionHandler;
 
     private prevActiveRoom: Room;
-    private lightHandler: NormalLightSwitcher;
+    private lightSwitcher: NormalLightSwitcher;
+    private flashingLightSwitcher: FlashingLightSwitcher;
 
     private constructor() {
-        this.lightHandler = new NormalLightSwitcher();
+        this.lightSwitcher = new NormalLightSwitcher();
+        this.flashingLightSwitcher = new FlashingLightSwitcher(this.lightSwitcher);
     }
 
     public static getInstance() {
@@ -44,39 +47,28 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
 
     private handleEnterRoom(activeRoom: Room, world: World) {
         if (activeRoom.lampBehaviour === 'onWhenActive') {
-            this.handleOnWhenActiveLampBehaviour(activeRoom, world);
+            this.lightSwitcher.on(activeRoom, world);
         } else if (activeRoom.lampBehaviour === 'flashesWhenEntering') {
-            this.handleFlashesWhenEnteringLampBehaviour(activeRoom, world);
+            this.flashingLightSwitcher.on(activeRoom, world)
+                .then(() => this.lightSwitcher.off(activeRoom, world));
         }
 
         if (this.prevActiveRoom) {
-            this.lightHandler.off(this.prevActiveRoom, world);
+            this.lightSwitcher.off(this.prevActiveRoom, world);
         }
 
         this.prevActiveRoom = activeRoom;
     }
 
-    private handleOnWhenActiveLampBehaviour(activeRoom: Room, world: World) {
-        this.lightHandler.on(activeRoom, world);
-    }
-
-    private handleFlashesWhenEnteringLampBehaviour(activeRoom: Room, world: World) {
-        this.lightHandler.on(activeRoom, world);
-
-        setTimeout(() => {
-            this.lightHandler.off(activeRoom, world);
-        }, 150);
-    }
-
     private handleGameIsReady(world: World) {
         world.getWorldItemsByName('room').forEach(room => {
-            this.lightHandler.off(<Room> room, world);
+            this.lightSwitcher.off(<Room> room, world);
         });
     }
 
     private handleTurnOnAllLights(world: World) {
         world.getWorldItemsByName('room').forEach(room => {
-            this.lightHandler.on(<Room> room, world);
+            this.lightSwitcher.on(<Room> room, world);
         });
     }
 
@@ -84,9 +76,9 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
         world.getWorldItemsByName('room').forEach(room => {
             if ((<Room> room).isActive) {
                 this.prevActiveRoom = <Room> room;
-                this.lightHandler.on(<Room> room, world);
+                this.lightSwitcher.on(<Room> room, world);
             } else {
-                this.lightHandler.off(<Room> room, world);
+                this.lightSwitcher.off(<Room> room, world);
             }
         });
     }
