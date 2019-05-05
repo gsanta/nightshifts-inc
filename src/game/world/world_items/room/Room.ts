@@ -1,7 +1,7 @@
 import { ContainerWorldItem } from '../ContainerWorldItem';
 import { WorldItem } from '../WorldItem';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Scene, Vector3, Mesh, MeshBuilder } from '@babylonjs/core';
+import { Scene, Vector3, Mesh, MeshBuilder, PointLight } from '@babylonjs/core';
 import { World } from '../../World';
 import { Door } from '../door/Door';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -62,5 +62,19 @@ export class Room extends ContainerWorldItem {
 
         const room = new Room(roomMesh, dimensions, 'room');
         return room;
+    }
+
+    public static createLight(dimensions: Polygon, scene: Scene) {
+        console.log('Creating light');
+        console.log(dimensions);
+        const center = {
+            x: dimensions.getBoundingCenter().x,
+            y: dimensions.getBoundingCenter().y
+        };
+        console.log(center);
+        const light: PointLight = new PointLight('light', new Vector3(center.x, 3, center.y), scene);
+        light.setEnabled(true);
+        light.range = 30;
+        return light;
     }
 }

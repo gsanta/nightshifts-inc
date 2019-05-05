@@ -5,9 +5,10 @@ import { World } from '../../../world/World';
 
 export class FlashingLightSwitcher implements LightSwitcher {
     public on(room: Room, world: World): Promise<void> {
-
+        return null;
     }
 
     public off(room: Room, world: World): Promise<void> {
+        return null;
     }
 }
