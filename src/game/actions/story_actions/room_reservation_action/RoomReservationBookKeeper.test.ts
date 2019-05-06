@@ -1,7 +1,0 @@
-
-
-describe('RoomReservationBookKeeper', () => {
-    describe('nextDayPassed', () => {
-
-    });
-});

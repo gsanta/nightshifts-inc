@@ -1,5 +1,5 @@
-import { Timer } from './Timer';
 import * as sinon from 'sinon';
+import Timer from './Timer';
 
 describe('Timer', () => {
     let fakeTimer: sinon.SinonFakeTimers;

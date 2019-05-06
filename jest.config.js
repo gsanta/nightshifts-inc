@@ -1,20 +1,12 @@
-
-// module.exports = {
-//   "roots": [
-//     "<rootDir>/src"
-//   ],
-//   "transform": {
-//     "^.+\\.tsx?$": "ts-jest",
-//     "^.+\\.jsx?$": "babel-jest"
-//   },
-//   "transformIgnorePatterns": [
-//     "node_modules/(?!(@babylonjs/core)/)"
-//   ]
-// }
-
-
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  testMatch: ["**/__tests__/**/*.ts?(x)", "**/?(*.)+(test).ts?(x)"]
+  "transform": {
+    // we need babel to transpile those files in node_modules which were published with some es6 features
+    // which jest can not interpret (eg. export/import)
+    "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
+    "^.+\\.tsx?$": "ts-jest",
+  },
+  transformIgnorePatterns: [
+    // these are the modules which were published with es6 features
+    "node_modules/(?!(@babylonjs/core)/)"
+  ]
 };

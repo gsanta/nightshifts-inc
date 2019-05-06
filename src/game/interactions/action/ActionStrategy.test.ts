@@ -4,7 +4,7 @@ import { WorldItem } from '../../world/world_items/WorldItem';
 import { World } from '../../world/World';
 import { ActionStrategy } from './ActionStrategy';
 import { expect } from 'chai';
-import sinon = require('sinon');
+import * as sinon from 'sinon';
 
 describe('ActionStrategy', () => {
     describe('activateClosestMeshAction', () => {
