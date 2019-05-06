@@ -1,7 +1,7 @@
 import { ActionType } from '../../ActionType';
-import { select, call, put, takeEvery } from 'redux-saga/effects';
 import { WatchableAction } from '../../ActionType';
 import UserSelections from '../UserSelections';
+import { takeEvery, select, call, put } from 'redux-saga/effects';
 
 class LoginFacebookActions implements WatchableAction<string> {
     public request(accessToken: string) {
@@ -12,7 +12,7 @@ class LoginFacebookActions implements WatchableAction<string> {
     }
 
     public *watch() {
-        yield takeEvery(ActionType.LOGIN_FACEBOOK_REQUEST, this.fetch);
+        yield takeEvery<any>(ActionType.LOGIN_FACEBOOK_REQUEST, this.fetch);
     }
 
     public *fetch(action: {accessToken: string}) {

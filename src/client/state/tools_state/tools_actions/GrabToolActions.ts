@@ -1,9 +1,9 @@
 import { ActionType, WatchableAction } from '../../ActionType';
 import { Tool } from '../../../../game/tools/Tool';
 import { ActionDispatcher } from '../../../../game/actions/ActionDispatcher';
-import { takeEvery, select } from 'redux-saga/effects';
 import WorldSelections from '../../world_state/world_actions/WorldSelections';
 import { GameActionType } from '../../../../game/actions/GameActionType';
+import { select, takeEvery } from 'redux-saga/effects';
 
 class GrabToolActions implements WatchableAction<any> {
     public request(tool: Tool) {
@@ -15,7 +15,7 @@ class GrabToolActions implements WatchableAction<any> {
     }
 
     public *watch() {
-        yield takeEvery(ActionType.GRAB_TOOL, this.activateTool);
+        yield takeEvery<any>(ActionType.GRAB_TOOL, this.activateTool);
     }
 
     private *activateTool(action: {tool: Tool}) {

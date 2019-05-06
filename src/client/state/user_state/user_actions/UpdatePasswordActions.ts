@@ -1,10 +1,10 @@
 import { ActionType } from '../../ActionType';
 import { User } from '../user_model/User';
 import { PasswordUpdateDto } from '../user_model/PasswordUpdateDto';
-import { select, call, put, takeEvery } from 'redux-saga/effects';
 import { ErrorMessage } from '../../../components/miscellaneous/ErrorMessage';
 import { WatchableAction } from '../../ActionType';
 import UserSelections from '../UserSelections';
+import { takeEvery, select, call, put } from 'redux-saga/effects';
 
 export interface UpdatePasswordRequestPayload {
     user: User;
@@ -23,7 +23,7 @@ class UpdatePasswordActions implements WatchableAction<UpdatePasswordRequestPayl
     }
 
     public *watch() {
-        yield takeEvery(ActionType.UPDATE_PASSWORD_REQUEST, this.fetch);
+        yield takeEvery<any>(ActionType.UPDATE_PASSWORD_REQUEST, this.fetch);
     }
 
     private *fetch(action: UpdatePasswordRequestPayload) {

@@ -26,7 +26,7 @@ const ToolWidgetBackground = styled.div`
     cursor: ${(props: {draggable: boolean}) => props.draggable ? 'pointer' : 'drag'};
 `;
 
-const ToolWidgetCloseButton = styled(Close)`
+const ToolWidgetCloseButton = styled<any>(Close)`
     position: absolute;
     right: 0;
     top: 0;

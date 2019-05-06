@@ -1,8 +1,8 @@
 import { ActionType } from '../../ActionType';
 import { User } from '../user_model/User';
-import { put, select, call, takeEvery } from 'redux-saga/effects';
 import { WatchableAction } from '../../ActionType';
 import UserSelections from '../UserSelections';
+import { takeEvery, select, call, put } from 'redux-saga/effects';
 
 class UpdateUserActions implements WatchableAction<User> {
     public request(user: User) {
@@ -13,7 +13,7 @@ class UpdateUserActions implements WatchableAction<User> {
     }
 
     public *watch() {
-        yield takeEvery(ActionType.UPDATE_USER_REQUEST, this.fetch);
+        yield takeEvery<any>(ActionType.UPDATE_USER_REQUEST, this.fetch);
     }
 
     private *fetch(action: {user: User}) {

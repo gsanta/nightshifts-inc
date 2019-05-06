@@ -1,8 +1,8 @@
 import { ActionType } from '../../ActionType';
-import { select, call, put, takeEvery } from 'redux-saga/effects';
 import { ErrorMessage } from '../../../components/miscellaneous/ErrorMessage';
 import { WatchableAction } from '../../ActionType';
 import UserSelections from '../UserSelections';
+import { takeEvery, select, put, call } from 'redux-saga/effects';
 
 export interface SignupRequestPayload {
     email: string;
@@ -19,7 +19,7 @@ class SignupActions implements WatchableAction<SignupRequestPayload> {
     }
 
     public *watch() {
-        yield takeEvery(ActionType.SIGNUP_REQUEST, this.fetch);
+        yield takeEvery<any>(ActionType.SIGNUP_REQUEST, this.fetch);
     }
 
     private *fetch(action: { email: string, password: string }) {

@@ -1,13 +1,13 @@
+import colors from '../../miscellaneous/colors';
 import styled from 'styled-components';
 import * as React from 'react';
 import Close from '@material-ui/icons/Close';
-import colors from '../../miscellaneous/colors';
 
 const DialogTemplateHeaderStyled = styled.div`
     display: flex;
 `;
 
-const CloseStyled = styled(Close)`
+const CloseStyled = styled<any>(Close)`
     margin-left: auto;
     cursor: pointer;
 `;

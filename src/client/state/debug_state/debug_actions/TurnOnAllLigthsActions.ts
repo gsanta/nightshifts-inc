@@ -1,12 +1,10 @@
 import { WatchableAction, ActionType } from '../../ActionType';
-import { takeEvery, select } from 'redux-saga/effects';
-import { Tool } from '../../../../game/tools/Tool';
 import { ActionDispatcher } from '../../../../game/actions/ActionDispatcher';
 import WorldSelections from '../../world_state/world_actions/WorldSelections';
 import { GameActionType } from '../../../../game/actions/GameActionType';
 import { ActiveRoomLightingActionHandler } from '../../../../game/actions/environment_actions/active_room_lightning_action/ActiveRoomLightingActionHandler';
-import { gameActionDispatcherReducer } from '../../world_state/gameActionDispatcherReducer';
 import { DebugOptions } from '../../../components/dialogs/debug_dialog/DebugOptions';
+import { select, takeEvery } from 'redux-saga/effects';
 
 
 class TurnOnAllLightsActions implements WatchableAction<any> {
@@ -18,7 +16,7 @@ class TurnOnAllLightsActions implements WatchableAction<any> {
     }
 
     public *watch() {
-        yield takeEvery(ActionType.DEBUG_TURN_ON_ALL_LIGHTS, this.activateTool);
+        yield takeEvery<any>(ActionType.DEBUG_TURN_ON_ALL_LIGHTS, this.activateTool);
     }
 
     private *activateTool({areAllLightsTurnedOn}: Partial<DebugOptions>) {
