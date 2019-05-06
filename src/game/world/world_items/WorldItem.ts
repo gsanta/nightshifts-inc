@@ -53,6 +53,8 @@ export interface WorldItem {
      */
     rotateAtCenter(vectorModel: VectorModel, amount: number): void;
 
+    setPosition(vectorModel: VectorModel): void;
+
     translate(vectorModel: VectorModel): void;
     /**
      * scales the underlying Mesh (or Mesh system if it is a `ContainerWorldItem`) on the x, y, z plane given

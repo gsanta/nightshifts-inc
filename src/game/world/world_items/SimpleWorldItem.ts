@@ -66,6 +66,10 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
         this.mesh.rotate(toVector3(vectorModel), amount);
     }
 
+    public setPosition(position: VectorModel) {
+        this.mesh.position = new Vector3(position.x, position.y, position.z);
+    }
+
     public translate(vectorModel: VectorModel) {
         this.mesh.translate(new Vector3(vectorModel.x, vectorModel.y, vectorModel.z), 1);
     }

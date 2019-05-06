@@ -1,12 +1,12 @@
-import { Creature } from '../../world/world_items/Creature';
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../model/core/VectorModel';
 import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';
 import { CollisionDetector } from '../../actions/motion_actions/collision_detection/CollisionDetector';
+import { Player } from '../../world/world_items/player/Player';
 
 export class ManualMotionStrategy implements MotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
-    private player: Creature;
+    private player: Player;
     private collisionDetector: CollisionDetector;
     private rotationDirection: RotationDirection = null;
     private direction: MoveDirection = null;
@@ -14,7 +14,7 @@ export class ManualMotionStrategy implements MotionStrategy {
     private interval = 1000;
     private distanceByInterval = 10;
 
-    constructor(player: Creature, collisionDetector: CollisionDetector, keyBoardHandler: UserInputEventEmitter) {
+    constructor(player: Player, collisionDetector: CollisionDetector, keyBoardHandler: UserInputEventEmitter) {
         this.player = player;
         this.collisionDetector = collisionDetector;
         this.subscribeToUserInputs(keyBoardHandler);
@@ -23,7 +23,7 @@ export class ManualMotionStrategy implements MotionStrategy {
     public calcNextPositionDelta(elapsedTime: number) {
         const distance = elapsedTime / this.interval * this.distanceByInterval;
 
-        let delta = new VectorModel(0, 0, 0)
+        let delta = new VectorModel(0, 0, 0);
         if (this.direction === 'FORWARD') {
             delta = new VectorModel(0, 0, -1).scale(distance);
         } else if (this.direction === 'BACKWARD') {

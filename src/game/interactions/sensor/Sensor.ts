@@ -1,6 +1,6 @@
-import { Creature } from '../../world/world_items/Creature';
+import { SimpleWorldItem } from '../../world/world_items/SimpleWorldItem';
 
 export interface Sensor {
-    testIsWithinRange(creature: Creature);
+    testIsWithinRange(creature: SimpleWorldItem);
     setIsVisible(isVisible: boolean);
 }

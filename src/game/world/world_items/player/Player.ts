@@ -1,8 +1,7 @@
-import { Creature } from '../Creature';
 import { Scene, Mesh, Skeleton, Axis, Space, Quaternion } from '@babylonjs/core';
 import { MeshTemplate } from '../../../model/core/templates/MeshTemplate';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { UserInputEventEmitter } from '../../../interactions/motion/UserInputEventEmitter';
+import { SimpleWorldItem } from '../SimpleWorldItem';
 
 export interface Interval {
     from: number;
@@ -31,7 +30,7 @@ export class CreatureAnimationMesh {
 }
 
 
-export class Player extends Creature {
+export class Player extends SimpleWorldItem {
     public health = 100;
     private scene: Scene;
     public name = 'player';

@@ -41,6 +41,10 @@ export class ContainerWorldItem extends SimpleWorldItem {
         throw new Error('Not yet implemented');
     }
 
+    public setPosition(position: VectorModel) {
+        throw new Error('Not yet implemented');
+    }
+
     public translate(vectorModel: VectorModel) {
         if (this.mesh) {
             this.mesh.translate(toVector3(vectorModel), 1);

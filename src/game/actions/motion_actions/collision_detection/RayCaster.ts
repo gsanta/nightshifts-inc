@@ -1,7 +1,6 @@
 import { Scene, RayHelper, Ray, Color3 } from '@babylonjs/core';
-import * as BABYLON from '@babylonjs/core';
 import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
-import { Creature } from '../../../world/world_items/Creature';
+import { SimpleWorldItem } from '../../../world/world_items/SimpleWorldItem';
 declare const DEBUG: boolean;
 
 export class RayCaster {
@@ -12,7 +11,7 @@ export class RayCaster {
         this.scene = scene;
     }
 
-    public testCollision(from: VectorModel, to: VectorModel, creatureToTestForCollision: Creature) {
+    public testCollision(from: VectorModel, to: VectorModel, creatureToTestForCollision: SimpleWorldItem) {
         const fromPosition = toVector3(from);
         const toPosition = toVector3(to);
 
@@ -30,7 +29,7 @@ export class RayCaster {
             this.prevRayHelper = rayHelper;
         }
 
-        return hit.pickedMesh === creatureToTestForCollision.getBody();
+        return hit.pickedMesh === creatureToTestForCollision.mesh;
     }
 
     public getCollidingBody() {

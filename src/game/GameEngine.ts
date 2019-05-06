@@ -1,6 +1,4 @@
 import { Scene, Engine } from '@babylonjs/core';
-import { AttackingMotionStrategy } from './interactions/motion/AttackingMotionStrategy';
-import { CollisionDetector } from './actions/motion_actions/collision_detection/CollisionDetector';
 import { World } from './world/World';
 import { ActionDispatcher } from './actions/ActionDispatcher';
 import { ToolSelectionActionHandler } from './actions/tool_actions/tool_selection_action/ToolSelectionActionHandler';
@@ -10,7 +8,6 @@ import { ActiveRoomLightingActionHandler } from './actions/environment_actions/a
 import { TimeActionHandler } from './actions/general_actions/time_action/TimeActionHandler';
 import { EnterRoomActionHandler } from './actions/motion_actions/enter_room_action/EnterRoomActionHandler';
 import { ActiveEnemiesActionHandler } from './actions/story_actions/active_enemies_action/ActiveEnemiesActionHandler';
-import { NormalLightSwitcher } from './actions/environment_actions/active_room_lightning_action/NormalLightSwitcher';
 import { EnemyAttackActionHandler } from './actions/motion_actions/enemy_attack_action/EnemyAttackActionHandler';
 import { CreateFollowCameraActionHandler } from './actions/environment_actions/create_main_camera_action/CreateFollowCameraActionHandler';
 import { CreateMainLightActionHandler } from './actions/environment_actions/create_main_light_action/CreateMainLightActionHandler';

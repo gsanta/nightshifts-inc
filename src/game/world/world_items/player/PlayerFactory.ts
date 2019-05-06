@@ -1,10 +1,5 @@
 import { Mesh, Scene, Skeleton, Space } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { ActionStrategy } from '../../../interactions/action/ActionStrategy';
-import { CollisionDetector } from '../../../actions/motion_actions/collision_detection/CollisionDetector';
-import { ManualMotionStrategy } from '../../../interactions/motion/ManualMotionStrategy';
-import { UserInputEventEmitter } from '../../../interactions/motion/UserInputEventEmitter';
-import { EyeSensor } from '../../../interactions/sensor/EyeSensor';
 import { toVector3, VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
