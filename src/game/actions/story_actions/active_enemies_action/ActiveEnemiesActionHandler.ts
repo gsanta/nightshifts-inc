@@ -9,7 +9,6 @@ import find from 'lodash/find';
 import { StandardMaterial, Color3 } from '@babylonjs/core';
 
 export class ActiveEnemiesActionHandler implements ActionHandler {
-    private  enemy: Enemy;
 
     private actionDispatcher: ActionDispatcher;
 
@@ -19,11 +18,12 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
 
     public handle(type: string, world: World) {
         switch (type) {
-            case GameActionType.DAY_PASSED:
-                if (!this.enemy) {
-                    this.enemy = this.createEnemy(world);
-                    this.actionDispatcher.dispatch(GameActionType.ENEMY_CREATED, this.enemy);
-                }
+            case GameActionType.GAME_IS_READY:
+                const rooms = <Room[]> world.getWorldItemsByName('room');
+                const enemy1 = this.createEnemy(world, rooms[1]);
+                this.actionDispatcher.dispatch(GameActionType.ENEMY_CREATED, enemy1);
+                const enemy2 = this.createEnemy(world, rooms[2]);
+                this.actionDispatcher.dispatch(GameActionType.ENEMY_CREATED, enemy2);
 
                 break;
             default:
@@ -31,8 +31,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
         }
     }
 
-    private createEnemy(world: World): Enemy {
-        const room = <Room> world.getWorldItemsByName('room')[1];
+    private createEnemy(world: World, room: Room): Enemy {
         const emptyArea = find(room.children, child => child.name === 'empty');
 
         const material = new StandardMaterial('empty-area-material', world.scene);

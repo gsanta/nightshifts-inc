@@ -34,18 +34,15 @@ export class CreatureAnimationMesh {
 export class Player extends Creature {
     public health = 100;
     private scene: Scene;
-    private keyboardHandler: UserInputEventEmitter;
     public name = 'player';
     private skeleton: Skeleton;
 
-    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, keyboardHandler: UserInputEventEmitter) {
+    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene) {
         super(mesh, 'player');
 
         this.skeleton = skeleton;
 
         this.scene = scene;
-        this.keyboardHandler = keyboardHandler;
-        this.subscribeToUserInput();
 
         const quaternion = Quaternion.RotationAxis(Axis.Y, 0);
         this.mesh.rotationQuaternion = quaternion;
@@ -84,9 +81,5 @@ export class Player extends Creature {
     public getRotation(): VectorModel {
         const vector = this.mesh.rotationQuaternion.toEulerAngles();
         return new VectorModel(vector.x, vector.y, vector.z);
-    }
-
-    private subscribeToUserInput() {
-        this.keyboardHandler.onDoAction(() => this.actionStrategy.activateClosestMeshAction());
     }
 }

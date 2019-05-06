@@ -33,18 +33,8 @@ export class PlayerFactory implements GwmItemImporter {
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 
-        const keyboardHandler = new UserInputEventEmitter();
-        keyboardHandler.subscribe();
-        const player = new Player(this.meshInfo[0][0], this.meshInfo[1][0], this.scene, keyboardHandler);
+        const player = new Player(this.meshInfo[0][0], this.meshInfo[1][0], this.scene);
 
-        const actionStrategy = new ActionStrategy(player, world);
-
-        const collisionDetector = new CollisionDetector(player, this.scene);
-        const manualMotionStrategy = new ManualMotionStrategy(player, collisionDetector, keyboardHandler);
-
-        player.setMotionStrategy(manualMotionStrategy);
-        player.setSensor(new EyeSensor(player, this.scene));
-        player.setActionStrategy(actionStrategy);
         player.mesh.translate(toVector3(translate), 1, Space.WORLD);
 
         return player;

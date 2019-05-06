@@ -16,13 +16,13 @@ import { CreateFollowCameraActionHandler } from './actions/environment_actions/c
 import { CreateMainLightActionHandler } from './actions/environment_actions/create_main_light_action/CreateMainLightActionHandler';
 import { EnemyHitActionHandler } from './actions/enemy_hit_action/EnemyHitActionHandler';
 import { LampBehaviourActionHandler } from './actions/environment_actions/lamp_behaviour_action/LampBehaviourActionHandler';
+import { PlayerMotionActionHandler } from './actions/motion_actions/player_motion_action/PlayerMotionActionHandler';
 
 (<any> window).earcut = require('earcut');
 
 export class GameEngine {
     private scene: Scene;
     private world: World;
-    private previousTime: number = Date.now();
     private engine: Engine;
     private canvas: HTMLCanvasElement;
     private isGameRunning = false;
@@ -60,6 +60,7 @@ export class GameEngine {
                 this.actionDispatcher.registerActionHandler(new EnemyAttackActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new EnemyHitActionHandler(this.actionDispatcher));
                 this.actionDispatcher.registerActionHandler(new LampBehaviourActionHandler());
+                this.actionDispatcher.registerActionHandler(new PlayerMotionActionHandler(this.actionDispatcher));
 
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 
@@ -79,64 +80,8 @@ export class GameEngine {
     }
 
     private render() {
-        if (!this.world.player || !this.world.player.getBody()) {
-            return;
-        }
-
-        const currentTime = Date.now();
-        const elapsedTime = currentTime - this.previousTime;
-        this.previousTime = currentTime;
-
-        this.movePlayer(elapsedTime);
         this.actionDispatcher.dispatch(GameActionType.NEXT_TICK);
 
-
         this.scene.render();
-    }
-
-    private testAndSetEnemyVisibility() {
-        const player = this.world.player;
-
-        this.world.enemies.forEach(enemy => {
-            const isVisible = player.getSensor().testIsWithinRange(this.world.enemies[0]);
-            if (isVisible) {
-                enemy.setIsVisible(true);
-            } else {
-                enemy.setIsVisible(false);
-            }
-        });
-    }
-
-    private movePlayer(elapsedTime: number) {
-        const player = this.world.player;
-
-        if (!player.getMotionStrategy().isIdle()) {
-            const delta = player.getMotionStrategy().calcNextPositionDelta(elapsedTime);
-            player.setPosition(player.getCenterPosition().add(delta));
-        }
-
-        const rotationDelta = player.getMotionStrategy().calcNextRotationDelta(elapsedTime);
-        player.setRotation(rotationDelta);
-    }
-
-    private moveEnemies(elapsedTime: number) {
-        this.world.enemies.forEach(enemy => {
-            const enemyDelta = enemy.getMotionStrategy().calcNextPositionDelta(elapsedTime);
-
-            if (enemyDelta) {
-                enemy.setPosition(enemy.getCenterPosition().add(enemyDelta));
-            }
-        });
-    }
-
-    private attackPlayerIfWithinSensorRange() {
-        const player = this.world.player;
-
-        this.world.enemies.forEach(enemy => {
-            if (enemy.getSensor().testIsWithinRange(player)) {
-                const collisionDetector = new CollisionDetector(enemy, this.scene);
-                enemy.setMotionStrategy(new AttackingMotionStrategy(enemy, player, collisionDetector));
-            }
-        });
     }
 }

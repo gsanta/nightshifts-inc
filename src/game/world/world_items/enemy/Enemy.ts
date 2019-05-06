@@ -37,25 +37,6 @@ export class Enemy extends Creature {
         throw new Error('Method not implemented.');
     }
 
-    // public getCenterPosition() {
-    //     return new VectorModel(this.boundingPolygon.left, 0, this.boundingPolygon.top);
-    // }
-
-    public setIsVisible(isVisible: boolean) {
-        if (this.isVisible === isVisible) {
-            return;
-        }
-
-        this.isVisible = isVisible;
-        this.sensor.setIsVisible(this.isVisible);
-
-        if (isVisible) {
-            this.mesh.material = this.visibleMaterial;
-        } else {
-            this.mesh.material = this.inVisibleMaterial;
-        }
-    }
-
     private initMaterials() {
         this.visibleMaterial = new StandardMaterial('enemy-visible-material', this.scene);
         this.visibleMaterial.emissiveColor = new Color3(0, 0, 1);
