@@ -33,7 +33,7 @@ export class CreatureAnimationMesh {
 export class Player extends SimpleWorldItem {
     public health = 100;
     private scene: Scene;
-    public name = 'player';
+    public type = 'player';
     private skeleton: Skeleton;
 
     constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene) {

@@ -12,12 +12,12 @@ export class RoomLabelFactory {
         this.scene = scene;
     }
 
-    public createItem(polygon: Polygon, world: World): WorldItem {
-        const mesh = this.createMesh(polygon);
+    public createItem(polygon: Polygon, world: World, label: string): WorldItem {
+        const mesh = this.createMesh(polygon, label);
         return new SimpleWorldItem(mesh, 'room-label');
     }
 
-    private createMesh(dimensions: Polygon) {
+    private createMesh(dimensions: Polygon, label: string) {
         const roomTop = MeshBuilder.CreatePolygon(
             'room-top',
             {
@@ -30,12 +30,12 @@ export class RoomLabelFactory {
 
         roomTop.translate(new Vector3(0, 5, 0), 1);
 
-        roomTop.material = this.createMaterial();
+        roomTop.material = this.createMaterial(label);
 
         return roomTop;
     }
 
-    private createMaterial(): StandardMaterial {
+    private createMaterial(label: string): StandardMaterial {
         const textureGround = new DynamicTexture('room-label-texture', {width: 512, height: 256}, this.scene, false);
 
         const material = new StandardMaterial('door-closed-material', this.scene);
@@ -43,7 +43,7 @@ export class RoomLabelFactory {
         material.alpha = 0.5;
 
         const font = 'bold 60px Arial';
-        textureGround.drawText('Box', 200, 150, font, 'green', 'white', true, true);
+        textureGround.drawText(label, 200, 150, font, 'green', 'white', true, true);
 
         return material;
     }

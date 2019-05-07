@@ -54,8 +54,8 @@ export class WorldImporter {
 
         worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
 
-        world.floor = worldItems.filter(mesh => mesh.name === 'floor')[0];
-        world.player = <Player> worldItems.filter(mesh => mesh.name === 'player')[0];
+        world.floor = worldItems.filter(mesh => mesh.type === 'floor')[0];
+        world.player = <Player> worldItems.filter(mesh => mesh.type === 'player')[0];
 
         return worldItems;
     }

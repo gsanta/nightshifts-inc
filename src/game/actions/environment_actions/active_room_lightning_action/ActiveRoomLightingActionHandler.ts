@@ -5,6 +5,8 @@ import { ActionHandler } from '../../ActionHandler';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 
+
+//TODO: better naming needed because now this handles `SHOW_ROOM_NAMES` action also
 export class ActiveRoomLightingActionHandler implements ActionHandler {
     private static instance: ActiveRoomLightingActionHandler;
 
@@ -51,7 +53,7 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
 
     private handleShowRoomLabels(world: World, show: boolean) {
         world.getWorldItemsByName('room').forEach((room: Room) => {
-            room.children.filter(child => child.name === 'room-label').forEach(roomLabel => roomLabel.setVisible(show));
+            room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(show));
         });
     }
 

@@ -8,7 +8,8 @@ import isNumber from 'lodash/isNumber';
 
 export class SimpleWorldItem implements WorldItem {
     public mesh: Mesh;
-    public name: string;
+    public type: string;
+    public label: string;
     public hasDefaultAction = false;
     public parent: WorldItem;
     public neighbours: WorldItem[] = [];
@@ -18,7 +19,7 @@ export class SimpleWorldItem implements WorldItem {
 
     constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
         this.mesh = mesh;
-        this.name = name;
+        this.type = name;
     }
 
     public getAllMeshes(): Mesh[] {
@@ -31,7 +32,7 @@ export class SimpleWorldItem implements WorldItem {
 
     public serialize(): SerializedMeshModel {
         return {
-            name: this.name,
+            name: this.type,
             scaling: {
                 x: this.getScale().x,
                 y: this.getScale().y,
@@ -54,7 +55,7 @@ export class SimpleWorldItem implements WorldItem {
 
     public clone() {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
-        const name = this.name;
+        const name = this.type;
 
         const clone = new SimpleWorldItem(clonedMesh, name);
         this.copyTo(clone);
@@ -145,7 +146,7 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {
-        meshModel.name = this.name;
+        meshModel.type = this.type;
         meshModel.hasDefaultAction = this.hasDefaultAction;
 
         return meshModel;

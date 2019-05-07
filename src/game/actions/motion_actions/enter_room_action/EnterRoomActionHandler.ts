@@ -33,7 +33,7 @@ export class EnterRoomActionHandler implements ActionHandler {
     }
 
     private getActiveRoom(world: World): Room {
-        const rooms = world.worldItems.filter(gameObj => gameObj.name === 'room');
+        const rooms = world.worldItems.filter(gameObj => gameObj.type === 'room');
 
         return <Room> rooms.filter(room => room.mesh.intersectsMesh(world.player.mesh))[0];
     }

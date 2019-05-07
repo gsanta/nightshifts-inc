@@ -11,6 +11,7 @@ const colors = GameConstants.colors;
 export class RoomFactory {
     private scene: Scene;
     private roomLabelFactory: RoomLabelFactory;
+    private counter = 1;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -28,10 +29,12 @@ export class RoomFactory {
         const mesh = this.createRoomFloor(dimensions);
         mesh.receiveShadows = true;
 
-        const roomLabel = this.roomLabelFactory.createItem(dimensions, world);
+        const label = `room-${this.counter++}`;
+        const roomLabel = this.roomLabelFactory.createItem(dimensions, world, label);
         roomLabel.setVisible(false);
 
         const room = new Room(mesh, dimensions, 'room');
+        room.label = label;
         room.addChild(roomLabel);
         return room;
     }

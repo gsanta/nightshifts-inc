@@ -37,7 +37,15 @@ export interface SerializedMeshModel {
 
 export interface WorldItem {
     mesh?: Mesh;
-    name: string;
+    /**
+     * Similar to what `instanceof` could be used for, similar objects should have the same type.
+     * E.g room, wall etc.
+     */
+    type: string;
+    /**
+     * A human-readable name that uniquely identifies the item
+     */
+    name?: string;
     hasDefaultAction: boolean;
     material: StandardMaterial;
     neighbours: WorldItem[];
