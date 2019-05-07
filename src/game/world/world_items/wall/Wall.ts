@@ -53,9 +53,9 @@ export class Wall extends ContainerWorldItem implements Border {
         }
 
         const parentMesh = MeshBuilder.CreateBox(
-                `default-wall-container-${this.index}`, {  width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 5  }, scene);
+                `default-wall-container-${this.index}`, {  width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 8  }, scene);
 
-        const mesh1 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 5 }, scene);
+        const mesh1 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 8 }, scene);
 
         mesh1.parent = parentMesh;
         mesh1.receiveShadows = true;
@@ -64,7 +64,7 @@ export class Wall extends ContainerWorldItem implements Border {
         wallSide1.mesh.material = material;
         wallSide1.translate(new VectorModel(wallSide1Dim.left, 0, wallSide1Dim.top));
 
-        const mesh2 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 5  }, scene);
+        const mesh2 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 8  }, scene);
 
         mesh2.parent = parentMesh;
         mesh2.receiveShadows = true;
