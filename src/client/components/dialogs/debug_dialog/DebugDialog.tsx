@@ -2,6 +2,11 @@ import withDialog, { DialogTemplateProps } from '../dialog_template/withDialog';
 import colors from '../../miscellaneous/colors';
 import * as React from 'react';
 import { DebugOptions } from './DebugOptions';
+import styled from 'styled-components';
+
+const SettingsRow = styled.div`
+    display: flex;
+`;
 
 const DebugDialog = (props: DebugDialogProps) => {
     const handleTurnOnAllLights = React.useCallback(
@@ -11,14 +16,31 @@ const DebugDialog = (props: DebugDialogProps) => {
         [],
     );
 
+    const handleShowRoomLabels = React.useCallback(
+        (e: React.ChangeEvent<any>) => {
+            props.setShowRoomLabels((event.target as any).checked);
+        },
+        [],
+    );
+
     return (
         <div>
-            <input
-                type="checkbox"
-                checked={props.debugOptions.areAllLightsTurnedOn}
-                onChange={handleTurnOnAllLights}
-            />
-            Turn on all lights
+            <SettingsRow>
+                <input
+                    type="checkbox"
+                    checked={props.debugOptions.areAllLightsTurnedOn}
+                    onChange={handleTurnOnAllLights}
+                />
+                Turn on all lights
+            </SettingsRow>
+            <SettingsRow>
+                <input
+                    type="checkbox"
+                    checked={props.debugOptions.showRoomLabels}
+                    onChange={handleShowRoomLabels}
+                />
+                Show room labels
+            </SettingsRow>
         </div>
     );
 };
@@ -36,4 +58,5 @@ export default withDialog(DebugDialog, {
 export interface DebugDialogProps extends DialogTemplateProps {
     debugOptions: DebugOptions;
     setAreAllLightsTurnedOn(areTurnedOn: boolean): void;
+    setShowRoomLabels(showRoomLabels: boolean): void;
 }
