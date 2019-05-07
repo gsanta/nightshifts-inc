@@ -37,7 +37,7 @@ export interface SerializedMeshModel {
 
 export interface WorldItem {
     mesh?: Mesh;
-    name?: string;
+    name: string;
     hasDefaultAction: boolean;
     material: StandardMaterial;
     neighbours: WorldItem[];
@@ -69,4 +69,5 @@ export interface WorldItem {
     setParent(worldItem: WorldItem);
     intersectsPoint(vector: VectorModel);
     intersectsWorldItem(otherWorldItem: WorldItem);
+    setVisible(isVisible: boolean): void;
 }

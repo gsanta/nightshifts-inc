@@ -25,14 +25,14 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
         return this.instance;
     }
 
-    public handle(type: string, world: World, activeRoom: Room) {
+    public handle(type: string, world: World, payload: Room | boolean) {
 
         switch (type) {
             case GameActionType.GAME_IS_READY:
                 this.handleGameIsReady(world);
                 return;
             case GameActionType.ENTER_ROOM:
-                this.handleEnterRoom(activeRoom, world);
+                this.handleEnterRoom(<Room> payload, world);
                 return;
             case GameActionType.TURN_ON_ALL_LIGHTS:
                 this.handleTurnOnAllLights(world);
@@ -40,9 +40,19 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
             case GameActionType.TURN_OFF_LIGHTS_FOR_NOT_ACTIVE_ROOMS:
                 this.handleTurnOffLightsForNotActiveRoom(world);
                 return;
+
+            case GameActionType.SHOW_ROOM_NAMES:
+                this.handleShowRoomLabels(world, <boolean> payload);
+                return;
             default:
                 return;
         }
+    }
+
+    private handleShowRoomLabels(world: World, show: boolean) {
+        world.getWorldItemsByName('room').forEach((room: Room) => {
+            room.children.filter(child => child.name === 'room-label').forEach(roomLabel => roomLabel.setVisible(show));
+        });
     }
 
     private handleEnterRoom(activeRoom: Room, world: World) {

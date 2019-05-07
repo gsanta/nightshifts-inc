@@ -13,6 +13,7 @@ import UpdateUserActions from '../user_state/user_actions/UpdateUserActions';
 import GrabToolActions from '../tools_state/tools_actions/GrabToolActions';
 import ReleaseToolActions from '../tools_state/tools_actions/ReleaseToolActions';
 import TurnOnAllLigthsActions from '../debug_state/debug_actions/TurnOnAllLigthsActions';
+import ShowRoomLabelsActions from '../debug_state/debug_actions/ShowRoomLabelsActions';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -35,7 +36,8 @@ sagaMiddleware.run(function* rootSaga() {
         GetWorldActions.watch(),
         GrabToolActions.watch(),
         ReleaseToolActions.watch(),
-        TurnOnAllLigthsActions.watch()
+        TurnOnAllLigthsActions.watch(),
+        ShowRoomLabelsActions.watch()
     ]);
 });
 

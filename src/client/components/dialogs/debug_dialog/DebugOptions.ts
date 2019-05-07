@@ -2,5 +2,5 @@
 
 export interface DebugOptions {
     areAllLightsTurnedOn: boolean;
-    showRoomNames: boolean;
+    showRoomLabels: boolean;
 }

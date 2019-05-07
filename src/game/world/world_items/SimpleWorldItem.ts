@@ -6,7 +6,7 @@ import { ContainerWorldItem } from './ContainerWorldItem';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 import isNumber from 'lodash/isNumber';
 
-export class SimpleWorldItem<M = Mesh> implements WorldItem {
+export class SimpleWorldItem implements WorldItem {
     public mesh: Mesh;
     public name: string;
     public hasDefaultAction = false;
@@ -138,6 +138,10 @@ export class SimpleWorldItem<M = Mesh> implements WorldItem {
 
     public intersectsWorldItem(otherWorldItem: WorldItem): boolean {
         return this.mesh.intersectsMesh(otherWorldItem.mesh);
+    }
+
+    public setVisible(isVisible: boolean) {
+        this.mesh.isVisible = isVisible;
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {
