@@ -16,7 +16,7 @@ export class ContainerWorldItem extends SimpleWorldItem {
     material: StandardMaterial;
 
     constructor(children: WorldItem[]) {
-        super(null, '');
+        super(null, '', null);
         this.children = children;
     }
 

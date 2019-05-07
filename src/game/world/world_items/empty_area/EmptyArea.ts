@@ -4,10 +4,9 @@ import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 
 export class EmptyArea extends SimpleWorldItem {
-    private boundingPolygon: Polygon;
 
     constructor(mesh: Mesh, boundingPolygon: Polygon) {
-        super(mesh, 'empty');
+        super(mesh, 'empty', boundingPolygon);
 
         this.boundingPolygon = boundingPolygon;
     }

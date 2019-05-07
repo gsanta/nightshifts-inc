@@ -14,7 +14,7 @@ export class RoomLabelFactory {
 
     public createItem(polygon: Polygon, world: World, label: string): WorldItem {
         const mesh = this.createMesh(polygon, label);
-        return new SimpleWorldItem(mesh, 'room-label');
+        return new SimpleWorldItem(mesh, 'room-label', polygon);
     }
 
     private createMesh(dimensions: Polygon, label: string) {

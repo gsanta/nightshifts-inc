@@ -15,11 +15,14 @@ export class SimpleWorldItem implements WorldItem {
     public neighbours: WorldItem[] = [];
     public material: StandardMaterial;
 
+    protected boundingPolygon: Polygon;
+
     protected counter = 1;
 
-    constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
+    constructor(mesh: Mesh, type: string, boundingPolygon: Polygon) {
         this.mesh = mesh;
-        this.type = name;
+        this.type = type;
+        this.boundingPolygon = boundingPolygon;
     }
 
     public getAllMeshes(): Mesh[] {
@@ -57,7 +60,7 @@ export class SimpleWorldItem implements WorldItem {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
         const name = this.type;
 
-        const clone = new SimpleWorldItem(clonedMesh, name);
+        const clone = new SimpleWorldItem(clonedMesh, name, this.boundingPolygon);
         this.copyTo(clone);
 
         return clone;

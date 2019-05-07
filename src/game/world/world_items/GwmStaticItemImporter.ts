@@ -31,7 +31,7 @@ export class GwmStaticItemImporter implements GwmItemImporter {
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const meshes = this.meshModelTemplate.createMeshes();
-        const meshModel = new SimpleWorldItem(meshes[0], worldItem.name);
+        const meshModel = new SimpleWorldItem(meshes[0], worldItem.name, worldItem.dimensions);
 
         meshes.forEach(mesh => {
             const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);

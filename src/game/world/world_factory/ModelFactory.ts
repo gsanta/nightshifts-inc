@@ -22,7 +22,7 @@ export class ModelFactory implements WorldItemFactory {
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
         const mesh =  this.meshInfo[0][0].clone(`${this.meshInfo[0][0].name}`);
         mesh.isVisible = true;
-        const meshModel = new SimpleWorldItem(mesh, worldItem.name);
+        const meshModel = new SimpleWorldItem(mesh, worldItem.name, worldItem.dimensions);
 
         const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
         const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world, realMeshDimensions);

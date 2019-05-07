@@ -2,6 +2,7 @@ import { Scene, Mesh, Skeleton, Axis, Space, Quaternion } from '@babylonjs/core'
 import { MeshTemplate } from '../../../model/core/templates/MeshTemplate';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { SimpleWorldItem } from '../SimpleWorldItem';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 export interface Interval {
     from: number;
@@ -36,8 +37,8 @@ export class Player extends SimpleWorldItem {
     public type = 'player';
     private skeleton: Skeleton;
 
-    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene) {
-        super(mesh, 'player');
+    constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, boundingPolygon: Polygon) {
+        super(mesh, 'player', boundingPolygon);
 
         this.skeleton = skeleton;
 

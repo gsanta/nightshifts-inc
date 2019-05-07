@@ -58,7 +58,7 @@ export class DividerWorldItemFactory {
         mesh.material = this.material;
         mesh.receiveShadows = true;
 
-        const item = new SimpleWorldItem(mesh, name);
+        const item = new SimpleWorldItem(mesh, name, dimension);
 
         item.translate(new VectorModel(dimension.left, 0, dimension.top));
 
@@ -73,7 +73,7 @@ export class DividerWorldItemFactory {
         );
         mesh.isVisible = false;
 
-        return new SimpleWorldItem(mesh, `${gwmWorldItem.name}-container`);
+        return new SimpleWorldItem(mesh, `${gwmWorldItem.name}-container`, gwmWorldItem.dimensions);
     }
 
     private setPivotMatrix(worldItem: GwmWorldItem, door: Door) {

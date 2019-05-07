@@ -60,7 +60,7 @@ export class Wall extends ContainerWorldItem implements Border {
         mesh1.parent = parentMesh;
         mesh1.receiveShadows = true;
 
-        const wallSide1 = new SimpleWorldItem(mesh1, 'wall');
+        const wallSide1 = new SimpleWorldItem(mesh1, 'wall', wallSide1Dim);
         wallSide1.mesh.material = material;
         wallSide1.translate(new VectorModel(wallSide1Dim.left, 0, wallSide1Dim.top));
 
@@ -69,14 +69,14 @@ export class Wall extends ContainerWorldItem implements Border {
         mesh2.parent = parentMesh;
         mesh2.receiveShadows = true;
 
-        const wallSide2 = new SimpleWorldItem(mesh2, 'wall');
+        const wallSide2 = new SimpleWorldItem(mesh2, 'wall', wallSide2Dim);
         wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));
 
         wallSide2.mesh.material = material;
         // wallSide2.mesh.visibility = 0;
 
 
-        const parent = new SimpleWorldItem(parentMesh, 'wall');
+        const parent = new SimpleWorldItem(parentMesh, 'wall', gwmWorldItem.dimensions);
         wallSide1.mesh.parent = parent.mesh;
         wallSide2.mesh.parent = parent.mesh;
         parent.mesh.material = this.createMaterial2(scene);
@@ -123,23 +123,6 @@ export class Wall extends ContainerWorldItem implements Border {
 
     public getAbsoluteBoundingPolygon(): Polygon {
         return this.getBoundingPolygon();
-    }
-
-
-    public getSide1BoundingPolygon() {
-        return this.children[0].getBoundingPolygon();
-    }
-
-    public getSide2BoundingPolygon() {
-        return this.children[1].getBoundingPolygon();
-    }
-
-    public getSide1Meshes(): Mesh[] {
-        return [this.children[0].mesh];
-    }
-
-    public getSide2Meshes(): Mesh[] {
-        return [this.children[1].mesh];
     }
 
     public scale(vectorModel: VectorModel) {

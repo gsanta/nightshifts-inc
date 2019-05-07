@@ -60,22 +60,6 @@ export class Door extends ContainerWorldItem implements Border {
         return baseInfo;
     }
 
-    public getSide1BoundingPolygon() {
-        return this.children[0].getBoundingPolygon();
-    }
-
-    public getSide2BoundingPolygon() {
-        return this.children[1].getBoundingPolygon();
-    }
-
-    public getSide1Meshes(): Mesh[] {
-        return [this.children[0].mesh];
-    }
-
-    public getSide2Meshes(): Mesh[] {
-        return [this.children[1].mesh];
-    }
-
     public setMaterial(material: StandardMaterial) {
         this.children.forEach(child => child.mesh.material = material);
     }
