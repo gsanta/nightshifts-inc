@@ -25,7 +25,7 @@ export class World {
     public scene: Scene;
 
     public getWorldItemsByName(name: string): WorldItem[] {
-        return this.worldItems.filter(gameObject => gameObject.name === name);
+        return this.worldItems.filter(gameObject => gameObject.type === name);
     }
 
     public factory: WorldFactory;

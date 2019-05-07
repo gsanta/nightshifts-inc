@@ -16,7 +16,7 @@ export class Door extends ContainerWorldItem implements Border {
     private pivot: VectorModel;
     public sides: [WorldItem, WorldItem];
 
-    public name: 'door';
+    public type: 'door';
 
     constructor(container: WorldItem, side1: WorldItem, side2: WorldItem) {
         super([]);

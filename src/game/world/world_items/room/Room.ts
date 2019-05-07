@@ -10,7 +10,7 @@ import { Polygon, Point } from '@nightshifts.inc/geometry';
 export class Room extends ContainerWorldItem {
     public borderItems: WorldItem[] = [];
     public mesh: Mesh;
-    public name: string;
+    public type: string;
     private boundingPolygon: Polygon;
     public temperature = 20 + Math.floor(Math.random() * 10);
     public isActive: boolean;
@@ -18,7 +18,7 @@ export class Room extends ContainerWorldItem {
 
     constructor(mesh: Mesh, boundingPolygon: Polygon, name: string) {
         super([]);
-        this.name = name;
+        this.type = name;
         this.mesh = mesh;
         this.boundingPolygon = boundingPolygon;
     }

@@ -32,7 +32,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
     }
 
     private createEnemy(world: World, room: Room): Enemy {
-        const emptyArea = find(room.children, child => child.name === 'empty');
+        const emptyArea = find(room.children, child => child.type === 'empty');
 
         const material = new StandardMaterial('empty-area-material', world.scene);
         material.diffuseColor = Color3.FromHexString('00FF00');
