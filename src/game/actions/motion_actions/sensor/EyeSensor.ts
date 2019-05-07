@@ -1,9 +1,9 @@
 import { Scene } from '@babylonjs/core';
 import { Sensor } from './Sensor';
-import { Player } from '../../world/world_items/player/Player';
-import { Enemy } from '../../world/world_items/enemy/Enemy';
-import { VectorModel } from '../../model/core/VectorModel';
-import { RayCaster } from '../../actions/motion_actions/collision_detection/RayCaster';
+import { Player } from '../../../world/world_items/player/Player';
+import { Enemy } from '../../../world/world_items/enemy/Enemy';
+import { VectorModel } from '../../../model/core/VectorModel';
+import { RayCaster } from '../collision_detection/RayCaster';
 
 export class EyeSensor implements Sensor {
     private player: Player;

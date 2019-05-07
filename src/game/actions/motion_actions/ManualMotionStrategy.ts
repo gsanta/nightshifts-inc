@@ -1,7 +1,7 @@
 import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../model/core/VectorModel';
 import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';
-import { CollisionDetector } from '../../actions/motion_actions/collision_detection/CollisionDetector';
+import { CollisionDetector } from './collision_detection/CollisionDetector';
 import { Player } from '../../world/world_items/player/Player';
 
 export class ManualMotionStrategy implements MotionStrategy {
