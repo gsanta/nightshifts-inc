@@ -1,8 +1,9 @@
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { Scene, HemisphericLight, Vector3, Color3 } from '@babylonjs/core';
+import { Scene, HemisphericLight, Vector3, Color3, PointLight } from '@babylonjs/core';
 import { Room } from '../../../world/world_items/room/Room';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 
 /**
@@ -31,6 +32,17 @@ export class CreateMainLightActionHandler implements ActionHandler {
     }
 
     private createRoomLight(room: Room, scene: Scene) {
-        Room.createLight(room.getBoundingPolygon(), scene);
+        const dimensions = room.getBoundingPolygon();
+        console.log('Creating light');
+        console.log(dimensions);
+        const center = {
+            x: dimensions.getBoundingCenter().x,
+            y: dimensions.getBoundingCenter().y
+        };
+        console.log(center);
+        const light: PointLight = new PointLight('light', new Vector3(center.x, 3, center.y), scene);
+        light.setEnabled(true);
+        light.range = 30;
+        return light;
     }
 }

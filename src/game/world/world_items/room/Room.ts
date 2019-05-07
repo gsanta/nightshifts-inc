@@ -39,42 +39,4 @@ export class Room extends ContainerWorldItem {
     public getDoors(): Door[] {
         return <Door[]> this.borderItems.filter(child => child instanceof Door);
     }
-
-    public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Room {
-        const translateX = - (world.dimensions.x() / 2);
-        const translateY = - (world.dimensions.y() / 2);
-
-        const dimensions  = gwmWorldItem.dimensions
-            .negateY()
-            .translate(new Point(translateX, -translateY));
-
-        const roomMesh = MeshBuilder.CreatePolygon(
-            'room',
-            {
-                shape: dimensions.points.map(point => new Vector3(point.x, 2, point.y)),
-                depth: 2,
-                updatable: true
-            },
-            scene
-        );
-
-        roomMesh.receiveShadows = true;
-
-        const room = new Room(roomMesh, dimensions, 'room');
-        return room;
-    }
-
-    public static createLight(dimensions: Polygon, scene: Scene) {
-        console.log('Creating light');
-        console.log(dimensions);
-        const center = {
-            x: dimensions.getBoundingCenter().x,
-            y: dimensions.getBoundingCenter().y
-        };
-        console.log(center);
-        const light: PointLight = new PointLight('light', new Vector3(center.x, 3, center.y), scene);
-        light.setEnabled(true);
-        light.range = 30;
-        return light;
-    }
 }

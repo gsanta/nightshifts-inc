@@ -2,11 +2,11 @@ import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
 import { GameActionType } from '../../GameActionType';
-import { MotionStrategy } from '../../../interactions/motion/MotionStrategy';
-import { ManualMotionStrategy } from '../../../interactions/motion/ManualMotionStrategy';
+import { MotionStrategy } from '../MotionStrategy';
+import { ManualMotionStrategy } from '../ManualMotionStrategy';
 import { ActionDispatcher } from '../../ActionDispatcher';
-import { UserInputEventEmitter } from '../../../interactions/motion/UserInputEventEmitter';
-import { ActionStrategy } from '../../../interactions/action/ActionStrategy';
+import { UserInputEventEmitter } from '../UserInputEventEmitter';
+import { ActionStrategy } from '../ActionStrategy';
 
 
 export class PlayerMotionActionHandler implements ActionHandler {
