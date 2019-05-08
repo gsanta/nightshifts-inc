@@ -1,6 +1,7 @@
 import { RandomRoomReservationStrategy } from './RandomRoomReservationStrategy';
 import * as sinon from 'sinon';
 import { expect } from 'chai';
+declare const describe, beforeEach, afterEach, it;
 
 describe('RandomRoomReservationStrategy', () => {
     describe('reserveRoom', () => {

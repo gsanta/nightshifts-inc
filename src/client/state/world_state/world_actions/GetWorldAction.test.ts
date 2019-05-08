@@ -4,7 +4,7 @@ import { take, put, call, takeEvery } from 'redux-saga/effects';
 import { ActionType } from '../../ActionType';
 import { WorldRequests } from '../WorldRequests';
 import * as sinon from 'sinon';
-
+declare const describe, beforeEach, afterEach, it;
 
 describe('GetWorldAction', () => {
     describe('watch', () => {

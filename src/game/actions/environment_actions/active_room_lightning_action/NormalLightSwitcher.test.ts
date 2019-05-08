@@ -4,6 +4,7 @@ import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { expect } from 'chai';
 import { Room } from '../../../world/world_items/room/Room';
 import { World } from '../../../world/World';
+declare const describe, beforeEach, afterEach, it;
 
 const createWorldMock = (excludedMeshes: Mesh[]): World => {
 

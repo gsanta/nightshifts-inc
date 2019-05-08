@@ -4,6 +4,7 @@ import { Direction } from '../../../model/utils/Direction';
 import { WorldItemToRealWorldCoordinateMapper } from './WorldItemToRealWorldCoordinateMapper';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { Rectangle } from '@nightshifts.inc/geometry';
+declare const describe, beforeEach, afterEach, it;
 
 
 describe('WorldItemToRealWorldCoordinateMapper', () => {

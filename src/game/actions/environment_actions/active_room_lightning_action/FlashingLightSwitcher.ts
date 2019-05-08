@@ -28,11 +28,11 @@ export class FlashingLightSwitcher implements LightSwitcher {
 
         return new Promise(
           resolve =>
-            function iterate(val) {
+            (function iterate(val) {
               const {value, done} = iterator.next(val);
               if (done) { resolve(val); }
               else { Promise.resolve(value).then(iterate); }
-            }()
+            })()
         );
 
       }
