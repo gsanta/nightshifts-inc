@@ -14,6 +14,7 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
     private prevActiveRoom: Room;
     private lightSwitcher: NormalLightSwitcher;
     private flashingLightSwitcher: FlashingLightSwitcher;
+    private isShowCeiling = false;
 
     private constructor() {
         this.lightSwitcher = new NormalLightSwitcher();
@@ -35,8 +36,10 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
                 this.handleGameIsReady(world);
                 return;
             case GameActionType.ENTER_ROOM:
-                // this.handleEnterRoom(<Room> payload, world);
-                this.handleShowRoomLabels(<Room> payload, world);
+                this.handleEnterRoom(<Room> payload, world);
+                if (this.isShowCeiling) {
+                    this.handleShowRoomLabels(world);
+                }
                 return;
             case GameActionType.TURN_ON_ALL_LIGHTS:
                 this.handleTurnOnAllLights(world);
@@ -46,15 +49,36 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
                 return;
 
             case GameActionType.SHOW_ROOM_NAMES:
-                // this.handleShowRoomLabels(world, <boolean> payload);
+                if (payload) {
+                    this.handleShowRoomLabels(world);
+                    this.isShowCeiling = true;
+                } else {
+                    this.hideCeiling(world);
+                    this.isShowCeiling = false;
+                }
                 return;
             default:
                 return;
         }
     }
 
-    private handleShowRoomLabels(activeRoom: Room, world: World) {
+    private hideCeiling(world: World) {
+        world.getWorldItemsByName('room')
+            .forEach((room: Room) => {
+                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
+            });
+    }
 
+    private showCeiling(world: World) {
+        world.getWorldItemsByName('room')
+        .forEach((room: Room) => {
+            room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
+        });
+    }
+
+    private handleShowRoomLabels(world: World) {
+        const rooms = <Room[]> world.getWorldItemsByName('room');
+        const activeRoom = _.find(rooms, room => room.isActive);
         _.chain(world.getWorldItemsByName('room'))
             .without(activeRoom)
             .forEach((room: Room) => {
@@ -82,7 +106,7 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
 
     private handleGameIsReady(world: World) {
         world.getWorldItemsByName('room').forEach(room => {
-            this.lightSwitcher.on(<Room> room, world);
+            this.lightSwitcher.off(<Room> room, world);
         });
     }
 

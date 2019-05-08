@@ -50,7 +50,7 @@ export class DividerWorldItemFactory {
     private createSideItem(container: WorldItem, dimension: Polygon, name: string): WorldItem {
         const mesh = this.meshBuilder.CreateBox(
             name,
-            { width: dimension.width, depth: dimension.height, height: 5 },
+            { width: dimension.width, depth: dimension.height, height: 8 },
             this.scene
         );
 
@@ -68,7 +68,7 @@ export class DividerWorldItemFactory {
     private createContainerItem(gwmWorldItem: GwmWorldItem) {
         const mesh = this.meshBuilder.CreateBox(
             `${gwmWorldItem.name}-container`,
-            { width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 5 },
+            { width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 8 },
             this.scene
         );
         mesh.isVisible = false;

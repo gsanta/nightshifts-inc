@@ -16,13 +16,16 @@ export class NormalLightSwitcher implements LightSwitcher {
     }
 
     private excludeMeshesForWorldItem(worldItem: WorldItem, world: World) {
-        worldItem.getAllMeshes().forEach(mesh => {
-            const index = world.hemisphericLight.excludedMeshes.indexOf(mesh);
+        worldItem
+            .getAllMeshes()
+            .filter(mesh => mesh.name !== 'room-label')
+            .forEach(mesh => {
+                const index = world.hemisphericLight.excludedMeshes.indexOf(mesh);
 
-            if (index !== -1) {
-                world.hemisphericLight.excludedMeshes.splice(index, 1);
-            }
-        });
+                if (index !== -1) {
+                    world.hemisphericLight.excludedMeshes.splice(index, 1);
+                }
+            });
     }
 
     public off(room: Room, world: World): Promise<void> {
@@ -33,12 +36,14 @@ export class NormalLightSwitcher implements LightSwitcher {
     }
 
     private includeMeshesForWorldItem(worldItem: WorldItem, world: World) {
-        worldItem.getAllMeshes().forEach(mesh => {
-            const index = world.hemisphericLight.excludedMeshes.indexOf(mesh);
+        worldItem.getAllMeshes()
+            .filter(mesh => mesh.name !== 'room-label')
+            .forEach(mesh => {
+                const index = world.hemisphericLight.excludedMeshes.indexOf(mesh);
 
-            if (index === -1) {
-                world.hemisphericLight.excludedMeshes.push(mesh);
-            }
-        });
+                if (index === -1) {
+                    world.hemisphericLight.excludedMeshes.push(mesh);
+                }
+            });
     }
 }
