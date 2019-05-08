@@ -6,11 +6,11 @@
   "scripts": {
     "watch": "./node_modules/.bin/webpack-dev-server",
     "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug",
-    "compile-server": "tsc -w --project tsconfig-server.json",
+    "compile-server": "typescript -w --project tsconfig-server.json",
     "run-server": "nodemon ./build/server.js --ignore node_modules",
     "build": "./node_modules/.bin/tsc --project tsconfig-server.json",
     "start": "node ./build/server.js",
-    "heroku-postbuild": "./node_modules/.bin/tsc --project tsconfig-server.json && ./node_modules/.bin/webpack",
+    "heroku-postbuild": "./node_modules/.bin/webpack",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "fix-memory-limit": "cross-env LIMIT=4092 increase-memory-limit",
     "test": "jest"
@@ -44,7 +44,7 @@
     "ts-loader": "^5.2.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typescript": "^3.4.1",
+    "typescript": "^3.4.5",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.2.1",
