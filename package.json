@@ -16,6 +16,9 @@
     "heroku-postbuild": "./node_modules/.bin/tsc --project tsconfig-server.json && ./node_modules/.bin/webpack",
     "heroku-log": "heroku logs --tail --app gsanta-thegame"
   },
+  "engines": {
+    "node": "12.2.0"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
