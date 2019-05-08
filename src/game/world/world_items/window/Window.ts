@@ -43,7 +43,7 @@ export class WindowGlass extends ContainerWorldItem {
         const dimensions = gwmWorldItem.dimensions;
         const middle1 = MeshBuilder.CreateBox(
             'window-middle-left',
-            { width: dimensions.width / 2, depth: dimensions.height / 8, height: 4 * 5 / 6 },
+            { width: dimensions.width / 2, depth: dimensions.height / 8, height: 4 * 8 / 6 },
             scene
         );
 
@@ -65,7 +65,7 @@ export class WindowGlass extends ContainerWorldItem {
 
         const mesh = MeshBuilder.CreateBox(
             'window-glass-left-container',
-            { width: dimensions.width / 2, depth: dimensions.height / 4, height: 4 * 5 / 6 },
+            { width: dimensions.width / 2, depth: dimensions.height / 4, height: 4 * 8 / 6 },
             scene
         );
 
@@ -96,7 +96,7 @@ class WindowFrame extends ContainerWorldItem {
 
         const mesh = MeshBuilder.CreateBox(
             'window-bottom',
-            { width: dimensions.width, depth: dimensions.height / 8, height: 5 / 6 },
+            { width: dimensions.width, depth: dimensions.height / 8, height: 8 / 6 },
             scene
         );
 
@@ -119,7 +119,7 @@ class WindowFrame extends ContainerWorldItem {
 
         const mesh = MeshBuilder.CreateBox(
             'window-glass-left-container',
-            { width: dimensions.width, depth: dimensions.height / 4, height: 5 / 6 },
+            { width: dimensions.width, depth: dimensions.height / 4, height: 8 / 6 },
             scene
         );
 
@@ -267,7 +267,7 @@ export class Window extends ContainerWorldItem implements Border {
         const leftGlass = WindowGlass.fromGwmWorldItem(gwmWorldItem, scene, world);
         const rightGlass = WindowGlass.fromGwmWorldItem(gwmWorldItem, scene, world);
 
-        const height = 5;
+        const height = 8;
 
         bottomFrame.translate(new VectorModel(0, - height / 2 + height / 12, 0));
         topFrame.translate(new VectorModel(0, height / 2 - height / 12, 0));
@@ -285,7 +285,7 @@ export class Window extends ContainerWorldItem implements Border {
     private static createContainerMesh(scene: Scene): Mesh {
         const width = 8;
         const depth = 1;
-        const height = 5;
+        const height = 8;
 
         const containerMesh = MeshBuilder.CreateBox(
             'window-container',

@@ -110,28 +110,28 @@ export class WorldFactoryProducer {
                 this.PLAYER_BASE_PATH,
                 this.PLAYER_MODEL_FILE,
                 this.PLAYER_MATERIALS,
-                {...defaultMeshConfig, scaling: new VectorModel(0.3, 0.3, 0.3)}
+                {...defaultMeshConfig, scaling: new VectorModel(0.25, 0.25, 0.25)}
             ),
             modelFileLoader.load(
                 'bed',
                 this.FURNITURE_1_BASE_PATH,
                 this.BED_MODEL_FILE,
                 [this.FURNITURE_1_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+                {...defaultMeshConfig, scaling: new VectorModel(0.03, 0.03, 0.03)}
             ),
             modelFileLoader.load(
                 'table',
                 this.FURITURE_2_BASE_PATH,
                 this.TABLE_MODEL_FILE,
                 [this.FURNITURE_2_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+                {...defaultMeshConfig, scaling: new VectorModel(0.03, 0.03, 0.03)}
             ),
             modelFileLoader.load(
                 'cupboard',
                 this.FURITURE_2_BASE_PATH,
                 this.CUPBOARD_MODEL_FILE,
                 [this.FURNITURE_2_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(0.04, 0.04, 0.04)}
+                {...defaultMeshConfig, scaling: new VectorModel(0.03, 0.03, 0.03)}
             ),
             modelFileLoader.load(
                 'bathtub',
