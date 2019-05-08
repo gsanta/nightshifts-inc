@@ -40,6 +40,8 @@ export class GameEngine {
         this.scene = scene;
         this.scene.collisionsEnabled = true;
         this.world = world;
+        this.world.canvas = this.canvas;
+        this.world.engine = engine;
         this.actionDispatcher = actionDispatcher;
     }
 

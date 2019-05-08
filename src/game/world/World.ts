@@ -1,4 +1,4 @@
-import { FollowCamera, Light, Scene, SpotLight, StandardMaterial } from '@babylonjs/core';
+import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine } from '@babylonjs/core';
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { ToolMesh } from '../tools/ToolMesh';
 import { WorldFactory } from './world_factory/WorldFactory';
@@ -9,6 +9,8 @@ import { WorldItem } from './world_items/WorldItem';
 
 
 export class World {
+    public canvas: HTMLCanvasElement;
+    public engine: Engine;
     public hemisphericLight: Light;
     public dimensions: Vector2Model;
     public worldItems: WorldItem[];

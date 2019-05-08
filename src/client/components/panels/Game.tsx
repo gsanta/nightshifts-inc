@@ -59,7 +59,7 @@ class Game extends React.Component<GameProps, GameState> {
         this.props.loadGame();
 
         const canvas = this.state.canvasRef.current;
-        const engine = new Engine(canvas);
+        const engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
         const scene = new Scene(engine);
         scene.clearColor = Color4.FromHexString(colors.Black);
         this.setState({
