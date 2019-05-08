@@ -3,6 +3,7 @@ import { World } from '../world/World';
 import * as sinon from 'sinon';
 import { ActionHandler } from './ActionHandler';
 import { GameActionType } from './GameActionType';
+declare const describe, beforeEach, afterEach, it;
 
 
 describe('ActionDispatcher', () => {

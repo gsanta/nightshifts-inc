@@ -1,11 +1,9 @@
-import { ContainerWorldItem } from '../ContainerWorldItem';
-import { WorldItem } from '../WorldItem';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Scene, Vector3, Mesh, MeshBuilder, PointLight } from '@babylonjs/core';
-import { World } from '../../World';
-import { Door } from '../door/Door';
+import { Mesh } from '@babylonjs/core';
+import { Polygon } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Polygon, Point } from '@nightshifts.inc/geometry';
+import { ContainerWorldItem } from '../ContainerWorldItem';
+import { Door } from '../door/Door';
+import { WorldItem } from '../WorldItem';
 
 export class Room extends ContainerWorldItem {
     public borderItems: WorldItem[] = [];

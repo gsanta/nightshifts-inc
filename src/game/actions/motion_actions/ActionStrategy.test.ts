@@ -5,6 +5,7 @@ import { World } from '../../world/World';
 import { ActionStrategy } from './ActionStrategy';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
+declare const describe, beforeEach, afterEach, it;
 
 describe('ActionStrategy', () => {
     describe('activateClosestMeshAction', () => {

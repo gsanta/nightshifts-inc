@@ -11,7 +11,8 @@ export class FacebookUserRegistration {
 
     public register(accessToken: string): Promise<UserModel> {
         return new Promise((resolve, reject) => {
-            request(`https://graph.facebook.com/me?fields=email&access_token=${accessToken}`, (err, response, body) => {
+
+            request.post(`https://graph.facebook.com/me?fields=email&access_token=${accessToken}`, (err, response, body) => {
                 const profileData = JSON.parse(body);
 
                 this.saveOrGetUserIfAlreadyRegistered(accessToken, profileData.email)

@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import Timer from './Timer';
+declare const describe, beforeEach, afterEach, it;
 
 describe('Timer', () => {
     let fakeTimer: sinon.SinonFakeTimers;

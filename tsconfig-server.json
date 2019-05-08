@@ -6,11 +6,10 @@
       "outDir": "build",
       "sourceMap": true
     },
-    "include": [
-      "src/server/**/*.ts"
-    ],
     "exclude": [
       "node_modules",
-      "node_modules/@types/react/index.d.ts"
+      ".npm",
+      "src/client",
+      "src/game",
     ]
   }

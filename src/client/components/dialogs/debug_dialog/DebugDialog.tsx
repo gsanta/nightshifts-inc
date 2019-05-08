@@ -39,7 +39,7 @@ const DebugDialog = (props: DebugDialogProps) => {
                     checked={props.debugOptions.showRoomLabels}
                     onChange={handleShowRoomLabels}
                 />
-                Show room labels
+                Display ceiling
             </SettingsRow>
         </div>
     );

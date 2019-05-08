@@ -6,6 +6,7 @@ import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { WorldItem } from '../WorldItem';
 import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { Player } from './Player';
+import { Rectangle } from '@nightshifts.inc/geometry';
 
 export class PlayerFactory implements GwmItemImporter {
     private meshInfo: [Mesh[], Skeleton[]];
@@ -28,7 +29,8 @@ export class PlayerFactory implements GwmItemImporter {
         const translate = new VectorModel(translate2.x(), 0, -translate2.y());
         translate.addZ(-2);
 
-        const player = new Player(this.meshInfo[0][0], this.meshInfo[1][0], this.scene);
+        const boundingBox = new Rectangle(translate.x, translate.z, 1, 1);
+        const player = new Player(this.meshInfo[0][0], this.meshInfo[1][0], this.scene, boundingBox);
 
         player.mesh.translate(toVector3(translate), 1, Space.WORLD);
 

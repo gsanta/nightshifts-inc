@@ -2,9 +2,8 @@ import UpdateWorldActions from './UpdateWorldActions';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { select, call, delay, put } from 'redux-saga/effects';
-import { WorldRequests } from '../WorldRequests';
-import { ActionType } from '../../ActionType';
 import WorldSelections from './WorldSelections';
+declare const describe, beforeEach, afterEach, it;
 
 describe('UpdateWorldActions', () => {
     describe('watch', () => {

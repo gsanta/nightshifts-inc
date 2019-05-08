@@ -1,6 +1,7 @@
 /* tslint:disable:no-unused-expression*/
 import {expect} from 'chai';
 import { EyeSensor } from './EyeSensor';
+declare const describe, beforeEach, afterEach, it;
 
 describe('EyeSensor', () => {
 

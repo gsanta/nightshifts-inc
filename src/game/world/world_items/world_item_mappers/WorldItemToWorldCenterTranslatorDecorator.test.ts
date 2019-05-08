@@ -6,6 +6,7 @@ import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { expect } from 'chai';
 import { World } from '../../World';
+declare const describe, beforeEach, afterEach, it;
 
 describe('WorldItemToWorldCenterTranslatorDecorator', () => {
     describe('getTranslate', () => {

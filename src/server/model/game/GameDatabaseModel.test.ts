@@ -2,7 +2,7 @@ import { GameDatabaseModel } from './GameDatabaseModel';
 import { expect } from 'chai';
 
 
-describe('GameDatabaseModel', () => {
+xdescribe('GameDatabaseModel', () => {
     it('is invalid when world is empty', async () => {
         const model = new GameDatabaseModel();
 

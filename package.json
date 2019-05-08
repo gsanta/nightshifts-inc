@@ -6,14 +6,18 @@
   "scripts": {
     "watch": "./node_modules/.bin/webpack-dev-server",
     "watch-debug": "./node_modules/.bin/webpack-dev-server --env=debug",
-    "compile-server": "tsc -w --project tsconfig-server.json",
+    "compile-server": "typescript -w --project tsconfig-server.json",
     "run-server": "nodemon ./build/server.js --ignore node_modules",
     "build": "./node_modules/.bin/tsc --project tsconfig-server.json",
     "start": "node ./build/server.js",
-    "heroku-postbuild": "./node_modules/.bin/tsc --project tsconfig-server.json && ./node_modules/.bin/webpack",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "fix-memory-limit": "cross-env LIMIT=4092 increase-memory-limit",
-    "test": "jest"
+    "test": "jest",
+    "heroku-postbuild": "./node_modules/.bin/tsc --project tsconfig-server.json && ./node_modules/.bin/webpack",
+    "heroku-log": "heroku logs --tail --app gsanta-thegame"
+  },
+  "engines": {
+    "node": "12.2.0"
   },
   "author": "",
   "license": "ISC",
@@ -22,7 +26,6 @@
     "@storybook/react": "^5.0.11",
     "@types/chai": "^4.1.7",
     "@types/jest": "^24.0.12",
-    "@types/mocha": "^5.2.5",
     "@types/sinon": "^5.0.7",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
@@ -33,7 +36,6 @@
     "increase-memory-limit": "^1.0.6",
     "jest": "^24.7.1",
     "mini-css-extract-plugin": "^0.4.4",
-    "mocha": "^5.2.0",
     "raw-loader": "^1.0.0",
     "react-docgen-typescript-loader": "^3.1.0",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
@@ -44,7 +46,7 @@
     "ts-loader": "^5.2.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typescript": "^3.4.1",
+    "typescript": "^3.4.5",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.2.1",
@@ -87,7 +89,7 @@
     "@types/redux": "^3.6.0",
     "@types/redux-saga": "^0.10.5",
     "@types/request": "^2.48.1",
-    "@types/styled-components": "^4.0.3",
+    "@types/styled-components": "4.1.8",
     "axios": "^0.18.0",
     "babel-jest": "^24.8.0",
     "babylonjs-loaders": "^3.3.0",
@@ -123,7 +125,7 @@
     "redux": "^4.0.1",
     "redux-saga": "^1.0.1",
     "request": "^2.88.0",
-    "styled-components": "^4.0.3",
+    "styled-components": "^4.0.0",
     "tar": "^4.4.2"
   }
 }
