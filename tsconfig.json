@@ -11,14 +11,8 @@
       // "strictNullChecks": true,
       "jsx": "react"
     },
-    "include": [
-      "src/game/**/*.ts",
-      "src/client/**/*.ts",
-      "src/client/**/*.tsx",
-      "src/engine/**/*.ts", "src/game/tools/Tool.ts"
-    ],
     "exclude": [
-      "node_modules",
+      // "node_modules",
       "build"
     ]
   }
