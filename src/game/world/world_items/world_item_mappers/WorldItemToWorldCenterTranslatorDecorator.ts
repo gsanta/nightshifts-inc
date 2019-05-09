@@ -2,23 +2,26 @@ import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { WorldItemTranslator } from './WorldItemToRealWorldCoordinateMapper';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { World } from '../../World';
+import { Polygon, Point } from '@nightshifts.inc/geometry';
+import { Direction } from '../../../model/utils/Direction';
 
 
 export class WorldItemToWorldCenterTranslatorDecorator implements WorldItemTranslator {
-    private gameObjectToMeshSizeRatio: number;
     private gameObjectToRealWorldCoordinateMapper: WorldItemTranslator;
+    private world: World;
 
-    constructor(gameObjectToMeshSizeRatio: number, gameObjectToRealWorldCoordinateWrapper: WorldItemTranslator) {
-        this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
+    constructor(world: World, gameObjectToRealWorldCoordinateWrapper: WorldItemTranslator) {
         this.gameObjectToRealWorldCoordinateMapper = gameObjectToRealWorldCoordinateWrapper;
+        this.world = world;
     }
 
-    public getTranslate(worldItem: GwmWorldItem, world: World, realMeshDimensions: Vector2Model): Vector2Model {
-        const vector2 = this.gameObjectToRealWorldCoordinateMapper.getTranslate(worldItem, world, realMeshDimensions);
+    public getTranslate(polygon: Polygon, dock?: Direction, realMeshDimensions?: Vector2Model): Polygon {
+        polygon = this.gameObjectToRealWorldCoordinateMapper.getTranslate(polygon, dock, realMeshDimensions);
 
-        const translateX = - (world.dimensions.x() / 2);
-        const translateY = - (world.dimensions.y() / 2);
-        return vector2.add(new Vector2Model(translateX, translateY));
+        const translateX = - (this.world.dimensions.x() / 2);
+        const translateY = - (this.world.dimensions.y() / 2);
+
+        return polygon.translate(new Point(translateX, translateY));
     }
 
     public getDimensions(worldItem: GwmWorldItem): Vector2Model {

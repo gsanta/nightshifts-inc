@@ -6,31 +6,25 @@ import { World } from '../../World';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { Room } from '../room/Room';
 import { WorldItem } from '../WorldItem';
-import { WorldItemTranslator } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { WorldItemTranslator, WorldItemToRealWorldCoordinateMapper } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { Color3 } from '@babylonjs/core';
+import { WorldItemToWorldCenterTranslatorDecorator } from '../world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
 const colors = GameConstants.colors;
 
 
 export class FloorFactory implements GwmItemImporter {
-    private gameObjectTranslator: WorldItemTranslator;
     private scene: Scene;
 
-    constructor(scene: Scene, gameObjectTranslator: WorldItemTranslator) {
-        this.gameObjectTranslator = gameObjectTranslator;
+    constructor(scene: Scene) {
         this.scene = scene;
     }
 
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        // const mesh = this.createMesh(worldItem);
+        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper(1));
 
-        // // mesh.material = this.createMaterial(this.scene);
-        // // mesh.material.alpha = 1;
-
-        // mesh.isVisible = false;
-
-        const translate2 = this.gameObjectTranslator.getTranslate(worldItem, world);
-        const translate = new VectorModel(translate2.x(), 0, -translate2.y());
+        const boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions);
+        const translate = new VectorModel(boundingBox.left, 0, -boundingBox.top);
         translate.addZ(-2);
 
         const meshModel = new Room(null, null, 'floor');

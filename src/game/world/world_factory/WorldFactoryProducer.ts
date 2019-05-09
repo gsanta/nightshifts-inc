@@ -1,29 +1,19 @@
-import { TemplateCreator } from '../../model/core/templates/TemplateCreator';
-import { Scene, SpotLight, ShadowGenerator, Mesh, Skeleton } from '@babylonjs/core';
-import { WorldFactory } from './WorldFactory';
-import { ModelFileBasedTemplateCreator, defaultMeshConfig } from '../../model/core/templates/creators/ModelFileBasedTemplateCreator';
-import { AsyncTemplateCreator } from '../../model/core/templates/AsyncTemplateCreator';
-import { VectorModel } from '../../model/core/VectorModel';
+import { Mesh, Scene, Skeleton } from '@babylonjs/core';
 import { Promise } from 'es6-promise';
-import { World } from '../World';
+import { defaultMeshConfig } from '../../model/core/templates/creators/ModelFileBasedTemplateCreator';
+import { VectorModel } from '../../model/core/VectorModel';
 import { ModelFileLoader } from '../world_import/ModelFileLoader';
-import { WorldItemToWorldCenterTranslatorDecorator } from '../world_items/world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
-import { WorldItemToRealWorldCoordinateMapper } from '../world_items/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { WallFactory } from '../world_items/wall/WallFactory';
-import { PlayerFactory } from '../world_items/player/PlayerFactory';
-import { FloorFactory } from '../world_items/floor/FloorFactory';
-import { WindowFactory } from '../world_items/window/WindowFactory';
-import { GwmStaticItemImporter } from '../world_items/GwmStaticItemImporter';
-import { RoomFactory } from '../world_items/room/RoomFactory';
-import { WorldItemFactory } from './WorldItemFactory';
-import { ModelFactory } from './ModelFactory';
-import { EmptyAreaFactory } from '../world_items/empty_area/EmptyAreaFactory';
 import { DoorFactory } from '../world_items/door/DoorFactory';
+import { EmptyAreaFactory } from '../world_items/empty_area/EmptyAreaFactory';
 import { EnemyFactory } from '../world_items/enemy/EnemyFactory';
-
-interface MeshMap<V> {
-    window: V;
-}
+import { FloorFactory } from '../world_items/floor/FloorFactory';
+import { PlayerFactory } from '../world_items/player/PlayerFactory';
+import { RoomFactory } from '../world_items/room/RoomFactory';
+import { WallFactory } from '../world_items/wall/WallFactory';
+import { WindowFactory } from '../world_items/window/WindowFactory';
+import { ModelFactory } from './ModelFactory';
+import { WorldFactory } from './WorldFactory';
+import { WorldItemFactory } from './WorldItemFactory';
 
 export class WorldFactoryProducer {
 
@@ -55,20 +45,19 @@ export class WorldFactoryProducer {
     ];
 
     public getFactory(scene: Scene): Promise<WorldFactory> {
-        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(1, new WorldItemToRealWorldCoordinateMapper(1));
 
         return this.getMeshTemplateStore(scene)
             .then(meshTemplateStore => {
 
-                const bedFactory = new ModelFactory(meshTemplateStore.get('bed'), gameObjectTranslator);
-                const tableFactory = new ModelFactory(meshTemplateStore.get('table'), gameObjectTranslator);
-                const cupboardFactory = new ModelFactory(meshTemplateStore.get('cupboard'), gameObjectTranslator);
-                const bathtubFactory = new ModelFactory(meshTemplateStore.get('bathtub'), gameObjectTranslator);
-                const washbasinFactory = new ModelFactory(meshTemplateStore.get('washbasin'), gameObjectTranslator);
+                const bedFactory = new ModelFactory(meshTemplateStore.get('bed'));
+                const tableFactory = new ModelFactory(meshTemplateStore.get('table'));
+                const cupboardFactory = new ModelFactory(meshTemplateStore.get('cupboard'));
+                const bathtubFactory = new ModelFactory(meshTemplateStore.get('bathtub'));
+                const washbasinFactory = new ModelFactory(meshTemplateStore.get('washbasin'));
                 const emptyAreaFactory = new EmptyAreaFactory(scene);
                 const enemyFactory = new EnemyFactory(meshTemplateStore.get('ghost'));
-                const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), gameObjectTranslator, scene);
-                const floorFactory = new FloorFactory(scene, gameObjectTranslator);
+                const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), scene);
+                const floorFactory = new FloorFactory(scene);
 
                 const map: Map<string, WorldItemFactory> = new Map();
                 map.set('bed', bedFactory);

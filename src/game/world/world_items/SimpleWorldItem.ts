@@ -8,6 +8,7 @@ import isNumber from 'lodash/isNumber';
 
 export class SimpleWorldItem implements WorldItem {
     public mesh: Mesh;
+    public boundingBox?: Mesh;
     public type: string;
     public label: string;
     public hasDefaultAction = false;
@@ -72,6 +73,16 @@ export class SimpleWorldItem implements WorldItem {
 
     public setPosition(position: VectorModel) {
         this.mesh.position = new Vector3(position.x, position.y, position.z);
+
+        const boundingCenter = this.boundingPolygon.getBoundingCenter();
+        const [dx, dy] = boundingCenter.distanceTo(new Point(position.x, position.z));
+
+        this.boundingPolygon = this.boundingPolygon.addX(dx);
+        this.boundingPolygon = this.boundingPolygon.addY(dy);
+
+        if (this.boundingBox) {
+            this.boundingBox.position = new Vector3(position.x, 1, position.z);
+        }
     }
 
     public translate(vectorModel: VectorModel) {
@@ -106,13 +117,7 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public getBoundingPolygon(): Polygon {
-        const mesh: any = this.mesh;
-        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
-        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
-        const position = (this.mesh as any).getAbsolutePosition();
-        const centerPoint = new Point(position.x, position.z);
-
-        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
+        return this.boundingPolygon;
     }
 
     public getAbsoluteBoundingPolygon(): Polygon {

@@ -38,6 +38,11 @@ export interface SerializedMeshModel {
 export interface WorldItem {
     mesh?: Mesh;
     /**
+     * The enclosing bounding box of the mesh, for optimization reasons it can be null and we calculate it only
+     * for debugging purposes.
+     */
+    boundingBox?: Mesh;
+    /**
      * Similar to what `instanceof` could be used for, similar objects should have the same type.
      * E.g room, wall etc.
      */
