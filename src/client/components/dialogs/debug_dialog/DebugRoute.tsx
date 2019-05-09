@@ -5,6 +5,7 @@ import DebugDialog, { DebugDialogProps } from './DebugDialog';
 import { connect } from 'react-redux';
 import React = require('react');
 import ShowRoomLabelsActions from '../../../state/debug_state/debug_actions/ShowRoomLabelsActions';
+import ShowBoundingBoxesActions from '../../../state/debug_state/debug_actions/ShowBoundingBoxesActions';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -14,7 +15,8 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = dispatch => ({
     setAreAllLightsTurnedOn: (areLightsOn: boolean) => dispatch(TurnOnAllLigthsActions.request(areLightsOn)),
-    setShowRoomLabels: (showRoomLabels: boolean) => dispatch(ShowRoomLabelsActions.request(showRoomLabels))
+    setShowRoomLabels: (showRoomLabels: boolean) => dispatch(ShowRoomLabelsActions.request(showRoomLabels)),
+    setShowBoundingBoxes: (showBoundingBoxes: boolean) => dispatch(ShowBoundingBoxesActions.request(showBoundingBoxes))
 });
 
 export const DebugRoute = withRouter(connect(mapStateToProps, mapDispatchToProps)((props: RouteComponentProps & DebugDialogProps) => {

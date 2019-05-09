@@ -23,6 +23,13 @@ const DebugDialog = (props: DebugDialogProps) => {
         [],
     );
 
+    const handleShowBoundingBoxes = React.useCallback(
+        (e: React.ChangeEvent<any>) => {
+            props.setShowBoundingBoxes((event.target as any).checked);
+        },
+        [],
+    );
+
     return (
         <div>
             <SettingsRow>
@@ -40,6 +47,14 @@ const DebugDialog = (props: DebugDialogProps) => {
                     onChange={handleShowRoomLabels}
                 />
                 Display ceiling
+            </SettingsRow>
+            <SettingsRow>
+                <input
+                    type="checkbox"
+                    checked={props.debugOptions.showBoundingBoxes}
+                    onChange={handleShowBoundingBoxes}
+                />
+                Display bounding boxes
             </SettingsRow>
         </div>
     );
@@ -59,4 +74,5 @@ export interface DebugDialogProps extends DialogTemplateProps {
     debugOptions: DebugOptions;
     setAreAllLightsTurnedOn(areTurnedOn: boolean): void;
     setShowRoomLabels(showRoomLabels: boolean): void;
+    setShowBoundingBoxes(showBoundingBoxes: boolean): void;
 }

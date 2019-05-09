@@ -14,6 +14,7 @@ import GrabToolActions from '../tools_state/tools_actions/GrabToolActions';
 import ReleaseToolActions from '../tools_state/tools_actions/ReleaseToolActions';
 import TurnOnAllLigthsActions from '../debug_state/debug_actions/TurnOnAllLigthsActions';
 import ShowRoomLabelsActions from '../debug_state/debug_actions/ShowRoomLabelsActions';
+import ShowBoundingBoxesAction from '../debug_state/debug_actions/ShowBoundingBoxesActions';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -37,7 +38,8 @@ sagaMiddleware.run(function* rootSaga() {
         GrabToolActions.watch(),
         ReleaseToolActions.watch(),
         TurnOnAllLigthsActions.watch(),
-        ShowRoomLabelsActions.watch()
+        ShowRoomLabelsActions.watch(),
+        ShowBoundingBoxesAction.watch()
     ]);
 });
 
