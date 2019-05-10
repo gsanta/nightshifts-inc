@@ -2,6 +2,7 @@ import { FollowCamera, Scene, Vector3 } from '@babylonjs/core';
 import { World } from '../../../world/World';
 import { ActionHandler } from '../../ActionHandler';
 import { GameActionType } from '../../GameActionType';
+import { CameraTool } from '../../../tools/CameraTool';
 
 /**
  * Currently the main camera in the game, which works by following the user.
@@ -12,6 +13,10 @@ export class CreateFollowCameraActionHandler implements ActionHandler {
             case GameActionType.GAME_IS_READY:
                 const camera = this.createCamera(world.scene);
                 camera.lockedTarget = world.getWorldItemsByName('player')[0].mesh;
+                // world.scene.activeCameras.push(camera);
+
+                const cameraTool = new CameraTool(world.scene, world);
+                cameraTool.enable();
                 break;
             default:
                 break;
