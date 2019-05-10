@@ -25,7 +25,7 @@ export class ModelFactory implements WorldItemFactory {
         mesh.isVisible = true;
 
         const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
-        const dock = worldItem.additionalData.dock ? worldItem.additionalData.dock : Direction.MIDDLE;
+        const dock = worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
         const boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions, dock, realMeshDimensions);
         const translate = new VectorModel(boundingBox.left, 0, -boundingBox.top);
         const rotation = gameObjectTranslator.getRotation(worldItem);
