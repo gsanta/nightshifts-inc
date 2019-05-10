@@ -135,11 +135,6 @@ export class Wall extends ContainerWorldItem implements Border {
         return this.parentMesh.getScale();
     }
 
-    public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
-        this.parentMesh.rotateAtCenter(vectorModel, amount);
-        this.rotation = vectorModel.scale(amount);
-    }
-
     public getRotation(): VectorModel {
         return this.rotation;
     }

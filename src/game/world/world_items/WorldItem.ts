@@ -61,11 +61,6 @@ export interface WorldItem {
     unserialize(model: SerializedMeshModel): WorldItem;
     clone();
 
-    /**
-     * Rotates around the `WorldItem`s center at the given axis with the given amont
-     */
-    rotateAtCenter(vectorModel: VectorModel, amount: number): void;
-
     setPosition(vectorModel: VectorModel): void;
 
     translate(vectorModel: VectorModel): void;
@@ -75,6 +70,7 @@ export interface WorldItem {
      */
     scale(vectorModel: VectorModel): void;
     getScale(): VectorModel;
+    rotateY(amount: number);
     getRotation(): VectorModel;
     getCenterPosition(): VectorModel;
     getBoundingPolygon(): Polygon;

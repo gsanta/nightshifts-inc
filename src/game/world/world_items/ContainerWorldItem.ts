@@ -70,10 +70,6 @@ export class ContainerWorldItem extends SimpleWorldItem {
         return null;
     }
 
-    public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
-        this.children.forEach(child => child.rotateAtCenter(vectorModel, amount));
-    }
-
     public clone(): ContainerWorldItem {
         const clonedChildren = this.children.map(child => child.clone());
 

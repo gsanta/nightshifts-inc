@@ -1,4 +1,4 @@
-import { StandardMaterial, Mesh, Vector3 } from '@babylonjs/core';
+import { StandardMaterial, Mesh, Vector3, Axis, Space } from '@babylonjs/core';
 import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from './WorldItem';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
@@ -67,8 +67,8 @@ export class SimpleWorldItem implements WorldItem {
         return clone;
     }
 
-    public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
-        this.mesh.rotate(toVector3(vectorModel), amount);
+    public rotateY(amount: number) {
+        this.mesh.rotate(Axis.Y, amount, Space.WORLD);
     }
 
     public setPosition(position: VectorModel) {
@@ -115,6 +115,12 @@ export class SimpleWorldItem implements WorldItem {
     public getRotation(): VectorModel {
         return new VectorModel(0, 0, 0);
     }
+
+    public setBoudingBox(polygon: Polygon) {
+        this.boundingPolygon = polygon;
+        this.setPosition(new VectorModel(polygon.left, this.mesh.position.y, polygon.top));
+    }
+
 
     public getBoundingPolygon(): Polygon {
         return this.boundingPolygon;

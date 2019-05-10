@@ -20,20 +20,19 @@ export class ModelFactory implements WorldItemFactory {
     }
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper(1));
+        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
         const mesh =  this.meshInfo[0][0].clone(`${this.meshInfo[0][0].name}`);
         mesh.isVisible = true;
 
         const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
         const dock = worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
-        const boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions, dock, realMeshDimensions);
-        const translate = new VectorModel(boundingBox.left, 0, -boundingBox.top);
+        let boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions, dock, realMeshDimensions);
+        boundingBox = boundingBox.negateY();
         const rotation = gameObjectTranslator.getRotation(worldItem);
 
-        mesh.rotation.y = rotation;
-
-        mesh.translate(toVector3(translate), 1, Space.WORLD);
         const meshModel = new SimpleWorldItem(mesh, worldItem.name, worldItem.dimensions);
+        meshModel.rotateY(rotation);
+        meshModel.setBoudingBox(boundingBox);
 
         return meshModel;
     }

@@ -20,7 +20,7 @@ export class PlayerFactory implements GwmItemImporter {
 
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper(1));
+        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
 
         this.meshInfo[0].forEach(mesh => mesh.isVisible = true);
 

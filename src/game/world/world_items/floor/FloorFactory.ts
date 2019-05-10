@@ -21,7 +21,7 @@ export class FloorFactory implements GwmItemImporter {
 
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper(1));
+        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
 
         const boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions);
         const translate = new VectorModel(boundingBox.left, 0, -boundingBox.top);

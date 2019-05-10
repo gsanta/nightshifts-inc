@@ -24,10 +24,6 @@ export class WorldItemToWorldCenterTranslatorDecorator implements WorldItemTrans
         return polygon.translate(new Point(translateX, translateY));
     }
 
-    public getDimensions(worldItem: GwmWorldItem): Vector2Model {
-        return this.gameObjectToRealWorldCoordinateMapper.getDimensions(worldItem);
-    }
-
     public getRotation(worldItem: GwmWorldItem) {
         return this.gameObjectToRealWorldCoordinateMapper.getRotation(worldItem);
     }

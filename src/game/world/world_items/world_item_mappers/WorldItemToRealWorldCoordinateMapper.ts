@@ -8,28 +8,13 @@ import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 
 export interface WorldItemTranslator {
     getTranslate(polygon: Polygon, dock?: Direction, realMeshDimensions?: Vector2Model): Polygon;
-    getDimensions(worldItem: GwmWorldItem): Vector2Model;
     getRotation(worldItem: GwmWorldItem): number;
 }
 
 export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator {
-    private gameObjectToMeshSizeRatio: number;
-
-    constructor(gameObjectToMeshSizeRatio: number) {
-        this.gameObjectToMeshSizeRatio = gameObjectToMeshSizeRatio;
-    }
 
     public getTranslate(polygon: Polygon, dock: Direction = Direction.MIDDLE, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Polygon {
         return this.getDockPosition(dock, polygon, realMeshDimensions);
-    }
-
-    public getDimensions(worldItem: GwmWorldItem): Vector2Model {
-        const rect = worldItem.dimensions;
-        if (rect.width > rect.height) {
-            return new Vector2Model(rect.width * this.gameObjectToMeshSizeRatio, this.gameObjectToMeshSizeRatio);
-        } else {
-            return new Vector2Model(this.gameObjectToMeshSizeRatio, rect.height * this.gameObjectToMeshSizeRatio);
-        }
     }
 
     public getRotation(worldItem: GwmWorldItem<AdditionalData>) {
