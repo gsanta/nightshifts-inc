@@ -1,7 +1,7 @@
 import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
-import { WorldItem } from '../WorldItem';
+import { WorldItem } from '../item_types/WorldItem';
 import { Vector3, Scene, StandardMaterial, Color3, Mesh, Skeleton } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
 import { EmptyArea } from './EmptyArea';

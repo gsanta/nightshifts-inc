@@ -1,5 +1,5 @@
 import { Mesh, StandardMaterial } from '@babylonjs/core';
-import { VectorModel } from '../../model/core/VectorModel';
+import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 
 export interface SerializedMeshModel {

@@ -1,8 +1,7 @@
 import { LightSwitcher } from './LightSwitcher';
-import { Room } from '../../../world/world_items/item_types/room/Room';
 import { World } from '../../../world/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
-
+import { Room } from '../../../world/world_items/item_types/Room';
 
 export class FlashingLightSwitcher implements LightSwitcher {
     private normalLightSwitcher: NormalLightSwitcher;
@@ -43,7 +42,6 @@ export class FlashingLightSwitcher implements LightSwitcher {
             const generator = this.turnLightOnWithFlashing(room, world);
             while (true) {
                 const {done} = generator.next();
-                console.log('next')
                 if (done) {
                     break;
                 }

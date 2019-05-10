@@ -1,10 +1,10 @@
 import { VectorModel } from '../../model/core/VectorModel';
-import { WorldItem } from '../../world/world_items/WorldItem';
+import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 import { World } from '../../world/World';
 import { ActionStrategy } from './ActionStrategy';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { Player } from '../../world/world_items/item_types/player/Player';
+import { Player } from '../../world/world_items/item_types/Player';
 declare const describe, beforeEach, afterEach, it;
 
 describe('ActionStrategy', () => {

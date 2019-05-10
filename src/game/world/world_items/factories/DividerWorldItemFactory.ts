@@ -1,10 +1,10 @@
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { Scene, StandardMaterial, MeshBuilder } from '@babylonjs/core';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
-import { SimpleWorldItem } from '../SimpleWorldItem';
-import { WorldItem } from '../WorldItem';
+import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
+import { WorldItem } from '../item_types/WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Door } from '../item_types/door/Door';
+import { Door } from '../item_types/Door';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 
 

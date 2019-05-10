@@ -2,7 +2,7 @@ import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
 import { Scene, HemisphericLight, Vector3, Color3, PointLight } from '@babylonjs/core';
-import { Room } from '../../../world/world_items/item_types/room/Room';
+import { Room } from '../../../world/world_items/item_types/Room';
 import { Polygon } from '@nightshifts.inc/geometry';
 
 

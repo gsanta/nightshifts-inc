@@ -3,20 +3,20 @@ import { Promise } from 'es6-promise';
 import { defaultMeshConfig } from '../../model/core/templates/creators/ModelFileBasedTemplateCreator';
 import { VectorModel } from '../../model/core/VectorModel';
 import { ModelFileLoader } from '../world_import/ModelFileLoader';
-import { DoorFactory } from '../world_items/item_types/door/DoorFactory';
+import { DoorFactory } from '../world_items/factories/DoorFactory';
 import { EmptyAreaFactory } from '../world_items/empty_area/EmptyAreaFactory';
-import { EnemyFactory } from '../world_items/enemy/EnemyFactory';
-import { FloorFactory } from '../world_items/floor/FloorFactory';
-import { RoomFactory } from '../world_items/item_types/room/RoomFactory';
-import { WallFactory } from '../world_items/wall/WallFactory';
-import { WindowFactory } from '../world_items/window/WindowFactory';
+import { EnemyFactory } from '../world_items/factories/EnemyFactory';
+import { FloorFactory } from '../world_items/factories/FloorFactory';
+import { RoomFactory } from '../world_items/factories/RoomFactory';
+import { WallFactory } from '../world_items/factories/WallFactory';
+import { WindowFactory } from '../world_items/factories/WindowFactory';
 import { ModelFactory } from './ModelFactory';
 import { WorldFactory } from './WorldFactory';
 import { WorldItemFactory } from './WorldItemFactory';
 import { ModelFactory2 } from '../world_items/factories/ModelFactory2';
 import { WorldItemBoundingBoxCalculator } from './WorldItemBoundingBoxCalculator';
 import { WorldItemRotationCalculator } from './WorldItemRotationCalculator';
-import { PlayerFactory } from '../world_items/item_types/player/PlayerFactory';
+import { PlayerFactory } from '../world_items/factories/PlayerFactory';
 
 export class WorldFactoryProducer {
 
@@ -53,10 +53,10 @@ export class WorldFactoryProducer {
             .then(meshTemplateStore => {
 
                 const bedFactory = new ModelFactory2(meshTemplateStore.get('bed'));
-                const tableFactory = new ModelFactory(meshTemplateStore.get('table'));
-                const cupboardFactory = new ModelFactory(meshTemplateStore.get('cupboard'));
-                const bathtubFactory = new ModelFactory(meshTemplateStore.get('bathtub'));
-                const washbasinFactory = new ModelFactory(meshTemplateStore.get('washbasin'));
+                const tableFactory = new ModelFactory2(meshTemplateStore.get('table'));
+                const cupboardFactory = new ModelFactory2(meshTemplateStore.get('cupboard'));
+                const bathtubFactory = new ModelFactory2(meshTemplateStore.get('bathtub'));
+                const washbasinFactory = new ModelFactory2(meshTemplateStore.get('washbasin'));
                 const emptyAreaFactory = new EmptyAreaFactory(scene);
                 const enemyFactory = new EnemyFactory(meshTemplateStore.get('ghost'));
                 const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), scene);
@@ -65,10 +65,10 @@ export class WorldFactoryProducer {
                 const map: Map<string, WorldItemFactory> = new Map();
                 map.set('bed', <any> bedFactory);
                 map.set('empty', emptyAreaFactory);
-                map.set('table', tableFactory);
-                map.set('cupboard', cupboardFactory);
-                map.set('bathtub', bathtubFactory);
-                map.set('washbasin', washbasinFactory);
+                map.set('table', <any> tableFactory);
+                map.set('cupboard', <any> cupboardFactory);
+                map.set('bathtub', <any> bathtubFactory);
+                map.set('washbasin', <any> washbasinFactory);
                 map.set('player', playerFactory);
                 map.set('floor', floorFactory);
 

@@ -1,7 +1,7 @@
 import {TreeNode, TreeIteratorGenerator} from '@nightshifts.inc/world-generator';
-import { WorldItem } from '../world_items/WorldItem';
-import { Room } from '../world_items/item_types/room/Room';
-import { Border } from '../world_items/Border';
+import { WorldItem } from '../world_items/item_types/WorldItem';
+import { Border } from '../world_items/item_types/Border';
+import { Room } from '../world_items/item_types/Room';
 
 
 export class WorldItemTreeMapper {

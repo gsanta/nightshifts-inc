@@ -1,4 +1,4 @@
-import { Room } from '../../../world/world_items/item_types/room/Room';
+import { Room } from '../../../world/world_items/item_types/Room';
 import { World } from '../../../world/World';
 
 export interface LightSwitcher {

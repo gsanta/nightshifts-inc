@@ -1,6 +1,6 @@
 import { Vector3, Scene, AbstractMesh, Ray, Mesh } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { SimpleWorldItem } from '../../../world/world_items/SimpleWorldItem';
+import { SimpleWorldItem } from '../../../world/world_items/item_types/SimpleWorldItem';
 
 export interface CollisionInfo {
     mesh: AbstractMesh | null;

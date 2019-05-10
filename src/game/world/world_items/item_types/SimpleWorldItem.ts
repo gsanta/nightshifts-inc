@@ -1,7 +1,7 @@
 import { StandardMaterial, Mesh, Vector3, Axis, Space } from '@babylonjs/core';
-import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
+import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from './WorldItem';
-import { VectorModel, toVector3 } from '../../model/core/VectorModel';
+import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
 import { ContainerWorldItem } from './ContainerWorldItem';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 import isNumber from 'lodash/isNumber';

@@ -1,7 +1,7 @@
 import { World } from '../../world/World';
-import { WorldItem } from '../../world/world_items/WorldItem';
+import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 import { VectorModel } from '../../model/core/VectorModel';
-import { Player } from '../../world/world_items/item_types/player/Player';
+import { Player } from '../../world/world_items/item_types/Player';
 
 
 export class ActionStrategy {

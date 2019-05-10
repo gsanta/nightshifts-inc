@@ -1,8 +1,8 @@
 import { Scene, Mesh, Skeleton, Axis, Space, Quaternion } from '@babylonjs/core';
 import { Polygon } from '@nightshifts.inc/geometry';
-import { MeshTemplate } from '../../../../model/core/templates/MeshTemplate';
-import { SimpleWorldItem } from '../../SimpleWorldItem';
-import { VectorModel } from '../../../../model/core/VectorModel';
+import { MeshTemplate } from '../../../model/core/templates/MeshTemplate';
+import { SimpleWorldItem } from './SimpleWorldItem';
+import { VectorModel } from '../../../model/core/VectorModel';
 
 export interface Interval {
     from: number;

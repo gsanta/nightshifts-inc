@@ -1,6 +1,6 @@
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial, Quaternion, Axis, Space, Color3 } from '@babylonjs/core';
 import { Rectangle } from '@nightshifts.inc/geometry';
-import { SimpleWorldItem } from '../SimpleWorldItem';
+import { SimpleWorldItem } from './SimpleWorldItem';
 declare const DEBUG;
 
 export class Enemy extends SimpleWorldItem {

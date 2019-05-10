@@ -1,10 +1,10 @@
 import { World } from '../../../world/World';
-import { Room } from '../../../world/world_items/item_types/room/Room';
 import { GameActionType } from '../../GameActionType';
 import { ActionHandler } from '../../ActionHandler';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 import _ from 'lodash';
+import { Room } from '../../../world/world_items/item_types/Room';
 
 
 //TODO: better naming needed because now this handles `SHOW_ROOM_NAMES` action also

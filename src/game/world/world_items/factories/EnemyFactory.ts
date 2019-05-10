@@ -1,9 +1,9 @@
 import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
-import { WorldItem } from '../WorldItem';
+import { WorldItem } from '../item_types/WorldItem';
 import { Scene, StandardMaterial, Mesh, Skeleton, MeshBuilder, Color3 } from '@babylonjs/core';
-import { Enemy } from './Enemy';
+import { Enemy } from '../item_types/Enemy';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
 

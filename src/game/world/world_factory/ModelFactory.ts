@@ -2,8 +2,8 @@ import { WorldItemTranslator, WorldItemToRealWorldCoordinateMapper } from '../wo
 import { Mesh, Skeleton, Space } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../World';
-import { WorldItem } from '../world_items/WorldItem';
-import { SimpleWorldItem } from '../world_items/SimpleWorldItem';
+import { WorldItem } from '../world_items/item_types/WorldItem';
+import { SimpleWorldItem } from '../world_items/item_types/SimpleWorldItem';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
 import { AdditionalData } from '../world_import/AdditionalData';
 import { Vector2Model } from '../../model/utils/Vector2Model';

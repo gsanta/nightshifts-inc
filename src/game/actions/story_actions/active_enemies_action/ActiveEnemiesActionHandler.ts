@@ -1,8 +1,8 @@
 import { GameActionType } from '../../GameActionType';
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
-import { Room } from '../../../world/world_items/item_types/room/Room';
-import { Enemy } from '../../../world/world_items/enemy/Enemy';
+import { Room } from '../../../world/world_items/item_types/Room';
+import { Enemy } from '../../../world/world_items/item_types/Enemy';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { Rectangle } from '@nightshifts.inc/geometry';
 import find from 'lodash/find';

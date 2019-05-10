@@ -1,5 +1,5 @@
-import { WorldItem } from '../../../world/world_items/WorldItem';
-import { Room } from '../../../world/world_items/item_types/room/Room';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
+import { Room } from '../../../world/world_items/item_types/Room';
 import { World } from '../../../world/World';
 import { LightSwitcher } from './LightSwitcher';
 

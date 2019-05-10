@@ -1,18 +1,18 @@
-import { SerializedMeshModel, WorldItem } from '../WorldItem';
-import { VectorModel } from '../../../model/core/VectorModel';
-import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
-import { SimpleWorldItem } from '../SimpleWorldItem';
-import { ContainerWorldItem } from '../ContainerWorldItem';
-import { GameConstants } from '../../../GameConstants';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { World } from '../../World';
-import { Border } from '../Border';
 import { Rectangle, Point } from '@nightshifts.inc/geometry';
 import { Mesh } from '@babylonjs/core';
 import { Scene } from '@babylonjs/core';
 import {StandardMaterial} from '@babylonjs/core';
 import { Color3 } from '@babylonjs/core';
 import { MeshBuilder } from '@babylonjs/core';
+import { GameConstants } from '../../../GameConstants';
+import { ContainerWorldItem } from './ContainerWorldItem';
+import { WorldItem, SerializedMeshModel } from './WorldItem';
+import { World } from '../../World';
+import { VectorModel } from '../../../model/core/VectorModel';
+import { SimpleWorldItem } from './SimpleWorldItem';
+import { Border } from './Border';
+import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {

@@ -1,6 +1,6 @@
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../World';
-import { WorldItem } from '../world_items/WorldItem';
+import { WorldItem } from '../world_items/item_types/WorldItem';
 import { Mesh, Skeleton } from '@babylonjs/core';
 
 

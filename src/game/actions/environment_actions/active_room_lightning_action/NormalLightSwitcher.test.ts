@@ -1,8 +1,8 @@
 import { Light, Mesh } from '@babylonjs/core';
-import { WorldItem } from '../../../world/world_items/WorldItem';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { expect } from 'chai';
-import { Room } from '../../../world/world_items/item_types/room/Room';
+import { Room } from '../../../world/world_items/item_types/Room';
 import { World } from '../../../world/World';
 declare const describe, beforeEach, afterEach, it;
 
