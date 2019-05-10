@@ -1,7 +1,7 @@
 import { Scene, MeshBuilder, Vector3 } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { ContainerWorldItem } from '../ContainerWorldItem';
-import { Room } from './Room';
+import { ContainerWorldItem } from '../item_types/ContainerWorldItem';
+import { Room } from '../item_types/Room';
 import { World } from '../../World';
 import { Point, Polygon } from '@nightshifts.inc/geometry';
 import { GameConstants } from '../../../GameConstants';

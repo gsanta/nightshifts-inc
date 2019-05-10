@@ -7,11 +7,11 @@ import { ThermometerToolMesh } from '../../tools/ThermometerToolMesh';
 import { World } from '../World';
 import { WorldFactory } from '../world_factory/WorldFactory';
 import { WorldFactoryProducer } from '../world_factory/WorldFactoryProducer';
-import { Player } from '../world_items/player/Player';
-import { WorldItem } from '../world_items/WorldItem';
+import { WorldItem } from '../world_items/item_types/WorldItem';
 import { parseJsonAdditionalData } from './AdditionalData';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 import { WorldMapToMatrixGraphConverter } from '@nightshifts.inc/world-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
+import { Player } from '../world_items/item_types/Player';
 
 export class WorldImporter {
     private meshFactoryProducer: WorldFactoryProducer;

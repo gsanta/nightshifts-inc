@@ -3,7 +3,8 @@ import { ActionType } from '../ActionType';
 
 const initialState: DebugOptions = {
     areAllLightsTurnedOn: false,
-    showRoomLabels: false
+    showRoomLabels: false,
+    showBoundingBoxes: false
 };
 
 export const debugReducer = (state: DebugOptions = initialState, action: Partial<DebugOptions> & {type: string}): DebugOptions => {
@@ -12,6 +13,8 @@ export const debugReducer = (state: DebugOptions = initialState, action: Partial
             return {...state, areAllLightsTurnedOn: action.areAllLightsTurnedOn};
         case ActionType.DEBUG_SHOW_ROOM_LABELS:
             return {...state, showRoomLabels: action.showRoomLabels};
+        case ActionType.DEBUG_SHOW_BOUNDING_BOXES:
+            return {...state, showBoundingBoxes: action.showBoundingBoxes};
         default:
             return state;
     }

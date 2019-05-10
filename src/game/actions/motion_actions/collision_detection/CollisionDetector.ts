@@ -1,6 +1,6 @@
 import { Vector3, Scene, AbstractMesh, Ray, Mesh } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { SimpleWorldItem } from '../../../world/world_items/SimpleWorldItem';
+import { SimpleWorldItem } from '../../../world/world_items/item_types/SimpleWorldItem';
 
 export interface CollisionInfo {
     mesh: AbstractMesh | null;
@@ -50,7 +50,7 @@ export class CollisionDetector {
         const ray = new Ray(new Vector3(origin.x, 0.1, origin.z), delta, 3);
 
         const hit = this.scene.pickWithRay(ray, (pickedMesh: AbstractMesh) => {
-            return ['ray', 'ground', 'thermometer'].indexOf(pickedMesh.name) === -1;
+            return ['ray', 'ground', 'thermometer', 'bounding-box'].indexOf(pickedMesh.name) === -1;
         });
 
         let normal: Vector3 | null = null;

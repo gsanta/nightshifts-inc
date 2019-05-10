@@ -1,13 +1,14 @@
-import { StandardMaterial, Mesh, Vector3 } from '@babylonjs/core';
-import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
+import { StandardMaterial, Mesh, Vector3, Axis, Space } from '@babylonjs/core';
+import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from './WorldItem';
-import { VectorModel, toVector3 } from '../../model/core/VectorModel';
+import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
 import { ContainerWorldItem } from './ContainerWorldItem';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 import isNumber from 'lodash/isNumber';
 
 export class SimpleWorldItem implements WorldItem {
     public mesh: Mesh;
+    public boundingBox?: Mesh;
     public type: string;
     public label: string;
     public hasDefaultAction = false;
@@ -15,11 +16,14 @@ export class SimpleWorldItem implements WorldItem {
     public neighbours: WorldItem[] = [];
     public material: StandardMaterial;
 
+    protected boundingPolygon: Polygon;
+
     protected counter = 1;
 
-    constructor(mesh: Mesh, name: string, config?: MeshTemplateConfig) {
+    constructor(mesh: Mesh, type: string, boundingPolygon: Polygon) {
         this.mesh = mesh;
-        this.type = name;
+        this.type = type;
+        this.boundingPolygon = boundingPolygon;
     }
 
     public getAllMeshes(): Mesh[] {
@@ -57,18 +61,28 @@ export class SimpleWorldItem implements WorldItem {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
         const name = this.type;
 
-        const clone = new SimpleWorldItem(clonedMesh, name);
+        const clone = new SimpleWorldItem(clonedMesh, name, this.boundingPolygon);
         this.copyTo(clone);
 
         return clone;
     }
 
-    public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
-        this.mesh.rotate(toVector3(vectorModel), amount);
+    public rotateY(amount: number) {
+        this.mesh.rotate(Axis.Y, amount, Space.WORLD);
     }
 
     public setPosition(position: VectorModel) {
         this.mesh.position = new Vector3(position.x, position.y, position.z);
+
+        const boundingCenter = this.boundingPolygon.getBoundingCenter();
+        const [dx, dy] = boundingCenter.distanceTo(new Point(position.x, position.z));
+
+        this.boundingPolygon = this.boundingPolygon.addX(dx);
+        this.boundingPolygon = this.boundingPolygon.addY(dy);
+
+        if (this.boundingBox) {
+            this.boundingBox.position = new Vector3(position.x, 1, position.z);
+        }
     }
 
     public translate(vectorModel: VectorModel) {
@@ -102,14 +116,14 @@ export class SimpleWorldItem implements WorldItem {
         return new VectorModel(0, 0, 0);
     }
 
-    public getBoundingPolygon(): Polygon {
-        const mesh: any = this.mesh;
-        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
-        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
-        const position = (this.mesh as any).getAbsolutePosition();
-        const centerPoint = new Point(position.x, position.z);
+    public setBoudingBox(polygon: Polygon) {
+        this.boundingPolygon = polygon;
+        this.setPosition(new VectorModel(polygon.left, this.mesh.position.y, polygon.top));
+    }
 
-        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
+
+    public getBoundingPolygon(): Polygon {
+        return this.boundingPolygon;
     }
 
     public getAbsoluteBoundingPolygon(): Polygon {

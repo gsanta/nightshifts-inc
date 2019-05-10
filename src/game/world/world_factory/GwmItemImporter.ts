@@ -1,5 +1,5 @@
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { WorldItem } from '../world_items/WorldItem';
+import { WorldItem } from '../world_items/item_types/WorldItem';
 import { World } from '../World';
 import { GenericItemImporter } from './WorldFactory';
 

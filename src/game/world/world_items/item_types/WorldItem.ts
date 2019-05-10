@@ -1,5 +1,5 @@
 import { Mesh, StandardMaterial } from '@babylonjs/core';
-import { VectorModel } from '../../model/core/VectorModel';
+import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 
 export interface SerializedMeshModel {
@@ -38,6 +38,11 @@ export interface SerializedMeshModel {
 export interface WorldItem {
     mesh?: Mesh;
     /**
+     * The enclosing bounding box of the mesh, for optimization reasons it can be null and we calculate it only
+     * for debugging purposes.
+     */
+    boundingBox?: Mesh;
+    /**
      * Similar to what `instanceof` could be used for, similar objects should have the same type.
      * E.g room, wall etc.
      */
@@ -56,11 +61,6 @@ export interface WorldItem {
     unserialize(model: SerializedMeshModel): WorldItem;
     clone();
 
-    /**
-     * Rotates around the `WorldItem`s center at the given axis with the given amont
-     */
-    rotateAtCenter(vectorModel: VectorModel, amount: number): void;
-
     setPosition(vectorModel: VectorModel): void;
 
     translate(vectorModel: VectorModel): void;
@@ -70,6 +70,7 @@ export interface WorldItem {
      */
     scale(vectorModel: VectorModel): void;
     getScale(): VectorModel;
+    rotateY(amount: number);
     getRotation(): VectorModel;
     getCenterPosition(): VectorModel;
     getBoundingPolygon(): Polygon;

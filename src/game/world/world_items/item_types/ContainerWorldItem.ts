@@ -1,6 +1,6 @@
 import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { StandardMaterial, Mesh, Vector3 } from '@babylonjs/core';
-import { VectorModel, toVector3 } from '../../model/core/VectorModel';
+import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 import flatten from 'lodash/flatten';
 import { SimpleWorldItem } from './SimpleWorldItem';
@@ -16,7 +16,7 @@ export class ContainerWorldItem extends SimpleWorldItem {
     material: StandardMaterial;
 
     constructor(children: WorldItem[]) {
-        super(null, '');
+        super(null, '', null);
         this.children = children;
     }
 
@@ -68,10 +68,6 @@ export class ContainerWorldItem extends SimpleWorldItem {
 
     public getRotation(): VectorModel {
         return null;
-    }
-
-    public rotateAtCenter(vectorModel: VectorModel, amount: number): void {
-        this.children.forEach(child => child.rotateAtCenter(vectorModel, amount));
     }
 
     public clone(): ContainerWorldItem {

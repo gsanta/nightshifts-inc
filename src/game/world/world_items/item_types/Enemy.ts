@@ -1,6 +1,6 @@
 import { Scene, MeshBuilder, Vector3, Mesh, StandardMaterial, Quaternion, Axis, Space, Color3 } from '@babylonjs/core';
 import { Rectangle } from '@nightshifts.inc/geometry';
-import { SimpleWorldItem } from '../SimpleWorldItem';
+import { SimpleWorldItem } from './SimpleWorldItem';
 declare const DEBUG;
 
 export class Enemy extends SimpleWorldItem {
@@ -8,12 +8,10 @@ export class Enemy extends SimpleWorldItem {
     private inVisibleMaterial: StandardMaterial = null;
     private scene: Scene;
     private isVisible = true;
-    private boundingPolygon: Rectangle;
 
     constructor(mesh: Mesh, scene: Scene, boundingPolygon: Rectangle) {
-        super(mesh, null);
+        super(mesh, null, boundingPolygon);
         this.scene = scene;
-        this.boundingPolygon = boundingPolygon;
 
         this.initMaterials();
         this.mesh.material = this.visibleMaterial;

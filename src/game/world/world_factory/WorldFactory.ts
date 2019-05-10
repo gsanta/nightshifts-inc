@@ -1,9 +1,11 @@
-import { WorldItem } from '../world_items/WorldItem';
+import { WorldItem } from '../world_items/item_types/WorldItem';
 import { World } from '../World';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { WorldItemFactory } from './WorldItemFactory';
-import { EnemyFactory } from '../world_items/enemy/EnemyFactory';
+import { EnemyFactory } from '../world_items/factories/EnemyFactory';
 import { Polygon } from '@nightshifts.inc/geometry';
+import { WorldItemBoundingBoxCalculator } from './WorldItemBoundingBoxCalculator';
+import { WorldItemRotationCalculator } from './WorldItemRotationCalculator';
 
 export interface GenericItemImporter<T> {
     createItem(itemInfo: T, world: World): WorldItem;
@@ -13,15 +15,21 @@ export class WorldFactory {
     private factories: {[key: string]: GenericItemImporter<GwmWorldItem>};
     private worldItemFactoryMap: Map<string, WorldItemFactory>;
     private enemyFactory: EnemyFactory;
+    private worldItemBoundingBoxCalculator: WorldItemBoundingBoxCalculator;
+    private worldItemRotationCalculator: WorldItemRotationCalculator;
 
     constructor(
         enemyFactory: EnemyFactory,
         worldItemFactoryMap: Map<string, WorldItemFactory>,
-        factories: {[key: string]: GenericItemImporter<GwmWorldItem>}
+        factories: {[key: string]: GenericItemImporter<GwmWorldItem>},
+        worldItemBoundingBoxCalculator: WorldItemBoundingBoxCalculator,
+        worldItemRotationCalculator: WorldItemRotationCalculator
     ) {
         this.factories = factories;
         this.worldItemFactoryMap = worldItemFactoryMap;
         this.enemyFactory = enemyFactory;
+        this.worldItemBoundingBoxCalculator = worldItemBoundingBoxCalculator;
+        this.worldItemRotationCalculator = worldItemRotationCalculator;
     }
 
     public createWall(itemInfo: GwmWorldItem, world: World): WorldItem {
@@ -45,23 +53,28 @@ export class WorldFactory {
     }
 
     public createBed(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.worldItemFactoryMap.get('bed').createItem(itemInfo, world);
+        const worldItemFactory = this.worldItemFactoryMap.get('bed');
+        return this.create(worldItemFactory, itemInfo, world);
     }
 
     public createTable(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.worldItemFactoryMap.get('table').createItem(itemInfo, world);
+        const worldItemFactory = this.worldItemFactoryMap.get('table');
+        return this.create(worldItemFactory, itemInfo, world);
     }
 
     public createBathtub(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.worldItemFactoryMap.get('bathtub').createItem(itemInfo, world);
+        const worldItemFactory = this.worldItemFactoryMap.get('bathtub');
+        return this.create(worldItemFactory, itemInfo, world);
     }
 
     public createWashbasin(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.worldItemFactoryMap.get('washbasin').createItem(itemInfo, world);
+        const worldItemFactory = this.worldItemFactoryMap.get('washbasin');
+        return this.create(worldItemFactory, itemInfo, world);
     }
 
     public createCupboard(itemInfo: GwmWorldItem, world: World): WorldItem {
-        return this.worldItemFactoryMap.get('cupboard').createItem(itemInfo, world);
+        const worldItemFactory = this.worldItemFactoryMap.get('cupboard');
+        return this.create(worldItemFactory, itemInfo, world);
     }
 
     public createRoom(itemInfo: GwmWorldItem, world: World): WorldItem {
@@ -74,5 +87,13 @@ export class WorldFactory {
 
     public createEnemy(polygon: Polygon, world: World): WorldItem {
         return this.enemyFactory.create(polygon, world);
+    }
+
+    private create(factory: WorldItemFactory, itemInfo: GwmWorldItem, world: World): WorldItem {
+        const meshes = factory.meshInfo[0].map(mesh => mesh.clone(`${factory.meshInfo[0][0].name}`));
+        const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, meshes[0]);
+        const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);
+
+        return (<any> factory).createItem(meshes, polygon, rotation);
     }
 }

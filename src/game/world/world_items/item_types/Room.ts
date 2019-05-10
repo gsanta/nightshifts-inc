@@ -1,17 +1,15 @@
-import { ContainerWorldItem } from '../ContainerWorldItem';
-import { WorldItem } from '../WorldItem';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Scene, Vector3, Mesh, MeshBuilder, PointLight } from '@babylonjs/core';
-import { World } from '../../World';
-import { Door } from '../door/Door';
+import { Mesh } from '@babylonjs/core';
+import { Polygon } from '@nightshifts.inc/geometry';
+import { ContainerWorldItem } from './ContainerWorldItem';
+import { WorldItem } from './WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Polygon, Point } from '@nightshifts.inc/geometry';
+import { Door } from './Door';
+
 
 export class Room extends ContainerWorldItem {
     public borderItems: WorldItem[] = [];
     public mesh: Mesh;
     public type: string;
-    private boundingPolygon: Polygon;
     public temperature = 20 + Math.floor(Math.random() * 10);
     public isActive: boolean;
     public lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering' = 'onWhenActive';

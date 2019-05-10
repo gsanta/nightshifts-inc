@@ -2,10 +2,10 @@ import { FollowCamera, Light, Scene, SpotLight, StandardMaterial } from '@babylo
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { ToolMesh } from '../tools/ToolMesh';
 import { WorldFactory } from './world_factory/WorldFactory';
-import { Enemy } from './world_items/enemy/Enemy';
-import { Player } from './world_items/player/Player';
-import { Room } from './world_items/room/Room';
-import { WorldItem } from './world_items/WorldItem';
+import { Enemy } from './world_items/item_types/Enemy';
+import { Room } from './world_items/item_types/Room';
+import { WorldItem } from './world_items/item_types/WorldItem';
+import { Player } from './world_items/item_types/Player';
 
 
 export class World {

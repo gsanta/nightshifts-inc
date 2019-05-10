@@ -1,18 +1,18 @@
-import { SerializedMeshModel, WorldItem } from '../WorldItem';
-import { VectorModel } from '../../../model/core/VectorModel';
-import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
-import { SimpleWorldItem } from '../SimpleWorldItem';
-import { ContainerWorldItem } from '../ContainerWorldItem';
-import { GameConstants } from '../../../GameConstants';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { World } from '../../World';
-import { Border } from '../Border';
 import { Rectangle, Point } from '@nightshifts.inc/geometry';
 import { Mesh } from '@babylonjs/core';
 import { Scene } from '@babylonjs/core';
 import {StandardMaterial} from '@babylonjs/core';
 import { Color3 } from '@babylonjs/core';
 import { MeshBuilder } from '@babylonjs/core';
+import { GameConstants } from '../../../GameConstants';
+import { ContainerWorldItem } from './ContainerWorldItem';
+import { WorldItem, SerializedMeshModel } from './WorldItem';
+import { World } from '../../World';
+import { VectorModel } from '../../../model/core/VectorModel';
+import { SimpleWorldItem } from './SimpleWorldItem';
+import { Border } from './Border';
+import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {
@@ -50,7 +50,7 @@ export class WindowGlass extends ContainerWorldItem {
         middle1.material = this.createMaterial(scene);
         middle1.receiveShadows = true;
 
-        return new SimpleWorldItem(middle1, '');
+        return new SimpleWorldItem(middle1, '', gwmWorldItem.dimensions);
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
@@ -103,7 +103,7 @@ class WindowFrame extends ContainerWorldItem {
         mesh.material = this.createMaterial(scene);
         mesh.receiveShadows = true;
 
-        return new SimpleWorldItem(mesh, '');
+        return new SimpleWorldItem(mesh, '', gwmWorldItem.dimensions);
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
@@ -214,44 +214,6 @@ export class Window extends ContainerWorldItem implements Border {
 
     public clone(): Window {
         return null;
-    }
-
-    public getSide1BoundingPolygon() {
-        const mesh: any = (<ContainerWorldItem> this.children[2]).children[0].mesh;
-        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
-        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
-        const position = mesh.getAbsolutePosition();
-        const centerPoint = new Point(position.x, position.z);
-
-        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
-    }
-
-    public getSide2BoundingPolygon() {
-        const mesh: any = (<ContainerWorldItem> this.children[2]).children[1].mesh;
-        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
-        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
-        const position = mesh.getAbsolutePosition();
-        const centerPoint = new Point(position.x, position.z);
-
-        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height);
-    }
-
-    public getSide1Meshes(): Mesh[] {
-        return [
-            (<ContainerWorldItem> this.children[0]).children[0].mesh,
-            (<ContainerWorldItem> this.children[1]).children[0].mesh,
-            (<ContainerWorldItem> this.children[2]).children[0].mesh,
-            (<ContainerWorldItem> this.children[3]).children[0].mesh
-        ];
-    }
-
-    public getSide2Meshes(): Mesh[] {
-        return [
-            (<ContainerWorldItem> this.children[0]).children[1].mesh,
-            (<ContainerWorldItem> this.children[1]).children[1].mesh,
-            (<ContainerWorldItem> this.children[2]).children[1].mesh,
-            (<ContainerWorldItem> this.children[3]).children[1].mesh
-        ];
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Window {

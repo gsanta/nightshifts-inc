@@ -1,10 +1,10 @@
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { Scene, StandardMaterial, MeshBuilder } from '@babylonjs/core';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
-import { SimpleWorldItem } from '../SimpleWorldItem';
-import { WorldItem } from '../WorldItem';
+import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
+import { WorldItem } from '../item_types/WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Door } from '../door/Door';
+import { Door } from '../item_types/Door';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 
 
@@ -58,7 +58,7 @@ export class DividerWorldItemFactory {
         mesh.material = this.material;
         mesh.receiveShadows = true;
 
-        const item = new SimpleWorldItem(mesh, name);
+        const item = new SimpleWorldItem(mesh, name, dimension);
 
         item.translate(new VectorModel(dimension.left, 0, dimension.top));
 
@@ -73,7 +73,7 @@ export class DividerWorldItemFactory {
         );
         mesh.isVisible = false;
 
-        return new SimpleWorldItem(mesh, `${gwmWorldItem.name}-container`);
+        return new SimpleWorldItem(mesh, `${gwmWorldItem.name}-container`, gwmWorldItem.dimensions);
     }
 
     private setPivotMatrix(worldItem: GwmWorldItem, door: Door) {

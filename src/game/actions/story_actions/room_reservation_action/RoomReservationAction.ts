@@ -1,8 +1,8 @@
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { Room } from '../../../world/world_items/room/Room';
+import { Room } from '../../../world/world_items/item_types/Room';
 import { ActionHandler } from '../../ActionHandler';
-import { Door } from '../../../world/world_items/door/Door';
+import { Door } from '../../../world/world_items/item_types/Door';
 import { Scene, StandardMaterial, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
 const colors = GameConstants.colors;

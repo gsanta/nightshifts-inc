@@ -1,5 +1,5 @@
 import { ActionHandler } from '../ActionHandler';
-import { Enemy } from '../../world/world_items/enemy/Enemy';
+import { Enemy } from '../../world/world_items/item_types/Enemy';
 import { World } from '../../world/World';
 import { GameActionType } from '../GameActionType';
 import { ActionDispatcher } from '../ActionDispatcher';

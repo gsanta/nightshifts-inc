@@ -1,8 +1,8 @@
 import { Mesh, Scene, MeshBuilder, StandardMaterial, Color3, Matrix } from '@babylonjs/core';
-import { ContainerWorldItem } from '../item_types/ContainerWorldItem';
-import { Border } from '../item_types/Border';
+import { ContainerWorldItem } from './ContainerWorldItem';
+import { Border } from './Border';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { WorldItem, SerializedMeshModel } from '../item_types/WorldItem';
+import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { DividerWorldItemFactory } from '../factories/DividerWorldItemFactory';
