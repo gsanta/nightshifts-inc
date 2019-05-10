@@ -11,7 +11,7 @@ import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
 export class EnemyFactory implements WorldItemFactory {
     private scene: Scene;
 
-    private meshInfo: [Mesh[], Skeleton[]];
+    public meshInfo: [Mesh[], Skeleton[]];
 
     constructor(meshInfo: [Mesh[], Skeleton[]]) {
         this.meshInfo = meshInfo;

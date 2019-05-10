@@ -1,9 +1,9 @@
 import { Mesh } from '@babylonjs/core';
 import { Polygon } from '@nightshifts.inc/geometry';
-import { VectorModel } from '../../../model/core/VectorModel';
-import { ContainerWorldItem } from '../ContainerWorldItem';
+import { VectorModel } from '../../../../model/core/VectorModel';
+import { ContainerWorldItem } from '../../ContainerWorldItem';
 import { Door } from '../door/Door';
-import { WorldItem } from '../WorldItem';
+import { WorldItem } from '../../WorldItem';
 
 export class Room extends ContainerWorldItem {
     public borderItems: WorldItem[] = [];

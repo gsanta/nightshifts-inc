@@ -1,16 +1,16 @@
 import { Mesh, Scene, Skeleton, Space } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { toVector3, VectorModel } from '../../../model/core/VectorModel';
-import { World } from '../../World';
-import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
-import { WorldItem } from '../WorldItem';
-import { WorldItemTranslator, WorldItemToRealWorldCoordinateMapper } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { Player } from './Player';
 import { Rectangle } from '@nightshifts.inc/geometry';
-import { WorldItemToWorldCenterTranslatorDecorator } from '../world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
+import { GwmItemImporter } from '../../../world_factory/GwmItemImporter';
+import { World } from '../../../World';
+import { WorldItem } from '../../WorldItem';
+import { WorldItemToWorldCenterTranslatorDecorator } from '../../world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
+import { WorldItemToRealWorldCoordinateMapper } from '../../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { VectorModel, toVector3 } from '../../../../model/core/VectorModel';
 
 export class PlayerFactory implements GwmItemImporter {
-    private meshInfo: [Mesh[], Skeleton[]];
+    public meshInfo: [Mesh[], Skeleton[]];
     private scene: Scene;
 
     constructor(meshInfo: [Mesh[], Skeleton[]], scene: Scene) {

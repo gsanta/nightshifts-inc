@@ -4,7 +4,7 @@ import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { SimpleWorldItem } from '../SimpleWorldItem';
 import { WorldItem } from '../WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Door } from '../door/Door';
+import { Door } from '../item_types/door/Door';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 
 

@@ -3,9 +3,9 @@ import { Vector2Model } from '../model/utils/Vector2Model';
 import { ToolMesh } from '../tools/ToolMesh';
 import { WorldFactory } from './world_factory/WorldFactory';
 import { Enemy } from './world_items/enemy/Enemy';
-import { Player } from './world_items/player/Player';
-import { Room } from './world_items/room/Room';
+import { Room } from './world_items/item_types/room/Room';
 import { WorldItem } from './world_items/WorldItem';
+import { Player } from './world_items/item_types/player/Player';
 
 
 export class World {

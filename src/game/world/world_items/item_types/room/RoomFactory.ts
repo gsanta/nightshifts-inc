@@ -1,10 +1,10 @@
 import { Scene, MeshBuilder, Vector3 } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { ContainerWorldItem } from '../ContainerWorldItem';
+import { ContainerWorldItem } from '../../ContainerWorldItem';
 import { Room } from './Room';
-import { World } from '../../World';
+import { World } from '../../../World';
 import { Point, Polygon } from '@nightshifts.inc/geometry';
-import { GameConstants } from '../../../GameConstants';
+import { GameConstants } from '../../../../GameConstants';
 import { RoomLabelFactory } from './RoomLabelFactory';
 const colors = GameConstants.colors;
 

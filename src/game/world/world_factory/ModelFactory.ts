@@ -13,7 +13,7 @@ import { Direction } from '../../model/utils/Direction';
 import { WorldItemToWorldCenterTranslatorDecorator } from '../world_items/world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
 
 export class ModelFactory implements WorldItemFactory {
-    private meshInfo: [Mesh[], Skeleton[]];
+    public meshInfo: [Mesh[], Skeleton[]];
 
     constructor(meshInfo: [Mesh[], Skeleton[]]) {
         this.meshInfo = meshInfo;

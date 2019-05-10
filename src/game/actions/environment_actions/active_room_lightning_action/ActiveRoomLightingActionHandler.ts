@@ -1,5 +1,5 @@
 import { World } from '../../../world/World';
-import { Room } from '../../../world/world_items/room/Room';
+import { Room } from '../../../world/world_items/item_types/room/Room';
 import { GameActionType } from '../../GameActionType';
 import { ActionHandler } from '../../ActionHandler';
 import { NormalLightSwitcher } from './NormalLightSwitcher';

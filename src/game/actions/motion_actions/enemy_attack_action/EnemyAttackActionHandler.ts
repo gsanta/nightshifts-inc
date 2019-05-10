@@ -2,7 +2,7 @@ import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
 import { Enemy } from '../../../world/world_items/enemy/Enemy';
-import { Room } from '../../../world/world_items/room/Room';
+import { Room } from '../../../world/world_items/item_types/room/Room';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
 import find from 'lodash/find';
 import { VectorModel } from '../../../model/core/VectorModel';

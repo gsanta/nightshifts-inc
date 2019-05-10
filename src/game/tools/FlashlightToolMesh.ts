@@ -1,12 +1,12 @@
 import { ToolMesh } from './ToolMesh';
 import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from '@babylonjs/core';
-import { Player } from '../world/world_items/player/Player';
 import { World } from '../world/World';
 import { Wall } from '../world/world_items/wall/Wall';
-import { Room } from '../world/world_items/room/Room';
+import { Room } from '../world/world_items/item_types/room/Room';
 import { EmptyArea } from '../world/world_items/empty_area/EmptyArea';
-import { Door } from '../world/world_items/door/Door';
+import { Door } from '../world/world_items/item_types/door/Door';
 import { Window } from '../world/world_items/window/Window';
+import { Player } from '../world/world_items/item_types/player/Player';
 
 export class FlashlightToolMesh implements ToolMesh {
     public name = 'flashlight';

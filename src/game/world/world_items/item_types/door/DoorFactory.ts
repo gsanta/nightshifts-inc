@@ -1,11 +1,11 @@
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
+import { GwmItemImporter } from '../../../world_factory/GwmItemImporter';
 import { Scene, StandardMaterial, Color3 } from '@babylonjs/core';
-import { AdditionalData } from '../../world_import/AdditionalData';
-import { World } from '../../World';
-import { WorldItem } from '../WorldItem';
+import { AdditionalData } from '../../../world_import/AdditionalData';
+import { World } from '../../../World';
+import { WorldItem } from '../../WorldItem';
 import { Door } from './Door';
-import { GameConstants } from '../../../GameConstants';
+import { GameConstants } from '../../../../GameConstants';
 const colors = GameConstants.colors;
 
 export class DoorFactory implements GwmItemImporter {
