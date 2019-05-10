@@ -18,7 +18,7 @@
       "src/game/**/*.ts",
       "src/client/**/*.ts",
       "src/client/**/*.tsx",
-      "src/engine/**/*.ts", "src/game/tools/Tool.ts"
+      "src/engine/**/*.ts", "src/game/tools/ToolIcon.ts"
     ],
     "exclude": [
       "node_modules",

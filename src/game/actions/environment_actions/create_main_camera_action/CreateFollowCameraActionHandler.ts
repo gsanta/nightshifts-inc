@@ -13,7 +13,6 @@ export class CreateFollowCameraActionHandler implements ActionHandler {
             case GameActionType.GAME_IS_READY:
                 const camera = this.createCamera(world.scene);
                 camera.lockedTarget = world.getWorldItemsByName('player')[0].mesh;
-                // world.scene.activeCameras.push(camera);
 
                 const cameraTool = new CameraTool(world.scene, world);
                 cameraTool.enable();

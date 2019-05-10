@@ -1,6 +1,6 @@
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { Tool } from '../../../tools/Tool';
+import { ToolIcon } from '../../../tools/ToolIcon';
 import { ToolMesh } from '../../../tools/ToolMesh';
 import { ActionHandler } from '../../ActionHandler';
 import find from 'lodash/find';
@@ -12,7 +12,7 @@ export class ToolSelectionActionHandler implements ActionHandler {
         this.toolMeshes = toolMeshes;
     }
 
-    public handle(type: string, world: World, tool: Tool) {
+    public handle(type: string, world: World, tool: ToolIcon) {
         switch (type) {
             case GameActionType.ACTIVATE_TOOL:
                 this.selectToolToActivate(tool).enable();
@@ -25,7 +25,7 @@ export class ToolSelectionActionHandler implements ActionHandler {
         }
     }
 
-    private selectToolToActivate(tool: Tool) {
+    private selectToolToActivate(tool: ToolIcon) {
         const toolToActivate = find(this.toolMeshes, toolMesh => toolMesh.name === tool.getName());
 
         if (!toolToActivate) {

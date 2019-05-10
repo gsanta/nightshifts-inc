@@ -1,4 +1,4 @@
-import { Tool } from '../../../game/tools/Tool';
+import { ToolIcon } from '../../../game/tools/ToolIcon';
 import { ActionType } from '../ActionType';
 import { ThermometerTool } from '../../../game/tools/ThermometerTool';
 import { FlashlightTool } from '../../../game/tools/FlashlightTool';
@@ -9,7 +9,7 @@ const initialState = [
     new ThermometerTool()
 ];
 
-export const toolsReducer = (state: Tool[] = initialState, action: {type: string, tool: Tool}): Tool[] => {
+export const toolsReducer = (state: ToolIcon[] = initialState, action: {type: string, tool: ToolIcon}): ToolIcon[] => {
     const tools = [...state];
     let index: number;
     switch (action.type) {

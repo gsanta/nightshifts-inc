@@ -1,7 +1,7 @@
 import * as React from 'react';
 import withDialog from '../../../components/dialogs/dialog_template/withDialog';
 import styled from 'styled-components';
-import { Tool } from '../../../../game/tools/Tool';
+import { ToolIcon } from '../../../../game/tools/ToolIcon';
 import find from 'lodash/find';
 import { DialogTemplateProps } from '../../../components/dialogs/dialog_template/withDialog';
 import { TitleLine } from '../../../components/dialogs/dialog_template/TitleLine';
@@ -62,7 +62,7 @@ export default withDialog(InventoryDialog, {
 
 
 export interface InventoryDialogProps extends DialogTemplateProps {
-    tools: Tool[];
-    grabTool(tool: Tool);
-    releaseTool(tool: Tool);
+    tools: ToolIcon[];
+    grabTool(tool: ToolIcon);
+    releaseTool(tool: ToolIcon);
 }

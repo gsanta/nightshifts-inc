@@ -1,8 +1,8 @@
-import { Tool } from './Tool';
+import { ToolIcon } from './ToolIcon';
 import Highlight from '@material-ui/icons/Highlight';
 import * as React from 'react';
 
-export class FlashlightTool implements Tool {
+export class FlashlightTool implements ToolIcon {
     private carrying = false;
 
     constructor(carrying = false) {
@@ -23,7 +23,7 @@ export class FlashlightTool implements Tool {
         return this.carrying;
     }
 
-    public setCarrying(carrying: boolean): Tool {
+    public setCarrying(carrying: boolean): ToolIcon {
         return new FlashlightTool(carrying);
     }
 }

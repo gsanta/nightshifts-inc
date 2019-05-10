@@ -1,4 +1,4 @@
-import { Tool } from '../../../../game/tools/Tool';
+import { ToolIcon } from '../../../../game/tools/ToolIcon';
 import styled from 'styled-components';
 import Close from '@material-ui/icons/Close';
 import * as React from 'react';
@@ -7,7 +7,7 @@ export const TOOL_WIDGET_SIZE = 50;
 
 export interface ToolWidgetProps {
     draggable?: boolean;
-    tool: Tool;
+    tool: ToolIcon;
     close?(): void;
 }
 

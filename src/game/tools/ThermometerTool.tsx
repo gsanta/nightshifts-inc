@@ -1,4 +1,4 @@
-import { Tool } from './Tool';
+import { ToolIcon } from './ToolIcon';
 import styled from 'styled-components';
 import * as React from 'react';
 const thermometer = require('../../../assets/images/thermometer.png');
@@ -9,7 +9,7 @@ export const ThermometerIconStyled = styled.div`
     background-image: url(${thermometer});
 `;
 
-export class ThermometerTool implements Tool {
+export class ThermometerTool implements ToolIcon {
     private carrying: boolean;
 
     constructor(carrying = false) {
@@ -30,7 +30,7 @@ export class ThermometerTool implements Tool {
         return this.carrying;
     }
 
-    public setCarrying(carrying: boolean): Tool {
+    public setCarrying(carrying: boolean): ToolIcon {
         return new ThermometerTool(carrying);
     }
 }

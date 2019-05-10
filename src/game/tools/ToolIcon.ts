@@ -1,8 +1,8 @@
 
 
-export interface Tool {
+export interface ToolIcon {
     getName(): string;
     isCarrying(): boolean;
-    setCarrying(carrying: boolean): Tool;
+    setCarrying(carrying: boolean): ToolIcon;
     getIcon(iconSize: number): JSX.Element;
 }

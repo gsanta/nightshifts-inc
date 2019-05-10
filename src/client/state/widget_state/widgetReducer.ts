@@ -1,4 +1,4 @@
-import { Tool } from '../../../game/tools/Tool';
+import { ToolIcon } from '../../../game/tools/ToolIcon';
 import { ActionType } from '../ActionType';
 import findIndex from 'lodash/findIndex';
 
