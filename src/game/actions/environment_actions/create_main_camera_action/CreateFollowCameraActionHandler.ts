@@ -14,8 +14,8 @@ export class CreateFollowCameraActionHandler implements ActionHandler {
                 const camera = this.createCamera(world.scene);
                 camera.lockedTarget = world.getWorldItemsByName('player')[0].mesh;
 
-                const cameraTool = new CameraTool(world.scene, world);
-                cameraTool.enable();
+                // const cameraTool = new CameraTool(world.scene, world);
+                // cameraTool.enable();
                 break;
             default:
                 break;

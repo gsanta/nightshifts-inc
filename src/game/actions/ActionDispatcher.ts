@@ -16,9 +16,9 @@ export class ActionDispatcher {
         this.handlers.add(handler);
     }
 
-    public unregisterActionHandler(handler: ActionHandler) {
-        this.handlers.delete(handler);
-    }
+    // public unregisterActionHandler(handler: ActionHandler) {
+    //     this.handlers.delete(handler);
+    // }
 
     public dispatch(type: string, ...payload: any[]) {
         this.handlers.forEach(handler => handler.handle(type, this.world, ...payload));

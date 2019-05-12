@@ -45,15 +45,15 @@ const WidgetContainer = styled.div`
 `;
 
 class Game extends React.Component<GameProps, GameState> {
-    private gameEngine: GameEngine;
     private intervalTimeout: NodeJS.Timeout;
+    private isInitialized = false;
 
     constructor(props: GameProps) {
         super(props);
 
         this.state = {
             canvasRef: React.createRef(),
-            engine: null,
+            gameEngine: null,
             scene: null
         };
     }
@@ -66,7 +66,6 @@ class Game extends React.Component<GameProps, GameState> {
         const scene = new Scene(engine);
         scene.clearColor = Color4.FromHexString(colors.Black);
         this.setState({
-            engine,
             scene
         });
 
@@ -75,22 +74,28 @@ class Game extends React.Component<GameProps, GameState> {
             .import(gwmGameWorldMap)
             .then((world) => {
                 this.props.setWorld(world);
-
-                this.props.actionDispatcher.registerActionHandler({
-                    handle: (type: string, w: World) => {
-                        this.props.setWidgetUpdate(w.player.health);
-                    }
+                this.setState({
+                    gameEngine: new GameEngine(canvas, scene, engine, world)
                 });
-                this.gameEngine = new GameEngine(canvas, scene, engine, world, this.props.actionDispatcher);
-                this.gameEngine.run();
             })
             .catch(e => console.error(e));
+    }
 
-
+    public componentDidUpdate() {
+        if (!this.isInitialized && this.props.actionDispatcher && this.state.gameEngine) {
+            this.isInitialized = true;
+            this.props.actionDispatcher.registerActionHandler({
+                handle: (type: string, w: World) => {
+                    this.props.setWidgetUpdate(w.player.health);
+                }
+            });
+            this.state.gameEngine.run(this.props.actionDispatcher);
+        }
     }
 
     public componentWillUnmount() {
-        clearInterval(this.intervalTimeout);
+        console.log('unmounting')
+        // clearInterval(this.intervalTimeout);
     }
 
     public render() {
@@ -125,7 +130,7 @@ export interface GameProps {
 export interface GameState {
     canvasRef: React.RefObject<HTMLCanvasElement>;
     scene: Scene;
-    engine: Engine;
+    gameEngine: GameEngine;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

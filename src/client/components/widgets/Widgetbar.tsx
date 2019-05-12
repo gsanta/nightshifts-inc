@@ -8,6 +8,10 @@ const WidgetbarStyled = styled.div`
     padding: 5px 10px;
     display: flex;
     background: white;
+
+    &:empty {
+        display: none;
+    }
 `;
 
 export const Widgetbar = (props: WidgetbarProps) => {

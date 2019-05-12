@@ -23,9 +23,9 @@ class TurnOnAllLightsActions implements WatchableAction<any> {
         const gameActionDispatcher: ActionDispatcher = yield select(WorldSelections.getGameActionDispatcher);
         if (areAllLightsTurnedOn) {
             gameActionDispatcher.dispatch(GameActionType.TURN_ON_ALL_LIGHTS);
-            gameActionDispatcher.unregisterActionHandler(ActiveRoomLightingActionHandler.getInstance());
+            // gameActionDispatcher.unregisterActionHandler(ActiveRoomLightingActionHandler.getInstance());
         } else {
-            gameActionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());
+            // gameActionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());
             gameActionDispatcher.dispatch(GameActionType.TURN_OFF_LIGHTS_FOR_NOT_ACTIVE_ROOMS);
         }
     }

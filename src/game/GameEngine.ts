@@ -24,14 +24,12 @@ export class GameEngine {
     private engine: Engine;
     private canvas: HTMLCanvasElement;
     private isGameRunning = false;
-    private actionDispatcher: ActionDispatcher;
 
     constructor(
         canvas: HTMLCanvasElement,
         scene: Scene,
         engine: Engine,
         world: World,
-        actionDispatcher: ActionDispatcher
     ) {
         this.canvas = canvas;
         this.run = this.run.bind(this);
@@ -43,30 +41,29 @@ export class GameEngine {
         this.world = world;
         this.world.canvas = this.canvas;
         this.world.engine = engine;
-        this.actionDispatcher = actionDispatcher;
     }
 
-    public run() {
+    public run(actionDispatcher: ActionDispatcher) {
         setTimeout(
             () => {
-                this.actionDispatcher.registerActionHandler(new CreateFollowCameraActionHandler());
-                this.actionDispatcher.registerActionHandler(new CreateMainLightActionHandler());
-                this.actionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());
-                this.actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
-                this.actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
-                this.actionDispatcher.registerActionHandler(new EnterRoomActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new TimeActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new EnemyAttackActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new EnemyHitActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new LampBehaviourActionHandler());
-                this.actionDispatcher.registerActionHandler(new PlayerMotionActionHandler(this.actionDispatcher));
-                this.actionDispatcher.registerActionHandler(new CreateBoundingPolygonMeshesActionHandler());
+                actionDispatcher.registerActionHandler(new CreateFollowCameraActionHandler());
+                actionDispatcher.registerActionHandler(new CreateMainLightActionHandler());
+                actionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());
+                actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
+                actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
+                actionDispatcher.registerActionHandler(new EnterRoomActionHandler(actionDispatcher));
+                actionDispatcher.registerActionHandler(new TimeActionHandler(actionDispatcher));
+                actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(actionDispatcher));
+                actionDispatcher.registerActionHandler(new EnemyAttackActionHandler(actionDispatcher));
+                actionDispatcher.registerActionHandler(new EnemyHitActionHandler(actionDispatcher));
+                actionDispatcher.registerActionHandler(new LampBehaviourActionHandler());
+                actionDispatcher.registerActionHandler(new PlayerMotionActionHandler(actionDispatcher));
+                actionDispatcher.registerActionHandler(new CreateBoundingPolygonMeshesActionHandler());
 
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 
-                this.actionDispatcher.dispatch(GameActionType.GAME_IS_READY);
-                this.engine.runRenderLoop(() => this.render());
+                actionDispatcher.dispatch(GameActionType.GAME_IS_READY);
+                this.engine.runRenderLoop(() => this.render(actionDispatcher));
             },
             100
         );
@@ -80,8 +77,8 @@ export class GameEngine {
         return this.world;
     }
 
-    private render() {
-        this.actionDispatcher.dispatch(GameActionType.NEXT_TICK);
+    private render(actionDispatcher: ActionDispatcher) {
+        actionDispatcher.dispatch(GameActionType.NEXT_TICK);
 
         this.scene.render();
     }
