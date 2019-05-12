@@ -7,6 +7,8 @@ export const ThermometerIconStyled = styled.div`
     width: ${(props: {size: number}) => props.size}px;
     height: ${(props: {size: number}) => props.size}px;
     background-image: url(${thermometer});
+    background-position: center;
+    background-size: contain;
 `;
 
 export class ThermometerTool implements ToolIcon {

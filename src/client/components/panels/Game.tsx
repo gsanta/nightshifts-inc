@@ -10,13 +10,15 @@ import colors from '../miscellaneous/colors';
 import { Color4 } from '@babylonjs/core';
 import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
 import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFactoryProducer';
-import { JsonWorldSchema } from '../../../game/world/world_import/JsonWorldSchema';
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
 import { Engine } from '@babylonjs/core';
 import { Scene } from '@babylonjs/core';
 import { HealthWidget } from '../widgets/health_widget/HealthWidget';
 import styled from 'styled-components';
 import WidgetAction from '../../state/world_state/world_actions/WidgetAction';
+import { Widgetbar } from '../widgets/Widgetbar';
+import { ToolIcon } from '../../../game/tools/ToolIcon';
+import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -24,7 +26,8 @@ const mapStateToProps = (state: AppState) => {
     return {
         world: state.world,
         actionDispatcher: state.gameActionDispatcher,
-        widgetInfo: state.widgetInfo
+        widgetInfo: state.widgetInfo,
+        tools: state.tools
     };
 };
 
@@ -91,6 +94,10 @@ class Game extends React.Component<GameProps, GameState> {
     }
 
     public render() {
+        const widgets = this.props.tools
+            .filter(tool => tool.isCarrying())
+            .map(tool => <ToolWidget tool={tool}/>);
+
         return (
             <div>
 
@@ -98,6 +105,7 @@ class Game extends React.Component<GameProps, GameState> {
                 <WidgetContainer>
                     <HealthWidget health={this.props.widgetInfo}/>
                 </WidgetContainer>
+                <Widgetbar>{widgets}</Widgetbar>
             </div>
         );
     }
@@ -108,6 +116,7 @@ export interface GameProps {
     updateGame(world: World): void;
     setWorld(world: World): void;
     world: World;
+    tools: ToolIcon[];
     widgetInfo: number;
     actionDispatcher: ActionDispatcher;
     setWidgetUpdate(health: number): void;

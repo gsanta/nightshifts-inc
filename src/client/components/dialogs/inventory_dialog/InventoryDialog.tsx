@@ -6,10 +6,10 @@ import find from 'lodash/find';
 import { DialogTemplateProps } from '../../../components/dialogs/dialog_template/withDialog';
 import { TitleLine } from '../../../components/dialogs/dialog_template/TitleLine';
 import colors from '../../miscellaneous/colors';
-import { TOOL_WIDGET_SIZE, ToolWidget } from './ToolWidget';
+import { INVENTORY_ITEM_SIZE, InventoryItem } from './InventoryItem';
 
 const ToolsOnYouSectionStyled = styled.div`
-    min-height: ${TOOL_WIDGET_SIZE + 10}px;
+    min-height: ${INVENTORY_ITEM_SIZE + 10}px;
     display: flex;
 `;
 
@@ -35,8 +35,8 @@ const InventoryDialog = (props: InventoryDialogProps) => {
     );
 
     const carriedTools = props.tools
-        .filter(tool => tool.isCarrying()).map(tool =>  <ToolWidget key={tool.getName()} tool={tool} close={() => props.releaseTool(tool)}/>);
-    const tools = props.tools.map(tool =>  <ToolWidget key={tool.getName()} draggable={true} tool={tool}/>);
+        .filter(tool => tool.isCarrying()).map(tool =>  <InventoryItem key={tool.getName()} tool={tool} close={() => props.releaseTool(tool)}/>);
+    const tools = props.tools.map(tool =>  <InventoryItem key={tool.getName()} draggable={true} tool={tool}/>);
 
     return (
         <div>
