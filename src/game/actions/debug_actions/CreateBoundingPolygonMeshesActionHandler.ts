@@ -1,7 +1,7 @@
 import { ActionHandler } from '../ActionHandler';
 import { GameActionType } from '../GameActionType';
 import { World } from '../../world/World';
-import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
+import { Rectangle } from '@nightshifts.inc/geometry';
 import { MeshBuilder, StandardMaterial, Color3, Vector3, Space, Mesh } from '@babylonjs/core';
 import _ from 'lodash';
 import { Room } from '../../world/world_items/item_types/Room';
@@ -12,6 +12,22 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
 
     public handle(type: string, world: World) {
         switch (type) {
+            case GameActionType.GAME_IS_READY:
+                world.getWorldItemsByName('cupboard')
+                    .forEach(item => {
+                        item.boundingBox = this.createMesh(<Rectangle> (<any> cupboard).boundingPolygon, world);
+                    });
+
+                world.getWorldItemsByName('door')
+                    .forEach(item => {
+                        item.boundingBox = this.createMesh(<Rectangle> (<any> cupboard).boundingPolygon, world);
+                    });
+
+                world.getWorldItemsByName('window')
+                .forEach(item => {
+                    item.boundingBox = this.createMesh(<Rectangle> (<any> cupboard).boundingPolygon, world);
+                });
+                break;
             case GameActionType.CREATE_BOUNDING_POLYGON_MESHES:
                 // world.player.boundingBox = this.createMesh(<Rectangle> (<any> world.player).boundingPolygon, world);
 

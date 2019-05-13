@@ -19,6 +19,7 @@ import WidgetAction from '../../state/world_state/world_actions/WidgetAction';
 import { Widgetbar } from '../widgets/Widgetbar';
 import { ToolIcon } from '../../../game/tools/ToolIcon';
 import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
+import SetGameActionDispatcherActions from '../../state/world_state/world_actions/SetGameActionDispatcherActions';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -35,6 +36,7 @@ const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(GetWorldActions.request()),
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
     setWorld: (world: World) => dispatch(SetWorldAction.request(world)),
+    setGameActionDispatcher: (gameActionDispatcher: ActionDispatcher) => dispatch(SetGameActionDispatcherActions.request(gameActionDispatcher)),
     setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health))
 });
 
@@ -74,8 +76,20 @@ class Game extends React.Component<GameProps, GameState> {
             .import(gwmGameWorldMap)
             .then((world) => {
                 this.props.setWorld(world);
+                console.log('leeeefuuuutt');
+                const actionDispatcher = new ActionDispatcher(world);
+                this.props.setGameActionDispatcher(actionDispatcher);
+
+                actionDispatcher.registerActionHandler({
+                    handle: (type: string, w: World) => {
+                        this.props.setWidgetUpdate(w.player.health);
+                    }
+                });
+
+                const gameEngine = new GameEngine(canvas, scene, engine, world);
+                gameEngine.run(actionDispatcher);
                 this.setState({
-                    gameEngine: new GameEngine(canvas, scene, engine, world)
+                    gameEngine
                 });
             })
             .catch(e => console.error(e));
@@ -84,17 +98,11 @@ class Game extends React.Component<GameProps, GameState> {
     public componentDidUpdate() {
         if (!this.isInitialized && this.props.actionDispatcher && this.state.gameEngine) {
             this.isInitialized = true;
-            this.props.actionDispatcher.registerActionHandler({
-                handle: (type: string, w: World) => {
-                    this.props.setWidgetUpdate(w.player.health);
-                }
-            });
-            this.state.gameEngine.run(this.props.actionDispatcher);
+
         }
     }
 
     public componentWillUnmount() {
-        console.log('unmounting')
         // clearInterval(this.intervalTimeout);
     }
 
@@ -125,6 +133,7 @@ export interface GameProps {
     widgetInfo: number;
     actionDispatcher: ActionDispatcher;
     setWidgetUpdate(health: number): void;
+    setGameActionDispatcher(gameActionDispatcher: ActionDispatcher);
 }
 
 export interface GameState {

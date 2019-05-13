@@ -3,9 +3,8 @@ import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 
 export const gameActionDispatcherReducer = (state = null, action) => {
     switch (action.type) {
-        case ActionType.UPDATE_GAME_REQUEST:
-        case ActionType.SET_WORLD_REQUEST:
-            return new ActionDispatcher(action.world);
+        case ActionType.SET_GAME_ACTION_DISPATCHER:
+            return action.gameActionDispatcher;
         default:
             return state;
     }

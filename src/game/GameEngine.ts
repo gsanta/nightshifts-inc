@@ -15,6 +15,7 @@ import { EnemyHitActionHandler } from './actions/enemy_hit_action/EnemyHitAction
 import { LampBehaviourActionHandler } from './actions/environment_actions/lamp_behaviour_action/LampBehaviourActionHandler';
 import { PlayerMotionActionHandler } from './actions/motion_actions/player_motion_action/PlayerMotionActionHandler';
 import { CreateBoundingPolygonMeshesActionHandler } from './actions/debug_actions/CreateBoundingPolygonMeshesActionHandler';
+import { WorldItemActivationActionHandler } from './actions/world_item_activation_actions/WorldItemActivationActionHandler';
 
 (<any> window).earcut = require('earcut');
 
@@ -59,6 +60,7 @@ export class GameEngine {
                 actionDispatcher.registerActionHandler(new LampBehaviourActionHandler());
                 actionDispatcher.registerActionHandler(new PlayerMotionActionHandler(actionDispatcher));
                 actionDispatcher.registerActionHandler(new CreateBoundingPolygonMeshesActionHandler());
+                actionDispatcher.registerActionHandler(new WorldItemActivationActionHandler());
 
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 

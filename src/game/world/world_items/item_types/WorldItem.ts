@@ -36,6 +36,8 @@ export interface SerializedMeshModel {
 }
 
 export interface WorldItem {
+    isActivatableHighlightVisible: boolean;
+    setActivatableHighlightVisible(visible: boolean);
     mesh?: Mesh;
     /**
      * The enclosing bounding box of the mesh, for optimization reasons it can be null and we calculate it only

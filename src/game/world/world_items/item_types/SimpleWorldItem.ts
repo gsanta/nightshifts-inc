@@ -15,6 +15,7 @@ export class SimpleWorldItem implements WorldItem {
     public parent: WorldItem;
     public neighbours: WorldItem[] = [];
     public material: StandardMaterial;
+    public isActivatableHighlightVisible = false;
 
     protected boundingPolygon: Polygon;
 
@@ -117,8 +118,9 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public setBoudingBox(polygon: Polygon) {
+        const center = polygon.getBoundingCenter();
+        this.setPosition(new VectorModel(center.x, this.mesh.position.y, center.y));
         this.boundingPolygon = polygon;
-        this.setPosition(new VectorModel(polygon.left, this.mesh.position.y, polygon.top));
     }
 
 
@@ -157,6 +159,11 @@ export class SimpleWorldItem implements WorldItem {
 
     public setVisible(isVisible: boolean) {
         this.mesh.isVisible = isVisible;
+    }
+
+    public setActivatableHighlightVisible(isVisible: boolean) {
+        this.boundingBox.isVisible = isVisible;
+        this.isActivatableHighlightVisible = isVisible;
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {
