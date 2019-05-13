@@ -23,10 +23,10 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
                         item.boundingBox = this.createMesh(<Rectangle> (<any> item).boundingPolygon, world);
                     });
 
-                world.getWorldItemsByName('window')
-                .forEach(item => {
-                    item.boundingBox = this.createMesh(<Rectangle> (<any> item).boundingPolygon, world);
-                });
+                // world.getWorldItemsByName('window')
+                // .forEach(item => {
+                //     item.boundingBox = this.createMesh(<Rectangle> (<any> item).boundingPolygon, world);
+                // });
                 break;
             case GameActionType.CREATE_BOUNDING_POLYGON_MESHES:
                 // world.player.boundingBox = this.createMesh(<Rectangle> (<any> world.player).boundingPolygon, world);
@@ -50,7 +50,8 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
             world.scene
         );
 
-        box.translate(new Vector3(rectangle.left, 0, rectangle.top), 1, Space.WORLD);
+        const center = rectangle.getBoundingCenter();
+        box.translate(new Vector3(center.x, 0, center.y), 1, Space.WORLD);
 
         const material = new StandardMaterial('box-material', world.scene);
         material.diffuseColor = Color3.FromHexString('00FF00');

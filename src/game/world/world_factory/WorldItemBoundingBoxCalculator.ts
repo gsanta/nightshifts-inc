@@ -18,21 +18,20 @@ export class WorldItemBoundingBoxCalculator {
     }
 
     private dockToDirection(dock: Direction, dimensions: Polygon, meshDimensions: Vector2Model): Polygon {
-        return dimensions.translate(new Point(dimensions.width / 2, dimensions.height / 2));
-        // switch (dock) {
-        //     case Direction.NORTH_WEST:
-        //         return dimensions.translate(new Point(meshDimensions.x(), meshDimensions.y()));
-        //     case Direction.NORTH_EAST:
-        //         return dimensions.translate(new Point(dimensions.width, 0));
-        //     case Direction.SOUTH_EAST:
-        //         return dimensions.translate(new Point(dimensions.width, dimensions.height));
-        //     case Direction.SOUTH_WEST:
-        //         return dimensions.translate(new Point(meshDimensions.x(), dimensions.height - meshDimensions.y()));
-        //     case Direction.MIDDLE:
-        //         return dimensions.translate(new Point(dimensions.width / 2, dimensions.height / 2));
-        //     default:
-        //         throw new Error('Invalid dock direction: ' + dock);
-        // }
+        switch (dock) {
+            case Direction.NORTH_WEST:
+                return dimensions.translate(new Point(meshDimensions.x(), meshDimensions.y()));
+            case Direction.NORTH_EAST:
+                return dimensions.translate(new Point(dimensions.width, 0));
+            case Direction.SOUTH_EAST:
+                return dimensions.translate(new Point(dimensions.width, dimensions.height));
+            case Direction.SOUTH_WEST:
+                return dimensions.translate(new Point(meshDimensions.x(), dimensions.height - meshDimensions.y()));
+            case Direction.MIDDLE:
+                return dimensions.translate(new Point(dimensions.width / 2, dimensions.height / 2));
+            default:
+                throw new Error('Invalid dock direction: ' + dock);
+        }
     }
 
     private moveToWorldCenter(world: World, polygon: Polygon): Polygon {

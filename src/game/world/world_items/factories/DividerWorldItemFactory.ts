@@ -28,13 +28,14 @@ export class DividerWorldItemFactory {
         gwmWorldItem.dimensions = gwmWorldItem.dimensions.translate(new Point(translateX, translateY));
 
         gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
+        gwmWorldItem.dimensions = gwmWorldItem.dimensions.mirrorY();
 
         const container = this.createContainerItem(gwmWorldItem);
         const [side1, side2] = this.createSideItems(container, gwmWorldItem);
 
         const door = new Door(container, side1, side2);
         door.setBoudingBox(gwmWorldItem.dimensions);
-        door.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
+        door.translate(new VectorModel(0, 2.5, 0));
         this.setPivotMatrix(gwmWorldItem, door);
         return door;
     }

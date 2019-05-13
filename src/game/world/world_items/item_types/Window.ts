@@ -238,9 +238,12 @@ export class Window extends ContainerWorldItem implements Border {
 
         const containerMesh = this.createContainerMesh(scene);
 
+        gwmWorldItem.dimensions = gwmWorldItem.dimensions.mirrorY();
+
         const window = new Window(containerMesh, [ topFrame, bottomFrame, leftGlass, rightGlass ]);
+        window.translate(new VectorModel(0, 2.5, 0));
         window.setBoudingBox(gwmWorldItem.dimensions);
-        window.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
+        // window.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
 
         return window;
     }
