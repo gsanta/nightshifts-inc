@@ -1,12 +1,14 @@
-import { ToolIcon } from '../../../game/tools/ToolIcon';
+import { ToolIcon } from '../../components/dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ActionType } from '../ActionType';
-import { ThermometerTool } from '../../../game/tools/ThermometerTool';
-import { FlashlightTool } from '../../../game/tools/FlashlightTool';
+import { ThermometerToolIcon } from '../../components/dialogs/inventory_dialog/tools_icons/ThermometerToolIcon';
+import { FlashlightToolIcon } from '../../components/dialogs/inventory_dialog/tools_icons/FlashlightToolIcon';
 import findIndex from 'lodash/findIndex';
+import { CameraToolIcon } from '../../components/dialogs/inventory_dialog/tools_icons/CameraToolIcon';
 
 const initialState = [
-    new FlashlightTool(),
-    new ThermometerTool()
+    new FlashlightToolIcon(),
+    new ThermometerToolIcon(),
+    new CameraToolIcon()
 ];
 
 export const toolsReducer = (state: ToolIcon[] = initialState, action: {type: string, tool: ToolIcon}): ToolIcon[] => {

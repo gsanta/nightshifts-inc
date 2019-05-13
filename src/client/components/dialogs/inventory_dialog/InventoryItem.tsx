@@ -1,4 +1,4 @@
-import { ToolIcon } from '../../../../game/tools/ToolIcon';
+import { ToolIcon } from './tools_icons/ToolIcon';
 import styled from 'styled-components';
 import Close from '@material-ui/icons/Close';
 import * as React from 'react';

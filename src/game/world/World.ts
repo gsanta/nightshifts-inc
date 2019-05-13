@@ -1,6 +1,6 @@
 import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine } from '@babylonjs/core';
 import { Vector2Model } from '../model/utils/Vector2Model';
-import { ToolMesh } from '../tools/ToolMesh';
+import { Tool } from '../tools/Tool';
 import { WorldFactory } from './world_factory/WorldFactory';
 import { Enemy } from './world_items/item_types/Enemy';
 import { Room } from './world_items/item_types/Room';
@@ -21,7 +21,7 @@ export class World {
 
     public camera: FollowCamera;
 
-    public tools: ToolMesh[];
+    public tools: Tool[];
 
     public materials: {[key: string]: StandardMaterial};
     public scene: Scene;

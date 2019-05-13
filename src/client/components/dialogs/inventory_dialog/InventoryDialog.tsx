@@ -1,7 +1,7 @@
 import * as React from 'react';
 import withDialog from '../../../components/dialogs/dialog_template/withDialog';
 import styled from 'styled-components';
-import { ToolIcon } from '../../../../game/tools/ToolIcon';
+import { ToolIcon } from './tools_icons/ToolIcon';
 import find from 'lodash/find';
 import { DialogTemplateProps } from '../../../components/dialogs/dialog_template/withDialog';
 import { TitleLine } from '../../../components/dialogs/dialog_template/TitleLine';

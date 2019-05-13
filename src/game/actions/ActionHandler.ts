@@ -7,4 +7,6 @@ export interface SendActionFunc<T> {
 
 export interface ActionHandler {
     handle(type: string, world: World, ...payload: any[]);
+
+    activateTool?(world: World, payload: any[]);
 }

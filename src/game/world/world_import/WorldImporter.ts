@@ -2,8 +2,8 @@ import { defaultParseOptions, GwmWorldItem, GwmWorldMapParser, parsers, transfor
 import { Scene } from '@babylonjs/core';
 import { Promise } from 'es6-promise';
 import { Vector2Model } from '../../model/utils/Vector2Model';
-import { FlashlightToolMesh } from '../../tools/FlashlightToolMesh';
-import { ThermometerToolMesh } from '../../tools/ThermometerToolMesh';
+import { FlashlightTool } from '../../tools/FlashlightTool';
+import { ThermometerTool } from '../../tools/ThermometerTool';
 import { World } from '../World';
 import { WorldFactory } from '../world_factory/WorldFactory';
 import { WorldFactoryProducer } from '../world_factory/WorldFactoryProducer';
@@ -32,8 +32,8 @@ export class WorldImporter {
         world.worldItems = this.createWorldItems(rootWorldItem, world, worldFactory);
 
         world.tools = [
-            new ThermometerToolMesh(this.scene, world.player),
-            new FlashlightToolMesh(this.scene, world)
+            new ThermometerTool(this.scene, world.player),
+            new FlashlightTool(this.scene, world)
         ];
 
         return world;

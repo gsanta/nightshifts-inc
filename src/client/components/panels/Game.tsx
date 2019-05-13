@@ -17,7 +17,7 @@ import { HealthWidget } from '../widgets/health_widget/HealthWidget';
 import styled from 'styled-components';
 import WidgetAction from '../../state/world_state/world_actions/WidgetAction';
 import { Widgetbar } from '../widgets/Widgetbar';
-import { ToolIcon } from '../../../game/tools/ToolIcon';
+import { ToolIcon } from '../dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
 import SetGameActionDispatcherActions from '../../state/world_state/world_actions/SetGameActionDispatcherActions';
 

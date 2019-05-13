@@ -1,4 +1,4 @@
-import { ToolIcon } from '../../../game/tools/ToolIcon';
+import { ToolIcon } from '../../components/dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ActionType } from '../ActionType';
 import findIndex from 'lodash/findIndex';
 

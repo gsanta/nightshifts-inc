@@ -139,7 +139,7 @@ export class Window extends ContainerWorldItem implements Border {
     private pivot2: VectorModel;
 
     constructor(containerMesh: Mesh, children: WorldItem[], config?: MeshTemplateConfig) {
-        super(children);
+        super(children, 'window');
         this.mesh = containerMesh;
 
         children.forEach(child => child.setParent(this));
@@ -239,6 +239,7 @@ export class Window extends ContainerWorldItem implements Border {
         const containerMesh = this.createContainerMesh(scene);
 
         const window = new Window(containerMesh, [ topFrame, bottomFrame, leftGlass, rightGlass ]);
+        window.setBoudingBox(gwmWorldItem.dimensions);
         window.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
 
         return window;

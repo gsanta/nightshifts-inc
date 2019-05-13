@@ -74,7 +74,10 @@ export class WorldFactory {
 
     public createCupboard(itemInfo: GwmWorldItem, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('cupboard');
-        return this.create(worldItemFactory, itemInfo, world);
+        const cupboard = this.create(worldItemFactory, itemInfo, world);
+        cupboard.hasDefaultAction = true;
+
+        return cupboard;
     }
 
     public createRoom(itemInfo: GwmWorldItem, world: World): WorldItem {

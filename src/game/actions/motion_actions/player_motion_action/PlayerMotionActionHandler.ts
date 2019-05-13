@@ -38,8 +38,9 @@ export class PlayerMotionActionHandler implements ActionHandler {
                     if (!this.motionStrategy.isIdle()) {
                         const delta = this.motionStrategy.calcNextPositionDelta(elapsedTime);
                         world.player.setPosition(world.player.getCenterPosition().add(delta));
-                    }
 
+                        this.actionDispatcher.dispatch(GameActionType.PLAYER_MOVED);
+                    }
 
                     const rotationDelta = this.motionStrategy.calcNextRotationDelta(elapsedTime);
                     world.player.setRotation(rotationDelta);

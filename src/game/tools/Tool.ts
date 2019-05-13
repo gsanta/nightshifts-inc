@@ -1,6 +1,6 @@
 
 
-export interface ToolMesh {
+export interface Tool {
     name: string;
     enable();
     disable();

@@ -15,17 +15,17 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
             case GameActionType.GAME_IS_READY:
                 world.getWorldItemsByName('cupboard')
                     .forEach(item => {
-                        item.boundingBox = this.createMesh(<Rectangle> (<any> cupboard).boundingPolygon, world);
+                        item.boundingBox = this.createMesh(<Rectangle> (<any> item).boundingPolygon, world);
                     });
 
                 world.getWorldItemsByName('door')
                     .forEach(item => {
-                        item.boundingBox = this.createMesh(<Rectangle> (<any> cupboard).boundingPolygon, world);
+                        item.boundingBox = this.createMesh(<Rectangle> (<any> item).boundingPolygon, world);
                     });
 
                 world.getWorldItemsByName('window')
                 .forEach(item => {
-                    item.boundingBox = this.createMesh(<Rectangle> (<any> cupboard).boundingPolygon, world);
+                    item.boundingBox = this.createMesh(<Rectangle> (<any> item).boundingPolygon, world);
                 });
                 break;
             case GameActionType.CREATE_BOUNDING_POLYGON_MESHES:
@@ -56,6 +56,7 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
         material.diffuseColor = Color3.FromHexString('00FF00');
         material.wireframe = true;
         box.material = material;
+        box.isVisible = false;
 
         return box;
     }

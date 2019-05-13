@@ -1,14 +1,14 @@
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { ToolIcon } from '../../../tools/ToolIcon';
-import { ToolMesh } from '../../../tools/ToolMesh';
+import { ToolIcon } from '../../../../client/components/dialogs/inventory_dialog/tools_icons/ToolIcon';
+import { Tool } from '../../../tools/Tool';
 import { ActionHandler } from '../../ActionHandler';
 import find from 'lodash/find';
 
 export class ToolSelectionActionHandler implements ActionHandler {
-    private toolMeshes: ToolMesh[];
+    private toolMeshes: Tool[];
 
-    constructor(toolMeshes: ToolMesh[]) {
+    constructor(toolMeshes: Tool[]) {
         this.toolMeshes = toolMeshes;
     }
 

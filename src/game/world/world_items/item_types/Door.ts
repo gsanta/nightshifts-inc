@@ -19,7 +19,7 @@ export class Door extends ContainerWorldItem implements Border {
     public type: 'door';
 
     constructor(container: WorldItem, side1: WorldItem, side2: WorldItem) {
-        super([]);
+        super([], 'door');
 
         this.hasDefaultAction = true;
         this.mesh = container.mesh;

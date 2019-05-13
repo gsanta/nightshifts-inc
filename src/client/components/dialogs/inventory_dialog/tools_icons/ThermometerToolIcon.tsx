@@ -1,7 +1,7 @@
 import { ToolIcon } from './ToolIcon';
 import styled from 'styled-components';
 import * as React from 'react';
-const thermometer = require('../../../assets/images/thermometer.png');
+const thermometer = require('../../../../../../assets/images/thermometer.png');
 
 export const ThermometerIconStyled = styled.div`
     width: ${(props: {size: number}) => props.size}px;
@@ -11,7 +11,7 @@ export const ThermometerIconStyled = styled.div`
     background-size: contain;
 `;
 
-export class ThermometerTool implements ToolIcon {
+export class ThermometerToolIcon implements ToolIcon {
     private carrying: boolean;
 
     constructor(carrying = false) {
@@ -33,6 +33,6 @@ export class ThermometerTool implements ToolIcon {
     }
 
     public setCarrying(carrying: boolean): ToolIcon {
-        return new ThermometerTool(carrying);
+        return new ThermometerToolIcon(carrying);
     }
 }

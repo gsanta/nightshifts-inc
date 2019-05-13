@@ -1,11 +1,11 @@
-import { ToolMesh } from './ToolMesh';
+import { Tool } from './Tool';
 import { SpotLight, Scene, ArcRotateCamera, Vector3, Tools, Viewport, FreeCamera } from '@babylonjs/core';
 import { World } from '../world/World';
 import find from 'lodash/find';
 import { Player } from '../world/world_items/item_types/Player';
 import { Room } from '../world/world_items/item_types/Room';
 
-export class CameraTool implements ToolMesh {
+export class CameraTool implements Tool {
     public name = 'flashlight';
     private flashLight: SpotLight;
     private player: Player;

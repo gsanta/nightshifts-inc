@@ -1,7 +1,7 @@
 import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { StandardMaterial, Mesh, Vector3 } from '@babylonjs/core';
 import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
-import { Polygon } from '@nightshifts.inc/geometry';
+import { Polygon, Point } from '@nightshifts.inc/geometry';
 import flatten from 'lodash/flatten';
 import { SimpleWorldItem } from './SimpleWorldItem';
 
@@ -15,8 +15,8 @@ export class ContainerWorldItem extends SimpleWorldItem {
     public hasDefaultAction = false;
     material: StandardMaterial;
 
-    constructor(children: WorldItem[]) {
-        super(null, '', null);
+    constructor(children: WorldItem[], type?: string) {
+        super(null, type, null);
         this.children = children;
     }
 
@@ -42,7 +42,17 @@ export class ContainerWorldItem extends SimpleWorldItem {
     }
 
     public setPosition(position: VectorModel) {
-        throw new Error('Not yet implemented');
+        this.mesh.position = new Vector3(position.x, position.y, position.z);
+
+        const boundingCenter = this.boundingPolygon.getBoundingCenter();
+        const [dx, dy] = boundingCenter.distanceTo(new Point(position.x, position.z));
+
+        this.boundingPolygon = this.boundingPolygon.addX(dx);
+        this.boundingPolygon = this.boundingPolygon.addY(dy);
+
+        if (this.boundingBox) {
+            this.boundingBox.position = new Vector3(position.x, 1, position.z);
+        }
     }
 
     public translate(vectorModel: VectorModel) {

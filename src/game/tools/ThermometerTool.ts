@@ -1,10 +1,10 @@
-import { ToolMesh } from './ToolMesh';
+import { Tool } from './Tool';
 import { Scene, Mesh, StandardMaterial, MeshBuilder, Axis, Space, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../GameConstants';
 import { Player } from '../world/world_items/item_types/Player';
 const colors = GameConstants.colors;
 
-export class ThermometerToolMesh implements ToolMesh {
+export class ThermometerTool implements Tool {
     public name = 'thermometer';
     private mesh: Mesh;
 

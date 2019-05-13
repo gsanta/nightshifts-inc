@@ -1,5 +1,4 @@
-import { Dispatcher } from 'flux';
-import { ActionHandler, SendActionFunc } from './ActionHandler';
+import { ActionHandler } from './ActionHandler';
 import { World } from '../world/World';
 
 
@@ -16,9 +15,9 @@ export class ActionDispatcher {
         this.handlers.add(handler);
     }
 
-    // public unregisterActionHandler(handler: ActionHandler) {
-    //     this.handlers.delete(handler);
-    // }
+    public unregisterActionHandler(handler: ActionHandler) {
+        this.handlers.delete(handler);
+    }
 
     public dispatch(type: string, ...payload: any[]) {
         this.handlers.forEach(handler => handler.handle(type, this.world, ...payload));

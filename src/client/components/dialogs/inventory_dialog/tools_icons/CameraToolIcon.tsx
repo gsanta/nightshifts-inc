@@ -1,8 +1,8 @@
 import { ToolIcon } from './ToolIcon';
-import Highlight from '@material-ui/icons/Highlight';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import * as React from 'react';
 
-export class FlashlightTool implements ToolIcon {
+export class CameraToolIcon implements ToolIcon {
     private carrying = false;
 
     constructor(carrying = false) {
@@ -11,7 +11,7 @@ export class FlashlightTool implements ToolIcon {
 
     public getIcon(iconSize: number): JSX.Element {
         return (
-            <Highlight style={{width: `${iconSize}px`, height: `${iconSize}px`}}/>
+            <PhotoCamera style={{width: `${iconSize}px`, height: `${iconSize}px`}}/>
         );
     }
 
@@ -24,6 +24,6 @@ export class FlashlightTool implements ToolIcon {
     }
 
     public setCarrying(carrying: boolean): ToolIcon {
-        return new FlashlightTool(carrying);
+        return new CameraToolIcon(carrying);
     }
 }

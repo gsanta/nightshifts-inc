@@ -105,7 +105,7 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public getCenterPosition(): VectorModel {
-        const center = (<Rectangle> this.getAbsoluteBoundingPolygon()).getBoundingCenter();
+        const center = (<Rectangle> this.getBoundingPolygon()).getBoundingCenter();
         return new VectorModel(center.x, 0, center.y);
     }
 
@@ -118,6 +118,7 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public setBoudingBox(polygon: Polygon) {
+        this.boundingPolygon = polygon;
         const center = polygon.getBoundingCenter();
         this.setPosition(new VectorModel(center.x, this.mesh.position.y, center.y));
         this.boundingPolygon = polygon;

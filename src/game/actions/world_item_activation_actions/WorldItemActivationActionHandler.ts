@@ -9,7 +9,7 @@ export class WorldItemActivationActionHandler implements ActionHandler {
 
     public handle(type: string, world: World) {
         switch (type) {
-            case GameActionType.NEXT_TICK:
+            case GameActionType.PLAYER_MOVED:
                 const worldItem = this.getClosestActivatableWorldItem(world);
 
                 const prevItem = _.find(world.worldItems, item => item.isActivatableHighlightVisible === true);
@@ -19,7 +19,7 @@ export class WorldItemActivationActionHandler implements ActionHandler {
                 }
 
                 if (worldItem) {
-                    worldItem.isActivatableHighlightVisible = true;
+                    worldItem.setActivatableHighlightVisible(true);
                 }
 
                 break;

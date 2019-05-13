@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { ToolIcon } from '../../../../game/tools/ToolIcon';
+import { ToolIcon } from '../../dialogs/inventory_dialog/tools_icons/ToolIcon';
 
 const TOOL_WIDGET_SIZE = 30;
 

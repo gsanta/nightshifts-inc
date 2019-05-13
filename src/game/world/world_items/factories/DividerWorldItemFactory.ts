@@ -33,6 +33,7 @@ export class DividerWorldItemFactory {
         const [side1, side2] = this.createSideItems(container, gwmWorldItem);
 
         const door = new Door(container, side1, side2);
+        door.setBoudingBox(gwmWorldItem.dimensions);
         door.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
         this.setPivotMatrix(gwmWorldItem, door);
         return door;
