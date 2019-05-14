@@ -6,6 +6,7 @@ import { EnemyFactory } from '../world_items/factories/EnemyFactory';
 import { Polygon } from '@nightshifts.inc/geometry';
 import { WorldItemBoundingBoxCalculator } from './WorldItemBoundingBoxCalculator';
 import { WorldItemRotationCalculator } from './WorldItemRotationCalculator';
+import { Direction } from '../../model/utils/Direction';
 
 export interface GenericItemImporter<T> {
     createItem(itemInfo: T, world: World): WorldItem;
@@ -54,7 +55,9 @@ export class WorldFactory {
 
     public createBed(itemInfo: GwmWorldItem, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('bed');
-        return this.create(worldItemFactory, itemInfo, world);
+        const bed = this.create(worldItemFactory, itemInfo, world);
+        bed.hasDefaultAction = true;
+        return bed;
     }
 
     public createTable(itemInfo: GwmWorldItem, world: World): WorldItem {

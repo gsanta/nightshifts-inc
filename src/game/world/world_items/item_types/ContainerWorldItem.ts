@@ -11,6 +11,7 @@ export class ContainerWorldItem extends SimpleWorldItem {
     public mesh: Mesh;
     public neighbours: WorldItem[] = [];
     public parent: WorldItem;
+    public borderItems: WorldItem[] = [];
 
     public hasDefaultAction = false;
     material: StandardMaterial;
@@ -87,7 +88,7 @@ export class ContainerWorldItem extends SimpleWorldItem {
     }
 
     public getBoundingPolygon(): Polygon {
-        return this.children[0].getBoundingPolygon();
+        return this.boundingPolygon;
     }
 
     public getAbsoluteBoundingPolygon(): Polygon {
@@ -100,5 +101,10 @@ export class ContainerWorldItem extends SimpleWorldItem {
 
     public intersectsPoint(vector: VectorModel) {
         return this.mesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z));
+    }
+
+
+    public hasConnectionWith(worldItem: WorldItem): boolean {
+        return [...this.children, ...this.borderItems].indexOf(worldItem) !== -1;
     }
 }

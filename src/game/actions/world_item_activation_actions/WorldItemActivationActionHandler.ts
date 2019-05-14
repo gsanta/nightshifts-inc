@@ -4,6 +4,7 @@ import { GameActionType } from '../GameActionType';
 import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 import { VectorModel } from '../../model/core/VectorModel';
 import _ from 'lodash';
+import { Room } from '../../world/world_items/item_types/Room';
 
 export class WorldItemActivationActionHandler implements ActionHandler {
 
@@ -14,11 +15,14 @@ export class WorldItemActivationActionHandler implements ActionHandler {
 
                 const prevItem = _.find(world.worldItems, item => item.isActivatableHighlightVisible === true);
 
+
                 if (prevItem) {
-                    prevItem.isActivatableHighlightVisible = false;
+                    prevItem.setActivatableHighlightVisible(false);
                 }
 
-                if (worldItem) {
+                const activeRoom: Room = <Room> _.find(world.getWorldItemsByName('room'), (room: Room) => room.isActive);
+
+                if (activeRoom.hasConnectionWith(worldItem)) {
                     worldItem.setActivatableHighlightVisible(true);
                 }
 

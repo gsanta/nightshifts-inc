@@ -32,7 +32,8 @@ export class ModelFactory implements WorldItemFactory {
 
         const meshModel = new SimpleWorldItem(mesh, worldItem.name, worldItem.dimensions);
         meshModel.rotateY(rotation);
-        meshModel.setBoudingBox(boundingBox);
+        // meshModel.setBoudingBox(boundingBox);
+
 
         return meshModel;
     }

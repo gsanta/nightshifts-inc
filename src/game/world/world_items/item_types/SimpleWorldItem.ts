@@ -27,6 +27,10 @@ export class SimpleWorldItem implements WorldItem {
         this.boundingPolygon = boundingPolygon;
     }
 
+    public hasConnectionWith(worldItem: WorldItem): boolean {
+        return this.neighbours.indexOf(worldItem) !== -1;
+    }
+
     public getAllMeshes(): Mesh[] {
         return [this.mesh];
     }
@@ -88,6 +92,10 @@ export class SimpleWorldItem implements WorldItem {
 
     public translate(vectorModel: VectorModel) {
         this.mesh.translate(new Vector3(vectorModel.x, vectorModel.y, vectorModel.z), 1);
+    }
+
+    public getHeight(): number {
+        return this.mesh ? this.mesh.getBoundingInfo().boundingBox.maximumWorld.y * 2 : 12;
     }
 
     public scale(vectorModel: VectorModel) {

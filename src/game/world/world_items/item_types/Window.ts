@@ -143,7 +143,7 @@ export class Window extends ContainerWorldItem implements Border {
         this.mesh = containerMesh;
 
         children.forEach(child => child.setParent(this));
-        this.hasDefaultAction = true;
+        this.hasDefaultAction = false;
 
         this.sides = [
             new ContainerWorldItem(

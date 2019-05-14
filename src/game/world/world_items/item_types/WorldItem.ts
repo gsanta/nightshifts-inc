@@ -56,6 +56,7 @@ export interface WorldItem {
     hasDefaultAction: boolean;
     material: StandardMaterial;
     neighbours: WorldItem[];
+    hasConnectionWith(worldItem: WorldItem): boolean;
     getAllMeshes(): Mesh[];
     parent: WorldItem;
     doDefaultAction();
@@ -66,6 +67,7 @@ export interface WorldItem {
     setPosition(vectorModel: VectorModel): void;
 
     translate(vectorModel: VectorModel): void;
+    getHeight(): number;
     /**
      * scales the underlying Mesh (or Mesh system if it is a `ContainerWorldItem`) on the x, y, z plane given
      * the corresponding coordinates of the `VectorModel` parameter.
