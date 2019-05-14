@@ -56,7 +56,7 @@ export class WorldFactory {
     public createBed(itemInfo: GwmWorldItem, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('bed');
         const bed = this.create(worldItemFactory, itemInfo, world);
-        bed.hasDefaultAction = true;
+        bed.hasDefaultAction = false;
         return bed;
     }
 

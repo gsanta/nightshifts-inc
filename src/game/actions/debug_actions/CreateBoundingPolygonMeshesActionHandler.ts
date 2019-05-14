@@ -16,7 +16,11 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
             case GameActionType.GAME_IS_READY:
                 world.getWorldItemsByName('cupboard')
                     .forEach(item => {
+
                         item.boundingBox = this.createMesh(item, world);
+                        if ((<Room> item.parent).label !== 'room-1') {
+                            item.hasDefaultAction = false;
+                        }
                     });
 
                 world.getWorldItemsByName('door')

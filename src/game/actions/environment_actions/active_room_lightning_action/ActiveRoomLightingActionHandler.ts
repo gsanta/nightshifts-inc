@@ -14,7 +14,7 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
     private prevActiveRoom: Room;
     private lightSwitcher: NormalLightSwitcher;
     private flashingLightSwitcher: FlashingLightSwitcher;
-    private isShowCeiling = false;
+    private isShowCeiling = true;
 
     private constructor() {
         this.lightSwitcher = new NormalLightSwitcher();
