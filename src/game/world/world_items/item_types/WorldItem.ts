@@ -1,6 +1,7 @@
 import { Mesh, StandardMaterial } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
+import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
 
 export interface SerializedMeshModel {
     name: string;
@@ -60,6 +61,7 @@ export interface WorldItem {
     getAllMeshes(): Mesh[];
     parent: WorldItem;
     doDefaultAction();
+    setDefaultAction(command: WorldItemActionCommand);
     serialize(): SerializedMeshModel;
     unserialize(model: SerializedMeshModel): WorldItem;
     clone();

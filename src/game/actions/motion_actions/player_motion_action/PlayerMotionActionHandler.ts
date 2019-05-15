@@ -6,16 +6,12 @@ import { MotionStrategy } from '../MotionStrategy';
 import { ManualMotionStrategy } from '../ManualMotionStrategy';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { UserInputEventEmitter } from '../UserInputEventEmitter';
-import { ActionStrategy } from '../ActionStrategy';
-
 
 export class PlayerMotionActionHandler implements ActionHandler {
     private actionDispatcher: ActionDispatcher;
     private motionStrategy: MotionStrategy;
     private keyboardHandler: UserInputEventEmitter;
-    private actionStrategy: ActionStrategy;
     private previousTime: number = null;
-
 
     constructor(actionDispatcher: ActionDispatcher) {
         this.actionDispatcher = actionDispatcher;
@@ -56,7 +52,6 @@ export class PlayerMotionActionHandler implements ActionHandler {
     private initWhenGameIsReady(world: World) {
         const collisionDetector = new CollisionDetector(world.player, world.scene);
         this.motionStrategy = new ManualMotionStrategy(world.player, collisionDetector, this.keyboardHandler);
-        this.actionStrategy = new ActionStrategy(world.player, world);
-        this.keyboardHandler.onDoAction(() => this.actionStrategy.activateClosestMeshAction());
+        this.keyboardHandler.onDoAction(() => this.actionDispatcher.dispatch(GameActionType.ACTIVATE_CLOSEST_ACTIONABLE_WORLD_ITEM));
     }
 }

@@ -59,7 +59,7 @@ export class GameEngine {
                 actionDispatcher.registerActionHandler(new EnemyHitActionHandler(actionDispatcher));
                 actionDispatcher.registerActionHandler(new LampBehaviourActionHandler());
                 actionDispatcher.registerActionHandler(new PlayerMotionActionHandler(actionDispatcher));
-                actionDispatcher.registerActionHandler(new CreateBoundingPolygonMeshesActionHandler());
+                actionDispatcher.registerActionHandler(new CreateBoundingPolygonMeshesActionHandler(actionDispatcher));
                 actionDispatcher.registerActionHandler(new WorldItemActivationActionHandler());
 
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());

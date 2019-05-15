@@ -5,6 +5,8 @@ import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
 import { ContainerWorldItem } from './ContainerWorldItem';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 import isNumber from 'lodash/isNumber';
+import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
+import { EmptyCommand } from '../action_strategies/EmptyCommand';
 
 export class SimpleWorldItem implements WorldItem {
     public mesh: Mesh;
@@ -16,6 +18,8 @@ export class SimpleWorldItem implements WorldItem {
     public neighbours: WorldItem[] = [];
     public material: StandardMaterial;
     public isActivatableHighlightVisible = false;
+
+    private defaultAction: WorldItemActionCommand = new EmptyCommand();
 
     protected boundingPolygon: Polygon;
 
@@ -36,7 +40,11 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public doDefaultAction() {
-        throw new Error('No default action defined');
+        this.defaultAction.execute();
+    }
+
+    public setDefaultAction(command: WorldItemActionCommand) {
+        this.defaultAction = command;
     }
 
     public serialize(): SerializedMeshModel {

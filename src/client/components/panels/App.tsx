@@ -47,7 +47,7 @@ class App extends React.Component<any, AppComponentState> {
             <div>
                 <Header/>
 
-                <Game/>
+                <Game openInventory={() => this.props.history.push('/inventory')} />
 
                 <Route exact path="/settings" component={ApplicationSettingsRoute}/>
                 <Route exact path="/inventory" component={InventoryRoute}/>

@@ -7,9 +7,16 @@ import _ from 'lodash';
 import { Room } from '../../world/world_items/item_types/Room';
 import { SimpleWorldItem } from '../../world/world_items/item_types/SimpleWorldItem';
 import { WorldItem } from '../../world/world_items/item_types/WorldItem';
+import { ActionDispatcher } from '../ActionDispatcher';
+import { OpenInventoryCommand } from '../../world/world_items/action_strategies/OpenInventoryCommand';
 
 
 export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
+    private actionDispatcher: ActionDispatcher;
+
+    constructor(actionDispatcher: ActionDispatcher) {
+        this.actionDispatcher = actionDispatcher;
+    }
 
     public handle(type: string, world: World) {
         switch (type) {
@@ -18,7 +25,10 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
                     .forEach(item => {
 
                         item.boundingBox = this.createMesh(item, world);
-                        if ((<Room> item.parent).label !== 'room-1') {
+
+                        if ((<Room> item.parent).label === 'room-1') {
+                            item.setDefaultAction(new OpenInventoryCommand(this.actionDispatcher));
+                        } else {
                             item.hasDefaultAction = false;
                         }
                     });

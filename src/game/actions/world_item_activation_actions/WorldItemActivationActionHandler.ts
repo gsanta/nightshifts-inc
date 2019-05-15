@@ -7,7 +7,6 @@ import _ from 'lodash';
 import { Room } from '../../world/world_items/item_types/Room';
 
 export class WorldItemActivationActionHandler implements ActionHandler {
-
     public handle(type: string, world: World) {
         switch (type) {
             case GameActionType.PLAYER_MOVED:
@@ -26,6 +25,12 @@ export class WorldItemActivationActionHandler implements ActionHandler {
                     worldItem.setActivatableHighlightVisible(true);
                 }
 
+                break;
+
+            case GameActionType.ACTIVATE_CLOSEST_ACTIONABLE_WORLD_ITEM:
+                const activeWorldItem = _.find(world.worldItems, item => item.isActivatableHighlightVisible);
+
+                activeWorldItem.doDefaultAction();
                 break;
             default:
                 break;

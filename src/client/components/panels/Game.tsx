@@ -20,6 +20,7 @@ import { Widgetbar } from '../widgets/Widgetbar';
 import { ToolIcon } from '../dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
 import SetGameActionDispatcherActions from '../../state/world_state/world_actions/SetGameActionDispatcherActions';
+import { GameActionType } from '../../../game/actions/GameActionType';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -83,6 +84,14 @@ class Game extends React.Component<GameProps, GameState> {
                 actionDispatcher.registerActionHandler({
                     handle: (type: string, w: World) => {
                         this.props.setWidgetUpdate(w.player.health);
+
+                        switch (type) {
+                            case GameActionType.OPEN_INVENTORY:
+                                this.props.openInventory();
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 });
 
@@ -134,6 +143,7 @@ export interface GameProps {
     actionDispatcher: ActionDispatcher;
     setWidgetUpdate(health: number): void;
     setGameActionDispatcher(gameActionDispatcher: ActionDispatcher);
+    openInventory(): void;
 }
 
 export interface GameState {
