@@ -4,6 +4,7 @@ import { ToolIcon } from '../../../../client/components/dialogs/inventory_dialog
 import { Tool } from '../../../tools/Tool';
 import { ActionHandler } from '../../ActionHandler';
 import find from 'lodash/find';
+import _ from 'lodash';
 
 export class ToolSelectionActionHandler implements ActionHandler {
     private toolMeshes: Tool[];
@@ -12,24 +13,26 @@ export class ToolSelectionActionHandler implements ActionHandler {
         this.toolMeshes = toolMeshes;
     }
 
-    public handle(type: string, world: World, tool: ToolIcon) {
+    public handle(type: string, world: World, toolIcon: ToolIcon) {
         switch (type) {
             case GameActionType.ACTIVATE_TOOL:
-                this.selectToolToActivate(tool).enable();
+                const tool = this.selectToolByName(toolIcon.name);
+                _.without(this.toolMeshes, tool).forEach(t => t.disable());
+                tool.enable();
                 break;
             case GameActionType.DEACTIVATE_TOOL:
-                this.selectToolToActivate(tool).disable();
+                this.selectToolByName(toolIcon.name).disable();
                 break;
             default:
                 break;
         }
     }
 
-    private selectToolToActivate(tool: ToolIcon) {
-        const toolToActivate = find(this.toolMeshes, toolMesh => toolMesh.name === tool.getName());
+    private selectToolByName(name: string) {
+        const toolToActivate = find(this.toolMeshes, toolMesh => toolMesh.name === name);
 
         if (!toolToActivate) {
-            throw new Error(`No matching ToolActivationPlugin for tool: ${tool.getName()}`);
+            throw new Error(`No matching ToolActivationPlugin for tool: ${name}`);
         }
 
         return toolToActivate;

@@ -1,7 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { useRef, useEffect } from 'react';
-import * as d3 from 'd3';
 import { Progressbar } from './Progressbar';
 
 const WIDGET_HEIGHT = 17;

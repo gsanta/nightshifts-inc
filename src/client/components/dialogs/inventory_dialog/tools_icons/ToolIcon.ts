@@ -1,8 +1,12 @@
 
 
+export interface ToolIconRenderer {
+    clone(): ToolIcon;
+}
+
 export interface ToolIcon {
-    getName(): string;
-    isCarrying(): boolean;
-    setCarrying(carrying: boolean): ToolIcon;
+    readonly name: string;
+    readonly isCarrying: boolean;
+    readonly isActive: boolean;
     getIcon(iconSize: number): JSX.Element;
 }

@@ -29,14 +29,14 @@ const InventoryDialog = (props: InventoryDialogProps) => {
     const onDrop = React.useCallback(
         (e: React.DragEvent) => {
             const toolName = e.dataTransfer.getData('id');
-            props.grabTool(find(props.tools, tool => tool.getName() === toolName));
+            props.grabTool(find(props.tools, tool => tool.name === toolName));
         },
         [],
     );
 
     const carriedTools = props.tools
-        .filter(tool => tool.isCarrying()).map(tool =>  <InventoryItem key={tool.getName()} tool={tool} close={() => props.releaseTool(tool)}/>);
-    const tools = props.tools.map(tool =>  <InventoryItem key={tool.getName()} draggable={true} tool={tool}/>);
+        .filter(tool => tool.isCarrying).map(tool =>  <InventoryItem key={tool.name} tool={tool} close={() => props.releaseTool(tool)}/>);
+    const tools = props.tools.map(tool =>  <InventoryItem key={tool.name} draggable={true} tool={tool}/>);
 
     return (
         <div>

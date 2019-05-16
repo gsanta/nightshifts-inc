@@ -21,6 +21,7 @@ import { ToolIcon } from '../dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
 import SetGameActionDispatcherActions from '../../state/world_state/world_actions/SetGameActionDispatcherActions';
 import { GameActionType } from '../../../game/actions/GameActionType';
+import ActivateToolActions from '../../state/tools_state/tools_actions/ActivateToolActions';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -38,7 +39,8 @@ const mapDispatchToProps = dispatch => ({
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
     setWorld: (world: World) => dispatch(SetWorldAction.request(world)),
     setGameActionDispatcher: (gameActionDispatcher: ActionDispatcher) => dispatch(SetGameActionDispatcherActions.request(gameActionDispatcher)),
-    setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health))
+    setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health)),
+    activateTool: (tool: ToolIcon) => dispatch(ActivateToolActions.request(tool))
 });
 
 const WidgetContainer = styled.div`
@@ -77,7 +79,6 @@ class Game extends React.Component<GameProps, GameState> {
             .import(gwmGameWorldMap)
             .then((world) => {
                 this.props.setWorld(world);
-                console.log('leeeefuuuutt');
                 const actionDispatcher = new ActionDispatcher(world);
                 this.props.setGameActionDispatcher(actionDispatcher);
 
@@ -117,8 +118,8 @@ class Game extends React.Component<GameProps, GameState> {
 
     public render() {
         const widgets = this.props.tools
-            .filter(tool => tool.isCarrying())
-            .map(tool => <ToolWidget tool={tool}/>);
+            .filter(tool => tool.isCarrying)
+            .map(tool => <ToolWidget activateTool={this.props.activateTool} tool={tool}/>);
 
         return (
             <div>
@@ -144,6 +145,7 @@ export interface GameProps {
     setWidgetUpdate(health: number): void;
     setGameActionDispatcher(gameActionDispatcher: ActionDispatcher);
     openInventory(): void;
+    activateTool(tool: ToolIcon): void;
 }
 
 export interface GameState {

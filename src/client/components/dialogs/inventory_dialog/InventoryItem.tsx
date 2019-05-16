@@ -37,7 +37,7 @@ export const InventoryItem: React.SFC<InventoryItemProps> = styled(
     (props: InventoryItemProps) => {
         const closeButton = props.close ? <InventoryItemCloseButton onClick={props.close}/> : null;
         return (
-            <InventoryItemBackground draggable={props.draggable} onDragStart={(e) => e.dataTransfer.setData('id', props.tool.getName())}>
+            <InventoryItemBackground draggable={props.draggable} onDragStart={(e) => e.dataTransfer.setData('id', props.tool.name)}>
                 {closeButton}
                 {props.tool.getIcon(INVENTORY_ITEM_SIZE)}
             </InventoryItemBackground>
