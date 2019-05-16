@@ -12,7 +12,9 @@ export const ThermometerIconStyled = styled.div`
     height: ${(props: {size: number}) => props.size}px;
     background-image: url(${thermometer});
     background-position: center;
-    background-size: contain;
+    background-size: ${(props: {size: number}) => props.size - 6}px;
+    background-repeat: no-repeat;
+    padding: 3px;
 `;
 
 const initialState = [

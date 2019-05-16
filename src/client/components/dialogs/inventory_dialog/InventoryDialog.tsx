@@ -7,6 +7,7 @@ import { DialogTemplateProps } from '../../../components/dialogs/dialog_template
 import { TitleLine } from '../../../components/dialogs/dialog_template/TitleLine';
 import colors from '../../miscellaneous/colors';
 import { INVENTORY_ITEM_SIZE, InventoryItem } from './InventoryItem';
+import * as _ from 'lodash';
 
 const ToolsOnYouSectionStyled = styled.div`
     min-height: ${INVENTORY_ITEM_SIZE + 10}px;
@@ -36,7 +37,9 @@ const InventoryDialog = (props: InventoryDialogProps) => {
 
     const carriedTools = props.tools
         .filter(tool => tool.isCarrying).map(tool =>  <InventoryItem key={tool.name} tool={tool} close={() => props.releaseTool(tool)}/>);
-    const tools = props.tools.map(tool =>  <InventoryItem key={tool.name} draggable={true} tool={tool}/>);
+    const restOfTheTools = props.tools
+                            .filter(tool => !tool.isCarrying)
+                            .map(tool =>  <InventoryItem key={tool.name} draggable={true} tool={tool}/>);
 
     return (
         <div>
@@ -46,7 +49,7 @@ const InventoryDialog = (props: InventoryDialogProps) => {
             </ToolsOnYouSectionStyled>
             <TitleLine marginBottom={15} marginTop={10}>tools in the locker</TitleLine>
             <ToolsInTheLockerStyled>
-                {tools}
+                {restOfTheTools}
             </ToolsInTheLockerStyled>
         </div>
     );
