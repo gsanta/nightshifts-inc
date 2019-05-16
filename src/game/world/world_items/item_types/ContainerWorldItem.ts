@@ -16,8 +16,8 @@ export class ContainerWorldItem extends SimpleWorldItem {
     public hasDefaultAction = false;
     material: StandardMaterial;
 
-    constructor(children: WorldItem[], type?: string) {
-        super(null, type, null);
+    constructor(children: WorldItem[], type?: string, boundingBox?: Polygon) {
+        super(null, type, boundingBox);
         this.children = children;
     }
 
@@ -45,14 +45,14 @@ export class ContainerWorldItem extends SimpleWorldItem {
     public setPosition(position: VectorModel) {
         this.mesh.position = new Vector3(position.x, position.y, position.z);
 
-        const boundingCenter = this.boundingPolygon.getBoundingCenter();
+        const boundingCenter = this.boundingBox.getBoundingCenter();
         const [dx, dy] = boundingCenter.distanceTo(new Point(position.x, position.z));
 
-        this.boundingPolygon = this.boundingPolygon.addX(dx);
-        this.boundingPolygon = this.boundingPolygon.addY(dy);
+        this.boundingBox = this.boundingBox.addX(dx);
+        this.boundingBox = this.boundingBox.addY(dy);
 
-        if (this.boundingBox) {
-            this.boundingBox.position = new Vector3(position.x, 1, position.z);
+        if (this.boundingMesh) {
+            this.boundingMesh.position = new Vector3(position.x, 1, position.z);
         }
     }
 
@@ -87,12 +87,12 @@ export class ContainerWorldItem extends SimpleWorldItem {
         return new ContainerWorldItem(clonedChildren);
     }
 
-    public getBoundingPolygon(): Polygon {
-        return this.boundingPolygon;
+    public getBoundingBox(): Polygon {
+        return this.boundingBox;
     }
 
     public getAbsoluteBoundingPolygon(): Polygon {
-        return this.children[0].getBoundingPolygon();
+        return this.children[0].getBoundingBox();
     }
 
     public setParent(worldItem: WorldItem) {

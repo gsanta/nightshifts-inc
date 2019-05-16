@@ -18,19 +18,19 @@ export class Room extends ContainerWorldItem {
         super([]);
         this.type = name;
         this.mesh = mesh;
-        this.boundingPolygon = boundingPolygon;
+        this.boundingBox = boundingPolygon;
     }
 
     public getAllMeshes(): Mesh[] {
         return [this.mesh, ...super.getAllMeshes()];
     }
 
-    public getBoundingPolygon(): Polygon {
-        return this.boundingPolygon;
+    public getBoundingBox(): Polygon {
+        return this.boundingBox;
     }
 
     public getCenterPosition(): VectorModel {
-        const center = this.boundingPolygon.getBoundingCenter();
+        const center = this.boundingBox.getBoundingCenter();
         return new VectorModel(center.x, 0, center.y);
     }
 

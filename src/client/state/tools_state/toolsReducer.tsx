@@ -14,7 +14,6 @@ export const ThermometerIconStyled = styled.div`
     background-position: center;
     background-size: ${(props: {size: number}) => props.size - 6}px;
     background-repeat: no-repeat;
-    padding: 3px;
 `;
 
 const initialState = [
@@ -22,6 +21,7 @@ const initialState = [
         name: 'thermometer',
         isCarrying: false,
         isActive: false,
+        storageIndex: null,
         getIcon(iconSize: number): JSX.Element {
             return (
                 <ThermometerIconStyled size={iconSize}/>
@@ -32,9 +32,10 @@ const initialState = [
         name: 'flashlight',
         isCarrying: false,
         isActive: false,
+        storageIndex: null,
         getIcon(iconSize: number): JSX.Element {
             return (
-                <Highlight style={{width: `${iconSize}px`, height: `${iconSize}px`}}/>
+                <Highlight style={{width: `${iconSize - 6}px`, height: `${iconSize - 6}px`, padding: '3px'}}/>
             );
         }
     },
@@ -42,15 +43,16 @@ const initialState = [
         name: 'camera',
         isCarrying: false,
         isActive: false,
+        storageIndex: null,
         getIcon(iconSize: number): JSX.Element {
             return (
-                <PhotoCamera style={{width: `${iconSize}px`, height: `${iconSize}px`}}/>
+                <PhotoCamera style={{width: `${iconSize - 6}px`, height: `${iconSize - 6}px`, padding: '3px'}}/>
             );
         }
-    },
+    }
 ];
 
-export const toolsReducer = (state: ToolIcon[] = initialState, action: {type: string, tool: ToolIcon}): ToolIcon[] => {
+export const toolsReducer = (state: ToolIcon[] = initialState, action: {type: string, tool: ToolIcon, storageIndex?: number}): ToolIcon[] => {
     const tools = [...state];
     let index: number;
     switch (action.type) {
@@ -59,15 +61,20 @@ export const toolsReducer = (state: ToolIcon[] = initialState, action: {type: st
 
             return tools.map(t => t !== action.tool ? {...t, isActive: false } : {...t, isActive: true});
 
+        case ActionType.DEACTIVATE_TOOL:
+            index = findIndex(tools, tool => tool.name === action.tool.name);
+
+            return tools.map(t => t !== action.tool ? t : {...t, isActive: false});
+
         case ActionType.GRAB_TOOL:
             index = findIndex(tools, tool => tool.name === action.tool.name);
 
-            tools.splice(index, 1, {...action.tool, isCarrying: true});
+            tools.splice(index, 1, {...action.tool, isCarrying: true, storageIndex: action.storageIndex});
             return tools;
         case ActionType.RELEASE_TOOL:
             index = findIndex(tools, tool => tool.name === action.tool.name);
 
-            tools.splice(index, 1, {...action.tool, isCarrying: false});
+            tools.splice(index, 1, {...action.tool, isCarrying: false, storageIndex: null});
             return tools;
         default:
             return state;

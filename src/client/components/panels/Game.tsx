@@ -22,6 +22,7 @@ import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
 import SetGameActionDispatcherActions from '../../state/world_state/world_actions/SetGameActionDispatcherActions';
 import { GameActionType } from '../../../game/actions/GameActionType';
 import ActivateToolActions from '../../state/tools_state/tools_actions/ActivateToolActions';
+import DeactivateToolActions from '../../state/tools_state/tools_actions/DeactivateToolActions';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -40,7 +41,8 @@ const mapDispatchToProps = dispatch => ({
     setWorld: (world: World) => dispatch(SetWorldAction.request(world)),
     setGameActionDispatcher: (gameActionDispatcher: ActionDispatcher) => dispatch(SetGameActionDispatcherActions.request(gameActionDispatcher)),
     setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health)),
-    activateTool: (tool: ToolIcon) => dispatch(ActivateToolActions.request(tool))
+    activateTool: (tool: ToolIcon) => dispatch(ActivateToolActions.request(tool)),
+    deactivateTool: (tool: ToolIcon) => dispatch(DeactivateToolActions.request(tool)),
 });
 
 const WidgetContainer = styled.div`
@@ -119,7 +121,11 @@ class Game extends React.Component<GameProps, GameState> {
     public render() {
         const widgets = this.props.tools
             .filter(tool => tool.isCarrying)
-            .map(tool => <ToolWidget activateTool={this.props.activateTool} tool={tool}/>);
+            .map(tool => <ToolWidget
+                    onClick={t => t.isActive ? this.props.deactivateTool(t) : this.props.activateTool(t)}
+                    tool={tool}
+                />
+            );
 
         return (
             <div>
@@ -146,6 +152,7 @@ export interface GameProps {
     setGameActionDispatcher(gameActionDispatcher: ActionDispatcher);
     openInventory(): void;
     activateTool(tool: ToolIcon): void;
+    deactivateTool(tool: ToolIcon): void;
 }
 
 export interface GameState {

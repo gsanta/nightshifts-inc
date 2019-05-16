@@ -1,23 +1,14 @@
-import { takeEvery } from 'redux-saga/effects';
 import { ToolIcon } from '../../../components/dialogs/inventory_dialog/tools_icons/ToolIcon';
-import { ActionType, WatchableAction } from '../../ActionType';
+import { ActionType } from '../../ActionType';
 
-class GrabToolActions implements WatchableAction<any> {
-    public request(tool: ToolIcon) {
+class GrabToolActions {
+    public request(tool: ToolIcon, storageIndex: number) {
 
         return {
             type: ActionType.GRAB_TOOL,
-            tool
+            tool,
+            storageIndex
         };
-    }
-
-    public *watch() {
-        yield takeEvery<any>(ActionType.GRAB_TOOL, this.activateTool);
-    }
-
-    private *activateTool(action: {tool: ToolIcon}) {
-        // const gameActionDispatcher: ActionDispatcher = yield select(WorldSelections.getGameActionDispatcher);
-        // gameActionDispatcher.dispatch(GameActionType.ACTIVATE_TOOL, action.tool);
     }
 }
 

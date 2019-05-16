@@ -12,7 +12,7 @@ const ToolWidgetStyled = styled.div`
 `;
 
 export const ToolWidget = (props: ToolWidgetProps) => {
-    const handleClick = () => props.activateTool(props.tool);
+    const handleClick = () => props.onClick(props.tool);
 
     return (
         <ToolWidgetStyled {...props} onClick={handleClick}>
@@ -23,5 +23,5 @@ export const ToolWidget = (props: ToolWidgetProps) => {
 
 export interface ToolWidgetProps {
     tool: ToolIcon;
-    activateTool(tool: ToolIcon): void;
+    onClick(tool: ToolIcon): void;
 }

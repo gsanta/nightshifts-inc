@@ -37,14 +37,19 @@ export interface SerializedMeshModel {
 }
 
 export interface WorldItem {
-    isActivatableHighlightVisible: boolean;
-    setActivatableHighlightVisible(visible: boolean);
-    mesh?: Mesh;
     /**
-     * The enclosing bounding box of the mesh, for optimization reasons it can be null and we calculate it only
-     * for debugging purposes.
+     * Determines whether the bounding mesh (which can be set through the `setBoundingMesh`) is visible or not
      */
-    boundingBox?: Mesh;
+    isBoundingMeshVisible(): boolean;
+    setBoundingMeshVisible(visible: boolean);
+
+    mesh?: Mesh;
+
+    /**
+     * A cuboid mesh that encloses all of the meshes of the WorldItem
+     */
+    getBoundingMesh(): Mesh;
+    setBoundingMesh(mesh: Mesh);
     /**
      * Similar to what `instanceof` could be used for, similar objects should have the same type.
      * E.g room, wall etc.
@@ -55,13 +60,14 @@ export interface WorldItem {
      */
     name?: string;
     hasDefaultAction: boolean;
+    doDefaultAction();
+    setDefaultAction(command: WorldItemActionCommand);
+
     material: StandardMaterial;
     neighbours: WorldItem[];
     hasConnectionWith(worldItem: WorldItem): boolean;
     getAllMeshes(): Mesh[];
     parent: WorldItem;
-    doDefaultAction();
-    setDefaultAction(command: WorldItemActionCommand);
     serialize(): SerializedMeshModel;
     unserialize(model: SerializedMeshModel): WorldItem;
     clone();
@@ -78,8 +84,14 @@ export interface WorldItem {
     getScale(): VectorModel;
     rotateY(amount: number);
     getRotation(): VectorModel;
+    /**
+     * @deprecated use `getBoundingBox().getBoundingCenter()` and convert that `Polygon` to a `VectorModel`
+     */
     getCenterPosition(): VectorModel;
-    getBoundingPolygon(): Polygon;
+    getBoundingBox(): Polygon;
+    /**
+     * @deprecated should use `getBoundingBox()`
+     */
     getAbsoluteBoundingPolygon(): Polygon;
     setParent(worldItem: WorldItem);
     intersectsPoint(vector: VectorModel);

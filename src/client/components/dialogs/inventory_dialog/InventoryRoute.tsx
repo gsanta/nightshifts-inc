@@ -15,7 +15,7 @@ const mapStateToProps = (state: AppState) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    grabTool: (tool: ToolIcon) => dispatch(GrabToolActions.request(tool)),
+    grabTool: (tool: ToolIcon, index: number) => dispatch(GrabToolActions.request(tool, index)),
     releaseTool: (tool: ToolIcon) => dispatch(ReleaseToolActions.request(tool))
 });
 

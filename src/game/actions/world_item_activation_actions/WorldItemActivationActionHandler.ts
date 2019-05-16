@@ -12,23 +12,23 @@ export class WorldItemActivationActionHandler implements ActionHandler {
             case GameActionType.PLAYER_MOVED:
                 const worldItem = this.getClosestActivatableWorldItem(world);
 
-                const prevItem = _.find(world.worldItems, item => item.isActivatableHighlightVisible === true);
+                const prevItem = _.find(world.worldItems, item => item.isBoundingMeshVisible() === true);
 
 
                 if (prevItem) {
-                    prevItem.setActivatableHighlightVisible(false);
+                    prevItem.setBoundingMeshVisible(false);
                 }
 
                 const activeRoom: Room = <Room> _.find(world.getWorldItemsByName('room'), (room: Room) => room.isActive);
 
                 if (activeRoom.hasConnectionWith(worldItem)) {
-                    worldItem.setActivatableHighlightVisible(true);
+                    worldItem.setBoundingMeshVisible(true);
                 }
 
                 break;
 
             case GameActionType.ACTIVATE_CLOSEST_ACTIONABLE_WORLD_ITEM:
-                const activeWorldItem = _.find(world.worldItems, item => item.isActivatableHighlightVisible);
+                const activeWorldItem = _.find(world.worldItems, item => item.isBoundingMeshVisible());
 
                 activeWorldItem.doDefaultAction();
                 break;

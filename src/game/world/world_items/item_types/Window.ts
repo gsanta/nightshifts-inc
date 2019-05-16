@@ -17,8 +17,8 @@ const colors = GameConstants.colors;
 
 export class WindowGlass extends ContainerWorldItem {
 
-    public constructor(mesh: Mesh, children: WorldItem[]) {
-        super(children);
+    public constructor(mesh: Mesh, children: [WorldItem, WorldItem]) {
+        super(children, '');
         this.mesh = mesh;
     }
 

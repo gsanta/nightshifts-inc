@@ -10,12 +10,11 @@ import LoginActions from '../user_state/user_actions/LoginActions';
 import SignupActions from '../user_state/user_actions/SignupActions';
 import UpdatePasswordActions from '../user_state/user_actions/UpdatePasswordActions';
 import UpdateUserActions from '../user_state/user_actions/UpdateUserActions';
-import GrabToolActions from '../tools_state/tools_actions/GrabToolActions';
-import ReleaseToolActions from '../tools_state/tools_actions/ReleaseToolActions';
 import TurnOnAllLigthsActions from '../debug_state/debug_actions/TurnOnAllLigthsActions';
 import ShowRoomLabelsActions from '../debug_state/debug_actions/ShowRoomLabelsActions';
 import ShowBoundingBoxesAction from '../debug_state/debug_actions/ShowBoundingBoxesActions';
 import ActivateToolActions from '../tools_state/tools_actions/ActivateToolActions';
+import DeactivateToolActions from '../tools_state/tools_actions/DeactivateToolActions';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -36,12 +35,11 @@ sagaMiddleware.run(function* rootSaga() {
         UpdateUserActions.watch(),
         // UpdateWorldActions.watch(),
         GetWorldActions.watch(),
-        GrabToolActions.watch(),
-        ReleaseToolActions.watch(),
         TurnOnAllLigthsActions.watch(),
         ShowRoomLabelsActions.watch(),
         ShowBoundingBoxesAction.watch(),
-        ActivateToolActions.watch()
+        ActivateToolActions.watch(),
+        DeactivateToolActions.watch()
     ]);
 });
 

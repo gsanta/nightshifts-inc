@@ -118,12 +118,12 @@ export class Wall extends ContainerWorldItem implements Border {
         this.parentMesh.translate(vectorModel);
     }
 
-    public getBoundingPolygon(): Polygon {
-        return this.parentMesh.getBoundingPolygon();
+    public getBoundingBox(): Polygon {
+        return this.parentMesh.getBoundingBox();
     }
 
     public getAbsoluteBoundingPolygon(): Polygon {
-        return this.getBoundingPolygon();
+        return this.getBoundingBox();
     }
 
     public scale(vectorModel: VectorModel) {

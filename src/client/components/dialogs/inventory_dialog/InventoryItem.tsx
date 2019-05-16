@@ -7,6 +7,7 @@ export const INVENTORY_ITEM_SIZE = 50;
 
 const InventoryItemBackground = styled.div`
     position: relative;
+
     background: repeating-linear-gradient(
         45deg,
         #E2F1FF,

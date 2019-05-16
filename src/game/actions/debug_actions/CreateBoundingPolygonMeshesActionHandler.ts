@@ -24,7 +24,7 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
                 world.getWorldItemsByName('cupboard')
                     .forEach(item => {
 
-                        item.boundingBox = this.createMesh(item, world);
+                        item.setBoundingMesh(this.createMesh(item, world));
 
                         if ((<Room> item.parent).label === 'room-1') {
                             item.setDefaultAction(new OpenInventoryCommand(this.actionDispatcher));
@@ -35,12 +35,12 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
 
                 world.getWorldItemsByName('door')
                     .forEach(item => {
-                        item.boundingBox = this.createMesh(item, world);
+                        item.setBoundingMesh(this.createMesh(item, world));
                     });
 
                 world.getWorldItemsByName('bed')
                     .forEach(item => {
-                        item.boundingBox = this.createMesh(item, world);
+                        item.setBoundingMesh(this.createMesh(item, world));
                     });
 
                 // world.getWorldItemsByName('window')
@@ -54,7 +54,7 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
                 const room: Room = <Room> _.find(world.getWorldItemsByName('room'), (r: Room) => r.label === 'room-1');
                 const cupboard: SimpleWorldItem = <SimpleWorldItem> _.find(room.children, child => child.type === 'cupboard');
 
-                cupboard.boundingBox = this.createMesh(cupboard, world);
+                cupboard.boundingMesh = this.createMesh(cupboard, world);
                 // cupboard.boundingBox = this.createMesh(<Rectangle> new Rectangle(0, 0, 1, 1), world);
                 break;
             default:
@@ -63,7 +63,7 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
     }
 
     private createMesh(worldItem: WorldItem, world: World): Mesh {
-        const boundingPolygon = worldItem.getBoundingPolygon();
+        const boundingPolygon = worldItem.getBoundingBox();
 
         const box = MeshBuilder.CreateBox(
             `bounding-box`,

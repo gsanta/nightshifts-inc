@@ -32,7 +32,7 @@ export class CreateMainLightActionHandler implements ActionHandler {
     }
 
     private createRoomLight(room: Room, scene: Scene) {
-        const dimensions = room.getBoundingPolygon();
+        const dimensions = room.getBoundingBox();
         console.log('Creating light');
         console.log(dimensions);
         const center = {

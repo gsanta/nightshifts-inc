@@ -8,10 +8,12 @@ import { TitleLine } from '../../../components/dialogs/dialog_template/TitleLine
 import colors from '../../miscellaneous/colors';
 import { INVENTORY_ITEM_SIZE, InventoryItem } from './InventoryItem';
 import * as _ from 'lodash';
+import { PlaceholderItem } from './PlaceholderItem';
 
-const ToolsOnYouSectionStyled = styled.div`
+const PickedToolsSection = styled.div`
     min-height: ${INVENTORY_ITEM_SIZE + 10}px;
     display: flex;
+    justify-content: center;
 `;
 
 const ToolsInTheLockerStyled = styled.div`
@@ -19,24 +21,27 @@ const ToolsInTheLockerStyled = styled.div`
     display: flex;
 `;
 
+const PickToolSlot = styled.div`
+
+`;
+
 const InventoryDialog = (props: InventoryDialogProps) => {
-    const onDragOver = React.useCallback(
-        (e: React.ChangeEvent<any>) => {
-            e.preventDefault();
-        },
-        [],
-    );
 
     const onDrop = React.useCallback(
-        (e: React.DragEvent) => {
-            const toolName = e.dataTransfer.getData('id');
-            props.grabTool(find(props.tools, tool => tool.name === toolName));
+        (toolName: string, storageIndex: number) => {
+            props.grabTool(_.find(props.tools, (tool) => tool.name === toolName), storageIndex);
         },
         [],
     );
 
-    const carriedTools = props.tools
-        .filter(tool => tool.isCarrying).map(tool =>  <InventoryItem key={tool.name} tool={tool} close={() => props.releaseTool(tool)}/>);
+    const maxPickedTools = 2;
+    const carriedTools = _.range(0, maxPickedTools).map((storageIndex: number) => {
+        const tool = _.find(props.tools, t => t.storageIndex === storageIndex);
+        return tool ?
+            <InventoryItem key={tool.name} tool={tool} close={() => props.releaseTool(tool)}/> :
+            <PlaceholderItem onDrop={onDrop} storageIndex={storageIndex}/>;
+    });
+
     const restOfTheTools = props.tools
                             .filter(tool => !tool.isCarrying)
                             .map(tool =>  <InventoryItem key={tool.name} draggable={true} tool={tool}/>);
@@ -44,9 +49,9 @@ const InventoryDialog = (props: InventoryDialogProps) => {
     return (
         <div>
             <TitleLine marginBottom={15} marginTop={15}>tools on you</TitleLine>
-            <ToolsOnYouSectionStyled onDragOver={onDragOver} onDrop={onDrop}>
+            <PickedToolsSection>
                 {carriedTools}
-            </ToolsOnYouSectionStyled>
+            </PickedToolsSection>
             <TitleLine marginBottom={15} marginTop={10}>tools in the locker</TitleLine>
             <ToolsInTheLockerStyled>
                 {restOfTheTools}
@@ -66,6 +71,6 @@ export default withDialog(InventoryDialog, {
 
 export interface InventoryDialogProps extends DialogTemplateProps {
     tools: ToolIcon[];
-    grabTool(tool: ToolIcon);
+    grabTool(tool: ToolIcon, index: number);
     releaseTool(tool: ToolIcon);
 }

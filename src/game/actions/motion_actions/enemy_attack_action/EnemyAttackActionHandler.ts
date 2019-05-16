@@ -34,7 +34,7 @@ export class EnemyAttackActionHandler implements ActionHandler {
 
                 if (this.enemy && activeRoom === this.enemy.parent) {
                     this.enemyMotionState = 'attacking';
-                    const center = this.enemy.getBoundingPolygon().getBoundingCenter();
+                    const center = this.enemy.getBoundingBox().getBoundingCenter();
                     this.initialPosition = new VectorModel(center.x, 0, center.y);
                 }
 
@@ -65,7 +65,7 @@ export class EnemyAttackActionHandler implements ActionHandler {
         const target = world.player;
         let distance = 0.5;
         const destination = target.getCenterPosition();
-        const center = this.enemy.getBoundingPolygon().getBoundingCenter();
+        const center = this.enemy.getBoundingBox().getBoundingCenter();
         const currentPosition = new VectorModel(center.x, 0, center.y);
 
         const direction = destination.subtract(currentPosition).normalize();
@@ -82,7 +82,7 @@ export class EnemyAttackActionHandler implements ActionHandler {
         const target = world.player;
         let distance = 0.5;
         const destination = this.initialPosition;
-        const center = this.enemy.getBoundingPolygon().getBoundingCenter();
+        const center = this.enemy.getBoundingBox().getBoundingCenter();
         const currentPosition = new VectorModel(center.x, 0, center.y);
 
         const direction = destination.subtract(currentPosition).normalize();

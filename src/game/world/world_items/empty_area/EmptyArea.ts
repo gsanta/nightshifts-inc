@@ -8,16 +8,16 @@ export class EmptyArea extends SimpleWorldItem {
     constructor(mesh: Mesh, boundingPolygon: Polygon) {
         super(mesh, 'empty', boundingPolygon);
 
-        this.boundingPolygon = boundingPolygon;
+        this.boundingBox = boundingPolygon;
     }
 
     public getCenterPosition(): VectorModel {
-        const center = this.boundingPolygon.getBoundingCenter();
+        const center = this.boundingBox.getBoundingCenter();
         return new VectorModel(center.x, 0, center.y);
     }
 
-    public getBoundingPolygon(): Polygon {
-        return this.boundingPolygon;
+    public getBoundingBox(): Polygon {
+        return this.boundingBox;
     }
 }
 

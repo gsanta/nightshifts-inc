@@ -10,25 +10,25 @@ import { EmptyCommand } from '../action_strategies/EmptyCommand';
 
 export class SimpleWorldItem implements WorldItem {
     public mesh: Mesh;
-    public boundingBox?: Mesh;
+    public boundingMesh?: Mesh;
     public type: string;
     public label: string;
     public hasDefaultAction = false;
     public parent: WorldItem;
     public neighbours: WorldItem[] = [];
     public material: StandardMaterial;
-    public isActivatableHighlightVisible = false;
+    public boundingMeshVisible = false;
 
     private defaultAction: WorldItemActionCommand = new EmptyCommand();
 
-    protected boundingPolygon: Polygon;
+    protected boundingBox: Polygon;
 
     protected counter = 1;
 
-    constructor(mesh: Mesh, type: string, boundingPolygon: Polygon) {
+    constructor(mesh: Mesh, type: string, boundingBox: Polygon) {
         this.mesh = mesh;
         this.type = type;
-        this.boundingPolygon = boundingPolygon;
+        this.boundingBox = boundingBox;
     }
 
     public hasConnectionWith(worldItem: WorldItem): boolean {
@@ -74,7 +74,7 @@ export class SimpleWorldItem implements WorldItem {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
         const name = this.type;
 
-        const clone = new SimpleWorldItem(clonedMesh, name, this.boundingPolygon);
+        const clone = new SimpleWorldItem(clonedMesh, name, this.boundingBox);
         this.copyTo(clone);
 
         return clone;
@@ -87,14 +87,14 @@ export class SimpleWorldItem implements WorldItem {
     public setPosition(position: VectorModel) {
         this.mesh.position = new Vector3(position.x, position.y, position.z);
 
-        const boundingCenter = this.boundingPolygon.getBoundingCenter();
+        const boundingCenter = this.boundingBox.getBoundingCenter();
         const [dx, dy] = boundingCenter.distanceTo(new Point(position.x, position.z));
 
-        this.boundingPolygon = this.boundingPolygon.addX(dx);
-        this.boundingPolygon = this.boundingPolygon.addY(dy);
+        this.boundingBox = this.boundingBox.addX(dx);
+        this.boundingBox = this.boundingBox.addY(dy);
 
-        if (this.boundingBox) {
-            this.boundingBox.position = new Vector3(position.x, 1, position.z);
+        if (this.boundingMesh) {
+            this.boundingMesh.position = new Vector3(position.x, 1, position.z);
         }
     }
 
@@ -121,7 +121,7 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public getCenterPosition(): VectorModel {
-        const center = (<Rectangle> this.getBoundingPolygon()).getBoundingCenter();
+        const center = (<Rectangle> this.getBoundingBox()).getBoundingCenter();
         return new VectorModel(center.x, 0, center.y);
     }
 
@@ -133,16 +133,24 @@ export class SimpleWorldItem implements WorldItem {
         return new VectorModel(0, 0, 0);
     }
 
+    public getBoundingMesh(): Mesh {
+        return this.boundingMesh;
+    }
+
+    public setBoundingMesh(mesh: Mesh) {
+        this.boundingMesh = mesh;
+    }
+
     public setBoudingBox(polygon: Polygon) {
-        this.boundingPolygon = polygon;
+        this.boundingBox = polygon;
         const center = polygon.getBoundingCenter();
         this.setPosition(new VectorModel(center.x, this.mesh.position.y, center.y));
-        this.boundingPolygon = polygon;
+        this.boundingBox = polygon;
     }
 
 
-    public getBoundingPolygon(): Polygon {
-        return this.boundingPolygon;
+    public getBoundingBox(): Polygon {
+        return this.boundingBox;
     }
 
     public getAbsoluteBoundingPolygon(): Polygon {
@@ -159,7 +167,7 @@ export class SimpleWorldItem implements WorldItem {
         //     return this.getBoundingPolygon().translate(new Point(parentBoundingPolygon.left, parentBoundingPolygon.top));
         // }
 
-        return this.getBoundingPolygon();
+        return this.getBoundingBox();
     }
 
     public setParent(worldItem: WorldItem) {
@@ -178,9 +186,13 @@ export class SimpleWorldItem implements WorldItem {
         this.mesh.isVisible = isVisible;
     }
 
-    public setActivatableHighlightVisible(isVisible: boolean) {
-        this.boundingBox.isVisible = isVisible;
-        this.isActivatableHighlightVisible = isVisible;
+    public setBoundingMeshVisible(isVisible: boolean) {
+        this.boundingMesh.isVisible = isVisible;
+        this.boundingMeshVisible = isVisible;
+    }
+
+    public isBoundingMeshVisible(): boolean {
+        return this.boundingMeshVisible;
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {
