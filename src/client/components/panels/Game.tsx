@@ -38,7 +38,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(GetWorldActions.request()),
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
-    setWorld: (world: World) => dispatch(SetWorldAction.request(world)),
+    setWorld: (world: World, actionDispatcher: ActionDispatcher) => dispatch(SetWorldAction.request(world, actionDispatcher)),
     setGameActionDispatcher: (gameActionDispatcher: ActionDispatcher) => dispatch(SetGameActionDispatcherActions.request(gameActionDispatcher)),
     setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health)),
     activateTool: (tool: ToolIcon) => dispatch(ActivateToolActions.request(tool)),
@@ -80,9 +80,8 @@ class Game extends React.Component<GameProps, GameState> {
         worldGenerator
             .import(gwmGameWorldMap)
             .then((world) => {
-                this.props.setWorld(world);
                 const actionDispatcher = new ActionDispatcher(world);
-                this.props.setGameActionDispatcher(actionDispatcher);
+                // this.props.setGameActionDispatcher(actionDispatcher);
 
                 actionDispatcher.registerActionHandler({
                     handle: (type: string, w: World) => {
@@ -97,6 +96,8 @@ class Game extends React.Component<GameProps, GameState> {
                         }
                     }
                 });
+
+                this.props.setWorld(world, actionDispatcher);
 
                 const gameEngine = new GameEngine(canvas, scene, engine, world);
                 gameEngine.run(actionDispatcher);
@@ -143,7 +144,7 @@ class Game extends React.Component<GameProps, GameState> {
 export interface GameProps {
     loadGame(): void;
     updateGame(world: World): void;
-    setWorld(world: World): void;
+    setWorld(world: World, actionDispatcher: ActionDispatcher): void;
     world: World;
     tools: ToolIcon[];
     widgetInfo: number;

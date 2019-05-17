@@ -12,6 +12,7 @@ import { LoginRoute } from '../dialogs/login_dialog/LoginRoute';
 import * as Mousetrap from 'mousetrap';
 import { SignupRoute } from '../dialogs/signup_dialog/SignupRoute';
 import { DebugRoute } from '../dialogs/debug_dialog/DebugRoute';
+import { render } from '../../index';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -40,14 +41,14 @@ class App extends React.Component<any, AppComponentState> {
 
     public render() {
         if (this.shouldRedirectToLoginPage()) {
-            return <Redirect to="/login"/>;
+            this.props.history.push('/login');
         }
 
         return (
             <div>
                 <Header/>
 
-                <Game openInventory={() => this.props.history.push('/inventory')} />
+                <Route path="/" render={() => <Game openInventory={() => this.props.history.push('/inventory')} />}/>
 
                 <Route exact path="/settings" component={ApplicationSettingsRoute}/>
                 <Route exact path="/inventory" component={InventoryRoute}/>
