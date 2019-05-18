@@ -16,6 +16,7 @@ import StandaloneErrorLabel from '../../miscellaneous/StandaloneErrorLabel';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import TextField from '../../form_elements/text_field/TextField';
+import { useTranslation } from 'react-i18next';
 
 const InputSectionStyled = styled.div`
     margin-left: 10px;
@@ -71,6 +72,8 @@ const LoginDialogBody = (props: LoginDialogProps) => {
         return <Redirect to="/"/>;
     }
 
+    const { t, i18n } = useTranslation();
+
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
@@ -106,7 +109,7 @@ const LoginDialogBody = (props: LoginDialogProps) => {
             </InputSectionStyled>
             <ButtonLine>
                 <LoginButtonStyled
-                    label={<FormattedMessage id="login" defaultMessage={'Login'}/>}
+                    label={t('login')}
                     onClick={() => props.login(email, password)}
                 />
             </ButtonLine>

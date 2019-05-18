@@ -9,7 +9,7 @@ import SignoutActions from '../user_state/user_actions/SignoutActions';
 import LoginActions from '../user_state/user_actions/LoginActions';
 import SignupActions from '../user_state/user_actions/SignupActions';
 import UpdatePasswordActions from '../user_state/user_actions/UpdatePasswordActions';
-import UpdateUserActions from '../user_state/user_actions/UpdateUserActions';
+import UpdateSettingsActions from '../user_state/user_actions/UpdateSettingsActions';
 import TurnOnAllLigthsActions from '../debug_state/debug_actions/TurnOnAllLigthsActions';
 import ShowRoomLabelsActions from '../debug_state/debug_actions/ShowRoomLabelsActions';
 import ShowBoundingBoxesAction from '../debug_state/debug_actions/ShowBoundingBoxesActions';
@@ -33,7 +33,7 @@ sagaMiddleware.run(function* rootSaga() {
         LoginActions.watch(),
         SignupActions.watch(),
         UpdatePasswordActions.watch(),
-        UpdateUserActions.watch(),
+        UpdateSettingsActions.watch(),
         // UpdateWorldActions.watch(),
         GetWorldActions.watch(),
         TurnOnAllLigthsActions.watch(),

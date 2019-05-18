@@ -8,7 +8,7 @@ export const errorsReducer = (state = [], action): ErrorMessage[] => {
         case ActionType.UPDATE_PASSWORD_FAILURE:
             return action.errors;
         case ActionType.UPDATE_PASSWORD_SUCCESS:
-        case ActionType.UPDATE_USER_SUCCESS:
+        case ActionType.UPDATE_SETTINGS_SUCCESS:
         case ActionType.LOGIN_FACEBOOK_SUCCESS:
         case ActionType.LOGIN_SUCCESS:
         case ActionType.SIGNUP_SUCCESS:

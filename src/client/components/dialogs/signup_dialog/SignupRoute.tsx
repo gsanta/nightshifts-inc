@@ -9,7 +9,7 @@ import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 
 const mapStateToProps = (state: AppState) => {
     return {
-        user: state.user,
+        user: state.settings.user,
         errors: state.errors
     };
 };

@@ -9,13 +9,14 @@ import { toolsReducer } from '../tools_state/toolsReducer';
 import { userReducer } from '../user_state/userReducer';
 import { worldReducer } from '../world_state/worldReducer';
 import { widgetReducer } from '../widget_state/widgetReducer';
+import { AppState } from './AppState';
 
-export default combineReducers({
+export default combineReducers<AppState>({
     query: (state = {user: new UserRequests(), game: new WorldRequests(null, null)}) => state,
     world: worldReducer,
     tools: toolsReducer,
     widgetInfo: widgetReducer,
-    user: userReducer,
+    settings: userReducer,
     debugOptions: debugReducer,
     appLoadingState: appLoadingStateReducer,
     errors: errorsReducer,

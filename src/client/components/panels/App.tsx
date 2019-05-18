@@ -12,11 +12,11 @@ import { LoginRoute } from '../dialogs/login_dialog/LoginRoute';
 import * as Mousetrap from 'mousetrap';
 import { SignupRoute } from '../dialogs/signup_dialog/SignupRoute';
 import { DebugRoute } from '../dialogs/debug_dialog/DebugRoute';
-import { render } from '../../index';
+import '../../../translations/config';
 
 const mapStateToProps = (state: AppState) => {
     return {
-        user: state.user,
+        user: state.settings.user,
         appLoadingState: state.appLoadingState,
     };
 };
@@ -73,7 +73,9 @@ const RouterApp = withRouter(connect(mapStateToProps)(App));
 export default () => {
     return (
         <Provider store={AppStore}>
-            <RouterApp/>
+            {/* <I18nextProvider i18n={config}> */}
+                <RouterApp/>
+            {/* </I18nextProvider> */}
         </Provider>
     );
 };

@@ -10,6 +10,9 @@ import { ButtonLine } from '../dialog_template/ButtonLine';
 import Button from '../../form_elements/Button';
 import { PasswordUpdateSection } from './PasswordUpdateSection';
 import TextField from '../../form_elements/text_field/TextField';
+import { LanguageSelector } from './LanguageSelector';
+import { ApplicationSettings } from '../../../state/user_state/model/ApplicationSettings';
+import { useTranslation } from 'react-i18next';
 
 const ControlLabelStyled = styled.div`
     font-size: 12px;
@@ -57,19 +60,23 @@ const ApplicationSettingsMainContentStyled = styled.div`
 `;
 
 const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) => {
-    const [didUserPropsArrive, setDidUserPropsArrive] = useState(props.user ? true : false);
+    const { t, i18n } = useTranslation();
+    const {user} = props.settings;
 
-    const [email, setEmail] = useState(props.user ? props.user.email : null);
-    const [authStrategy, setAuthStrategy] = useState(props.user ? props.user.authStrategy : null);
+    const [didUserPropsArrive, setDidUserPropsArrive] = useState(user ? true : false);
 
-    if (props.user && !didUserPropsArrive) {
-        setEmail(props.user.email);
-        setAuthStrategy(props.user.authStrategy);
+    const [email, setEmail] = useState(user ? user.email : null);
+    const [authStrategy, setAuthStrategy] = useState(user ? user.authStrategy : null);
+    const [language, setLanguage] = useState(props.settings.language);
+
+    if (user && !didUserPropsArrive) {
+        setEmail(user.email);
+        setAuthStrategy(user.authStrategy);
         setDidUserPropsArrive(true);
     }
 
     const updatePassword = (newPassword: string, oldPassword: string) => {
-        props.updatePassword({...props.user, email: email}, newPassword, oldPassword);
+        props.updatePassword({...user, email: email}, newPassword, oldPassword);
     };
 
     return (
@@ -96,9 +103,23 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
                         />
                     }
                 </div>
+                <LanguageSelector
+                    changeLanguage={(lan: 'hu' | 'en') => {
+                        setLanguage(lan);
+                    }}
+                    language={language}
+                />
             </ApplicationSettingsMainContentStyled>
             <ButtonLine>
-                <DoneButtonStyled label="Done" onClick={() => props.updateUser({...props.user, email: email})}/>
+                <DoneButtonStyled
+                    label={t('save')}
+                    onClick={
+                        () => {
+                            const updatedUser = {...user, email: email};
+                            props.updateSettings({...props.settings, user: updatedUser, language: language});
+                        }
+                    }
+                />
             </ButtonLine>
         </ApplicationSettingsDialogBodyStyled>
     );
@@ -125,8 +146,8 @@ export default withDialog(ApplicationSettingsDialogBody, {
 
 
 export interface ApplicationSettingsDialogProps extends DialogTemplateProps {
-    user: User;
+    settings: ApplicationSettings;
     errors: ErrorMessage[];
     updatePassword(user: User, newPassword: string, oldPassword: string);
-    updateUser(user: User);
+    updateSettings(settings: ApplicationSettings);
 }

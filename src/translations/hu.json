@@ -1,3 +1,10 @@
+
 {
-    "login": "Belépés"
+    "login": "Bejelentkezés",
+    "save": "Mentés",
+    "savePassword": "Jelszó mentése",
+    "oldPassword": "Régi jelszó",
+    "newPassword": "Új jelszó",
+    "english": "Angol",
+    "hungarian": "Magyar"
 }

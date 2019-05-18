@@ -10,7 +10,7 @@ import LoginWithTemporaryUserActions from '../../../state/user_state/user_action
 
 const mapStateToProps = (state: AppState) => {
     return {
-        user: state.user,
+        user: state.settings.user,
         errors: state.errors
     };
 };

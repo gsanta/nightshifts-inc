@@ -29,7 +29,7 @@ const styles = theme => ({
 
 const mapStateToProps = (state: AppState) => {
     return {
-        user: state.user
+        user: state.settings.user
     };
 };
 

@@ -5,12 +5,13 @@ import * as React from 'react';
 import { User } from '../../../state/user_state/user_model/User';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 import UpdatePasswordActions from '../../../state/user_state/user_actions/UpdatePasswordActions';
-import UpdateUserActions from '../../../state/user_state/user_actions/UpdateUserActions';
+import UpdateSettingsActions from '../../../state/user_state/user_actions/UpdateSettingsActions';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { ApplicationSettings } from '../../../state/user_state/model/ApplicationSettings';
 
 const mapStateToProps = (state: AppState) => {
     return {
-        user: state.user,
+        settings: state.settings,
         errors: state.errors,
         userQuery: state.query.user
     };
@@ -20,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         updatePassword: (user: User, newPassword: string, oldPassword: string ) =>
             dispatch(UpdatePasswordActions.request({user, newPassword, oldPassword})),
-        updateUser: (user: User) => dispatch(UpdateUserActions.request(user))
+        updateSettings: (settings: ApplicationSettings) => dispatch(UpdateSettingsActions.request(settings))
     };
 };
 
@@ -30,19 +31,19 @@ export const ApplicationSettingsRoute = withRouter(connect(mapStateToProps, mapD
         title: 'settings'
     };
 
-    const updateUser = (user: User) => {
-        props.updateUser(user);
+    const updateSettings = (settings: ApplicationSettings) => {
+        props.updateSettings(settings);
         props.history.push('/');
     };
 
     return (
-        <ApplicationSettingsDialog {...props} headerOptions={headerOptions} updateUser={updateUser}/>
+        <ApplicationSettingsDialog {...props} headerOptions={headerOptions} updateSettings={updateSettings}/>
     );
 }));
 
 export interface SettingsProps {
-    user: User;
+    settings: ApplicationSettings;
     errors: ErrorMessage[];
     updatePassword(user: User, newPassword: string, oldPassword: string);
-    updateUser(user: User);
+    updateSettings(settings: ApplicationSettings);
 }

@@ -7,6 +7,7 @@ import find from 'lodash/find';
 import { FormattedMessage } from 'react-intl';
 import colors from '../../miscellaneous/colors';
 import TextField from '../../form_elements/text_field/TextField';
+import { useTranslation } from 'react-i18next';
 
 const PasswordUpdateSectionStyled = styled.div`
     display: flex;
@@ -47,6 +48,7 @@ const SavePasswordButtonStyled = styled(Button)`
 `;
 
 export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
+    const {t} = useTranslation();
 
     const [oldPassword, setOldPassword] = useState(null);
     const [newPassword, setNewPassword] = useState(null);
@@ -57,7 +59,7 @@ export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
         <PasswordUpdateSectionStyled>
             <TextFieldGroupStyled>
                 <TextField
-                    label="Old password"
+                    label={t('oldPassword')}
                     value={oldPassword}
                     onChange={password => setOldPassword(password)}
                     hasError={!!oldPasswordError}
@@ -65,7 +67,7 @@ export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
                     type="password"
                 />
                 <TextField
-                    label="New password"
+                    label={t('newPassword')}
                     value={newPassword}
                     onChange={password => setNewPassword(password)}
                     hasError={!!false}
@@ -74,7 +76,7 @@ export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
             </TextFieldGroupStyled>
             <SavePasswordButtonDecoratorStyled>
                 <SavePasswordButtonStyled
-                    label={<FormattedMessage id="save" defaultMessage={'Save password'}/>}
+                    label={t('savePassword')}
                     onClick={() => props.updatePassword(newPassword, oldPassword)}
                 />
             </SavePasswordButtonDecoratorStyled>
