@@ -6,7 +6,7 @@ import { takeEvery, select, call, put } from 'redux-saga/effects';
 import { ApplicationSettings } from '../model/ApplicationSettings';
 
 class UpdateSettingsActions implements WatchableAction<ApplicationSettings> {
-    public request(settings: ApplicationSettings) {
+    public request(settings: Partial<ApplicationSettings>) {
         return {
             type: ActionType.UPDATE_SETTINGS_REQUEST,
             settings

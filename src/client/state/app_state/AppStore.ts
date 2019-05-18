@@ -16,6 +16,7 @@ import ShowBoundingBoxesAction from '../debug_state/debug_actions/ShowBoundingBo
 import ActivateToolActions from '../tools_state/tools_actions/ActivateToolActions';
 import DeactivateToolActions from '../tools_state/tools_actions/DeactivateToolActions';
 import ReleaseToolActions from '../tools_state/tools_actions/ReleaseToolActions';
+import i18n from 'i18next';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -46,4 +47,5 @@ sagaMiddleware.run(function* rootSaga() {
 });
 
 AppStore.dispatch(GetUserActions.request());
+
 

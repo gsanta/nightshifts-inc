@@ -1,7 +1,6 @@
 import { ActionType } from '../ActionType';
 import { ApplicationSettings } from './model/ApplicationSettings';
 
-
 const defaultState: ApplicationSettings = {
     user: null,
     language: 'en'
