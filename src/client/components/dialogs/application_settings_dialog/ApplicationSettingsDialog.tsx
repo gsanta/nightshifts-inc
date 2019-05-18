@@ -1,7 +1,7 @@
 import * as React from 'react';
 import withDialog, { DialogTemplateProps } from '../dialog_template/withDialog';
 import { useState } from 'react';
-import { User } from '../../../state/user_state/model/User';
+import { User } from '../../../state/settings_state/model/User';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 import styled from 'styled-components';
 import colors from '../../miscellaneous/colors';
@@ -11,7 +11,7 @@ import Button from '../../form_elements/Button';
 import { PasswordUpdateSection } from './PasswordUpdateSection';
 import TextField from '../../form_elements/text_field/TextField';
 import { LanguageSelector } from './LanguageSelector';
-import { ApplicationSettings } from '../../../state/user_state/model/ApplicationSettings';
+import { ApplicationSettings } from '../../../state/settings_state/model/ApplicationSettings';
 import { useTranslation } from 'react-i18next';
 
 const ControlLabelStyled = styled.div`

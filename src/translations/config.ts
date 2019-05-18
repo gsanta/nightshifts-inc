@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './en.json';
 import hu from './hu.json';
 import { initReactI18next } from 'react-i18next';
-import UpdateSettingsActions from '../client/state/user_state/actions/UpdateSettingsActions';
+import UpdateSettingsActions from '../client/state/settings_state/actions/UpdateSettingsActions';
 import { AppStore } from '../client/state/app_state/AppStore';
 import _ from 'lodash';
 

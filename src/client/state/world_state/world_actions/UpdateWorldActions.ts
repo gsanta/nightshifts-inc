@@ -4,7 +4,7 @@ import { WorldRequests } from '../WorldRequests';
 import { World } from '../../../../game/world/World';
 import { WatchableAction } from '../../ActionType';
 import WorldSelections from './WorldSelections';
-import UserSelections from '../../user_state/UserSelections';
+import UserSelections from '../../settings_state/UserSelections';
 
 class UpdateWorldActions implements WatchableAction<World> {
     public request(world: World) {

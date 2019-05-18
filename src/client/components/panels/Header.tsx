@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import colors from '../miscellaneous/colors';
-import { User } from '../../state/user_state/model/User';
+import { User } from '../../state/settings_state/model/User';
 import withStyles from '@material-ui/styles/withStyles';
 import { connect } from 'react-redux';
 import { AppState } from '../../state/app_state/AppState';
-import SignoutActions from '../../state/user_state/actions/SignoutActions';
+import SignoutActions from '../../state/settings_state/actions/SignoutActions';
 import SignoutIcon from '../icons/SignoutIcon';
 import SettingsIcon from '../icons/SettingsIcon';
 

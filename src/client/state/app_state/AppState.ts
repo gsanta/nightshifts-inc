@@ -3,8 +3,8 @@ import { World } from '../../../game/world/World';
 import { DebugOptions } from '../../components/dialogs/debug_dialog/DebugOptions';
 import { ToolIcon } from '../../components/dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ErrorMessage } from '../../components/miscellaneous/ErrorMessage';
-import { ApplicationSettings } from '../user_state/model/ApplicationSettings';
-import { UserRequests } from '../user_state/UserRequests';
+import { ApplicationSettings } from '../settings_state/model/ApplicationSettings';
+import { UserRequests } from '../settings_state/UserRequests';
 import { WorldRequests } from '../world_state/WorldRequests';
 
 export type AppLoadingState = 'loading' | 'ready';
