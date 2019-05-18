@@ -59,7 +59,7 @@ export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
         <PasswordUpdateSectionStyled>
             <TextFieldGroupStyled>
                 <TextField
-                    label={t('oldPassword')}
+                    label={t('settings.oldPassword')}
                     value={oldPassword}
                     onChange={password => setOldPassword(password)}
                     hasError={!!oldPasswordError}
@@ -67,7 +67,7 @@ export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
                     type="password"
                 />
                 <TextField
-                    label={t('newPassword')}
+                    label={t('settings.newPassword')}
                     value={newPassword}
                     onChange={password => setNewPassword(password)}
                     hasError={!!false}
@@ -76,7 +76,7 @@ export const PasswordUpdateSection = (props: PasswordUpdateSectionProps) => {
             </TextFieldGroupStyled>
             <SavePasswordButtonDecoratorStyled>
                 <SavePasswordButtonStyled
-                    label={t('savePassword')}
+                    label={t('settings.savePassword')}
                     onClick={() => props.updatePassword(newPassword, oldPassword)}
                 />
             </SavePasswordButtonDecoratorStyled>

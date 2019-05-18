@@ -85,11 +85,11 @@ const LoginDialogBody = (props: LoginDialogProps) => {
 
     return (
         <div>
-            <TitleLine>log in with</TitleLine>
+            <TitleLine>{t('login.loginWith') as string}</TitleLine>
             <InputSectionStyled>
                 <TextFieldWithValidationStyled>
                     <TextField
-                        label="Email"
+                        label={t('login.email')}
                         value={email}
                         onChange={setEmail}
                         hasError={!!emailError}
@@ -98,7 +98,7 @@ const LoginDialogBody = (props: LoginDialogProps) => {
                 </TextFieldWithValidationStyled>
                 <TextFieldWithValidationStyled>
                     <TextField
-                        label="Password"
+                        label={t('login.password')}
                         value={password}
                         onChange={setPassword}
                         hasError={!!passwordError}
@@ -109,24 +109,24 @@ const LoginDialogBody = (props: LoginDialogProps) => {
             </InputSectionStyled>
             <ButtonLine>
                 <LoginButtonStyled
-                    label={t('login')}
+                    label={t('login.login')}
                     onClick={() => props.login(email, password)}
                 />
             </ButtonLine>
-            <TitleLine>or with</TitleLine>
+            <TitleLine>{t('login.orWith') as string}</TitleLine>
             <ButtonLine>
                 <FacebookButtonStyled callback={(event: {accessToken: string}) => props.loginFacebook(event.accessToken)}/>
             </ButtonLine>
-            <TitleLine>or</TitleLine>
+            <TitleLine>{t('login.or') as string}</TitleLine>
             <ButtonLine>
                 <TryoutButtonStyled
-                    label={<FormattedMessage id="tryOut" defaultMessage={'Try out without login'}/>}
+                    label={<FormattedMessage id="tryOut" defaultMessage={t('login.tryOutWithoutLogin')}/>}
                     onClick={() => props.loginWithTemporaryUser()}
                 />
             </ButtonLine>
             <BottomLine>
-                <Link to="/">Forgot password</Link>
-                <Link to="/signup">Create account</Link>
+                <Link to="/">{t('login.forgotPassword')}</Link>
+                <Link to="/signup">{t('login.createAccount')}</Link>
             </BottomLine>
         </div>
     );

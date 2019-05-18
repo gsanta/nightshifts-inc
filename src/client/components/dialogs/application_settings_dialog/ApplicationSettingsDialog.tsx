@@ -81,7 +81,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
 
     return (
         <ApplicationSettingsDialogBodyStyled>
-            <TitleLine marginTop={25}>settings</TitleLine>
+            <TitleLine marginTop={25}>{t('settings.settings') as string}</TitleLine>
             <ApplicationSettingsMainContentStyled>
                 <div>
                     <TextField
@@ -112,7 +112,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
             </ApplicationSettingsMainContentStyled>
             <ButtonLine>
                 <DoneButtonStyled
-                    label={t('save')}
+                    label={t('settings.save')}
                     onClick={
                         () => {
                             const updatedUser = {...user, email: email};

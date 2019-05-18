@@ -1,10 +1,35 @@
 
 {
-    "login": "Login",
-    "save": "Save",
-    "savePassword": "Save password",
-    "oldPassword": "Old password",
-    "newPassword": "New password",
-    "english": "English",
-    "hungarian": "Hungarian"
+
+    "settings": {
+        "settings": "settings",
+        "save": "Save",
+        "savePassword": "Save password",
+        "oldPassword": "Old password",
+        "newPassword": "New password",
+        "english": "English",
+        "hungarian": "Hungarian"
+    },
+
+    "login": {
+        "login": "Login",
+        "tryOutWithoutLogin": "Try out without login",
+        "loginWith": "log in with",
+        "or": "or",
+        "orWith": "or with",
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot password",
+        "createAccount": "Create account"
+    },
+
+    "signup": {
+        "createAccount": "create account",
+        "email": "Email",
+        "password": "Password",
+        "create": "Create",
+        "orCreateWith": "or create with",
+        "alreadyHaveAnAccount": "Already have an account",
+        "goToLogin": "Go to login"
+    }
 }

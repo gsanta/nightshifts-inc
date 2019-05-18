@@ -1,10 +1,34 @@
 
 {
-    "login": "Bejelentkezés",
-    "save": "Mentés",
-    "savePassword": "Jelszó mentése",
-    "oldPassword": "Régi jelszó",
-    "newPassword": "Új jelszó",
-    "english": "Angol",
-    "hungarian": "Magyar"
+    "settings": {
+        "settings": "beállitások",
+        "save": "Mentés",
+        "savePassword": "Jelszó mentése",
+        "oldPassword": "Régi jelszó",
+        "newPassword": "Új jelszó",
+        "english": "Angol",
+        "hungarian": "Magyar"
+    },
+
+    "login": {
+        "login": "Bejelentkezés",
+        "tryOutWithoutLogin": "Kiprobálom bejelentkezés nélkül",
+        "loginWith": "bejelentkezés",
+        "or": "vagy",
+        "orWith": "vagy",
+        "email": "Email",
+        "password": "Jelszó",
+        "forgotPassword": "Elfelejtettem a jelszavamat",
+        "createAccount": "Fiók létrehozása"
+    },
+
+    "signup": {
+        "createAccount": "fiók létrehozása",
+        "email": "Email",
+        "password": "Jelszó",
+        "create": "Kész",
+        "orCreateWith": "vagy",
+        "alreadyHaveAnAccount": "Már van fiókom",
+        "goToLogin": "Bejelentkezek"
+    }
 }

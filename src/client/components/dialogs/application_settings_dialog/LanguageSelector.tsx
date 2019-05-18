@@ -18,8 +18,8 @@ export const LanguageSelector = (props: LanguageSelector) => {
             value={props.language}
             onChange={changeLanguage}
         >
-            <FormControlLabel value="en" control={<Radio />} label={t('english')} />
-            <FormControlLabel value="hu" control={<Radio />} label={t('hungarian')} />
+            <FormControlLabel value="en" control={<Radio />} label={t('settings.english')} />
+            <FormControlLabel value="hu" control={<Radio />} label={t('settings.hungarian')} />
         </RadioGroup>
     );
 };

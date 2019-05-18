@@ -14,6 +14,7 @@ import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 import find from 'lodash/find';
 import StandaloneErrorLabel from '../../miscellaneous/StandaloneErrorLabel';
 import TextField from '../../form_elements/text_field/TextField';
+import { useTranslation } from 'react-i18next';
 
 const InputSectionStyled = styled.div`
     margin-left: 10px;
@@ -60,6 +61,8 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
         return <Redirect to="/"/>;
     }
 
+    const {t} = useTranslation();
+
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
@@ -71,11 +74,11 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
 
     return (
         <div>
-            <TitleLine>create account</TitleLine>
+            <TitleLine>{t('signup.createAccount') as string}</TitleLine>
             <InputSectionStyled>
                 <TextFieldWithValidationStyled>
                     <TextField
-                        label="Email"
+                        label={t('signup.email')}
                         value={email}
                         onChange={setEmail}
                         hasError={!!emailError}
@@ -84,7 +87,7 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
                 </TextFieldWithValidationStyled>
                 <TextFieldWithValidationStyled>
                     <TextField
-                        label="Password"
+                        label={t('signup.password')}
                         value={password}
                         onChange={setPassword}
                         hasError={!!passwordError}
@@ -94,14 +97,14 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
                 </TextFieldWithValidationStyled>
             </InputSectionStyled>
             <ButtonLine>
-                <LoginButtonStyled label={'Create'} onClick={() => props.signup(email, password)}/>
+                <LoginButtonStyled label={t('signup.create')} onClick={() => props.signup(email, password)}/>
             </ButtonLine>
-            <TitleLine>or create with</TitleLine>
+            <TitleLine>{t('signup.orCreateWith') as string}</TitleLine>
             <ButtonLine>
                 <FacebookButtonStyled callback={(event: {accessToken: string}) => props.loginFacebook(event.accessToken)}/>
             </ButtonLine>
             <BottomLine>
-                <GotoLoginLinkStyled>Already have an account <Link to="/login">Go to login</Link></GotoLoginLinkStyled>
+                <GotoLoginLinkStyled>{t('signup.alreadyHaveAnAccount')} <Link to="/login">{t('signup.goToLogin')}</Link></GotoLoginLinkStyled>
             </BottomLine>
         </div>
     );
