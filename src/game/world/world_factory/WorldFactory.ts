@@ -75,6 +75,11 @@ export class WorldFactory {
         return this.create(worldItemFactory, itemInfo, world);
     }
 
+    public createChair(itemInfo: GwmWorldItem, world: World): WorldItem {
+        const worldItemFactory = this.worldItemFactoryMap.get('chair');
+        return this.create(worldItemFactory, itemInfo, world);
+    }
+
     public createCupboard(itemInfo: GwmWorldItem, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('cupboard');
         const cupboard = this.create(worldItemFactory, itemInfo, world);

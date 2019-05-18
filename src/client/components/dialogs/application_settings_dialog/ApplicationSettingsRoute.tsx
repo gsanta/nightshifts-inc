@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import { AppState } from '../../../state/app_state/AppState';
 import ApplicationSettingsDialog from './ApplicationSettingsDialog';
 import * as React from 'react';
-import { User } from '../../../state/user_state/user_model/User';
+import { User } from '../../../state/user_state/model/User';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
-import UpdatePasswordActions from '../../../state/user_state/user_actions/UpdatePasswordActions';
-import UpdateSettingsActions from '../../../state/user_state/user_actions/UpdateSettingsActions';
+import UpdatePasswordActions from '../../../state/user_state/actions/UpdatePasswordActions';
+import UpdateSettingsActions from '../../../state/user_state/actions/UpdateSettingsActions';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { ApplicationSettings } from '../../../state/user_state/model/ApplicationSettings';
 

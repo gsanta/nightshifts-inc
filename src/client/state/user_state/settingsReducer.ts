@@ -7,7 +7,7 @@ const defaultState: ApplicationSettings = {
 };
 
 
-export const userReducer = (state = defaultState, action) => {
+export const settingsReducer = (state = defaultState, action) => {
     switch (action.type) {
         case ActionType.UPDATE_SETTINGS_REQUEST:
             return {...state, language: action.settings.language};

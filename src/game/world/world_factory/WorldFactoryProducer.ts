@@ -33,6 +33,7 @@ export class WorldFactoryProducer {
     private readonly FURITURE_3_BASE_PATH = 'models/furniture_3/';
     private readonly BATHTUB_MODEL_FILE = 'bathtub.babylon';
     private readonly WASHBASIN_MODEL_FILE = 'wash_basin.babylon';
+    private readonly CHAIR_MODEL_FILE = 'chair.babylon';
 
     private readonly ENEMY_PATH = 'models/enemy/';
     private readonly GHOST_MODEL_FILE = 'ghost.obj';
@@ -57,6 +58,7 @@ export class WorldFactoryProducer {
                 const cupboardFactory = new ModelFactory2(meshTemplateStore.get('cupboard'));
                 const bathtubFactory = new ModelFactory2(meshTemplateStore.get('bathtub'));
                 const washbasinFactory = new ModelFactory2(meshTemplateStore.get('washbasin'));
+                const chairFactory = new ModelFactory2(meshTemplateStore.get('chair'));
                 const emptyAreaFactory = new EmptyAreaFactory(scene);
                 const enemyFactory = new EnemyFactory(meshTemplateStore.get('ghost'));
                 const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), scene);
@@ -69,6 +71,7 @@ export class WorldFactoryProducer {
                 map.set('cupboard', <any> cupboardFactory);
                 map.set('bathtub', <any> bathtubFactory);
                 map.set('washbasin', <any> washbasinFactory);
+                map.set('chair', <any> chairFactory);
                 map.set('player', playerFactory);
                 map.set('floor', floorFactory);
 
@@ -138,6 +141,13 @@ export class WorldFactoryProducer {
                 'washbasin',
                 this.FURITURE_3_BASE_PATH,
                 this.WASHBASIN_MODEL_FILE,
+                [this.FURNITURE_3_MATERIAL],
+                {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
+            ),
+            modelFileLoader.load(
+                'chair',
+                this.FURITURE_3_BASE_PATH,
+                this.CHAIR_MODEL_FILE,
                 [this.FURNITURE_3_MATERIAL],
                 {...defaultMeshConfig, scaling: new VectorModel(3, 3, 3)}
             )

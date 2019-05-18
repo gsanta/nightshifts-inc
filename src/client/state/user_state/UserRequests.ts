@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { UserLoginDto } from './user_model/UserLoginDto';
-import { User } from './user_model/User';
+import { UserLoginDto } from './model/UserLoginDto';
+import { User } from './model/User';
 import { Promise } from 'es6-promise';
-import { UserDto } from './user_model/UserDto';
+import { UserDto } from './model/UserDto';
 import { TokenHandler } from '../TokenHandler';
-import { PasswordUpdateDto } from './user_model/PasswordUpdateDto';
+import { PasswordUpdateDto } from './model/PasswordUpdateDto';
 
 export class UserRequests {
     private tokenHandler: TokenHandler;

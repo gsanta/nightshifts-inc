@@ -8,7 +8,7 @@ import Link from '../../form_elements/link/Link';
 import { TitleLine } from '../dialog_template/TitleLine';
 import { ButtonLine } from '../dialog_template/ButtonLine';
 import { FacebookLoginButton } from '../../form_elements/facebook_button/FacebookLoginButton';
-import { User } from '../../../state/user_state/user_model/User';
+import { User } from '../../../state/user_state/model/User';
 import { Redirect } from 'react-router-dom';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 import find from 'lodash/find';

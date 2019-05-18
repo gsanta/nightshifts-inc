@@ -1,7 +1,7 @@
 import * as React from 'react';
 import withDialog, { DialogTemplateProps } from '../dialog_template/withDialog';
 import { useState } from 'react';
-import { User } from '../../../state/user_state/user_model/User';
+import { User } from '../../../state/user_state/model/User';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 import styled from 'styled-components';
 import colors from '../../miscellaneous/colors';

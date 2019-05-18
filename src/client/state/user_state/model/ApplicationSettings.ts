@@ -1,4 +1,4 @@
-import { User } from '../user_model/User';
+import { User } from './User';
 
 export interface ApplicationSettings {
     user: User;

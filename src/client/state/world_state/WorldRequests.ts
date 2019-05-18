@@ -1,7 +1,7 @@
 import { TokenHandler } from '../TokenHandler';
 import { Promise } from 'es6-promise';
 import axios, { AxiosResponse } from 'axios';
-import { User } from '../user_state/user_model/User';
+import { User } from '../user_state/model/User';
 import { World } from '../../../game/world/World';
 
 export class WorldRequests {

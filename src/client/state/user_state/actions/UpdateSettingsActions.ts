@@ -1,5 +1,5 @@
 import { ActionType } from '../../ActionType';
-import { User } from '../user_model/User';
+import { User } from '../model/User';
 import { WatchableAction } from '../../ActionType';
 import UserSelections from '../UserSelections';
 import { takeEvery, select, call, put } from 'redux-saga/effects';

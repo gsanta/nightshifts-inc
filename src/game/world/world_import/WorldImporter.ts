@@ -82,6 +82,8 @@ export class WorldImporter {
                 return meshFactory.createBathtub(meshModelDescription, world);
             case 'washbasin':
                 return meshFactory.createWashbasin(meshModelDescription, world);
+            case 'chair':
+                return meshFactory.createChair(meshModelDescription, world);
             case 'room':
                 return meshFactory.createRoom(meshModelDescription, world);
             case 'empty':
@@ -94,7 +96,7 @@ export class WorldImporter {
     public import(strWorld: string): Promise<World> {
 
         const options = {...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}};
-        const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E'];
+        const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E', 'H'];
         const roomSeparatorCharacters = ['W', 'D', 'I'];
 
         const worldItems = GwmWorldMapParser.createWithCustomWorldItemGenerator(

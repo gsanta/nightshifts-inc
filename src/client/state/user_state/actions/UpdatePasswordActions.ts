@@ -1,6 +1,6 @@
 import { ActionType } from '../../ActionType';
-import { User } from '../user_model/User';
-import { PasswordUpdateDto } from '../user_model/PasswordUpdateDto';
+import { User } from '../model/User';
+import { PasswordUpdateDto } from '../model/PasswordUpdateDto';
 import { ErrorMessage } from '../../../components/miscellaneous/ErrorMessage';
 import { WatchableAction } from '../../ActionType';
 import UserSelections from '../UserSelections';

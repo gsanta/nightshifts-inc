@@ -1,5 +1,5 @@
 import { ActionType } from '../../ActionType';
-import { User } from '../user_model/User';
+import { User } from '../model/User';
 
 export interface LoginRequestPayload {
     email: string;
