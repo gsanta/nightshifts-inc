@@ -51,10 +51,10 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
             case GameActionType.CREATE_BOUNDING_POLYGON_MESHES:
                 // world.player.boundingBox = this.createMesh(<Rectangle> (<any> world.player).boundingPolygon, world);
 
-                const room: Room = <Room> _.find(world.getWorldItemsByName('room'), (r: Room) => r.label === 'room-1');
-                const cupboard: SimpleWorldItem = <SimpleWorldItem> _.find(room.children, child => child.type === 'cupboard');
+                // const room: Room = <Room> _.find(world.getWorldItemsByName('room'), (r: Room) => r.label === 'room-1');
+                // const cupboard: SimpleWorldItem = <SimpleWorldItem> _.find(room.children, child => child.type === 'cupboard');
 
-                cupboard.boundingMesh = this.createMesh(cupboard, world);
+                // cupboard.boundingMesh = this.createMesh(cupboard, world);
                 // cupboard.boundingBox = this.createMesh(<Rectangle> new Rectangle(0, 0, 1, 1), world);
                 break;
             default:

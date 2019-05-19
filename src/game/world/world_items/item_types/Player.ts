@@ -46,6 +46,7 @@ export class Player extends SimpleWorldItem {
 
         const quaternion = Quaternion.RotationAxis(Axis.Y, 0);
         this.mesh.rotationQuaternion = quaternion;
+        this.mesh.checkCollisions = true;
     }
 
     public setRotation(distance: number) {

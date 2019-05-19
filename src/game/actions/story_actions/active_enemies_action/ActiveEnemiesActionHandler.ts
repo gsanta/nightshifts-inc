@@ -20,10 +20,16 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
         switch (type) {
             case GameActionType.GAME_IS_READY:
                 const rooms = <Room[]> world.getWorldItemsByName('room');
-                const enemy1 = this.createEnemy(world, rooms[1]);
-                this.actionDispatcher.dispatch(GameActionType.ENEMY_CREATED, enemy1);
-                const enemy2 = this.createEnemy(world, rooms[2]);
-                this.actionDispatcher.dispatch(GameActionType.ENEMY_CREATED, enemy2);
+
+                if (rooms.length > 1) {
+                    const enemy1 = this.createEnemy(world, rooms[1]);
+                    this.actionDispatcher.dispatch(GameActionType.ENEMY_CREATED, enemy1);
+                }
+
+                if (rooms.length > 2) {
+                    const enemy2 = this.createEnemy(world, rooms[2]);
+                    this.actionDispatcher.dispatch(GameActionType.ENEMY_CREATED, enemy2);
+                }
 
                 break;
             default:

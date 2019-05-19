@@ -1,4 +1,4 @@
-import { Mesh, Scene, Skeleton, Space } from '@babylonjs/core';
+import { Mesh, Scene, Skeleton, Space, PhysicsImpostor } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { Player } from '../item_types/Player';
 import { Rectangle } from '@nightshifts.inc/geometry';
@@ -31,6 +31,9 @@ export class PlayerFactory implements GwmItemImporter {
 
         boundingBox = new Rectangle(translate.x, translate.z, 1, 1);
         const player = new Player(meshes[0], this.meshInfo[1][0], this.scene, boundingBox);
+
+        // const impostor = new PhysicsImpostor(player.mesh, PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.9 }, this.scene);
+        // player.setImpostor(impostor);
 
         player.mesh.translate(toVector3(translate), 1, Space.WORLD);
 

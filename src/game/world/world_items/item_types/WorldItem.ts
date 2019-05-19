@@ -1,4 +1,4 @@
-import { Mesh, StandardMaterial } from '@babylonjs/core';
+import { Mesh, StandardMaterial, PhysicsImpostor } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
@@ -97,4 +97,5 @@ export interface WorldItem {
     intersectsPoint(vector: VectorModel);
     intersectsWorldItem(otherWorldItem: WorldItem);
     setVisible(isVisible: boolean): void;
+    setImpostor(impostor: PhysicsImpostor);
 }

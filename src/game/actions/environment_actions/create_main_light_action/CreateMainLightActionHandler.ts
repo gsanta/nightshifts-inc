@@ -17,7 +17,10 @@ export class CreateMainLightActionHandler implements ActionHandler {
                 world.hemisphericLight = mainLight;
 
                 const room = world.getWorldItemsByName('room')[1];
-                this.createRoomLight(<Room> room, world.scene);
+                if (room) {
+
+                    this.createRoomLight(<Room> room, world.scene);
+                }
                 break;
             default:
                 break;

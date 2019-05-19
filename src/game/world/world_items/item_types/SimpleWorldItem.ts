@@ -1,4 +1,4 @@
-import { StandardMaterial, Mesh, Vector3, Axis, Space } from '@babylonjs/core';
+import { StandardMaterial, Mesh, Vector3, Axis, Space, PhysicsImpostor } from '@babylonjs/core';
 import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 import { SerializedMeshModel, WorldItem } from './WorldItem';
 import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
@@ -18,6 +18,7 @@ export class SimpleWorldItem implements WorldItem {
     public neighbours: WorldItem[] = [];
     public material: StandardMaterial;
     public boundingMeshVisible = false;
+    private impostor: PhysicsImpostor;
 
     private defaultAction: WorldItemActionCommand = new EmptyCommand();
 
@@ -193,6 +194,11 @@ export class SimpleWorldItem implements WorldItem {
 
     public isBoundingMeshVisible(): boolean {
         return this.boundingMeshVisible;
+    }
+
+    public setImpostor(impostor: PhysicsImpostor) {
+        this.mesh.physicsImpostor = impostor;
+        this.impostor = impostor;
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {

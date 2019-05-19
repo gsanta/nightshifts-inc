@@ -1,4 +1,4 @@
-import { Scene, MeshBuilder, Vector3 } from '@babylonjs/core';
+import { Scene, MeshBuilder, Vector3, PhysicsImpostor } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { ContainerWorldItem } from '../item_types/ContainerWorldItem';
 import { Room } from '../item_types/Room';
@@ -28,6 +28,12 @@ export class RoomFactory {
 
         const mesh = this.createRoomFloor(dimensions);
         mesh.receiveShadows = true;
+
+        const impostor = new PhysicsImpostor(mesh, PhysicsImpostor.PlaneImpostor, { mass: 0, friction: 1, restitution: 0.7 }, this.scene);
+        mesh.physicsImpostor = impostor;
+        mesh.isVisible = true;
+
+        (window as any).physicsViewer.showImpostor(mesh.physicsImpostor);
 
         const label = `room-${this.counter++}`;
         const roomLabel = this.roomLabelFactory.createItem(dimensions, world, label);

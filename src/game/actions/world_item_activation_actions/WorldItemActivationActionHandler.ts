@@ -47,7 +47,13 @@ export class WorldItemActivationActionHandler implements ActionHandler {
             return !val || val[1] > distance ? [current, distance] : val;
         };
 
-        return actionableObjects.reduce(reduceToClosestMeshModel, null)[0];
+        const closestItem = actionableObjects.reduce(reduceToClosestMeshModel, null);
+
+        if (closestItem) {
+            return closestItem[0];
+        }
+
+        return null;
     }
 
     private filterActionableObjects(worldMap: World) {

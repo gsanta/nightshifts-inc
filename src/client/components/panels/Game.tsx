@@ -7,7 +7,7 @@ import UpdateWorldActions from '../../state/world_state/world_actions/UpdateWorl
 import GetWorldActions from '../../state/world_state/world_actions/GetWorldActions';
 import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 import colors from '../miscellaneous/colors';
-import { Color4 } from '@babylonjs/core';
+import { Color4, CannonJSPlugin, Vector3, OimoJSPlugin, PhysicsViewer } from '@babylonjs/core';
 import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
 import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFactoryProducer';
 import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
@@ -71,6 +71,8 @@ class Game extends React.Component<GameProps, GameState> {
         const canvas = this.state.canvasRef.current;
         const engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
         const scene = new Scene(engine);
+        (window as any).physicsViewer = new PhysicsViewer(scene);
+        scene.enablePhysics(new Vector3(0, -10, 0), new OimoJSPlugin());
         scene.clearColor = Color4.FromHexString(colors.Black);
         this.setState({
             scene

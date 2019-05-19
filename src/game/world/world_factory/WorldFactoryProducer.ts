@@ -53,12 +53,12 @@ export class WorldFactoryProducer {
         return this.getMeshTemplateStore(scene)
             .then(meshTemplateStore => {
 
-                const bedFactory = new ModelFactory2(meshTemplateStore.get('bed'));
-                const tableFactory = new ModelFactory2(meshTemplateStore.get('table'));
-                const cupboardFactory = new ModelFactory2(meshTemplateStore.get('cupboard'));
-                const bathtubFactory = new ModelFactory2(meshTemplateStore.get('bathtub'));
-                const washbasinFactory = new ModelFactory2(meshTemplateStore.get('washbasin'));
-                const chairFactory = new ModelFactory2(meshTemplateStore.get('chair'));
+                const bedFactory = new ModelFactory2(meshTemplateStore.get('bed'), scene);
+                const tableFactory = new ModelFactory2(meshTemplateStore.get('table'), scene);
+                const cupboardFactory = new ModelFactory2(meshTemplateStore.get('cupboard'), scene);
+                const bathtubFactory = new ModelFactory2(meshTemplateStore.get('bathtub'), scene);
+                const washbasinFactory = new ModelFactory2(meshTemplateStore.get('washbasin'), scene);
+                const chairFactory = new ModelFactory2(meshTemplateStore.get('chair'), scene);
                 const emptyAreaFactory = new EmptyAreaFactory(scene);
                 const enemyFactory = new EnemyFactory(meshTemplateStore.get('ghost'));
                 const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), scene);
