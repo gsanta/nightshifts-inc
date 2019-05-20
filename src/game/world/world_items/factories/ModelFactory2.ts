@@ -52,7 +52,7 @@ export class ModelFactory2 {
         );
 
         const center = boundingPolygon.getBoundingCenter();
-        box.translate(new Vector3(center.x, boundingPolygon.height / 2 + 0.5, center.y), 1, Space.WORLD);
+        box.translate(new Vector3(center.x, worldItem.getHeight() / 2, center.y), 1, Space.WORLD);
 
         const material = new StandardMaterial('box-material', scene);
         material.diffuseColor = Color3.FromHexString('#00FF00');
