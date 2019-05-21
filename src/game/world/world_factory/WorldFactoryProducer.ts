@@ -10,7 +10,6 @@ import { FloorFactory } from '../world_items/factories/FloorFactory';
 import { RoomFactory } from '../world_items/factories/RoomFactory';
 import { WallFactory } from '../world_items/factories/WallFactory';
 import { WindowFactory } from '../world_items/factories/WindowFactory';
-import { ModelFactory } from './ModelFactory';
 import { WorldFactory } from './WorldFactory';
 import { WorldItemFactory } from './WorldItemFactory';
 import { ModelFactory2 } from '../world_items/factories/ModelFactory2';

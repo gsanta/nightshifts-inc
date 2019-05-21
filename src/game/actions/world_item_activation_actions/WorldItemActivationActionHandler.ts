@@ -7,10 +7,13 @@ import _ from 'lodash';
 import { Room } from '../../world/world_items/item_types/Room';
 
 export class WorldItemActivationActionHandler implements ActionHandler {
+    private currentActivataleItem: WorldItem;
+
     public handle(type: string, world: World) {
         switch (type) {
             case GameActionType.PLAYER_MOVED:
                 const worldItem = this.getClosestActivatableWorldItem(world);
+                this.currentActivataleItem = worldItem;
 
                 const prevItem = _.find(world.worldItems, item => item.isBoundingMeshVisible() === true);
 
@@ -28,9 +31,10 @@ export class WorldItemActivationActionHandler implements ActionHandler {
                 break;
 
             case GameActionType.ACTIVATE_CLOSEST_ACTIONABLE_WORLD_ITEM:
-                const activeWorldItem = _.find(world.worldItems, item => item.isBoundingMeshVisible());
+                if (this.currentActivataleItem) {
+                    this.currentActivataleItem.doDefaultAction();
+                }
 
-                activeWorldItem.doDefaultAction();
                 break;
             default:
                 break;

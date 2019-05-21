@@ -9,7 +9,6 @@ import { Border } from './Border';
 import { WorldItem } from './WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
-import { SimpleWorldItem } from './SimpleWorldItem';
 const colors = GameConstants.colors;
 
 export class Wall extends ContainerWorldItem implements Border {
@@ -90,14 +89,6 @@ export class Wall extends ContainerWorldItem implements Border {
         return material;
     }
 
-    private static createMaterial3(scene: Scene): StandardMaterial {
-        const material = new StandardMaterial('wallMaterial', scene);
-        material.diffuseColor = Color3.FromHexString(colors.wall);
-        material.emissiveColor = Color3.FromHexString('#00FF00');
-
-        return material;
-    }
-
     public getAbsoluteBoundingPolygon(): Polygon {
         return this.getBoundingBox();
     }
@@ -108,51 +99,5 @@ export class Wall extends ContainerWorldItem implements Border {
 
     public clone(): ContainerWorldItem {
         throw new Error('not implemented');
-    }
-
-    private static getWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {
-        if (gwmWorldItem.dimensions.height > gwmWorldItem.dimensions.width) {
-            return this.getVerticalWallSideDimensions(gwmWorldItem);
-        } else {
-            return this.getHorizontalWallSideDimensions(gwmWorldItem);
-        }
-    }
-
-    private static getVerticalWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {
-        const originalDimensions = gwmWorldItem.dimensions;
-        const rect1 = new Rectangle(
-            -originalDimensions.width / 4,
-            0,
-            originalDimensions.width / 2,
-            originalDimensions.height
-        );
-
-        const rect2 = new Rectangle(
-            originalDimensions.width / 4,
-            0,
-            originalDimensions.width / 2,
-            originalDimensions.height
-        );
-
-        return [rect1, rect2];
-    }
-
-    private static getHorizontalWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {
-        const originalDimensions = gwmWorldItem.dimensions;
-        const rect1 = new Rectangle(
-            0,
-            - originalDimensions.height / 4,
-            originalDimensions.width,
-            originalDimensions.height / 2
-        );
-
-        const rect2 = new Rectangle(
-            0,
-            originalDimensions.height / 4,
-            originalDimensions.width,
-            originalDimensions.height / 2
-        );
-
-        return [rect1, rect2];
     }
 }

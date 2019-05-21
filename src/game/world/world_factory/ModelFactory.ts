@@ -11,12 +11,13 @@ import { Orientation } from '../../model/utils/Orientation';
 import { WorldItemFactory } from './WorldItemFactory';
 import { Direction } from '../../model/utils/Direction';
 import { WorldItemToWorldCenterTranslatorDecorator } from '../world_items/world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
+import { BoundingBoxCreator } from '../world_items/factories/BoundingBoxCreator';
 
 export class ModelFactory implements WorldItemFactory {
-    public meshInfo: [Mesh[], Skeleton[]];
+    private boundingBoxCreator: BoundingBoxCreator;
 
-    constructor(meshInfo: [Mesh[], Skeleton[]]) {
-        this.meshInfo = meshInfo;
+    constructor(boundingBoxCreator: BoundingBoxCreator) {
+        this.boundingBoxCreator = boundingBoxCreator;
     }
 
     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
@@ -36,20 +37,5 @@ export class ModelFactory implements WorldItemFactory {
 
 
         return meshModel;
-    }
-
-    private getRealMeshDimensions(mesh: Mesh, worldItem: GwmWorldItem<AdditionalData>): Vector2Model {
-        const xExtend = mesh.getBoundingInfo().boundingBox.extendSize.x * mesh.scaling.x;
-        const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.y * mesh.scaling.y;
-
-        switch (worldItem.additionalData.orientation) {
-            case Orientation.NORTH:
-            case Orientation.SOUTH:
-            default:
-                return new Vector2Model(xExtend, zExtend);
-            case Orientation.WEST:
-            case Orientation.EAST:
-                return new Vector2Model(zExtend, xExtend);
-        }
     }
 }
