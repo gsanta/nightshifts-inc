@@ -1,6 +1,5 @@
 import {TreeNode, TreeIteratorGenerator} from '@nightshifts.inc/world-generator';
 import { WorldItem } from '../world_items/item_types/WorldItem';
-import { Border } from '../world_items/item_types/Border';
 import { Room } from '../world_items/item_types/Room';
 
 
@@ -14,25 +13,10 @@ export class WorldItemTreeMapper {
 
             if (from.borderItems) {
                 from.borderItems.forEach(item => {
-                    // to.neighbours.push(fromToMap.get(item));
-                    this.setNeigbourForRoom(<Room> to, <Border><unknown> fromToMap.get(item));
+                    to.neighbours.push(fromToMap.get(item));
+                    fromToMap.get(item).neighbours.push(to);
                 });
             }
-        }
-    }
-
-    private setNeigbourForRoom(room: Room, borderItem:  Border) {
-        const side1 = borderItem.sides[0];
-        const side2 = borderItem.sides[1];
-
-        const side1BoundingPolygon = side1.getAbsoluteBoundingPolygon();
-        const roomBoundingPolygon = room.getBoundingBox();
-
-        room.borderItems.push(borderItem as any);
-        if (roomBoundingPolygon.containsMoreThenHalf(side1BoundingPolygon)) {
-            room.neighbours.push(side1);
-        } else {
-            room.neighbours.push(side2);
         }
     }
 }

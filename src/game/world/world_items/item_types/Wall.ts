@@ -1,5 +1,5 @@
 
-import { Mesh, MeshBuilder, Scene, StandardMaterial } from '@babylonjs/core';
+import { Mesh, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { Polygon, Rectangle, Point } from '@nightshifts.inc/geometry';
 import { Color3 } from '@babylonjs/core';
@@ -13,25 +13,14 @@ import { SimpleWorldItem } from './SimpleWorldItem';
 const colors = GameConstants.colors;
 
 export class Wall extends ContainerWorldItem implements Border {
-    private parentMesh: WorldItem;
     private rotation: VectorModel = new VectorModel(0, 0, 0);
     private static index = 0;
     public sides: [WorldItem, WorldItem];
 
-    private constructor(parent: WorldItem, wallSide1: WorldItem, wallSide2: WorldItem) {
+    private constructor(mesh: Mesh, boundingBox: Polygon) {
         super([]);
 
-        this.mesh = parent.mesh;
-        this.parentMesh = parent;
-        this.parentMesh.mesh.visibility = 0;
-
-        this.addChild(wallSide1);
-        this.addChild(wallSide2);
-
-        this.sides = [wallSide1, wallSide2];
-
-        wallSide1.parent = this;
-        wallSide2.parent = this;
+        this.mesh = mesh;
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Wall {
@@ -60,33 +49,28 @@ export class Wall extends ContainerWorldItem implements Border {
 
         mesh1.parent = parentMesh;
         mesh1.receiveShadows = true;
-
-        const wallSide1 = new SimpleWorldItem(mesh1, 'wall', wallSide1Dim);
-        wallSide1.mesh.material = material;
-        wallSide1.translate(new VectorModel(wallSide1Dim.left, 0, wallSide1Dim.top));
+        mesh1.material = material;
+        mesh1.translate(new Vector3(wallSide1Dim.left, 0, wallSide1Dim.top), 1);
 
         const mesh2 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 8  }, scene);
 
         mesh2.parent = parentMesh;
         mesh2.receiveShadows = true;
+        mesh2.material = material;
+        mesh2.translate(new Vector3(wallSide2Dim.left, 0, wallSide2Dim.top), 1);
 
-        const wallSide2 = new SimpleWorldItem(mesh2, 'wall', wallSide2Dim);
-        wallSide2.translate(new VectorModel(wallSide2Dim.left, 0, wallSide2Dim.top));
-
-        wallSide2.mesh.material = material;
-        // wallSide2.mesh.visibility = 0;
-
-
-        const parent = new SimpleWorldItem(parentMesh, 'wall', gwmWorldItem.dimensions);
-        wallSide1.mesh.parent = parent.mesh;
-        wallSide2.mesh.parent = parent.mesh;
-        parent.mesh.material = this.createMaterial2(scene);
+        parentMesh.material = this.createMaterial2(scene);
+        parentMesh.isVisible = false;
 
         this.index++;
 
-        const wall = new Wall(parent, wallSide1, wallSide2);
+
+        const wall = new Wall(parentMesh, gwmWorldItem.dimensions);
         wall.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
 
+        parentMesh.computeWorldMatrix(true);
+        mesh1.computeWorldMatrix(true);
+        mesh2.computeWorldMatrix(true);
         return wall;
     }
 
@@ -114,26 +98,8 @@ export class Wall extends ContainerWorldItem implements Border {
         return material;
     }
 
-    public translate(vectorModel: VectorModel): void {
-        this.parentMesh.translate(vectorModel);
-    }
-
-    public getBoundingBox(): Polygon {
-        return this.parentMesh.getBoundingBox();
-    }
-
     public getAbsoluteBoundingPolygon(): Polygon {
         return this.getBoundingBox();
-    }
-
-    public scale(vectorModel: VectorModel) {
-        this.parentMesh.scale(vectorModel);
-        // this.children[0].scale(new VectorModel(vectorModel.x, 1, 1));
-        // this.children[0].scale(new VectorModel(vectorModel.x, 1, 1));
-    }
-
-    public getScale(): VectorModel {
-        return this.parentMesh.getScale();
     }
 
     public getRotation(): VectorModel {
@@ -141,14 +107,7 @@ export class Wall extends ContainerWorldItem implements Border {
     }
 
     public clone(): ContainerWorldItem {
-        const clonedChildren = this.children.map(child => child.clone());
-        const parentClone = this.parentMesh.clone();
-        clonedChildren[0].mesh.wrappedMesh.parent = parentClone.mesh.wrappedMesh;
-        clonedChildren[1].mesh.wrappedMesh.parent = parentClone.mesh.wrappedMesh;
-        clonedChildren[0].mesh.wrappedMesh.visibility = true;
-        clonedChildren[1].mesh.wrappedMesh.visibility = true;
-
-        return new Wall(parentClone, clonedChildren[0], clonedChildren[1]);
+        throw new Error('not implemented');
     }
 
     private static getWallSideDimensions(gwmWorldItem: GwmWorldItem): [Rectangle, Rectangle] {

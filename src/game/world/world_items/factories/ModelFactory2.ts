@@ -19,13 +19,11 @@ export class ModelFactory2 {
         meshes[0].isVisible = true;
 
         boundingBox = boundingBox.mirrorY();
-
-        const meshModel = new SimpleWorldItem(meshes[0], meshes[0].name, boundingBox);
-
         boundingBox = boundingBox.addX(- boundingBox.width / 2);
         boundingBox = boundingBox.addY(boundingBox.height / 2);
-        meshModel.setBoudingBox(boundingBox);
 
+        const meshModel = new SimpleWorldItem(meshes[0], meshes[0].name, boundingBox);
+        meshModel.setBoudingBox(boundingBox);
         meshModel.rotateY(rotation);
 
         const mesh = this.createMesh(meshModel, this.scene);

@@ -52,8 +52,8 @@ export class FlashlightTool implements Tool {
     // TODO refactor this to make it more general
     private addMeshesToShadowGenerator(shadowGenerator: ShadowGenerator, world: World) {
         world.worldItems.filter(worldItem => worldItem instanceof Wall).forEach((wall: Wall) => {
-            shadowGenerator.getShadowMap().renderList.push(wall.children[0].mesh);
-            shadowGenerator.getShadowMap().renderList.push(wall.children[1].mesh);
+            shadowGenerator.getShadowMap().renderList.push(wall.mesh.getChildMeshes()[0]);
+            shadowGenerator.getShadowMap().renderList.push(wall.mesh.getChildMeshes()[1]);
         });
 
         world.worldItems.filter(worldItem => worldItem instanceof Room).forEach((room: Room) => {
