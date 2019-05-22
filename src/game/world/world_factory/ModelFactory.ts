@@ -13,29 +13,29 @@ import { Direction } from '../../model/utils/Direction';
 import { WorldItemToWorldCenterTranslatorDecorator } from '../world_items/world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
 import { BoundingBoxCreator } from '../world_items/factories/BoundingBoxCreator';
 
-export class ModelFactory implements WorldItemFactory {
-    private boundingBoxCreator: BoundingBoxCreator;
+// export class ModelFactory implements WorldItemFactory {
+//     private boundingBoxCreator: BoundingBoxCreator;
 
-    constructor(boundingBoxCreator: BoundingBoxCreator) {
-        this.boundingBoxCreator = boundingBoxCreator;
-    }
+//     constructor(boundingBoxCreator: BoundingBoxCreator) {
+//         this.boundingBoxCreator = boundingBoxCreator;
+//     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-        const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
-        const mesh =  this.meshInfo[0][0].clone(`${this.meshInfo[0][0].name}`);
-        mesh.isVisible = true;
+//     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
+//         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
+//         const mesh =  this.meshInfo[0][0].clone(`${this.meshInfo[0][0].name}`);
+//         mesh.isVisible = true;
 
-        const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
-        const dock = worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
-        let boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions, dock, realMeshDimensions);
-        boundingBox = boundingBox.negateY();
-        const rotation = gameObjectTranslator.getRotation(worldItem);
+//         const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
+//         const dock = worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
+//         let boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions, dock, realMeshDimensions);
+//         boundingBox = boundingBox.negateY();
+//         const rotation = gameObjectTranslator.getRotation(worldItem);
 
-        const meshModel = new SimpleWorldItem(mesh, worldItem.name, worldItem.dimensions);
-        meshModel.rotateY(rotation);
-        // meshModel.setBoudingBox(boundingBox);
+//         const meshModel = new SimpleWorldItem(mesh, worldItem.name, worldItem.dimensions);
+//         meshModel.rotateY(rotation);
+//         // meshModel.setBoudingBox(boundingBox);
 
 
-        return meshModel;
-    }
-}
+//         return meshModel;
+//     }
+// }

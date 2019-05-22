@@ -45,6 +45,8 @@ export interface WorldItem {
 
     mesh?: Mesh;
 
+    getChildren(): WorldItem[];
+
     /**
      * A cuboid mesh that encloses all of the meshes of the WorldItem
      */
@@ -76,12 +78,6 @@ export interface WorldItem {
 
     translate(vectorModel: VectorModel): void;
     getHeight(): number;
-    /**
-     * scales the underlying Mesh (or Mesh system if it is a `ContainerWorldItem`) on the x, y, z plane given
-     * the corresponding coordinates of the `VectorModel` parameter.
-     */
-    scale(vectorModel: VectorModel): void;
-    getScale(): VectorModel;
     rotateY(amount: number);
     getRotation(): VectorModel;
     /**
@@ -89,10 +85,6 @@ export interface WorldItem {
      */
     getCenterPosition(): VectorModel;
     getBoundingBox(): Polygon;
-    /**
-     * @deprecated should use `getBoundingBox()`
-     */
-    getAbsoluteBoundingPolygon(): Polygon;
     setParent(worldItem: WorldItem);
     intersectsPoint(vector: VectorModel);
     intersectsWorldItem(otherWorldItem: WorldItem);

@@ -1,12 +1,12 @@
 import { Mesh } from '@babylonjs/core';
 import { Polygon } from '@nightshifts.inc/geometry';
-import { ContainerWorldItem } from './ContainerWorldItem';
 import { WorldItem } from './WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Door } from './Door';
+import { SimpleWorldItem } from './SimpleWorldItem';
 
 
-export class Room extends ContainerWorldItem {
+export class Room extends SimpleWorldItem {
     public borderItems: WorldItem[] = [];
     public mesh: Mesh;
     public type: string;
@@ -15,14 +15,10 @@ export class Room extends ContainerWorldItem {
     public lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering' = 'onWhenActive';
 
     constructor(mesh: Mesh, boundingPolygon: Polygon, name: string) {
-        super([]);
+        super(mesh, boundingPolygon, {type: name});
         this.type = name;
         this.mesh = mesh;
         this.boundingBox = boundingPolygon;
-    }
-
-    public getAllMeshes(): Mesh[] {
-        return [this.mesh, ...super.getAllMeshes()];
     }
 
     public getBoundingBox(): Polygon {

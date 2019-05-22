@@ -1,11 +1,11 @@
 import { Scene, MeshBuilder, Vector3, PhysicsImpostor } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { ContainerWorldItem } from '../item_types/ContainerWorldItem';
 import { Room } from '../item_types/Room';
 import { World } from '../../World';
 import { Point, Polygon } from '@nightshifts.inc/geometry';
 import { GameConstants } from '../../../GameConstants';
 import { RoomLabelFactory } from './RoomLabelFactory';
+import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 const colors = GameConstants.colors;
 
 export class RoomFactory {
@@ -18,7 +18,7 @@ export class RoomFactory {
         this.roomLabelFactory = new RoomLabelFactory(scene);
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): ContainerWorldItem {
+    public createItem(worldItem: GwmWorldItem, world: World): SimpleWorldItem {
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
 

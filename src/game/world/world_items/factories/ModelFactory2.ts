@@ -22,7 +22,7 @@ export class ModelFactory2 {
         boundingBox = boundingBox.addX(- boundingBox.width / 2);
         boundingBox = boundingBox.addY(boundingBox.height / 2);
 
-        const meshModel = new SimpleWorldItem(meshes[0], meshes[0].name, boundingBox);
+        const meshModel = new SimpleWorldItem(meshes[0], boundingBox, {type: meshes[0].name});
         meshModel.setBoudingBox(boundingBox);
         meshModel.rotateY(rotation);
 

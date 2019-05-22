@@ -20,7 +20,7 @@ export class CameraTool implements Tool {
 
     public enable() {
         const room = <Room> this.world.getWorldItemsByName('room')[0];
-        const emptyArea = find(room.children, child => child.type === 'empty');
+        const emptyArea = find(room.getChildren(), child => child.type === 'empty');
         const pos = emptyArea.getCenterPosition();
         const vector = new Vector3(pos.x, 1, pos.z);
 

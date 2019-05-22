@@ -12,7 +12,7 @@ import { LightSwitcher } from './LightSwitcher';
 export class NormalLightSwitcher implements LightSwitcher {
 
     public on(room: Room, world: World): Promise<void> {
-        const childMeshes = _.chain([room, ...room.children]).map(item => item.getAllMeshes()).flatten().value();
+        const childMeshes = _.chain([room, ...room.getChildren()]).map(item => item.getAllMeshes()).flatten().value();
         const neighbourMeshes = _.chain(room.neighbours)
             .filter(item => item instanceof Wall)
             .map(item => this.getMeshesThatAreInsideTheRoom(<Wall> item, room)).flatten().value();
@@ -52,7 +52,7 @@ export class NormalLightSwitcher implements LightSwitcher {
     }
 
     public off(room: Room, world: World): Promise<void> {
-        const childMeshes = _.chain([room, ...room.children]).map(item => item.getAllMeshes()).flatten().value();
+        const childMeshes = _.chain([room, ...room.getChildren()]).map(item => item.getAllMeshes()).flatten().value();
         const neighbourMeshes = _.chain(room.neighbours)
             .filter(item => item instanceof Wall)
             .map(item => {

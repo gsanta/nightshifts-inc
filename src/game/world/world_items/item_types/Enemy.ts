@@ -10,7 +10,7 @@ export class Enemy extends SimpleWorldItem {
     private isVisible = true;
 
     constructor(mesh: Mesh, scene: Scene, boundingPolygon: Rectangle) {
-        super(mesh, null, boundingPolygon);
+        super(mesh, boundingPolygon);
         this.scene = scene;
 
         this.initMaterials();

@@ -1,15 +1,24 @@
-import { StandardMaterial, Mesh, Vector3, Axis, Space, PhysicsImpostor } from '@babylonjs/core';
-import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
-import { SerializedMeshModel, WorldItem } from './WorldItem';
-import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
-import { ContainerWorldItem } from './ContainerWorldItem';
-import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
-import isNumber from 'lodash/isNumber';
-import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
+import { Axis, Mesh, PhysicsImpostor, Space, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { Point, Polygon, Rectangle } from '@nightshifts.inc/geometry';
+import { VectorModel } from '../../../model/core/VectorModel';
 import { EmptyCommand } from '../action_strategies/EmptyCommand';
+import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
+import { SerializedMeshModel, WorldItem } from './WorldItem';
+import flatten = require('lodash/flatten');
+
+export interface WorldItemConfig {
+    type: string;
+    children: WorldItem[];
+}
+
+const defaultWorldItemConfig: WorldItemConfig = {
+    type: 'default',
+    children: []
+};
 
 export class SimpleWorldItem implements WorldItem {
     public mesh: Mesh;
+    private children: WorldItem[] = [];
     public boundingMesh?: Mesh;
     public type: string;
     public label: string;
@@ -26,18 +35,28 @@ export class SimpleWorldItem implements WorldItem {
 
     protected counter = 1;
 
-    constructor(mesh: Mesh, type: string, boundingBox: Polygon) {
+    constructor(mesh: Mesh, boundingBox: Polygon, worldItemConfig?: Partial<WorldItemConfig>) {
+        worldItemConfig = {...defaultWorldItemConfig, ...worldItemConfig};
         this.mesh = mesh;
-        this.type = type;
         this.boundingBox = boundingBox;
+        this.type = worldItemConfig.type;
+        this.children = [...worldItemConfig.children];
+    }
+
+    public getChildren(): WorldItem[] {
+        return this.children;
     }
 
     public hasConnectionWith(worldItem: WorldItem): boolean {
-        return this.neighbours.indexOf(worldItem) !== -1;
+        return [...this.children, ...this.neighbours].indexOf(worldItem) !== -1;
     }
 
     public getAllMeshes(): Mesh[] {
-        return [this.mesh];
+        if (this.children.length > 0) {
+            return [this.mesh, ...flatten(this.children.map(child => child.getAllMeshes()))];
+        } else {
+            return [this.mesh];
+        }
     }
 
     public doDefaultAction() {
@@ -52,9 +71,9 @@ export class SimpleWorldItem implements WorldItem {
         return {
             name: this.type,
             scaling: {
-                x: this.getScale().x,
-                y: this.getScale().y,
-                z: this.getScale().z,
+                x: null,
+                y: null,
+                z: null,
             },
             translate: {
                 x: this.getCenterPosition().x,
@@ -75,7 +94,7 @@ export class SimpleWorldItem implements WorldItem {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
         const name = this.type;
 
-        const clone = new SimpleWorldItem(clonedMesh, name, this.boundingBox);
+        const clone = new SimpleWorldItem(clonedMesh, this.boundingBox, {type: name});
         this.copyTo(clone);
 
         return clone;
@@ -100,34 +119,18 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public translate(vectorModel: VectorModel) {
-        this.mesh.translate(new Vector3(vectorModel.x, vectorModel.y, vectorModel.z), 1);
+        if (this.mesh) {
+            this.mesh.translate(new Vector3(vectorModel.x, vectorModel.y, vectorModel.z), 1);
+        }
     }
 
     public getHeight(): number {
         return this.mesh ? this.mesh.getBoundingInfo().boundingBox.maximumWorld.y * 2 : 12;
     }
 
-    public scale(vectorModel: VectorModel) {
-        if (isNumber(vectorModel.x)) {
-            this.mesh.scaling.x = vectorModel.x;
-        }
-
-        if (isNumber(vectorModel.y)) {
-            this.mesh.scaling.y = vectorModel.y;
-        }
-
-        if (isNumber(vectorModel.z)) {
-            this.mesh.scaling.z = vectorModel.z;
-        }
-    }
-
     public getCenterPosition(): VectorModel {
         const center = (<Rectangle> this.getBoundingBox()).getBoundingCenter();
         return new VectorModel(center.x, 0, center.y);
-    }
-
-    public getScale(): VectorModel {
-        return new VectorModel(this.mesh.scaling.x, this.mesh.scaling.y, this.mesh.scaling.z);
     }
 
     public getRotation(): VectorModel {
@@ -154,25 +157,8 @@ export class SimpleWorldItem implements WorldItem {
         return this.boundingBox;
     }
 
-    public getAbsoluteBoundingPolygon(): Polygon {
-        const parentCenter = this.parent ? this.parent.getCenterPosition() : new VectorModel(0, 0, 0);
-        const mesh: any = this.mesh;
-        const width = mesh.geometry.extend.maximum.x - mesh.geometry.extend.minimum.x;
-        const height = mesh.geometry.extend.maximum.z - mesh.geometry.extend.minimum.z;
-        const position = this.mesh.getPositionExpressedInLocalSpace();
-        const centerPoint = new Point(position.x, position.z);
-
-        return new Rectangle(centerPoint.x - width / 2, centerPoint.y - height / 2, width, height).translate(new Point(parentCenter.x, parentCenter.z));
-        // if (this.parent) {
-        //     const parentBoundingPolygon = this.parent.getBoundingPolygon();
-        //     return this.getBoundingPolygon().translate(new Point(parentBoundingPolygon.left, parentBoundingPolygon.top));
-        // }
-
-        return this.getBoundingBox();
-    }
-
     public setParent(worldItem: WorldItem) {
-        this.mesh.parent = (<ContainerWorldItem> worldItem).mesh;
+        this.mesh.parent = worldItem.mesh;
     }
 
     public intersectsPoint(vector: VectorModel) {
@@ -188,7 +174,9 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public setBoundingMeshVisible(isVisible: boolean) {
-        this.boundingMesh.isVisible = isVisible;
+        if (this.boundingMesh) {
+            this.boundingMesh.isVisible = isVisible;
+        }
         this.boundingMeshVisible = isVisible;
     }
 
@@ -199,6 +187,11 @@ export class SimpleWorldItem implements WorldItem {
     public setImpostor(impostor: PhysicsImpostor) {
         this.mesh.physicsImpostor = impostor;
         this.impostor = impostor;
+    }
+
+    public addChild(worldItem: WorldItem) {
+        this.children.push(worldItem);
+        worldItem.parent = this;
     }
 
     protected copyTo(meshModel: WorldItem): WorldItem {

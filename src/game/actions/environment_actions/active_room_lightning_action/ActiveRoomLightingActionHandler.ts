@@ -65,14 +65,14 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
     private hideCeiling(world: World) {
         world.getWorldItemsByName('room')
             .forEach((room: Room) => {
-                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
+                room.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
             });
     }
 
     private showCeiling(world: World) {
         world.getWorldItemsByName('room')
         .forEach((room: Room) => {
-            room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
+            room.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
         });
     }
 
@@ -82,11 +82,11 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
         _.chain(world.getWorldItemsByName('room'))
             .without(activeRoom)
             .forEach((room: Room) => {
-                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
+                room.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
             })
             .value();
 
-        activeRoom.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
+        activeRoom.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
     }
 
     private handleEnterRoom(activeRoom: Room, world: World) {

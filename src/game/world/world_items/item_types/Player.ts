@@ -38,7 +38,7 @@ export class Player extends SimpleWorldItem {
     private skeleton: Skeleton;
 
     constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, boundingPolygon: Polygon) {
-        super(mesh, 'player', boundingPolygon);
+        super(mesh, boundingPolygon, { type: 'player' });
 
         this.skeleton = skeleton;
 

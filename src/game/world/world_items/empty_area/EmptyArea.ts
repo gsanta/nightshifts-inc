@@ -6,7 +6,7 @@ import { Polygon } from '@nightshifts.inc/geometry';
 export class EmptyArea extends SimpleWorldItem {
 
     constructor(mesh: Mesh, boundingPolygon: Polygon) {
-        super(mesh, 'empty', boundingPolygon);
+        super(mesh, boundingPolygon, {type: 'empty'});
 
         this.boundingBox = boundingPolygon;
     }

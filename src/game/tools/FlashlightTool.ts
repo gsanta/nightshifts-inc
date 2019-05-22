@@ -61,13 +61,13 @@ export class FlashlightTool implements Tool {
         });
 
         world.worldItems.filter(worldItem => worldItem instanceof Door).forEach((door: Door) => {
-            shadowGenerator.getShadowMap().renderList.push(door.children[0].mesh);
-            shadowGenerator.getShadowMap().renderList.push(door.children[1].mesh);
+            shadowGenerator.getShadowMap().renderList.push(door.getChildren()[0].mesh);
+            shadowGenerator.getShadowMap().renderList.push(door.getChildren()[1].mesh);
         });
 
         world.worldItems.filter(worldItem => worldItem instanceof Window).forEach((window: Window) => {
-            shadowGenerator.getShadowMap().renderList.push(window.children[0].mesh);
-            shadowGenerator.getShadowMap().renderList.push(window.children[1].mesh);
+            shadowGenerator.getShadowMap().renderList.push(window.getChildren()[0].mesh);
+            shadowGenerator.getShadowMap().renderList.push(window.getChildren()[1].mesh);
         });
 
         world.worldItems.filter(worldItem => worldItem instanceof EmptyArea).forEach((emptyArea: EmptyArea) => {

@@ -1,5 +1,4 @@
 import { Mesh, Scene, MeshBuilder, StandardMaterial, Color3, Matrix } from '@babylonjs/core';
-import { ContainerWorldItem } from './ContainerWorldItem';
 import { Border } from './Border';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { WorldItem, SerializedMeshModel } from './WorldItem';
@@ -7,10 +6,11 @@ import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { DividerWorldItemFactory } from '../factories/DividerWorldItemFactory';
 import { GameConstants } from '../../../GameConstants';
+import { SimpleWorldItem } from './SimpleWorldItem';
 const colors = GameConstants.colors;
 
 
-export class Door extends ContainerWorldItem implements Border {
+export class Door extends SimpleWorldItem implements Border {
     public isOpen: boolean;
     private pivotAngle: number;
     private pivot: VectorModel;
@@ -19,12 +19,10 @@ export class Door extends ContainerWorldItem implements Border {
     public type: 'door';
 
     constructor(container: WorldItem, side1: WorldItem, side2: WorldItem) {
-        super([], 'door');
+        super(container.mesh, null, {type: 'door'});
 
         this.hasDefaultAction = true;
         this.mesh = container.mesh;
-
-        this.container = container;
 
         this.addChild(side1);
         this.addChild(side2);
@@ -61,7 +59,7 @@ export class Door extends ContainerWorldItem implements Border {
     }
 
     public setMaterial(material: StandardMaterial) {
-        this.children.forEach(child => child.mesh.material = material);
+        this.getChildren().forEach(child => child.mesh.material = material);
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): Door {

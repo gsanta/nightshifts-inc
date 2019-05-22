@@ -6,7 +6,6 @@ import {StandardMaterial} from '@babylonjs/core';
 import { Color3 } from '@babylonjs/core';
 import { MeshBuilder } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
-import { ContainerWorldItem } from './ContainerWorldItem';
 import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { World } from '../../World';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -15,16 +14,16 @@ import { Border } from './Border';
 import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 const colors = GameConstants.colors;
 
-export class WindowGlass extends ContainerWorldItem {
+export class WindowGlass extends SimpleWorldItem {
 
     public constructor(mesh: Mesh, children: [WorldItem, WorldItem]) {
-        super(children, '');
+        super(mesh, null, {children});
         this.mesh = mesh;
     }
 
     public setPivotMatrix(matrix: any) {
-        this.children[0].mesh.setPivotMatrix(matrix);
-        this.children[1].mesh.setPivotMatrix(matrix);
+        this.getChildren()[0].mesh.setPivotMatrix(matrix);
+        this.getChildren()[1].mesh.setPivotMatrix(matrix);
     }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): WindowGlass {
@@ -50,7 +49,7 @@ export class WindowGlass extends ContainerWorldItem {
         middle1.material = this.createMaterial(scene);
         middle1.receiveShadows = true;
 
-        return new SimpleWorldItem(middle1, '', gwmWorldItem.dimensions);
+        return new SimpleWorldItem(middle1, gwmWorldItem.dimensions);
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
@@ -75,9 +74,9 @@ export class WindowGlass extends ContainerWorldItem {
     }
 }
 
-class WindowFrame extends ContainerWorldItem {
+class WindowFrame extends SimpleWorldItem {
     public constructor(containerMesh: Mesh, children: WorldItem[]) {
-        super(children);
+        super(containerMesh, null, {children});
         this.mesh = containerMesh;    }
 
     public static fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): WindowFrame {
@@ -103,7 +102,7 @@ class WindowFrame extends ContainerWorldItem {
         mesh.material = this.createMaterial(scene);
         mesh.receiveShadows = true;
 
-        return new SimpleWorldItem(mesh, '', gwmWorldItem.dimensions);
+        return new SimpleWorldItem(mesh, gwmWorldItem.dimensions);
     }
 
     private static createMaterial(scene: Scene): StandardMaterial {
@@ -129,38 +128,46 @@ class WindowFrame extends ContainerWorldItem {
     }
 }
 
-export class Window extends ContainerWorldItem implements Border {
+export class Window extends SimpleWorldItem implements Border {
     public isOpen: boolean;
     private pivotAngle: number;
     private isHorizontal = true;
-    public sides: [ContainerWorldItem, ContainerWorldItem];
+    public sides: [WorldItem, WorldItem];
 
     private pivot1: VectorModel;
     private pivot2: VectorModel;
 
     constructor(containerMesh: Mesh, children: WorldItem[], config?: MeshTemplateConfig) {
-        super(children, 'window');
+        super(containerMesh, null, {type: 'window', children});
         this.mesh = containerMesh;
 
         children.forEach(child => child.setParent(this));
         this.hasDefaultAction = false;
 
         this.sides = [
-            new ContainerWorldItem(
-                [
-                    (<ContainerWorldItem> this.children[0]).children[0],
-                    (<ContainerWorldItem> this.children[1]).children[0],
-                    (<ContainerWorldItem> this.children[2]).children[0],
-                    (<ContainerWorldItem> this.children[3]).children[0]
-                ]
+            new SimpleWorldItem(
+                null,
+                null,
+                {
+                    children: [
+                        this.getChildren()[0].getChildren()[0],
+                        this.getChildren()[1].getChildren()[0],
+                        this.getChildren()[2].getChildren()[0],
+                        this.getChildren()[3].getChildren()[0]
+                    ]
+                }
             ),
-            new ContainerWorldItem(
-                [
-                    (<ContainerWorldItem> this.children[0]).children[1],
-                    (<ContainerWorldItem> this.children[1]).children[1],
-                    (<ContainerWorldItem> this.children[2]).children[1],
-                    (<ContainerWorldItem> this.children[3]).children[1]
-                ]
+            new SimpleWorldItem(
+                null,
+                null,
+                {
+                    children: [
+                        this.getChildren()[0].getChildren()[1],
+                        this.getChildren()[1].getChildren()[1],
+                        this.getChildren()[2].getChildren()[1],
+                        this.getChildren()[3].getChildren()[1]
+                    ]
+                }
             )
         ];
     }
@@ -170,23 +177,23 @@ export class Window extends ContainerWorldItem implements Border {
         this.pivot1 = pivot1;
         this.pivot2 = pivot2;
 
-        // (<WindowGlass> this.children[2]).setPivotMatrix(Matrix.Translation(pivot1.x, pivot1.y, pivot1.z));
-        // (<WindowGlass> this.children[3]).setPivotMatrix(Matrix.Translation(pivot2.x, pivot2.y, pivot2.z));
+        // (<WindowGlass> this.getChildren()[2]).setPivotMatrix(Matrix.Translation(pivot1.x, pivot1.y, pivot1.z));
+        // (<WindowGlass> this.getChildren()[3]).setPivotMatrix(Matrix.Translation(pivot2.x, pivot2.y, pivot2.z));
     }
 
     public doDefaultAction() {
         if (this.isOpen) {
             if (this.isHorizontal) {
-                (<ContainerWorldItem> this.children[2]).children[0].mesh.rotation.y = 0;
-                (<ContainerWorldItem> this.children[3]).children[0].mesh.rotation.y = 0;
+                this.getChildren()[2].getChildren()[0].mesh.rotation.y = 0;
+                this.getChildren()[3].getChildren()[0].mesh.rotation.y = 0;
             } else {
-                (<ContainerWorldItem> this.children[2]).children[0].mesh.rotation.y = 0;
-                (<ContainerWorldItem> this.children[3]).children[0].mesh.rotation.y = 0;
+                this.getChildren()[2].getChildren()[0].mesh.rotation.y = 0;
+                this.getChildren()[3].getChildren()[0].mesh.rotation.y = 0;
             }
             this.isOpen = false;
         } else {
-            (<ContainerWorldItem> this.children[2]).children[0].mesh.rotation.y = this.pivotAngle;
-            (<ContainerWorldItem> this.children[3]).children[0].mesh.rotation.y = - this.pivotAngle;
+            this.getChildren()[2].getChildren()[0].mesh.rotation.y = this.pivotAngle;
+            this.getChildren()[3].getChildren()[0].mesh.rotation.y = - this.pivotAngle;
             this.isOpen = true;
         }
     }

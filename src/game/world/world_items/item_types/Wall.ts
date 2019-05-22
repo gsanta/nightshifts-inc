@@ -4,20 +4,20 @@ import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { Polygon, Rectangle, Point } from '@nightshifts.inc/geometry';
 import { Color3 } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
-import { ContainerWorldItem } from './ContainerWorldItem';
 import { Border } from './Border';
 import { WorldItem } from './WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
+import { SimpleWorldItem } from './SimpleWorldItem';
 const colors = GameConstants.colors;
 
-export class Wall extends ContainerWorldItem implements Border {
+export class Wall extends SimpleWorldItem implements Border {
     private rotation: VectorModel = new VectorModel(0, 0, 0);
     private static index = 0;
     public sides: [WorldItem, WorldItem];
 
     private constructor(mesh: Mesh, boundingBox: Polygon) {
-        super([]);
+        super(mesh, boundingBox);
 
         this.mesh = mesh;
     }
@@ -89,15 +89,7 @@ export class Wall extends ContainerWorldItem implements Border {
         return material;
     }
 
-    public getAbsoluteBoundingPolygon(): Polygon {
-        return this.getBoundingBox();
-    }
-
     public getRotation(): VectorModel {
         return this.rotation;
-    }
-
-    public clone(): ContainerWorldItem {
-        throw new Error('not implemented');
     }
 }

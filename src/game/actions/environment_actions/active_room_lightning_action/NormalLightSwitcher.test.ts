@@ -34,7 +34,7 @@ const createRoomMock = (roomMesh: Partial<Mesh>, childMeshes: Partial<Mesh>[], n
 
     return <Room> {
         mesh: <any> roomMesh,
-        children: children,
+        getChildren: () => children,
         neighbours: neighbours,
         getAllMeshes: () => [roomMesh]
     };

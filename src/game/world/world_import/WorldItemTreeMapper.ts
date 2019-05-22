@@ -7,6 +7,7 @@ export class WorldItemTreeMapper {
     public mapTree(fromTree: TreeNode, fromToMap: Map<TreeNode, WorldItem>) {
         for (const from of TreeIteratorGenerator(fromTree)) {
             const to = fromToMap.get(from);
+
             if (from.children) {
                 from.children.forEach(child => (<Room> to).addChild(fromToMap.get(child)));
             }
