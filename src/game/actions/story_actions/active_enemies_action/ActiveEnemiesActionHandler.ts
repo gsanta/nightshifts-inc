@@ -1,12 +1,12 @@
 import { GameActionType } from '../../GameActionType';
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
-import { Room } from '../../../world/world_items/item_types/Room';
 import { Enemy } from '../../../world/world_items/item_types/Enemy';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { Rectangle } from '@nightshifts.inc/geometry';
 import find from 'lodash/find';
 import { StandardMaterial, Color3 } from '@babylonjs/core';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 export class ActiveEnemiesActionHandler implements ActionHandler {
 
@@ -19,7 +19,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
     public handle(type: string, world: World) {
         switch (type) {
             case GameActionType.GAME_IS_READY:
-                const rooms = <Room[]> world.getWorldItemsByName('room');
+                const rooms = world.getWorldItemsByName('room');
 
                 if (rooms.length > 1) {
                     const enemy1 = this.createEnemy(world, rooms[1]);
@@ -37,7 +37,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
         }
     }
 
-    private createEnemy(world: World, room: Room): Enemy {
+    private createEnemy(world: World, room: WorldItem): Enemy {
         const emptyArea = find(room.getChildren(), child => child.type === 'empty');
 
         const material = new StandardMaterial('empty-area-material', world.scene);

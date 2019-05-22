@@ -4,7 +4,6 @@ import { GameActionType } from '../GameActionType';
 import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 import { VectorModel } from '../../model/core/VectorModel';
 import _ from 'lodash';
-import { Room } from '../../world/world_items/item_types/Room';
 
 export class WorldItemActivationActionHandler implements ActionHandler {
     private currentActivataleItem: WorldItem;
@@ -22,7 +21,7 @@ export class WorldItemActivationActionHandler implements ActionHandler {
                     prevItem.setBoundingMeshVisible(false);
                 }
 
-                const activeRoom: Room = <Room> _.find(world.getWorldItemsByName('room'), (room: Room) => room.isActive);
+                const activeRoom: WorldItem = _.find(world.getWorldItemsByName('room'), room => room.isActive);
 
                 if (activeRoom.hasConnectionWith(worldItem)) {
                     worldItem.setBoundingMeshVisible(true);

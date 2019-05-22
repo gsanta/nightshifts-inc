@@ -1,12 +1,12 @@
-import { Room } from '../../../world/world_items/item_types/Room';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { ActionHandler } from '../../ActionHandler';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 
 export class EnterRoomActionHandler implements ActionHandler {
-    private prevRoom: Room;
+    private prevRoom: WorldItem;
     private actionDispatcher: ActionDispatcher;
 
     constructor(actionDispatcher: ActionDispatcher) {
@@ -32,9 +32,9 @@ export class EnterRoomActionHandler implements ActionHandler {
         }
     }
 
-    private getActiveRoom(world: World): Room {
+    private getActiveRoom(world: World): WorldItem {
         const rooms = world.worldItems.filter(gameObj => gameObj.type === 'room');
 
-        return <Room> rooms.filter(room => room.mesh.intersectsMesh(world.player.mesh))[0];
+        return rooms.filter(room => room.mesh.intersectsMesh(world.player.mesh))[0];
     }
 }

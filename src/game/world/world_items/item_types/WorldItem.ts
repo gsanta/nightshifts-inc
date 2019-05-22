@@ -37,6 +37,14 @@ export interface SerializedMeshModel {
 }
 
 export interface WorldItem {
+    // TODO: find a better solution for temperature and lampBehaviour, they are only needed for Room
+    temperature?: number;
+    lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering';
+
+    label: string;
+
+    isActive: boolean;
+
     /**
      * Determines whether the bounding mesh (which can be set through the `setBoundingMesh`) is visible or not
      */
@@ -90,4 +98,5 @@ export interface WorldItem {
     intersectsWorldItem(otherWorldItem: WorldItem);
     setVisible(isVisible: boolean): void;
     setImpostor(impostor: PhysicsImpostor);
+    addChild(worldItem: WorldItem);
 }

@@ -1,7 +1,7 @@
 import { LightSwitcher } from './LightSwitcher';
 import { World } from '../../../world/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
-import { Room } from '../../../world/world_items/item_types/Room';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 export class FlashingLightSwitcher implements LightSwitcher {
     private normalLightSwitcher: NormalLightSwitcher;
@@ -10,7 +10,7 @@ export class FlashingLightSwitcher implements LightSwitcher {
         this.normalLightSwitcher = normalLightSwitcher;
     }
 
-    public on(room: Room, world: World): Promise<void> {
+    public on(room: WorldItem, world: World): Promise<void> {
         const generator = this.turnLightOnWithFlashing(room, world);
         return this.spawn(generator);
         // return new Promise((resolve) => {
@@ -26,36 +26,25 @@ export class FlashingLightSwitcher implements LightSwitcher {
     private spawn(iterator): Promise<void> {
 
         return new Promise(
-          resolve =>
+            resolve =>
             (function iterate(val) {
-              const {value, done} = iterator.next(val);
-              if (done) { resolve(val); }
-              else { Promise.resolve(value).then(iterate); }
+                const {value, done} = iterator.next(val);
+                if (done) {
+                    resolve(val);
+                } else {
+                    Promise.resolve(value).then(iterate);
+                }
             })()
         );
 
       }
 
-    private *on2(room: Room, world: World) {
-        // return new Promise((resolve) => {
 
-            const generator = this.turnLightOnWithFlashing(room, world);
-            while (true) {
-                const {done} = generator.next();
-                if (done) {
-                    break;
-                }
-            }
-
-            yield undefined;
-        // });
-    }
-
-    public off(room: Room, world: World): Promise<void> {
+    public off(room: WorldItem, world: World): Promise<void> {
         return null;
     }
 
-    private *turnLightOnWithFlashing(room: Room, world: World) {
+    private *turnLightOnWithFlashing(room: WorldItem, world: World) {
         yield this.normalLightSwitcher.on(room, world);
         yield this.sleep(room, world, 200);
         yield this.normalLightSwitcher.off(room, world);
@@ -67,7 +56,7 @@ export class FlashingLightSwitcher implements LightSwitcher {
         yield this.normalLightSwitcher.on(room, world);
     }
 
-    private sleep(room: Room, world: World, timeout: number): Promise<void> {
+    private sleep(room: WorldItem, world: World, timeout: number): Promise<void> {
         return new Promise(resolve => {
             setTimeout(() => {console.log('timeout'); resolve(); }, timeout);
         });

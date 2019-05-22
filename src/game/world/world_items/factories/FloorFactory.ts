@@ -4,11 +4,11 @@ import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
-import { Room } from '../item_types/Room';
 import { WorldItem } from '../item_types/WorldItem';
-import { WorldItemTranslator, WorldItemToRealWorldCoordinateMapper } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
+import { WorldItemToRealWorldCoordinateMapper } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { Color3 } from '@babylonjs/core';
 import { WorldItemToWorldCenterTranslatorDecorator } from '../world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
+import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 const colors = GameConstants.colors;
 
 
@@ -28,7 +28,7 @@ export class FloorFactory implements GwmItemImporter {
         const translate = new VectorModel(boundingBox.left, 0, -boundingBox.top);
         translate.addZ(-2);
 
-        const meshModel = new Room(null, null, 'floor');
+        const meshModel = new SimpleWorldItem(null, null, {type: 'floor'});
         meshModel.translate(translate);
 
         return meshModel;

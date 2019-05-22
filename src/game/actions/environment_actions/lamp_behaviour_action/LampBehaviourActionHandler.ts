@@ -1,7 +1,6 @@
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { Room } from '../../../world/world_items/item_types/Room';
 
 
 export class LampBehaviourActionHandler implements ActionHandler {

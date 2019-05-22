@@ -17,6 +17,10 @@ const defaultWorldItemConfig: WorldItemConfig = {
 };
 
 export class SimpleWorldItem implements WorldItem {
+    // TODO: find a better solution for temperature and lampBehaviour, they are only needed for Room
+    public temperature = 20 + Math.floor(Math.random() * 10);
+    public lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering' = 'onWhenActive';
+
     public mesh: Mesh;
     private children: WorldItem[] = [];
     public boundingMesh?: Mesh;
@@ -27,6 +31,7 @@ export class SimpleWorldItem implements WorldItem {
     public neighbours: WorldItem[] = [];
     public material: StandardMaterial;
     public boundingMeshVisible = false;
+    public isActive: boolean;
     private impostor: PhysicsImpostor;
 
     private defaultAction: WorldItemActionCommand = new EmptyCommand();

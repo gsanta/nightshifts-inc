@@ -1,11 +1,11 @@
 import { RoomReservationStrategy } from './RoomReservationStrategy';
-import { Room } from '../../../world/world_items/item_types/Room';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 
 export class RandomRoomReservationStrategy implements RoomReservationStrategy {
-    public chooseRoom(rooms: Room[]): Room {
+    public chooseRoom(rooms: WorldItem[]): WorldItem {
         const randomRoomIndex = Math.floor(Math.random() * rooms.length);
 
-        return <Room> rooms[randomRoomIndex];
+        return rooms[randomRoomIndex];
     }
 }

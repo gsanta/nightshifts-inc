@@ -1,14 +1,14 @@
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { Room } from '../../../world/world_items/item_types/Room';
 import { ActionHandler } from '../../ActionHandler';
 import { Door } from '../../../world/world_items/item_types/Door';
 import { Scene, StandardMaterial, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 const colors = GameConstants.colors;
 
 export class RoomReservationAction implements ActionHandler {
-    private reservedRooms: Room[] = [];
+    private reservedRooms: WorldItem[] = [];
     private reservedRoomMaterial: StandardMaterial;
 
     public handle(type: string, world: World) {
@@ -26,28 +26,28 @@ export class RoomReservationAction implements ActionHandler {
         }
     }
 
-    private getRandomRoom(world: World): Room {
+    private getRandomRoom(world: World): WorldItem {
         const rooms = world.worldItems.filter(gameObj => gameObj.type === 'room');
 
         const randomRoomIndex = Math.floor(Math.random() * rooms.length);
 
-        return <Room> rooms[randomRoomIndex];
+        return <WorldItem> rooms[randomRoomIndex];
     }
 
-    private makeRoomFree(room: Room, world: World) {
-        room.borderItems
+    private makeRoomFree(room: WorldItem, world: World) {
+        room.neighbours
         .filter(item => item instanceof Door)
         .forEach((door: Door) => {
             door.setMaterial(door.material);
         });
     }
 
-    private makeRoomReserved(room: Room, world: World) {
+    private makeRoomReserved(room: WorldItem, world: World) {
         if (!this.reservedRoomMaterial) {
             this.reservedRoomMaterial = this.createReservedRoomMaterial(world.scene);
         }
 
-        room.borderItems
+        room.neighbours
         .filter(item => item instanceof Door)
         .forEach((door: Door) => {
             door.setMaterial(this.reservedRoomMaterial);

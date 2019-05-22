@@ -2,16 +2,15 @@ import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
 import { Enemy } from '../../../world/world_items/item_types/Enemy';
-import { Room } from '../../../world/world_items/item_types/Room';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
 import find from 'lodash/find';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { Rectangle } from '@nightshifts.inc/geometry';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 export class EnemyAttackActionHandler implements ActionHandler {
     private enemy: Enemy;
-    private activeRoom: Room;
     private collisionDetector: CollisionDetector;
     private actionDispatcher: ActionDispatcher;
     private attacking = false;
@@ -30,7 +29,7 @@ export class EnemyAttackActionHandler implements ActionHandler {
                 break;
 
             case GameActionType.ENTER_ROOM:
-                const activeRoom = <Room> find(world.getWorldItemsByName('room'), (room: Room) => room.isActive);
+                const activeRoom = <WorldItem> find(world.getWorldItemsByName('room'), (room: WorldItem) => room.isActive);
 
                 if (this.enemy && activeRoom === this.enemy.parent) {
                     this.enemyMotionState = 'attacking';

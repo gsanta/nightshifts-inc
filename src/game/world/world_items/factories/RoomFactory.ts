@@ -1,12 +1,9 @@
 import { Scene, MeshBuilder, Vector3, PhysicsImpostor } from '@babylonjs/core';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Room } from '../item_types/Room';
 import { World } from '../../World';
 import { Point, Polygon } from '@nightshifts.inc/geometry';
-import { GameConstants } from '../../../GameConstants';
 import { RoomLabelFactory } from './RoomLabelFactory';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
-const colors = GameConstants.colors;
 
 export class RoomFactory {
     private scene: Scene;
@@ -39,7 +36,7 @@ export class RoomFactory {
         const roomLabel = this.roomLabelFactory.createItem(dimensions, world, label);
         roomLabel.setVisible(false);
 
-        const room = new Room(mesh, dimensions, 'room');
+        const room = new SimpleWorldItem(mesh, dimensions, {type: 'room'});
         room.label = label;
         room.addChild(roomLabel);
         return room;

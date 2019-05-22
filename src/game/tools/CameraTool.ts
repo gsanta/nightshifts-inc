@@ -1,9 +1,8 @@
-import { Tool } from './Tool';
-import { SpotLight, Scene, ArcRotateCamera, Vector3, Tools, Viewport, FreeCamera } from '@babylonjs/core';
-import { World } from '../world/World';
+import { FreeCamera, Scene, SpotLight, Tools, Vector3 } from '@babylonjs/core';
 import find from 'lodash/find';
+import { World } from '../world/World';
 import { Player } from '../world/world_items/item_types/Player';
-import { Room } from '../world/world_items/item_types/Room';
+import { Tool } from './Tool';
 
 export class CameraTool implements Tool {
     public name = 'flashlight';
@@ -19,7 +18,7 @@ export class CameraTool implements Tool {
     }
 
     public enable() {
-        const room = <Room> this.world.getWorldItemsByName('room')[0];
+        const room = this.world.getWorldItemsByName('room')[0];
         const emptyArea = find(room.getChildren(), child => child.type === 'empty');
         const pos = emptyArea.getCenterPosition();
         const vector = new Vector3(pos.x, 1, pos.z);

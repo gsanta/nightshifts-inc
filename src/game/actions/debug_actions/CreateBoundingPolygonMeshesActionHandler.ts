@@ -1,11 +1,8 @@
 import { ActionHandler } from '../ActionHandler';
 import { GameActionType } from '../GameActionType';
 import { World } from '../../world/World';
-import { Rectangle } from '@nightshifts.inc/geometry';
 import { MeshBuilder, StandardMaterial, Color3, Vector3, Space, Mesh } from '@babylonjs/core';
 import _ from 'lodash';
-import { Room } from '../../world/world_items/item_types/Room';
-import { SimpleWorldItem } from '../../world/world_items/item_types/SimpleWorldItem';
 import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 import { ActionDispatcher } from '../ActionDispatcher';
 import { OpenInventoryCommand } from '../../world/world_items/action_strategies/OpenInventoryCommand';
@@ -26,7 +23,7 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
 
                         item.setBoundingMesh(this.createMesh(item, world));
 
-                        if ((<Room> item.parent).label === 'room-1') {
+                        if (item.parent.label === 'room-1') {
                             item.setDefaultAction(new OpenInventoryCommand(this.actionDispatcher));
                         } else {
                             item.hasDefaultAction = false;

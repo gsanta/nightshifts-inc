@@ -2,9 +2,7 @@ import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
 import { Scene, HemisphericLight, Vector3, Color3, PointLight } from '@babylonjs/core';
-import { Room } from '../../../world/world_items/item_types/Room';
-import { Polygon } from '@nightshifts.inc/geometry';
-
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 /**
  * The main light of the game which illuminates the active room.
@@ -19,7 +17,7 @@ export class CreateMainLightActionHandler implements ActionHandler {
                 const room = world.getWorldItemsByName('room')[1];
                 if (room) {
 
-                    this.createRoomLight(<Room> room, world.scene);
+                    this.createRoomLight(<WorldItem> room, world.scene);
                 }
                 break;
             default:
@@ -34,7 +32,7 @@ export class CreateMainLightActionHandler implements ActionHandler {
         return light;
     }
 
-    private createRoomLight(room: Room, scene: Scene) {
+    private createRoomLight(room: WorldItem, scene: Scene) {
         const dimensions = room.getBoundingBox();
         console.log('Creating light');
         console.log(dimensions);

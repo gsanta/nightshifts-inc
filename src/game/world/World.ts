@@ -3,7 +3,6 @@ import { Vector2Model } from '../model/utils/Vector2Model';
 import { Tool } from '../tools/Tool';
 import { WorldFactory } from './world_factory/WorldFactory';
 import { Enemy } from './world_items/item_types/Enemy';
-import { Room } from './world_items/item_types/Room';
 import { WorldItem } from './world_items/item_types/WorldItem';
 import { Player } from './world_items/item_types/Player';
 
@@ -17,7 +16,7 @@ export class World {
     public floor: WorldItem;
     public enemies: Enemy[] = [];
     public player: Player = null;
-    public rooms: Room[];
+    public rooms: WorldItem[];
 
     public camera: FollowCamera;
 

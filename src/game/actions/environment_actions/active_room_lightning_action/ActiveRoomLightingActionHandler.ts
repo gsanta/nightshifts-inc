@@ -4,14 +4,14 @@ import { ActionHandler } from '../../ActionHandler';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 import _ from 'lodash';
-import { Room } from '../../../world/world_items/item_types/Room';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 
 //TODO: better naming needed because now this handles `SHOW_ROOM_NAMES` action also
 export class ActiveRoomLightingActionHandler implements ActionHandler {
     private static instance: ActiveRoomLightingActionHandler;
 
-    private prevActiveRoom: Room;
+    private prevActiveRoom: WorldItem;
     private lightSwitcher: NormalLightSwitcher;
     private flashingLightSwitcher: FlashingLightSwitcher;
     private isShowCeiling = true;
@@ -29,14 +29,14 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
         return this.instance;
     }
 
-    public handle(type: string, world: World, payload: Room | boolean) {
+    public handle(type: string, world: World, payload: WorldItem | boolean) {
 
         switch (type) {
             case GameActionType.GAME_IS_READY:
                 this.handleGameIsReady(world);
                 return;
             case GameActionType.ENTER_ROOM:
-                this.handleEnterRoom(<Room> payload, world);
+                this.handleEnterRoom(<WorldItem> payload, world);
                 if (this.isShowCeiling) {
                     this.handleShowRoomLabels(world);
                 }
@@ -64,24 +64,24 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
 
     private hideCeiling(world: World) {
         world.getWorldItemsByName('room')
-            .forEach((room: Room) => {
+            .forEach((room: WorldItem) => {
                 room.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
             });
     }
 
     private showCeiling(world: World) {
         world.getWorldItemsByName('room')
-        .forEach((room: Room) => {
+        .forEach((room: WorldItem) => {
             room.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
         });
     }
 
     private handleShowRoomLabels(world: World) {
-        const rooms = <Room[]> world.getWorldItemsByName('room');
+        const rooms = <WorldItem[]> world.getWorldItemsByName('room');
         const activeRoom = _.find(rooms, room => room.isActive);
         _.chain(world.getWorldItemsByName('room'))
             .without(activeRoom)
-            .forEach((room: Room) => {
+            .forEach((room: WorldItem) => {
                 room.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
             })
             .value();
@@ -89,7 +89,7 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
         activeRoom.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
     }
 
-    private handleEnterRoom(activeRoom: Room, world: World) {
+    private handleEnterRoom(activeRoom: WorldItem, world: World) {
         if (activeRoom.lampBehaviour === 'onWhenActive') {
             this.lightSwitcher.on(activeRoom, world);
         } else if (activeRoom.lampBehaviour === 'flashesWhenEntering') {
@@ -106,23 +106,23 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
 
     private handleGameIsReady(world: World) {
         world.getWorldItemsByName('room').forEach(room => {
-            this.lightSwitcher.off(<Room> room, world);
+            this.lightSwitcher.off(<WorldItem> room, world);
         });
     }
 
     private handleTurnOnAllLights(world: World) {
         world.getWorldItemsByName('room').forEach(room => {
-            this.lightSwitcher.on(<Room> room, world);
+            this.lightSwitcher.on(<WorldItem> room, world);
         });
     }
 
     private handleTurnOffLightsForNotActiveRoom(world: World) {
         world.getWorldItemsByName('room').forEach(room => {
-            if ((<Room> room).isActive) {
-                this.prevActiveRoom = <Room> room;
-                this.lightSwitcher.on(<Room> room, world);
+            if ((<WorldItem> room).isActive) {
+                this.prevActiveRoom = <WorldItem> room;
+                this.lightSwitcher.on(<WorldItem> room, world);
             } else {
-                this.lightSwitcher.off(<Room> room, world);
+                this.lightSwitcher.off(<WorldItem> room, world);
             }
         });
     }

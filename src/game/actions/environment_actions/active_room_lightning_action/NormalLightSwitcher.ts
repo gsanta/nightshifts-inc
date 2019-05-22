@@ -2,16 +2,16 @@ import { AbstractMesh } from '@babylonjs/core';
 import { Rectangle } from '@nightshifts.inc/geometry';
 import * as _ from 'lodash';
 import { World } from '../../../world/World';
-import { Room } from '../../../world/world_items/item_types/Room';
 import { Wall } from '../../../world/world_items/item_types/Wall';
 import { LightSwitcher } from './LightSwitcher';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 /**
  * Can turn on and off the lights for a given room
  */
 export class NormalLightSwitcher implements LightSwitcher {
 
-    public on(room: Room, world: World): Promise<void> {
+    public on(room: WorldItem, world: World): Promise<void> {
         const childMeshes = _.chain([room, ...room.getChildren()]).map(item => item.getAllMeshes()).flatten().value();
         const neighbourMeshes = _.chain(room.neighbours)
             .filter(item => item instanceof Wall)
@@ -22,7 +22,7 @@ export class NormalLightSwitcher implements LightSwitcher {
         return Promise.resolve();
     }
 
-    private getMeshesThatAreInsideTheRoom(wall: Wall, room: Room): AbstractMesh[] {
+    private getMeshesThatAreInsideTheRoom(wall: Wall, room: WorldItem): AbstractMesh[] {
         if (wall.mesh.getChildMeshes().length !== 2) {
             throw new Error(
                 `This method should be used for 'border' items, where the two children represent the two sides, but it has` +
@@ -33,7 +33,7 @@ export class NormalLightSwitcher implements LightSwitcher {
         return wall.mesh.getChildMeshes().filter(mesh => this.isMeshInsideTheRoom(mesh, room));
     }
 
-    private isMeshInsideTheRoom(mesh: AbstractMesh, room: Room) {
+    private isMeshInsideTheRoom(mesh: AbstractMesh, room: WorldItem) {
         const boundingBox = room.getBoundingBox();
         const meshPosition = mesh.getAbsolutePosition();
 
@@ -51,7 +51,7 @@ export class NormalLightSwitcher implements LightSwitcher {
             });
     }
 
-    public off(room: Room, world: World): Promise<void> {
+    public off(room: WorldItem, world: World): Promise<void> {
         const childMeshes = _.chain([room, ...room.getChildren()]).map(item => item.getAllMeshes()).flatten().value();
         const neighbourMeshes = _.chain(room.neighbours)
             .filter(item => item instanceof Wall)
