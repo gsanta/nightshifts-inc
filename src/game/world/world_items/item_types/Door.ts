@@ -1,5 +1,4 @@
 import { Mesh, Scene, MeshBuilder, StandardMaterial, Color3, Matrix } from '@babylonjs/core';
-import { Border } from './Border';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
@@ -10,7 +9,7 @@ import { SimpleWorldItem } from './SimpleWorldItem';
 const colors = GameConstants.colors;
 
 
-export class Door extends SimpleWorldItem implements Border {
+export class Door extends SimpleWorldItem {
     public isOpen: boolean;
     private pivotAngle: number;
     private pivot: VectorModel;

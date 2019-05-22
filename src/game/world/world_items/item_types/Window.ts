@@ -10,7 +10,6 @@ import { WorldItem, SerializedMeshModel } from './WorldItem';
 import { World } from '../../World';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { SimpleWorldItem } from './SimpleWorldItem';
-import { Border } from './Border';
 import { MeshTemplateConfig } from '../../../model/core/templates/MeshTemplate';
 const colors = GameConstants.colors;
 
@@ -128,7 +127,7 @@ class WindowFrame extends SimpleWorldItem {
     }
 }
 
-export class Window extends SimpleWorldItem implements Border {
+export class Window extends SimpleWorldItem {
     public isOpen: boolean;
     private pivotAngle: number;
     private isHorizontal = true;

@@ -2,7 +2,6 @@ import { AbstractMesh } from '@babylonjs/core';
 import { Rectangle } from '@nightshifts.inc/geometry';
 import * as _ from 'lodash';
 import { World } from '../../../world/World';
-import { Wall } from '../../../world/world_items/item_types/Wall';
 import { LightSwitcher } from './LightSwitcher';
 import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
@@ -14,15 +13,15 @@ export class NormalLightSwitcher implements LightSwitcher {
     public on(room: WorldItem, world: World): Promise<void> {
         const childMeshes = _.chain([room, ...room.getChildren()]).map(item => item.getAllMeshes()).flatten().value();
         const neighbourMeshes = _.chain(room.neighbours)
-            .filter(item => item instanceof Wall)
-            .map(item => this.getMeshesThatAreInsideTheRoom(<Wall> item, room)).flatten().value();
+            .filter(item => item.type === 'wall')
+            .map(item => this.getMeshesThatAreInsideTheRoom(item, room)).flatten().value();
 
         this.excludeMeshesForWorldItem([...childMeshes, ...neighbourMeshes], world);
 
         return Promise.resolve();
     }
 
-    private getMeshesThatAreInsideTheRoom(wall: Wall, room: WorldItem): AbstractMesh[] {
+    private getMeshesThatAreInsideTheRoom(wall: WorldItem, room: WorldItem): AbstractMesh[] {
         if (wall.mesh.getChildMeshes().length !== 2) {
             throw new Error(
                 `This method should be used for 'border' items, where the two children represent the two sides, but it has` +
@@ -54,12 +53,12 @@ export class NormalLightSwitcher implements LightSwitcher {
     public off(room: WorldItem, world: World): Promise<void> {
         const childMeshes = _.chain([room, ...room.getChildren()]).map(item => item.getAllMeshes()).flatten().value();
         const neighbourMeshes = _.chain(room.neighbours)
-            .filter(item => item instanceof Wall)
+            .filter(item => item.type === 'wall')
             .map(item => {
                 if (item.neighbours.length === 1) {
                     return <AbstractMesh[]> item.mesh.getChildren();
                 } else {
-                    return this.getMeshesThatAreInsideTheRoom(<Wall> item, room);
+                    return this.getMeshesThatAreInsideTheRoom(item, room);
                 }
             })
             .flatten()

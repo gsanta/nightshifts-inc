@@ -5,7 +5,6 @@ import { EmptyArea } from '../world/world_items/empty_area/EmptyArea';
 import { Door } from '../world/world_items/item_types/Door';
 import { Window } from '../world/world_items/item_types/Window';
 import { Player } from '../world/world_items/item_types/Player';
-import { Wall } from '../world/world_items/item_types/Wall';
 
 export class FlashlightTool implements Tool {
     public name = 'flashlight';
@@ -50,9 +49,9 @@ export class FlashlightTool implements Tool {
 
     // TODO refactor this to make it more general
     private addMeshesToShadowGenerator(shadowGenerator: ShadowGenerator, world: World) {
-        world.worldItems.filter(worldItem => worldItem instanceof Wall).forEach((wall: Wall) => {
-            shadowGenerator.getShadowMap().renderList.push(wall.mesh.getChildMeshes()[0]);
-            shadowGenerator.getShadowMap().renderList.push(wall.mesh.getChildMeshes()[1]);
+        world.worldItems.filter(worldItem => worldItem.type === 'window').forEach(item => {
+            shadowGenerator.getShadowMap().renderList.push(item.mesh.getChildMeshes()[0]);
+            shadowGenerator.getShadowMap().renderList.push(item.mesh.getChildMeshes()[1]);
         });
 
         world.worldItems.filter(worldItem => worldItem.type === 'room').forEach(room => {
