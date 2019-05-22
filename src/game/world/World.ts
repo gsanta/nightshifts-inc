@@ -2,7 +2,6 @@ import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine } from 
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { Tool } from '../tools/Tool';
 import { WorldFactory } from './world_factory/WorldFactory';
-import { Enemy } from './world_items/item_types/Enemy';
 import { WorldItem } from './world_items/item_types/WorldItem';
 import { Player } from './world_items/item_types/Player';
 
@@ -14,7 +13,7 @@ export class World {
     public dimensions: Vector2Model;
     public worldItems: WorldItem[];
     public floor: WorldItem;
-    public enemies: Enemy[] = [];
+    public enemies: WorldItem[] = [];
     public player: Player = null;
     public rooms: WorldItem[];
 

@@ -1,9 +1,9 @@
 import { Scene } from '@babylonjs/core';
 import { Sensor } from './Sensor';
-import { Enemy } from '../../../world/world_items/item_types/Enemy';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { RayCaster } from '../collision_detection/RayCaster';
 import { Player } from '../../../world/world_items/item_types/Player';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 export class EyeSensor implements Sensor {
     private player: Player;
@@ -14,7 +14,7 @@ export class EyeSensor implements Sensor {
         this.rayCaster = new RayCaster(scene);
     }
 
-    public testIsWithinRange(enemy: Enemy): boolean {
+    public testIsWithinRange(enemy: WorldItem): boolean {
         return this.isEnemyVisible(enemy);
     }
 
@@ -22,11 +22,11 @@ export class EyeSensor implements Sensor {
         throw new Error('Unimplemented method');
     }
 
-    private isEnemyVisible(enemy: Enemy) {
+    private isEnemyVisible(enemy: WorldItem) {
         return this.isInsideVisibleRange(enemy) && this.thereIsNoObstacleBetweenEnemyAndPlayer(enemy);
     }
 
-    private isInsideVisibleRange(enemy: Enemy): boolean {
+    private isInsideVisibleRange(enemy: WorldItem): boolean {
         const playerVector = this.player.getCenterPosition();
         const enemyVector = enemy.getCenterPosition();
         const playerToEnemyVector = enemyVector.subtract(playerVector);
@@ -37,7 +37,7 @@ export class EyeSensor implements Sensor {
         return EyeSensor.isAngleBetweenFieldOfView(this.player.getRotationAngle(), this.player.getFieldOfViewAngle(), angle);
     }
 
-    private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: Enemy):  boolean {
+    private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: WorldItem):  boolean {
         return this.rayCaster.testCollision(this.player.getCenterPosition(), enemy.getCenterPosition(), enemy);
     }
 

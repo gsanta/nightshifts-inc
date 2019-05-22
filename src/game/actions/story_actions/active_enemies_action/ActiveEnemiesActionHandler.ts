@@ -1,7 +1,6 @@
 import { GameActionType } from '../../GameActionType';
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
-import { Enemy } from '../../../world/world_items/item_types/Enemy';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { Rectangle } from '@nightshifts.inc/geometry';
 import find from 'lodash/find';
@@ -37,7 +36,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
         }
     }
 
-    private createEnemy(world: World, room: WorldItem): Enemy {
+    private createEnemy(world: World, room: WorldItem): WorldItem {
         const emptyArea = find(room.getChildren(), child => child.type === 'empty');
 
         const material = new StandardMaterial('empty-area-material', world.scene);
@@ -48,7 +47,7 @@ export class ActiveEnemiesActionHandler implements ActionHandler {
 
         const rect = new Rectangle(enemyPosition.x, enemyPosition.z, 1, 1);
 
-        const enemy = <Enemy> world.factory.createEnemy(rect, world);
+        const enemy =  world.factory.createEnemy(rect, world);
         room.addChild(enemy);
 
         return enemy;

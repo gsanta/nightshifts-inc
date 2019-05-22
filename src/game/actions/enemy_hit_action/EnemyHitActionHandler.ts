@@ -1,8 +1,8 @@
 import { ActionHandler } from '../ActionHandler';
-import { Enemy } from '../../world/world_items/item_types/Enemy';
 import { World } from '../../world/World';
 import { GameActionType } from '../GameActionType';
 import { ActionDispatcher } from '../ActionDispatcher';
+import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 
 export class EnemyHitActionHandler implements ActionHandler {
     private actionDispatcher: ActionDispatcher;
@@ -12,7 +12,7 @@ export class EnemyHitActionHandler implements ActionHandler {
     }
 
 
-    public handle(type: string, world: World, enemy: Enemy) {
+    public handle(type: string, world: World, enemy: WorldItem) {
         switch (type) {
             case GameActionType.ENEMY_MOVED:
                 if (enemy.intersectsWorldItem(world.player)) {

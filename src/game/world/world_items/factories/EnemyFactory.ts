@@ -2,10 +2,10 @@ import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { WorldItem } from '../item_types/WorldItem';
-import { Scene, StandardMaterial, Mesh, Skeleton, MeshBuilder, Color3 } from '@babylonjs/core';
-import { Enemy } from '../item_types/Enemy';
+import { Scene, StandardMaterial, Mesh, Skeleton, Color3 } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
+import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 
 
 export class EnemyFactory implements WorldItemFactory {
@@ -22,12 +22,12 @@ export class EnemyFactory implements WorldItemFactory {
     // }
 
     public create(polygon: Polygon, world: World): WorldItem {
-        const material = this.createMaterial();
         const meshes = this.meshInfo[0].map(mesh => mesh.clone());
         meshes[0].isVisible = true;
 
-        const enemy = new Enemy(meshes[0], this.scene, <Rectangle> polygon);
+        const enemy = new SimpleWorldItem(meshes[0], <Rectangle> polygon, {type: 'enemy'});
         enemy.setPosition(new VectorModel(polygon.left, 0, polygon.top));
+        enemy.mesh.material = this.createMaterial();
         return enemy;
     }
 
@@ -35,17 +35,9 @@ export class EnemyFactory implements WorldItemFactory {
         throw new Error('This method is deprecated so not implementing it');
     }
 
-    private createMesh(boundingBox: Polygon) {
-        return MeshBuilder.CreateSphere(
-            'enemy',
-            { diameter: 2 },
-            this.scene
-        );
-    }
-
-    private createMaterial(): StandardMaterial {
-        const material = new StandardMaterial('enemy-material', this.scene);
-        material.diffuseColor = Color3.FromHexString('FF0000');
+    private createMaterial() {
+        const material = new StandardMaterial('enemy-visible-material', this.scene);
+        material.emissiveColor = new Color3(0, 0, 1);
 
         return material;
     }

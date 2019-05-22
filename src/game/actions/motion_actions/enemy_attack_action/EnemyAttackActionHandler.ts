@@ -1,16 +1,14 @@
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { Enemy } from '../../../world/world_items/item_types/Enemy';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
 import find from 'lodash/find';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { ActionDispatcher } from '../../ActionDispatcher';
-import { Rectangle } from '@nightshifts.inc/geometry';
 import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 export class EnemyAttackActionHandler implements ActionHandler {
-    private enemy: Enemy;
+    private enemy: WorldItem;
     private collisionDetector: CollisionDetector;
     private actionDispatcher: ActionDispatcher;
     private attacking = false;
@@ -21,7 +19,7 @@ export class EnemyAttackActionHandler implements ActionHandler {
         this.actionDispatcher = actionDispatcher;
     }
 
-    public handle(type: string, world: World, enemy: Enemy) {
+    public handle(type: string, world: World, enemy: WorldItem) {
         switch (type) {
             case GameActionType.ENEMY_CREATED:
                 this.enemy = enemy;

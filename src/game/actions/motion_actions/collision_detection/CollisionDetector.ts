@@ -1,6 +1,6 @@
 import { Vector3, Scene, AbstractMesh, Ray, Mesh } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { SimpleWorldItem } from '../../../world/world_items/item_types/SimpleWorldItem';
+import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 export interface CollisionInfo {
     mesh: AbstractMesh | null;
@@ -8,10 +8,10 @@ export interface CollisionInfo {
 }
 
 export class CollisionDetector {
-    private creature: SimpleWorldItem;
+    private creature: WorldItem;
     private scene: Scene;
 
-    constructor(creature: SimpleWorldItem, scene: Scene) {
+    constructor(creature: WorldItem, scene: Scene) {
         this.creature = creature;
         this.scene = scene;
     }
