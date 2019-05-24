@@ -1,10 +1,9 @@
 import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Scene, StandardMaterial, MeshBuilder } from '@babylonjs/core';
+import { Scene, StandardMaterial, MeshBuilder, Matrix, Mesh, Vector3 } from '@babylonjs/core';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { WorldItem } from '../item_types/WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Door } from '../item_types/Door';
 import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 
 
@@ -30,57 +29,59 @@ export class DividerWorldItemFactory {
         gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
         gwmWorldItem.dimensions = gwmWorldItem.dimensions.mirrorY();
 
-        const container = this.createContainerItem(gwmWorldItem);
-        const [side1, side2] = this.createSideItems(container, gwmWorldItem);
+        const mesh = this.createMesh(gwmWorldItem);
+        const [side1, side2] = this.createSideItems(gwmWorldItem);
+        side1.parent = mesh;
+        side2.parent = mesh;
 
-        const door = new Door(container, side1, side2);
+        const door = new SimpleWorldItem(mesh, gwmWorldItem.dimensions, {type: 'door'});
         door.setBoudingBox(gwmWorldItem.dimensions);
         door.translate(new VectorModel(0, 2.5, 0));
-        this.setPivotMatrix(gwmWorldItem, door);
+        // door.addChild(side1);
+        // door.addChild(side2);
+        this.setPivotMatrix(door);
         return door;
     }
 
-    private createSideItems(container: WorldItem, gwmWorldItem: GwmWorldItem): [WorldItem, WorldItem] {
+    private createSideItems(gwmWorldItem: GwmWorldItem): [Mesh, Mesh] {
         const [dimension1, dimension2] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true);
 
-        const side1 = this.createSideItem(container, dimension1, `${name}-side-1`);
-        const side2 = this.createSideItem(container, dimension2, `${name}-side-2`);
+        const side1 = this.createSideItem(dimension1, `${name}-side-1`);
+        const side2 = this.createSideItem(dimension2, `${name}-side-2`);
 
         return [side1, side2];
     }
 
-    private createSideItem(container: WorldItem, dimension: Polygon, name: string): WorldItem {
+    private createSideItem(dimension: Polygon, name: string): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             name,
             { width: dimension.width, depth: dimension.height, height: 8 },
             this.scene
         );
 
-        mesh.parent = container.mesh;
         mesh.material = this.material;
         mesh.receiveShadows = true;
 
         const item = new SimpleWorldItem(mesh, dimension, {type: name});
 
-        item.translate(new VectorModel(dimension.left, 0, dimension.top));
+        mesh.translate(new Vector3(dimension.left, 0, dimension.top), 1);
 
-        return item;
+        return mesh;
     }
 
-    private createContainerItem(gwmWorldItem: GwmWorldItem) {
+    private createMesh(gwmWorldItem: GwmWorldItem): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             `${gwmWorldItem.name}-container`,
             { width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 8 },
             this.scene
         );
         mesh.isVisible = false;
-
-        return new SimpleWorldItem(mesh, gwmWorldItem.dimensions, {type: `${gwmWorldItem.name}-container`});
+        return mesh;
     }
 
-    private setPivotMatrix(worldItem: GwmWorldItem, door: Door) {
-        const angle = worldItem.additionalData.angle;
+    private setPivotMatrix(door: WorldItem) {
         const xExtent = door.mesh.getBoundingInfo().boundingBox.extendSize.x;
-        door.setPivot(new VectorModel(xExtent, 0, 0), angle);
+        const pivotPoint = new VectorModel(xExtent, 0, 0);
+        door.mesh.setPivotMatrix(Matrix.Translation(pivotPoint.x, pivotPoint.y, pivotPoint.z));
     }
 }

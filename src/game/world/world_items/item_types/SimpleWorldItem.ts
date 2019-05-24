@@ -34,7 +34,7 @@ export class SimpleWorldItem implements WorldItem {
     public isActive: boolean;
     private impostor: PhysicsImpostor;
 
-    private defaultAction: WorldItemActionCommand = new EmptyCommand();
+    public defaultAction: WorldItemActionCommand = new EmptyCommand();
 
     protected boundingBox: Polygon;
 
@@ -130,7 +130,7 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public getHeight(): number {
-        return this.mesh ? this.mesh.getBoundingInfo().boundingBox.maximumWorld.y * 2 : 12;
+        return this.mesh.getBoundingInfo().boundingBox.maximumWorld.y;
     }
 
     public getCenterPosition(): VectorModel {

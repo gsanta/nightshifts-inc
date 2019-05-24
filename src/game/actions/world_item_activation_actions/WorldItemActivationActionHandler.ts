@@ -6,18 +6,18 @@ import { VectorModel } from '../../model/core/VectorModel';
 import _ from 'lodash';
 
 export class WorldItemActivationActionHandler implements ActionHandler {
-    private currentActivataleItem: WorldItem;
+    private currentActivatableItem: WorldItem;
 
     public handle(type: string, world: World) {
         switch (type) {
             case GameActionType.PLAYER_MOVED:
                 const worldItem = this.getClosestActivatableWorldItem(world);
-                this.currentActivataleItem = worldItem;
+                this.currentActivatableItem = worldItem;
 
                 const prevItem = _.find(world.worldItems, item => item.isBoundingMeshVisible() === true);
 
 
-                if (prevItem) {
+                if (prevItem && !world.config.displayBoundingBoxes) {
                     prevItem.setBoundingMeshVisible(false);
                 }
 
@@ -30,8 +30,8 @@ export class WorldItemActivationActionHandler implements ActionHandler {
                 break;
 
             case GameActionType.ACTIVATE_CLOSEST_ACTIONABLE_WORLD_ITEM:
-                if (this.currentActivataleItem) {
-                    this.currentActivataleItem.doDefaultAction();
+                if (this.currentActivatableItem) {
+                    this.currentActivatableItem.doDefaultAction();
                 }
 
                 break;

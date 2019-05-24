@@ -37,6 +37,8 @@ export interface SerializedMeshModel {
 }
 
 export interface WorldItem {
+    defaultAction: WorldItemActionCommand;
+
     // TODO: find a better solution for temperature and lampBehaviour, they are only needed for Room
     temperature?: number;
     lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering';

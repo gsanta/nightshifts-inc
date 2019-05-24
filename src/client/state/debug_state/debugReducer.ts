@@ -3,7 +3,7 @@ import { ActionType } from '../ActionType';
 
 const initialState: DebugOptions = {
     areAllLightsTurnedOn: false,
-    showRoomLabels: false,
+    showRoomLabels: true,
     showBoundingBoxes: false
 };
 

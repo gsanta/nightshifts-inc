@@ -5,6 +5,9 @@ import { WorldFactory } from './world_factory/WorldFactory';
 import { WorldItem } from './world_items/item_types/WorldItem';
 import { Player } from './world_items/item_types/Player';
 
+export interface WorldConfig {
+    displayBoundingBoxes: boolean;
+}
 
 export class World {
     public canvas: HTMLCanvasElement;
@@ -29,4 +32,8 @@ export class World {
     }
 
     public factory: WorldFactory;
+
+    public config: WorldConfig = {
+        displayBoundingBoxes: false
+    };
 }

@@ -20,7 +20,12 @@ class ShowBoundingBoxesAction implements WatchableAction<any> {
 
     private *activate({showBoundingBoxes}: Partial<DebugOptions>) {
         const gameActionDispatcher: ActionDispatcher = yield select(WorldSelections.getGameActionDispatcher);
-        gameActionDispatcher.dispatch(GameActionType.CREATE_BOUNDING_POLYGON_MESHES);
+
+        if (showBoundingBoxes) {
+            gameActionDispatcher.dispatch(GameActionType.DISPLAY_BOUNDING_BOXES);
+        } else {
+            gameActionDispatcher.dispatch(GameActionType.HIDE_BOUNDING_BOXES);
+        }
     }
 }
 

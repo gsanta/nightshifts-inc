@@ -7,7 +7,6 @@ import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 
-
 export class EnemyFactory implements WorldItemFactory {
     private scene: Scene;
 
@@ -16,10 +15,6 @@ export class EnemyFactory implements WorldItemFactory {
     constructor(meshInfo: [Mesh[], Skeleton[]]) {
         this.meshInfo = meshInfo;
     }
-
-    // constructor(scene: Scene) {
-    //     this.scene = scene;
-    // }
 
     public create(polygon: Polygon, world: World): WorldItem {
         const meshes = this.meshInfo[0].map(mesh => mesh.clone());

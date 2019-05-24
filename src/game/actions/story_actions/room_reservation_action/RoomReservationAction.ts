@@ -1,7 +1,6 @@
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
 import { ActionHandler } from '../../ActionHandler';
-import { Door } from '../../../world/world_items/item_types/Door';
 import { Scene, StandardMaterial, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
 import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
@@ -36,9 +35,9 @@ export class RoomReservationAction implements ActionHandler {
 
     private makeRoomFree(room: WorldItem, world: World) {
         room.neighbours
-        .filter(item => item instanceof Door)
-        .forEach((door: Door) => {
-            door.setMaterial(door.material);
+        .filter(item => item.type === 'door')
+        .forEach(door => {
+            // door.setMaterial(door.material);
         });
     }
 
@@ -48,9 +47,9 @@ export class RoomReservationAction implements ActionHandler {
         }
 
         room.neighbours
-        .filter(item => item instanceof Door)
-        .forEach((door: Door) => {
-            door.setMaterial(this.reservedRoomMaterial);
+        .filter(item => item.type === 'door')
+        .forEach(door => {
+            // door.setMaterial(this.reservedRoomMaterial);
         });
     }
 

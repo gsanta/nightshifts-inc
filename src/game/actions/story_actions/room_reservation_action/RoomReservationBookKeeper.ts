@@ -1,6 +1,5 @@
 import { World } from '../../../world/World';
 import { RoomReservationStrategy } from './RoomReservationStrategy';
-import { Door } from '../../../world/world_items/item_types/Door';
 import { StandardMaterial, Scene, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
 import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
@@ -28,17 +27,17 @@ export class RoomReservationBookKeeper {
 
     private makeRoomFree(room: WorldItem) {
         room.neighbours
-        .filter(item => item instanceof Door)
-        .forEach((door: Door) => {
-            door.setMaterial(door.material);
+        .filter(item => item.type === 'door')
+        .forEach(door => {
+            // door.setMaterial(door.material);
         });
     }
 
     private makeRoomReserved(room: WorldItem) {
         room.neighbours
-        .filter(item => item instanceof Door)
-        .forEach((door: Door) => {
-            door.setMaterial(this.reservedRoomMaterial);
+        .filter(item => item.type === 'door')
+        .forEach(door => {
+            // door.setMaterial(this.reservedRoomMaterial);
         });
     }
 

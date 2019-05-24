@@ -21,7 +21,7 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
                 world.getWorldItemsByName('cupboard')
                     .forEach(item => {
 
-                        item.setBoundingMesh(this.createMesh(item, world));
+                        // item.setBoundingMesh(this.createMesh(item, world));
 
                         if (item.parent.label === 'room-1') {
                             item.setDefaultAction(new OpenInventoryCommand(this.actionDispatcher));
@@ -30,30 +30,39 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
                         }
                     });
 
-                world.getWorldItemsByName('door')
-                    .forEach(item => {
-                        item.setBoundingMesh(this.createMesh(item, world));
-                    });
+                // world.getWorldItemsByName('door')
+                //     .forEach(item => {
+                //         item.setBoundingMesh(this.createMesh(item, world));
+                //     });
 
-                world.getWorldItemsByName('bed')
-                    .forEach(item => {
-                        item.setBoundingMesh(this.createMesh(item, world));
-                    });
+                // world.getWorldItemsByName('bed')
+                //     .forEach(item => {
+                //         item.setBoundingMesh(this.createMesh(item, world));
+                //     });
 
                 // world.getWorldItemsByName('window')
                 // .forEach(item => {
                 //     item.boundingBox = this.createMesh(<Rectangle> (<any> item).boundingPolygon, world);
                 // });
                 break;
-            case GameActionType.CREATE_BOUNDING_POLYGON_MESHES:
-                // world.player.boundingBox = this.createMesh(<Rectangle> (<any> world.player).boundingPolygon, world);
 
-                // const room: Room = <Room> _.find(world.getWorldItemsByName('room'), (r: Room) => r.label === 'room-1');
-                // const cupboard: SimpleWorldItem = <SimpleWorldItem> _.find(room.children, child => child.type === 'cupboard');
-
-                // cupboard.boundingMesh = this.createMesh(cupboard, world);
-                // cupboard.boundingBox = this.createMesh(<Rectangle> new Rectangle(0, 0, 1, 1), world);
+            case GameActionType.DISPLAY_BOUNDING_BOXES:
+                world.config.displayBoundingBoxes = true;
+                world.worldItems.forEach(item => {
+                    if (item.getBoundingMesh()) {
+                        item.getBoundingMesh().isVisible = true;
+                    }
+                });
                 break;
+
+            case GameActionType.HIDE_BOUNDING_BOXES:
+                    world.config.displayBoundingBoxes = false;
+                    world.worldItems.forEach(item => {
+                        if (item.getBoundingMesh()) {
+                            item.getBoundingMesh().isVisible = false;
+                        }
+                    });
+                    break;
             default:
                 break;
         }
