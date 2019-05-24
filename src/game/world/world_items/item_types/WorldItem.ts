@@ -1,4 +1,4 @@
-import { Mesh, StandardMaterial, PhysicsImpostor } from '@babylonjs/core';
+import { Mesh, StandardMaterial, PhysicsImpostor, Skeleton } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Polygon } from '@nightshifts.inc/geometry';
 import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
@@ -37,6 +37,7 @@ export interface SerializedMeshModel {
 }
 
 export interface WorldItem {
+    health?: number;
     defaultAction: WorldItemActionCommand;
 
     // TODO: find a better solution for temperature and lampBehaviour, they are only needed for Room
@@ -54,6 +55,7 @@ export interface WorldItem {
     setBoundingMeshVisible(visible: boolean);
 
     mesh?: Mesh;
+    skeleton?: Skeleton;
 
     getChildren(): WorldItem[];
 

@@ -8,6 +8,7 @@ import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 export class EyeSensor implements Sensor {
     private player: Player;
     private rayCaster: RayCaster;
+    private fieldOfViewAngle = Math.PI / 4;
 
     constructor(player: Player, scene: Scene) {
         this.player = player;
@@ -34,7 +35,7 @@ export class EyeSensor implements Sensor {
 
         const angle = negativeZUnitVector.getAngleToVectorOnXZPlane(playerToEnemyVector);
 
-        return EyeSensor.isAngleBetweenFieldOfView(this.player.getRotationAngle(), this.player.getFieldOfViewAngle(), angle);
+        return EyeSensor.isAngleBetweenFieldOfView(this.player.getRotation().y, this.fieldOfViewAngle, angle);
     }
 
     private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: WorldItem):  boolean {

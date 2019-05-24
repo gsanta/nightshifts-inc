@@ -35,52 +35,15 @@ export class Player extends SimpleWorldItem {
     public health = 100;
     private scene: Scene;
     public type = 'player';
-    private skeleton: Skeleton;
 
     constructor(mesh: Mesh, skeleton: Skeleton, scene: Scene, boundingPolygon: Polygon) {
         super(mesh, boundingPolygon, { type: 'player' });
 
         this.skeleton = skeleton;
-
-        this.scene = scene;
-
-        const quaternion = Quaternion.RotationAxis(Axis.Y, 0);
-        this.mesh.rotationQuaternion = quaternion;
-        this.mesh.checkCollisions = true;
-    }
-
-    public setRotation(distance: number) {
-        this.mesh.rotate(Axis.Y, distance, Space.WORLD);
-    }
-
-    public playWalkingAnimation() {
-        this.scene.stopAnimation(this.skeleton);
-        this.scene.beginAnimation(this.skeleton, 0, 100, true, 1.0);
-    }
-
-    public playIdleAnimation() {
-        this.scene.stopAnimation(this.skeleton);
-    }
-
-    public getBody(): Mesh {
-        return this.mesh;
     }
 
     public getCenterPosition(): VectorModel {
         const position = this.mesh.getAbsolutePosition();
         return new VectorModel(position.x, position.y, position.z);
-    }
-
-    public getRotationAngle(): number {
-        return this.getRotation().y;
-    }
-
-    public getFieldOfViewAngle() {
-        return Math.PI / 4;
-    }
-
-    public getRotation(): VectorModel {
-        const vector = this.mesh.rotationQuaternion.toEulerAngles();
-        return new VectorModel(vector.x, vector.y, vector.z);
     }
 }

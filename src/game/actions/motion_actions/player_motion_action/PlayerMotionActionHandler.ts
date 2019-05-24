@@ -6,6 +6,7 @@ import { MotionStrategy } from '../MotionStrategy';
 import { ManualMotionStrategy } from '../ManualMotionStrategy';
 import { ActionDispatcher } from '../../ActionDispatcher';
 import { UserInputEventEmitter } from '../UserInputEventEmitter';
+import { VectorModel } from '../../../model/core/VectorModel';
 
 export class PlayerMotionActionHandler implements ActionHandler {
     private actionDispatcher: ActionDispatcher;
@@ -33,13 +34,16 @@ export class PlayerMotionActionHandler implements ActionHandler {
 
                     if (!this.motionStrategy.isIdle()) {
                         const delta = this.motionStrategy.calcNextPositionDelta(elapsedTime);
-                        world.player.setPosition(world.player.getCenterPosition().add(delta));
+
+                        const absolutePos = world.player.mesh.getAbsolutePosition();
+                        const pos = new VectorModel(absolutePos.x, absolutePos.y, absolutePos.z);
+                        world.player.setPosition(pos.add(delta));
 
                         this.actionDispatcher.dispatch(GameActionType.PLAYER_MOVED);
                     }
 
                     const rotationDelta = this.motionStrategy.calcNextRotationDelta(elapsedTime);
-                    world.player.setRotation(rotationDelta);
+                    world.player.rotateY(rotationDelta);
                 }
 
                 this.previousTime = currentTime;
@@ -51,7 +55,7 @@ export class PlayerMotionActionHandler implements ActionHandler {
 
     private initWhenGameIsReady(world: World) {
         const collisionDetector = new CollisionDetector(world.player, world.scene);
-        this.motionStrategy = new ManualMotionStrategy(world.player, collisionDetector, this.keyboardHandler);
+        this.motionStrategy = new ManualMotionStrategy(world.player, collisionDetector, this.keyboardHandler, world.scene);
         this.keyboardHandler.onDoAction(() => this.actionDispatcher.dispatch(GameActionType.ACTIVATE_CLOSEST_ACTIONABLE_WORLD_ITEM));
     }
 }

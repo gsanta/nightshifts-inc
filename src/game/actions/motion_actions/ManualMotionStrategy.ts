@@ -3,6 +3,7 @@ import { VectorModel } from '../../model/core/VectorModel';
 import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';
 import { CollisionDetector } from './collision_detection/CollisionDetector';
 import { Player } from '../../world/world_items/item_types/Player';
+import { Scene } from '@babylonjs/core';
 
 export class ManualMotionStrategy implements MotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
@@ -10,12 +11,14 @@ export class ManualMotionStrategy implements MotionStrategy {
     private collisionDetector: CollisionDetector;
     private rotationDirection: RotationDirection = null;
     private direction: MoveDirection = null;
+    private scene: Scene;
 
     private interval = 1000;
     private distanceByInterval = 10;
 
-    constructor(player: Player, collisionDetector: CollisionDetector, keyBoardHandler: UserInputEventEmitter) {
+    constructor(player: Player, collisionDetector: CollisionDetector, keyBoardHandler: UserInputEventEmitter, scene: Scene) {
         this.player = player;
+        this.scene = scene;
         this.collisionDetector = collisionDetector;
         this.subscribeToUserInputs(keyBoardHandler);
     }
@@ -65,14 +68,15 @@ export class ManualMotionStrategy implements MotionStrategy {
 
     private setAnimation() {
         if (this.direction || this.rotationDirection) {
-            this.player.playWalkingAnimation();
+            this.scene.stopAnimation(this.player.skeleton);
+            this.scene.beginAnimation(this.player.skeleton, 0, 100, true, 1.0);
         } else {
-            this.player.playIdleAnimation();
+            this.scene.stopAnimation(this.player.skeleton);
         }
     }
 
     private calcNextPositionDeltaConsideringRotation(delta: VectorModel) {
-        let rotation = this.player.getBody().rotationQuaternion.toEulerAngles().y;
+        let rotation = this.player.mesh.rotationQuaternion.toEulerAngles().y;
         const verticalDirection = Math.sin(rotation) * delta.z;
         const horizontalDirection = Math.cos(rotation) * delta.z;
 

@@ -1,4 +1,4 @@
-import { Axis, Mesh, PhysicsImpostor, Space, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { Axis, Mesh, PhysicsImpostor, Space, StandardMaterial, Vector3, Skeleton } from '@babylonjs/core';
 import { Point, Polygon, Rectangle } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { EmptyCommand } from '../action_strategies/EmptyCommand';
@@ -9,11 +9,13 @@ import flatten = require('lodash/flatten');
 export interface WorldItemConfig {
     type: string;
     children: WorldItem[];
+    skeleton: Skeleton;
 }
 
 const defaultWorldItemConfig: WorldItemConfig = {
     type: 'default',
-    children: []
+    children: [],
+    skeleton: null
 };
 
 export class SimpleWorldItem implements WorldItem {
@@ -22,6 +24,7 @@ export class SimpleWorldItem implements WorldItem {
     public lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering' = 'onWhenActive';
 
     public mesh: Mesh;
+    public skeleton?: Skeleton;
     private children: WorldItem[] = [];
     public boundingMesh?: Mesh;
     public type: string;
@@ -32,6 +35,7 @@ export class SimpleWorldItem implements WorldItem {
     public material: StandardMaterial;
     public boundingMeshVisible = false;
     public isActive: boolean;
+    public health: number;
     private impostor: PhysicsImpostor;
 
     public defaultAction: WorldItemActionCommand = new EmptyCommand();
@@ -46,6 +50,7 @@ export class SimpleWorldItem implements WorldItem {
         this.boundingBox = boundingBox;
         this.type = worldItemConfig.type;
         this.children = [...worldItemConfig.children];
+        this.skeleton = worldItemConfig.skeleton;
     }
 
     public getChildren(): WorldItem[] {
@@ -115,8 +120,11 @@ export class SimpleWorldItem implements WorldItem {
         const boundingCenter = this.boundingBox.getBoundingCenter();
         const [dx, dy] = boundingCenter.distanceTo(new Point(position.x, position.z));
 
+        // this.boundingBox = this.boundingBox.setPosition(new Point(dx, dy));
         this.boundingBox = this.boundingBox.addX(dx);
         this.boundingBox = this.boundingBox.addY(dy);
+
+        console.log(this.boundingBox);
 
         if (this.boundingMesh) {
             this.boundingMesh.position = new Vector3(position.x, 1, position.z);
@@ -139,7 +147,8 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public getRotation(): VectorModel {
-        return new VectorModel(0, 0, 0);
+        const vector = this.mesh.rotationQuaternion.toEulerAngles();
+        return new VectorModel(vector.x, vector.y, vector.z);
     }
 
     public getBoundingMesh(): Mesh {

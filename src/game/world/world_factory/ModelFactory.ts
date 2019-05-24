@@ -1,41 +1,39 @@
-import { WorldItemTranslator, WorldItemToRealWorldCoordinateMapper } from '../world_items/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
-import { Mesh, Skeleton, Space } from '@babylonjs/core';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { World } from '../World';
-import { WorldItem } from '../world_items/item_types/WorldItem';
-import { SimpleWorldItem } from '../world_items/item_types/SimpleWorldItem';
-import { VectorModel, toVector3 } from '../../model/core/VectorModel';
-import { AdditionalData } from '../world_import/AdditionalData';
-import { Vector2Model } from '../../model/utils/Vector2Model';
-import { Orientation } from '../../model/utils/Orientation';
-import { WorldItemFactory } from './WorldItemFactory';
-import { Direction } from '../../model/utils/Direction';
-import { WorldItemToWorldCenterTranslatorDecorator } from '../world_items/world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
 import { BoundingBoxCreator } from '../world_items/factories/BoundingBoxCreator';
+import { MeshFactory } from '../world_items/factories/MeshFactory';
+import { WorldItem } from '../world_items/item_types/WorldItem';
+import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
+import { SimpleWorldItem } from '../world_items/item_types/SimpleWorldItem';
+import { MeshPhysicsCreator } from '../world_items/factories/MeshPhysicsCreator';
 
-// export class ModelFactory implements WorldItemFactory {
-//     private boundingBoxCreator: BoundingBoxCreator;
+export class ModelFactory {
+    private boundingBoxCreator: BoundingBoxCreator;
+    private meshFactory: MeshFactory;
+    private meshPhysicsCreator: MeshPhysicsCreator;
 
-//     constructor(boundingBoxCreator: BoundingBoxCreator) {
-//         this.boundingBoxCreator = boundingBoxCreator;
-//     }
+    constructor(boundingBoxCreator: BoundingBoxCreator, meshFactory: MeshFactory, meshPhysicsCreator: MeshPhysicsCreator) {
+        this.boundingBoxCreator = boundingBoxCreator;
+        this.meshFactory = meshFactory;
+        this.meshPhysicsCreator = meshPhysicsCreator;
+    }
 
-//     public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
-//         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
-//         const mesh =  this.meshInfo[0][0].clone(`${this.meshInfo[0][0].name}`);
-//         mesh.isVisible = true;
+    public createItem(boundingBox: Polygon, rotation: number): WorldItem {
+        boundingBox = boundingBox.mirrorY();
+        boundingBox = boundingBox.addX(- boundingBox.width / 2);
+        boundingBox = boundingBox.addY(boundingBox.height / 2);
 
-//         const realMeshDimensions = this.getRealMeshDimensions(mesh, worldItem);
-//         const dock = worldItem.additionalData.dock !== undefined ? worldItem.additionalData.dock : Direction.MIDDLE;
-//         let boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions, dock, realMeshDimensions);
-//         boundingBox = boundingBox.negateY();
-//         const rotation = gameObjectTranslator.getRotation(worldItem);
+        const [meshes, skeletons] = this.meshFactory.createMesh();
 
-//         const meshModel = new SimpleWorldItem(mesh, worldItem.name, worldItem.dimensions);
-//         meshModel.rotateY(rotation);
-//         // meshModel.setBoudingBox(boundingBox);
+        const worldItem = new SimpleWorldItem(meshes[0], boundingBox, {type: meshes[0].name});
+        worldItem.setBoudingBox(boundingBox);
+        worldItem.rotateY(rotation);
 
+        const boundingMesh = this.boundingBoxCreator.createMesh(<Rectangle> boundingBox, worldItem.getHeight(), '#00FF00');
+        boundingMesh.checkCollisions = true;
+        boundingMesh.isVisible = false;
+        worldItem.setBoundingMesh(boundingMesh);
 
-//         return meshModel;
-//     }
-// }
+        this.meshPhysicsCreator.create(boundingMesh);
+
+        return worldItem;
+    }
+}
