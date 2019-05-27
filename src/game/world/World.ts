@@ -3,7 +3,6 @@ import { Vector2Model } from '../model/utils/Vector2Model';
 import { Tool } from '../tools/Tool';
 import { WorldFactory } from './world_factory/WorldFactory';
 import { WorldItem } from './world_items/item_types/WorldItem';
-import { Player } from './world_items/item_types/Player';
 
 export interface WorldConfig {
     displayBoundingBoxes: boolean;
@@ -17,7 +16,7 @@ export class World {
     public worldItems: WorldItem[];
     public floor: WorldItem;
     public enemies: WorldItem[] = [];
-    public player: Player = null;
+    public player: WorldItem = null;
     public rooms: WorldItem[];
 
     public camera: FollowCamera;

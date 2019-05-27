@@ -1,7 +1,7 @@
 import { Tool } from './Tool';
 import { Scene, Mesh, StandardMaterial, MeshBuilder, Axis, Space, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../GameConstants';
-import { Player } from '../world/world_items/item_types/Player';
+import { WorldItem } from '../world/world_items/item_types/WorldItem';
 const colors = GameConstants.colors;
 
 export class ThermometerTool implements Tool {
@@ -10,7 +10,7 @@ export class ThermometerTool implements Tool {
 
     private materials: StandardMaterial[] = [];
 
-    constructor(scene: Scene, player: Player) {
+    constructor(scene: Scene, player: WorldItem) {
         this.materials = this.initMaterials(scene);
         this.mesh = MeshBuilder.CreateDisc('thermometer', {radius: 8, sideOrientation: Mesh.DOUBLESIDE}, scene);
         this.mesh.translate(Axis.Y, 1, Space.LOCAL);

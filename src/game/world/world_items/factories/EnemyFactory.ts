@@ -1,5 +1,5 @@
 import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { WorldItem } from '../item_types/WorldItem';
 import { Scene, StandardMaterial, Mesh, Skeleton, Color3 } from '@babylonjs/core';
@@ -26,7 +26,7 @@ export class EnemyFactory implements WorldItemFactory {
         return enemy;
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
+    public createItem(worldItem: WorldItemInfo, world: World): WorldItem {
         throw new Error('This method is deprecated so not implementing it');
     }
 

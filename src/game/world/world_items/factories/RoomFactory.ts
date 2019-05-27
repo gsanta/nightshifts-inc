@@ -1,5 +1,5 @@
 import { Scene, MeshBuilder, Vector3, PhysicsImpostor } from '@babylonjs/core';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { Point, Polygon } from '@nightshifts.inc/geometry';
 import { RoomLabelFactory } from './RoomLabelFactory';
@@ -15,7 +15,7 @@ export class RoomFactory {
         this.roomLabelFactory = new RoomLabelFactory(scene);
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): SimpleWorldItem {
+    public createItem(worldItem: WorldItemInfo, world: World): SimpleWorldItem {
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
 

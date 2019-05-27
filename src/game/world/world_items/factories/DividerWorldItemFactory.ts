@@ -1,4 +1,4 @@
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { Scene, StandardMaterial, MeshBuilder, Matrix, Mesh, Vector3 } from '@babylonjs/core';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
@@ -20,7 +20,7 @@ export class DividerWorldItemFactory {
         this.meshBuilder = meshBuilder;
     }
 
-    create(gwmWorldItem: GwmWorldItem): WorldItem {
+    create(gwmWorldItem: WorldItemInfo): WorldItem {
         const translateX = - (this.dimensions.x() / 2);
         const translateY = - (this.dimensions.y() / 2);
 
@@ -43,7 +43,7 @@ export class DividerWorldItemFactory {
         return door;
     }
 
-    private createSideItems(gwmWorldItem: GwmWorldItem): [Mesh, Mesh] {
+    private createSideItems(gwmWorldItem: WorldItemInfo): [Mesh, Mesh] {
         const [dimension1, dimension2] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true);
 
         const side1 = this.createSideItem(dimension1, `${name}-side-1`);
@@ -69,7 +69,7 @@ export class DividerWorldItemFactory {
         return mesh;
     }
 
-    private createMesh(gwmWorldItem: GwmWorldItem): Mesh {
+    private createMesh(gwmWorldItem: WorldItemInfo): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             `${gwmWorldItem.name}-container`,
             { width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 8 },

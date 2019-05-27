@@ -1,6 +1,6 @@
 import { WorldItem } from '../world_items/item_types/WorldItem';
 import { World } from '../World';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { WorldItemFactory } from './WorldItemFactory';
 import { EnemyFactory } from '../world_items/factories/EnemyFactory';
 import { Polygon } from '@nightshifts.inc/geometry';
@@ -13,7 +13,7 @@ export interface GenericItemImporter<T> {
 }
 
 export class WorldFactory {
-    private factories: {[key: string]: GenericItemImporter<GwmWorldItem>};
+    private factories: {[key: string]: GenericItemImporter<WorldItemInfo>};
     private worldItemFactoryMap: Map<string, WorldItemFactory>;
     private enemyFactory: EnemyFactory;
     private worldItemBoundingBoxCalculator: WorldItemBoundingBoxCalculator;
@@ -22,7 +22,7 @@ export class WorldFactory {
     constructor(
         enemyFactory: EnemyFactory,
         worldItemFactoryMap: Map<string, WorldItemFactory>,
-        factories: {[key: string]: GenericItemImporter<GwmWorldItem>},
+        factories: {[key: string]: GenericItemImporter<WorldItemInfo>},
         worldItemBoundingBoxCalculator: WorldItemBoundingBoxCalculator,
         worldItemRotationCalculator: WorldItemRotationCalculator
     ) {
@@ -33,54 +33,54 @@ export class WorldFactory {
         this.worldItemRotationCalculator = worldItemRotationCalculator;
     }
 
-    public createWall(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createWall(itemInfo: WorldItemInfo, world: World): WorldItem {
         return this.factories.wall.createItem(itemInfo, world);
     }
 
-    public createPlayer(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createPlayer(itemInfo: WorldItemInfo, world: World): WorldItem {
         return this.worldItemFactoryMap.get('player').createItem(itemInfo, world);
     }
 
-    public createWindow(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createWindow(itemInfo: WorldItemInfo, world: World): WorldItem {
         return  this.factories.window.createItem(itemInfo, world);
     }
 
-    public createDoor(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createDoor(itemInfo: WorldItemInfo, world: World): WorldItem {
         return this.factories.door.createItem(itemInfo, world);
     }
 
-    public createFloor(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createFloor(itemInfo: WorldItemInfo, world: World): WorldItem {
         return this.worldItemFactoryMap.get('floor').createItem(itemInfo, world);
     }
 
-    public createBed(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createBed(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('bed');
         const bed = this.create(worldItemFactory, itemInfo, world);
         bed.hasDefaultAction = false;
         return bed;
     }
 
-    public createTable(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createTable(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('table');
         return this.create(worldItemFactory, itemInfo, world);
     }
 
-    public createBathtub(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createBathtub(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('bathtub');
         return this.create(worldItemFactory, itemInfo, world);
     }
 
-    public createWashbasin(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createWashbasin(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('washbasin');
         return this.create(worldItemFactory, itemInfo, world);
     }
 
-    public createChair(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createChair(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('chair');
         return this.create(worldItemFactory, itemInfo, world);
     }
 
-    public createCupboard(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createCupboard(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('cupboard');
         const cupboard = this.create(worldItemFactory, itemInfo, world);
         cupboard.hasDefaultAction = true;
@@ -88,11 +88,11 @@ export class WorldFactory {
         return cupboard;
     }
 
-    public createRoom(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createRoom(itemInfo: WorldItemInfo, world: World): WorldItem {
         return this.factories.room.createItem(itemInfo, world);
     }
 
-    public createEmptyArea(itemInfo: GwmWorldItem, world: World): WorldItem {
+    public createEmptyArea(itemInfo: WorldItemInfo, world: World): WorldItem {
         return this.worldItemFactoryMap.get('empty').createItem(itemInfo, world);
     }
 
@@ -100,7 +100,7 @@ export class WorldFactory {
         return this.enemyFactory.create(polygon, world);
     }
 
-    private create(factory: WorldItemFactory, itemInfo: GwmWorldItem, world: World): WorldItem {
+    private create(factory: WorldItemFactory, itemInfo: WorldItemInfo, world: World): WorldItem {
         const meshes = factory.meshInfo[0].map(mesh => mesh.clone(`${factory.meshInfo[0][0].name}`));
         const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, meshes[0]);
         const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);

@@ -38,6 +38,7 @@ export class PlayerMotionActionHandler implements ActionHandler {
                         const absolutePos = world.player.mesh.getAbsolutePosition();
                         const pos = new VectorModel(absolutePos.x, absolutePos.y, absolutePos.z);
                         world.player.setPosition(pos.add(delta));
+                        // world.player.translate(delta);
 
                         this.actionDispatcher.dispatch(GameActionType.PLAYER_MOVED);
                     }

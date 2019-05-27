@@ -1,11 +1,11 @@
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { AdditionalData } from '../world_import/AdditionalData';
 import { Orientation } from '../../model/utils/Orientation';
 
 
 export class WorldItemRotationCalculator {
 
-    public getRotation(worldItem: GwmWorldItem<AdditionalData>): number {
+    public getRotation(worldItem: WorldItemInfo<AdditionalData>): number {
         const orientation = worldItem.additionalData.orientation;
 
         return this.getRotationForOrientation(orientation);

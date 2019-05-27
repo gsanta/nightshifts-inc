@@ -1,5 +1,5 @@
 import { Scene, ShadowGenerator } from '@babylonjs/core';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Window } from '../item_types/Window';
 import { World } from '../../World';
@@ -14,7 +14,7 @@ export class WindowFactory implements GwmItemImporter {
         this.scene = scene;
     }
 
-    public createItem(worldItem: GwmWorldItem<AdditionalData>, world: World): WorldItem {
+    public createItem(worldItem: WorldItemInfo<AdditionalData>, world: World): WorldItem {
         const window = Window.fromGwmWorldItem(worldItem, this.scene, world);
 
         window.setPivots(new VectorModel(1, 0, 0), new VectorModel(-1, 0, 0), worldItem.additionalData.angle);

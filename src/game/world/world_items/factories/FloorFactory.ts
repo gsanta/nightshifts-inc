@@ -1,5 +1,5 @@
 import { Mesh, Scene, StandardMaterial, MeshBuilder, Skeleton } from '@babylonjs/core';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
@@ -21,7 +21,7 @@ export class FloorFactory implements GwmItemImporter {
     }
 
 
-    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
+    public createItem(worldItem: WorldItemInfo, world: World): WorldItem {
         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
 
         const boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions);
@@ -40,7 +40,7 @@ export class FloorFactory implements GwmItemImporter {
         return material;
     }
 
-    private createMesh(worldItem: GwmWorldItem): Mesh {
+    private createMesh(worldItem: WorldItemInfo): Mesh {
         return MeshBuilder.CreateGround(
                 'floor',
                 { width: worldItem.dimensions.width, height: worldItem.dimensions.height, updatable: true },

@@ -1,6 +1,6 @@
 import { Color3, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
 import { Point, Polygon, Rectangle } from '@nightshifts.inc/geometry';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
@@ -17,13 +17,13 @@ export class WallFactory implements GwmItemImporter {
         this.scene = scene;
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
+    public createItem(worldItem: WorldItemInfo, world: World): WorldItem {
         const wall = this.fromGwmWorldItem(worldItem, this.scene, world);
 
         return wall;
     }
 
-    public fromGwmWorldItem(gwmWorldItem: GwmWorldItem, scene: Scene, world: World): WorldItem {
+    public fromGwmWorldItem(gwmWorldItem: WorldItemInfo, scene: Scene, world: World): WorldItem {
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
 

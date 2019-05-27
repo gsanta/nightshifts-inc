@@ -2,12 +2,12 @@ import { Tool } from './Tool';
 import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from '@babylonjs/core';
 import { World } from '../world/World';
 import { Window } from '../world/world_items/item_types/Window';
-import { Player } from '../world/world_items/item_types/Player';
+import { WorldItem } from '../world/world_items/item_types/WorldItem';
 
 export class FlashlightTool implements Tool {
     public name = 'flashlight';
     private flashLight: SpotLight;
-    private player: Player;
+    private player: WorldItem;
 
     constructor(scene: Scene, world: World) {
         this.flashLight = this.createFlashLight(scene, world);

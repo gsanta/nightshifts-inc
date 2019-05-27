@@ -1,5 +1,5 @@
 import { WorldItemFactory } from '../../world_factory/WorldItemFactory';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
 import { WorldItem } from '../item_types/WorldItem';
 import { Vector3, Scene, StandardMaterial, Color3, Mesh, Skeleton } from '@babylonjs/core';
@@ -17,7 +17,7 @@ export class EmptyAreaFactory implements WorldItemFactory {
         this.scene = scene;
     }
 
-    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
+    public createItem(worldItem: WorldItemInfo, world: World): WorldItem {
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
 

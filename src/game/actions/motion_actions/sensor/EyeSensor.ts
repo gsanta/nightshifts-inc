@@ -2,15 +2,14 @@ import { Scene } from '@babylonjs/core';
 import { Sensor } from './Sensor';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { RayCaster } from '../collision_detection/RayCaster';
-import { Player } from '../../../world/world_items/item_types/Player';
 import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
 
 export class EyeSensor implements Sensor {
-    private player: Player;
+    private player: WorldItem;
     private rayCaster: RayCaster;
     private fieldOfViewAngle = Math.PI / 4;
 
-    constructor(player: Player, scene: Scene) {
+    constructor(player: WorldItem, scene: Scene) {
         this.player = player;
         this.rayCaster = new RayCaster(scene);
     }

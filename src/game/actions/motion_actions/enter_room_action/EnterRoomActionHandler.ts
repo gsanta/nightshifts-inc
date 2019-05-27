@@ -18,7 +18,7 @@ export class EnterRoomActionHandler implements ActionHandler {
             case GameActionType.NEXT_TICK:
                 const activeRoom = this.getActiveRoom(world);
 
-                if (activeRoom !== this.prevRoom) {
+                if (activeRoom && activeRoom !== this.prevRoom) {
                     if (this.prevRoom) {
                         this.prevRoom.isActive = false;
                     }

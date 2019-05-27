@@ -115,16 +115,10 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public setPosition(position: VectorModel) {
-        this.mesh.position = new Vector3(position.x, position.y, position.z);
+        this.mesh.position = new Vector3(position.x, this.mesh.getAbsolutePosition().y, position.z);
 
-        const boundingCenter = this.boundingBox.getBoundingCenter();
-        const [dx, dy] = boundingCenter.distanceTo(new Point(position.x, position.z));
-
-        // this.boundingBox = this.boundingBox.setPosition(new Point(dx, dy));
-        this.boundingBox = this.boundingBox.addX(dx);
-        this.boundingBox = this.boundingBox.addY(dy);
-
-        console.log(this.boundingBox);
+        const center = this.mesh.getBoundingInfo().boundingSphere.centerWorld;
+        this.boundingBox = this.boundingBox.setPosition(new Point(center.x, center.z));
 
         if (this.boundingMesh) {
             this.boundingMesh.position = new Vector3(position.x, 1, position.z);

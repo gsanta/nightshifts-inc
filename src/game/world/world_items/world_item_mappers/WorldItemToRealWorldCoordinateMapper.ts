@@ -1,4 +1,4 @@
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { Direction } from '../../../model/utils/Direction';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData } from '../../world_import/AdditionalData';
@@ -8,7 +8,7 @@ import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
 
 export interface WorldItemTranslator {
     getTranslate(polygon: Polygon, dock?: Direction, realMeshDimensions?: Vector2Model): Polygon;
-    getRotation(worldItem: GwmWorldItem): number;
+    getRotation(worldItem: WorldItemInfo): number;
 }
 
 export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator {
@@ -17,7 +17,7 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
         return this.getDockPosition(dock, polygon, realMeshDimensions);
     }
 
-    public getRotation(worldItem: GwmWorldItem<AdditionalData>) {
+    public getRotation(worldItem: WorldItemInfo<AdditionalData>) {
         const orientation = worldItem.additionalData.orientation;
 
         return this.getRotationForOrientation(orientation);

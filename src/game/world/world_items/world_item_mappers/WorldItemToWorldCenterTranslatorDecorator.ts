@@ -1,4 +1,4 @@
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { WorldItemTranslator } from './WorldItemToRealWorldCoordinateMapper';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { World } from '../../World';
@@ -24,7 +24,7 @@ export class WorldItemToWorldCenterTranslatorDecorator implements WorldItemTrans
         return polygon.translate(new Point(translateX, translateY));
     }
 
-    public getRotation(worldItem: GwmWorldItem) {
+    public getRotation(worldItem: WorldItemInfo) {
         return this.gameObjectToRealWorldCoordinateMapper.getRotation(worldItem);
     }
 }

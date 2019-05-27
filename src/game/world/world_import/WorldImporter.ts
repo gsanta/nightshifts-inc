@@ -1,4 +1,4 @@
-import { defaultParseOptions, GwmWorldItem, GwmWorldMapParser, parsers, transformators, TreeIteratorGenerator, TreeNode } from '@nightshifts.inc/world-generator';
+import { defaultParseOptions, WorldItemInfo, parsers, transformators, TreeIteratorGenerator, TreeNode, WorldParser, WorldItemInfoFactory } from '@nightshifts.inc/world-generator';
 import { Scene } from '@babylonjs/core';
 import { Promise } from 'es6-promise';
 import { Vector2Model } from '../../model/utils/Vector2Model';
@@ -11,7 +11,6 @@ import { WorldItem } from '../world_items/item_types/WorldItem';
 import { parseJsonAdditionalData } from './AdditionalData';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 import { WorldMapToMatrixGraphConverter } from '@nightshifts.inc/world-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
-import { Player } from '../world_items/item_types/Player';
 
 export class WorldImporter {
     private meshFactoryProducer: WorldFactoryProducer;
@@ -22,7 +21,7 @@ export class WorldImporter {
         this.meshFactoryProducer = meshFactoryProducer;
     }
 
-    private createWorld(rootWorldItem: GwmWorldItem, worldFactory: WorldFactory): World {
+    private createWorld(rootWorldItem: WorldItemInfo, worldFactory: WorldFactory): World {
         let world = new World();
 
         world.scene = this.scene;
@@ -39,7 +38,7 @@ export class WorldImporter {
         return world;
     }
 
-    private createWorldItems(rootWorldItem: GwmWorldItem, world: World, worldFactory: WorldFactory): WorldItem[] {
+    private createWorldItems(rootWorldItem: WorldItemInfo, world: World, worldFactory: WorldFactory): WorldItem[] {
         const worldItemToTreeMapper = new WorldItemTreeMapper();
 
         const treeIterator = TreeIteratorGenerator(rootWorldItem as any);
@@ -55,12 +54,12 @@ export class WorldImporter {
         worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
 
         world.floor = worldItems.filter(mesh => mesh.type === 'floor')[0];
-        world.player = <Player> worldItems.filter(mesh => mesh.type === 'player')[0];
+        world.player = worldItems.filter(mesh => mesh.type === 'player')[0];
 
         return worldItems;
     }
 
-    private createWorldItem(meshModelDescription: GwmWorldItem, meshFactory: WorldFactory, world: World): WorldItem {
+    private createWorldItem(meshModelDescription: WorldItemInfo, meshFactory: WorldFactory, world: World): WorldItem {
         switch (meshModelDescription.name) {
             case 'wall':
                 return meshFactory.createWall(meshModelDescription, world);
@@ -99,20 +98,22 @@ export class WorldImporter {
         const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E', 'H'];
         const roomSeparatorCharacters = ['W', 'D', 'I'];
 
-        const worldItems = GwmWorldMapParser.createWithCustomWorldItemGenerator(
+        const worldItemInfoFactory = new WorldItemInfoFactory();
+        const worldItems = WorldParser.createWithCustomWorldItemGenerator(
             new parsers.CombinedWorldItemParser(
                 [
-                    new parsers.FurnitureInfoParser(furnitureCharacters, new WorldMapToMatrixGraphConverter()),
-                    new parsers.RoomSeparatorParser(roomSeparatorCharacters),
-                    new parsers.RoomInfoParser(),
-                    new parsers.PolygonAreaInfoParser('empty', '#'),
-                    new parsers.RootWorldItemParser()
+                    new parsers.FurnitureInfoParser(worldItemInfoFactory, furnitureCharacters, new WorldMapToMatrixGraphConverter()),
+                    new parsers.RoomSeparatorParser(worldItemInfoFactory, roomSeparatorCharacters),
+                    new parsers.RoomInfoParser(worldItemInfoFactory),
+                    new parsers.PolygonAreaInfoParser(worldItemInfoFactory, 'empty', '#'),
+                    new parsers.RootWorldItemParser(worldItemInfoFactory)
                 ]
             ),
             [
 
                 new transformators.ScalingTransformator({ x: options.xScale, y: options.yScale }),
                 new transformators.BorderItemSegmentingTransformator(
+                    worldItemInfoFactory,
                     ['wall', 'door', 'window'],
                     { xScale: options.xScale, yScale: options.yScale }
                 ),

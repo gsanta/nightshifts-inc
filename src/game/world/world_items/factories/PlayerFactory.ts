@@ -1,6 +1,5 @@
 import { Mesh, Scene, Skeleton, Space, PhysicsImpostor, Quaternion, Axis } from '@babylonjs/core';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
-import { Player } from '../item_types/Player';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { Rectangle } from '@nightshifts.inc/geometry';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { World } from '../../World';
@@ -20,7 +19,7 @@ export class PlayerFactory implements GwmItemImporter {
     }
 
 
-    public createItem(worldItem: GwmWorldItem, world: World): WorldItem {
+    public createItem(worldItem: WorldItemInfo, world: World): WorldItem {
         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
 
         const meshes = this.meshInfo[0]; //.map(mesh => mesh.clone('player'));

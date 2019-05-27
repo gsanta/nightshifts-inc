@@ -6,7 +6,7 @@ import { World } from '../World';
 import { Vector2Model } from '../../model/utils/Vector2Model';
 import { WorldItemToRealWorldCoordinateMapper } from '../world_items/world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { Direction } from '../../model/utils/Direction';
-import { GwmWorldItem } from '@nightshifts.inc/world-generator';
+import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 declare const describe, it;
 
 
@@ -38,7 +38,7 @@ const createWorldMock = (): Partial<World> => {
     };
 };
 
-const createGwmWorldItemMock = (boudingBox: Polygon, dock: Direction): Partial<GwmWorldItem> => {
+const createGwmWorldItemMock = (boudingBox: Polygon, dock: Direction): Partial<WorldItemInfo> => {
     return {
         dimensions: boudingBox,
         additionalData: {
@@ -56,7 +56,7 @@ describe('WorldItemToRealWorldCoordinateMapper', () => {
             const gwmWorldItem = createGwmWorldItemMock(new Rectangle(3, 3, 2, 2), undefined);
             const mesh = createMeshMock();
 
-            const translate = worldItemToRealWorldCoordinateMapper.getBoundingBox(<World> world, <GwmWorldItem> gwmWorldItem, <Mesh> mesh);
+            const translate = worldItemToRealWorldCoordinateMapper.getBoundingBox(<World> world, <WorldItemInfo> gwmWorldItem, <Mesh> mesh);
             expect(translate).to.eql(new Rectangle(4, 4, 2, 2));
         });
 
@@ -67,7 +67,7 @@ describe('WorldItemToRealWorldCoordinateMapper', () => {
             const gwmWorldItem = createGwmWorldItemMock(new Rectangle(3, 3, 2, 2),  Direction.NORTH_WEST);
             const mesh = createMeshMock();
 
-            const translate = worldItemBoundingBoxCalculator.getBoundingBox(<World> world, <GwmWorldItem> gwmWorldItem, <Mesh> mesh);
+            const translate = worldItemBoundingBoxCalculator.getBoundingBox(<World> world, <WorldItemInfo> gwmWorldItem, <Mesh> mesh);
 
             expect(translate).to.eql(new Rectangle(3, 3, 2, 2));
         });
@@ -79,7 +79,7 @@ describe('WorldItemToRealWorldCoordinateMapper', () => {
             const gwmWorldItem = createGwmWorldItemMock(new Rectangle(3, 3, 2, 2),  Direction.NORTH_EAST);
             const mesh = createMeshMock();
 
-            const translate = worldItemBoundingBoxCalculator.getBoundingBox(<World> world, <GwmWorldItem> gwmWorldItem, <Mesh> mesh);
+            const translate = worldItemBoundingBoxCalculator.getBoundingBox(<World> world, <WorldItemInfo> gwmWorldItem, <Mesh> mesh);
             expect(translate).to.eql(new Rectangle(5, 3, 2, 2));
         });
 
@@ -90,7 +90,7 @@ describe('WorldItemToRealWorldCoordinateMapper', () => {
             const gwmWorldItem = createGwmWorldItemMock(new Rectangle(3, 3, 2, 2),  Direction.SOUTH_WEST);
             const mesh = createMeshMock();
 
-            const translate = worldItemBoundingBoxCalculator.getBoundingBox(<World> world, <GwmWorldItem> gwmWorldItem, <Mesh> mesh);
+            const translate = worldItemBoundingBoxCalculator.getBoundingBox(<World> world, <WorldItemInfo> gwmWorldItem, <Mesh> mesh);
             expect(translate).to.eql(new Rectangle(3, 5, 2, 2));
         });
 
@@ -101,7 +101,7 @@ describe('WorldItemToRealWorldCoordinateMapper', () => {
             const gwmWorldItem = createGwmWorldItemMock(new Rectangle(3, 3, 2, 2),  Direction.SOUTH_EAST);
             const mesh = createMeshMock();
 
-            const translate = worldItemBoundingBoxCalculator.getBoundingBox(<World> world, <GwmWorldItem> gwmWorldItem, <Mesh> mesh);
+            const translate = worldItemBoundingBoxCalculator.getBoundingBox(<World> world, <WorldItemInfo> gwmWorldItem, <Mesh> mesh);
             expect(translate).to.eql(new Rectangle(5, 5, 2, 2));
         });
     });
