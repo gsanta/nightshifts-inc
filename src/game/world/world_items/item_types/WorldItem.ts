@@ -1,6 +1,6 @@
 import { Mesh, StandardMaterial, PhysicsImpostor, Skeleton } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Polygon } from '@nightshifts.inc/geometry';
+import { Shape } from '@nightshifts.inc/geometry';
 import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
 
 export interface SerializedMeshModel {
@@ -93,10 +93,10 @@ export interface WorldItem {
     rotateY(amount: number);
     getRotation(): VectorModel;
     /**
-     * @deprecated use `getBoundingBox().getBoundingCenter()` and convert that `Polygon` to a `VectorModel`
+     * @deprecated use `getBoundingBox().getBoundingCenter()` and convert that `Point` to a `VectorModel`
      */
     getCenterPosition(): VectorModel;
-    getBoundingBox(): Polygon;
+    getBoundingBox(): Shape;
     setParent(worldItem: WorldItem);
     intersectsPoint(vector: VectorModel);
     intersectsWorldItem(otherWorldItem: WorldItem);

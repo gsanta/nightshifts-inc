@@ -73,7 +73,7 @@ export class CreateBoundingPolygonMeshesActionHandler implements ActionHandler {
 
         const box = MeshBuilder.CreateBox(
             `bounding-box`,
-            {  width: boundingPolygon.width, depth: boundingPolygon.height, height: worldItem.getHeight()  },
+            {  width: boundingPolygon.getBoundingRectangle().width, depth: boundingPolygon.getBoundingRectangle().height, height: worldItem.getHeight()  },
             world.scene
         );
 

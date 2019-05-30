@@ -3,17 +3,16 @@ import { Direction } from '../../../model/utils/Direction';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { AdditionalData } from '../../world_import/AdditionalData';
 import { Orientation } from '../../../model/utils/Orientation';
-import { World } from '../../World';
-import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
+import { Polygon, Point, Shape } from '@nightshifts.inc/geometry';
 
 export interface WorldItemTranslator {
-    getTranslate(polygon: Polygon, dock?: Direction, realMeshDimensions?: Vector2Model): Polygon;
+    getTranslate(shape: Shape, dock?: Direction, realMeshDimensions?: Vector2Model): Shape;
     getRotation(worldItem: WorldItemInfo): number;
 }
 
 export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator {
 
-    public getTranslate(polygon: Polygon, dock: Direction = Direction.MIDDLE, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Polygon {
+    public getTranslate(polygon: Polygon, dock: Direction = Direction.MIDDLE, realMeshDimensions: Vector2Model = new Vector2Model(0, 0)): Shape {
         return this.getDockPosition(dock, polygon, realMeshDimensions);
     }
 

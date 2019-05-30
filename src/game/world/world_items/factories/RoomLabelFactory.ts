@@ -1,7 +1,7 @@
 import { WorldItem } from '../item_types/WorldItem';
 import { World } from '../../World';
 import { Scene, MeshBuilder, Vector3, StandardMaterial, DynamicTexture, Color3 } from '@babylonjs/core';
-import { Polygon } from '@nightshifts.inc/geometry';
+import { Polygon, Shape } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 
 
@@ -12,16 +12,16 @@ export class RoomLabelFactory {
         this.scene = scene;
     }
 
-    public createItem(polygon: Polygon, world: World, label: string): WorldItem {
-        const mesh = this.createMesh(polygon, label);
-        return new SimpleWorldItem(mesh, polygon, {type: 'room-label'});
+    public createItem(shape: Shape, world: World, label: string): WorldItem {
+        const mesh = this.createMesh(shape, label);
+        return new SimpleWorldItem(mesh, shape, {type: 'room-label'});
     }
 
-    private createMesh(dimensions: Polygon, label: string) {
+    private createMesh(shape: Shape, label: string) {
         const roomTop = MeshBuilder.CreatePolygon(
             'room-label',
             {
-                shape: dimensions.points.map(point => new Vector3(point.x, 0, point.y)),
+                shape: shape.points.map(point => new Vector3(point.x, 0, point.y)),
                 depth: 2,
                 updatable: true
             },

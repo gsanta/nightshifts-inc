@@ -25,7 +25,7 @@ export class WorldImporter {
         let world = new World();
 
         world.scene = this.scene;
-        world.dimensions = new Vector2Model(rootWorldItem.dimensions.width, rootWorldItem.dimensions.height);
+        world.dimensions = new Vector2Model(rootWorldItem.dimensions.getBoundingRectangle().width, rootWorldItem.dimensions.getBoundingRectangle().height);
         world.factory = worldFactory;
 
         world.worldItems = this.createWorldItems(rootWorldItem, world, worldFactory);

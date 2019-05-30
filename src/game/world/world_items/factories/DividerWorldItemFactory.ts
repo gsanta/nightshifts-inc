@@ -72,7 +72,7 @@ export class DividerWorldItemFactory {
     private createMesh(gwmWorldItem: WorldItemInfo): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             `${gwmWorldItem.name}-container`,
-            { width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 8 },
+            { width: gwmWorldItem.dimensions.getBoundingRectangle().width, depth: gwmWorldItem.dimensions.getBoundingRectangle().height, height: 8 },
             this.scene
         );
         mesh.isVisible = false;

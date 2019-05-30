@@ -1,7 +1,7 @@
 import { Scene, MeshBuilder, Vector3, PhysicsImpostor } from '@babylonjs/core';
 import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { World } from '../../World';
-import { Point, Polygon } from '@nightshifts.inc/geometry';
+import { Point, Polygon, Shape } from '@nightshifts.inc/geometry';
 import { RoomLabelFactory } from './RoomLabelFactory';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 
@@ -42,7 +42,7 @@ export class RoomFactory {
         return room;
     }
 
-    private createRoomFloor(dimensions: Polygon) {
+    private createRoomFloor(dimensions: Shape) {
         return MeshBuilder.CreatePolygon(
             'room',
             {

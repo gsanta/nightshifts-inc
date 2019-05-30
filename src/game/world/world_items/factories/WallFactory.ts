@@ -34,7 +34,7 @@ export class WallFactory implements GwmItemImporter {
         gwmWorldItem.dimensions = gwmWorldItem.dimensions
         .translate(new Point(translateX, translateY));
 
-        if (gwmWorldItem.dimensions.width > gwmWorldItem.dimensions.height) {
+        if (gwmWorldItem.dimensions.getBoundingRectangle().width > gwmWorldItem.dimensions.getBoundingRectangle().height) {
             gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
             [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true);
         } else {
@@ -43,7 +43,14 @@ export class WallFactory implements GwmItemImporter {
         }
 
         const parentMesh = MeshBuilder.CreateBox(
-                `default-wall-container-${this.index}`, {  width: gwmWorldItem.dimensions.width, depth: gwmWorldItem.dimensions.height, height: 8  }, scene);
+                `default-wall-container-${this.index}`,
+                {
+                    width: gwmWorldItem.dimensions.getBoundingRectangle().width,
+                    depth: gwmWorldItem.dimensions.getBoundingRectangle().height,
+                    height: 8
+                },
+                scene
+            );
 
         const mesh1 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 8 }, scene);
 

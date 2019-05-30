@@ -26,7 +26,7 @@ export class PlayerFactory implements GwmItemImporter {
         meshes.forEach(mesh => mesh.isVisible = true);
 
         let boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions);
-        const translate = new VectorModel(boundingBox.left, 0, -boundingBox.top);
+        const translate = new VectorModel(boundingBox.getBoundingRectangle().left, 0, -boundingBox.getBoundingRectangle().top);
         translate.addZ(-2);
 
         boundingBox = new Rectangle(translate.x, translate.z, 1, 1);

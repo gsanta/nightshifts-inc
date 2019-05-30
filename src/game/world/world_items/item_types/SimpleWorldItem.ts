@@ -1,5 +1,5 @@
-import { Axis, Mesh, PhysicsImpostor, Space, StandardMaterial, Vector3, Skeleton } from '@babylonjs/core';
-import { Point, Polygon, Rectangle } from '@nightshifts.inc/geometry';
+import { Axis, Mesh, PhysicsImpostor, Skeleton, Space, StandardMaterial, Vector3 } from '@babylonjs/core';
+import { Point, Rectangle, Shape } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { EmptyCommand } from '../action_strategies/EmptyCommand';
 import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
@@ -40,11 +40,11 @@ export class SimpleWorldItem implements WorldItem {
 
     public defaultAction: WorldItemActionCommand = new EmptyCommand();
 
-    protected boundingBox: Polygon;
+    protected boundingBox: Shape;
 
     protected counter = 1;
 
-    constructor(mesh: Mesh, boundingBox: Polygon, worldItemConfig?: Partial<WorldItemConfig>) {
+    constructor(mesh: Mesh, boundingBox: Shape, worldItemConfig?: Partial<WorldItemConfig>) {
         worldItemConfig = {...defaultWorldItemConfig, ...worldItemConfig};
         this.mesh = mesh;
         this.boundingBox = boundingBox;
@@ -153,15 +153,15 @@ export class SimpleWorldItem implements WorldItem {
         this.boundingMesh = mesh;
     }
 
-    public setBoudingBox(polygon: Polygon) {
-        this.boundingBox = polygon;
-        const center = polygon.getBoundingCenter();
+    public setBoudingBox(shape: Shape) {
+        this.boundingBox = shape;
+        const center = shape.getBoundingCenter();
         this.setPosition(new VectorModel(center.x, this.mesh.position.y, center.y));
-        this.boundingBox = polygon;
+        this.boundingBox = shape;
     }
 
 
-    public getBoundingBox(): Polygon {
+    public getBoundingBox(): Shape {
         return this.boundingBox;
     }
 
