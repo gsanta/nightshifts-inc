@@ -3,11 +3,10 @@ import * as sinon from 'sinon';
 import { WorldItemTranslator } from './WorldItemToRealWorldCoordinateMapper';
 import { WorldItemToWorldCenterTranslatorDecorator } from './WorldItemToWorldCenterTranslatorDecorator';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
-import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { expect } from 'chai';
 import { World } from '../../World';
-import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
-declare const describe, beforeEach, afterEach, it;
+import { Polygon } from '@nightshifts.inc/geometry';
+declare const describe, beforeEach, it;
 
 describe('WorldItemToWorldCenterTranslatorDecorator', () => {
     describe('getTranslate', () => {
@@ -29,7 +28,7 @@ describe('WorldItemToWorldCenterTranslatorDecorator', () => {
 
 
             const boundingBox: Partial<Polygon> = {};
-            getTranslateStub.withArgs(boundingBox).returns(new Rectangle(1, 1, 1, 1));
+            getTranslateStub.withArgs(boundingBox).returns(Polygon.createRectangle(1, 1, 1, 1));
             worldItemToWorldCenterTranslatorDecorator.getTranslate(<Polygon> boundingBox);
 
             sinon.assert.called(getTranslateStub);
@@ -44,11 +43,11 @@ describe('WorldItemToWorldCenterTranslatorDecorator', () => {
 
 
             const boundingBox: Partial<Polygon> = {};
-            getTranslateStub.returns(new Rectangle(1, 1, 1, 1));
+            getTranslateStub.returns(Polygon.createRectangle(1, 1, 1, 1));
 
             const polygon = worldItemToWorldCenterTranslatorDecorator.getTranslate(<Polygon> boundingBox);
 
-            expect(polygon).to.eql(new Rectangle(-1.5, -1.5, 1, 1));
+            expect(polygon).to.eql(Polygon.createRectangle(-1.5, -1.5, 1, 1));
         });
     });
 });

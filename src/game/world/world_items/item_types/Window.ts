@@ -31,8 +31,8 @@ export class WindowGlass extends SimpleWorldItem {
         const side2 = this.createMesh(gwmWorldItem, scene);
         side1.mesh.parent = containerMesh;
         side2.mesh.parent = containerMesh;
-        side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.getBoundingRectangle().height / 16));
-        side2.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.getBoundingRectangle().height / 16));
+        side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.yExtent() / 16));
+        side2.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.yExtent() / 16));
 
         return new WindowGlass(containerMesh, [side1, side2]);
     }
@@ -41,7 +41,7 @@ export class WindowGlass extends SimpleWorldItem {
         const dimensions = gwmWorldItem.dimensions;
         const middle1 = MeshBuilder.CreateBox(
             'window-middle-left',
-            { width: dimensions.getBoundingRectangle().width / 2, depth: dimensions.getBoundingRectangle().height / 8, height: 4 * 8 / 6 },
+            { width: dimensions.xExtent() / 2, depth: dimensions.yExtent() / 8, height: 4 * 8 / 6 },
             scene
         );
 
@@ -63,7 +63,7 @@ export class WindowGlass extends SimpleWorldItem {
 
         const mesh = MeshBuilder.CreateBox(
             'window-glass-left-container',
-            { width: dimensions.getBoundingRectangle().width / 2, depth: dimensions.getBoundingRectangle().height / 4, height: 4 * 8 / 6 },
+            { width: dimensions.xExtent() / 2, depth: dimensions.yExtent() / 4, height: 4 * 8 / 6 },
             scene
         );
 
@@ -84,8 +84,8 @@ class WindowFrame extends SimpleWorldItem {
         const side2 = this.createMesh(gwmWorldItem, scene);
         side1.mesh.parent = containerMesh;
         side2.mesh.parent = containerMesh;
-        side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.getBoundingRectangle().height / 16));
-        side2.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.getBoundingRectangle().height / 16));
+        side1.translate(new VectorModel(0, 0, gwmWorldItem.dimensions.yExtent() / 16));
+        side2.translate(new VectorModel(0, 0, -gwmWorldItem.dimensions.yExtent() / 16));
 
         return new WindowGlass(containerMesh, [side1, side2]);    }
 
@@ -94,7 +94,7 @@ class WindowFrame extends SimpleWorldItem {
 
         const mesh = MeshBuilder.CreateBox(
             'window-bottom',
-            { width: dimensions.getBoundingRectangle().width, depth: dimensions.getBoundingRectangle().height / 8, height: 8 / 6 },
+            { width: dimensions.xExtent(), depth: dimensions.yExtent() / 8, height: 8 / 6 },
             scene
         );
 
@@ -117,7 +117,7 @@ class WindowFrame extends SimpleWorldItem {
 
         const mesh = MeshBuilder.CreateBox(
             'window-glass-left-container',
-            { width: dimensions.getBoundingRectangle().width, depth: dimensions.getBoundingRectangle().height / 4, height: 8 / 6 },
+            { width: dimensions.xExtent(), depth: dimensions.yExtent() / 4, height: 8 / 6 },
             scene
         );
 
@@ -239,8 +239,8 @@ export class Window extends SimpleWorldItem {
 
         bottomFrame.translate(new VectorModel(0, - height / 2 + height / 12, 0));
         topFrame.translate(new VectorModel(0, height / 2 - height / 12, 0));
-        leftGlass.translate(new VectorModel(- gwmWorldItem.dimensions.getBoundingRectangle().width / 4, 0, 0));
-        rightGlass.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingRectangle().width / 4, 0, 0));
+        leftGlass.translate(new VectorModel(- gwmWorldItem.dimensions.xExtent() / 4, 0, 0));
+        rightGlass.translate(new VectorModel(gwmWorldItem.dimensions.xExtent() / 4, 0, 0));
 
         const containerMesh = this.createContainerMesh(scene);
 

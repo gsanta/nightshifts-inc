@@ -4,7 +4,7 @@ import { World } from '../../World';
 import { WorldItem } from '../item_types/WorldItem';
 import { Scene, StandardMaterial, Mesh, Skeleton, Color3 } from '@babylonjs/core';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Polygon, Rectangle } from '@nightshifts.inc/geometry';
+import { Polygon } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 
 export class EnemyFactory implements WorldItemFactory {
@@ -20,8 +20,8 @@ export class EnemyFactory implements WorldItemFactory {
         const meshes = this.meshInfo[0].map(mesh => mesh.clone());
         meshes[0].isVisible = true;
 
-        const enemy = new SimpleWorldItem(meshes[0], <Rectangle> polygon, {type: 'enemy'});
-        enemy.setPosition(new VectorModel(polygon.left, 0, polygon.top));
+        const enemy = new SimpleWorldItem(meshes[0], polygon, {type: 'enemy'});
+        enemy.setPosition(new VectorModel(polygon.getBoundingRectangle().minX(), 0, polygon.getBoundingRectangle().maxY()));
         enemy.mesh.material = this.createMaterial();
         return enemy;
     }

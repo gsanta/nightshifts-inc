@@ -19,8 +19,8 @@ export class ModelFactory2 {
         meshes[0].isVisible = true;
 
         boundingBox = boundingBox.mirrorY();
-        boundingBox = boundingBox.addX(- boundingBox.width / 2);
-        boundingBox = boundingBox.addY(boundingBox.height / 2);
+        boundingBox = boundingBox.addX(- boundingBox.xExtent() / 2);
+        boundingBox = boundingBox.addY(boundingBox.yExtent() / 2);
 
         const meshModel = new SimpleWorldItem(meshes[0], boundingBox, {type: meshes[0].name});
         meshModel.setBoudingBox(boundingBox);
@@ -46,7 +46,7 @@ export class ModelFactory2 {
 
         const box = MeshBuilder.CreateBox(
             `bounding-box`,
-            {  width: boundingPolygon.getBoundingRectangle().width, depth: boundingPolygon.getBoundingRectangle().height, height: worldItem.getHeight()  },
+            {  width: boundingPolygon.xExtent(), depth: boundingPolygon.yExtent(), height: worldItem.getHeight()  },
             scene
         );
 

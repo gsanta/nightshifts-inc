@@ -1,8 +1,8 @@
 import { Mesh, Space, Vector3 } from '@babylonjs/core';
-import { Rectangle } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { SimpleMaterialCreator } from './SimpleMaterialCreator';
 import { SimpleMeshCreator } from './SimpleMeshCreator';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 
 export class BoundingBoxCreator {
@@ -14,9 +14,9 @@ export class BoundingBoxCreator {
         this.simpleMaterialCreator = simpleMaterialCreator;
     }
 
-    public createMesh(boundingRectangle: Rectangle, height: number, hexColor: string): Mesh {
+    public createMesh(boundingRectangle: Polygon, height: number, hexColor: string): Mesh {
 
-        const dimensions = new VectorModel(boundingRectangle.width, height, boundingRectangle.height);
+        const dimensions = new VectorModel(boundingRectangle.xExtent(), height, boundingRectangle.yExtent());
         const box = this.simpleMeshCreator.createBox('bounding-box', dimensions);
 
         const center = boundingRectangle.getBoundingCenter();

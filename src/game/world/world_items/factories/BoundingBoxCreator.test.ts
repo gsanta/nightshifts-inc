@@ -3,15 +3,15 @@ import * as sinon from 'sinon';
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { SimpleMaterialCreator } from './SimpleMaterialCreator';
 import { BoundingBoxCreator } from './BoundingBoxCreator';
-import { Rectangle } from '@nightshifts.inc/geometry';
 import { expect } from 'chai';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { Vector3, Space } from '@babylonjs/core';
+import { Polygon } from '@nightshifts.inc/geometry';
 declare const describe, it, beforeEach;
 
 describe('`BoundingBoxCreator`', () => {
     describe('`createMesh`', () => {
-        const boundingRectangle = new Rectangle(0, 0, 1, 1);
+        const boundingRectangle = Polygon.createRectangle(0, 0, 1, 1);
         const height = 2;
         const hexColor = '#FF0000';
 
@@ -55,7 +55,7 @@ describe('`BoundingBoxCreator`', () => {
             boundingBoxCreator.createMesh(boundingRectangle, height, hexColor);
 
             sinon.assert.calledWith(createMaterialFromHexString, 'bounding-box-#FF0000', '#FF0000');
-            sinon.assert.calledWith(createBox, 'bounding-box', new VectorModel(boundingRectangle.width, height, boundingRectangle.height));
+            sinon.assert.calledWith(createBox, 'bounding-box', new VectorModel(boundingRectangle.xExtent(), height, boundingRectangle.yExtent()));
         });
 
         it ('positions the bounding box to the center', () => {

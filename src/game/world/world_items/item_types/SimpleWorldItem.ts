@@ -1,5 +1,5 @@
 import { Axis, Mesh, PhysicsImpostor, Skeleton, Space, StandardMaterial, Vector3 } from '@babylonjs/core';
-import { Point, Rectangle, Shape } from '@nightshifts.inc/geometry';
+import { Point, Shape } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { EmptyCommand } from '../action_strategies/EmptyCommand';
 import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
@@ -136,7 +136,7 @@ export class SimpleWorldItem implements WorldItem {
     }
 
     public getCenterPosition(): VectorModel {
-        const center = (<Rectangle> this.getBoundingBox()).getBoundingCenter();
+        const center = this.getBoundingBox().getBoundingCenter();
         return new VectorModel(center.x, 0, center.y);
     }
 

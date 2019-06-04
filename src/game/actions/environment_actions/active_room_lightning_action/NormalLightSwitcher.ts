@@ -1,5 +1,5 @@
 import { AbstractMesh } from '@babylonjs/core';
-import { Rectangle, Polygon } from '@nightshifts.inc/geometry';
+import { Polygon } from '@nightshifts.inc/geometry';
 import * as _ from 'lodash';
 import { World } from '../../../world/World';
 import { LightSwitcher } from './LightSwitcher';
@@ -36,7 +36,7 @@ export class NormalLightSwitcher implements LightSwitcher {
         const boundingBox = room.getBoundingBox();
         const meshPosition = mesh.getAbsolutePosition();
 
-        return (<Polygon> boundingBox).contains(new Rectangle(meshPosition.x, meshPosition.z, 0.01, 0.01));
+        return (<Polygon> boundingBox).contains(Polygon.createRectangle(meshPosition.x, meshPosition.z, 0.01, 0.01));
     }
 
     private excludeMeshesForWorldItem(meshes: AbstractMesh[], world: World) {

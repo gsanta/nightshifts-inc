@@ -22,13 +22,13 @@ export class WorldItemBoundingBoxCalculator {
             case Direction.NORTH_WEST:
                 return dimensions.translate(new Point(meshDimensions.x(), meshDimensions.y()));
             case Direction.NORTH_EAST:
-                return dimensions.translate(new Point(dimensions.getBoundingRectangle().width, 0));
+                return dimensions.translate(new Point(dimensions.xExtent(), 0));
             case Direction.SOUTH_EAST:
-                return dimensions.translate(new Point(dimensions.getBoundingRectangle().width, dimensions.getBoundingRectangle().height));
+                return dimensions.translate(new Point(dimensions.xExtent(), dimensions.yExtent()));
             case Direction.SOUTH_WEST:
-                return dimensions.translate(new Point(meshDimensions.x(), dimensions.getBoundingRectangle().height - meshDimensions.y()));
+                return dimensions.translate(new Point(meshDimensions.x(), dimensions.yExtent() - meshDimensions.y()));
             case Direction.MIDDLE:
-                return dimensions.translate(new Point(dimensions.getBoundingRectangle().height / 2, dimensions.getBoundingRectangle().height / 2));
+                return dimensions.translate(new Point(dimensions.yExtent() / 2, dimensions.yExtent() / 2));
             default:
                 throw new Error('Invalid dock direction: ' + dock);
         }

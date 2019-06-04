@@ -4,7 +4,7 @@ import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { WorldItem } from '../item_types/WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Rectangle, Polygon, Point } from '@nightshifts.inc/geometry';
+import { Polygon, Point } from '@nightshifts.inc/geometry';
 
 
 export class DividerWorldItemFactory {
@@ -44,18 +44,19 @@ export class DividerWorldItemFactory {
     }
 
     private createSideItems(gwmWorldItem: WorldItemInfo): [Mesh, Mesh] {
-        const [dimension1, dimension2] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true);
+        // const [dimension1, dimension2] = gwmWorldItem.dimensions.cutToEqualHorizontalSlices(1, true);
 
-        const side1 = this.createSideItem(dimension1, `${name}-side-1`);
-        const side2 = this.createSideItem(dimension2, `${name}-side-2`);
+        // const side1 = this.createSideItem(dimension1, `${name}-side-1`);
+        // const side2 = this.createSideItem(dimension2, `${name}-side-2`);
 
-        return [side1, side2];
+        // return [side1, side2];
+        return null;
     }
 
     private createSideItem(dimension: Polygon, name: string): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             name,
-            { width: dimension.width, depth: dimension.height, height: 8 },
+            { width: dimension.xExtent(), depth: dimension.yExtent(), height: 8 },
             this.scene
         );
 
@@ -64,7 +65,7 @@ export class DividerWorldItemFactory {
 
         const item = new SimpleWorldItem(mesh, dimension, {type: name});
 
-        mesh.translate(new Vector3(dimension.left, 0, dimension.top), 1);
+        mesh.translate(new Vector3(dimension.getBoundingRectangle().minX(), 0, dimension.getBoundingRectangle().maxY()), 1);
 
         return mesh;
     }
@@ -72,7 +73,7 @@ export class DividerWorldItemFactory {
     private createMesh(gwmWorldItem: WorldItemInfo): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             `${gwmWorldItem.name}-container`,
-            { width: gwmWorldItem.dimensions.getBoundingRectangle().width, depth: gwmWorldItem.dimensions.getBoundingRectangle().height, height: 8 },
+            { width: gwmWorldItem.dimensions.xExtent(), depth: gwmWorldItem.dimensions.yExtent(), height: 8 },
             this.scene
         );
         mesh.isVisible = false;

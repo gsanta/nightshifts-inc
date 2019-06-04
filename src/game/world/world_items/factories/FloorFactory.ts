@@ -25,7 +25,7 @@ export class FloorFactory implements GwmItemImporter {
         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
 
         const boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions);
-        const translate = new VectorModel(boundingBox.getBoundingRectangle().left, 0, -boundingBox.getBoundingRectangle().top);
+        const translate = new VectorModel(boundingBox.minX(), 0, -boundingBox.maxY());
         translate.addZ(-2);
 
         const meshModel = new SimpleWorldItem(null, null, {type: 'floor'});
@@ -43,7 +43,7 @@ export class FloorFactory implements GwmItemImporter {
     private createMesh(worldItem: WorldItemInfo): Mesh {
         return MeshBuilder.CreateGround(
                 'floor',
-                { width: worldItem.dimensions.getBoundingRectangle().width, height: worldItem.dimensions.getBoundingRectangle().height, updatable: true },
+                { width: worldItem.dimensions.xExtent(), height: worldItem.dimensions.yExtent(), updatable: true },
                 this.scene
             );
     }

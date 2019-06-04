@@ -1,6 +1,5 @@
 import { Mesh, Scene, Skeleton, Space, PhysicsImpostor, Quaternion, Axis } from '@babylonjs/core';
 import { WorldItemInfo } from '@nightshifts.inc/world-generator';
-import { Rectangle } from '@nightshifts.inc/geometry';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { World } from '../../World';
 import { WorldItem } from '../item_types/WorldItem';
@@ -8,6 +7,7 @@ import { WorldItemToWorldCenterTranslatorDecorator } from '../world_item_mappers
 import { WorldItemToRealWorldCoordinateMapper } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 export class PlayerFactory implements GwmItemImporter {
     public meshInfo: [Mesh[], Skeleton[]];
@@ -26,10 +26,10 @@ export class PlayerFactory implements GwmItemImporter {
         meshes.forEach(mesh => mesh.isVisible = true);
 
         let boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions);
-        const translate = new VectorModel(boundingBox.getBoundingRectangle().left, 0, -boundingBox.getBoundingRectangle().top);
+        const translate = new VectorModel(boundingBox.minX(), 0, -boundingBox.maxX());
         translate.addZ(-2);
 
-        boundingBox = new Rectangle(translate.x, translate.z, 1, 1);
+        boundingBox = Polygon.createRectangle(translate.x, translate.z, 1, 1);
         // const player = new Player(meshes[0], this.meshInfo[1][0], this.scene, worldItem.dimensions);
         const player = new SimpleWorldItem(meshes[0], boundingBox, {type: 'player', skeleton: this.meshInfo[1][0]});
         player.health = 100;

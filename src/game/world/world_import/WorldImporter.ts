@@ -25,7 +25,7 @@ export class WorldImporter {
         let world = new World();
 
         world.scene = this.scene;
-        world.dimensions = new Vector2Model(rootWorldItem.dimensions.getBoundingRectangle().width, rootWorldItem.dimensions.getBoundingRectangle().height);
+        world.dimensions = new Vector2Model(rootWorldItem.dimensions.xExtent(), rootWorldItem.dimensions.yExtent());
         world.factory = worldFactory;
 
         world.worldItems = this.createWorldItems(rootWorldItem, world, worldFactory);
@@ -119,7 +119,7 @@ export class WorldImporter {
                 ),
                 new transformators.HierarchyBuildingTransformator(),
                 new transformators.BorderItemAddingTransformator(['wall', 'door', 'window']),
-                new transformators.StretchRoomsSoTheyJoinTransformator({ xScale: options.xScale, yScale: options.yScale }),
+                new transformators.BorderItemsToLinesTransformator({ xScale: options.xScale, yScale: options.yScale }),
                 new transformators.AdditionalDataConvertingTransformator(options.additionalDataConverter)
             ]
         ).parse(strWorld);

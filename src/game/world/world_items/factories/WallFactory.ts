@@ -1,5 +1,5 @@
 import { Color3, MeshBuilder, Scene, StandardMaterial, Vector3 } from '@babylonjs/core';
-import { Point, Polygon, Rectangle } from '@nightshifts.inc/geometry';
+import { Point, Polygon, Line, GeometryUtils } from '@nightshifts.inc/geometry';
 import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -7,6 +7,7 @@ import { World } from '../../World';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { WorldItem } from '../item_types/WorldItem';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
+import { Segment } from '@nightshifts.inc/geometry/build/shapes/Segment';
 const colors = GameConstants.colors;
 
 export class WallFactory implements GwmItemImporter {
@@ -34,37 +35,41 @@ export class WallFactory implements GwmItemImporter {
         gwmWorldItem.dimensions = gwmWorldItem.dimensions
         .translate(new Point(translateX, translateY));
 
-        if (gwmWorldItem.dimensions.getBoundingRectangle().width > gwmWorldItem.dimensions.getBoundingRectangle().height) {
-            gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
-            [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualHorizontalSlices(1, true);
-        } else {
-            gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchX(-0.25);
-            [wallSide1Dim, wallSide2Dim] = (<Rectangle> gwmWorldItem.dimensions).cutToEqualVerticalSlices(1, true);
-        }
+        // gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
+        const segment = <Segment> gwmWorldItem.dimensions;
+
+        const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.5);
+
+        const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getSlope() === segment.getSlope());
+
+        wallSide1Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
+        wallSide2Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
 
         const parentMesh = MeshBuilder.CreateBox(
                 `default-wall-container-${this.index}`,
                 {
-                    width: gwmWorldItem.dimensions.getBoundingRectangle().width,
-                    depth: gwmWorldItem.dimensions.getBoundingRectangle().height,
+                    width: gwmWorldItem.dimensions.xExtent(),
+                    depth: gwmWorldItem.dimensions.yExtent(),
                     height: 8
                 },
                 scene
             );
 
-        const mesh1 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.width, depth: wallSide1Dim.height, height: 8 }, scene);
+        const mesh1 = MeshBuilder
+            .CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.xExtent(), depth: wallSide1Dim.yExtent(), height: 8 }, scene);
 
         mesh1.parent = parentMesh;
         mesh1.receiveShadows = true;
         mesh1.material = material;
-        mesh1.translate(new Vector3(wallSide1Dim.left, 0, wallSide1Dim.top), 1);
+        mesh1.translate(new Vector3(wallSide1Dim.getBoundingRectangle().minX(), 0, wallSide1Dim.getBoundingRectangle().maxY()), 1);
 
-        const mesh2 = MeshBuilder.CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.width, depth: wallSide2Dim.height, height: 8  }, scene);
+        const mesh2 = MeshBuilder
+            .CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.xExtent(), depth: wallSide2Dim.yExtent(), height: 8  }, scene);
 
         mesh2.parent = parentMesh;
         mesh2.receiveShadows = true;
         mesh2.material = material;
-        mesh2.translate(new Vector3(wallSide2Dim.left, 0, wallSide2Dim.top), 1);
+        mesh2.translate(new Vector3(wallSide2Dim.getBoundingRectangle().minX(), 0, wallSide2Dim.getBoundingRectangle().maxY()), 1);
 
         parentMesh.material = this.createMaterial2(scene);
         parentMesh.isVisible = false;

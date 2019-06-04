@@ -1,7 +1,7 @@
 import { WorldItem } from '../item_types/WorldItem';
 import { World } from '../../World';
 import { Scene, MeshBuilder, Vector3, StandardMaterial, DynamicTexture, Color3 } from '@babylonjs/core';
-import { Polygon, Shape } from '@nightshifts.inc/geometry';
+import { Shape } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 
 

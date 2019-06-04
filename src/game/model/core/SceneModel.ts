@@ -1,29 +1,29 @@
 import { Scene } from '@babylonjs/core';
-import { Rectangle } from '@nightshifts.inc/geometry';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 export class SceneModel {
     private scene: Scene;
-    private dimensions: Rectangle;
+    private dimensions: Polygon;
 
-    constructor(scene: Scene, dimensions: Rectangle) {
+    constructor(scene: Scene, dimensions: Polygon) {
         this.scene = scene;
         this.dimensions = dimensions;
     }
 
     public getWidth() {
-        return this.dimensions.width;
+        return this.dimensions.xExtent();
     }
 
     public getMinX() {
-        return this.dimensions.left;
+        return this.dimensions.getBoundingRectangle().minX();
     }
 
     public getDepth() {
-        return this.dimensions.height;
+        return this.dimensions.yExtent();
     }
 
     public getMinZ() {
-        return this.dimensions.top;
+        return this.dimensions.getBoundingRectangle().maxY();
     }
 }
 
