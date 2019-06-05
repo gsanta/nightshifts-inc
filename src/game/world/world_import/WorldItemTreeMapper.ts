@@ -8,7 +8,11 @@ export class WorldItemTreeMapper {
             const to = fromToMap.get(from);
 
             if (from.children) {
-                from.children.forEach(child => to.addChild(fromToMap.get(child)));
+                from.children.forEach(child => {
+                    if (fromToMap.get(child)) {
+                        to.addChild(fromToMap.get(child));
+                    }
+                });
             }
 
             if (from.borderItems) {

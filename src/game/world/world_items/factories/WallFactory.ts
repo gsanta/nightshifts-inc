@@ -32,11 +32,10 @@ export class WallFactory implements GwmItemImporter {
 
         let [wallSide1Dim, wallSide2Dim]: [Polygon, Polygon] = [null, null];
 
-        gwmWorldItem.dimensions = gwmWorldItem.dimensions
-        .translate(new Point(translateX, translateY));
+        gwmWorldItem.dimensions = gwmWorldItem.dimensions.translate(new Point(translateX, translateY));
 
         // gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
-        const segment = <Segment> gwmWorldItem.dimensions;
+        const segment = <Segment> gwmWorldItem.dimensions.mirrorY();
 
         const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.5);
 
@@ -61,7 +60,7 @@ export class WallFactory implements GwmItemImporter {
         mesh1.parent = parentMesh;
         mesh1.receiveShadows = true;
         mesh1.material = material;
-        mesh1.translate(new Vector3(wallSide1Dim.getBoundingRectangle().minX(), 0, wallSide1Dim.getBoundingRectangle().maxY()), 1);
+        mesh1.translate(new Vector3(wallSide1Dim.getBoundingCenter().x, 0, wallSide1Dim.getBoundingCenter().y), 1);
 
         const mesh2 = MeshBuilder
             .CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.xExtent(), depth: wallSide2Dim.yExtent(), height: 8  }, scene);
@@ -69,7 +68,7 @@ export class WallFactory implements GwmItemImporter {
         mesh2.parent = parentMesh;
         mesh2.receiveShadows = true;
         mesh2.material = material;
-        mesh2.translate(new Vector3(wallSide2Dim.getBoundingRectangle().minX(), 0, wallSide2Dim.getBoundingRectangle().maxY()), 1);
+        mesh2.translate(new Vector3(wallSide2Dim.getBoundingCenter().x, 0, wallSide2Dim.getBoundingCenter().y), 1);
 
         parentMesh.material = this.createMaterial2(scene);
         parentMesh.isVisible = false;
@@ -78,7 +77,7 @@ export class WallFactory implements GwmItemImporter {
 
 
         const wall = new SimpleWorldItem(parentMesh, gwmWorldItem.dimensions, {type: 'wall'});
-        wall.translate(new VectorModel(gwmWorldItem.dimensions.getBoundingCenter().x, 2.5, -gwmWorldItem.dimensions.getBoundingCenter().y));
+        wall.translate(new VectorModel(0, 2.5, 0));
 
         parentMesh.computeWorldMatrix(true);
         mesh1.computeWorldMatrix(true);

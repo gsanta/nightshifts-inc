@@ -24,7 +24,7 @@ import { GameActionType } from '../../../game/actions/GameActionType';
 import ActivateToolActions from '../../state/tools_state/tools_actions/ActivateToolActions';
 import DeactivateToolActions from '../../state/tools_state/tools_actions/DeactivateToolActions';
 
-const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.1.gwm');
+const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
 const mapStateToProps = (state: AppState) => {
     return {

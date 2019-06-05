@@ -11,6 +11,8 @@ import { WorldItem } from '../world_items/item_types/WorldItem';
 import { parseJsonAdditionalData } from './AdditionalData';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 import { WorldMapToMatrixGraphConverter } from '@nightshifts.inc/world-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
+import { Line, Polygon } from '@nightshifts.inc/geometry';
+import { Segment } from '@nightshifts.inc/geometry/build/shapes/Segment';
 
 export class WorldImporter {
     private meshFactoryProducer: WorldFactoryProducer;
@@ -46,9 +48,11 @@ export class WorldImporter {
         const worldItems: WorldItem[] = [];
         const map: Map<TreeNode, any> = new Map();
         for (const gwmWorldItem of treeIterator) {
-            const worldItem = this.createWorldItem(gwmWorldItem, worldFactory, world);
-            worldItems.push(worldItem);
-            map.set(gwmWorldItem, worldItem);
+            if (!(gwmWorldItem.name === 'wall' && gwmWorldItem.dimensions instanceof Polygon)) {
+                const worldItem = this.createWorldItem(gwmWorldItem, worldFactory, world);
+                worldItems.push(worldItem);
+                map.set(gwmWorldItem, worldItem);
+            }
         }
 
         worldItemToTreeMapper.mapTree(<any> rootWorldItem, map);
@@ -99,7 +103,7 @@ export class WorldImporter {
         const roomSeparatorCharacters = ['W', 'D', 'I'];
 
         const worldItemInfoFactory = new WorldItemInfoFactory();
-        const worldItems = WorldParser.createWithCustomWorldItemGenerator(
+        let worldItems = WorldParser.createWithCustomWorldItemGenerator(
             new parsers.CombinedWorldItemParser(
                 [
                     new parsers.FurnitureInfoParser(worldItemInfoFactory, furnitureCharacters, new WorldMapToMatrixGraphConverter()),
@@ -123,6 +127,7 @@ export class WorldImporter {
                 new transformators.AdditionalDataConvertingTransformator(options.additionalDataConverter)
             ]
         ).parse(strWorld);
+
 
         return this.meshFactoryProducer.getFactory(this.scene).then(worldFactory => this.createWorld(worldItems[0], worldFactory));
     }
