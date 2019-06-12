@@ -37,9 +37,9 @@ export class WallFactory implements GwmItemImporter {
         // gwmWorldItem.dimensions = gwmWorldItem.dimensions.stretchY(-0.75);
         const segment = <Segment> gwmWorldItem.dimensions.mirrorY();
 
-        const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.5);
+        const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.25);
 
-        const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getSlope() === segment.getSlope());
+        const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getLine().hasEqualSlope(segment.getLine()));
 
         wallSide1Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
         wallSide2Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
@@ -61,7 +61,6 @@ export class WallFactory implements GwmItemImporter {
         mesh1.receiveShadows = true;
         mesh1.material = material;
         mesh1.translate(new Vector3(wallSide1Dim.getBoundingCenter().x, 0, wallSide1Dim.getBoundingCenter().y), 1);
-
         const mesh2 = MeshBuilder
             .CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.xExtent(), depth: wallSide2Dim.yExtent(), height: 8  }, scene);
 
@@ -69,7 +68,6 @@ export class WallFactory implements GwmItemImporter {
         mesh2.receiveShadows = true;
         mesh2.material = material;
         mesh2.translate(new Vector3(wallSide2Dim.getBoundingCenter().x, 0, wallSide2Dim.getBoundingCenter().y), 1);
-
         parentMesh.material = this.createMaterial2(scene);
         parentMesh.isVisible = false;
 
@@ -87,7 +85,7 @@ export class WallFactory implements GwmItemImporter {
 
     private createMaterial(scene: Scene): StandardMaterial {
         const material = new StandardMaterial('wallMaterial', scene);
-        material.diffuseColor = Color3.FromHexString(colors.wall);
+        material.diffuseColor = Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
         material.emissiveColor = Color3.FromHexString('#111111');
 
         return material;

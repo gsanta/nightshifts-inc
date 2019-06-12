@@ -54,7 +54,7 @@ export class DividerWorldItemFactory {
 
         const segment = <Segment> gwmWorldItem.dimensions;
 
-        const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.5);
+        const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.25);
 
         const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getSlope() === segment.getSlope());
 
