@@ -28,7 +28,7 @@ export class EmptyAreaFactory implements WorldItemFactory {
         const mesh = MeshBuilder.CreatePolygon(
             worldItem.name,
             {
-                shape: dimensions.points.map(point => new Vector3(point.x, 2, point.y)),
+                shape: dimensions.getPoints().map(point => new Vector3(point.x, 2, point.y)),
                 depth: 2,
                 updatable: true
             },

@@ -71,7 +71,7 @@ export class WorldFactoryProducer {
                 map.set('bathtub', <any> bathtubFactory);
                 map.set('washbasin', <any> washbasinFactory);
                 map.set('chair', <any> chairFactory);
-                map.set('player', playerFactory);
+                map.set('player', <any> playerFactory);
                 map.set('floor', floorFactory);
 
                 return new WorldFactory(

@@ -38,7 +38,10 @@ export class WorldFactory {
     }
 
     public createPlayer(itemInfo: WorldItemInfo, world: World): WorldItem {
-        return this.worldItemFactoryMap.get('player').createItem(itemInfo, world);
+        const worldItemFactory = this.worldItemFactoryMap.get('player');
+        const player = this.create(worldItemFactory, itemInfo, world);
+        player.hasDefaultAction = false;
+        return player;
     }
 
     public createWindow(itemInfo: WorldItemInfo, world: World): WorldItem {

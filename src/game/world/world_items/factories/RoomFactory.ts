@@ -46,7 +46,7 @@ export class RoomFactory {
         return MeshBuilder.CreatePolygon(
             'room',
             {
-                shape: dimensions.points.map(point => new Vector3(point.x, 2, point.y)),
+                shape: dimensions.getPoints().map(point => new Vector3(point.x, 2, point.y)),
                 depth: 2,
                 updatable: true
             },

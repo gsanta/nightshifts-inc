@@ -6,7 +6,7 @@ import { Orientation } from '../../model/utils/Orientation';
 export class WorldItemRotationCalculator {
 
     public getRotation(worldItem: WorldItemInfo<AdditionalData>): number {
-        const orientation = worldItem.additionalData.orientation;
+        const orientation = worldItem.additionalData ? worldItem.additionalData.orientation : undefined;
 
         return this.getRotationForOrientation(orientation);
     }

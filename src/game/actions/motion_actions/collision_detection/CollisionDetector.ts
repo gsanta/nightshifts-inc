@@ -26,6 +26,7 @@ export class CollisionDetector {
 
         if (collisionInfo.mesh) {
             if (collisionInfo.mesh.name !== 'ray') {
+                console.log(collisionInfo && collisionInfo.mesh ? collisionInfo.mesh.name : 'no mesh');
                 let invNormal = collisionInfo.normal!.negate();
                 invNormal = invNormal.scale(delta.multiply(collisionInfo.normal!).length()); // Change normal to direction's length and normal's axis
                 let adjustedDelta = delta.subtract(invNormal);
@@ -59,6 +60,7 @@ export class CollisionDetector {
             normal = hit.getNormal();
             mesh = hit.pickedMesh;
         }
+
 
         return {
             mesh: mesh,

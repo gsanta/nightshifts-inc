@@ -21,7 +21,7 @@ export class RoomLabelFactory {
         const roomTop = MeshBuilder.CreatePolygon(
             'room-label',
             {
-                shape: shape.points.map(point => new Vector3(point.x, 0, point.y)),
+                shape: shape.getPoints().map(point => new Vector3(point.x, 0, point.y)),
                 depth: 2,
                 updatable: true
             },

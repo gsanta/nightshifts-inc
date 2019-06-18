@@ -10,7 +10,7 @@ import { AdditionalData } from '../world_import/AdditionalData';
 
 export class WorldItemBoundingBoxCalculator {
     public getBoundingBox(world: World, gwmWorldItem: WorldItemInfo, mesh: Mesh): Shape {
-        const dock = gwmWorldItem.additionalData.dock !== undefined ? gwmWorldItem.additionalData.dock : Direction.MIDDLE;
+        const dock = this.getDock(gwmWorldItem);
         const meshDimensions = this.getRealMeshDimensions(mesh, gwmWorldItem);
 
         let polygon = this.dockToDirection(dock, gwmWorldItem.dimensions, meshDimensions);
@@ -46,7 +46,7 @@ export class WorldItemBoundingBoxCalculator {
         const xExtend = mesh.getBoundingInfo().boundingBox.extendSize.x * mesh.scaling.x;
         const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.y * mesh.scaling.y;
 
-        switch (worldItem.additionalData.orientation) {
+        switch (this.getOrientation(worldItem)) {
             case Orientation.NORTH:
             case Orientation.SOUTH:
             default:
@@ -55,5 +55,13 @@ export class WorldItemBoundingBoxCalculator {
             case Orientation.EAST:
                 return new Vector2Model(zExtend, xExtend);
         }
+    }
+
+    private getOrientation(itemInfo: WorldItemInfo) {
+        return itemInfo.additionalData ? itemInfo.additionalData.orientation : undefined;
+    }
+
+    private getDock(itemInfo: WorldItemInfo) {
+        return itemInfo.additionalData && itemInfo.additionalData.dock !== undefined ? itemInfo.additionalData.dock : Direction.MIDDLE;
     }
 }
