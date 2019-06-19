@@ -30,7 +30,6 @@ export class RoomFactory {
         mesh.physicsImpostor = impostor;
         mesh.isVisible = true;
 
-        (window as any).physicsViewer.showImpostor(mesh.physicsImpostor);
 
         const label = `room-${this.counter++}`;
         const roomLabel = this.roomLabelFactory.createItem(dimensions, world, label);

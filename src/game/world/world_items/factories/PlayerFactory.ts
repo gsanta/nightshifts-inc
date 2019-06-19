@@ -2,6 +2,7 @@ import { Axis, Mesh, Quaternion, Scene, Skeleton, Space, Vector3 } from '@babylo
 import { Polygon } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { WorldItem } from '../item_types/WorldItem';
+import { VectorModel } from '../../../model/core/VectorModel';
 
 export class PlayerFactory {
     public meshInfo: [Mesh[], Skeleton[]];
@@ -41,7 +42,8 @@ export class PlayerFactory {
         // player.mesh.translate(toVector3(translate), 1, Space.WORLD);
 
         const center = boundingBox.getBoundingCenter();
-        player.mesh.translate(new Vector3(center.x, player.getHeight() / 2, center.y), 1, Space.WORLD);
+        player.setPosition(new VectorModel(center.x, player.getHeight() / 2 + 1, center.y));
+        // player.mesh.translate(new Vector3(center.x, player.getHeight() / 2, center.y), 1, Space.WORLD);
 
         return player;
     }

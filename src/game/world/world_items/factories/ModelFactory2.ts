@@ -35,7 +35,6 @@ export class ModelFactory2 {
         mesh.physicsImpostor = impostor;
 
         // mesh.setImpostor(impostor);
-        (window as any).physicsViewer.showImpostor(mesh.physicsImpostor);
 
         return meshModel;
     }

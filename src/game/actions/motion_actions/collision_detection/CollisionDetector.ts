@@ -48,6 +48,7 @@ export class CollisionDetector {
         const origin = this.creature.getCenterPosition().clone();
         origin.addY(origin.y + 1);
 
+        console.log(origin)
         const ray = new Ray(new Vector3(origin.x, 0.1, origin.z), delta, 3);
 
         const hit = this.scene.pickWithRay(ray, (pickedMesh: AbstractMesh) => {

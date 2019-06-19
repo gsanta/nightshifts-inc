@@ -1,5 +1,6 @@
 import { WorldItemActionCommand } from './WorldItemActionCommand';
 import { WorldItem } from '../item_types/WorldItem';
+import { Axis, Space } from '@babylonjs/core';
 
 export class OpenDoorCommand implements WorldItemActionCommand {
     private isOpen = false;
@@ -16,7 +17,9 @@ export class OpenDoorCommand implements WorldItemActionCommand {
             this.door.mesh.rotation.y = 0;
             this.isOpen = false;
         } else {
+            // this.door.mesh.rotate(Axis.Y, this.pivotAngle, Space.LOCAL);
             this.door.mesh.rotation.y = this.pivotAngle;
             this.isOpen = true;
-        }    }
+        }
+    }
 }

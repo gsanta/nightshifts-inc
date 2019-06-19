@@ -1,5 +1,5 @@
 import { WorldItemInfo } from '@nightshifts.inc/world-generator';
-import { Scene, StandardMaterial, MeshBuilder, Matrix, Mesh, Vector3 } from '@babylonjs/core';
+import { Scene, StandardMaterial, MeshBuilder, Matrix, Mesh, Vector3, TransformNode } from '@babylonjs/core';
 import { Vector2Model } from '../../../model/utils/Vector2Model';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { WorldItem } from '../item_types/WorldItem';
@@ -36,16 +36,18 @@ export class DividerWorldItemFactory {
         side2.parent = mesh;
 
         const door = new SimpleWorldItem(mesh, gwmWorldItem.dimensions, {type: 'door'});
+        door.mesh.name = '12345';
+        const center = gwmWorldItem.dimensions.getBoundingCenter();
         // door.setBoudingBox(gwmWorldItem.dimensions);
-        door.translate(new VectorModel(0, 2.5, 0));
+        door.translate(new VectorModel(center.x, 2.5, center.y));
         // door.addChild(side1);
         // door.addChild(side2);
 
-        door.mesh.computeWorldMatrix(true);
-        side1.computeWorldMatrix(true);
-        side2.computeWorldMatrix(true);
-
         this.setPivotMatrix(door);
+        // door.mesh.computeWorldMatrix(true);
+        // side1.computeWorldMatrix(true);
+        // side2.computeWorldMatrix(true);
+
         return door;
     }
 
@@ -58,14 +60,19 @@ export class DividerWorldItemFactory {
 
         const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getSlope() === segment.getSlope());
 
+        const center = segment.getBoundingCenter();
+
         const dimension1 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
         const dimension2 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
 
         const side1 = this.createSideItem(dimension1, `${name}-side-1`);
         const side2 = this.createSideItem(dimension2, `${name}-side-2`);
 
-        side1.translate(new Vector3(dimension1.getBoundingCenter().x, 0, dimension1.getBoundingCenter().y), 1);
-        side2.translate(new Vector3(dimension2.getBoundingCenter().x, 0, dimension2.getBoundingCenter().y), 1);
+        const translate1 = dimension1.getBoundingCenter().subtract(center);
+        const translate2 = dimension2.getBoundingCenter().subtract(center);
+
+        side1.translate(new Vector3(translate1.x, 0, translate1.y), 1);
+        side2.translate(new Vector3(translate2.x, 0, translate2.y), 1);
 
         return [side1, side2];
     }
@@ -78,7 +85,10 @@ export class DividerWorldItemFactory {
         );
 
         mesh.material = this.material;
+        // mesh.material.wireframe = true;
         mesh.receiveShadows = true;
+        // var myMaterial = new BABYLON.StandardMaterial("myMaterial", scene);
+
 
         return mesh;
     }
@@ -89,13 +99,16 @@ export class DividerWorldItemFactory {
             { width: gwmWorldItem.dimensions.xExtent(), depth: gwmWorldItem.dimensions.yExtent(), height: 8 },
             this.scene
         );
-        mesh.isVisible = false;
+
+        var myMaterial = new StandardMaterial("myMaterial", this.scene);
+        mesh.material = myMaterial;
+        mesh.material.wireframe = true;
+        // mesh.isVisible = false;
         return mesh;
     }
 
     private setPivotMatrix(door: WorldItem) {
-        const xExtent = door.mesh.getBoundingInfo().boundingBox.extendSize.x;
-        const pivotPoint = new VectorModel(xExtent, 0, 0);
+        const pivotPoint = new VectorModel(4, 0, 0);
         door.mesh.setPivotMatrix(Matrix.Translation(pivotPoint.x, pivotPoint.y, pivotPoint.z));
     }
 }

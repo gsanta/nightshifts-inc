@@ -71,8 +71,8 @@ class Game extends React.Component<GameProps, GameState> {
         const canvas = this.state.canvasRef.current;
         const engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
         const scene = new Scene(engine);
-        (window as any).physicsViewer = new PhysicsViewer(scene);
-        scene.enablePhysics(new Vector3(0, -10, 0), new OimoJSPlugin());
+        // (window as any).physicsViewer = new PhysicsViewer(scene);
+        // scene.enablePhysics(new Vector3(0, -10, 0), new OimoJSPlugin());
         scene.clearColor = Color4.FromHexString(colors.Black);
         this.setState({
             scene
