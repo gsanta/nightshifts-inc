@@ -3,10 +3,8 @@ import { Mesh, Skeleton, Space, PhysicsImpostor, Scene, MeshBuilder, Vector3, St
 import { Polygon } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { WorldItem } from '../item_types/WorldItem';
-import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
-import { World } from '../../World';
 
-export class ModelFactory2 {
+export class ModelFactory {
     public meshInfo: [Mesh[], Skeleton[]];
     private scene: Scene;
 
@@ -17,6 +15,7 @@ export class ModelFactory2 {
 
     public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): WorldItem {
         meshes[0].isVisible = true;
+        meshes[0].translate(new Vector3(0, 15, 0), 1);
 
         boundingBox = boundingBox.mirrorY();
         boundingBox = boundingBox.addX(- boundingBox.xExtent() / 2);

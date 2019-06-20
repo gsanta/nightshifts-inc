@@ -70,8 +70,6 @@ export class WorldImporter {
             case 'door':
                 const door = meshFactory.createDoor(meshModelDescription, world);
                 return door;
-            case 'window':
-                return meshFactory.createWindow(meshModelDescription, world);
             case 'root':
                 return meshFactory.createFloor(meshModelDescription, world);
             case 'player':

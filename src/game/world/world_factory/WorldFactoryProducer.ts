@@ -1,4 +1,4 @@
-import { Mesh, Scene, Skeleton } from '@babylonjs/core';
+import { Mesh, Scene, Skeleton, MeshBuilder } from '@babylonjs/core';
 import { Promise } from 'es6-promise';
 import { defaultMeshConfig } from '../../model/core/templates/creators/ModelFileBasedTemplateCreator';
 import { VectorModel } from '../../model/core/VectorModel';
@@ -9,10 +9,9 @@ import { EnemyFactory } from '../world_items/factories/EnemyFactory';
 import { FloorFactory } from '../world_items/factories/FloorFactory';
 import { RoomFactory } from '../world_items/factories/RoomFactory';
 import { WallFactory } from '../world_items/factories/WallFactory';
-import { WindowFactory } from '../world_items/factories/WindowFactory';
 import { WorldFactory } from './WorldFactory';
 import { WorldItemFactory } from './WorldItemFactory';
-import { ModelFactory2 } from '../world_items/factories/ModelFactory2';
+import { ModelFactory } from '../world_items/factories/ModelFactory';
 import { WorldItemBoundingBoxCalculator } from './WorldItemBoundingBoxCalculator';
 import { WorldItemRotationCalculator } from './WorldItemRotationCalculator';
 import { PlayerFactory } from '../world_items/factories/PlayerFactory';
@@ -52,35 +51,23 @@ export class WorldFactoryProducer {
         return this.getMeshTemplateStore(scene)
             .then(meshTemplateStore => {
 
-                const bedFactory = new ModelFactory2(meshTemplateStore.get('bed'), scene);
-                const tableFactory = new ModelFactory2(meshTemplateStore.get('table'), scene);
-                const cupboardFactory = new ModelFactory2(meshTemplateStore.get('cupboard'), scene);
-                const bathtubFactory = new ModelFactory2(meshTemplateStore.get('bathtub'), scene);
-                const washbasinFactory = new ModelFactory2(meshTemplateStore.get('washbasin'), scene);
-                const chairFactory = new ModelFactory2(meshTemplateStore.get('chair'), scene);
-                const emptyAreaFactory = new EmptyAreaFactory(scene);
-                const enemyFactory = new EnemyFactory(meshTemplateStore.get('ghost'));
-                const playerFactory = new PlayerFactory(meshTemplateStore.get('player'), scene);
-                const floorFactory = new FloorFactory(scene);
-
                 const map: Map<string, WorldItemFactory> = new Map();
-                map.set('bed', <any> bedFactory);
-                map.set('empty', emptyAreaFactory);
-                map.set('table', <any> tableFactory);
-                map.set('cupboard', <any> cupboardFactory);
-                map.set('bathtub', <any> bathtubFactory);
-                map.set('washbasin', <any> washbasinFactory);
-                map.set('chair', <any> chairFactory);
-                map.set('player', <any> playerFactory);
-                map.set('floor', floorFactory);
+                map.set('bed', <any> new ModelFactory(meshTemplateStore.get('bed'), scene));
+                map.set('empty', new EmptyAreaFactory(scene));
+                map.set('table', <any> new ModelFactory(meshTemplateStore.get('table'), scene));
+                map.set('cupboard', <any> new ModelFactory(meshTemplateStore.get('cupboard'), scene));
+                map.set('bathtub', <any> new ModelFactory(meshTemplateStore.get('bathtub'), scene));
+                map.set('washbasin', <any> new ModelFactory(meshTemplateStore.get('washbasin'), scene));
+                map.set('chair', <any> new ModelFactory(meshTemplateStore.get('chair'), scene));
+                map.set('player', <any> new PlayerFactory(meshTemplateStore.get('player'), scene));
+                map.set('floor', new FloorFactory(scene));
+                map.set('door', <any> new DoorFactory(scene, MeshBuilder));
 
                 return new WorldFactory(
-                    enemyFactory,
+                    new EnemyFactory(meshTemplateStore.get('ghost')),
                     map,
                     {
                         wall: new WallFactory(scene),
-                        door: new DoorFactory(scene),
-                        window: new WindowFactory(scene),
                         room: new RoomFactory(scene)
                     },
                     new WorldItemBoundingBoxCalculator(),
@@ -108,12 +95,19 @@ export class WorldFactoryProducer {
                 this.PLAYER_MATERIALS,
                 {...defaultMeshConfig, scaling: new VectorModel(0.25, 0.25, 0.25)}
             ),
+            // modelFileLoader.load(
+            //     'bed',
+            //     this.FURNITURE_1_BASE_PATH,
+            //     this.BED_MODEL_FILE,
+            //     [this.FURNITURE_1_MATERIAL],
+            //     {...defaultMeshConfig, scaling: new VectorModel(0.03, 0.03, 0.03)}
+            // ),
             modelFileLoader.load(
                 'bed',
-                this.FURNITURE_1_BASE_PATH,
-                this.BED_MODEL_FILE,
-                [this.FURNITURE_1_MATERIAL],
-                {...defaultMeshConfig, scaling: new VectorModel(0.03, 0.03, 0.03)}
+                'models/',
+                'window.babylon',
+                [],
+                {...defaultMeshConfig, scaling: new VectorModel(1, 1, 1)}
             ),
             modelFileLoader.load(
                 'table',

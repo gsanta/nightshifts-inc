@@ -11,7 +11,7 @@ import { AdditionalData } from '../world_import/AdditionalData';
 export class WorldItemBoundingBoxCalculator {
     public getBoundingBox(world: World, gwmWorldItem: WorldItemInfo, mesh: Mesh): Shape {
         const dock = this.getDock(gwmWorldItem);
-        const meshDimensions = this.getRealMeshDimensions(mesh, gwmWorldItem);
+        const meshDimensions = mesh ? this.getRealMeshDimensions(mesh, gwmWorldItem) : this.getDefaultMeshDimensions(gwmWorldItem);
 
         let polygon = this.dockToDirection(dock, gwmWorldItem.dimensions, meshDimensions);
         return this.moveToWorldCenter(world, polygon);
@@ -40,6 +40,12 @@ export class WorldItemBoundingBoxCalculator {
         const translateY = - (world.dimensions.y() / 2);
 
         return shape.translate(new Point(translateX, translateY));
+    }
+
+    private getDefaultMeshDimensions(worldItem: WorldItemInfo<AdditionalData>) {
+        const width = worldItem.dimensions.maxX() - worldItem.dimensions.minX();
+        const height = worldItem.dimensions.maxY() - worldItem.dimensions.minY();
+        return new Vector2Model(width, height);
     }
 
     private getRealMeshDimensions(mesh: Mesh, worldItem: WorldItemInfo<AdditionalData>): Vector2Model {
