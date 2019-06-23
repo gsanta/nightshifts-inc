@@ -26,7 +26,7 @@ export class FloorFactory implements GwmItemImporter {
 
         const boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions);
         const translate = new VectorModel(boundingBox.minX(), 0, -boundingBox.maxY());
-        translate.addZ(-2);
+        translate.addZ(-3);
 
         const meshModel = new SimpleWorldItem(null, null, {type: 'floor'});
         meshModel.translate(translate);

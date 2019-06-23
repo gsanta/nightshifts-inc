@@ -44,12 +44,23 @@ export class WorldFactory {
         return player;
     }
 
+
     public createDoor(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('door');
         const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, null);
         const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);
 
         return (<any> worldItemFactory).createItem(null, polygon, rotation);
+    }
+
+    public createWindow(itemInfo: WorldItemInfo, world: World): WorldItem {
+        const worldItemFactory = this.worldItemFactoryMap.get('window');
+        const mesh = worldItemFactory.meshInfo[0][0]
+        // const bed = this.create(worldItemFactory, itemInfo, world);
+        const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, mesh);
+        const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);
+        const door = (worldItemFactory as any).createItem([mesh], polygon, rotation);
+        return door;
     }
 
     public createFloor(itemInfo: WorldItemInfo, world: World): WorldItem {

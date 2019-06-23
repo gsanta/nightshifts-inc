@@ -75,7 +75,7 @@ export class WallFactory implements GwmItemImporter {
 
 
         const wall = new SimpleWorldItem(parentMesh, gwmWorldItem.dimensions, {type: 'wall'});
-        wall.translate(new VectorModel(0, 2.5, 0));
+        wall.translate(new VectorModel(0, 4, 0));
 
         parentMesh.computeWorldMatrix(true);
         mesh1.computeWorldMatrix(true);

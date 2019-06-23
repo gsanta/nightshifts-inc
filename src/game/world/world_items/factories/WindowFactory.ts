@@ -1,44 +1,44 @@
-import { Color3, Scene, StandardMaterial, Mesh, Vector3, Matrix, MeshBuilder } from '@babylonjs/core';
-import { WorldItemInfo } from '@nightshifts.inc/world-generator';
+import { Color3, Scene, StandardMaterial, Mesh, Vector3, Matrix, MeshBuilder, Skeleton } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
-import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
-import { OpenDoorCommand } from '../action_strategies/OpenDoorCommand';
 import { WorldItem } from '../item_types/WorldItem';
-import { Point, Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometry';
+import { Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 const colors = GameConstants.colors;
 
-export class DoorFactory {
+export class WindowFactory {
+    public meshInfo: [Mesh[], Skeleton[]];
     private scene: Scene;
     private meshBuilder: typeof MeshBuilder;
 
-    constructor(scene: Scene, meshBuilder: typeof MeshBuilder) {
+    constructor(meshInfo: [Mesh[], Skeleton[]], scene: Scene, meshBuilder: typeof MeshBuilder) {
+        this.meshInfo = meshInfo;
         this.scene = scene;
         this.meshBuilder = meshBuilder;
     }
 
     public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): WorldItem {
+        meshes[0].setAbsolutePosition(
+            new Vector3(meshes[0].getAbsolutePosition().x, meshes[0].getBoundingInfo().boundingBox.extendSize.y, meshes[0].getAbsolutePosition().z));
 
         boundingBox = boundingBox.mirrorY();
-
-        const mesh = this.createMesh(boundingBox);
+        const mesh = meshes[0];
+        mesh.isVisible = true;
         const [side1, side2] = this.createSideItems(boundingBox);
         side1.parent = mesh;
         side2.parent = mesh;
 
-        const door = new SimpleWorldItem(mesh, boundingBox, {type: 'door'});
+        const window = new SimpleWorldItem(mesh, boundingBox, {type: 'window'});
         const center = boundingBox.getBoundingCenter();
-        door.translate(new VectorModel(center.x, 4, center.y));
-        this.setPivotMatrix(door);
+        window.translate(new VectorModel(center.x, mesh.getBoundingInfo().boundingBox.extendSize.y / 2, center.y));
+        this.setPivotMatrix(window);
 
-        door.hasDefaultAction = true;
-        door.setDefaultAction(new OpenDoorCommand(door, -Math.PI / 2));
-        return door;
+        window.hasDefaultAction = false;
+        return window;
     }
 
     private createMaterial(): StandardMaterial {
-        const material = new StandardMaterial('door-material', this.scene);
+        const material = new StandardMaterial('window-material', this.scene);
         material.diffuseColor = Color3.FromHexString(colors.door);
 
         return material;
@@ -64,7 +64,8 @@ export class DoorFactory {
 
         side1.translate(new Vector3(translate1.x, 0, translate1.y), 1);
         side2.translate(new Vector3(translate2.x, 0, translate2.y), 1);
-
+        side1.material.wireframe = true;
+        side2.material.wireframe = true;
         return [side1, side2];
     }
 
@@ -78,17 +79,6 @@ export class DoorFactory {
         mesh.material = this.createMaterial();
         mesh.receiveShadows = true;
 
-        return mesh;
-    }
-
-    private createMesh(boundingBox: Shape): Mesh {
-        const mesh = this.meshBuilder.CreateBox(
-            `door-container`,
-            { width: boundingBox.xExtent(), depth: boundingBox.yExtent(), height: 8 },
-            this.scene
-        );
-
-        mesh.isVisible = false;
         return mesh;
     }
 

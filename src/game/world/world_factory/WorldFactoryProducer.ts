@@ -15,6 +15,7 @@ import { ModelFactory } from '../world_items/factories/ModelFactory';
 import { WorldItemBoundingBoxCalculator } from './WorldItemBoundingBoxCalculator';
 import { WorldItemRotationCalculator } from './WorldItemRotationCalculator';
 import { PlayerFactory } from '../world_items/factories/PlayerFactory';
+import { WindowFactory } from '../world_items/factories/WindowFactory';
 
 export class WorldFactoryProducer {
 
@@ -62,6 +63,7 @@ export class WorldFactoryProducer {
                 map.set('player', <any> new PlayerFactory(meshTemplateStore.get('player'), scene));
                 map.set('floor', new FloorFactory(scene));
                 map.set('door', <any> new DoorFactory(scene, MeshBuilder));
+                map.set('window', <any> new WindowFactory(meshTemplateStore.get('window'), scene, MeshBuilder));
 
                 return new WorldFactory(
                     new EnemyFactory(meshTemplateStore.get('ghost')),
@@ -95,15 +97,15 @@ export class WorldFactoryProducer {
                 this.PLAYER_MATERIALS,
                 {...defaultMeshConfig, scaling: new VectorModel(0.25, 0.25, 0.25)}
             ),
-            // modelFileLoader.load(
-            //     'bed',
-            //     this.FURNITURE_1_BASE_PATH,
-            //     this.BED_MODEL_FILE,
-            //     [this.FURNITURE_1_MATERIAL],
-            //     {...defaultMeshConfig, scaling: new VectorModel(0.03, 0.03, 0.03)}
-            // ),
             modelFileLoader.load(
                 'bed',
+                this.FURNITURE_1_BASE_PATH,
+                this.BED_MODEL_FILE,
+                [this.FURNITURE_1_MATERIAL],
+                {...defaultMeshConfig, scaling: new VectorModel(0.03, 0.03, 0.03)}
+            ),
+            modelFileLoader.load(
+                'window',
                 'models/',
                 'window.babylon',
                 [],

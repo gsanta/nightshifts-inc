@@ -1,6 +1,6 @@
 map `
 
-WWDDDDDDDDWWWWWWW
+WWWWDDDDDDDDWWWWW
 W##########X####W
 W###############W
 W###############W
@@ -25,6 +25,6 @@ E = bed
 
 details2 `
 E = type(table) pos(2,1) orientation(SOUTH)
-D = type(door) pos(2,0) axis(10,0) angle(-95)
+D = type(door) pos(4,0) axis(12,0) angle(-95)
 
 `

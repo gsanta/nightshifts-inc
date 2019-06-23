@@ -46,7 +46,7 @@ export class RoomFactory {
             'room',
             {
                 shape: dimensions.getPoints().map(point => new Vector3(point.x, 2, point.y)),
-                depth: 2,
+                depth: 0.5,
                 updatable: true
             },
             this.scene
