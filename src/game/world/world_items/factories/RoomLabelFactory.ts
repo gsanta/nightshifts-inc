@@ -28,7 +28,7 @@ export class RoomLabelFactory {
             this.scene
         );
 
-        roomTop.translate(new Vector3(0, 6.6, 0), 1);
+        roomTop.translate(new Vector3(0, 8, 0), 1);
 
         roomTop.material = this.createMaterial(label);
 
