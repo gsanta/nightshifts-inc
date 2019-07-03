@@ -4,6 +4,7 @@ import { WorldItem } from '../item_types/WorldItem';
 import { Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
+import { calculateBoundingShpere, Sphere } from '../Sphere';
 const colors = GameConstants.colors;
 
 export class WindowFactory {
@@ -24,13 +25,15 @@ export class WindowFactory {
         boundingBox = boundingBox.mirrorY();
         const mesh = meshes[0];
         mesh.isVisible = true;
-        const [side1, side2] = this.createSideItems(boundingBox);
+
+        const boundingSphere = calculateBoundingShpere(mesh);
+        const [side1, side2] = this.createSideItems(boundingBox, boundingSphere);
         side1.parent = mesh;
         side2.parent = mesh;
-
         const window = new SimpleWorldItem(mesh, boundingBox, {type: 'window'});
         const center = boundingBox.getBoundingCenter();
-        window.translate(new VectorModel(center.x, mesh.getBoundingInfo().boundingBox.extendSize.y / 2, center.y));
+        mesh.setAbsolutePosition(new Vector3(mesh.getAbsolutePosition().x, 0,  mesh.getAbsolutePosition().z));
+        window.translate(new VectorModel(center.x, boundingSphere.height - 1, center.y));
         this.setPivotMatrix(window);
 
         window.hasDefaultAction = false;
@@ -44,7 +47,7 @@ export class WindowFactory {
         return material;
     }
 
-    private createSideItems(boundingBox: Shape): [Mesh, Mesh] {
+    private createSideItems(boundingBox: Shape, boundinSphere: Sphere): [Mesh, Mesh] {
         const segment = <Segment> boundingBox;
 
         const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.25);
@@ -62,8 +65,8 @@ export class WindowFactory {
         const translate1 = dimension1.getBoundingCenter().subtract(center);
         const translate2 = dimension2.getBoundingCenter().subtract(center);
 
-        side1.translate(new Vector3(translate1.x, 0, translate1.y), 1);
-        side2.translate(new Vector3(translate2.x, 0, translate2.y), 1);
+        side1.translate(new Vector3(translate1.x, - boundinSphere.height / 2 + 1, translate1.y), 1);
+        side2.translate(new Vector3(translate2.x, - boundinSphere.height / 2 + 1, translate2.y), 1);
         side1.material.wireframe = true;
         side2.material.wireframe = true;
         return [side1, side2];

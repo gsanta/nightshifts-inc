@@ -49,20 +49,20 @@ export class WallFactory implements GwmItemImporter {
                 {
                     width: gwmWorldItem.dimensions.xExtent(),
                     depth: gwmWorldItem.dimensions.yExtent(),
-                    height: 8
+                    height: 7.2
                 },
                 scene
             );
 
         const mesh1 = MeshBuilder
-            .CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.xExtent(), depth: wallSide1Dim.yExtent(), height: 8 }, scene);
+            .CreateBox(`wall-template-left-${this.index}`, { width: wallSide1Dim.xExtent(), depth: wallSide1Dim.yExtent(), height: 7.2 }, scene);
 
         mesh1.parent = parentMesh;
         mesh1.receiveShadows = true;
         mesh1.material = material;
         mesh1.translate(new Vector3(wallSide1Dim.getBoundingCenter().x, 0, wallSide1Dim.getBoundingCenter().y), 1);
         const mesh2 = MeshBuilder
-            .CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.xExtent(), depth: wallSide2Dim.yExtent(), height: 8  }, scene);
+            .CreateBox(`wall-template-left-${this.index}`, {  width: wallSide2Dim.xExtent(), depth: wallSide2Dim.yExtent(), height: 7.2  }, scene);
 
         mesh2.parent = parentMesh;
         mesh2.receiveShadows = true;
@@ -75,7 +75,7 @@ export class WallFactory implements GwmItemImporter {
 
 
         const wall = new SimpleWorldItem(parentMesh, gwmWorldItem.dimensions, {type: 'wall'});
-        wall.translate(new VectorModel(0, 4, 0));
+        wall.translate(new VectorModel(0, 3.6, 0));
 
         parentMesh.computeWorldMatrix(true);
         mesh1.computeWorldMatrix(true);

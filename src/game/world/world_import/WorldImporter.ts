@@ -90,6 +90,8 @@ export class WorldImporter {
                 return meshFactory.createRoom(meshModelDescription, world);
             case 'empty':
                 return meshFactory.createEmptyArea(meshModelDescription, world);
+            case 'window':
+                return meshFactory.createWindow(meshModelDescription, world);
             default:
                 throw new Error('Unknown GameObject type: ' + meshModelDescription.name);
         }
@@ -123,7 +125,7 @@ export class WorldImporter {
                 new transformators.HierarchyBuildingTransformator(),
                 new transformators.BorderItemAddingTransformator(['wall', 'door', 'window']),
                 new transformators.BorderItemsToLinesTransformator({ xScale: options.xScale, yScale: options.yScale }),
-                // new transformators.BorderItemWidthToRealWidthTransformator([{name: 'abcd', width: 3}]),
+                new transformators.BorderItemWidthToRealWidthTransformator([{name: 'window', width: 2}]),
                 new transformators.AdditionalDataConvertingTransformator(options.additionalDataConverter)
             ]
         ).parse(strWorld);

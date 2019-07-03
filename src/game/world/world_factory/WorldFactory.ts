@@ -55,7 +55,7 @@ export class WorldFactory {
 
     public createWindow(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('window');
-        const mesh = worldItemFactory.meshInfo[0][0]
+        const mesh = worldItemFactory.meshInfo[0][0].clone()
         // const bed = this.create(worldItemFactory, itemInfo, world);
         const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, mesh);
         const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);

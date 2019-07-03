@@ -1,6 +1,6 @@
 map `
 
-WWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWIIIWWWWWWWWIIIIWWWWWWWWW
 W##########X##############W
 W#########################W
 W#########################W
@@ -23,6 +23,7 @@ W = wall
 X = player
 D = door
 E = bed
+I = window
 
 `
 
