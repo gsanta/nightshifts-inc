@@ -10,7 +10,7 @@ import { WorldFactoryProducer } from '../world_factory/WorldFactoryProducer';
 import { WorldItem } from '../world_items/item_types/WorldItem';
 import { parseJsonAdditionalData } from './AdditionalData';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
-import { WorldMapToMatrixGraphConverter } from '@nightshifts.inc/world-generator/build/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
+import { WorldMapToMatrixGraphConverter } from '@nightshifts.inc/world-generator/build/src/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
 import { Line, Polygon } from '@nightshifts.inc/geometry';
 import { Segment } from '@nightshifts.inc/geometry/build/shapes/Segment';
 
@@ -27,7 +27,7 @@ export class WorldImporter {
         let world = new World();
 
         world.scene = this.scene;
-        world.dimensions = new Vector2Model(rootWorldItem.dimensions.xExtent(), rootWorldItem.dimensions.yExtent());
+        world.dimensions = new Vector2Model(rootWorldItem.dimensions.getBoundingInfo().extent[0], rootWorldItem.dimensions.getBoundingInfo().extent[1]);
         world.factory = worldFactory;
 
         world.worldItems = this.createWorldItems(rootWorldItem, world, worldFactory);

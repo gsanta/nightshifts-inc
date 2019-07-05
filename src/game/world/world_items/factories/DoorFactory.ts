@@ -20,7 +20,7 @@ export class DoorFactory {
 
     public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): WorldItem {
 
-        boundingBox = boundingBox.mirrorY();
+        boundingBox = boundingBox.negate('y');
 
         const mesh = this.createMesh(boundingBox);
         const [side1, side2] = this.createSideItems(boundingBox);
@@ -71,7 +71,7 @@ export class DoorFactory {
     private createSideItem(dimension: Shape, name: string): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             name,
-            { width: dimension.xExtent(), depth: dimension.yExtent(), height: 8 },
+            { width: dimension.getBoundingInfo().extent[0], depth: dimension.getBoundingInfo().extent[1], height: 8 },
             this.scene
         );
 
@@ -84,7 +84,7 @@ export class DoorFactory {
     private createMesh(boundingBox: Shape): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             `door-container`,
-            { width: boundingBox.xExtent(), depth: boundingBox.yExtent(), height: 8 },
+            { width: boundingBox.getBoundingInfo().extent[0], depth: boundingBox.getBoundingInfo().extent[1], height: 8 },
             this.scene
         );
 

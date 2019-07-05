@@ -22,7 +22,7 @@ export class WindowFactory {
         meshes[0].setAbsolutePosition(
             new Vector3(meshes[0].getAbsolutePosition().x, meshes[0].getBoundingInfo().boundingBox.extendSize.y, meshes[0].getAbsolutePosition().z));
 
-        boundingBox = boundingBox.mirrorY();
+        boundingBox = boundingBox.negate('y');
         const mesh = meshes[0];
         mesh.isVisible = true;
 
@@ -75,7 +75,7 @@ export class WindowFactory {
     private createSideItem(dimension: Shape, name: string): Mesh {
         const mesh = this.meshBuilder.CreateBox(
             name,
-            { width: dimension.xExtent(), depth: dimension.yExtent(), height: 8 },
+            { width: dimension.getBoundingInfo().extent[0], depth: dimension.getBoundingInfo().extent[1], height: 8 },
             this.scene
         );
 

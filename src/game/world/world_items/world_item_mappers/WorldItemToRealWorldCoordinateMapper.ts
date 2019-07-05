@@ -41,13 +41,13 @@ export class WorldItemToRealWorldCoordinateMapper implements WorldItemTranslator
             case Direction.NORTH_WEST:
                 return dimensions.translate(new Point(meshDimensions.x(), meshDimensions.y()));
             case Direction.NORTH_EAST:
-                return dimensions.translate(new Point(dimensions.xExtent(), 0));
+                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0], 0));
             case Direction.SOUTH_EAST:
-                return dimensions.translate(new Point(dimensions.xExtent(), dimensions.yExtent()));
+                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0], dimensions.getBoundingInfo().extent[1]));
             case Direction.SOUTH_WEST:
-                return dimensions.translate(new Point(meshDimensions.x(), dimensions.yExtent() - meshDimensions.y()));
+                return dimensions.translate(new Point(meshDimensions.x(), dimensions.getBoundingInfo().extent[1] - meshDimensions.y()));
             case Direction.MIDDLE:
-                return dimensions.translate(new Point(dimensions.xExtent() / 2, dimensions.yExtent() / 2));
+                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0] / 2, dimensions.getBoundingInfo().extent[1] / 2));
             default:
                 throw new Error('Invalid dock direction: ' + dock);
         }

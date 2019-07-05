@@ -1,6 +1,6 @@
 
 import { Mesh, Skeleton, Space, PhysicsImpostor, Scene, MeshBuilder, Vector3, StandardMaterial, Color3 } from '@babylonjs/core';
-import { Polygon } from '@nightshifts.inc/geometry';
+import { Polygon, Point } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { WorldItem } from '../item_types/WorldItem';
 
@@ -17,9 +17,8 @@ export class ModelFactory {
         meshes[0].isVisible = true;
         meshes[0].translate(new Vector3(0, 15, 0), 1);
 
-        boundingBox = boundingBox.mirrorY();
-        boundingBox = boundingBox.addX(- boundingBox.xExtent() / 2);
-        boundingBox = boundingBox.addY(boundingBox.yExtent() / 2);
+        boundingBox = boundingBox.negate('y');
+        boundingBox = boundingBox.translate(new Point(-boundingBox.getBoundingInfo().extent[0] / 2, boundingBox.getBoundingInfo().extent[1] / 2));
 
         const meshModel = new SimpleWorldItem(meshes[0], boundingBox, {type: meshes[0].name});
         meshModel.setBoudingBox(boundingBox);
@@ -44,7 +43,7 @@ export class ModelFactory {
 
         const box = MeshBuilder.CreateBox(
             `bounding-box`,
-            {  width: boundingPolygon.xExtent(), depth: boundingPolygon.yExtent(), height: worldItem.getHeight()  },
+            {  width: boundingPolygon.getBoundingInfo().extent[0], depth: boundingPolygon.getBoundingInfo().extent[1], height: worldItem.getHeight()  },
             scene
         );
 

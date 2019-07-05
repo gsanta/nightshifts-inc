@@ -11,19 +11,19 @@ export class SceneModel {
     }
 
     public getWidth() {
-        return this.dimensions.xExtent();
+        return this.dimensions.getBoundingInfo().extent[0];
     }
 
     public getMinX() {
-        return this.dimensions.getBoundingRectangle().minX();
+        return this.dimensions.getBoundingRectangle().getBoundingInfo().min[0];
     }
 
     public getDepth() {
-        return this.dimensions.yExtent();
+        return this.dimensions.getBoundingInfo().extent[1];
     }
 
     public getMinZ() {
-        return this.dimensions.getBoundingRectangle().maxY();
+        return this.dimensions.getBoundingRectangle().getBoundingInfo().max[1];
     }
 }
 

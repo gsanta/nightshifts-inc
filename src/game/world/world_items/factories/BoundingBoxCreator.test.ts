@@ -55,7 +55,10 @@ describe('`BoundingBoxCreator`', () => {
             boundingBoxCreator.createMesh(boundingRectangle, height, hexColor);
 
             sinon.assert.calledWith(createMaterialFromHexString, 'bounding-box-#FF0000', '#FF0000');
-            sinon.assert.calledWith(createBox, 'bounding-box', new VectorModel(boundingRectangle.xExtent(), height, boundingRectangle.yExtent()));
+
+            const x = boundingRectangle.getBoundingInfo().extent[0];
+            const z = boundingRectangle.getBoundingInfo().extent[1];
+            sinon.assert.calledWith(createBox, 'bounding-box', new VectorModel(x, height, z));
         });
 
         it ('positions the bounding box to the center', () => {

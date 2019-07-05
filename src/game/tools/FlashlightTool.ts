@@ -1,7 +1,6 @@
 import { Tool } from './Tool';
 import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from '@babylonjs/core';
 import { World } from '../world/World';
-import { Window } from '../world/world_items/item_types/Window';
 import { WorldItem } from '../world/world_items/item_types/WorldItem';
 
 export class FlashlightTool implements Tool {
@@ -59,11 +58,6 @@ export class FlashlightTool implements Tool {
         world.worldItems.filter(worldItem => worldItem.type === 'door').forEach(door => {
             shadowGenerator.getShadowMap().renderList.push(door.mesh.getChildMeshes()[0]);
             shadowGenerator.getShadowMap().renderList.push(door.mesh.getChildMeshes()[1]);
-        });
-
-        world.worldItems.filter(worldItem => worldItem instanceof Window).forEach((window: Window) => {
-            shadowGenerator.getShadowMap().renderList.push(window.getChildren()[0].mesh);
-            shadowGenerator.getShadowMap().renderList.push(window.getChildren()[1].mesh);
         });
 
         world.worldItems.filter(worldItem => worldItem.type === 'empty').forEach(emptyArea => {

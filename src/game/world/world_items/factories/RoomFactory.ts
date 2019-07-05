@@ -20,7 +20,7 @@ export class RoomFactory {
         const translateY = - (world.dimensions.y() / 2);
 
         const dimensions  = worldItem.dimensions
-            .negateY()
+            .negate('y')
             .translate(new Point(translateX, -translateY));
 
         const mesh = this.createRoomFloor(dimensions);

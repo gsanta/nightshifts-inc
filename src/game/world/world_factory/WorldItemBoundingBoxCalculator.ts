@@ -22,13 +22,13 @@ export class WorldItemBoundingBoxCalculator {
             case Direction.NORTH_WEST:
                 return dimensions.translate(new Point(meshDimensions.x(), meshDimensions.y()));
             case Direction.NORTH_EAST:
-                return dimensions.translate(new Point(dimensions.xExtent(), 0));
+                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0], 0));
             case Direction.SOUTH_EAST:
-                return dimensions.translate(new Point(dimensions.xExtent(), dimensions.yExtent()));
+                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0], dimensions.getBoundingInfo().extent[1]));
             case Direction.SOUTH_WEST:
-                return dimensions.translate(new Point(meshDimensions.x(), dimensions.yExtent() - meshDimensions.y()));
+                return dimensions.translate(new Point(meshDimensions.x(), dimensions.getBoundingInfo().extent[1] - meshDimensions.y()));
             case Direction.MIDDLE:
-                return dimensions.translate(new Point(dimensions.yExtent() / 2, dimensions.yExtent() / 2));
+                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[1] / 2, dimensions.getBoundingInfo().extent[1] / 2));
             default:
                 throw new Error('Invalid dock direction: ' + dock);
         }
@@ -43,8 +43,8 @@ export class WorldItemBoundingBoxCalculator {
     }
 
     private getDefaultMeshDimensions(worldItem: WorldItemInfo<AdditionalData>) {
-        const width = worldItem.dimensions.maxX() - worldItem.dimensions.minX();
-        const height = worldItem.dimensions.maxY() - worldItem.dimensions.minY();
+        const width = worldItem.dimensions.getBoundingInfo().max[0] - worldItem.dimensions.getBoundingInfo().min[0];
+        const height = worldItem.dimensions.getBoundingInfo().max[1] - worldItem.dimensions.getBoundingInfo().min[1];
         return new Vector2Model(width, height);
     }
 

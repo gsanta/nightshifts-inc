@@ -12,7 +12,7 @@ W#########################W
 W#########################W
 W#########################W
 W#########################W
-WWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWDDDDWWWWWWWWWWWWWWWWWW
 
 `
 
@@ -28,7 +28,6 @@ I = window
 `
 
 details2 `
-E = type(table) pos(2,5) orientation(SOUTH)
 D = type(door) pos(4,0) axis(12,0) angle(-95)
 
 `

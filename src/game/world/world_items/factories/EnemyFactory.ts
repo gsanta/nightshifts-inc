@@ -21,7 +21,7 @@ export class EnemyFactory implements WorldItemFactory {
         meshes[0].isVisible = true;
 
         const enemy = new SimpleWorldItem(meshes[0], polygon, {type: 'enemy'});
-        enemy.setPosition(new VectorModel(polygon.getBoundingRectangle().minX(), 0, polygon.getBoundingRectangle().maxY()));
+        enemy.setPosition(new VectorModel(polygon.getBoundingRectangle().getBoundingInfo().min[0], 0, polygon.getBoundingRectangle().getBoundingInfo().max[1]));
         enemy.mesh.material = this.createMaterial();
         return enemy;
     }

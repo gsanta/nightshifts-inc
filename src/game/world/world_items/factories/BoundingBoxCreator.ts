@@ -16,7 +16,7 @@ export class BoundingBoxCreator {
 
     public createMesh(boundingRectangle: Polygon, height: number, hexColor: string): Mesh {
 
-        const dimensions = new VectorModel(boundingRectangle.xExtent(), height, boundingRectangle.yExtent());
+        const dimensions = new VectorModel(boundingRectangle.getBoundingInfo().extent[0], height, boundingRectangle.getBoundingInfo().extent[1]);
         const box = this.simpleMeshCreator.createBox('bounding-box', dimensions);
 
         const center = boundingRectangle.getBoundingCenter();

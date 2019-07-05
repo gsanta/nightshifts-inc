@@ -1,5 +1,5 @@
 import { Axis, Mesh, Quaternion, Scene, Skeleton, Space, Vector3 } from '@babylonjs/core';
-import { Polygon } from '@nightshifts.inc/geometry';
+import { Polygon, Point } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { WorldItem } from '../item_types/WorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -18,9 +18,8 @@ export class PlayerFactory {
         meshes = this.meshInfo[0]; //.map(mesh => mesh.clone('player'));
         meshes.forEach(mesh => mesh.isVisible = true);
 
-        boundingBox = boundingBox.mirrorY();
-        boundingBox = boundingBox.addX(- boundingBox.xExtent() / 2);
-        boundingBox = boundingBox.addY(boundingBox.yExtent() / 2);
+        boundingBox = boundingBox.negate('y');
+        boundingBox = boundingBox.translate(new Point(- boundingBox.getBoundingInfo().extent[0] / 2, boundingBox.getBoundingInfo().extent[1] / 2));
 
         const player = new SimpleWorldItem(meshes[0], boundingBox, {type: 'player', skeleton: this.meshInfo[1][0]});
         player.health = 100;

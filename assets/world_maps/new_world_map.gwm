@@ -1,6 +1,6 @@
 map `
 
-WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWIIIIWWWIIIIWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 WH############TTTTTT#################W####################################W###################################W####################################W####################################W##################################W
 W####################################W####################################W###################################W####################################W####################################W##################################W
 W####################################W####################################W###################################W####################################W####################################W##################################W
@@ -17,7 +17,7 @@ W####################################W####################################W#####
 W####################################W####################################W###################################W####################################W####################################W##################################W
 W####################################W####################################W###################################W####################################W####################################W##################################W
 W####################################W####################################W###################################W####################################W####################################W##################################W
-WWWWWWWWWWWWWWWWDDDDDDDDWW###########WWWWWWWWWWWWWWWWDDDDDDDDWW###########WWWWWWWWWWWWWWWDDDDDDDDWW###########WWWWWWWWWWWWWWWDDDDDDDDWWW###########WWWWWWWWWWWWWWWWWWWWWWWWWW###########WWWWWWWWWWWWWWWWWWWWWWWW###########W
+WWWWWWWWWWWWWWWWWWWWDDDDDW###########WWWWWWWWWWWWWWWWWWWWWWWWWW###########WWWWWWWWWWWWWWWWWWWWWWWWW###########WWWWWWWWWWWWWWWWWWWWWWWWWW###########WWWWWWWWWWWWWWWWWWWWWWWWWW###########WWWWWWWWWWWWWWWWWWWWWWWW###########W
 WBBBBB###################W###########WBBBBB###################W###########WBBBBB##################W###########WBBBBB###################W###########WBBBBB###################W###########WBBBBB#################W###########W
 WBBBBB###################W###########WBBBBB###################W###########WBBBBB##################W###########WBBBBB###################W###########WBBBBB###################W###########WBBBBB#################W###########W
 W########################W###########W########################W###########W#######################W###########W########################W###########W########################W###########W######################W###########W
@@ -26,7 +26,7 @@ WSS######################W###########WSS######################W###########WSS###
 WSS######################WCC#########WSS######################WCC#########WSS#####################WCC#########WSS######################WCC#########WSS######################WCC#########WSS####################WCC#########W
 W########################WCC#########W########################WCC#########W#######################WCC#########W########################WCC#########W########################WCC#########W######################WCC#########W
 W########################WCC#########W########################WCC#########W#######################WCC#########W########################WCC#########W########################WCC#########W######################WCC#########W
-WWWWWWWWWWWWWWWWWWWWWWWWWWWWWDDDDDDDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWDDDDDDDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWDDDDDDDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWDDDDDDDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWDDDDDDDDWWWWWWWWWWWWWWWWWWWWWWWWWWWDDDDDDDDW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWDDDDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 W##########################################################################################################################################################################################################################W
 W##########################################################################################################################################################################################################################W
 W##########################################################################################################################################################################################################################W
@@ -82,68 +82,5 @@ H = chair
 
 details2 `
 
-E = type(bed) pos(1,4) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(1,11) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(75,4) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(75,11) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(38,4) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(38,11) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(111,4) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(111,11) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(148,4) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(148,11) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(185,4) orientation(EAST) dock(SOUTH_WEST)
-E = type(bed) pos(185,11) orientation(EAST) dock(SOUTH_WEST)
-S = type(washbasin) pos(1,21) orientation(EAST) dock(SOUTH_WEST)
-S = type(washbasin) pos(75,21) orientation(EAST) dock(SOUTH_WEST)
-S = type(washbasin) pos(38,21) orientation(EAST) dock(SOUTH_WEST)
-S = type(washbasin) pos(111,21) orientation(EAST) dock(SOUTH_WEST)
-S = type(washbasin) pos(149,21) orientation(EAST) dock(SOUTH_WEST)
-S = type(washbasin) pos(185,21) orientation(EAST) dock(SOUTH_WEST)
-B = type(bathtub) pos(1,18) orientation(SOUTH) dock(NORTH_WEST)
-B = type(bathtub) pos(75,18) orientation(SOUTH) dock(NORTH_WEST)
-B = type(bathtub) pos(38,18) orientation(SOUTH) dock(NORTH_WEST)
-B = type(bathtub) pos(111,18) orientation(SOUTH) dock(NORTH_WEST)
-B = type(bathtub) pos(149,18) orientation(SOUTH) dock(NORTH_WEST)
-B = type(bathtub) pos(185,18) orientation(SOUTH) dock(NORTH_WEST)
-T = type(table) pos(14,1) orientation(SOUTH)
-H = type(chair) pos(1,1) orientation(SOUTH)
-H = type(chair) pos(14,41) orientation(SOUTH)
-H = type(chair) pos(17,41) orientation(SOUTH)
-H = type(chair) pos(20,41) orientation(SOUTH)
-H = type(chair) pos(23,41) orientation(SOUTH)
-H = type(chair) pos(26,41) orientation(SOUTH)
-C = type(cupboard) pos(136,23) orientation(EAST) dock(SOUTH_WEST)
-C = type(cupboard) pos(99,23) orientation(EAST) dock(SOUTH_WEST)
-C = type(cupboard) pos(63,23) orientation(EAST) dock(SOUTH_WEST)
-C = type(cupboard) pos(26,23) orientation(EAST) dock(SOUTH_WEST)
-C = type(cupboard) pos(173,23) orientation(EAST) dock(SOUTH_WEST)
-C = type(cupboard) pos(208,23) orientation(EAST) dock(SOUTH_WEST)
-D = type(door) pos(16,17) axis(16,17) angle(-95)
-D = type(door) pos(90,17) axis(98,17) angle(-95)
-D = type(door) pos(53,17) axis(61,17) angle(-95)
-D = type(door) pos(126,17) axis(134,17) angle(-95)
-D = type(door) pos(163,17) axis(163,17) angle(-95)
-D = type(door) pos(198,17) axis(198,17) angle(-95)
-D = type(door) pos(102,26) axis(110,26) angle(-95)
-D = type(door) pos(66,26) axis(74,26) angle(-95)
-D = type(door) pos(29,26) axis(37,26) angle(-95)
-D = type(door) pos(139,26) axis(147,26) angle(-95)
-D = type(door) pos(176,26) axis(184,26) angle(-95)
-D = type(door) pos(211,26) axis(219,26) angle(-95)
-I = type(window) pos(4,0) axis1(4,0) axis2(12,0) angle(-90)
-I = type(window) pos(99,0) axis1(99,0) axis2(107,0) angle(-90)
-I = type(window) pos(78,0) axis1(78,0) axis2(86,0) angle(-90)
-I = type(window) pos(64,0) axis1(64,0) axis2(72,0) angle(-90)
-I = type(window) pos(41,0) axis1(41,0) axis2(49,0) angle(-90)
-I = type(window) pos(26,0) axis1(26,0) axis2(34,0) angle(-90)
-I = type(window) pos(114,0) axis1(114,0) axis2(121,0) angle(-90)
-I = type(window) pos(136,0) axis1(136,0) axis2(144,0) angle(-90)
-I = type(window) pos(151,0) axis1(151,0) axis2(159,0) angle(-90)
-I = type(window) pos(173,0) axis1(173,0) axis2(181,0) angle(-90)
-I = type(window) pos(188,0) axis1(188,0) axis2(196,0) angle(-90)
-I = type(window) pos(208,0) axis1(208,0) axis2(217,0) angle(-90)
-I = type(window) pos(188,60) axis1(188,60) axis2(196,60) angle(90)
-I = type(window) pos(208,60) axis1(208,60) axis2(216,60) angle(90)
 
 `
