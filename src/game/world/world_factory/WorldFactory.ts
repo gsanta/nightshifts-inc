@@ -47,15 +47,16 @@ export class WorldFactory {
 
     public createDoor(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('door');
-        const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, null);
+        const mesh = worldItemFactory.meshInfo[0][0].clone();
+        const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, mesh);
         const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);
-
-        return (<any> worldItemFactory).createItem(null, polygon, rotation);
+        const door = (worldItemFactory as any).createItem([mesh], polygon, rotation);
+        return door;
     }
 
     public createWindow(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('window');
-        const mesh = worldItemFactory.meshInfo[0][0].clone()
+        const mesh = worldItemFactory.meshInfo[0][0].clone();
         // const bed = this.create(worldItemFactory, itemInfo, world);
         const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, mesh);
         const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);

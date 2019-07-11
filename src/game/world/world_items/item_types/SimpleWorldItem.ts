@@ -116,7 +116,6 @@ export class SimpleWorldItem implements WorldItem {
 
     public setPosition(position: VectorModel) {
         this.mesh.position = new Vector3(position.x, this.mesh.getAbsolutePosition().y, position.z);
-
         const center = this.mesh.getBoundingInfo().boundingSphere.centerWorld;
         this.boundingBox = this.boundingBox.setPosition(new Point(center.x, center.z));
 

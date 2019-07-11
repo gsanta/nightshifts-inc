@@ -1,28 +1,31 @@
-import { Color3, Scene, StandardMaterial, Mesh, Vector3, Matrix, MeshBuilder } from '@babylonjs/core';
-import { WorldItemInfo } from '@nightshifts.inc/world-generator';
+import { Color3, Scene, StandardMaterial, Mesh, Vector3, Matrix, MeshBuilder, Skeleton } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
-import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { OpenDoorCommand } from '../action_strategies/OpenDoorCommand';
 import { WorldItem } from '../item_types/WorldItem';
-import { Point, Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometry';
+import { Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 const colors = GameConstants.colors;
 
 export class DoorFactory {
+    public meshInfo: [Mesh[], Skeleton[]];
     private scene: Scene;
     private meshBuilder: typeof MeshBuilder;
 
-    constructor(scene: Scene, meshBuilder: typeof MeshBuilder) {
+    constructor(meshInfo: [Mesh[], Skeleton[]], scene: Scene, meshBuilder: typeof MeshBuilder) {
+        this.meshInfo = meshInfo;
         this.scene = scene;
         this.meshBuilder = meshBuilder;
     }
 
     public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): WorldItem {
+        // meshes[0].setAbsolutePosition(
+        //     new Vector3(meshes[0].getAbsolutePosition().x, meshes[0].getBoundingInfo().boundingBox.extendSize.y, meshes[0].getAbsolutePosition().z));
 
         boundingBox = boundingBox.negate('y');
+        const mesh = meshes[0];
+        mesh.isVisible = true;
 
-        const mesh = this.createMesh(boundingBox);
         const [side1, side2] = this.createSideItems(boundingBox);
         side1.parent = mesh;
         side2.parent = mesh;
@@ -76,6 +79,7 @@ export class DoorFactory {
         );
 
         mesh.material = this.createMaterial();
+        mesh.material.wireframe = true;
         mesh.receiveShadows = true;
 
         return mesh;

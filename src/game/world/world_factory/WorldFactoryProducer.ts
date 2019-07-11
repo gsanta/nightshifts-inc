@@ -62,7 +62,7 @@ export class WorldFactoryProducer {
                 map.set('chair', <any> new ModelFactory(meshTemplateStore.get('chair'), scene));
                 map.set('player', <any> new PlayerFactory(meshTemplateStore.get('player'), scene));
                 map.set('floor', new FloorFactory(scene));
-                map.set('door', <any> new DoorFactory(scene, MeshBuilder));
+                map.set('door', <any> new DoorFactory(meshTemplateStore.get('door'), scene, MeshBuilder));
                 map.set('window', <any> new WindowFactory(meshTemplateStore.get('window'), scene, MeshBuilder));
 
                 return new WorldFactory(
@@ -108,6 +108,13 @@ export class WorldFactoryProducer {
                 'window',
                 'models/',
                 'window.babylon',
+                [],
+                {...defaultMeshConfig, scaling: new VectorModel(1, 1, 1)}
+            ),
+            modelFileLoader.load(
+                'door',
+                'models/',
+                'door.babylon',
                 [],
                 {...defaultMeshConfig, scaling: new VectorModel(1, 1, 1)}
             ),

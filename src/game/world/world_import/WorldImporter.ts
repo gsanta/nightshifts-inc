@@ -125,7 +125,7 @@ export class WorldImporter {
                 new transformators.HierarchyBuildingTransformator(),
                 new transformators.BorderItemAddingTransformator(['wall', 'door', 'window']),
                 new transformators.BorderItemsToLinesTransformator({ xScale: options.xScale, yScale: options.yScale }),
-                new transformators.BorderItemWidthToRealWidthTransformator([{name: 'window', width: 2}]),
+                new transformators.BorderItemWidthToRealWidthTransformator([{name: 'window', width: 2}, {name: 'door', width: 2.7}]),
                 new transformators.AdditionalDataConvertingTransformator(options.additionalDataConverter)
             ]
         ).parse(strWorld);

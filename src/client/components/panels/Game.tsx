@@ -23,6 +23,7 @@ import SetGameActionDispatcherActions from '../../state/world_state/world_action
 import { GameActionType } from '../../../game/actions/GameActionType';
 import ActivateToolActions from '../../state/tools_state/tools_actions/ActivateToolActions';
 import DeactivateToolActions from '../../state/tools_state/tools_actions/DeactivateToolActions';
+import { ServiceFacade } from '../../../game/actions/ServiceFacade';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -54,6 +55,7 @@ const WidgetContainer = styled.div`
 class Game extends React.Component<GameProps, GameState> {
     private intervalTimeout: NodeJS.Timeout;
     private isInitialized = false;
+    private services: ServiceFacade;
 
     constructor(props: GameProps) {
         super(props);
@@ -100,6 +102,11 @@ class Game extends React.Component<GameProps, GameState> {
                 });
 
                 this.props.setWorld(world, actionDispatcher);
+
+                this.services = new ServiceFacade(world);
+
+                document.addEventListener('keydown', (event: KeyboardEvent) => this.services.keyboardHandler.onKeyDown(event));
+                document.addEventListener('keyup', (event: KeyboardEvent) => this.services.keyboardHandler.onKeyUp(event));
 
                 const gameEngine = new GameEngine(canvas, scene, engine, world);
                 gameEngine.run(actionDispatcher);

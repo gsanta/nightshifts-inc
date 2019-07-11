@@ -5,7 +5,7 @@ import { CollisionDetector } from './collision_detection/CollisionDetector';
 import { Scene } from '@babylonjs/core';
 import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 
-export class ManualMotionStrategy implements MotionStrategy {
+export class ManualMotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
     private player: WorldItem;
     private collisionDetector: CollisionDetector;
@@ -16,20 +16,21 @@ export class ManualMotionStrategy implements MotionStrategy {
     private interval = 1000;
     private distanceByInterval = 10;
 
-    constructor(player: WorldItem, collisionDetector: CollisionDetector, keyBoardHandler: UserInputEventEmitter, scene: Scene) {
+    constructor(player: WorldItem, scene: Scene, collisionDetector: CollisionDetector = new CollisionDetector(player, scene)) {
         this.player = player;
         this.scene = scene;
         this.collisionDetector = collisionDetector;
-        this.subscribeToUserInputs(keyBoardHandler);
     }
 
-    public calcNextPositionDelta(elapsedTime: number) {
+    public calcNextPositionDelta(elapsedTime: number, direction: MoveDirection) {
+        this.setAnimation();
+        this.direction = direction;
         const distance = elapsedTime / this.interval * this.distanceByInterval;
 
         let delta = new VectorModel(0, 0, 0);
-        if (this.direction === 'FORWARD') {
+        if (direction === 'FORWARD') {
             delta = new VectorModel(0, 0, -1).scale(distance);
-        } else if (this.direction === 'BACKWARD') {
+        } else if (direction === 'BACKWARD') {
             delta = new VectorModel(0, 0, 1).scale(distance);
         }
 
@@ -37,11 +38,12 @@ export class ManualMotionStrategy implements MotionStrategy {
         return this.collisionDetector.getAdjustedDelta(delta);
     }
 
-    public calcNextRotationDelta(elapsedTime: number): number {
+    public calcNextRotationDelta(elapsedTime: number, rotationDirection: RotationDirection): number {
         let distance = elapsedTime / this.interval;
-        if (this.rotationDirection === 'RIGHT') {
+        if (rotationDirection === 'RIGHT') {
             return Math.PI * 2 * distance;
-        } else if (this.rotationDirection === 'LEFT') {
+        } else if (rotationDirection === 'LEFT') {
+            console.log( -1 * Math.PI * 2 * distance)
             return -1 * Math.PI * 2 * distance;
         }
 
@@ -52,27 +54,27 @@ export class ManualMotionStrategy implements MotionStrategy {
         return !(this.direction || this.rotationDirection);
     }
 
-    private setDirection(direction: MoveDirection) {
-        if (this.direction !== direction) {
-            this.direction = direction;
-            this.setAnimation();
-        }
-    }
+    // private setDirection(direction: MoveDirection) {
+    //     if (this.direction !== direction) {
+    //         this.direction = direction;
+    //         this.setAnimation();
+    //     }
+    // }
 
-    private setRotationDirection(direction: RotationDirection) {
-        if (this.rotationDirection !== direction) {
-            this.rotationDirection = direction;
-            this.setAnimation();
-        }
-    }
+    // private setRotationDirection(direction: RotationDirection) {
+    //     if (this.rotationDirection !== direction) {
+    //         this.rotationDirection = direction;
+    //         this.setAnimation();
+    //     }
+    // }
 
     private setAnimation() {
-        if (this.direction || this.rotationDirection) {
-            this.scene.stopAnimation(this.player.skeleton);
-            this.scene.beginAnimation(this.player.skeleton, 0, 100, true, 1.0);
-        } else {
-            this.scene.stopAnimation(this.player.skeleton);
-        }
+        // this.scene.stopAnimation(this.player.skeleton);
+        // if (this.direction || this.rotationDirection) {
+        //     this.scene.stopAnimation(this.player.skeleton);
+        //     this.scene.beginAnimation(this.player.skeleton, 0, 100, true, 1.0);
+        // } else {
+        // }
     }
 
     private calcNextPositionDeltaConsideringRotation(delta: VectorModel) {
@@ -81,12 +83,5 @@ export class ManualMotionStrategy implements MotionStrategy {
         const horizontalDirection = Math.cos(rotation) * delta.z;
 
         return new VectorModel(verticalDirection, 0, horizontalDirection);
-    }
-
-    private subscribeToUserInputs(keyBoardHandler: UserInputEventEmitter) {
-        keyBoardHandler.onMove((direction) => this.setDirection(direction));
-        keyBoardHandler.onMoveEnd(() => this.setDirection(null));
-        keyBoardHandler.onTurn((direction) => this.setRotationDirection(direction));
-        keyBoardHandler.onTurnEnd(() => this.setRotationDirection(null));
     }
 }

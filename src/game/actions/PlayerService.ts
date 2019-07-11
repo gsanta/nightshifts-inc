@@ -1,0 +1,20 @@
+import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { VectorModel } from '../model/core/VectorModel';
+import { ServiceFacade } from './ServiceFacade';
+import { World } from '../world/World';
+
+export class PlayerService {
+    private player: WorldItem;
+    private serviceFacade: ServiceFacade;
+
+    constructor(serviceFacade: ServiceFacade, world: World) {
+        this.player = world.player;
+        this.serviceFacade = serviceFacade;
+    }
+
+    public move(delta: VectorModel) {
+        const absolutePos = this.player.mesh.getAbsolutePosition();
+        const pos = new VectorModel(absolutePos.x, absolutePos.y, absolutePos.z);
+        this.player.setPosition(pos.add(delta));
+    }
+}
