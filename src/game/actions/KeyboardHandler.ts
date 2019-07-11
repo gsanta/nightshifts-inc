@@ -2,7 +2,7 @@ import { MotionStrategy } from './motion_actions/MotionStrategy';
 import { ServiceFacade } from './ServiceFacade';
 import { ManualMotionStrategy } from './motion_actions/ManualMotionStrategy';
 import { World } from '../world/World';
-import { RotationDirection } from './motion_actions/UserInputEventEmitter';
+import { RotationDirection, MoveDirection } from './motion_actions/UserInputEventEmitter';
 
 export enum Keys {
     FORWARD = 38,
@@ -38,13 +38,19 @@ export class KeyboardHandler {
         switch (event.keyCode) {
             case Keys.FORWARD:
                 if (this.activeMoveDirection !== Keys.FORWARD) {
+                    this.world.scene.stopAnimation(this.world.player.skeleton);
                     this.world.scene.beginAnimation(this.world.player.skeleton, 0, 100, true, 1.0);
                     this.activeMoveDirection = Keys.FORWARD;
                     this.forward();
                 }
                 break;
             case Keys.BACKWARD:
-                this.backward();
+                if (this.activeMoveDirection !== Keys.BACKWARD) {
+                    this.world.scene.stopAnimation(this.world.player.skeleton);
+                    this.world.scene.beginAnimation(this.world.player.skeleton, 0, 100, true, 1.0);
+                    this.activeMoveDirection = Keys.BACKWARD;
+                    this.backward();
+                }
                 break;
             case Keys.LEFT:
                 if (this.activeRotationDirection !== Keys.LEFT) {
@@ -76,6 +82,8 @@ export class KeyboardHandler {
                     cancelAnimationFrame(this.moveAnimationFrameTimestamp);
                     this.moveAnimationFrameTimestamp = null;
                 }
+
+                this.prevMoveTime = null;
                 break;
 
             case Keys.LEFT:
@@ -98,15 +106,7 @@ export class KeyboardHandler {
             if (this.moveAnimationFrameTimestamp !== null) {
                 this.forward.bind(this)();
             }
-            const currentTime = Date.now();
-
-            if (this.prevMoveTime) {
-                const elapsedTime = currentTime - this.prevMoveTime;
-
-                const delta = this.motionStrategy.calcNextPositionDelta(elapsedTime, 'FORWARD');
-                this.services.playerService.move(delta);
-            }
-            this.prevMoveTime = currentTime;
+            this.move('FORWARD');
         });
     }
 
@@ -131,11 +131,29 @@ export class KeyboardHandler {
     }
 
     private doAction() {
-
+        this.services.playerService.doAction();
     }
 
     private backward() {
+        this.moveAnimationFrameTimestamp = requestAnimationFrame(() => {
 
+            if (this.moveAnimationFrameTimestamp !== null) {
+                this.backward.bind(this)();
+            }
+            this.move('BACKWARD');
+        });
+    }
+
+    private move(direction: MoveDirection) {
+        const currentTime = Date.now();
+
+        if (this.prevMoveTime) {
+            const elapsedTime = currentTime - this.prevMoveTime;
+
+            const delta = this.motionStrategy.calcNextPositionDelta(elapsedTime, direction);
+            this.services.playerService.move(delta);
+        }
+        this.prevMoveTime = currentTime;
     }
 
     private rotate(direction: RotationDirection) {

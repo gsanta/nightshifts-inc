@@ -36,10 +36,10 @@ export class ActiveRoomLightingActionHandler implements ActionHandler {
                 this.handleGameIsReady(world);
                 return;
             case GameActionType.ENTER_ROOM:
-                this.handleEnterRoom(<WorldItem> payload, world);
-                if (this.isShowCeiling) {
-                    this.handleShowRoomLabels(world);
-                }
+                // this.handleEnterRoom(<WorldItem> payload, world);
+                // if (this.isShowCeiling) {
+                //     this.handleShowRoomLabels(world);
+                // }
                 return;
             case GameActionType.TURN_ON_ALL_LIGHTS:
                 this.handleTurnOnAllLights(world);
