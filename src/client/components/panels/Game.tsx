@@ -30,7 +30,7 @@ const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm
 const mapStateToProps = (state: AppState) => {
     return {
         world: state.world,
-        actionDispatcher: state.gameActionDispatcher,
+        services: state.services,
         widgetInfo: state.widgetInfo,
         tools: state.tools
     };
@@ -39,7 +39,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(GetWorldActions.request()),
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
-    setWorld: (world: World, actionDispatcher: ActionDispatcher) => dispatch(SetWorldAction.request(world, actionDispatcher)),
+    setWorld: (world: World, services: ServiceFacade) => dispatch(SetWorldAction.request(world, services)),
     setGameActionDispatcher: (gameActionDispatcher: ActionDispatcher) => dispatch(SetGameActionDispatcherActions.request(gameActionDispatcher)),
     setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health)),
     activateTool: (tool: ToolIcon) => dispatch(ActivateToolActions.request(tool)),
@@ -101,9 +101,9 @@ class Game extends React.Component<GameProps, GameState> {
                     }
                 });
 
-                this.props.setWorld(world, actionDispatcher);
-
                 this.services = new ServiceFacade(world);
+                this.props.setWorld(world, this.services);
+
 
                 document.addEventListener('keydown', (event: KeyboardEvent) => this.services.keyboardHandler.onKeyDown(event));
                 document.addEventListener('keyup', (event: KeyboardEvent) => this.services.keyboardHandler.onKeyUp(event));
@@ -153,7 +153,7 @@ class Game extends React.Component<GameProps, GameState> {
 export interface GameProps {
     loadGame(): void;
     updateGame(world: World): void;
-    setWorld(world: World, actionDispatcher: ActionDispatcher): void;
+    setWorld(world: World, services: ServiceFacade): void;
     world: World;
     tools: ToolIcon[];
     widgetInfo: number;

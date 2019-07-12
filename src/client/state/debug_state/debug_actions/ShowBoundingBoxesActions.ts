@@ -4,6 +4,7 @@ import WorldSelections from '../../world_state/world_actions/WorldSelections';
 import { GameActionType } from '../../../../game/actions/GameActionType';
 import { DebugOptions } from '../../../components/dialogs/debug_dialog/DebugOptions';
 import { select, takeEvery } from 'redux-saga/effects';
+import { ServiceFacade } from '../../../../game/actions/ServiceFacade';
 
 
 class ShowBoundingBoxesAction implements WatchableAction<any> {
@@ -19,12 +20,12 @@ class ShowBoundingBoxesAction implements WatchableAction<any> {
     }
 
     private *activate({showBoundingBoxes}: Partial<DebugOptions>) {
-        const gameActionDispatcher: ActionDispatcher = yield select(WorldSelections.getGameActionDispatcher);
+        const services: ServiceFacade = yield select(WorldSelections.getServices);
 
         if (showBoundingBoxes) {
-            gameActionDispatcher.dispatch(GameActionType.DISPLAY_BOUNDING_BOXES);
+            services.debugServices.displayBoundingBoxes();
         } else {
-            gameActionDispatcher.dispatch(GameActionType.HIDE_BOUNDING_BOXES);
+            services.debugServices.hideBoundingBoxes();
         }
     }
 }

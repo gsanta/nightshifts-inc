@@ -1,13 +1,13 @@
 import { ActionType } from '../../ActionType';
 import { World } from '../../../../game/world/World';
-import { ActionDispatcher } from '../../../../game/actions/ActionDispatcher';
+import { ServiceFacade } from '../../../../game/actions/ServiceFacade';
 
 class SetWorldActions {
-    public request(world: World, actionDispatcher: ActionDispatcher) {
+    public request(world: World, services: ServiceFacade) {
         return {
             type: ActionType.SET_WORLD_REQUEST,
             world,
-            actionDispatcher
+            services
         };
     }
 }

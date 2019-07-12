@@ -6,6 +6,7 @@ import { ErrorMessage } from '../../components/miscellaneous/ErrorMessage';
 import { ApplicationSettings } from '../settings_state/model/ApplicationSettings';
 import { UserRequests } from '../settings_state/UserRequests';
 import { WorldRequests } from '../world_state/WorldRequests';
+import { ServiceFacade } from '../../../game/actions/ServiceFacade';
 
 export type AppLoadingState = 'loading' | 'ready';
 export type DataLoadingState = 'loading' | 'recently_loaded' | 'loaded';
@@ -25,5 +26,5 @@ export interface AppState {
     appLoadingState: AppLoadingState;
     errors: ErrorMessage[];
 
-    gameActionDispatcher: ActionDispatcher;
+    services: ServiceFacade;
 }

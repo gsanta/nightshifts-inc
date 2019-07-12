@@ -12,7 +12,7 @@ export class ActiveRoomService {
 
     private lightSwitcher: NormalLightSwitcher;
     private flashingLightSwitcher: FlashingLightSwitcher;
-    private isShowCeiling = true;
+    public isShowRoofs = true;
 
     constructor(world: World) {
         this.world = world;
@@ -32,7 +32,7 @@ export class ActiveRoomService {
             this.turnOnLight(newActiveRoom);
             this.activeRoom = newActiveRoom;
             this.activeRoom.isActive = true;
-            if (this.isShowCeiling) {
+            if (this.isShowRoofs) {
                 this.handleShowRoomLabels(this.world);
             }
         }

@@ -4,6 +4,7 @@ import WorldSelections from '../../world_state/world_actions/WorldSelections';
 import { GameActionType } from '../../../../game/actions/GameActionType';
 import { DebugOptions } from '../../../components/dialogs/debug_dialog/DebugOptions';
 import { select, takeEvery } from 'redux-saga/effects';
+import { ServiceFacade } from '../../../../game/actions/ServiceFacade';
 
 
 class ShowRoomLabelsActions implements WatchableAction<any> {
@@ -19,11 +20,11 @@ class ShowRoomLabelsActions implements WatchableAction<any> {
     }
 
     private *activateTool({showRoomLabels}: Partial<DebugOptions>) {
-        const gameActionDispatcher: ActionDispatcher = yield select(WorldSelections.getGameActionDispatcher);
+        const services: ServiceFacade = yield select(WorldSelections.getServices);
         if (showRoomLabels) {
-            gameActionDispatcher.dispatch(GameActionType.SHOW_ROOM_NAMES, true);
+            services.debugServices.displayRoofs();
         } else {
-            gameActionDispatcher.dispatch(GameActionType.SHOW_ROOM_NAMES, false);
+            services.debugServices.hideRoofs();
         }
     }
 }

@@ -4,6 +4,7 @@ import { ActionType, WatchableAction } from '../../ActionType';
 import { ActionDispatcher } from '../../../../game/actions/ActionDispatcher';
 import WorldSelections from '../../world_state/world_actions/WorldSelections';
 import { GameActionType } from '../../../../game/actions/GameActionType';
+import { ServiceFacade } from '../../../../game/actions/ServiceFacade';
 
 
 class ActivateToolActions implements WatchableAction<any> {
@@ -19,8 +20,8 @@ class ActivateToolActions implements WatchableAction<any> {
     }
 
     private *activateTool(action: {tool: ToolIcon}) {
-        const gameActionDispatcher: ActionDispatcher = yield select(WorldSelections.getGameActionDispatcher);
-        gameActionDispatcher.dispatch(GameActionType.ACTIVATE_TOOL, action.tool);
+        const services: ServiceFacade = yield select(WorldSelections.getServices);
+        services.toolServices.activateTool(action.tool);
     }
 }
 

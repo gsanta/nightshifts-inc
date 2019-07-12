@@ -4,7 +4,7 @@ import { WorldRequests } from '../world_state/WorldRequests';
 import { UserRequests } from '../settings_state/UserRequests';
 import { appLoadingStateReducer } from './appLoadingStateReducer';
 import { errorsReducer } from './errorsReducer';
-import { gameActionDispatcherReducer } from '../world_state/gameActionDispatcherReducer';
+import { gameServicesReducer } from '../world_state/gameServicesReducer';
 import { toolsReducer } from '../tools_state/toolsReducer';
 import { settingsReducer } from '../settings_state/settingsReducer';
 import { worldReducer } from '../world_state/worldReducer';
@@ -20,5 +20,5 @@ export default combineReducers<AppState>({
     debugOptions: debugReducer,
     appLoadingState: appLoadingStateReducer,
     errors: errorsReducer,
-    gameActionDispatcher: gameActionDispatcherReducer
+    services: gameServicesReducer
 });

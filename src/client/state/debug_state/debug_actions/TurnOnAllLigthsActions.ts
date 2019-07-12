@@ -5,6 +5,7 @@ import { GameActionType } from '../../../../game/actions/GameActionType';
 import { ActiveRoomLightingActionHandler } from '../../../../game/actions/environment_actions/active_room_lightning_action/ActiveRoomLightingActionHandler';
 import { DebugOptions } from '../../../components/dialogs/debug_dialog/DebugOptions';
 import { select, takeEvery } from 'redux-saga/effects';
+import { ServiceFacade } from '../../../../game/actions/ServiceFacade';
 
 
 class TurnOnAllLightsActions implements WatchableAction<any> {
@@ -20,13 +21,15 @@ class TurnOnAllLightsActions implements WatchableAction<any> {
     }
 
     private *activateTool({areAllLightsTurnedOn}: Partial<DebugOptions>) {
-        const gameActionDispatcher: ActionDispatcher = yield select(WorldSelections.getGameActionDispatcher);
+        const services: ServiceFacade = yield select(WorldSelections.getServices);
         if (areAllLightsTurnedOn) {
-            gameActionDispatcher.dispatch(GameActionType.TURN_ON_ALL_LIGHTS);
+            services.debugServices.turnOnAllLights();
             // gameActionDispatcher.unregisterActionHandler(ActiveRoomLightingActionHandler.getInstance());
         } else {
+            services.debugServices.turnOffAllLights();
+
             // gameActionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());
-            gameActionDispatcher.dispatch(GameActionType.TURN_OFF_LIGHTS_FOR_NOT_ACTIVE_ROOMS);
+            // gameActionDispatcher.dispatch(GameActionType.TURN_OFF_LIGHTS_FOR_NOT_ACTIVE_ROOMS);
         }
     }
 }
