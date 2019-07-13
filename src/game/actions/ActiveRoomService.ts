@@ -19,6 +19,10 @@ export class ActiveRoomService {
         this.rooms = world.getWorldItemsByName('room');
         this.lightSwitcher = new NormalLightSwitcher();
         this.flashingLightSwitcher = new FlashingLightSwitcher(this.lightSwitcher);
+
+        world.getWorldItemsByName('room').forEach(room => {
+            this.lightSwitcher.off(<WorldItem> room, world);
+        });
     }
 
 

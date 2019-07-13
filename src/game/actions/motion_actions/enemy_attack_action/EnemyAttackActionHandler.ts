@@ -1,7 +1,7 @@
 import { ActionHandler } from '../../ActionHandler';
 import { World } from '../../../world/World';
 import { GameActionType } from '../../GameActionType';
-import { CollisionDetector } from '../collision_detection/CollisionDetector';
+import { CollisionDetector } from '../../../services/collision_detection/CollisionDetector';
 import find from 'lodash/find';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { ActionDispatcher } from '../../ActionDispatcher';

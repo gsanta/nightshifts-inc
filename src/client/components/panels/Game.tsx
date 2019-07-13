@@ -23,7 +23,10 @@ import SetGameActionDispatcherActions from '../../state/world_state/world_action
 import { GameActionType } from '../../../game/actions/GameActionType';
 import ActivateToolActions from '../../state/tools_state/tools_actions/ActivateToolActions';
 import DeactivateToolActions from '../../state/tools_state/tools_actions/DeactivateToolActions';
-import { ServiceFacade } from '../../../game/actions/ServiceFacade';
+import { WorldSetup } from '../../../game/setup/WorldSetup';
+import { CameraSetup } from '../../../game/setup/CameraSetup';
+import { MainLightSetup } from '../../../game/setup/MainLightSetup';
+import { ServiceFacade } from '../../../game/services/ServiceFacade';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -80,8 +83,8 @@ class Game extends React.Component<GameProps, GameState> {
             scene
         });
 
-        const worldGenerator = new WorldImporter(scene, new WorldFactoryProducer());
-        worldGenerator
+        const worldImporter = new WorldImporter(scene, new WorldFactoryProducer());
+        worldImporter
             .import(gwmGameWorldMap)
             .then((world) => {
                 const actionDispatcher = new ActionDispatcher(world);
@@ -101,6 +104,8 @@ class Game extends React.Component<GameProps, GameState> {
                     }
                 });
 
+                const worldSetup = new WorldSetup(new CameraSetup(), new MainLightSetup());
+                world = worldSetup.setup(world);
                 this.services = new ServiceFacade(world);
                 this.props.setWorld(world, this.services);
 

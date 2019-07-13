@@ -1,6 +1,6 @@
 import { Scene, RayHelper, Ray, Color3 } from '@babylonjs/core';
-import { VectorModel, toVector3 } from '../../../model/core/VectorModel';
-import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
+import { VectorModel, toVector3 } from '../../model/core/VectorModel';
+import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 declare const DEBUG: boolean;
 
 export class RayCaster {

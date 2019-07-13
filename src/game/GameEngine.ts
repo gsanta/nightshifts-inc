@@ -4,18 +4,11 @@ import { ActionDispatcher } from './actions/ActionDispatcher';
 import { ToolSelectionActionHandler } from './actions/tool_actions/tool_selection_action/ToolSelectionActionHandler';
 import { GameActionType } from './actions/GameActionType';
 import { ThermometerUpdateHandler } from './actions/tool_actions/thermometer_update_action/ThermometerUpdateHandler';
-import { ActiveRoomLightingActionHandler } from './actions/environment_actions/active_room_lightning_action/ActiveRoomLightingActionHandler';
 import { TimeActionHandler } from './actions/general_actions/time_action/TimeActionHandler';
 import { EnterRoomActionHandler } from './actions/motion_actions/enter_room_action/EnterRoomActionHandler';
 import { ActiveEnemiesActionHandler } from './actions/story_actions/active_enemies_action/ActiveEnemiesActionHandler';
 import { EnemyAttackActionHandler } from './actions/motion_actions/enemy_attack_action/EnemyAttackActionHandler';
-import { CreateFollowCameraActionHandler } from './actions/environment_actions/create_main_camera_action/CreateFollowCameraActionHandler';
-import { CreateMainLightActionHandler } from './actions/environment_actions/create_main_light_action/CreateMainLightActionHandler';
 import { EnemyHitActionHandler } from './actions/enemy_hit_action/EnemyHitActionHandler';
-import { LampBehaviourActionHandler } from './actions/environment_actions/lamp_behaviour_action/LampBehaviourActionHandler';
-import { PlayerMotionActionHandler } from './actions/motion_actions/player_motion_action/PlayerMotionActionHandler';
-import { CreateBoundingPolygonMeshesActionHandler } from './actions/debug_actions/CreateBoundingPolygonMeshesActionHandler';
-import { WorldItemActivationActionHandler } from './actions/world_item_activation_actions/WorldItemActivationActionHandler';
 
 (<any> window).earcut = require('earcut');
 
@@ -47,9 +40,6 @@ export class GameEngine {
     public run(actionDispatcher: ActionDispatcher) {
         setTimeout(
             () => {
-                actionDispatcher.registerActionHandler(new CreateFollowCameraActionHandler());
-                actionDispatcher.registerActionHandler(new CreateMainLightActionHandler());
-                actionDispatcher.registerActionHandler(ActiveRoomLightingActionHandler.getInstance());
                 actionDispatcher.registerActionHandler(new ToolSelectionActionHandler(this.world.tools));
                 actionDispatcher.registerActionHandler(new ThermometerUpdateHandler());
                 actionDispatcher.registerActionHandler(new EnterRoomActionHandler(actionDispatcher));
@@ -57,10 +47,6 @@ export class GameEngine {
                 actionDispatcher.registerActionHandler(new ActiveEnemiesActionHandler(actionDispatcher));
                 actionDispatcher.registerActionHandler(new EnemyAttackActionHandler(actionDispatcher));
                 actionDispatcher.registerActionHandler(new EnemyHitActionHandler(actionDispatcher));
-                actionDispatcher.registerActionHandler(new LampBehaviourActionHandler());
-                actionDispatcher.registerActionHandler(new PlayerMotionActionHandler(actionDispatcher));
-                actionDispatcher.registerActionHandler(new CreateBoundingPolygonMeshesActionHandler(actionDispatcher));
-                actionDispatcher.registerActionHandler(new WorldItemActivationActionHandler());
 
                 // this.actionDispatcher.registerActionHandler(new RoomReservationAction());
 

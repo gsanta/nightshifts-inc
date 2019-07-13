@@ -2,7 +2,7 @@ import { takeEvery, select } from 'redux-saga/effects';
 import { ToolIcon } from '../../../components/dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ActionType, WatchableAction } from '../../ActionType';
 import WorldSelections from '../../world_state/world_actions/WorldSelections';
-import { ServiceFacade } from '../../../../game/actions/ServiceFacade';
+import { ServiceFacade } from '../../../../game/services/ServiceFacade';
 
 
 class DeactivateToolActions implements WatchableAction<any> {

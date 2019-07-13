@@ -1,10 +1,8 @@
-import { WatchableAction, ActionType } from '../../ActionType';
-import { ActionDispatcher } from '../../../../game/actions/ActionDispatcher';
-import WorldSelections from '../../world_state/world_actions/WorldSelections';
-import { GameActionType } from '../../../../game/actions/GameActionType';
-import { DebugOptions } from '../../../components/dialogs/debug_dialog/DebugOptions';
 import { select, takeEvery } from 'redux-saga/effects';
-import { ServiceFacade } from '../../../../game/actions/ServiceFacade';
+import { DebugOptions } from '../../../components/dialogs/debug_dialog/DebugOptions';
+import { ActionType, WatchableAction } from '../../ActionType';
+import WorldSelections from '../../world_state/world_actions/WorldSelections';
+import { ServiceFacade } from '../../../../game/services/ServiceFacade';
 
 
 class ShowBoundingBoxesAction implements WatchableAction<any> {

@@ -1,11 +1,11 @@
-import { ActiveRoomService } from './ActiveRoomService';
 import { World } from '../world/World';
 import { PlayerService } from './PlayerService';
 import { KeyboardHandler } from './KeyboardHandler';
-import { ManualMotionStrategy } from './motion_actions/ManualMotionStrategy';
-import { ActionableObjectService } from './ActionableObjectService';
-import { DebugServices } from './DebugServices';
 import { ToolService } from './ToolService';
+import { ActiveRoomService } from '../actions/ActiveRoomService';
+import { ActionableObjectService } from '../actions/ActionableObjectService';
+import { DebugServices } from '../actions/DebugServices';
+import { ManualMotionStrategy } from './motion/ManualMotionStrategy';
 
 export class ServiceFacade {
     private world: World;

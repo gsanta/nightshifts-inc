@@ -1,9 +1,8 @@
-import { MotionStrategy } from './MotionStrategy';
 import { VectorModel } from '../../model/core/VectorModel';
-import { UserInputEventEmitter, MoveDirection, RotationDirection } from './UserInputEventEmitter';
-import { CollisionDetector } from './collision_detection/CollisionDetector';
+import { CollisionDetector } from '../collision_detection/CollisionDetector';
 import { Scene } from '@babylonjs/core';
 import { WorldItem } from '../../world/world_items/item_types/WorldItem';
+import { RotationDirection, MoveDirection } from '../KeyboardHandler';
 
 export class ManualMotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;

@@ -1,8 +1,7 @@
-import { MotionStrategy } from './motion_actions/MotionStrategy';
+import { MotionStrategy } from './motion/MotionStrategy';
 import { ServiceFacade } from './ServiceFacade';
-import { ManualMotionStrategy } from './motion_actions/ManualMotionStrategy';
+import { ManualMotionStrategy } from './motion/ManualMotionStrategy';
 import { World } from '../world/World';
-import { RotationDirection, MoveDirection } from './motion_actions/UserInputEventEmitter';
 
 export enum Keys {
     FORWARD = 38,
@@ -16,6 +15,9 @@ export enum Keys {
     E = 69,
     SPACE = 32
 }
+
+export type MoveDirection = 'FORWARD' | 'BACKWARD';
+export type RotationDirection = 'LEFT' | 'RIGHT';
 
 export class KeyboardHandler {
     private services: ServiceFacade;
