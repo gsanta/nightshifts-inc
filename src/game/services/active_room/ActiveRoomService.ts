@@ -1,8 +1,8 @@
-import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 import { Vector3 } from '@babylonjs/core';
-import { World } from '../world/World';
-import { NormalLightSwitcher } from './environment_actions/active_room_lightning_action/NormalLightSwitcher';
-import { FlashingLightSwitcher } from './environment_actions/active_room_lightning_action/FlashingLightSwitcher';
+import { World } from '../../world/World';
+import { NormalLightSwitcher } from './NormalLightSwitcher';
+import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 import _ from 'lodash';
 
 export class ActiveRoomService {
@@ -23,6 +23,8 @@ export class ActiveRoomService {
         world.getWorldItemsByName('room').forEach(room => {
             this.lightSwitcher.off(<WorldItem> room, world);
         });
+
+        this.calcActiveRoomAtPoint(this.world.player.mesh.getAbsolutePosition());
     }
 
 

@@ -1,9 +1,9 @@
 import { AbstractMesh } from '@babylonjs/core';
 import { Polygon } from '@nightshifts.inc/geometry';
 import * as _ from 'lodash';
-import { World } from '../../../world/World';
+import { World } from '../../world/World';
 import { LightSwitcher } from './LightSwitcher';
-import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
+import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 
 /**
  * Can turn on and off the lights for a given room

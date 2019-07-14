@@ -5,12 +5,27 @@ import find from 'lodash/find';
 import { Polygon } from '@nightshifts.inc/geometry';
 
 export class EnemyCreationService {
+    private world: World;
+
+    constructor(world: World) {
+        this.world = world;
+
+        const rooms = world.getWorldItemsByName('room');
+
+        if (rooms.length > 1) {
+            this.createEnemy(rooms[1]);
+        }
+
+        if (rooms.length > 2) {
+            this.createEnemy(rooms[2]);
+        }
+    }
 
 
-    private createEnemy(world: World, room: WorldItem): WorldItem {
+    public createEnemy(room: WorldItem): WorldItem {
         const emptyArea = find(room.getChildren(), child => child.type === 'empty');
 
-        const material = new StandardMaterial('empty-area-material', world.scene);
+        const material = new StandardMaterial('empty-area-material', this.world.scene);
         material.diffuseColor = Color3.FromHexString('00FF00');
         emptyArea.mesh.material = material;
 
@@ -18,7 +33,7 @@ export class EnemyCreationService {
 
         const rect = Polygon.createRectangle(enemyPosition.x, enemyPosition.z, 1, 1);
 
-        const enemy =  world.factory.createEnemy(rect, world);
+        const enemy =  this.world.factory.createEnemy(rect, this.world);
         room.addChild(enemy);
 
         return enemy;

@@ -1,6 +1,4 @@
 import { WorldItemActionCommand } from './WorldItemActionCommand';
-import { ActionDispatcher } from '../../../actions/ActionDispatcher';
-import { GameActionType } from '../../../actions/GameActionType';
 
 export class OpenInventoryCommand implements WorldItemActionCommand {
     private actionDispatcher: ActionDispatcher;

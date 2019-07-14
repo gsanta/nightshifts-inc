@@ -5,7 +5,6 @@ import { AppState } from '../../state/app_state/AppState';
 import { World } from '../../../game/world/World';
 import UpdateWorldActions from '../../state/world_state/world_actions/UpdateWorldActions';
 import GetWorldActions from '../../state/world_state/world_actions/GetWorldActions';
-import { ActionDispatcher } from '../../../game/actions/ActionDispatcher';
 import colors from '../miscellaneous/colors';
 import { Color4, CannonJSPlugin, Vector3, OimoJSPlugin, PhysicsViewer } from '@babylonjs/core';
 import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
@@ -20,7 +19,6 @@ import { Widgetbar } from '../widgets/Widgetbar';
 import { ToolIcon } from '../dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
 import SetGameActionDispatcherActions from '../../state/world_state/world_actions/SetGameActionDispatcherActions';
-import { GameActionType } from '../../../game/actions/GameActionType';
 import ActivateToolActions from '../../state/tools_state/tools_actions/ActivateToolActions';
 import DeactivateToolActions from '../../state/tools_state/tools_actions/DeactivateToolActions';
 import { WorldSetup } from '../../../game/setup/WorldSetup';
@@ -43,7 +41,6 @@ const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(GetWorldActions.request()),
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
     setWorld: (world: World, services: ServiceFacade) => dispatch(SetWorldAction.request(world, services)),
-    setGameActionDispatcher: (gameActionDispatcher: ActionDispatcher) => dispatch(SetGameActionDispatcherActions.request(gameActionDispatcher)),
     setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health)),
     activateTool: (tool: ToolIcon) => dispatch(ActivateToolActions.request(tool)),
     deactivateTool: (tool: ToolIcon) => dispatch(DeactivateToolActions.request(tool)),
@@ -87,23 +84,6 @@ class Game extends React.Component<GameProps, GameState> {
         worldImporter
             .import(gwmGameWorldMap)
             .then((world) => {
-                const actionDispatcher = new ActionDispatcher(world);
-                // this.props.setGameActionDispatcher(actionDispatcher);
-
-                actionDispatcher.registerActionHandler({
-                    handle: (type: string, w: World) => {
-                        this.props.setWidgetUpdate(w.player.health);
-
-                        switch (type) {
-                            case GameActionType.OPEN_INVENTORY:
-                                this.props.openInventory();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                });
-
                 const worldSetup = new WorldSetup(new CameraSetup(), new MainLightSetup());
                 world = worldSetup.setup(world);
                 this.services = new ServiceFacade(world);
@@ -114,7 +94,7 @@ class Game extends React.Component<GameProps, GameState> {
                 document.addEventListener('keyup', (event: KeyboardEvent) => this.services.keyboardHandler.onKeyUp(event));
 
                 const gameEngine = new GameEngine(canvas, scene, engine, world);
-                gameEngine.run(actionDispatcher);
+                gameEngine.run();
                 this.setState({
                     gameEngine
                 });
@@ -123,7 +103,7 @@ class Game extends React.Component<GameProps, GameState> {
     }
 
     public componentDidUpdate() {
-        if (!this.isInitialized && this.props.actionDispatcher && this.state.gameEngine) {
+        if (!this.isInitialized && this.state.gameEngine) {
             this.isInitialized = true;
 
         }
@@ -162,9 +142,7 @@ export interface GameProps {
     world: World;
     tools: ToolIcon[];
     widgetInfo: number;
-    actionDispatcher: ActionDispatcher;
     setWidgetUpdate(health: number): void;
-    setGameActionDispatcher(gameActionDispatcher: ActionDispatcher);
     openInventory(): void;
     activateTool(tool: ToolIcon): void;
     deactivateTool(tool: ToolIcon): void;

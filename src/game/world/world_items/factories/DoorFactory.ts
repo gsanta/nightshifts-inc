@@ -23,20 +23,25 @@ export class DoorFactory {
         //     new Vector3(meshes[0].getAbsolutePosition().x, meshes[0].getBoundingInfo().boundingBox.extendSize.y, meshes[0].getAbsolutePosition().z));
 
         boundingBox = boundingBox.negate('y');
-        const mesh = meshes[0];
-        mesh.isVisible = true;
+        const [side1] = this.createSideItems(boundingBox);
 
-        const [side1, side2] = this.createSideItems(boundingBox);
-        side1.parent = mesh;
-        side2.parent = mesh;
+        const mesh = meshes[1];
+        meshes.forEach(m => {
+            m.isVisible = true;
+            m.parent = side1;
+        });
+
+        // side1.parent = mesh;
+        // side2.parent = mesh;
 
         const door = new SimpleWorldItem(mesh, boundingBox, {type: 'door'});
         const center = boundingBox.getBoundingCenter();
-        door.translate(new VectorModel(center.x, 4, center.y));
-        this.setPivotMatrix(door);
+        side1.translate(new Vector3(center.x, 4, center.y), 1);
+        // door.translate(new VectorModel(center.x, 4, center.y));
+        // this.setPivotMatrix(door);
 
         door.hasDefaultAction = true;
-        door.setDefaultAction(new OpenDoorCommand(door, -Math.PI / 2));
+        door.setDefaultAction(new OpenDoorCommand(this.scene, door, -Math.PI / 2));
         return door;
     }
 
@@ -47,7 +52,7 @@ export class DoorFactory {
         return material;
     }
 
-    private createSideItems(boundingBox: Shape): [Mesh, Mesh] {
+    private createSideItems(boundingBox: Shape): [Mesh] {
         const segment = <Segment> boundingBox;
 
         const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.25);
@@ -60,15 +65,15 @@ export class DoorFactory {
         const dimension2 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
 
         const side1 = this.createSideItem(dimension1, `${name}-side-1`);
-        const side2 = this.createSideItem(dimension2, `${name}-side-2`);
+        // const side2 = this.createSideItem(dimension2, `${name}-side-2`);
 
         const translate1 = dimension1.getBoundingCenter().subtract(center);
         const translate2 = dimension2.getBoundingCenter().subtract(center);
 
         side1.translate(new Vector3(translate1.x, 0, translate1.y), 1);
-        side2.translate(new Vector3(translate2.x, 0, translate2.y), 1);
+        // side2.translate(new Vector3(translate2.x, 0, translate2.y), 1);
 
-        return [side1, side2];
+        return [side1];
     }
 
     private createSideItem(dimension: Shape, name: string): Mesh {

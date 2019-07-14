@@ -2,15 +2,17 @@ import { World } from '../world/World';
 import { PlayerService } from './PlayerService';
 import { KeyboardHandler } from './KeyboardHandler';
 import { ToolService } from './ToolService';
-import { ActiveRoomService } from '../actions/ActiveRoomService';
-import { ActionableObjectService } from '../actions/ActionableObjectService';
-import { DebugServices } from '../actions/DebugServices';
+import { ActiveRoomService } from './active_room/ActiveRoomService';
+import { ActionableObjectService } from './ActionableObjectService';
+import { DebugServices } from './DebugServices';
 import { ManualMotionStrategy } from './motion/ManualMotionStrategy';
+import { EnemyCreationService } from './EnemyCreationService';
 
 export class ServiceFacade {
     private world: World;
     public activeRoomService: ActiveRoomService;
     public playerService: PlayerService;
+    public enemyCreationService: EnemyCreationService;
     public actionableObjectService: ActionableObjectService;
     public debugServices: DebugServices;
     public toolServices: ToolService;
@@ -19,6 +21,7 @@ export class ServiceFacade {
     constructor(world: World) {
         this.activeRoomService = new ActiveRoomService(world);
         this.playerService = new PlayerService(this, world);
+        this.enemyCreationService = new EnemyCreationService(world);
         this.keyboardHandler = new KeyboardHandler(this, new ManualMotionStrategy(world.player, world.scene), world);
         this.actionableObjectService = new ActionableObjectService(world);
         this.debugServices = new DebugServices(this, world);

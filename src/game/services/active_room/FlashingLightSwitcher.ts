@@ -1,7 +1,7 @@
 import { LightSwitcher } from './LightSwitcher';
-import { World } from '../../../world/World';
+import { World } from '../../world/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
-import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
+import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 
 export class FlashingLightSwitcher implements LightSwitcher {
     private normalLightSwitcher: NormalLightSwitcher;

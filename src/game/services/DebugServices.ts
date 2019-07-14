@@ -1,8 +1,8 @@
 import { World } from '../world/World';
 import { WorldItem } from '../world/world_items/item_types/WorldItem';
-import { LightSwitcher } from './environment_actions/active_room_lightning_action/LightSwitcher';
-import { NormalLightSwitcher } from './environment_actions/active_room_lightning_action/NormalLightSwitcher';
-import { ServiceFacade } from '../services/ServiceFacade';
+import { LightSwitcher } from './active_room/LightSwitcher';
+import { NormalLightSwitcher } from './active_room/NormalLightSwitcher';
+import { ServiceFacade } from './ServiceFacade';
 
 export class DebugServices {
     private world: World;

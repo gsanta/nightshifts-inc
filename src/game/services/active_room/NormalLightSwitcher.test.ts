@@ -1,8 +1,8 @@
 import { Light, Mesh } from '@babylonjs/core';
-import { WorldItem } from '../../../world/world_items/item_types/WorldItem';
+import { WorldItem } from '../../world/world_items/item_types/WorldItem';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { expect } from 'chai';
-import { World } from '../../../world/World';
+import { World } from '../../world/World';
 declare const describe, beforeEach, afterEach, it;
 
 const createWorldMock = (excludedMeshes: Mesh[]): World => {
