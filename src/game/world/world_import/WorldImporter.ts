@@ -99,38 +99,47 @@ export class WorldImporter {
 
     public import(strWorld: string): Promise<World> {
 
-        const options = {...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}};
-        const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E', 'H'];
-        const roomSeparatorCharacters = ['W', 'D', 'I'];
+        return this.meshFactoryProducer.getFactory(this.scene).then(worldFactory => {
+            const options = {...defaultParseOptions, ...{yScale: 2, additionalDataConverter: parseJsonAdditionalData}};
+            const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E', 'H'];
+            const roomSeparatorCharacters = ['W', 'D', 'I'];
 
-        const worldItemInfoFactory = new WorldItemInfoFactory();
-        let worldItems = WorldParser.createWithCustomWorldItemGenerator(
-            new parsers.CombinedWorldItemParser(
-                [
-                    new parsers.FurnitureInfoParser(worldItemInfoFactory, furnitureCharacters, new WorldMapToMatrixGraphConverter()),
-                    new parsers.RoomSeparatorParser(worldItemInfoFactory, roomSeparatorCharacters),
-                    new parsers.RoomInfoParser(worldItemInfoFactory),
-                    new parsers.PolygonAreaInfoParser(worldItemInfoFactory, 'empty', '#'),
-                    new parsers.RootWorldItemParser(worldItemInfoFactory)
-                ]
-            ),
-            [
-
-                new transformators.ScalingTransformator({ x: options.xScale, y: options.yScale }),
-                new transformators.BorderItemSegmentingTransformator(
-                    worldItemInfoFactory,
-                    ['wall', 'door', 'window'],
-                    { xScale: options.xScale, yScale: options.yScale }
+            const worldItemInfoFactory = new WorldItemInfoFactory();
+            let worldItems = WorldParser.createWithCustomWorldItemGenerator(
+                new parsers.CombinedWorldItemParser(
+                    [
+                        new parsers.FurnitureInfoParser(worldItemInfoFactory, furnitureCharacters, new WorldMapToMatrixGraphConverter()),
+                        new parsers.RoomSeparatorParser(worldItemInfoFactory, roomSeparatorCharacters),
+                        new parsers.RoomInfoParser(worldItemInfoFactory),
+                        new parsers.PolygonAreaInfoParser(worldItemInfoFactory, 'empty', '#'),
+                        new parsers.RootWorldItemParser(worldItemInfoFactory)
+                    ]
                 ),
-                new transformators.HierarchyBuildingTransformator(),
-                new transformators.BorderItemAddingTransformator(['wall', 'door', 'window']),
-                new transformators.BorderItemsToLinesTransformator({ xScale: options.xScale, yScale: options.yScale }),
-                new transformators.BorderItemWidthToRealWidthTransformator([{name: 'window', width: 2}, {name: 'door', width: 2.7}]),
-                new transformators.AdditionalDataConvertingTransformator(options.additionalDataConverter)
-            ]
-        ).parse(strWorld);
+                [
 
+                    new transformators.ScalingTransformator({ x: options.xScale, y: options.yScale }),
+                    new transformators.BorderItemSegmentingTransformator(
+                        worldItemInfoFactory,
+                        ['wall', 'door', 'window'],
+                        { xScale: options.xScale, yScale: options.yScale }
+                    ),
+                    new transformators.HierarchyBuildingTransformator(),
+                    new transformators.BorderItemAddingTransformator(['wall', 'door', 'window']),
+                    new transformators.BorderItemsToLinesTransformator({ xScale: options.xScale, yScale: options.yScale }),
+                    new transformators.BorderItemWidthToRealWidthTransformator([{name: 'window', width: 2}, {name: 'door', width: 2.7}]),
+                    new transformators.FurnitureRealSizeTransformator(
+                        {
+                            cupboard: Polygon.createRectangle(0, 0, 2, 1),
+                            bathtub: Polygon.createRectangle(0, 0, 4.199999999999999, 2.400004970948398),
+                            washbasin: Polygon.createRectangle(0, 0, 2.6046, 1.5837094118533068)
 
-        return this.meshFactoryProducer.getFactory(this.scene).then(worldFactory => this.createWorld(worldItems[0], worldFactory));
+                        }
+                    ),
+                    new transformators.AdditionalDataConvertingTransformator(options.additionalDataConverter)
+                ]
+            ).parse(strWorld);
+
+            return this.createWorld(worldItems[0], worldFactory);
+        });
     }
 }

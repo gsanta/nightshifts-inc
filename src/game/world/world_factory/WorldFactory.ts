@@ -14,7 +14,7 @@ export interface GenericItemImporter<T> {
 
 export class WorldFactory {
     private factories: {[key: string]: GenericItemImporter<WorldItemInfo>};
-    private worldItemFactoryMap: Map<string, WorldItemFactory>;
+    public worldItemFactoryMap: Map<string, WorldItemFactory>;
     private enemyFactory: EnemyFactory;
     private worldItemBoundingBoxCalculator: WorldItemBoundingBoxCalculator;
     private worldItemRotationCalculator: WorldItemRotationCalculator;
