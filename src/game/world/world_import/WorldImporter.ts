@@ -129,9 +129,10 @@ export class WorldImporter {
                     new transformators.BorderItemWidthToRealWidthTransformator([{name: 'window', width: 2}, {name: 'door', width: 2.7}]),
                     new transformators.FurnitureRealSizeTransformator(
                         {
-                            cupboard: Polygon.createRectangle(0, 0, 2, 1),
+                            cupboard: Polygon.createRectangle(0, 0, 2, 1.5),
                             bathtub: Polygon.createRectangle(0, 0, 4.199999999999999, 2.400004970948398),
-                            washbasin: Polygon.createRectangle(0, 0, 2.6046, 1.5837094118533068)
+                            washbasin: Polygon.createRectangle(0, 0, 2, 1.58 + 1.5),
+                            table: Polygon.createRectangle(0, 0, 3.4, 1.4 + 1.5)
 
                         }
                     ),

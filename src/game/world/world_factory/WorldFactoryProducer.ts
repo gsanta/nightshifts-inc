@@ -95,7 +95,7 @@ export class WorldFactoryProducer {
                 this.PLAYER_BASE_PATH,
                 this.PLAYER_MODEL_FILE,
                 this.PLAYER_MATERIALS,
-                {...defaultMeshConfig, scaling: new VectorModel(0.25, 0.25, 0.25)}
+                {...defaultMeshConfig, scaling: new VectorModel(0.28, 0.28, 0.28)}
             ),
             modelFileLoader.load(
                 'bed',

@@ -13,25 +13,25 @@ export class WorldItemBoundingBoxCalculator {
         const dock = this.getDock(gwmWorldItem);
         const meshDimensions = mesh ? this.getRealMeshDimensions(mesh, gwmWorldItem) : this.getDefaultMeshDimensions(gwmWorldItem);
 
-        let polygon = this.dockToDirection(dock, gwmWorldItem.dimensions, meshDimensions);
+        let polygon = gwmWorldItem.dimensions//this.dockToDirection(null, gwmWorldItem.dimensions, null); //this.dockToDirection(dock, gwmWorldItem.dimensions, meshDimensions);
         return this.moveToWorldCenter(world, polygon);
     }
 
     private dockToDirection(dock: Direction, dimensions: Shape, meshDimensions: Vector2Model): Shape {
-        switch (dock) {
-            case Direction.NORTH_WEST:
-                return dimensions.translate(new Point(meshDimensions.x(), meshDimensions.y()));
-            case Direction.NORTH_EAST:
-                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0], 0));
-            case Direction.SOUTH_EAST:
-                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0], dimensions.getBoundingInfo().extent[1]));
-            case Direction.SOUTH_WEST:
-                return dimensions.translate(new Point(meshDimensions.x(), dimensions.getBoundingInfo().extent[1] - meshDimensions.y()));
-            case Direction.MIDDLE:
-                return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[1] / 2, dimensions.getBoundingInfo().extent[1] / 2));
-            default:
-                throw new Error('Invalid dock direction: ' + dock);
-        }
+        return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[1] / 2, dimensions.getBoundingInfo().extent[1] / 2));
+        // switch (dock) {
+        //     case Direction.NORTH_WEST:
+        //         return dimensions.translate(new Point(meshDimensions.x(), meshDimensions.y()));
+        //     case Direction.NORTH_EAST:
+        //         return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0], 0));
+        //     case Direction.SOUTH_EAST:
+        //         return dimensions.translate(new Point(dimensions.getBoundingInfo().extent[0], dimensions.getBoundingInfo().extent[1]));
+        //     case Direction.SOUTH_WEST:
+        //         return dimensions.translate(new Point(meshDimensions.x(), dimensions.getBoundingInfo().extent[1] - meshDimensions.y()));
+        //     case Direction.MIDDLE:
+        //     default:
+        //         throw new Error('Invalid dock direction: ' + dock);
+        // }
     }
 
     private moveToWorldCenter(world: World, shape: Shape): Shape {

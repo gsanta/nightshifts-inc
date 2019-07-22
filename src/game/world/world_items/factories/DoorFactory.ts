@@ -64,7 +64,7 @@ export class DoorFactory {
         const dimension1 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
         const dimension2 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
 
-        const side1 = this.createSideItem(dimension1, `${name}-side-1`);
+        const side1 = this.createSideItem(dimension1, `container`);
         // const side2 = this.createSideItem(dimension2, `${name}-side-2`);
 
         const translate1 = dimension1.getBoundingCenter().subtract(center);

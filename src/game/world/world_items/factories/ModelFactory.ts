@@ -18,11 +18,11 @@ export class ModelFactory {
         meshes[0].translate(new Vector3(0, 15, 0), 1);
 
         boundingBox = boundingBox.negate('y');
-        boundingBox = boundingBox.translate(new Point(-boundingBox.getBoundingInfo().extent[0] / 2, boundingBox.getBoundingInfo().extent[1] / 2));
+        // boundingBox = boundingBox.translate(new Point(-boundingBox.getBoundingInfo().extent[0] / 2, boundingBox.getBoundingInfo().extent[1] / 2));
 
         const meshModel = new SimpleWorldItem(meshes[0], boundingBox, {type: meshes[0].name});
-        meshModel.setBoudingBox(boundingBox);
         meshModel.rotateY(rotation);
+        meshModel.setBoudingBox(boundingBox);
 
         const mesh = this.createMesh(meshModel, this.scene);
         mesh.checkCollisions = true;

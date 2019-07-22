@@ -4,6 +4,7 @@ import { World } from '../../world/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 import _ from 'lodash';
+import { Polygon } from '@nightshifts.inc/geometry';
 
 export class ActiveRoomService {
     private world: World;
@@ -30,6 +31,8 @@ export class ActiveRoomService {
 
     public calcActiveRoomAtPoint(point: Vector3) {
         const newActiveRoom = this.getActiveRoomAtPoint(point);
+
+        console.log(newActiveRoom.label)
 
         if (newActiveRoom && newActiveRoom !== this.activeRoom) {
             if (this.activeRoom) {
@@ -76,6 +79,8 @@ export class ActiveRoomService {
     }
 
     private getActiveRoomAtPoint(point: Vector3): WorldItem {
-        return this.rooms.find(room => room.mesh.intersectsPoint(point));
+        const rooms = this.rooms.filter(room => (<Polygon> room.getBoundingBox()).intersect(<Polygon> this.world.player.getBoundingBox()));
+        // return this.rooms.find(room => room.mesh.intersectsPoint(point));
+        return rooms[rooms.length - 1];
     }
 }
