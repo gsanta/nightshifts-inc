@@ -64,7 +64,7 @@ export class NormalLightSwitcher implements LightSwitcher {
             .flatten()
             .value();
 
-        this.includeMeshesForWorldItem([...childMeshes, ...neighbourMeshes], world);
+        this.includeMeshesForWorldItem([...childMeshes/*, ...neighbourMeshes*/], world);
 
         return Promise.resolve();
     }

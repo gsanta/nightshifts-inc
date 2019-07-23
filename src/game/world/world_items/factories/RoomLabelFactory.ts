@@ -28,7 +28,7 @@ export class RoomLabelFactory {
             this.scene
         );
 
-        roomTop.translate(new Vector3(0, 7, 0), 1);
+        roomTop.translate(new Vector3(0, 7.2, 0), 1);
 
         roomTop.material = this.createMaterial(label);
 
@@ -43,7 +43,7 @@ export class RoomLabelFactory {
         // material.alpha = 0.5;
 
         const font = 'bold 60px Arial';
-        textureGround.drawText(label, 200, 150, font, 'green', '#8B4513', true, true);
+        textureGround.drawText(label, 200, 150, font, 'green', '#895139', true, true);
 
         return material;
     }
