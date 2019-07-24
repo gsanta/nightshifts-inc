@@ -5,7 +5,7 @@ export const GameConstants = {
         doorClosed: '#FF0000',
         window: '#52ACE1',
         floor: '#CDA671',
-        wall: '#FFFFFF',
+        wall: '#666666',
         wallEmissive: '#7f7f7f',
 
         cold: '#B1D9FE',

@@ -123,10 +123,10 @@ export class WallFactory implements GwmItemImporter {
         const faceColors = new Array(6);
 
 
-        faceColors[0] = new Color4(0.5, 0.5, 0.5, 1);
-        faceColors[1] = new Color4(0, 1, 0, 1);
-        faceColors[2] = new Color4(0, 1, 0, 1);
-        faceColors[3] = new Color4(0, 1, 0, 1);
+        faceColors[0] = new Color4(0.75, 0.75, 0.75, 1);
+        faceColors[1] = new Color4(0.75, 0.75, 0.75, 1);
+        faceColors[2] = new Color4(0.75, 0.75, 0.75, 1);
+        faceColors[3] = new Color4(0.75, 0.75, 0.75, 1);
         faceColors[4] = new Color4(0.537, 0.32, 0.22, 1);
 
         return faceColors;
@@ -135,15 +135,15 @@ export class WallFactory implements GwmItemImporter {
     private createMaterial(scene: Scene): StandardMaterial {
         const material = new StandardMaterial('wallMaterial', scene);
         material.diffuseColor = Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
-        material.emissiveColor = Color3.FromHexString('#111111');
+        // material.emissiveColor = Color3.FromHexString('#666666');
 
         return material;
     }
 
     private createMaterial2(scene: Scene): StandardMaterial {
         const material = new StandardMaterial('wallMaterial', scene);
-        material.diffuseColor = Color3.FromHexString(colors.wall);
-        material.emissiveColor = Color3.FromHexString('#FF0000');
+        material.diffuseColor = Color3.FromHexString('#FF0000');
+        // material.emissiveColor = Color3.FromHexString('#FF0000');
 
         return material;
     }

@@ -5,6 +5,7 @@ import { Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometr
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { calculateBoundingShpere, Sphere } from '../Sphere';
+import { OpenWindowCommand } from '../action_strategies/OpenWindowCommand';
 const colors = GameConstants.colors;
 
 export class WindowFactory {
@@ -23,20 +24,29 @@ export class WindowFactory {
             new Vector3(meshes[0].getAbsolutePosition().x, meshes[0].getBoundingInfo().boundingBox.extendSize.y, meshes[0].getAbsolutePosition().z));
 
         boundingBox = boundingBox.negate('y');
-        const mesh = meshes[0];
-        mesh.isVisible = true;
 
-        const boundingSphere = calculateBoundingShpere(mesh);
-        const [side1, side2] = this.createSideItems(boundingBox, boundingSphere);
-        side1.parent = mesh;
-        side2.parent = mesh;
-        const window = new SimpleWorldItem(mesh, boundingBox, {type: 'window'});
+        const boundingSphere = calculateBoundingShpere(meshes[1]);
+        const side1 = this.createSideItems(boundingBox, boundingSphere);
+
+        meshes.forEach(m => {
+            m.isVisible = true;
+            m.parent = side1;
+        });
+
+        const mesh = meshes[1];
+
+        // side1.parent = mesh;
+        // side2.parent = mesh;
+        const window = new SimpleWorldItem(meshes[0], boundingBox, {type: 'window'});
         const center = boundingBox.getBoundingCenter();
-        mesh.setAbsolutePosition(new Vector3(mesh.getAbsolutePosition().x, 0,  mesh.getAbsolutePosition().z));
-        window.translate(new VectorModel(center.x, boundingSphere.height - 1, center.y));
+        // mesh.setAbsolutePosition(new Vector3(mesh.getAbsolutePosition().x, 0,  mesh.getAbsolutePosition().z));
+        side1.translate(new Vector3(center.x, boundingSphere.height / 2, center.y), 1);
         this.setPivotMatrix(window);
 
-        window.hasDefaultAction = false;
+        this.scene.beginAnimation(window.mesh, 10, 0, false, 1.0);
+
+        window.hasDefaultAction = true;
+        window.setDefaultAction(new OpenWindowCommand(this.scene, window, -Math.PI / 2));
         return window;
     }
 
@@ -47,7 +57,7 @@ export class WindowFactory {
         return material;
     }
 
-    private createSideItems(boundingBox: Shape, boundinSphere: Sphere): [Mesh, Mesh] {
+    private createSideItems(boundingBox: Shape, boundinSphere: Sphere): Mesh {
         const segment = <Segment> boundingBox;
 
         const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.25);
@@ -57,19 +67,19 @@ export class WindowFactory {
         const center = segment.getBoundingCenter();
 
         const dimension1 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
-        const dimension2 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
+        // const dimension2 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
 
         const side1 = this.createSideItem(dimension1, `${name}-side-1`);
-        const side2 = this.createSideItem(dimension2, `${name}-side-2`);
+        // const side2 = this.createSideItem(dimension2, `${name}-side-2`);
 
         const translate1 = dimension1.getBoundingCenter().subtract(center);
-        const translate2 = dimension2.getBoundingCenter().subtract(center);
+        // const translate2 = dimension2.getBoundingCenter().subtract(center);
 
-        side1.translate(new Vector3(translate1.x, - boundinSphere.height / 2 + 1, translate1.y), 1);
-        side2.translate(new Vector3(translate2.x, - boundinSphere.height / 2 + 1, translate2.y), 1);
+        side1.translate(new Vector3(translate1.x, 0, translate1.y), 1);
+        // side2.translate(new Vector3(translate2.x, - boundinSphere.height / 2 + 1, translate2.y), 1);
         side1.material.wireframe = true;
-        side2.material.wireframe = true;
-        return [side1, side2];
+        // side2.material.wireframe = true;
+        return side1;
     }
 
     private createSideItem(dimension: Shape, name: string): Mesh {

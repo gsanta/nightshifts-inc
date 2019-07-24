@@ -2,6 +2,7 @@ import { Scene, Mesh, Skeleton, StandardMaterial, AbstractMesh, ParticleSystem, 
 import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
 import { toVector3 } from '../../model/core/VectorModel';
 import '@babylonjs/loaders/OBJ';
+import '@babylonjs/loaders/glTF';
 
 /**
  * Loads a model from file and gives back a `Mesh`.
@@ -19,6 +20,7 @@ export class ModelFileLoader {
 
         return new Promise(resolve => {
             const onSuccess = (meshes: AbstractMesh[], ps: ParticleSystem[], skeletons: Skeleton[], ag: AnimationGroup[]) => {
+                const name2 = name;
                 // TODO: probably not the best idea getting always material[0] then why do we load the other materials?
                 if (materials.length > 0) {
                     meshes.forEach(mesh => mesh.material = materials[0]);

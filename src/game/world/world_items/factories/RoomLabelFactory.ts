@@ -1,6 +1,6 @@
 import { WorldItem } from '../item_types/WorldItem';
 import { World } from '../../World';
-import { Scene, MeshBuilder, Vector3, StandardMaterial, DynamicTexture, Color3 } from '@babylonjs/core';
+import { Scene, MeshBuilder, Vector3, StandardMaterial, DynamicTexture, Color3, Texture } from '@babylonjs/core';
 import { Shape } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 
@@ -28,7 +28,7 @@ export class RoomLabelFactory {
             this.scene
         );
 
-        roomTop.translate(new Vector3(0, 7.2, 0), 1);
+        roomTop.translate(new Vector3(0, 7.21, 0), 1);
 
         roomTop.material = this.createMaterial(label);
 
@@ -39,7 +39,8 @@ export class RoomLabelFactory {
         const textureGround = new DynamicTexture('room-label-texture', {width: 512, height: 256}, this.scene, false);
 
         const material = new StandardMaterial('door-closed-material', this.scene);
-        material.diffuseTexture = textureGround;
+        material.diffuseTexture = new Texture('./assets/textures/roof.jpeg', this.scene);
+        // material.diffuseTexture = textureGround;
         // material.alpha = 0.5;
 
         const font = 'bold 60px Arial';
