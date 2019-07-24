@@ -19,9 +19,7 @@ const defaultWorldItemConfig: WorldItemConfig = {
 };
 
 export class SimpleWorldItem implements WorldItem {
-    // TODO: find a better solution for temperature and lampBehaviour, they are only needed for Room
     public temperature = 20 + Math.floor(Math.random() * 10);
-    public lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering' = 'onWhenActive';
 
     public mesh: Mesh;
     public skeleton?: Skeleton;
@@ -32,11 +30,9 @@ export class SimpleWorldItem implements WorldItem {
     public hasDefaultAction = false;
     public parent: WorldItem;
     public neighbours: WorldItem[] = [];
-    public material: StandardMaterial;
     public boundingMeshVisible = false;
     public isActive: boolean;
     public health: number;
-    private impostor: PhysicsImpostor;
 
     public defaultAction: WorldItemActionCommand = new EmptyCommand();
 
@@ -77,29 +73,6 @@ export class SimpleWorldItem implements WorldItem {
         this.defaultAction = command;
     }
 
-    public serialize(): SerializedMeshModel {
-        return {
-            name: this.type,
-            scaling: {
-                x: null,
-                y: null,
-                z: null,
-            },
-            translate: {
-                x: this.getCenterPosition().x,
-                y: this.getCenterPosition().y,
-                z: this.getCenterPosition().z
-            },
-            additionalData: {
-                rotation: this.getRotation().y
-            }
-        };
-    }
-
-    public unserialize(model: SerializedMeshModel): WorldItem {
-        return null;
-    }
-
     public clone() {
         const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
         const name = this.type;
@@ -110,6 +83,7 @@ export class SimpleWorldItem implements WorldItem {
         return clone;
     }
 
+    
     public rotateY(amount: number) {
         this.mesh.rotate(Axis.Y, amount, Space.WORLD);
     }
@@ -193,7 +167,6 @@ export class SimpleWorldItem implements WorldItem {
 
     public setImpostor(impostor: PhysicsImpostor) {
         this.mesh.physicsImpostor = impostor;
-        this.impostor = impostor;
     }
 
     public addChild(worldItem: WorldItem) {

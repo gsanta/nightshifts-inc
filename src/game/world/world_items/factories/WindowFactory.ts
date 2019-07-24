@@ -20,30 +20,19 @@ export class WindowFactory {
     }
 
     public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): WorldItem {
-        meshes[0].setAbsolutePosition(
-            new Vector3(meshes[0].getAbsolutePosition().x, meshes[0].getBoundingInfo().boundingBox.extendSize.y, meshes[0].getAbsolutePosition().z));
-
         boundingBox = boundingBox.negate('y');
 
         const boundingSphere = calculateBoundingShpere(meshes[1]);
-        const side1 = this.createSideItems(boundingBox, boundingSphere);
+        const side1 = this.createSideItems(boundingBox);
 
         meshes.forEach(m => {
             m.isVisible = true;
             m.parent = side1;
         });
 
-        const mesh = meshes[1];
-
-        // side1.parent = mesh;
-        // side2.parent = mesh;
         const window = new SimpleWorldItem(meshes[0], boundingBox, {type: 'window'});
         const center = boundingBox.getBoundingCenter();
-        // mesh.setAbsolutePosition(new Vector3(mesh.getAbsolutePosition().x, 0,  mesh.getAbsolutePosition().z));
         side1.translate(new Vector3(center.x, boundingSphere.height / 2, center.y), 1);
-        this.setPivotMatrix(window);
-
-        this.scene.beginAnimation(window.mesh, 10, 0, false, 1.0);
 
         window.hasDefaultAction = true;
         window.setDefaultAction(new OpenWindowCommand(this.scene, window, -Math.PI / 2));
@@ -57,28 +46,19 @@ export class WindowFactory {
         return material;
     }
 
-    private createSideItems(boundingBox: Shape, boundinSphere: Sphere): Mesh {
+    private createSideItems(boundingBox: Shape): Mesh {
         const segment = <Segment> boundingBox;
 
         const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.25);
 
-        const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getSlope() === segment.getSlope());
-
         const center = segment.getBoundingCenter();
 
-        const dimension1 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
-        // const dimension2 = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
+        const side1 = this.createSideItem(rectangle, `${name}-side-1`);
 
-        const side1 = this.createSideItem(dimension1, `${name}-side-1`);
-        // const side2 = this.createSideItem(dimension2, `${name}-side-2`);
-
-        const translate1 = dimension1.getBoundingCenter().subtract(center);
-        // const translate2 = dimension2.getBoundingCenter().subtract(center);
+        const translate1 = rectangle.getBoundingCenter().subtract(center);
 
         side1.translate(new Vector3(translate1.x, 0, translate1.y), 1);
-        // side2.translate(new Vector3(translate2.x, - boundinSphere.height / 2 + 1, translate2.y), 1);
         side1.material.wireframe = true;
-        // side2.material.wireframe = true;
         return side1;
     }
 

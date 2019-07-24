@@ -40,9 +40,7 @@ export interface WorldItem {
     health?: number;
     defaultAction: WorldItemActionCommand;
 
-    // TODO: find a better solution for temperature and lampBehaviour, they are only needed for Room
     temperature?: number;
-    lampBehaviour: 'offAlways' | 'onAlways' | 'onWhenActive' | 'flashesWhenEntering';
 
     label: string;
 
@@ -77,13 +75,10 @@ export interface WorldItem {
     doDefaultAction();
     setDefaultAction(command: WorldItemActionCommand);
 
-    material: StandardMaterial;
     neighbours: WorldItem[];
     hasConnectionWith(worldItem: WorldItem): boolean;
     getAllMeshes(): Mesh[];
     parent: WorldItem;
-    serialize(): SerializedMeshModel;
-    unserialize(model: SerializedMeshModel): WorldItem;
     clone();
 
     setPosition(vectorModel: VectorModel): void;
@@ -101,6 +96,5 @@ export interface WorldItem {
     intersectsPoint(vector: VectorModel);
     intersectsWorldItem(otherWorldItem: WorldItem);
     setVisible(isVisible: boolean): void;
-    setImpostor(impostor: PhysicsImpostor);
     addChild(worldItem: WorldItem);
 }

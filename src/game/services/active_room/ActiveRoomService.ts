@@ -53,12 +53,7 @@ export class ActiveRoomService {
     }
 
     private turnOnLight(room: WorldItem) {
-        if (room.lampBehaviour === 'onWhenActive') {
-            this.lightSwitcher.on(room, this.world);
-        } else if (room.lampBehaviour === 'flashesWhenEntering') {
-            this.flashingLightSwitcher.on(room, this.world)
-                .then(() => this.lightSwitcher.off(room, this.world));
-        }
+        this.lightSwitcher.on(room, this.world);
     }
 
     private handleShowRoomLabels(world: World) {
