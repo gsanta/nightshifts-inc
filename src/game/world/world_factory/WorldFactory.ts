@@ -40,7 +40,6 @@ export class WorldFactory {
     public createPlayer(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('player');
         const player = this.create(worldItemFactory, itemInfo, world);
-        player.hasDefaultAction = false;
         return player;
     }
 
@@ -76,7 +75,6 @@ export class WorldFactory {
         const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, mesh);
         const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);
         const bed = (worldItemFactory as any).createItem([mesh], polygon, rotation);
-        bed.hasDefaultAction = false;
         return bed;
     }
 
@@ -103,7 +101,6 @@ export class WorldFactory {
     public createCupboard(itemInfo: WorldItemInfo, world: World): WorldItem {
         const worldItemFactory = this.worldItemFactoryMap.get('cupboard');
         const cupboard = this.create(worldItemFactory, itemInfo, world);
-        cupboard.hasDefaultAction = true;
 
         return cupboard;
     }

@@ -27,12 +27,13 @@ export class SimpleWorldItem implements WorldItem {
     public boundingMesh?: Mesh;
     public type: string;
     public label: string;
-    public hasDefaultAction = false;
     public parent: WorldItem;
     public neighbours: WorldItem[] = [];
     public boundingMeshVisible = false;
     public isActive: boolean;
     public health: number;
+
+    public animatedMeshes: Mesh[] = [];
 
     public defaultAction: WorldItemActionCommand = new EmptyCommand();
 
@@ -65,25 +66,6 @@ export class SimpleWorldItem implements WorldItem {
         }
     }
 
-    public doDefaultAction() {
-        this.defaultAction.execute();
-    }
-
-    public setDefaultAction(command: WorldItemActionCommand) {
-        this.defaultAction = command;
-    }
-
-    public clone() {
-        const clonedMesh = this.mesh.clone(`${this.mesh.name}-${this.counter++}`);
-        const name = this.type;
-
-        const clone = new SimpleWorldItem(clonedMesh, this.boundingBox, {type: name});
-        this.copyTo(clone);
-
-        return clone;
-    }
-
-    
     public rotateY(amount: number) {
         this.mesh.rotate(Axis.Y, amount, Space.WORLD);
     }
@@ -172,12 +154,5 @@ export class SimpleWorldItem implements WorldItem {
     public addChild(worldItem: WorldItem) {
         this.children.push(worldItem);
         worldItem.parent = this;
-    }
-
-    protected copyTo(meshModel: WorldItem): WorldItem {
-        meshModel.type = this.type;
-        meshModel.hasDefaultAction = this.hasDefaultAction;
-
-        return meshModel;
     }
 }

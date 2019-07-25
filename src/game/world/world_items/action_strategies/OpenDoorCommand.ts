@@ -17,12 +17,10 @@ export class OpenDoorCommand implements WorldItemActionCommand {
 
     public execute() {
         if (this.isOpen) {
-            this.scene.beginAnimation(this.door.mesh, 10, 0, false, 1.0);
-            // this.door.mesh.rotation.y = 0;
+            this.scene.beginAnimation(this.door.animatedMeshes[0], 10, 0, false, 1.0);
             this.isOpen = false;
         } else {
-            this.scene.beginAnimation(this.door.mesh, 0, 10, false, 1.0);
-            // this.door.mesh.rotation.y = this.pivotAngle;
+            this.scene.beginAnimation(this.door.animatedMeshes[0], 0, 10, false, 1.0);
             this.isOpen = true;
         }
     }

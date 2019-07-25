@@ -40,8 +40,8 @@ export class DoorFactory {
         // door.translate(new VectorModel(center.x, 4, center.y));
         // this.setPivotMatrix(door);
 
-        door.hasDefaultAction = true;
-        door.setDefaultAction(new OpenDoorCommand(this.scene, door, -Math.PI / 2));
+        door.animatedMeshes = meshes.filter(m => m.animations.length > 0);
+
         return door;
     }
 

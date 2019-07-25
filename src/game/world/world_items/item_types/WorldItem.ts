@@ -53,6 +53,7 @@ export interface WorldItem {
     setBoundingMeshVisible(visible: boolean);
 
     mesh?: Mesh;
+    animatedMeshes: Mesh[];
     skeleton?: Skeleton;
 
     getChildren(): WorldItem[];
@@ -67,19 +68,11 @@ export interface WorldItem {
      * E.g room, wall etc.
      */
     type: string;
-    /**
-     * A human-readable name that uniquely identifies the item
-     */
-    name?: string;
-    hasDefaultAction: boolean;
-    doDefaultAction();
-    setDefaultAction(command: WorldItemActionCommand);
 
     neighbours: WorldItem[];
     hasConnectionWith(worldItem: WorldItem): boolean;
     getAllMeshes(): Mesh[];
     parent: WorldItem;
-    clone();
 
     setPosition(vectorModel: VectorModel): void;
 

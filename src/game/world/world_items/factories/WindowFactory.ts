@@ -31,11 +31,10 @@ export class WindowFactory {
         });
 
         const window = new SimpleWorldItem(meshes[0], boundingBox, {type: 'window'});
+        window.animatedMeshes = meshes.filter(m => m.animations.length > 0);
         const center = boundingBox.getBoundingCenter();
         side1.translate(new Vector3(center.x, boundingSphere.height / 2, center.y), 1);
 
-        window.hasDefaultAction = true;
-        window.setDefaultAction(new OpenWindowCommand(this.scene, window, -Math.PI / 2));
         return window;
     }
 
