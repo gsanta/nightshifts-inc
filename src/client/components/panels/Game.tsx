@@ -18,7 +18,6 @@ import WidgetAction from '../../state/world_state/world_actions/WidgetAction';
 import { Widgetbar } from '../widgets/Widgetbar';
 import { ToolIcon } from '../dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
-import SetGameActionDispatcherActions from '../../state/world_state/world_actions/SetGameActionDispatcherActions';
 import ActivateToolActions from '../../state/tools_state/tools_actions/ActivateToolActions';
 import DeactivateToolActions from '../../state/tools_state/tools_actions/DeactivateToolActions';
 import { WorldSetup } from '../../../game/setup/WorldSetup';
@@ -86,7 +85,7 @@ class Game extends React.Component<GameProps, GameState> {
             .then((world) => {
                 const worldSetup = new WorldSetup(new CameraSetup(), new MainLightSetup());
                 world = worldSetup.setup(world);
-                this.services = new ServiceFacade(world);
+                this.services = new ServiceFacade(world, {openInventory: this.props.openInventory});
                 this.props.setWorld(world, this.services);
 
 

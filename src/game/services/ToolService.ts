@@ -4,9 +4,11 @@ import _ from 'lodash';
 
 export class ToolService {
     private world: World;
+    private openInventoryFunc: () => void;
 
-    constructor(world: World) {
+    constructor(world: World, openInventoryFunc: () => void) {
         this.world = world;
+        this.openInventoryFunc = openInventoryFunc;
     }
 
     public activateTool(toolIcon: ToolIcon) {
@@ -17,6 +19,10 @@ export class ToolService {
 
     public deactivateTool(toolIcon: ToolIcon) {
         this.selectToolByName(toolIcon.name).disable();
+    }
+
+    public openInventory() {
+        this.openInventoryFunc();
     }
 
     private selectToolByName(name: string) {

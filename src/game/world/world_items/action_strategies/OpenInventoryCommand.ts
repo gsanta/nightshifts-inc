@@ -1,13 +1,14 @@
 import { WorldItemActionCommand } from './WorldItemActionCommand';
+import { ToolService } from '../../../services/ToolService';
 
 export class OpenInventoryCommand implements WorldItemActionCommand {
-    private actionDispatcher: ActionDispatcher;
+    private toolService: ToolService;
 
-    constructor(actionDispatcher: ActionDispatcher) {
-        this.actionDispatcher = actionDispatcher;
+    constructor(toolService: ToolService) {
+        this.toolService = toolService;
     }
 
     public execute() {
-        this.actionDispatcher.dispatch(GameActionType.OPEN_INVENTORY);
+        this.toolService.openInventory();
     }
 }

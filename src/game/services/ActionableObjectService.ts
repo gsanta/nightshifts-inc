@@ -4,14 +4,18 @@ import { WorldItem } from '../world/world_items/item_types/WorldItem';
 import { VectorModel } from '../model/core/VectorModel';
 import { OpenDoorCommand } from '../world/world_items/action_strategies/OpenDoorCommand';
 import { OpenWindowCommand } from '../world/world_items/action_strategies/OpenWindowCommand';
+import { OpenInventoryCommand } from '../world/world_items/action_strategies/OpenInventoryCommand';
+import { ServiceFacade } from './ServiceFacade';
 
 
 export class ActionableObjectService {
     private world: World;
     private currentActivatableItem: WorldItem;
+    private services: ServiceFacade;
 
-    constructor(world: World) {
+    constructor(services: ServiceFacade, world: World) {
         this.world = world;
+        this.services = services;
     }
 
     public calcClosestActionableObject() {
@@ -41,6 +45,9 @@ export class ActionableObjectService {
                 case 'window':
                     new OpenWindowCommand(this.world.scene, this.currentActivatableItem, -Math.PI / 2).execute();
                     break;
+                case 'cupboard':
+                        new OpenInventoryCommand(this.services.toolServices).execute();
+                        break;
                 default:
                     break;
             }
