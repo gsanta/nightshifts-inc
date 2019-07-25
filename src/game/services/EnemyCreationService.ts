@@ -3,6 +3,7 @@ import { WorldItem } from '../world/world_items/item_types/WorldItem';
 import { StandardMaterial, Color3 } from '@babylonjs/core';
 import find from 'lodash/find';
 import { Polygon } from '@nightshifts.inc/geometry';
+import { VectorModel } from '../model/core/VectorModel';
 
 export class EnemyCreationService {
     private world: World;
@@ -23,18 +24,20 @@ export class EnemyCreationService {
 
 
     public createEnemy(room: WorldItem): WorldItem {
-        const emptyArea = find(room.getChildren(), child => child.type === 'empty');
+        const emptyArea = find(room.children, child => child.type === 'empty');
 
         const material = new StandardMaterial('empty-area-material', this.world.scene);
         material.diffuseColor = Color3.FromHexString('00FF00');
         emptyArea.mesh.material = material;
 
-        const enemyPosition = emptyArea.getCenterPosition();
+        const centerPoint = emptyArea.getBoundingBox().getBoundingCenter();
+        const vector3 = new VectorModel(centerPoint.x, 0, centerPoint.y);
+        const enemyPosition = vector3;
 
         const rect = Polygon.createRectangle(enemyPosition.x, enemyPosition.z, 1, 1);
 
         const enemy =  this.world.factory.createEnemy(rect, this.world);
-        room.addChild(enemy);
+        room.children.push(enemy);
 
         return enemy;
     }

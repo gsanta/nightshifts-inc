@@ -10,7 +10,7 @@ export class WorldItemTreeMapper {
             if (from.children) {
                 from.children.forEach(child => {
                     if (fromToMap.get(child)) {
-                        to.addChild(fromToMap.get(child));
+                        to.children.push(fromToMap.get(child));
                     }
                 });
             }

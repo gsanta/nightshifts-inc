@@ -27,8 +27,10 @@ export class EyeSensor implements Sensor {
     }
 
     private isInsideVisibleRange(enemy: WorldItem): boolean {
-        const playerVector = this.player.getCenterPosition();
-        const enemyVector = enemy.getCenterPosition();
+        const playerCenter = this.player.getBoundingBox().getBoundingCenter();
+        const enemyCenter = enemy.getBoundingBox().getBoundingCenter();
+        const playerVector = new VectorModel(playerCenter.x, 0, playerCenter.y);
+        const enemyVector = new VectorModel(enemyCenter.x, 0, enemyCenter.y);
         const playerToEnemyVector = enemyVector.subtract(playerVector);
         const negativeZUnitVector = new VectorModel(0, 0, -1);
 
@@ -38,7 +40,11 @@ export class EyeSensor implements Sensor {
     }
 
     private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: WorldItem):  boolean {
-        return this.rayCaster.testCollision(this.player.getCenterPosition(), enemy.getCenterPosition(), enemy);
+        const playerCenter = this.player.getBoundingBox().getBoundingCenter();
+        const enemyCenter = enemy.getBoundingBox().getBoundingCenter();
+        const playerVector = new VectorModel(playerCenter.x, 0, playerCenter.y);
+        const enemyVector = new VectorModel(enemyCenter.x, 0, enemyCenter.y);
+        return this.rayCaster.testCollision(playerVector, enemyVector, enemy);
     }
 
     public static isAngleBetweenFieldOfView(fieldOfViewCenter: number, fieldOfViewAngle: number, angleToTest: number) {

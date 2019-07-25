@@ -37,7 +37,7 @@ export class RoomFactory {
 
         const room = new SimpleWorldItem(mesh, dimensions, {type: 'room'});
         room.label = label;
-        room.addChild(roomLabel);
+        room.children.push(roomLabel);
         return room;
     }
 

@@ -29,7 +29,6 @@ export class FloorFactory implements GwmItemImporter {
         translate.addZ(-3);
 
         const meshModel = new SimpleWorldItem(null, null, {type: 'floor'});
-        meshModel.translate(translate);
 
         return meshModel;
     }

@@ -18,17 +18,16 @@ export class ActionableObjectService {
         const worldItem = this.getClosestActivatableWorldItem(this.world);
         this.currentActivatableItem = worldItem;
 
-        const prevItem = _.find(this.world.worldItems, item => item.isBoundingMeshVisible() === true);
+        const prevItem = _.find(this.world.worldItems, item => !item.mesh || item.mesh.isVisible === true);
 
-
-        if (prevItem && !this.world.config.displayBoundingBoxes) {
-            prevItem.setBoundingMeshVisible(false);
+        if (prevItem && !this.world.config.displayBoundingBoxes && prevItem.mesh) {
+            prevItem.mesh.isVisible = false;
         }
 
         const activeRoom: WorldItem = _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
 
-        if (activeRoom.hasConnectionWith(worldItem)) {
-            worldItem.setBoundingMeshVisible(true);
+        if (activeRoom.hasConnectionWith(worldItem) && worldItem.mesh) {
+            worldItem.mesh.isVisible = true;
         }
     }
 
@@ -54,7 +53,7 @@ export class ActionableObjectService {
     public getClosestActivatableWorldItem(world: World): WorldItem {
         const actionableObjects = this.filterActionableObjects(world);
         const reduceToClosestMeshModel = (val: [WorldItem, number], current: WorldItem): [WorldItem, number] => {
-            const distance = VectorModel.Distance(world.player.getCenterPosition(), current.getCenterPosition());
+            const distance =  world.player.getBoundingBox().getBoundingCenter().distanceTo(current.getBoundingBox().getBoundingCenter());
             return !val || val[1] > distance ? [current, distance] : val;
         };
 

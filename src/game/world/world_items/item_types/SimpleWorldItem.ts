@@ -23,8 +23,9 @@ export class SimpleWorldItem implements WorldItem {
 
     public mesh: Mesh;
     public skeleton?: Skeleton;
-    private children: WorldItem[] = [];
     public boundingMesh?: Mesh;
+
+    public children: WorldItem[] = [];
     public type: string;
     public label: string;
     public parent: WorldItem;
@@ -34,8 +35,6 @@ export class SimpleWorldItem implements WorldItem {
     public health: number;
 
     public animatedMeshes: Mesh[] = [];
-
-    public defaultAction: WorldItemActionCommand = new EmptyCommand();
 
     protected boundingBox: Shape;
 
@@ -48,10 +47,6 @@ export class SimpleWorldItem implements WorldItem {
         this.type = worldItemConfig.type;
         this.children = [...worldItemConfig.children];
         this.skeleton = worldItemConfig.skeleton;
-    }
-
-    public getChildren(): WorldItem[] {
-        return this.children;
     }
 
     public hasConnectionWith(worldItem: WorldItem): boolean {
@@ -80,32 +75,13 @@ export class SimpleWorldItem implements WorldItem {
         }
     }
 
-    public translate(vectorModel: VectorModel) {
-        if (this.mesh) {
-            this.mesh.translate(new Vector3(vectorModel.x, vectorModel.y, vectorModel.z), 1);
-        }
-    }
-
     public getHeight(): number {
         return this.mesh.getBoundingInfo().boundingBox.maximumWorld.y;
-    }
-
-    public getCenterPosition(): VectorModel {
-        const center = this.getBoundingBox().getBoundingCenter();
-        return new VectorModel(center.x, 0, center.y);
     }
 
     public getRotation(): VectorModel {
         const vector = this.mesh.rotationQuaternion.toEulerAngles();
         return new VectorModel(vector.x, vector.y, vector.z);
-    }
-
-    public getBoundingMesh(): Mesh {
-        return this.boundingMesh;
-    }
-
-    public setBoundingMesh(mesh: Mesh) {
-        this.boundingMesh = mesh;
     }
 
     public setBoudingBox(shape: Shape) {
@@ -136,23 +112,7 @@ export class SimpleWorldItem implements WorldItem {
         this.mesh.isVisible = isVisible;
     }
 
-    public setBoundingMeshVisible(isVisible: boolean) {
-        if (this.boundingMesh) {
-            this.boundingMesh.isVisible = isVisible;
-        }
-        this.boundingMeshVisible = isVisible;
-    }
-
-    public isBoundingMeshVisible(): boolean {
-        return this.boundingMeshVisible;
-    }
-
     public setImpostor(impostor: PhysicsImpostor) {
         this.mesh.physicsImpostor = impostor;
-    }
-
-    public addChild(worldItem: WorldItem) {
-        this.children.push(worldItem);
-        worldItem.parent = this;
     }
 }

@@ -23,7 +23,7 @@ export class DebugServices {
     public hideRoofs() {
         this.world.getWorldItemsByName('room')
             .forEach((room: WorldItem) => {
-                room.getChildren().filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
+                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
             });
         this.services.activeRoomService.isShowRoofs = false;
     }
@@ -31,8 +31,8 @@ export class DebugServices {
     public displayBoundingBoxes() {
         this.world.config.displayBoundingBoxes = true;
         this.world.worldItems.forEach(item => {
-            if (item.getBoundingMesh()) {
-                item.getBoundingMesh().isVisible = true;
+            if (item.boundingMesh) {
+                item.boundingMesh.isVisible = true;
             }
         });
     }
@@ -40,8 +40,8 @@ export class DebugServices {
     public hideBoundingBoxes() {
         this.world.config.displayBoundingBoxes = false;
         this.world.worldItems.forEach(item => {
-            if (item.getBoundingMesh()) {
-                item.getBoundingMesh().isVisible = false;
+            if (item.boundingMesh) {
+                item.boundingMesh.isVisible = false;
             }
         });
     }

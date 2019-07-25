@@ -16,12 +16,13 @@ export class CameraTool implements Tool {
 
     public enable() {
         const room = this.world.getWorldItemsByName('room')[0];
-        const emptyArea = find(room.getChildren(), child => child.type === 'empty');
-        const pos = emptyArea.getCenterPosition();
-        const vector = new Vector3(pos.x, 1, pos.z);
+        const emptyArea = find(room.children, child => child.type === 'empty');
+
+        const pos = emptyArea.getBoundingBox().getBoundingCenter();
+        const vector = new Vector3(pos.x, 1, pos.y);
 
         const camera = new FreeCamera('camera2', vector, this.scene);
-        camera.setTarget(new Vector3(pos.x - 3, 1, pos.z));
+        camera.setTarget(new Vector3(pos.x - 3, 1, pos.y));
         camera.attachControl(this.world.canvas, true);
 
         setTimeout(

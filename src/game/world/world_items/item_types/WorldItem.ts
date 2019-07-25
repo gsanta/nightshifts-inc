@@ -38,7 +38,6 @@ export interface SerializedMeshModel {
 
 export interface WorldItem {
     health?: number;
-    defaultAction: WorldItemActionCommand;
 
     temperature?: number;
 
@@ -46,23 +45,16 @@ export interface WorldItem {
 
     isActive: boolean;
 
-    /**
-     * Determines whether the bounding mesh (which can be set through the `setBoundingMesh`) is visible or not
-     */
-    isBoundingMeshVisible(): boolean;
-    setBoundingMeshVisible(visible: boolean);
-
     mesh?: Mesh;
     animatedMeshes: Mesh[];
     skeleton?: Skeleton;
 
-    getChildren(): WorldItem[];
-
+    children: WorldItem[];
     /**
      * A cuboid mesh that encloses all of the meshes of the WorldItem
      */
-    getBoundingMesh(): Mesh;
-    setBoundingMesh(mesh: Mesh);
+    boundingMesh?: Mesh;
+
     /**
      * Similar to what `instanceof` could be used for, similar objects should have the same type.
      * E.g room, wall etc.
@@ -75,19 +67,12 @@ export interface WorldItem {
     parent: WorldItem;
 
     setPosition(vectorModel: VectorModel): void;
-
-    translate(vectorModel: VectorModel): void;
     getHeight(): number;
     rotateY(amount: number);
     getRotation(): VectorModel;
-    /**
-     * @deprecated use `getBoundingBox().getBoundingCenter()` and convert that `Point` to a `VectorModel`
-     */
-    getCenterPosition(): VectorModel;
     getBoundingBox(): Shape;
     setParent(worldItem: WorldItem);
     intersectsPoint(vector: VectorModel);
     intersectsWorldItem(otherWorldItem: WorldItem);
     setVisible(isVisible: boolean): void;
-    addChild(worldItem: WorldItem);
 }

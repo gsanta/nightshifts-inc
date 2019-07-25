@@ -17,7 +17,7 @@ export class EnemyService {
         const activeRoom = this.world.getWorldItemsByName('room').find(room => room.isActive);
 
         if (activeRoom) {
-            const enemies = activeRoom.getChildren()
+            const enemies = activeRoom.children
                 .filter(child => child.type === 'enemy')
                 .forEach(enemy => {
 
