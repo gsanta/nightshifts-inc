@@ -1,27 +1,21 @@
 import { WorldItemActionCommand } from './WorldItemActionCommand';
 import { WorldItem } from '../item_types/WorldItem';
-import { Axis, Space, Scene } from '@babylonjs/core';
-import { World } from '../../World';
+import { Scene } from '@babylonjs/core';
 
 export class OpenDoorCommand implements WorldItemActionCommand {
-    private isOpen = false;
     private scene: Scene;
     private door: WorldItem;
-    private pivotAngle: number;
 
-    constructor(scene: Scene, door: WorldItem, pivotAngle: number) {
+    constructor(scene: Scene, door: WorldItem) {
         this.door = door;
-        this.pivotAngle = pivotAngle;
         this.scene = scene;
     }
 
     public execute() {
-        if (this.isOpen) {
+        if (this.door.animatedMeshes[0].rotation.y !== 0) {
             this.scene.beginAnimation(this.door.animatedMeshes[0], 10, 0, false, 1.0);
-            this.isOpen = false;
         } else {
             this.scene.beginAnimation(this.door.animatedMeshes[0], 0, 10, false, 1.0);
-            this.isOpen = true;
         }
     }
 }

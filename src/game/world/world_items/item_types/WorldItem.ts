@@ -68,7 +68,6 @@ export interface WorldItem {
 
     setPosition(vectorModel: VectorModel): void;
     getHeight(): number;
-    rotateY(amount: number);
     getRotation(): VectorModel;
     getBoundingBox(): Shape;
     setParent(worldItem: WorldItem);

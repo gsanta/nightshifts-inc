@@ -61,10 +61,6 @@ export class SimpleWorldItem implements WorldItem {
         }
     }
 
-    public rotateY(amount: number) {
-        this.mesh.rotate(Axis.Y, amount, Space.WORLD);
-    }
-
     public setPosition(position: VectorModel) {
         this.mesh.position = new Vector3(position.x, this.mesh.getAbsolutePosition().y, position.z);
         const center = this.mesh.getBoundingInfo().boundingSphere.centerWorld;

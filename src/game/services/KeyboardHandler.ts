@@ -2,6 +2,7 @@ import { MotionStrategy } from './motion/MotionStrategy';
 import { ServiceFacade } from './ServiceFacade';
 import { ManualMotionStrategy } from './motion/ManualMotionStrategy';
 import { World } from '../world/World';
+import { Axis, Space } from '@babylonjs/core';
 
 export enum Keys {
     FORWARD = 38,
@@ -165,7 +166,7 @@ export class KeyboardHandler {
             const elapsedTime = currentTime - this.prevRotationTime;
 
             const delta = this.motionStrategy.calcNextRotationDelta(elapsedTime, direction);
-            this.world.player.rotateY(delta);
+            this.world.player.mesh.rotate(Axis.Y, delta, Space.WORLD);
         }
         this.prevRotationTime = currentTime;
     }

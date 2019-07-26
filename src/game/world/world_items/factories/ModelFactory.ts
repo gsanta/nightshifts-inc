@@ -1,5 +1,5 @@
 
-import { Mesh, Skeleton, Space, PhysicsImpostor, Scene, MeshBuilder, Vector3, StandardMaterial, Color3 } from '@babylonjs/core';
+import { Mesh, Skeleton, Space, PhysicsImpostor, Scene, MeshBuilder, Vector3, StandardMaterial, Color3, Axis } from '@babylonjs/core';
 import { Polygon, Point } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { WorldItem } from '../item_types/WorldItem';
@@ -21,7 +21,7 @@ export class ModelFactory {
         // boundingBox = boundingBox.translate(new Point(-boundingBox.getBoundingInfo().extent[0] / 2, boundingBox.getBoundingInfo().extent[1] / 2));
 
         const meshModel = new SimpleWorldItem(meshes[0], boundingBox, {type: meshes[0].name});
-        meshModel.rotateY(rotation);
+        meshes[0].rotate(Axis.Y, rotation, Space.WORLD);
         meshModel.setBoudingBox(boundingBox);
 
         const mesh = this.createMesh(meshModel, this.scene);

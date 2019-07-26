@@ -40,10 +40,10 @@ export class ActionableObjectService {
 
             switch (this.currentActivatableItem.type) {
                 case 'door':
-                    new OpenDoorCommand(this.world.scene, this.currentActivatableItem, -Math.PI / 2).execute();
+                    new OpenDoorCommand(this.world.scene, this.currentActivatableItem).execute();
                     break;
                 case 'window':
-                    new OpenWindowCommand(this.world.scene, this.currentActivatableItem, -Math.PI / 2).execute();
+                    new OpenWindowCommand(this.world.scene, this.currentActivatableItem).execute();
                     break;
                 case 'cupboard':
                         new OpenInventoryCommand(this.services.toolServices).execute();
@@ -74,7 +74,7 @@ export class ActionableObjectService {
     }
 
     private filterActionableObjects(worldMap: World) {
-        return worldMap.worldItems.filter(obj => obj.animatedMeshes.length > 0);
+        return worldMap.worldItems.filter(obj => obj.animatedMeshes.length > 0 || obj.type === 'cupboard');
     }
 
 }
