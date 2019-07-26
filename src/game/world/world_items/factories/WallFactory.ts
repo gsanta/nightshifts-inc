@@ -5,7 +5,7 @@ import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
-import { WorldItem } from '../item_types/WorldItem';
+import { GameObject } from '../item_types/GameObject';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { Segment } from '@nightshifts.inc/geometry/build/shapes/Segment';
 const colors = GameConstants.colors;
@@ -18,13 +18,13 @@ export class WallFactory implements GwmItemImporter {
         this.scene = scene;
     }
 
-    public createItem(worldItem: WorldItemInfo, world: World): WorldItem {
+    public createItem(worldItem: WorldItemInfo, world: World): GameObject {
         const wall = this.fromGwmWorldItem(worldItem, this.scene, world);
 
         return wall;
     }
 
-    public fromGwmWorldItem(gwmWorldItem: WorldItemInfo, scene: Scene, world: World): WorldItem {
+    public fromGwmWorldItem(gwmWorldItem: WorldItemInfo, scene: Scene, world: World): GameObject {
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
 

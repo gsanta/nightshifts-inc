@@ -1,9 +1,9 @@
 import { Scene, FollowCamera, Vector3 } from '@babylonjs/core';
-import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { GameObject } from '../world/world_items/item_types/GameObject';
 
 
 export class CameraSetup {
-    public createCamera(scene: Scene, player: WorldItem): FollowCamera {
+    public createCamera(scene: Scene, player: GameObject): FollowCamera {
         const camera = new FollowCamera('camera', new Vector3(0, 120, 0), scene);
 
         camera.radius = 60;

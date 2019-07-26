@@ -1,7 +1,7 @@
 import { Color3, Scene, StandardMaterial, Mesh, Vector3, Matrix, MeshBuilder, Skeleton } from '@babylonjs/core';
 import { GameConstants } from '../../../GameConstants';
 import { OpenDoorCommand } from '../action_strategies/OpenDoorCommand';
-import { WorldItem } from '../item_types/WorldItem';
+import { GameObject } from '../item_types/GameObject';
 import { Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
@@ -18,7 +18,7 @@ export class DoorFactory {
         this.meshBuilder = meshBuilder;
     }
 
-    public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): WorldItem {
+    public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): GameObject {
         // meshes[0].setAbsolutePosition(
         //     new Vector3(meshes[0].getAbsolutePosition().x, meshes[0].getBoundingInfo().boundingBox.extendSize.y, meshes[0].getAbsolutePosition().z));
 
@@ -101,7 +101,7 @@ export class DoorFactory {
         return mesh;
     }
 
-    private setPivotMatrix(door: WorldItem) {
+    private setPivotMatrix(door: GameObject) {
         const pivotPoint = new VectorModel(4, 0, 0);
         door.mesh.setPivotMatrix(Matrix.Translation(pivotPoint.x, pivotPoint.y, pivotPoint.z));
     }

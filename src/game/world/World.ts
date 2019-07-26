@@ -2,7 +2,7 @@ import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine } from 
 import { Vector2Model } from '../model/utils/Vector2Model';
 import { Tool } from '../tools/Tool';
 import { WorldFactory } from './world_factory/WorldFactory';
-import { WorldItem } from './world_items/item_types/WorldItem';
+import { GameObject } from './world_items/item_types/GameObject';
 
 export interface WorldConfig {
     displayBoundingBoxes: boolean;
@@ -13,11 +13,11 @@ export class World {
     public engine: Engine;
     public hemisphericLight: Light;
     public dimensions: Vector2Model;
-    public worldItems: WorldItem[];
-    public floor: WorldItem;
-    public enemies: WorldItem[] = [];
-    public player: WorldItem = null;
-    public rooms: WorldItem[];
+    public worldItems: GameObject[];
+    public floor: GameObject;
+    public enemies: GameObject[] = [];
+    public player: GameObject = null;
+    public rooms: GameObject[];
 
     public camera: FollowCamera;
 
@@ -26,7 +26,7 @@ export class World {
     public materials: {[key: string]: StandardMaterial};
     public scene: Scene;
 
-    public getWorldItemsByName(name: string): WorldItem[] {
+    public getWorldItemsByName(name: string): GameObject[] {
         return this.worldItems.filter(gameObject => gameObject.type === name);
     }
 

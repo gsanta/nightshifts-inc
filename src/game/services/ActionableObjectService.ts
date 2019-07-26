@@ -1,6 +1,6 @@
 import { World } from '../world/World';
 import _ from 'lodash';
-import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { GameObject } from '../world/world_items/item_types/GameObject';
 import { VectorModel } from '../model/core/VectorModel';
 import { OpenDoorCommand } from '../world/world_items/action_strategies/OpenDoorCommand';
 import { OpenWindowCommand } from '../world/world_items/action_strategies/OpenWindowCommand';
@@ -10,7 +10,7 @@ import { ServiceFacade } from './ServiceFacade';
 
 export class ActionableObjectService {
     private world: World;
-    private currentActivatableItem: WorldItem;
+    private currentActivatableItem: GameObject;
     private services: ServiceFacade;
 
     constructor(services: ServiceFacade, world: World) {
@@ -28,9 +28,9 @@ export class ActionableObjectService {
             prevItem.mesh.isVisible = false;
         }
 
-        const activeRoom: WorldItem = _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
+        const activeRoom: GameObject = _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
 
-        if (activeRoom.hasConnectionWith(worldItem) && worldItem.mesh) {
+        if (activeRoom.children.indexOf(worldItem) !== -1 || activeRoom.neighbours.indexOf(worldItem) !== -1) {
             worldItem.mesh.isVisible = true;
         }
     }
@@ -57,9 +57,9 @@ export class ActionableObjectService {
     /**
      * If there is an `Actionable` mesh nearby it activates the default action on that mesh
      */
-    public getClosestActivatableWorldItem(world: World): WorldItem {
+    public getClosestActivatableWorldItem(world: World): GameObject {
         const actionableObjects = this.filterActionableObjects(world);
-        const reduceToClosestMeshModel = (val: [WorldItem, number], current: WorldItem): [WorldItem, number] => {
+        const reduceToClosestMeshModel = (val: [GameObject, number], current: GameObject): [GameObject, number] => {
             const distance =  world.player.getBoundingBox().getBoundingCenter().distanceTo(current.getBoundingBox().getBoundingCenter());
             return !val || val[1] > distance ? [current, distance] : val;
         };

@@ -2,19 +2,19 @@ import { Scene } from '@babylonjs/core';
 import { Sensor } from './Sensor';
 import { VectorModel } from '../../model/core/VectorModel';
 import { RayCaster } from '../collision_detection/RayCaster';
-import { WorldItem } from '../../world/world_items/item_types/WorldItem';
+import { GameObject } from '../../world/world_items/item_types/GameObject';
 
 export class EyeSensor implements Sensor {
-    private player: WorldItem;
+    private player: GameObject;
     private rayCaster: RayCaster;
     private fieldOfViewAngle = Math.PI / 4;
 
-    constructor(player: WorldItem, scene: Scene) {
+    constructor(player: GameObject, scene: Scene) {
         this.player = player;
         this.rayCaster = new RayCaster(scene);
     }
 
-    public testIsWithinRange(enemy: WorldItem): boolean {
+    public testIsWithinRange(enemy: GameObject): boolean {
         return this.isEnemyVisible(enemy);
     }
 
@@ -22,11 +22,11 @@ export class EyeSensor implements Sensor {
         throw new Error('Unimplemented method');
     }
 
-    private isEnemyVisible(enemy: WorldItem) {
+    private isEnemyVisible(enemy: GameObject) {
         return this.isInsideVisibleRange(enemy) && this.thereIsNoObstacleBetweenEnemyAndPlayer(enemy);
     }
 
-    private isInsideVisibleRange(enemy: WorldItem): boolean {
+    private isInsideVisibleRange(enemy: GameObject): boolean {
         const playerCenter = this.player.getBoundingBox().getBoundingCenter();
         const enemyCenter = enemy.getBoundingBox().getBoundingCenter();
         const playerVector = new VectorModel(playerCenter.x, 0, playerCenter.y);
@@ -39,7 +39,7 @@ export class EyeSensor implements Sensor {
         return EyeSensor.isAngleBetweenFieldOfView(this.player.getRotation().y, this.fieldOfViewAngle, angle);
     }
 
-    private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: WorldItem):  boolean {
+    private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: GameObject):  boolean {
         const playerCenter = this.player.getBoundingBox().getBoundingCenter();
         const enemyCenter = enemy.getBoundingBox().getBoundingCenter();
         const playerVector = new VectorModel(playerCenter.x, 0, playerCenter.y);

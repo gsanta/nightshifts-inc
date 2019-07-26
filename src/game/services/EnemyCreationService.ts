@@ -1,5 +1,5 @@
 import { World } from '../world/World';
-import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { GameObject } from '../world/world_items/item_types/GameObject';
 import { StandardMaterial, Color3 } from '@babylonjs/core';
 import find from 'lodash/find';
 import { Polygon } from '@nightshifts.inc/geometry';
@@ -23,7 +23,7 @@ export class EnemyCreationService {
     }
 
 
-    public createEnemy(room: WorldItem): WorldItem {
+    public createEnemy(room: GameObject): GameObject {
         const emptyArea = find(room.children, child => child.type === 'empty');
 
         const material = new StandardMaterial('empty-area-material', this.world.scene);

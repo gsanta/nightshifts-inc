@@ -4,7 +4,7 @@ import { GameConstants } from '../../../GameConstants';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
-import { WorldItem } from '../item_types/WorldItem';
+import { GameObject } from '../item_types/GameObject';
 import { WorldItemToRealWorldCoordinateMapper } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { Color3 } from '@babylonjs/core';
 import { WorldItemToWorldCenterTranslatorDecorator } from '../world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
@@ -21,7 +21,7 @@ export class FloorFactory implements GwmItemImporter {
     }
 
 
-    public createItem(worldItem: WorldItemInfo, world: World): WorldItem {
+    public createItem(worldItem: WorldItemInfo, world: World): GameObject {
         const gameObjectTranslator = new WorldItemToWorldCenterTranslatorDecorator(world, new WorldItemToRealWorldCoordinateMapper());
 
         const boundingBox = gameObjectTranslator.getTranslate(worldItem.dimensions);

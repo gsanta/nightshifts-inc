@@ -1,12 +1,12 @@
 import { VectorModel } from '../../model/core/VectorModel';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
 import { Scene } from '@babylonjs/core';
-import { WorldItem } from '../../world/world_items/item_types/WorldItem';
+import { GameObject } from '../../world/world_items/item_types/GameObject';
 import { RotationDirection, MoveDirection } from '../KeyboardHandler';
 
 export class ManualMotionStrategy {
     public static readonly DEFAULT_SPEED: number = 2;
-    private player: WorldItem;
+    private player: GameObject;
     private collisionDetector: CollisionDetector;
     private rotationDirection: RotationDirection = null;
     private direction: MoveDirection = null;
@@ -15,7 +15,7 @@ export class ManualMotionStrategy {
     private interval = 1000;
     private distanceByInterval = 10;
 
-    constructor(player: WorldItem, scene: Scene, collisionDetector: CollisionDetector = new CollisionDetector(player, scene)) {
+    constructor(player: GameObject, scene: Scene, collisionDetector: CollisionDetector = new CollisionDetector(player, scene)) {
         this.player = player;
         this.scene = scene;
         this.collisionDetector = collisionDetector;

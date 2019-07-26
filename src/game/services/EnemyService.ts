@@ -1,5 +1,5 @@
 import { World } from '../world/World';
-import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { GameObject } from '../world/world_items/item_types/GameObject';
 import { VectorModel } from '../model/core/VectorModel';
 
 type enemyMotionState = 'idle' | 'attacking' | 'returning';
@@ -7,7 +7,7 @@ type enemyMotionState = 'idle' | 'attacking' | 'returning';
 
 export class EnemyService {
     private world: World;
-    private enemyMotionStates: Map<WorldItem, enemyMotionState>;
+    private enemyMotionStates: Map<GameObject, enemyMotionState>;
 
     constructor(world: World) {
         this.world = world;
@@ -31,7 +31,7 @@ export class EnemyService {
         }
     }
 
-    private strike(enemy: WorldItem) {
+    private strike(enemy: GameObject) {
         if (enemy.intersectsWorldItem(this.world.player)) {
             this.world.player.health = this.world.player.health - 30;
         }

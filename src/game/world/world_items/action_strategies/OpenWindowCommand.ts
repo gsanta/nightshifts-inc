@@ -1,12 +1,12 @@
 import { WorldItemActionCommand } from './WorldItemActionCommand';
-import { WorldItem } from '../item_types/WorldItem';
+import { GameObject } from '../item_types/GameObject';
 import { Scene } from '@babylonjs/core';
 
 export class OpenWindowCommand implements WorldItemActionCommand {
     private scene: Scene;
-    private window: WorldItem;
+    private window: GameObject;
 
-    constructor(scene: Scene, window: WorldItem) {
+    constructor(scene: Scene, window: GameObject) {
         this.window = window;
         this.scene = scene;
     }

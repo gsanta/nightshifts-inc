@@ -1,7 +1,7 @@
 import { Axis, Mesh, Quaternion, Scene, Skeleton, Space, Vector3 } from '@babylonjs/core';
 import { Polygon, Point } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
-import { WorldItem } from '../item_types/WorldItem';
+import { GameObject } from '../item_types/GameObject';
 import { VectorModel } from '../../../model/core/VectorModel';
 
 export class PlayerFactory {
@@ -14,7 +14,7 @@ export class PlayerFactory {
     }
 
 
-    public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): WorldItem {
+    public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): GameObject {
         meshes = this.meshInfo[0]; //.map(mesh => mesh.clone('player'));
         meshes.forEach(mesh => mesh.isVisible = true);
 

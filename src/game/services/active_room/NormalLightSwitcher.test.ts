@@ -1,5 +1,5 @@
 import { Light, Mesh } from '@babylonjs/core';
-import { WorldItem } from '../../world/world_items/item_types/WorldItem';
+import { GameObject } from '../../world/world_items/item_types/GameObject';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { expect } from 'chai';
 import { World } from '../../world/World';
@@ -16,22 +16,22 @@ const createWorldMock = (excludedMeshes: Mesh[]): World => {
     };
 };
 
-const createRoomMock = (roomMesh: Partial<Mesh>, childMeshes: Partial<Mesh>[], neighbourMeshes: Partial<Mesh>[]): WorldItem => {
+const createRoomMock = (roomMesh: Partial<Mesh>, childMeshes: Partial<Mesh>[], neighbourMeshes: Partial<Mesh>[]): GameObject => {
 
     const children = childMeshes.map(mesh => {
-        return <Partial<WorldItem>> {
+        return <Partial<GameObject>> {
             getAllMeshes: () => [mesh]
         };
     });
 
     const neighbours = neighbourMeshes.map(mesh => {
-        return <Partial<WorldItem>> {
+        return <Partial<GameObject>> {
             getAllMeshes: () => [mesh]
         };
     });
 
 
-    return <WorldItem> {
+    return <GameObject> {
         mesh: <any> roomMesh,
         children: children,
         neighbours: neighbours,

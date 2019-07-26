@@ -7,7 +7,7 @@ import { ThermometerTool } from '../../tools/ThermometerTool';
 import { World } from '../World';
 import { WorldFactory } from '../world_factory/WorldFactory';
 import { WorldFactoryProducer } from '../world_factory/WorldFactoryProducer';
-import { WorldItem } from '../world_items/item_types/WorldItem';
+import { GameObject } from '../world_items/item_types/GameObject';
 import { parseJsonAdditionalData } from './AdditionalData';
 import { WorldItemTreeMapper } from './WorldItemTreeMapper';
 import { WorldMapToMatrixGraphConverter } from '@nightshifts.inc/world-generator/build/src/matrix_graph/conversion/WorldMapToMatrixGraphConverter';
@@ -40,12 +40,12 @@ export class WorldImporter {
         return world;
     }
 
-    private createWorldItems(rootWorldItem: WorldItemInfo, world: World, worldFactory: WorldFactory): WorldItem[] {
+    private createWorldItems(rootWorldItem: WorldItemInfo, world: World, worldFactory: WorldFactory): GameObject[] {
         const worldItemToTreeMapper = new WorldItemTreeMapper();
 
         const treeIterator = TreeIteratorGenerator(rootWorldItem as any);
 
-        const worldItems: WorldItem[] = [];
+        const worldItems: GameObject[] = [];
         const map: Map<TreeNode, any> = new Map();
         for (const gwmWorldItem of treeIterator) {
             if (!(gwmWorldItem.name === 'wall' && gwmWorldItem.dimensions instanceof Polygon)) {
@@ -63,7 +63,7 @@ export class WorldImporter {
         return worldItems;
     }
 
-    private createWorldItem(meshModelDescription: WorldItemInfo, meshFactory: WorldFactory, world: World): WorldItem {
+    private createWorldItem(meshModelDescription: WorldItemInfo, meshFactory: WorldFactory, world: World): GameObject {
         switch (meshModelDescription.name) {
             case 'wall':
                 return meshFactory.createWall(meshModelDescription, world);

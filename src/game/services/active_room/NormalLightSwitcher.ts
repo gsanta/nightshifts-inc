@@ -3,14 +3,14 @@ import { Polygon } from '@nightshifts.inc/geometry';
 import * as _ from 'lodash';
 import { World } from '../../world/World';
 import { LightSwitcher } from './LightSwitcher';
-import { WorldItem } from '../../world/world_items/item_types/WorldItem';
+import { GameObject } from '../../world/world_items/item_types/GameObject';
 
 /**
  * Can turn on and off the lights for a given room
  */
 export class NormalLightSwitcher implements LightSwitcher {
 
-    public on(room: WorldItem, world: World): Promise<void> {
+    public on(room: GameObject, world: World): Promise<void> {
         const childMeshes = _.chain([room, ...room.children]).map(item => item.getAllMeshes()).flatten().value();
         const neighbourMeshes = _.chain(room.neighbours)
             .filter(item => item.type === 'wall')
@@ -21,7 +21,7 @@ export class NormalLightSwitcher implements LightSwitcher {
         return Promise.resolve();
     }
 
-    private getMeshesThatAreInsideTheRoom(wall: WorldItem, room: WorldItem): AbstractMesh[] {
+    private getMeshesThatAreInsideTheRoom(wall: GameObject, room: GameObject): AbstractMesh[] {
         if (wall.mesh.getChildMeshes().length !== 2) {
             throw new Error(
                 `This method should be used for 'border' items, where the two children represent the two sides, but it has` +
@@ -32,7 +32,7 @@ export class NormalLightSwitcher implements LightSwitcher {
         return wall.mesh.getChildMeshes().filter(mesh => this.isMeshInsideTheRoom(mesh, room));
     }
 
-    private isMeshInsideTheRoom(mesh: AbstractMesh, room: WorldItem) {
+    private isMeshInsideTheRoom(mesh: AbstractMesh, room: GameObject) {
         const boundingBox = room.getBoundingBox();
         const meshPosition = mesh.getAbsolutePosition();
 
@@ -50,7 +50,7 @@ export class NormalLightSwitcher implements LightSwitcher {
             });
     }
 
-    public off(room: WorldItem, world: World): Promise<void> {
+    public off(room: GameObject, world: World): Promise<void> {
         const childMeshes = _.chain([room, ...room.children]).map(item => item.getAllMeshes()).flatten().value();
         const neighbourMeshes = _.chain(room.neighbours)
             .filter(item => item.type === 'wall')

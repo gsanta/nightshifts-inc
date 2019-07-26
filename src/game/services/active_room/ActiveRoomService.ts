@@ -1,4 +1,4 @@
-import { WorldItem } from '../../world/world_items/item_types/WorldItem';
+import { GameObject } from '../../world/world_items/item_types/GameObject';
 import { Vector3 } from '@babylonjs/core';
 import { World } from '../../world/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
@@ -8,8 +8,8 @@ import { Polygon } from '@nightshifts.inc/geometry';
 
 export class ActiveRoomService {
     private world: World;
-    private rooms: WorldItem[];
-    private activeRoom: WorldItem;
+    private rooms: GameObject[];
+    private activeRoom: GameObject;
 
     private lightSwitcher: NormalLightSwitcher;
     private flashingLightSwitcher: FlashingLightSwitcher;
@@ -22,7 +22,7 @@ export class ActiveRoomService {
         this.flashingLightSwitcher = new FlashingLightSwitcher(this.lightSwitcher);
 
         world.getWorldItemsByName('room').forEach(room => {
-            this.lightSwitcher.off(<WorldItem> room, world);
+            this.lightSwitcher.off(<GameObject> room, world);
         });
 
         this.calcActiveRoomAtPoint(this.world.player.mesh.getAbsolutePosition());
@@ -47,21 +47,21 @@ export class ActiveRoomService {
         }
     }
 
-    private turnOffLight(room: WorldItem) {
+    private turnOffLight(room: GameObject) {
         room.isActive = false;
         this.lightSwitcher.off(room, this.world);
     }
 
-    private turnOnLight(room: WorldItem) {
+    private turnOnLight(room: GameObject) {
         this.lightSwitcher.on(room, this.world);
     }
 
     private handleShowRoomLabels(world: World) {
-        const rooms = <WorldItem[]> world.getWorldItemsByName('room');
+        const rooms = <GameObject[]> world.getWorldItemsByName('room');
         const activeRoom = _.find(rooms, room => room.isActive);
         _.chain(world.getWorldItemsByName('room'))
             .without(activeRoom)
-            .forEach((room: WorldItem) => {
+            .forEach((room: GameObject) => {
                 room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
             })
             .value();
@@ -73,7 +73,7 @@ export class ActiveRoomService {
         this.rooms.filter(room => room.isActive).forEach(room => room.isActive = false);
     }
 
-    private getActiveRoomAtPoint(point: Vector3): WorldItem {
+    private getActiveRoomAtPoint(point: Vector3): GameObject {
         const rooms = this.rooms.filter(room => (<Polygon> room.getBoundingBox()).intersect(<Polygon> this.world.player.getBoundingBox()));
         // return this.rooms.find(room => room.mesh.intersectsPoint(point));
         return rooms[rooms.length - 1];

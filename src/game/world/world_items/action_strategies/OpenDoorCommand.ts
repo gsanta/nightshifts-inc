@@ -1,12 +1,12 @@
 import { WorldItemActionCommand } from './WorldItemActionCommand';
-import { WorldItem } from '../item_types/WorldItem';
+import { GameObject } from '../item_types/GameObject';
 import { Scene } from '@babylonjs/core';
 
 export class OpenDoorCommand implements WorldItemActionCommand {
     private scene: Scene;
-    private door: WorldItem;
+    private door: GameObject;
 
-    constructor(scene: Scene, door: WorldItem) {
+    constructor(scene: Scene, door: GameObject) {
         this.door = door;
         this.scene = scene;
     }

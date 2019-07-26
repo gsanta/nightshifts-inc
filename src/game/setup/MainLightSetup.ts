@@ -1,5 +1,5 @@
 import { Scene, HemisphericLight, Vector3, Color3, PointLight, Light } from '@babylonjs/core';
-import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { GameObject } from '../world/world_items/item_types/GameObject';
 
 export class MainLightSetup {
 
@@ -10,7 +10,7 @@ export class MainLightSetup {
         return light;
     }
 
-    public createRoomLight(room: WorldItem, scene: Scene): Light {
+    public createRoomLight(room: GameObject, scene: Scene): Light {
         const dimensions = room.getBoundingBox();
         console.log('Creating light');
         console.log(dimensions);

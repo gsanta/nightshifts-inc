@@ -1,4 +1,4 @@
-import { WorldItem } from '../world_items/item_types/WorldItem';
+import { GameObject } from '../world_items/item_types/GameObject';
 import { World } from '../World';
 import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { WorldItemFactory } from './WorldItemFactory';
@@ -9,7 +9,7 @@ import { WorldItemRotationCalculator } from './WorldItemRotationCalculator';
 import { Direction } from '../../model/utils/Direction';
 
 export interface GenericItemImporter<T> {
-    createItem(itemInfo: T, world: World): WorldItem;
+    createItem(itemInfo: T, world: World): GameObject;
 }
 
 export class WorldFactory {
@@ -33,18 +33,18 @@ export class WorldFactory {
         this.worldItemRotationCalculator = worldItemRotationCalculator;
     }
 
-    public createWall(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createWall(itemInfo: WorldItemInfo, world: World): GameObject {
         return this.factories.wall.createItem(itemInfo, world);
     }
 
-    public createPlayer(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createPlayer(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('player');
         const player = this.create(worldItemFactory, itemInfo, world);
         return player;
     }
 
 
-    public createDoor(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createDoor(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('door');
         const meshes = worldItemFactory.meshInfo[0].map(m => m.clone());
         const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, meshes[0]);
@@ -53,7 +53,7 @@ export class WorldFactory {
         return door;
     }
 
-    public createWindow(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createWindow(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('window');
         const meshes = worldItemFactory.meshInfo[0].map(m => m.clone());
 
@@ -64,11 +64,11 @@ export class WorldFactory {
         return door;
     }
 
-    public createFloor(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createFloor(itemInfo: WorldItemInfo, world: World): GameObject {
         return this.worldItemFactoryMap.get('floor').createItem(itemInfo, world);
     }
 
-    public createBed(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createBed(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('bed');
         const mesh = worldItemFactory.meshInfo[0][0]
         // const bed = this.create(worldItemFactory, itemInfo, world);
@@ -78,46 +78,46 @@ export class WorldFactory {
         return bed;
     }
 
-    public createTable(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createTable(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('table');
         return this.create(worldItemFactory, itemInfo, world);
     }
 
-    public createBathtub(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createBathtub(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('bathtub');
         return this.create(worldItemFactory, itemInfo, world);
     }
 
-    public createWashbasin(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createWashbasin(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('washbasin');
         return this.create(worldItemFactory, itemInfo, world);
     }
 
-    public createChair(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createChair(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('chair');
         return this.create(worldItemFactory, itemInfo, world);
     }
 
-    public createCupboard(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createCupboard(itemInfo: WorldItemInfo, world: World): GameObject {
         const worldItemFactory = this.worldItemFactoryMap.get('cupboard');
         const cupboard = this.create(worldItemFactory, itemInfo, world);
 
         return cupboard;
     }
 
-    public createRoom(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createRoom(itemInfo: WorldItemInfo, world: World): GameObject {
         return this.factories.room.createItem(itemInfo, world);
     }
 
-    public createEmptyArea(itemInfo: WorldItemInfo, world: World): WorldItem {
+    public createEmptyArea(itemInfo: WorldItemInfo, world: World): GameObject {
         return this.worldItemFactoryMap.get('empty').createItem(itemInfo, world);
     }
 
-    public createEnemy(polygon: Polygon, world: World): WorldItem {
+    public createEnemy(polygon: Polygon, world: World): GameObject {
         return this.enemyFactory.create(polygon, world);
     }
 
-    private create(factory: WorldItemFactory, itemInfo: WorldItemInfo, world: World): WorldItem {
+    private create(factory: WorldItemFactory, itemInfo: WorldItemInfo, world: World): GameObject {
         const meshes = factory.meshInfo[0].map(mesh => mesh.clone(`${factory.meshInfo[0][0].name}`));
         const polygon = this.worldItemBoundingBoxCalculator.getBoundingBox(world, itemInfo, meshes[0]);
         const rotation = this.worldItemRotationCalculator.getRotation(itemInfo);

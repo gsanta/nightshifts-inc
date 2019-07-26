@@ -1,5 +1,5 @@
 import { World } from '../world/World';
-import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { GameObject } from '../world/world_items/item_types/GameObject';
 import { LightSwitcher } from './active_room/LightSwitcher';
 import { NormalLightSwitcher } from './active_room/NormalLightSwitcher';
 import { ServiceFacade } from './ServiceFacade';
@@ -22,7 +22,7 @@ export class DebugServices {
 
     public hideRoofs() {
         this.world.getWorldItemsByName('room')
-            .forEach((room: WorldItem) => {
+            .forEach((room: GameObject) => {
                 room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
             });
         this.services.activeRoomService.isShowRoofs = false;
@@ -48,13 +48,13 @@ export class DebugServices {
 
     public turnOnAllLights() {
         this.world.getWorldItemsByName('room').forEach(room => {
-            this.lightSwitcher.on(<WorldItem> room, this.world);
+            this.lightSwitcher.on(<GameObject> room, this.world);
         });
     }
 
     public turnOffAllLights() {
         this.world.getWorldItemsByName('room').forEach(room => {
-            this.lightSwitcher.off(<WorldItem> room, this.world);
+            this.lightSwitcher.off(<GameObject> room, this.world);
         });
     }
 }

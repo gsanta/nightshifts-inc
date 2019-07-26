@@ -1,9 +1,9 @@
 import {TreeNode, TreeIteratorGenerator} from '@nightshifts.inc/world-generator';
-import { WorldItem } from '../world_items/item_types/WorldItem';
+import { GameObject } from '../world_items/item_types/GameObject';
 
 
 export class WorldItemTreeMapper {
-    public mapTree(fromTree: TreeNode, fromToMap: Map<TreeNode, WorldItem>) {
+    public mapTree(fromTree: TreeNode, fromToMap: Map<TreeNode, GameObject>) {
         for (const from of TreeIteratorGenerator(fromTree)) {
             const to = fromToMap.get(from);
 

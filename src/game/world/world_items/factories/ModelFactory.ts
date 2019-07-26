@@ -2,7 +2,7 @@
 import { Mesh, Skeleton, Space, PhysicsImpostor, Scene, MeshBuilder, Vector3, StandardMaterial, Color3, Axis } from '@babylonjs/core';
 import { Polygon, Point } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
-import { WorldItem } from '../item_types/WorldItem';
+import { GameObject } from '../item_types/GameObject';
 
 export class ModelFactory {
     public meshInfo: [Mesh[], Skeleton[]];
@@ -13,7 +13,7 @@ export class ModelFactory {
         this.scene = scene;
     }
 
-    public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): WorldItem {
+    public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): GameObject {
         meshes[0].isVisible = true;
         meshes[0].translate(new Vector3(0, 15, 0), 1);
 
@@ -38,7 +38,7 @@ export class ModelFactory {
     }
 
 
-    private createMesh(worldItem: WorldItem, scene: Scene): Mesh {
+    private createMesh(worldItem: GameObject, scene: Scene): Mesh {
         const boundingPolygon = worldItem.getBoundingBox();
 
         const box = MeshBuilder.CreateBox(

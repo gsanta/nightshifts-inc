@@ -1,10 +1,10 @@
-import { WorldItem } from '../world/world_items/item_types/WorldItem';
+import { GameObject } from '../world/world_items/item_types/GameObject';
 import { VectorModel } from '../model/core/VectorModel';
 import { ServiceFacade } from './ServiceFacade';
 import { World } from '../world/World';
 
 export class PlayerService {
-    private player: WorldItem;
+    private player: GameObject;
     private serviceFacade: ServiceFacade;
 
     constructor(serviceFacade: ServiceFacade, world: World) {

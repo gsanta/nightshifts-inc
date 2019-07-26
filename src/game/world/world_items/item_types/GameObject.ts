@@ -35,8 +35,8 @@ export interface SerializedMeshModel {
         angle?: number;
     };
 }
+export interface GameObject {
 
-export interface WorldItem {
     health?: number;
 
     temperature?: number;
@@ -49,7 +49,7 @@ export interface WorldItem {
     animatedMeshes: Mesh[];
     skeleton?: Skeleton;
 
-    children: WorldItem[];
+    children: GameObject[];
     /**
      * A cuboid mesh that encloses all of the meshes of the WorldItem
      */
@@ -61,17 +61,16 @@ export interface WorldItem {
      */
     type: string;
 
-    neighbours: WorldItem[];
-    hasConnectionWith(worldItem: WorldItem): boolean;
+    neighbours: GameObject[];
     getAllMeshes(): Mesh[];
-    parent: WorldItem;
+    parent: GameObject;
 
     setPosition(vectorModel: VectorModel): void;
     getHeight(): number;
     getRotation(): VectorModel;
     getBoundingBox(): Shape;
-    setParent(worldItem: WorldItem);
+    setParent(worldItem: GameObject);
     intersectsPoint(vector: VectorModel);
-    intersectsWorldItem(otherWorldItem: WorldItem);
+    intersectsWorldItem(otherWorldItem: GameObject);
     setVisible(isVisible: boolean): void;
 }

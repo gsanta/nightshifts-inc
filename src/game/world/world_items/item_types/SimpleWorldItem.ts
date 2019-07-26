@@ -3,12 +3,12 @@ import { Point, Shape } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { EmptyCommand } from '../action_strategies/EmptyCommand';
 import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
-import { SerializedMeshModel, WorldItem } from './WorldItem';
+import { SerializedMeshModel, GameObject } from './GameObject';
 import flatten = require('lodash/flatten');
 
 export interface WorldItemConfig {
     type: string;
-    children: WorldItem[];
+    children: GameObject[];
     skeleton: Skeleton;
 }
 
@@ -18,18 +18,18 @@ const defaultWorldItemConfig: WorldItemConfig = {
     skeleton: null
 };
 
-export class SimpleWorldItem implements WorldItem {
+export class SimpleWorldItem implements GameObject {
     public temperature = 20 + Math.floor(Math.random() * 10);
 
     public mesh: Mesh;
     public skeleton?: Skeleton;
     public boundingMesh?: Mesh;
 
-    public children: WorldItem[] = [];
+    public children: GameObject[] = [];
     public type: string;
     public label: string;
-    public parent: WorldItem;
-    public neighbours: WorldItem[] = [];
+    public parent: GameObject;
+    public neighbours: GameObject[] = [];
     public boundingMeshVisible = false;
     public isActive: boolean;
     public health: number;
@@ -47,10 +47,6 @@ export class SimpleWorldItem implements WorldItem {
         this.type = worldItemConfig.type;
         this.children = [...worldItemConfig.children];
         this.skeleton = worldItemConfig.skeleton;
-    }
-
-    public hasConnectionWith(worldItem: WorldItem): boolean {
-        return [...this.children, ...this.neighbours].indexOf(worldItem) !== -1;
     }
 
     public getAllMeshes(): Mesh[] {
@@ -92,7 +88,7 @@ export class SimpleWorldItem implements WorldItem {
         return this.boundingBox;
     }
 
-    public setParent(worldItem: WorldItem) {
+    public setParent(worldItem: GameObject) {
         this.mesh.parent = worldItem.mesh;
     }
 
@@ -100,7 +96,7 @@ export class SimpleWorldItem implements WorldItem {
         return this.mesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z));
     }
 
-    public intersectsWorldItem(otherWorldItem: WorldItem): boolean {
+    public intersectsWorldItem(otherWorldItem: GameObject): boolean {
         return this.mesh.intersectsMesh(otherWorldItem.mesh);
     }
 
