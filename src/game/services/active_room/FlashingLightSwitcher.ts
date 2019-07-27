@@ -2,6 +2,7 @@ import { LightSwitcher } from './LightSwitcher';
 import { World } from '../../world/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { GameObject } from '../../world/world_items/item_types/GameObject';
+import { Room } from '../../world/world_items/item_types/Room';
 
 export class FlashingLightSwitcher implements LightSwitcher {
     private normalLightSwitcher: NormalLightSwitcher;
@@ -45,15 +46,15 @@ export class FlashingLightSwitcher implements LightSwitcher {
     }
 
     private *turnLightOnWithFlashing(room: GameObject, world: World) {
-        yield this.normalLightSwitcher.on(room, world);
+        yield this.normalLightSwitcher.on(<Room> room, world);
         yield this.sleep(room, world, 200);
-        yield this.normalLightSwitcher.off(room, world);
+        yield this.normalLightSwitcher.off(<Room> room, world);
         yield this.sleep(room, world, 200);
-        yield this.normalLightSwitcher.on(room, world);
+        yield this.normalLightSwitcher.on(<Room> room, world);
         yield this.sleep(room, world, 200);
-        yield this.normalLightSwitcher.off(room, world);
+        yield this.normalLightSwitcher.off(<Room> room, world);
         yield this.sleep(room, world, 200);
-        yield this.normalLightSwitcher.on(room, world);
+        yield this.normalLightSwitcher.on(<Room> room, world);
     }
 
     private sleep(room: GameObject, world: World, timeout: number): Promise<void> {

@@ -6,6 +6,8 @@ import { OpenDoorCommand } from '../world/world_items/action_strategies/OpenDoor
 import { OpenWindowCommand } from '../world/world_items/action_strategies/OpenWindowCommand';
 import { OpenInventoryCommand } from '../world/world_items/action_strategies/OpenInventoryCommand';
 import { ServiceFacade } from './ServiceFacade';
+import { Room } from '../world/world_items/item_types/Room';
+import { Border } from '../world/world_items/item_types/Border';
 
 
 export class ActionableObjectService {
@@ -28,9 +30,9 @@ export class ActionableObjectService {
             prevItem.mesh.isVisible = false;
         }
 
-        const activeRoom: GameObject = _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
+        const activeRoom = <Room> _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
 
-        if (activeRoom.children.indexOf(worldItem) !== -1 || activeRoom.neighbours.indexOf(worldItem) !== -1) {
+        if (activeRoom.children.indexOf(worldItem) !== -1 || activeRoom.borders.indexOf(<Border> worldItem) !== -1) {
             worldItem.mesh.isVisible = true;
         }
     }

@@ -5,6 +5,7 @@ import { GameObject } from '../item_types/GameObject';
 import { Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometry';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
+import { Border } from '../item_types/Border';
 const colors = GameConstants.colors;
 
 export class DoorFactory {
@@ -34,7 +35,7 @@ export class DoorFactory {
         // side1.parent = mesh;
         // side2.parent = mesh;
 
-        const door = new SimpleWorldItem(mesh, boundingBox, {type: 'door'});
+        const door = new Border(mesh, boundingBox, {type: 'door'});
         const center = boundingBox.getBoundingCenter();
         side1.translate(new Vector3(center.x, 4, center.y), 1);
         // door.translate(new VectorModel(center.x, 4, center.y));

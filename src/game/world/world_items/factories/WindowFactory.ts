@@ -6,6 +6,7 @@ import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { calculateBoundingShpere, Sphere } from '../Sphere';
 import { OpenWindowCommand } from '../action_strategies/OpenWindowCommand';
+import { Border } from '../item_types/Border';
 const colors = GameConstants.colors;
 
 export class WindowFactory {
@@ -30,7 +31,7 @@ export class WindowFactory {
             m.parent = side1;
         });
 
-        const window = new SimpleWorldItem(meshes[0], boundingBox, {type: 'window'});
+        const window = new Border(meshes[0], boundingBox, {type: 'window'});
         window.animatedMeshes = meshes.filter(m => m.animations.length > 0);
         const center = boundingBox.getBoundingCenter();
         side1.translate(new Vector3(center.x, boundingSphere.height / 2, center.y), 1);

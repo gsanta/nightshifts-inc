@@ -4,6 +4,7 @@ import { World } from '../../World';
 import { Point, Polygon, Shape } from '@nightshifts.inc/geometry';
 import { RoomLabelFactory } from './RoomLabelFactory';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
+import { Room } from '../item_types/Room';
 
 export class RoomFactory {
     private scene: Scene;
@@ -33,9 +34,9 @@ export class RoomFactory {
 
         const label = `room-${this.counter++}`;
         const roomLabel = this.roomLabelFactory.createItem(dimensions, world, label);
-        roomLabel.setVisible(false);
+        roomLabel.mesh.isVisible = false;
 
-        const room = new SimpleWorldItem(mesh, dimensions, {type: 'room'});
+        const room = new Room(mesh, dimensions);
         room.label = label;
         room.children.push(roomLabel);
         return room;

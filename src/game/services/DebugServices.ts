@@ -23,7 +23,7 @@ export class DebugServices {
     public hideRoofs() {
         this.world.getWorldItemsByName('room')
             .forEach((room: GameObject) => {
-                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
+                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.mesh.isVisible = false);
             });
         this.services.activeRoomService.isShowRoofs = false;
     }

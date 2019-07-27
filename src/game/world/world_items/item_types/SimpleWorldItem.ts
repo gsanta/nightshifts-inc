@@ -1,9 +1,7 @@
 import { Axis, Mesh, PhysicsImpostor, Skeleton, Space, StandardMaterial, Vector3 } from '@babylonjs/core';
 import { Point, Shape } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { EmptyCommand } from '../action_strategies/EmptyCommand';
-import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
-import { SerializedMeshModel, GameObject } from './GameObject';
+import { GameObject } from './GameObject';
 import flatten = require('lodash/flatten');
 
 export interface WorldItemConfig {
@@ -29,7 +27,6 @@ export class SimpleWorldItem implements GameObject {
     public type: string;
     public label: string;
     public parent: GameObject;
-    public neighbours: GameObject[] = [];
     public boundingMeshVisible = false;
     public isActive: boolean;
     public health: number;
@@ -47,14 +44,6 @@ export class SimpleWorldItem implements GameObject {
         this.type = worldItemConfig.type;
         this.children = [...worldItemConfig.children];
         this.skeleton = worldItemConfig.skeleton;
-    }
-
-    public getAllMeshes(): Mesh[] {
-        if (this.children.length > 0) {
-            return [this.mesh, ...flatten(this.children.map(child => child.getAllMeshes()))];
-        } else {
-            return [this.mesh];
-        }
     }
 
     public setPosition(position: VectorModel) {
@@ -88,20 +77,8 @@ export class SimpleWorldItem implements GameObject {
         return this.boundingBox;
     }
 
-    public setParent(worldItem: GameObject) {
-        this.mesh.parent = worldItem.mesh;
-    }
-
-    public intersectsPoint(vector: VectorModel) {
-        return this.mesh.intersectsPoint(new Vector3(vector.x, vector.y, vector.z));
-    }
-
     public intersectsWorldItem(otherWorldItem: GameObject): boolean {
         return this.mesh.intersectsMesh(otherWorldItem.mesh);
-    }
-
-    public setVisible(isVisible: boolean) {
-        this.mesh.isVisible = isVisible;
     }
 
     public setImpostor(impostor: PhysicsImpostor) {

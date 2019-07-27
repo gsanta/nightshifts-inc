@@ -61,16 +61,11 @@ export interface GameObject {
      */
     type: string;
 
-    neighbours: GameObject[];
-    getAllMeshes(): Mesh[];
     parent: GameObject;
 
     setPosition(vectorModel: VectorModel): void;
     getHeight(): number;
     getRotation(): VectorModel;
     getBoundingBox(): Shape;
-    setParent(worldItem: GameObject);
-    intersectsPoint(vector: VectorModel);
     intersectsWorldItem(otherWorldItem: GameObject);
-    setVisible(isVisible: boolean): void;
 }

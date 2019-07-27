@@ -4,15 +4,16 @@ import * as _ from 'lodash';
 import { World } from '../../world/World';
 import { LightSwitcher } from './LightSwitcher';
 import { GameObject } from '../../world/world_items/item_types/GameObject';
+import { Room } from '../../world/world_items/item_types/Room';
 
 /**
  * Can turn on and off the lights for a given room
  */
 export class NormalLightSwitcher implements LightSwitcher {
 
-    public on(room: GameObject, world: World): Promise<void> {
-        const childMeshes = _.chain([room, ...room.children]).map(item => item.getAllMeshes()).flatten().value();
-        const neighbourMeshes = _.chain(room.neighbours)
+    public on(room: Room, world: World): Promise<void> {
+        const childMeshes = _.chain([room, ...room.children]).map(item => [item.mesh]).flatten().value();
+        const neighbourMeshes = _.chain(room.borders)
             .filter(item => item.type === 'wall')
             .map(item => this.getMeshesThatAreInsideTheRoom(item, room)).flatten().value();
 
@@ -50,21 +51,10 @@ export class NormalLightSwitcher implements LightSwitcher {
             });
     }
 
-    public off(room: GameObject, world: World): Promise<void> {
-        const childMeshes = _.chain([room, ...room.children]).map(item => item.getAllMeshes()).flatten().value();
-        const neighbourMeshes = _.chain(room.neighbours)
-            .filter(item => item.type === 'wall')
-            .map(item => {
-                if (item.neighbours.length === 1) {
-                    return <AbstractMesh[]> item.mesh.getChildren();
-                } else {
-                    return this.getMeshesThatAreInsideTheRoom(item, room);
-                }
-            })
-            .flatten()
-            .value();
+    public off(room: Room, world: World): Promise<void> {
+        const childMeshes = _.chain([room, ...room.children]).map(item => [item.mesh]).flatten().value();
 
-        this.includeMeshesForWorldItem([...childMeshes/*, ...neighbourMeshes*/], world);
+        this.includeMeshesForWorldItem([...childMeshes], world);
 
         return Promise.resolve();
     }

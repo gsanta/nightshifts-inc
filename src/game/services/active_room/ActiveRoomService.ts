@@ -5,6 +5,7 @@ import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 import _ from 'lodash';
 import { Polygon } from '@nightshifts.inc/geometry';
+import { Room } from '../../world/world_items/item_types/Room';
 
 export class ActiveRoomService {
     private world: World;
@@ -22,7 +23,7 @@ export class ActiveRoomService {
         this.flashingLightSwitcher = new FlashingLightSwitcher(this.lightSwitcher);
 
         world.getWorldItemsByName('room').forEach(room => {
-            this.lightSwitcher.off(<GameObject> room, world);
+            this.lightSwitcher.off(<Room> room, world);
         });
 
         this.calcActiveRoomAtPoint(this.world.player.mesh.getAbsolutePosition());
@@ -49,11 +50,11 @@ export class ActiveRoomService {
 
     private turnOffLight(room: GameObject) {
         room.isActive = false;
-        this.lightSwitcher.off(room, this.world);
+        this.lightSwitcher.off(<Room> room, this.world);
     }
 
     private turnOnLight(room: GameObject) {
-        this.lightSwitcher.on(room, this.world);
+        this.lightSwitcher.on(<Room> room, this.world);
     }
 
     private handleShowRoomLabels(world: World) {
@@ -62,11 +63,11 @@ export class ActiveRoomService {
         _.chain(world.getWorldItemsByName('room'))
             .without(activeRoom)
             .forEach((room: GameObject) => {
-                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(true));
+                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.mesh.isVisible = true);
             })
             .value();
 
-        activeRoom.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.setVisible(false));
+        activeRoom.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.mesh.isVisible = false);
     }
 
     private deactivatePrevActiveRoom() {

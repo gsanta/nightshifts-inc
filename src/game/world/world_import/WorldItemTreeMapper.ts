@@ -1,5 +1,7 @@
 import {TreeNode, TreeIteratorGenerator} from '@nightshifts.inc/world-generator';
 import { GameObject } from '../world_items/item_types/GameObject';
+import { Room } from '../world_items/item_types/Room';
+import { Border } from '../world_items/item_types/Border';
 
 
 export class WorldItemTreeMapper {
@@ -17,8 +19,8 @@ export class WorldItemTreeMapper {
 
             if (from.borderItems) {
                 from.borderItems.forEach(item => {
-                    to.neighbours.push(fromToMap.get(item));
-                    fromToMap.get(item).neighbours.push(to);
+                    (<Room> to).borders.push(<Border> fromToMap.get(item));
+                    (<Border> fromToMap.get(item)).rooms.push(<Room> to);
                 });
             }
         }

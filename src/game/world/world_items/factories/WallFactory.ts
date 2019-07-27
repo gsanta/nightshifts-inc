@@ -8,6 +8,7 @@ import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { GameObject } from '../item_types/GameObject';
 import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { Segment } from '@nightshifts.inc/geometry/build/shapes/Segment';
+import { Border } from '../item_types/Border';
 const colors = GameConstants.colors;
 
 export class WallFactory implements GwmItemImporter {
@@ -96,7 +97,7 @@ export class WallFactory implements GwmItemImporter {
         this.index++;
 
 
-        const wall = new SimpleWorldItem(parentMesh, gwmWorldItem.dimensions, {type: 'wall'});
+        const wall = new Border(parentMesh, gwmWorldItem.dimensions, {type: 'wall'});
         parentMesh.translate(new Vector3(0, 3.6, 0), 1);
 
         parentMesh.computeWorldMatrix(true);

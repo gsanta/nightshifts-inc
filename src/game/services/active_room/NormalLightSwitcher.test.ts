@@ -3,6 +3,8 @@ import { GameObject } from '../../world/world_items/item_types/GameObject';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { expect } from 'chai';
 import { World } from '../../world/World';
+import { Room } from '../../world/world_items/item_types/Room';
+import { Border } from '../../world/world_items/item_types/Border';
 declare const describe, beforeEach, afterEach, it;
 
 const createWorldMock = (excludedMeshes: Mesh[]): World => {
@@ -16,26 +18,25 @@ const createWorldMock = (excludedMeshes: Mesh[]): World => {
     };
 };
 
-const createRoomMock = (roomMesh: Partial<Mesh>, childMeshes: Partial<Mesh>[], neighbourMeshes: Partial<Mesh>[]): GameObject => {
+const createRoomMock = (roomMesh: Partial<Mesh>, childMeshes: Partial<Mesh>[], neighbourMeshes: Partial<Mesh>[]): Room => {
 
     const children = childMeshes.map(mesh => {
         return <Partial<GameObject>> {
-            getAllMeshes: () => [mesh]
+            mesh
         };
     });
 
     const neighbours = neighbourMeshes.map(mesh => {
-        return <Partial<GameObject>> {
-            getAllMeshes: () => [mesh]
+        return <Partial<Border>> {
+            mesh
         };
     });
 
 
-    return <GameObject> {
+    return <Room> {
         mesh: <any> roomMesh,
         children: children,
-        neighbours: neighbours,
-        getAllMeshes: () => [roomMesh]
+        borders: neighbours
     };
 };
 
