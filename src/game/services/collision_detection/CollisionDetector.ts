@@ -44,7 +44,7 @@ export class CollisionDetector {
 
 
     private castRay(delta: Vector3):  CollisionInfo {
-        const centerPoint = this.creature.getBoundingBox().getBoundingCenter();
+        const centerPoint = this.creature.boundingBox.getBoundingCenter();
         const vector3 = new VectorModel(centerPoint.x, 0, centerPoint.y);
         const origin = vector3.clone();
         origin.addY(origin.y + 1);

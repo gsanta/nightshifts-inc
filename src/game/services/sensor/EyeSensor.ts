@@ -27,8 +27,8 @@ export class EyeSensor implements Sensor {
     }
 
     private isInsideVisibleRange(enemy: GameObject): boolean {
-        const playerCenter = this.player.getBoundingBox().getBoundingCenter();
-        const enemyCenter = enemy.getBoundingBox().getBoundingCenter();
+        const playerCenter = this.player.boundingBox.getBoundingCenter();
+        const enemyCenter = enemy.boundingBox.getBoundingCenter();
         const playerVector = new VectorModel(playerCenter.x, 0, playerCenter.y);
         const enemyVector = new VectorModel(enemyCenter.x, 0, enemyCenter.y);
         const playerToEnemyVector = enemyVector.subtract(playerVector);
@@ -40,8 +40,8 @@ export class EyeSensor implements Sensor {
     }
 
     private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: GameObject):  boolean {
-        const playerCenter = this.player.getBoundingBox().getBoundingCenter();
-        const enemyCenter = enemy.getBoundingBox().getBoundingCenter();
+        const playerCenter = this.player.boundingBox.getBoundingCenter();
+        const enemyCenter = enemy.boundingBox.getBoundingCenter();
         const playerVector = new VectorModel(playerCenter.x, 0, playerCenter.y);
         const enemyVector = new VectorModel(enemyCenter.x, 0, enemyCenter.y);
         return this.rayCaster.testCollision(playerVector, enemyVector, enemy);

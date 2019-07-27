@@ -18,7 +18,7 @@ export class CameraTool implements Tool {
         const room = this.world.getWorldItemsByName('room')[0];
         const emptyArea = find(room.children, child => child.type === 'empty');
 
-        const pos = emptyArea.getBoundingBox().getBoundingCenter();
+        const pos = emptyArea.boundingBox.getBoundingCenter();
         const vector = new Vector3(pos.x, 1, pos.y);
 
         const camera = new FreeCamera('camera2', vector, this.scene);

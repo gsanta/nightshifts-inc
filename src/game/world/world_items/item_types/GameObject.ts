@@ -1,41 +1,21 @@
-import { Mesh, StandardMaterial, PhysicsImpostor, Skeleton } from '@babylonjs/core';
+import { Mesh, Skeleton, Vector3 } from '@babylonjs/core';
+import { Point, Shape } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
-import { Shape } from '@nightshifts.inc/geometry';
-import { WorldItemActionCommand } from '../action_strategies/WorldItemActionCommand';
 
-export interface SerializedMeshModel {
-    name: string;
-    scaling: {
-        x: number,
-        y: number,
-        z: number
-    };
-    translate: {
-        x: number,
-        y: number,
-        z: number
-    };
-    additionalData?: {
-        axis?: {
-            x: number,
-            y: number,
-            z: number
-        };
-        axis1?: {
-            x: number,
-            y: number,
-            z: number
-        };
-        axis2?: {
-            x: number,
-            y: number,
-            z: number
-        };
-        rotation?: number;
-        angle?: number;
-    };
+
+export interface GameObjectConfig {
+    type: string;
+    children: GameObject[];
+    skeleton: Skeleton;
 }
-export interface GameObject {
+
+const defaulGameObjectConfig: GameObjectConfig = {
+    type: 'default',
+    children: [],
+    skeleton: null
+};
+
+export class GameObject {
 
     health?: number;
 
@@ -46,12 +26,12 @@ export interface GameObject {
     isActive: boolean;
 
     mesh?: Mesh;
-    animatedMeshes: Mesh[];
+    animatedMeshes: Mesh[] = [];
     skeleton?: Skeleton;
 
-    children: GameObject[];
+    children: GameObject[] = [];
     /**
-     * A cuboid mesh that encloses all of the meshes of the WorldItem
+     * A cuboid mesh that encloses all of the meshes of the `GameObject`
      */
     boundingMesh?: Mesh;
 
@@ -63,9 +43,44 @@ export interface GameObject {
 
     parent: GameObject;
 
-    setPosition(vectorModel: VectorModel): void;
-    getHeight(): number;
-    getRotation(): VectorModel;
-    getBoundingBox(): Shape;
-    intersectsWorldItem(otherWorldItem: GameObject);
+    boundingBox: Shape;
+
+    constructor(mesh: Mesh, boundingBox: Shape, worldItemConfig?: Partial<GameObjectConfig>) {
+        worldItemConfig = {...defaulGameObjectConfig, ...worldItemConfig};
+        this.mesh = mesh;
+        this.boundingBox = boundingBox;
+        this.type = worldItemConfig.type;
+        this.children = [...worldItemConfig.children];
+        this.skeleton = worldItemConfig.skeleton;
+    }
+
+    setPosition(position: VectorModel): void {
+        this.mesh.position = new Vector3(position.x, this.mesh.getAbsolutePosition().y, position.z);
+        const center = this.mesh.getBoundingInfo().boundingSphere.centerWorld;
+        this.boundingBox = this.boundingBox.setPosition(new Point(center.x, center.z));
+
+        if (this.boundingMesh) {
+            this.boundingMesh.position = new Vector3(position.x, 1, position.z);
+        }
+    }
+
+    getHeight(): number {
+        return this.mesh.getBoundingInfo().boundingBox.maximumWorld.y;
+    }
+
+    getRotation(): VectorModel {
+        const vector = this.mesh.rotationQuaternion.toEulerAngles();
+        return new VectorModel(vector.x, vector.y, vector.z);
+    }
+
+    intersectsWorldItem(otherWorldItem: GameObject) {
+        return this.mesh.intersectsMesh(otherWorldItem.mesh);
+    }
+
+    setBoudingBox(shape: Shape) {
+        this.boundingBox = shape;
+        const center = shape.getBoundingCenter();
+        this.setPosition(new VectorModel(center.x, this.mesh.position.y, center.y));
+        this.boundingBox = shape;
+    }
 }

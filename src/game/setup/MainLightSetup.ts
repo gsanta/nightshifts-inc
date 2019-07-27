@@ -11,7 +11,7 @@ export class MainLightSetup {
     }
 
     public createRoomLight(room: GameObject, scene: Scene): Light {
-        const dimensions = room.getBoundingBox();
+        const dimensions = room.boundingBox;
         console.log('Creating light');
         console.log(dimensions);
         const center = {

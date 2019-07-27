@@ -21,8 +21,8 @@ export class ActionableObjectService {
     }
 
     public calcClosestActionableObject() {
-        const worldItem = this.getClosestActivatableWorldItem(this.world);
-        this.currentActivatableItem = worldItem;
+        const gameObject = this.getClosestActivatableWorldItem(this.world);
+        this.currentActivatableItem = gameObject;
 
         const prevItem = _.find(this.world.worldItems, item => !item.mesh || item.mesh.isVisible === true);
 
@@ -32,8 +32,8 @@ export class ActionableObjectService {
 
         const activeRoom = <Room> _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
 
-        if (activeRoom.children.indexOf(worldItem) !== -1 || activeRoom.borders.indexOf(<Border> worldItem) !== -1) {
-            worldItem.mesh.isVisible = true;
+        if (activeRoom.children.indexOf(gameObject) !== -1 || activeRoom.borders.indexOf(<Border> gameObject) !== -1) {
+            gameObject.mesh.isVisible = true;
         }
     }
 
@@ -62,7 +62,7 @@ export class ActionableObjectService {
     public getClosestActivatableWorldItem(world: World): GameObject {
         const actionableObjects = this.filterActionableObjects(world);
         const reduceToClosestMeshModel = (val: [GameObject, number], current: GameObject): [GameObject, number] => {
-            const distance =  world.player.getBoundingBox().getBoundingCenter().distanceTo(current.getBoundingBox().getBoundingCenter());
+            const distance =  world.player.boundingBox.getBoundingCenter().distanceTo(current.boundingBox.getBoundingCenter());
             return !val || val[1] > distance ? [current, distance] : val;
         };
 

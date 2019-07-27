@@ -1,8 +1,7 @@
-import { GameObject } from '../item_types/GameObject';
-import { World } from '../../World';
-import { Scene, MeshBuilder, Vector3, StandardMaterial, DynamicTexture, Color3, Texture } from '@babylonjs/core';
+import { DynamicTexture, MeshBuilder, Scene, StandardMaterial, Texture, Vector3 } from '@babylonjs/core';
 import { Shape } from '@nightshifts.inc/geometry';
-import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
+import { World } from '../../World';
+import { GameObject } from '../item_types/GameObject';
 
 
 export class RoomLabelFactory {
@@ -14,7 +13,7 @@ export class RoomLabelFactory {
 
     public createItem(shape: Shape, world: World, label: string): GameObject {
         const mesh = this.createMesh(shape, label);
-        return new SimpleWorldItem(mesh, shape, {type: 'room-label'});
+        return new GameObject(mesh, shape, {type: 'room-label'});
     }
 
     private createMesh(shape: Shape, label: string) {

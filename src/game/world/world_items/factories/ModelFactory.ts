@@ -1,7 +1,6 @@
 
 import { Mesh, Skeleton, Space, PhysicsImpostor, Scene, MeshBuilder, Vector3, StandardMaterial, Color3, Axis } from '@babylonjs/core';
-import { Polygon, Point } from '@nightshifts.inc/geometry';
-import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
+import { Polygon } from '@nightshifts.inc/geometry';
 import { GameObject } from '../item_types/GameObject';
 
 export class ModelFactory {
@@ -20,7 +19,7 @@ export class ModelFactory {
         boundingBox = boundingBox.negate('y');
         // boundingBox = boundingBox.translate(new Point(-boundingBox.getBoundingInfo().extent[0] / 2, boundingBox.getBoundingInfo().extent[1] / 2));
 
-        const meshModel = new SimpleWorldItem(meshes[0], boundingBox, {type: meshes[0].name});
+        const meshModel = new GameObject(meshes[0], boundingBox, {type: meshes[0].name});
         meshes[0].rotate(Axis.Y, rotation, Space.WORLD);
         meshModel.setBoudingBox(boundingBox);
 
@@ -39,7 +38,7 @@ export class ModelFactory {
 
 
     private createMesh(worldItem: GameObject, scene: Scene): Mesh {
-        const boundingPolygon = worldItem.getBoundingBox();
+        const boundingPolygon = worldItem.boundingBox;
 
         const box = MeshBuilder.CreateBox(
             `bounding-box`,

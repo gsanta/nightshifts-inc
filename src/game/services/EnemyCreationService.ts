@@ -30,7 +30,7 @@ export class EnemyCreationService {
         material.diffuseColor = Color3.FromHexString('00FF00');
         emptyArea.mesh.material = material;
 
-        const centerPoint = emptyArea.getBoundingBox().getBoundingCenter();
+        const centerPoint = emptyArea.boundingBox.getBoundingCenter();
         const vector3 = new VectorModel(centerPoint.x, 0, centerPoint.y);
         const enemyPosition = vector3;
 

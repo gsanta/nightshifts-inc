@@ -2,11 +2,9 @@ import { Color3, MeshBuilder, Scene, StandardMaterial, Vector3, Mesh, Color4 } f
 import { Point, Polygon, Line, GeometryUtils } from '@nightshifts.inc/geometry';
 import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { GameConstants } from '../../../GameConstants';
-import { VectorModel } from '../../../model/core/VectorModel';
 import { World } from '../../World';
 import { GwmItemImporter } from '../../world_factory/GwmItemImporter';
 import { GameObject } from '../item_types/GameObject';
-import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { Segment } from '@nightshifts.inc/geometry/build/shapes/Segment';
 import { Border } from '../item_types/Border';
 const colors = GameConstants.colors;

@@ -6,7 +6,6 @@ import { Vector3, Scene, StandardMaterial, Color3, Mesh, Skeleton } from '@babyl
 import { GameConstants } from '../../../GameConstants';
 import { Point } from '@nightshifts.inc/geometry';
 import { MeshBuilder } from '@babylonjs/core';
-import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 const colors = GameConstants.colors;
 
 export class EmptyAreaFactory implements WorldItemFactory {
@@ -39,7 +38,7 @@ export class EmptyAreaFactory implements WorldItemFactory {
 
         mesh.isVisible = false;
 
-        return new SimpleWorldItem(mesh, dimensions, {type: 'empty'});
+        return new GameObject(mesh, dimensions, {type: 'empty'});
     }
 
     private createMaterial(scene: Scene): StandardMaterial {

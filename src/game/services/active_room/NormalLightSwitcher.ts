@@ -34,7 +34,7 @@ export class NormalLightSwitcher implements LightSwitcher {
     }
 
     private isMeshInsideTheRoom(mesh: AbstractMesh, room: GameObject) {
-        const boundingBox = room.getBoundingBox();
+        const boundingBox = room.boundingBox;
         const meshPosition = mesh.getAbsolutePosition();
 
         return (<Polygon> boundingBox).contains(Polygon.createRectangle(meshPosition.x, meshPosition.z, 0.01, 0.01));

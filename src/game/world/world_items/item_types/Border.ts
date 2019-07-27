@@ -1,7 +1,6 @@
-import { SimpleWorldItem } from './SimpleWorldItem';
 import { Room } from './Room';
+import { GameObject } from './GameObject';
 
-export class Border extends SimpleWorldItem {
-
+export class Border extends GameObject {
     rooms: Room[] = [];
 }

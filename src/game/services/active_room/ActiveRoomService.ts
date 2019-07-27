@@ -75,7 +75,7 @@ export class ActiveRoomService {
     }
 
     private getActiveRoomAtPoint(point: Vector3): GameObject {
-        const rooms = this.rooms.filter(room => (<Polygon> room.getBoundingBox()).intersect(<Polygon> this.world.player.getBoundingBox()));
+        const rooms = this.rooms.filter(room => (<Polygon> room.boundingBox).intersect(<Polygon> this.world.player.boundingBox));
         // return this.rooms.find(room => room.mesh.intersectsPoint(point));
         return rooms[rooms.length - 1];
     }

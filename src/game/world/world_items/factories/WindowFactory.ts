@@ -2,10 +2,8 @@ import { Color3, Scene, StandardMaterial, Mesh, Vector3, Matrix, MeshBuilder, Sk
 import { GameConstants } from '../../../GameConstants';
 import { GameObject } from '../item_types/GameObject';
 import { Segment, GeometryUtils, Shape, Polygon } from '@nightshifts.inc/geometry';
-import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 import { VectorModel } from '../../../model/core/VectorModel';
 import { calculateBoundingShpere, Sphere } from '../Sphere';
-import { OpenWindowCommand } from '../action_strategies/OpenWindowCommand';
 import { Border } from '../item_types/Border';
 const colors = GameConstants.colors;
 

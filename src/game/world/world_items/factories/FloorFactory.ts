@@ -8,7 +8,6 @@ import { GameObject } from '../item_types/GameObject';
 import { WorldItemToRealWorldCoordinateMapper } from '../world_item_mappers/WorldItemToRealWorldCoordinateMapper';
 import { Color3 } from '@babylonjs/core';
 import { WorldItemToWorldCenterTranslatorDecorator } from '../world_item_mappers/WorldItemToWorldCenterTranslatorDecorator';
-import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
 const colors = GameConstants.colors;
 
 
@@ -28,7 +27,7 @@ export class FloorFactory implements GwmItemImporter {
         const translate = new VectorModel(boundingBox.getBoundingInfo().min[0], 0, -boundingBox.getBoundingInfo().max[1]);
         translate.addZ(-3);
 
-        const meshModel = new SimpleWorldItem(null, null, {type: 'floor'});
+        const meshModel = new GameObject(null, null, {type: 'floor'});
 
         return meshModel;
     }

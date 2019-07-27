@@ -1,11 +1,9 @@
-import { SerializedMeshModel } from '../world_items/item_types/GameObject';
 
 export interface JsonWorldSchema {
     dimensions: {
         x: number;
         y: number;
     };
-    items: SerializedMeshModel[];
 }
 
 export const setDefaultsForJsonWorld = (jsonWorld: JsonWorldSchema): void => {

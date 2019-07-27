@@ -1,8 +1,7 @@
-import { Axis, Mesh, Quaternion, Scene, Skeleton, Space, Vector3 } from '@babylonjs/core';
-import { Polygon, Point } from '@nightshifts.inc/geometry';
-import { SimpleWorldItem } from '../item_types/SimpleWorldItem';
-import { GameObject } from '../item_types/GameObject';
+import { Axis, Mesh, Quaternion, Scene, Skeleton } from '@babylonjs/core';
+import { Point, Polygon } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../../../model/core/VectorModel';
+import { GameObject } from '../item_types/GameObject';
 
 export class PlayerFactory {
     public meshInfo: [Mesh[], Skeleton[]];
@@ -21,7 +20,7 @@ export class PlayerFactory {
         boundingBox = boundingBox.negate('y');
         boundingBox = boundingBox.translate(new Point(- boundingBox.getBoundingInfo().extent[0] / 2, boundingBox.getBoundingInfo().extent[1] / 2));
 
-        const player = new SimpleWorldItem(meshes[0], boundingBox, {type: 'player', skeleton: this.meshInfo[1][0]});
+        const player = new GameObject(meshes[0], boundingBox, {type: 'player', skeleton: this.meshInfo[1][0]});
         player.health = 100;
 
         // const impostor = new PhysicsImpostor(player.mesh, PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.9 }, this.scene);
