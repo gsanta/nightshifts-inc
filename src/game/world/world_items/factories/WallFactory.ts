@@ -1,4 +1,4 @@
-import { Color3, MeshBuilder, Scene, StandardMaterial, Vector3, Mesh, Color4 } from '@babylonjs/core';
+import { Color3, MeshBuilder, Scene, StandardMaterial, Vector3, Mesh, Color4, Texture } from '@babylonjs/core';
 import { Point, Polygon, Line, GeometryUtils } from '@nightshifts.inc/geometry';
 import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { GameConstants } from '../../../GameConstants';
@@ -27,10 +27,6 @@ export class WallFactory implements GwmItemImporter {
         const translateX = - (world.dimensions.x() / 2);
         const translateY = - (world.dimensions.y() / 2);
 
-        const material = this.createMaterial(scene);
-
-        let [wallSide1Dim, wallSide2Dim]: [Polygon, Polygon] = [null, null];
-
         gwmWorldItem.dimensions = gwmWorldItem.dimensions.translate(new Point(translateX, translateY));
 
         const segment = <Segment> gwmWorldItem.dimensions.negate('y');
@@ -39,8 +35,8 @@ export class WallFactory implements GwmItemImporter {
 
         const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getLine().hasEqualSlope(segment.getLine()));
 
-        wallSide1Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
-        wallSide2Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
+        const wallSide1Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
+        const wallSide2Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
 
         const parentMesh = MeshBuilder.CreateBox(
                 `default-wall-container-${this.index}`,
@@ -58,20 +54,17 @@ export class WallFactory implements GwmItemImporter {
                 {
                     width: wallSide1Dim.getBoundingInfo().extent[0],
                     depth: wallSide1Dim.getBoundingInfo().extent[1],
-                    height: 7.2,
-                    faceColors: this.getFaceColors()
+                    height: 7.2
                 },
                 scene
             );
 
-        // const top = this.createTop(gwmWorldItem, scene);
-
-        // top.parent = parentMesh;
-        // top.translate(new Vector3(0, 7.2, 0), 1);
+        const mat = new StandardMaterial('wallMaterial', scene);
+        mat.diffuseTexture = new Texture('./assets/textures/brick.jpeg', this.scene);
+        mesh1.material = mat;
 
         mesh1.parent = parentMesh;
         mesh1.receiveShadows = true;
-        // mesh1.material = material;
         mesh1.translate(new Vector3(wallSide1Dim.getBoundingCenter().x, 0, wallSide1Dim.getBoundingCenter().y), 1);
         const mesh2 = MeshBuilder
             .CreateBox(
@@ -104,20 +97,6 @@ export class WallFactory implements GwmItemImporter {
         return wall;
     }
 
-    private createTop(gwmWorldItem: WorldItemInfo, scene: Scene): Mesh {
-        const mesh = MeshBuilder.CreateBox(
-            `default-wall-container-${this.index}`,
-            {
-                width: gwmWorldItem.dimensions.getBoundingInfo().extent[0],
-                depth: gwmWorldItem.dimensions.getBoundingInfo().extent[1],
-                height: 0.2
-            },
-            scene
-        );
-
-        return mesh;
-    }
-
     private getFaceColors(): Color4[] {
         const faceColors = new Array(6);
 
@@ -129,14 +108,6 @@ export class WallFactory implements GwmItemImporter {
         faceColors[4] = new Color4(0.537, 0.32, 0.22, 1);
 
         return faceColors;
-    }
-
-    private createMaterial(scene: Scene): StandardMaterial {
-        const material = new StandardMaterial('wallMaterial', scene);
-        material.diffuseColor = Color3.FromHexString('#'+(Math.random()*0xFFFFFF<<0).toString(16));
-        // material.emissiveColor = Color3.FromHexString('#666666');
-
-        return material;
     }
 
     private createMaterial2(scene: Scene): StandardMaterial {

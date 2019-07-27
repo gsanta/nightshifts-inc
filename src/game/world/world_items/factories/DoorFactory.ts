@@ -18,9 +18,6 @@ export class DoorFactory {
     }
 
     public createItem(meshes: Mesh[], boundingBox: Polygon, rotation: number): GameObject {
-        // meshes[0].setAbsolutePosition(
-        //     new Vector3(meshes[0].getAbsolutePosition().x, meshes[0].getBoundingInfo().boundingBox.extendSize.y, meshes[0].getAbsolutePosition().z));
-
         boundingBox = boundingBox.negate('y');
         const [side1] = this.createSideItems(boundingBox);
 
@@ -30,14 +27,9 @@ export class DoorFactory {
             m.parent = side1;
         });
 
-        // side1.parent = mesh;
-        // side2.parent = mesh;
-
         const door = new Border(mesh, boundingBox, {type: 'door'});
         const center = boundingBox.getBoundingCenter();
         side1.translate(new Vector3(center.x, 4, center.y), 1);
-        // door.translate(new VectorModel(center.x, 4, center.y));
-        // this.setPivotMatrix(door);
 
         door.animatedMeshes = meshes.filter(m => m.animations.length > 0);
 
