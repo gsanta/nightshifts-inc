@@ -65,7 +65,8 @@ export class WorldFactory {
     }
 
     public createFloor(itemInfo: WorldItemInfo, world: World): GameObject {
-        return this.worldItemFactoryMap.get('floor').createItem(itemInfo, world);
+        const worldItemFactory = this.worldItemFactoryMap.get('floor');
+        return worldItemFactory.createItem(null, null);
     }
 
     public createBed(itemInfo: WorldItemInfo, world: World): GameObject {

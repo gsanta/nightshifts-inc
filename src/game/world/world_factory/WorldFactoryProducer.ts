@@ -61,7 +61,7 @@ export class WorldFactoryProducer {
                 map.set('washbasin', <any> new ModelFactory(meshTemplateStore.get('washbasin'), scene));
                 map.set('chair', <any> new ModelFactory(meshTemplateStore.get('chair'), scene));
                 map.set('player', <any> new PlayerFactory(meshTemplateStore.get('player'), scene));
-                map.set('floor', new FloorFactory(scene));
+                map.set('floor', <any> new FloorFactory(scene));
                 map.set('door', <any> new DoorFactory(meshTemplateStore.get('door'), scene, MeshBuilder));
                 map.set('window', <any> new WindowFactory(meshTemplateStore.get('window'), scene, MeshBuilder));
 
