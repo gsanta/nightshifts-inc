@@ -1,6 +1,5 @@
 import { Mesh, Scene, Skeleton, MeshBuilder } from '@babylonjs/core';
 import { Promise } from 'es6-promise';
-import { defaultMeshConfig } from '../../model/core/templates/creators/ModelFileBasedTemplateCreator';
 import { VectorModel } from '../../model/core/VectorModel';
 import { ModelFileLoader } from '../world_import/ModelFileLoader';
 import { DoorFactory } from '../world_items/factories/DoorFactory';
@@ -16,6 +15,17 @@ import { WorldItemBoundingBoxCalculator } from './WorldItemBoundingBoxCalculator
 import { WorldItemRotationCalculator } from './WorldItemRotationCalculator';
 import { PlayerFactory } from '../world_items/factories/PlayerFactory';
 import { WindowFactory } from '../world_items/factories/WindowFactory';
+import { MeshTemplateConfig } from '../../model/core/templates/MeshTemplate';
+
+export const defaultMeshConfig: MeshTemplateConfig = {
+    checkCollisions: true,
+    receiveShadows: true,
+    isPickable: true,
+    scaling: new VectorModel(1, 1, 1),
+    singleton: false,
+
+    materials: null
+};
 
 export class WorldFactoryProducer {
 

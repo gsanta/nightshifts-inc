@@ -13,11 +13,11 @@ export class NormalLightSwitcher implements LightSwitcher {
 
     public on(room: Room, world: World): Promise<void> {
         const childMeshes = _.chain([room, ...room.children]).map(item => [item.mesh]).flatten().value();
-        const neighbourMeshes = _.chain(room.borders)
-            .filter(item => item.type === 'wall')
-            .map(item => this.getMeshesThatAreInsideTheRoom(item, room)).flatten().value();
+        // const neighbourMeshes = _.chain(room.borders)
+        //     .filter(item => item.type === 'wall')
+        //     .map(item => this.getMeshesThatAreInsideTheRoom(item, room)).flatten().value();
 
-        this.excludeMeshesForWorldItem([...childMeshes, ...neighbourMeshes], world);
+        this.excludeMeshesForWorldItem([...childMeshes, /*...neighbourMeshes*/], world);
 
         return Promise.resolve();
     }

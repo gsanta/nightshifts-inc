@@ -33,57 +33,57 @@ export class WallFactory implements GwmItemImporter {
 
         const rectangle = GeometryUtils.addThicknessToSegment(segment, 0.25);
 
-        const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getLine().hasEqualSlope(segment.getLine()));
+        // const [parallelEdge1, parallelEdge2] = rectangle.getEdges().filter(edge => edge.getLine().hasEqualSlope(segment.getLine()));
 
-        const wallSide1Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
-        const wallSide2Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
+        // const wallSide1Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge1, segment);
+        // const wallSide2Dim = GeometryUtils.createRectangleFromTwoOppositeSides(parallelEdge2, segment);
 
         const parentMesh = MeshBuilder.CreateBox(
                 `default-wall-container-${this.index}`,
                 {
-                    width: gwmWorldItem.dimensions.getBoundingInfo().extent[0],
-                    depth: gwmWorldItem.dimensions.getBoundingInfo().extent[1],
+                    width: rectangle.getBoundingInfo().extent[0],
+                    depth: rectangle.getBoundingInfo().extent[1],
                     height: 7.2
                 },
                 scene
             );
 
-        const mesh1 = MeshBuilder
-            .CreateBox(
-                `wall-template-left-${this.index}`,
-                {
-                    width: wallSide1Dim.getBoundingInfo().extent[0],
-                    depth: wallSide1Dim.getBoundingInfo().extent[1],
-                    height: 7.2
-                },
-                scene
-            );
+        // const mesh1 = MeshBuilder
+        //     .CreateBox(
+        //         `wall-template-left-${this.index}`,
+        //         {
+        //             width: wallSide1Dim.getBoundingInfo().extent[0],
+        //             depth: wallSide1Dim.getBoundingInfo().extent[1],
+        //             height: 7.2
+        //         },
+        //         scene
+        //     );
 
         const mat = new StandardMaterial('wallMaterial', scene);
         mat.diffuseTexture = new Texture('./assets/textures/brick.jpeg', this.scene);
-        mesh1.material = mat;
+        parentMesh.material = mat;
 
-        mesh1.parent = parentMesh;
-        mesh1.receiveShadows = true;
-        mesh1.translate(new Vector3(wallSide1Dim.getBoundingCenter().x, 0, wallSide1Dim.getBoundingCenter().y), 1);
-        const mesh2 = MeshBuilder
-            .CreateBox(
-                `wall-template-left-${this.index}`,
-                {
-                    width: wallSide2Dim.getBoundingInfo().extent[0],
-                    depth: wallSide2Dim.getBoundingInfo().extent[1],
-                    height: 7.2,
-                    faceColors: this.getFaceColors()
-                },
-                scene
-            );
+        // mesh1.parent = parentMesh;
+        // mesh1.receiveShadows = true;
+        // mesh1.translate(new Vector3(wallSide1Dim.getBoundingCenter().x, 0, wallSide1Dim.getBoundingCenter().y), 1);
+        // const mesh2 = MeshBuilder
+        //     .CreateBox(
+        //         `wall-template-left-${this.index}`,
+        //         {
+        //             width: wallSide2Dim.getBoundingInfo().extent[0],
+        //             depth: wallSide2Dim.getBoundingInfo().extent[1],
+        //             height: 7.2,
+        //             faceColors: this.getFaceColors()
+        //         },
+        //         scene
+        //     );
 
-        mesh2.parent = parentMesh;
-        mesh2.receiveShadows = true;
-        // mesh2.material = material;
-        mesh2.translate(new Vector3(wallSide2Dim.getBoundingCenter().x, 0, wallSide2Dim.getBoundingCenter().y), 1);
-        parentMesh.material = this.createMaterial2(scene);
-        parentMesh.isVisible = false;
+        // mesh2.parent = parentMesh;
+        // mesh2.receiveShadows = true;
+        // // mesh2.material = material;
+        // parentMesh.material = this.createMaterial2(scene);
+        parentMesh.translate(new Vector3(rectangle.getBoundingCenter().x, 0, rectangle.getBoundingCenter().y), 1);
+        // parentMesh.isVisible = false;
 
         this.index++;
 
@@ -92,8 +92,8 @@ export class WallFactory implements GwmItemImporter {
         parentMesh.translate(new Vector3(0, 3.6, 0), 1);
 
         parentMesh.computeWorldMatrix(true);
-        mesh1.computeWorldMatrix(true);
-        mesh2.computeWorldMatrix(true);
+        // mesh1.computeWorldMatrix(true);
+        // mesh2.computeWorldMatrix(true);
         return wall;
     }
 

@@ -40,9 +40,6 @@ const createWorldMock = (): Partial<World> => {
 const createGwmWorldItemMock = (boudingBox: Shape, dock: Direction): Partial<WorldItemInfo> => {
     return {
         dimensions: boudingBox,
-        additionalData: {
-            dock: dock
-        }
     };
 };
 

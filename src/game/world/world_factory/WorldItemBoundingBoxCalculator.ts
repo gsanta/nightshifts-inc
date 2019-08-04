@@ -42,13 +42,13 @@ export class WorldItemBoundingBoxCalculator {
         return shape.translate(new Point(translateX, translateY));
     }
 
-    private getDefaultMeshDimensions(worldItem: WorldItemInfo<AdditionalData>) {
+    private getDefaultMeshDimensions(worldItem: WorldItemInfo) {
         const width = worldItem.dimensions.getBoundingInfo().max[0] - worldItem.dimensions.getBoundingInfo().min[0];
         const height = worldItem.dimensions.getBoundingInfo().max[1] - worldItem.dimensions.getBoundingInfo().min[1];
         return new Vector2Model(width, height);
     }
 
-    private getRealMeshDimensions(mesh: Mesh, worldItem: WorldItemInfo<AdditionalData>): Vector2Model {
+    private getRealMeshDimensions(mesh: Mesh, worldItem: WorldItemInfo): Vector2Model {
         const xExtend = mesh.getBoundingInfo().boundingBox.extendSize.x * mesh.scaling.x;
         const zExtend = mesh.getBoundingInfo().boundingBox.extendSize.y * mesh.scaling.y;
 
@@ -64,10 +64,12 @@ export class WorldItemBoundingBoxCalculator {
     }
 
     private getOrientation(itemInfo: WorldItemInfo) {
-        return itemInfo.additionalData ? itemInfo.additionalData.orientation : undefined;
+        return null;
+        // return itemInfo.additionalData ? itemInfo.additionalData.orientation : undefined;
     }
 
     private getDock(itemInfo: WorldItemInfo) {
-        return itemInfo.additionalData && itemInfo.additionalData.dock !== undefined ? itemInfo.additionalData.dock : Direction.MIDDLE;
+        return null;
+        // return itemInfo.additionalData && itemInfo.additionalData.dock !== undefined ? itemInfo.additionalData.dock : Direction.MIDDLE;
     }
 }

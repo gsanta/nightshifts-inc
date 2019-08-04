@@ -13,13 +13,13 @@ export class EnemyCreationService {
 
         const rooms = world.getWorldItemsByName('room');
 
-        if (rooms.length > 1) {
-            this.createEnemy(rooms[1]);
-        }
+        // if (rooms.length > 1) {
+        //     this.createEnemy(rooms[1]);
+        // }
 
-        if (rooms.length > 2) {
-            this.createEnemy(rooms[2]);
-        }
+        // if (rooms.length > 2) {
+        //     this.createEnemy(rooms[2]);
+        // }
     }
 
 
