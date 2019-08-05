@@ -24,7 +24,7 @@ import { CameraSetup } from '../../../game/setup/CameraSetup';
 import { MainLightSetup } from '../../../game/setup/MainLightSetup';
 import { ServiceFacade } from '../../../game/services/ServiceFacade';
 
-const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.1.gwm');
+const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
 const mapStateToProps = (state: AppState) => {
     return {

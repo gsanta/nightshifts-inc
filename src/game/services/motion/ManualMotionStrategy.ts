@@ -42,7 +42,6 @@ export class ManualMotionStrategy {
         if (rotationDirection === 'RIGHT') {
             return Math.PI * 2 * distance;
         } else if (rotationDirection === 'LEFT') {
-            console.log( -1 * Math.PI * 2 * distance)
             return -1 * Math.PI * 2 * distance;
         }
 

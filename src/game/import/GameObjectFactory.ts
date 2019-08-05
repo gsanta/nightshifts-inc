@@ -27,6 +27,11 @@ export class GameObjectFactory {
             case 'empty':
                 return new GameObject(worldItemInfo.mesh, worldItemInfo.dimensions, {type: 'empty'});
             case 'washbasin':
+            case 'table':
+            case 'cupboard':
+            case 'bathtub':
+            case 'chair':
+            case 'bed':
                 return new GameObject(worldItemInfo.mesh, worldItemInfo.dimensions, {type: worldItemInfo.name});
             default:
                 throw new Error('Unsupported type: ' + worldItemInfo.type);

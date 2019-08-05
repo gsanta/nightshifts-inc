@@ -69,6 +69,12 @@ export class WorldImporter {
                         fileDescription: {
                             path: 'models/player/',
                             fileName: 'player.babylon',
+                            materials: [
+                                'models/player/material/0.jpg',
+                                'models/player/material/1.jpg',
+                                'models/player/material/2.jpg',
+                                'models/player/material/3.jpg'
+                            ],
                             scale: 0.28
                         }
                     },
@@ -91,12 +97,63 @@ export class WorldImporter {
                         }
                     },
                     {
+                        type: 'bed',
+                        model: 'file',
+                        fileDescription: {
+                            path: 'models/furniture_1/',
+                            fileName: 'bed.babylon',
+                            materials: ['models/furniture_1/material/beds.png'],
+                            scale: 0.03
+                        }
+                    },
+                    {
                         type: 'washbasin',
                         model: 'file',
                         fileDescription: {
                             path: 'models/furniture_3/',
                             fileName: 'wash_basin.babylon',
+                            materials: ['models/furniture_3/material/bathroom.png'],
                             scale: 3
+                        }
+                    },
+                    {
+                        type: 'bathtub',
+                        model: 'file',
+                        fileDescription: {
+                            path: 'models/furniture_3/',
+                            fileName: 'bathtub.babylon',
+                            materials: ['models/furniture_3/material/bathroom.png'],
+                            scale: 3
+                        }
+                    },
+                    {
+                        type: 'chair',
+                        model: 'file',
+                        fileDescription: {
+                            path: 'models/furniture_3/',
+                            fileName: 'chair.babylon',
+                            materials: ['models/furniture_3/material/bathroom.png'],
+                            scale: 3
+                        }
+                    },
+                    {
+                        type: 'table',
+                        model: 'file',
+                        fileDescription: {
+                            path: 'models/furniture_2/',
+                            fileName: 'table.babylon',
+                            materials: ['models/furniture_2/material/furniture.png'],
+                            scale: 0.03
+                        }
+                    },
+                    {
+                        type: 'cupboard',
+                        model: 'file',
+                        fileDescription: {
+                            path: 'models/furniture_2/',
+                            fileName: 'cupboard.babylon',
+                            materials: ['models/furniture_2/material/furniture.png'],
+                            scale: 0.03
                         }
                     }
                 ]
