@@ -1,8 +1,7 @@
 import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine } from '@babylonjs/core';
-import { Vector2Model } from '../model/utils/Vector2Model';
-import { Tool } from '../tools/Tool';
-import { WorldFactory } from './world_factory/WorldFactory';
-import { GameObject } from './world_items/item_types/GameObject';
+import { Vector2Model } from '../utils/Vector2Model';
+import { Tool } from '../../tools/Tool';
+import { GameObject } from './GameObject';
 
 export interface WorldConfig {
     displayBoundingBoxes: boolean;
@@ -29,8 +28,6 @@ export class World {
     public getWorldItemsByName(name: string): GameObject[] {
         return this.worldItems.filter(gameObject => gameObject.type === name);
     }
-
-    public factory: WorldFactory;
 
     public config: WorldConfig = {
         displayBoundingBoxes: false

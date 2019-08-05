@@ -1,4 +1,4 @@
-import { World } from '../world/World';
+import { World } from '../model/game_objects/World';
 import { CameraSetup } from './CameraSetup';
 import { MainLightSetup } from './MainLightSetup';
 

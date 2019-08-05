@@ -1,5 +1,5 @@
-import { World } from '../world/World';
-import { GameObject } from '../world/world_items/item_types/GameObject';
+import { World } from '../model/game_objects/World';
+import { GameObject } from '../model/game_objects/GameObject';
 import { StandardMaterial, Color3 } from '@babylonjs/core';
 import find from 'lodash/find';
 import { Polygon } from '@nightshifts.inc/geometry';
@@ -36,9 +36,9 @@ export class EnemyCreationService {
 
         const rect = Polygon.createRectangle(enemyPosition.x, enemyPosition.z, 1, 1);
 
-        const enemy =  this.world.factory.createEnemy(rect, this.world);
-        room.children.push(enemy);
+        // const enemy =  this.world.factory.createEnemy(rect, this.world);
+        // room.children.push(enemy);
 
-        return enemy;
+        return null;
     }
 }

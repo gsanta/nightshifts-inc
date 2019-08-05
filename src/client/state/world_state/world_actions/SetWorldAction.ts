@@ -1,5 +1,5 @@
 import { ActionType } from '../../ActionType';
-import { World } from '../../../../game/world/World';
+import { World } from '../../../../game/model/game_objects/World';
 import { ServiceFacade } from '../../../../game/services/ServiceFacade';
 
 class SetWorldActions {

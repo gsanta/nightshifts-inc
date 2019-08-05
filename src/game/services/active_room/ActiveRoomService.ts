@@ -1,11 +1,11 @@
-import { GameObject } from '../../world/world_items/item_types/GameObject';
+import { GameObject } from '../../model/game_objects/GameObject';
 import { Vector3 } from '@babylonjs/core';
-import { World } from '../../world/World';
+import { World } from '../../model/game_objects/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 import _ from 'lodash';
 import { Polygon } from '@nightshifts.inc/geometry';
-import { Room } from '../../world/world_items/item_types/Room';
+import { Room } from '../../model/game_objects/Room';
 
 export class ActiveRoomService {
     private world: World;

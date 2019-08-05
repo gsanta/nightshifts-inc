@@ -1,6 +1,6 @@
 import { Mesh, Skeleton, Vector3 } from '@babylonjs/core';
 import { Point, Shape } from '@nightshifts.inc/geometry';
-import { VectorModel } from '../../../model/core/VectorModel';
+import { VectorModel } from '../core/VectorModel';
 
 
 export interface GameObjectConfig {

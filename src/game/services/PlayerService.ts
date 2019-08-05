@@ -1,7 +1,7 @@
-import { GameObject } from '../world/world_items/item_types/GameObject';
+import { GameObject } from '../model/game_objects/GameObject';
 import { VectorModel } from '../model/core/VectorModel';
 import { ServiceFacade } from './ServiceFacade';
-import { World } from '../world/World';
+import { World } from '../model/game_objects/World';
 
 export class PlayerService {
     private player: GameObject;

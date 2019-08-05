@@ -1,10 +1,10 @@
 import { Light, Mesh } from '@babylonjs/core';
-import { GameObject } from '../../world/world_items/item_types/GameObject';
+import { GameObject } from '../../model/game_objects/GameObject';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { expect } from 'chai';
-import { World } from '../../world/World';
-import { Room } from '../../world/world_items/item_types/Room';
-import { Border } from '../../world/world_items/item_types/Border';
+import { World } from '../../model/game_objects/World';
+import { Room } from '../../model/game_objects/Room';
+import { Border } from '../../model/game_objects/Border';
 declare const describe, beforeEach, afterEach, it;
 
 const createWorldMock = (excludedMeshes: Mesh[]): World => {

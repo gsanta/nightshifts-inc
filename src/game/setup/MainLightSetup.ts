@@ -1,5 +1,5 @@
 import { Scene, HemisphericLight, Vector3, Color3, PointLight, Light } from '@babylonjs/core';
-import { GameObject } from '../world/world_items/item_types/GameObject';
+import { GameObject } from '../model/game_objects/GameObject';
 
 export class MainLightSetup {
 

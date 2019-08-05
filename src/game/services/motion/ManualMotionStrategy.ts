@@ -1,7 +1,7 @@
 import { VectorModel } from '../../model/core/VectorModel';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
 import { Scene } from '@babylonjs/core';
-import { GameObject } from '../../world/world_items/item_types/GameObject';
+import { GameObject } from '../../model/game_objects/GameObject';
 import { RotationDirection, MoveDirection } from '../KeyboardHandler';
 
 export class ManualMotionStrategy {

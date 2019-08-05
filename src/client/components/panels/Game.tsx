@@ -2,14 +2,13 @@ import * as React from 'react';
 import { GameEngine } from '../../../game/GameEngine';
 import {connect} from 'react-redux';
 import { AppState } from '../../state/app_state/AppState';
-import { World } from '../../../game/world/World';
+import { World } from '../../../game/model/game_objects/World';
 import UpdateWorldActions from '../../state/world_state/world_actions/UpdateWorldActions';
 import GetWorldActions from '../../state/world_state/world_actions/GetWorldActions';
 import colors from '../miscellaneous/colors';
 import { Color4, CannonJSPlugin, Vector3, OimoJSPlugin, PhysicsViewer } from '@babylonjs/core';
 import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
-import { WorldFactoryProducer } from '../../../game/world/world_factory/WorldFactoryProducer';
-import { WorldImporter } from '../../../game/world/world_import/WorldImporter';
+import { WorldImporter } from '../../../game/import/WorldImporter';
 import { Engine } from '@babylonjs/core';
 import { Scene } from '@babylonjs/core';
 import { HealthWidget } from '../widgets/health_widget/HealthWidget';
@@ -79,7 +78,7 @@ class Game extends React.Component<GameProps, GameState> {
             scene
         });
 
-        const worldImporter = new WorldImporter(scene, new WorldFactoryProducer());
+        const worldImporter = new WorldImporter(scene);
         worldImporter
             .import(gwmGameWorldMap)
             .then((world) => {

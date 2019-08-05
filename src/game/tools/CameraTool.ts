@@ -1,6 +1,6 @@
 import { FreeCamera, Scene, SpotLight, Tools, Vector3 } from '@babylonjs/core';
 import find from 'lodash/find';
-import { World } from '../world/World';
+import { World } from '../model/game_objects/World';
 import { Tool } from './Tool';
 
 export class CameraTool implements Tool {

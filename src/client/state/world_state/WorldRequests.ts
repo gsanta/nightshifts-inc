@@ -2,7 +2,7 @@ import { TokenHandler } from '../TokenHandler';
 import { Promise } from 'es6-promise';
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../settings_state/model/User';
-import { World } from '../../../game/world/World';
+import { World } from '../../../game/model/game_objects/World';
 
 export class WorldRequests {
     private jsonWorldExporter: any;

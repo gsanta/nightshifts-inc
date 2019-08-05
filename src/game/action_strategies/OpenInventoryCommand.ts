@@ -1,5 +1,5 @@
 import { WorldItemActionCommand } from './WorldItemActionCommand';
-import { ToolService } from '../../../services/ToolService';
+import { ToolService } from '../services/ToolService';
 
 export class OpenInventoryCommand implements WorldItemActionCommand {
     private toolService: ToolService;

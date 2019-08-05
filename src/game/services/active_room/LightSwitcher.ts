@@ -1,5 +1,5 @@
-import { World } from '../../world/World';
-import { GameObject } from '../../world/world_items/item_types/GameObject';
+import { World } from '../../model/game_objects/World';
+import { GameObject } from '../../model/game_objects/GameObject';
 
 export interface LightSwitcher {
     on(room: GameObject, world: World): Promise<void>;

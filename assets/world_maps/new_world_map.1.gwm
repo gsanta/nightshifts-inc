@@ -4,15 +4,15 @@ WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 W###################################################W
 W###################################################W
 W###################################################W
-WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWDDDDWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 W##########X##W###########W#############W###########W
 W#############W###########W#############W###########W
 W#############W###########W#############W###########W
 W#############W###########W#############W###########W
-W#############WWWWWWWWWWWWW#############WWWWWWWWWWWWW
-W#########################W#########################W
-W#########################W#########################W
-W#########################W#########################W
+I#############WWWWWWWWWWWWW#############WWWWWWWWWWWWW
+I#########################W#########################W
+W############SSS##########W#########################W
+W############SSS##########W#########################W
 WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 
 `
@@ -24,6 +24,8 @@ W = wall
 X = player
 D = door
 E = bed
+I = window
+S = washbasin
 
 `
 

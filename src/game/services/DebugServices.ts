@@ -1,5 +1,5 @@
-import { World } from '../world/World';
-import { GameObject } from '../world/world_items/item_types/GameObject';
+import { World } from '../model/game_objects/World';
+import { GameObject } from '../model/game_objects/GameObject';
 import { LightSwitcher } from './active_room/LightSwitcher';
 import { NormalLightSwitcher } from './active_room/NormalLightSwitcher';
 import { ServiceFacade } from './ServiceFacade';

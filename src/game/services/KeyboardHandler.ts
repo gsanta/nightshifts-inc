@@ -1,7 +1,7 @@
 import { MotionStrategy } from './motion/MotionStrategy';
 import { ServiceFacade } from './ServiceFacade';
 import { ManualMotionStrategy } from './motion/ManualMotionStrategy';
-import { World } from '../world/World';
+import { World } from '../model/game_objects/World';
 import { Axis, Space } from '@babylonjs/core';
 
 export enum Keys {

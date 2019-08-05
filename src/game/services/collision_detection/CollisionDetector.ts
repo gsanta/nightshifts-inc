@@ -1,6 +1,6 @@
 import { Vector3, Scene, AbstractMesh, Ray, Mesh } from '@babylonjs/core';
 import { VectorModel } from '../../model/core/VectorModel';
-import { GameObject } from '../../world/world_items/item_types/GameObject';
+import { GameObject } from '../../model/game_objects/GameObject';
 
 export interface CollisionInfo {
     mesh: AbstractMesh | null;

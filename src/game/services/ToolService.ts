@@ -1,4 +1,4 @@
-import { World } from '../world/World';
+import { World } from '../model/game_objects/World';
 import { ToolIcon } from '../../client/components/dialogs/inventory_dialog/tools_icons/ToolIcon';
 import _ from 'lodash';
 

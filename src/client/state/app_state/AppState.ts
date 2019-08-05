@@ -1,4 +1,4 @@
-import { World } from '../../../game/world/World';
+import { World } from '../../../game/model/game_objects/World';
 import { DebugOptions } from '../../components/dialogs/debug_dialog/DebugOptions';
 import { ToolIcon } from '../../components/dialogs/inventory_dialog/tools_icons/ToolIcon';
 import { ErrorMessage } from '../../components/miscellaneous/ErrorMessage';

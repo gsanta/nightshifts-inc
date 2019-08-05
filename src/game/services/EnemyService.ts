@@ -1,5 +1,5 @@
-import { World } from '../world/World';
-import { GameObject } from '../world/world_items/item_types/GameObject';
+import { World } from '../model/game_objects/World';
+import { GameObject } from '../model/game_objects/GameObject';
 import { VectorModel } from '../model/core/VectorModel';
 
 type enemyMotionState = 'idle' | 'attacking' | 'returning';

@@ -1,7 +1,7 @@
 import { Tool } from './Tool';
 import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from '@babylonjs/core';
-import { World } from '../world/World';
-import { GameObject } from '../world/world_items/item_types/GameObject';
+import { World } from '../model/game_objects/World';
+import { GameObject } from '../model/game_objects/GameObject';
 
 export class FlashlightTool implements Tool {
     public name = 'flashlight';

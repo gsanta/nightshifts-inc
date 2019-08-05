@@ -1,7 +1,7 @@
 import { Tool } from './Tool';
 import { Scene, Mesh, StandardMaterial, MeshBuilder, Axis, Space, Color3 } from '@babylonjs/core';
 import { GameConstants } from '../GameConstants';
-import { GameObject } from '../world/world_items/item_types/GameObject';
+import { GameObject } from '../model/game_objects/GameObject';
 const colors = GameConstants.colors;
 
 export class ThermometerTool implements Tool {

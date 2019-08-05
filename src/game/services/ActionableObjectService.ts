@@ -1,13 +1,13 @@
-import { World } from '../world/World';
+import { World } from '../model/game_objects/World';
 import _ from 'lodash';
-import { GameObject } from '../world/world_items/item_types/GameObject';
+import { GameObject } from '../model/game_objects/GameObject';
 import { VectorModel } from '../model/core/VectorModel';
-import { OpenDoorCommand } from '../world/world_items/action_strategies/OpenDoorCommand';
-import { OpenWindowCommand } from '../world/world_items/action_strategies/OpenWindowCommand';
-import { OpenInventoryCommand } from '../world/world_items/action_strategies/OpenInventoryCommand';
+import { OpenDoorCommand } from '../action_strategies/OpenDoorCommand';
+import { OpenWindowCommand } from '../action_strategies/OpenWindowCommand';
+import { OpenInventoryCommand } from '../action_strategies/OpenInventoryCommand';
 import { ServiceFacade } from './ServiceFacade';
-import { Room } from '../world/world_items/item_types/Room';
-import { Border } from '../world/world_items/item_types/Border';
+import { Room } from '../model/game_objects/Room';
+import { Border } from '../model/game_objects/Border';
 
 
 export class ActionableObjectService {

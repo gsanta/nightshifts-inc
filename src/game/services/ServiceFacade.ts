@@ -1,4 +1,4 @@
-import { World } from '../world/World';
+import { World } from '../model/game_objects/World';
 import { PlayerService } from './PlayerService';
 import { KeyboardHandler } from './KeyboardHandler';
 import { ToolService } from './ToolService';

@@ -1,8 +1,8 @@
 import { LightSwitcher } from './LightSwitcher';
-import { World } from '../../world/World';
+import { World } from '../../model/game_objects/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
-import { GameObject } from '../../world/world_items/item_types/GameObject';
-import { Room } from '../../world/world_items/item_types/Room';
+import { GameObject } from '../../model/game_objects/GameObject';
+import { Room } from '../../model/game_objects/Room';
 
 export class FlashingLightSwitcher implements LightSwitcher {
     private normalLightSwitcher: NormalLightSwitcher;
