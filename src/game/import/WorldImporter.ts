@@ -65,8 +65,9 @@ export class WorldImporter {
                 [
                     {
                         type: 'player',
-                        model: 'file' as any,
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/player/',
                             fileName: 'player.babylon',
                             materials: [
@@ -80,26 +81,31 @@ export class WorldImporter {
                     },
                     {
                         type: 'door',
-                        model: 'file',
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/',
                             fileName: 'door.babylon',
+                            materials: [],
                             scale: 1
                         }
                     },
                     {
                         type: 'window',
-                        model: 'file',
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/',
                             fileName: 'window.babylon',
+                            materials: [],
                             scale: 1
                         }
                     },
                     {
                         type: 'bed',
-                        model: 'file',
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/furniture_1/',
                             fileName: 'bed.babylon',
                             materials: ['models/furniture_1/material/beds.png'],
@@ -108,8 +114,9 @@ export class WorldImporter {
                     },
                     {
                         type: 'washbasin',
-                        model: 'file',
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/furniture_3/',
                             fileName: 'wash_basin.babylon',
                             materials: ['models/furniture_3/material/bathroom.png'],
@@ -118,8 +125,9 @@ export class WorldImporter {
                     },
                     {
                         type: 'bathtub',
-                        model: 'file',
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/furniture_3/',
                             fileName: 'bathtub.babylon',
                             materials: ['models/furniture_3/material/bathroom.png'],
@@ -128,8 +136,9 @@ export class WorldImporter {
                     },
                     {
                         type: 'chair',
-                        model: 'file',
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/furniture_3/',
                             fileName: 'chair.babylon',
                             materials: ['models/furniture_3/material/bathroom.png'],
@@ -138,8 +147,9 @@ export class WorldImporter {
                     },
                     {
                         type: 'table',
-                        model: 'file',
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/furniture_2/',
                             fileName: 'table.babylon',
                             materials: ['models/furniture_2/material/furniture.png'],
@@ -148,8 +158,9 @@ export class WorldImporter {
                     },
                     {
                         type: 'cupboard',
-                        model: 'file',
-                        fileDescription: {
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/furniture_2/',
                             fileName: 'cupboard.babylon',
                             materials: ['models/furniture_2/material/furniture.png'],
