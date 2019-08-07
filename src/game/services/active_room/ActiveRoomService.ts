@@ -26,14 +26,12 @@ export class ActiveRoomService {
             this.lightSwitcher.off(<Room> room, world);
         });
 
-        this.calcActiveRoomAtPoint(this.world.player.mesh.getAbsolutePosition());
+        this.calcActiveRoomAtPoint(this.world.player.meshes[0].getAbsolutePosition());
     }
 
 
     public calcActiveRoomAtPoint(point: Vector3) {
         const newActiveRoom = this.getActiveRoomAtPoint(point);
-
-        console.log(newActiveRoom.label)
 
         if (newActiveRoom && newActiveRoom !== this.activeRoom) {
             if (this.activeRoom) {
@@ -63,11 +61,11 @@ export class ActiveRoomService {
         _.chain(world.getWorldItemsByName('room'))
             .without(activeRoom)
             .forEach((room: GameObject) => {
-                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.mesh.isVisible = true);
+                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.meshes[0].isVisible = true);
             })
             .value();
 
-        activeRoom.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.mesh.isVisible = false);
+        activeRoom.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.meshes[0].isVisible = false);
     }
 
     private deactivatePrevActiveRoom() {

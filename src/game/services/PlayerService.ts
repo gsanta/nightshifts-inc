@@ -13,12 +13,12 @@ export class PlayerService {
     }
 
     public move(delta: VectorModel) {
-        const absolutePos = this.player.mesh.getAbsolutePosition();
+        const absolutePos = this.player.meshes[0].getAbsolutePosition();
         const pos = new VectorModel(absolutePos.x, absolutePos.y, absolutePos.z);
         this.player.setPosition(pos.add(delta));
 
         this.serviceFacade.actionableObjectService.calcClosestActionableObject();
-        this.serviceFacade.activeRoomService.calcActiveRoomAtPoint(this.player.mesh.getAbsolutePosition());
+        this.serviceFacade.activeRoomService.calcActiveRoomAtPoint(this.player.meshes[0].getAbsolutePosition());
     }
 
     public doAction() {

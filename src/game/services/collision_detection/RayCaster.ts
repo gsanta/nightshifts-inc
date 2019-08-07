@@ -29,7 +29,7 @@ export class RayCaster {
             this.prevRayHelper = rayHelper;
         }
 
-        return hit.pickedMesh === creatureToTestForCollision.mesh;
+        return hit.pickedMesh === creatureToTestForCollision.meshes[0];
     }
 
     public getCollidingBody() {

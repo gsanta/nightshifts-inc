@@ -7,7 +7,7 @@ import { Border } from './Border';
 export class Room extends GameObject {
     borders: Border[] = [];
 
-    constructor(mesh: Mesh, boundingBox: Shape) {
-        super(mesh, boundingBox, {type: 'room'})
+    constructor(meshes: Mesh[], boundingBox: Shape) {
+        super(meshes, boundingBox, {type: 'room'})
     }
 }

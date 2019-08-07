@@ -36,7 +36,9 @@ export class EyeSensor implements Sensor {
 
         const angle = negativeZUnitVector.getAngleToVectorOnXZPlane(playerToEnemyVector);
 
-        return EyeSensor.isAngleBetweenFieldOfView(this.player.getRotation().y, this.fieldOfViewAngle, angle);
+        const eulerAngles = this.player.meshes[0].rotationQuaternion.toEulerAngles();
+
+        return EyeSensor.isAngleBetweenFieldOfView(eulerAngles.y, this.fieldOfViewAngle, angle);
     }
 
     private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: GameObject):  boolean {

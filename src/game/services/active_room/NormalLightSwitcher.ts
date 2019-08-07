@@ -12,7 +12,7 @@ import { Room } from '../../model/game_objects/Room';
 export class NormalLightSwitcher implements LightSwitcher {
 
     public on(room: Room, world: World): Promise<void> {
-        const childMeshes = _.chain([room, ...room.children]).map(item => [item.mesh]).flatten().value();
+        const childMeshes = _.chain([room, ...room.children]).map(item => [item.meshes[0]]).flatten().value();
         // const neighbourMeshes = _.chain(room.borders)
         //     .filter(item => item.type === 'wall')
         //     .map(item => this.getMeshesThatAreInsideTheRoom(item, room)).flatten().value();
@@ -23,14 +23,14 @@ export class NormalLightSwitcher implements LightSwitcher {
     }
 
     private getMeshesThatAreInsideTheRoom(wall: GameObject, room: GameObject): AbstractMesh[] {
-        if (wall.mesh.getChildMeshes().length !== 2) {
+        if (wall.meshes[0].getChildMeshes().length !== 2) {
             throw new Error(
                 `This method should be used for 'border' items, where the two children represent the two sides, but it has` +
-                `${wall.mesh.getChildMeshes().length} children`
+                `${wall.meshes[0].getChildMeshes().length} children`
             );
         }
 
-        return wall.mesh.getChildMeshes().filter(mesh => this.isMeshInsideTheRoom(mesh, room));
+        return wall.meshes[0].getChildMeshes().filter(mesh => this.isMeshInsideTheRoom(mesh, room));
     }
 
     private isMeshInsideTheRoom(mesh: AbstractMesh, room: GameObject) {
@@ -52,7 +52,7 @@ export class NormalLightSwitcher implements LightSwitcher {
     }
 
     public off(room: Room, world: World): Promise<void> {
-        const childMeshes = _.chain([room, ...room.children]).map(item => [item.mesh]).flatten().value();
+        const childMeshes = _.chain([room, ...room.children]).map(item => [item.meshes[0]]).flatten().value();
 
         this.includeMeshesForWorldItem([...childMeshes], world);
 

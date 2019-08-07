@@ -166,6 +166,15 @@ export class WorldImporter {
                             materials: ['models/furniture_2/material/furniture.png'],
                             scale: 0.03
                         }
+                    },
+                    {
+                        type: 'room',
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'room-descriptor' as 'room-descriptor',
+                            roofMaterialPath: './assets/textures/roof.jpeg',
+                            roofY: 7.21
+                        }
                     }
                 ]
             )

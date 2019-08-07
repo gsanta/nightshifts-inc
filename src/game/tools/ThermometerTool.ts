@@ -18,7 +18,7 @@ export class ThermometerTool implements Tool {
         const material = new StandardMaterial('thermometer-material', scene);
         material.diffuseColor = Color3.FromHexString(colors.window);
         this.mesh.material = this.materials[0];
-        this.mesh.parent = player.mesh;
+        this.mesh.parent = player.meshes[0];
         this.mesh.setEnabled(false);
     }
 

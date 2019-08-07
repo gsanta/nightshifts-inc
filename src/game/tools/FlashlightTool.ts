@@ -15,7 +15,7 @@ export class FlashlightTool implements Tool {
 
     public enable() {
         this.flashLight.setEnabled(true);
-        this.flashLight.parent = this.player.mesh;
+        this.flashLight.parent = this.player.meshes[0];
     }
 
     public disable() {
@@ -47,21 +47,21 @@ export class FlashlightTool implements Tool {
     // TODO refactor this to make it more general
     private addMeshesToShadowGenerator(shadowGenerator: ShadowGenerator, world: World) {
         world.worldItems.filter(gameObject => gameObject.type === 'window').forEach(item => {
-            shadowGenerator.getShadowMap().renderList.push(item.mesh.getChildMeshes()[0]);
-            shadowGenerator.getShadowMap().renderList.push(item.mesh.getChildMeshes()[1]);
+            shadowGenerator.getShadowMap().renderList.push(item.meshes[0].getChildMeshes()[0]);
+            shadowGenerator.getShadowMap().renderList.push(item.meshes[0].getChildMeshes()[1]);
         });
 
         world.worldItems.filter(gameObject => gameObject.type === 'room').forEach(room => {
-            shadowGenerator.getShadowMap().renderList.push(room.mesh);
+            shadowGenerator.getShadowMap().renderList.push(room.meshes[0]);
         });
 
         world.worldItems.filter(gameObject => gameObject.type === 'door').forEach(door => {
-            shadowGenerator.getShadowMap().renderList.push(door.mesh.getChildMeshes()[0]);
-            shadowGenerator.getShadowMap().renderList.push(door.mesh.getChildMeshes()[1]);
+            shadowGenerator.getShadowMap().renderList.push(door.meshes[0].getChildMeshes()[0]);
+            shadowGenerator.getShadowMap().renderList.push(door.meshes[0].getChildMeshes()[1]);
         });
 
         world.worldItems.filter(gameObject => gameObject.type === 'empty').forEach(emptyArea => {
-            shadowGenerator.getShadowMap().renderList.push(emptyArea.mesh);
+            shadowGenerator.getShadowMap().renderList.push(emptyArea.meshes[0]);
         });
     }
 }

@@ -76,7 +76,7 @@ export class ManualMotionStrategy {
     }
 
     private calcNextPositionDeltaConsideringRotation(delta: VectorModel) {
-        let rotation = this.player.mesh.rotationQuaternion.toEulerAngles().y;
+        let rotation = this.player.meshes[0].rotationQuaternion.toEulerAngles().y;
         const verticalDirection = Math.sin(rotation) * delta.z;
         const horizontalDirection = Math.cos(rotation) * delta.z;
 

@@ -17,7 +17,7 @@ export class CollisionDetector {
     }
 
     public collidesWith(otherMesh: Mesh): boolean {
-        return this.creature.mesh.intersectsMesh(otherMesh);
+        return this.creature.meshes[0].intersectsMesh(otherMesh);
     }
 
     public getAdjustedDelta(delta: VectorModel): VectorModel {

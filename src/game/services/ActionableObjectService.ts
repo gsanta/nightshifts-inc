@@ -1,13 +1,12 @@
-import { World } from '../model/game_objects/World';
 import _ from 'lodash';
-import { GameObject } from '../model/game_objects/GameObject';
-import { VectorModel } from '../model/core/VectorModel';
 import { OpenDoorCommand } from '../action_strategies/OpenDoorCommand';
-import { OpenWindowCommand } from '../action_strategies/OpenWindowCommand';
 import { OpenInventoryCommand } from '../action_strategies/OpenInventoryCommand';
-import { ServiceFacade } from './ServiceFacade';
-import { Room } from '../model/game_objects/Room';
+import { OpenWindowCommand } from '../action_strategies/OpenWindowCommand';
 import { Border } from '../model/game_objects/Border';
+import { GameObject } from '../model/game_objects/GameObject';
+import { Room } from '../model/game_objects/Room';
+import { World } from '../model/game_objects/World';
+import { ServiceFacade } from './ServiceFacade';
 
 
 export class ActionableObjectService {
@@ -24,16 +23,16 @@ export class ActionableObjectService {
         const gameObject = this.getClosestActivatableWorldItem(this.world);
         this.currentActivatableItem = gameObject;
 
-        const prevItem = _.find(this.world.worldItems, item => !item.mesh || item.mesh.isVisible === true);
+        const prevItem = _.find(this.world.worldItems, item => !item.meshes[0] || item.meshes[0].isVisible === true);
 
-        if (prevItem && !this.world.config.displayBoundingBoxes && prevItem.mesh) {
-            prevItem.mesh.isVisible = false;
+        if (prevItem && !this.world.config.displayBoundingBoxes && prevItem.meshes[0]) {
+            prevItem.meshes[0].isVisible = false;
         }
 
         const activeRoom = <Room> _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
 
         if (activeRoom.children.indexOf(gameObject) !== -1 || activeRoom.borders.indexOf(<Border> gameObject) !== -1) {
-            gameObject.mesh.isVisible = true;
+            gameObject.meshes[0].isVisible = true;
         }
     }
 

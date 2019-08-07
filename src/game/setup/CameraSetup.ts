@@ -12,7 +12,7 @@ export class CameraSetup {
         camera.cameraAcceleration = 0.05;
         camera.maxCameraSpeed = 20;
 
-        camera.lockedTarget = player.mesh;
+        camera.lockedTarget = player.meshes[0];
 
         return camera;
     }

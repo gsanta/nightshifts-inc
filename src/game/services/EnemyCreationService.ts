@@ -28,7 +28,7 @@ export class EnemyCreationService {
 
         const material = new StandardMaterial('empty-area-material', this.world.scene);
         material.diffuseColor = Color3.FromHexString('00FF00');
-        emptyArea.mesh.material = material;
+        emptyArea.meshes[0].material = material;
 
         const centerPoint = emptyArea.boundingBox.getBoundingCenter();
         const vector3 = new VectorModel(centerPoint.x, 0, centerPoint.y);

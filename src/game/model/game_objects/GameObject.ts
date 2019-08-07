@@ -25,7 +25,7 @@ export class GameObject {
 
     isActive: boolean;
 
-    mesh?: Mesh;
+    meshes: Mesh[];
     animatedMeshes: Mesh[] = [];
     skeleton?: Skeleton;
 
@@ -45,9 +45,9 @@ export class GameObject {
 
     boundingBox: Shape;
 
-    constructor(mesh: Mesh, boundingBox: Shape, worldItemConfig?: Partial<GameObjectConfig>) {
+    constructor(meshes: Mesh[], boundingBox: Shape, worldItemConfig?: Partial<GameObjectConfig>) {
         worldItemConfig = {...defaulGameObjectConfig, ...worldItemConfig};
-        this.mesh = mesh;
+        this.meshes = meshes;
         this.boundingBox = boundingBox;
         this.type = worldItemConfig.type;
         this.children = [...worldItemConfig.children];
@@ -55,8 +55,8 @@ export class GameObject {
     }
 
     setPosition(position: VectorModel): void {
-        this.mesh.position = new Vector3(position.x, this.mesh.getAbsolutePosition().y, position.z);
-        const center = this.mesh.getBoundingInfo().boundingSphere.centerWorld;
+        this.meshes[0].position = new Vector3(position.x, this.meshes[0].getAbsolutePosition().y, position.z);
+        const center = this.meshes[0].getBoundingInfo().boundingSphere.centerWorld;
         this.boundingBox = this.boundingBox.setPosition(new Point(center.x, center.z));
 
         if (this.boundingMesh) {
@@ -64,23 +64,14 @@ export class GameObject {
         }
     }
 
-    getHeight(): number {
-        return this.mesh.getBoundingInfo().boundingBox.maximumWorld.y;
-    }
-
-    getRotation(): VectorModel {
-        const vector = this.mesh.rotationQuaternion.toEulerAngles();
-        return new VectorModel(vector.x, vector.y, vector.z);
-    }
-
     intersectsWorldItem(otherWorldItem: GameObject) {
-        return this.mesh.intersectsMesh(otherWorldItem.mesh);
+        return this.meshes[0].intersectsMesh(otherWorldItem.meshes[0]);
     }
 
     setBoudingBox(shape: Shape) {
         this.boundingBox = shape;
         const center = shape.getBoundingCenter();
-        this.setPosition(new VectorModel(center.x, this.mesh.position.y, center.y));
+        this.setPosition(new VectorModel(center.x, this.meshes[0].position.y, center.y));
         this.boundingBox = shape;
     }
 }
