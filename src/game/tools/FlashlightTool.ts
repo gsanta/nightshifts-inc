@@ -1,5 +1,5 @@
 import { Tool } from './Tool';
-import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from '@babylonjs/core';
+import { SpotLight, Scene, ShadowGenerator, Vector3, Color3 } from 'babylonjs';
 import { World } from '../model/game_objects/World';
 import { GameObject } from '../model/game_objects/GameObject';
 

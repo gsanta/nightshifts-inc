@@ -1,4 +1,4 @@
-import { AbstractMesh } from '@babylonjs/core';
+import { AbstractMesh } from 'babylonjs';
 import { Polygon } from '@nightshifts.inc/geometry';
 import * as _ from 'lodash';
 import { World } from '../../model/game_objects/World';

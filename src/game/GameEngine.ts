@@ -1,4 +1,4 @@
-import { Scene, Engine } from '@babylonjs/core';
+import { Scene, Engine } from 'babylonjs';
 import { World } from './model/game_objects/World';
 
 (<any> window).earcut = require('earcut');

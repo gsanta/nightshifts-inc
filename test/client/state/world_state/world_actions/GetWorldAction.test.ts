@@ -1,8 +1,8 @@
-import GetWorldActions from './GetWorldActions';
+import GetWorldActions from '../../../../../src/client/state/world_state/world_actions/GetWorldActions';
 import { expect } from 'chai';
 import { take, put, call, takeEvery } from 'redux-saga/effects';
-import { ActionType } from '../../ActionType';
-import { WorldRequests } from '../WorldRequests';
+import { ActionType } from '../../../../../src/client/state/ActionType';
+import { WorldRequests } from '../../../../../src/client/state/world_state/WorldRequests';
 import * as sinon from 'sinon';
 declare const describe, beforeEach, afterEach, it;
 

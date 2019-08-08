@@ -1,4 +1,4 @@
-import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine } from '@babylonjs/core';
+import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine } from 'babylonjs';
 import { Vector2Model } from '../utils/Vector2Model';
 import { Tool } from '../../tools/Tool';
 import { GameObject } from './GameObject';

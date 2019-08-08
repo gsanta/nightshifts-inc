@@ -1,6 +1,6 @@
 import { VectorModel } from '../../model/core/VectorModel';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
-import { Scene } from '@babylonjs/core';
+import { Scene } from 'babylonjs';
 import { GameObject } from '../../model/game_objects/GameObject';
 import { RotationDirection, MoveDirection } from '../KeyboardHandler';
 

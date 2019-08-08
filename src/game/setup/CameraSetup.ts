@@ -1,4 +1,4 @@
-import { Scene, FollowCamera, Vector3 } from '@babylonjs/core';
+import { Scene, FollowCamera, Vector3 } from 'babylonjs';
 import { GameObject } from '../model/game_objects/GameObject';
 
 

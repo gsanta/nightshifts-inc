@@ -1,4 +1,4 @@
-import { Vector3, Scene, AbstractMesh, Ray, Mesh } from '@babylonjs/core';
+import { Vector3, Scene, AbstractMesh, Ray, Mesh } from 'babylonjs';
 import { VectorModel } from '../../model/core/VectorModel';
 import { GameObject } from '../../model/game_objects/GameObject';
 

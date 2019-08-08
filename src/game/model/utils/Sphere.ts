@@ -1,4 +1,4 @@
-import { Mesh } from '@babylonjs/core';
+import { Mesh } from 'babylonjs';
 
 // TODO: add missing methods
 export class Sphere {

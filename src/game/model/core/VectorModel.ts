@@ -1,4 +1,4 @@
-import { Vector3 } from '@babylonjs/core';
+import { Vector3 } from 'babylonjs';
 
 export const toVector3 = (vectorModel: VectorModel) => {
     return new Vector3(vectorModel.x, vectorModel.y, vectorModel.z);

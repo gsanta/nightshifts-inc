@@ -1,4 +1,4 @@
-import { Scene } from '@babylonjs/core';
+import { Scene } from 'babylonjs';
 import { Sensor } from './Sensor';
 import { VectorModel } from '../../model/core/VectorModel';
 import { RayCaster } from '../collision_detection/RayCaster';

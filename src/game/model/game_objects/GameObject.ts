@@ -1,4 +1,4 @@
-import { Mesh, Skeleton, Vector3 } from '@babylonjs/core';
+import { Mesh, Skeleton, Vector3 } from 'babylonjs';
 import { Point, Shape } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../core/VectorModel';
 

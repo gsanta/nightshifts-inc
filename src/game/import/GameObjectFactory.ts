@@ -2,7 +2,7 @@ import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { GameObject } from '../model/game_objects/GameObject';
 import { Border } from '../model/game_objects/Border';
 import { Room } from '../model/game_objects/Room';
-import { MeshBuilder, Mesh } from '@babylonjs/core';
+import { MeshBuilder, Mesh } from 'babylonjs';
 
 export class GameObjectFactory {
 

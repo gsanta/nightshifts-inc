@@ -1,4 +1,4 @@
-import { Scene } from '@babylonjs/core';
+import { Scene } from 'babylonjs';
 import { BabylonConverter, BabylonImporter, WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { Promise } from 'es6-promise';
 import { Vector2Model } from '../model/utils/Vector2Model';

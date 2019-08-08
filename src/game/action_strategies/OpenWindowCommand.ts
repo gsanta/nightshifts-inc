@@ -1,6 +1,6 @@
 import { WorldItemActionCommand } from './WorldItemActionCommand';
 import { GameObject } from '../model/game_objects/GameObject';
-import { Scene } from '@babylonjs/core';
+import { Scene } from 'babylonjs';
 
 export class OpenWindowCommand implements WorldItemActionCommand {
     private scene: Scene;

@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import { HealthWidget } from './HealthWidget';
+import { HealthWidget } from '../../../../../src/client/components/widgets/health_widget/HealthWidget';
 import { useState } from 'react';
 
 const Wrapper = () => {

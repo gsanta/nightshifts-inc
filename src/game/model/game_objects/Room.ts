@@ -1,5 +1,5 @@
 import { GameObject } from './GameObject';
-import { Mesh } from '@babylonjs/core';
+import { Mesh } from 'babylonjs';
 import { Shape } from '@nightshifts.inc/geometry';
 import { Border } from './Border';
 

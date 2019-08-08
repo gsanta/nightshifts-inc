@@ -1,6 +1,6 @@
 import { World } from '../model/game_objects/World';
 import { GameObject } from '../model/game_objects/GameObject';
-import { StandardMaterial, Color3 } from '@babylonjs/core';
+import { StandardMaterial, Color3 } from 'babylonjs';
 import find from 'lodash/find';
 import { Polygon } from '@nightshifts.inc/geometry';
 import { VectorModel } from '../model/core/VectorModel';

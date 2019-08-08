@@ -1,5 +1,5 @@
 import { GameObject } from '../../model/game_objects/GameObject';
-import { Vector3 } from '@babylonjs/core';
+import { Vector3 } from 'babylonjs';
 import { World } from '../../model/game_objects/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
 import { FlashingLightSwitcher } from './FlashingLightSwitcher';

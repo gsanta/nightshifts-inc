@@ -1,4 +1,4 @@
-import { Scene, HemisphericLight, Vector3, Color3, PointLight, Light } from '@babylonjs/core';
+import { Scene, HemisphericLight, Vector3, Color3, PointLight, Light } from 'babylonjs';
 import { GameObject } from '../model/game_objects/GameObject';
 
 export class MainLightSetup {

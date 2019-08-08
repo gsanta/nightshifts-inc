@@ -1,8 +1,8 @@
-import UpdateWorldActions from './UpdateWorldActions';
+import UpdateWorldActions from '../../../../../src/client/state/world_state/world_actions/UpdateWorldActions';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import { select, call, delay, put } from 'redux-saga/effects';
-import WorldSelections from './WorldSelections';
+import WorldSelections from '../../../../../src/client/state/world_state/world_actions/WorldSelections';
 declare const describe, beforeEach, afterEach, it;
 
 describe('UpdateWorldActions', () => {

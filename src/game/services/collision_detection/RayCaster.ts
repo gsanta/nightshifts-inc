@@ -1,4 +1,4 @@
-import { Scene, RayHelper, Ray, Color3 } from '@babylonjs/core';
+import { Scene, RayHelper, Ray, Color3 } from 'babylonjs';
 import { VectorModel, toVector3 } from '../../model/core/VectorModel';
 import { GameObject } from '../../model/game_objects/GameObject';
 declare const DEBUG: boolean;

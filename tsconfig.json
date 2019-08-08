@@ -9,16 +9,11 @@
       "module": "commonjs",
       "resolveJsonModule": true,
       // "strictNullChecks": true,
-      "jsx": "react",
-      "types": [
-        "jest"
-      ]
+      "jsx": "react"
     },
     "include": [
-      "src/game/**/*.ts",
-      "src/client/**/*.ts",
-      "src/client/**/*.tsx",
-      "src/engine/**/*.ts", "src/client/components/dialogs/inventory_dialog/tools_icons/ToolIcon.ts", "src/translations/config.ts"
+      "src/**/*.ts",
+      "test/**/*.ts"
     ],
     "exclude": [
       "node_modules",
