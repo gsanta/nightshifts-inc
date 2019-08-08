@@ -42,10 +42,4 @@ export class GameObjectFactory {
     private filterAnimatedMeshes(meshes: Mesh[]): Mesh[] {
         return meshes.filter(mesh => mesh.animations.length > 0);
     }
-
-    private createMesh(): Mesh {
-        const mesh = MeshBuilder.CreateBox('box', {width: 1, height: 1});
-        mesh.isVisible = false;
-        return mesh;
-    }
 }

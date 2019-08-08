@@ -61,11 +61,11 @@ export class ActiveRoomService {
         _.chain(world.getWorldItemsByName('room'))
             .without(activeRoom)
             .forEach((room: GameObject) => {
-                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.meshes[0].isVisible = true);
+                room.meshes[1].isVisible = true;
             })
             .value();
 
-        activeRoom.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.meshes[0].isVisible = false);
+        activeRoom.meshes[1].isVisible = false;
     }
 
     private deactivatePrevActiveRoom() {

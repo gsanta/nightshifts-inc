@@ -23,7 +23,7 @@ export class ActionableObjectService {
         const gameObject = this.getClosestActivatableWorldItem(this.world);
         this.currentActivatableItem = gameObject;
 
-        const prevItem = _.find(this.world.worldItems, item => !item.meshes[0] || item.meshes[0].isVisible === true);
+        const prevItem = _.find(this.world.worldItems, item => item.meshes && item.meshes.length > 0 && item.meshes[0].isVisible === true);
 
         if (prevItem && !this.world.config.displayBoundingBoxes && prevItem.meshes[0]) {
             prevItem.meshes[0].isVisible = false;
