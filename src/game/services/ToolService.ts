@@ -1,5 +1,5 @@
 import { World } from '../model/game_objects/World';
-import { ToolIcon } from '../../client/components/dialogs/inventory_dialog/tools_icons/ToolIcon';
+import { ToolIcon } from '../../gui/components/dialogs/inventory/tools_icons/ToolIcon';
 import _ from 'lodash';
 
 export class ToolService {

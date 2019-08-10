@@ -1,0 +1,32 @@
+import { ActionType } from '../../ActionType';
+import { select, call, put, take, takeEvery } from 'redux-saga/effects';
+import { WorldRequests } from '../WorldRequests';
+import { WatchableAction } from '../../ActionType';
+import UserSelections from '../../../../gui/state/settings_state/UserSelections';
+import WorldSelections from './WorldSelections';
+
+class GetWorldActions implements WatchableAction<null> {
+    public request() {
+        return {
+            type: ActionType.GET_WORLD_REQUEST
+        };
+    }
+
+    public *watch() {
+        yield takeEvery(ActionType.GET_WORLD_SUCCESS, this.fetch);
+    }
+
+    public *fetch() {
+        try {
+            const gameRequest: WorldRequests = yield select(WorldSelections.getGameRequests);
+            const user = yield select(UserSelections.getUser);
+            const world = yield call([gameRequest, gameRequest.getWorldByUserId], user);
+
+            yield put({type: ActionType.GET_WORLD_SUCCESS, world});
+        } catch (error) {
+            yield put({type: ActionType.GET_WORLD_FAILURE});
+        }
+    }
+}
+
+export default new GetWorldActions();

@@ -1,11 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = env => {
     return {
-        entry: './src/client/index.tsx',
+        entry: './src/gui/index.tsx',
         module: {
             rules: [
                 {
@@ -50,8 +49,7 @@ module.exports = env => {
             }),
             new webpack.DefinePlugin({
                 DEBUG: env === 'debug' ? true : false
-            }),
-            // new BundleAnalyzerPlugin()
+            })
         ],
         resolve: {
             extensions: [ '.tsx', '.ts', '.js', 'scss', '.css' ]

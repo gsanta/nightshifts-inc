@@ -26,13 +26,13 @@ export class ActionableObjectService {
         const prevItem = _.find(this.world.worldItems, item => item.meshes && item.meshes.length > 0 && item.meshes[0].isVisible === true);
 
         if (prevItem && !this.world.config.displayBoundingBoxes && prevItem.meshes[0]) {
-            prevItem.meshes[0].isVisible = false;
+            // prevItem.meshes[0].isVisible = false;
         }
 
         const activeRoom = <Room> _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
 
         if (activeRoom.children.indexOf(gameObject) !== -1 || activeRoom.borders.indexOf(<Border> gameObject) !== -1) {
-            gameObject.meshes[0].isVisible = true;
+            // gameObject.meshes[0].isVisible = true;
         }
     }
 

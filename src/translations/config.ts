@@ -3,9 +3,9 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './en.json';
 import hu from './hu.json';
 import { initReactI18next } from 'react-i18next';
-import UpdateSettingsActions from '../client/state/settings_state/actions/UpdateSettingsActions';
-import { AppStore } from '../client/state/app_state/AppStore';
+import UpdateSettingsActions from '../gui/state/settings_state/actions/UpdateSettingsActions';
 import _ from 'lodash';
+import { AppStore } from '../gui/state/app_state/AppStore';
 
 const supportedLanguages: {abbr: string, file: any}[] = [
     {
