@@ -38,6 +38,10 @@ export class ThermometerTool implements Tool {
         this.mesh.setEnabled(false);
     }
 
+    update() {
+        
+    }
+
     private initMaterials(scene: Scene): StandardMaterial[] {
         const cold = new StandardMaterial('thermometer-material', scene);
         cold.diffuseColor = Color3.FromHexString(colors.cold);

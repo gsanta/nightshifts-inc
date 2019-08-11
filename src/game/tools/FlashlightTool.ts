@@ -23,6 +23,10 @@ export class FlashlightTool implements Tool {
         this.flashLight.parent = null;
     }
 
+    update() {
+        
+    }
+
     private createFlashLight(scene: Scene, world: World) {
         const spotLight = new SpotLight('spot-light', new Vector3(0, 7, 1), new Vector3(0, 0, -5), Math.PI / 4, 3, scene);
         const shadowGenerator = this.createShadowGenerator(spotLight);

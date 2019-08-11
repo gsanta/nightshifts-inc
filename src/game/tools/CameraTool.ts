@@ -40,4 +40,8 @@ export class CameraTool implements Tool {
     public disable() {
 
     }
+
+    update() {
+
+    }
 }

@@ -166,7 +166,7 @@ export class KeyboardHandler {
             const elapsedTime = currentTime - this.prevRotationTime;
 
             const delta = this.motionStrategy.calcNextRotationDelta(elapsedTime, direction);
-            this.world.player.meshes[0].rotate(Axis.Y, delta, Space.WORLD);
+            this.services.playerService.rotate(delta);
         }
         this.prevRotationTime = currentTime;
     }

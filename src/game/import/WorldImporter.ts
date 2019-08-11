@@ -9,6 +9,7 @@ import { GameObjectFactory } from './GameObjectFactory';
 import { Border } from '../model/game_objects/Border';
 import { GameObject } from '../model/game_objects/GameObject';
 import { Room } from '../model/game_objects/Room';
+import { PortalTool } from '../tools/PortalTool';
 
 export class WorldImporter {
     private scene: Scene;
@@ -26,6 +27,7 @@ export class WorldImporter {
         world.worldItems = this.createWorldItems(rootWorldItem, world);
 
         world.tools = [
+            new PortalTool(world),
             new ThermometerTool(this.scene, world.player),
             new FlashlightTool(this.scene, world)
         ];
@@ -174,6 +176,15 @@ export class WorldImporter {
                             name: 'room-descriptor' as 'room-descriptor',
                             roofMaterialPath: './assets/textures/roof.jpeg',
                             roofY: 7.21
+                        }
+                    },
+                    {
+                        type: 'portal',
+                        name: 'mesh-descriptor' as 'mesh-descriptor',
+                        details: {
+                            name: 'shape-descriptor' as 'shape-descriptor',
+                            shape: 'disc',
+                            translateY: 2
                         }
                     }
                 ]

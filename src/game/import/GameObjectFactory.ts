@@ -33,9 +33,10 @@ export class GameObjectFactory {
             case 'bathtub':
             case 'chair':
             case 'bed':
+            case 'portal':
                 return new GameObject(worldItemInfo.meshTemplate.meshes, worldItemInfo.dimensions, {type: worldItemInfo.name});
             default:
-                throw new Error('Unsupported type: ' + worldItemInfo.type);
+                throw new Error('Unsupported type: ' + worldItemInfo.name);
         }
     }
 

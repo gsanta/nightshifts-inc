@@ -1,14 +1,18 @@
 import { World } from '../model/game_objects/World';
 import { ToolIcon } from '../../gui/components/dialogs/inventory/tools_icons/ToolIcon';
 import _ from 'lodash';
+import { Tool } from '../tools/Tool';
 
 export class ToolService {
+    activeTool: Tool;
+
     private world: World;
     private openInventoryFunc: () => void;
 
     constructor(world: World, openInventoryFunc: () => void) {
         this.world = world;
         this.openInventoryFunc = openInventoryFunc;
+        this.activeTool = world.tools.find(tool => tool.name = 'portal');
     }
 
     public activateTool(toolIcon: ToolIcon) {
