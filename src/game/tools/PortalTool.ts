@@ -2,7 +2,7 @@ import { GameObject } from '../model/game_objects/GameObject';
 import { World } from '../model/game_objects/World';
 import { Tool } from './Tool';
 import console = require('console');
-import { Matrix, Vector3, Ray, RayHelper, Mesh } from 'babylonjs';
+import { Matrix, Vector3, Ray, RayHelper, Mesh, Space, Axis } from 'babylonjs';
 import { VectorModel } from '../model/core/VectorModel';
 
 
@@ -69,10 +69,12 @@ export class PortalTool implements Tool {
 
             if (gameObject && gameObject !== this.pickedGameObject) {
                 const centerPoint = gameObject.boundingBox.getBoundingCenter();
-                const position = new VectorModel(centerPoint.x, 2, centerPoint.y);
+                const position = new VectorModel(centerPoint.x, 8, centerPoint.y);
                 this.portal.setPosition(position);
+                this.portal.meshes[0].position.y = 8;
+
+                this.portal.meshes[0].rotationQuaternion = hit.pickedMesh.rotationQuaternion; //rotate(Axis.Y, hit.pickedMesh. rotation.y, Space.WORLD)
             }
-        //     console.log(this.world.getGameObjectForMesh(<Mesh> hit.pickedMesh));
         }
     }
 }
