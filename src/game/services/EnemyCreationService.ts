@@ -11,7 +11,7 @@ export class EnemyCreationService {
     constructor(world: World) {
         this.world = world;
 
-        const rooms = world.getWorldItemsByName('room');
+        const rooms = world.getWorldItemsByType('room');
 
         // if (rooms.length > 1) {
         //     this.createEnemy(rooms[1]);

@@ -29,7 +29,7 @@ export class ActionableObjectService {
             // prevItem.meshes[0].isVisible = false;
         }
 
-        const activeRoom = <Room> _.find(this.world.getWorldItemsByName('room'), room => room.isActive);
+        const activeRoom = <Room> _.find(this.world.getWorldItemsByType('room'), room => room.isActive);
 
         if (activeRoom.children.indexOf(gameObject) !== -1 || activeRoom.borders.indexOf(<Border> gameObject) !== -1) {
             // gameObject.meshes[0].isVisible = true;

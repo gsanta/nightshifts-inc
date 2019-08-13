@@ -15,7 +15,7 @@ export class CameraTool implements Tool {
     }
 
     public enable() {
-        const room = this.world.getWorldItemsByName('room')[0];
+        const room = this.world.getWorldItemsByType('room')[0];
         const emptyArea = find(room.children, child => child.type === 'empty');
 
         const pos = emptyArea.boundingBox.getBoundingCenter();

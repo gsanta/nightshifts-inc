@@ -18,11 +18,11 @@ export class ActiveRoomService {
 
     constructor(world: World) {
         this.world = world;
-        this.rooms = world.getWorldItemsByName('room');
+        this.rooms = world.getWorldItemsByType('room');
         this.lightSwitcher = new NormalLightSwitcher();
         this.flashingLightSwitcher = new FlashingLightSwitcher(this.lightSwitcher);
 
-        world.getWorldItemsByName('room').forEach(room => {
+        world.getWorldItemsByType('room').forEach(room => {
             this.lightSwitcher.off(<Room> room, world);
         });
 
@@ -56,9 +56,9 @@ export class ActiveRoomService {
     }
 
     private handleShowRoomLabels(world: World) {
-        const rooms = <GameObject[]> world.getWorldItemsByName('room');
+        const rooms = <GameObject[]> world.getWorldItemsByType('room');
         const activeRoom = _.find(rooms, room => room.isActive);
-        _.chain(world.getWorldItemsByName('room'))
+        _.chain(world.getWorldItemsByType('room'))
             .without(activeRoom)
             .forEach((room: GameObject) => {
                 room.meshes[1].isVisible = true;

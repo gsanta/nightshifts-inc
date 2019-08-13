@@ -21,7 +21,7 @@ export class DebugServices {
     }
 
     public hideRoofs() {
-        this.world.getWorldItemsByName('room')
+        this.world.getWorldItemsByType('room')
             .forEach((room: GameObject) => {
                 room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.meshes[0].isVisible = false);
             });
@@ -47,13 +47,13 @@ export class DebugServices {
     }
 
     public turnOnAllLights() {
-        this.world.getWorldItemsByName('room').forEach(room => {
+        this.world.getWorldItemsByType('room').forEach(room => {
             this.lightSwitcher.on(<GameObject> room, this.world);
         });
     }
 
     public turnOffAllLights() {
-        this.world.getWorldItemsByName('room').forEach(room => {
+        this.world.getWorldItemsByType('room').forEach(room => {
             this.lightSwitcher.off(<GameObject> room, this.world);
         });
     }

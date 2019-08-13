@@ -28,7 +28,7 @@ export class World {
 
     private meshToGameObjectCache: Map<Mesh, GameObject> = new Map();
 
-    getWorldItemsByName(name: string): GameObject[] {
+    getWorldItemsByType(name: string): GameObject[] {
         return this.worldItems.filter(gameObject => gameObject.type === name);
     }
 

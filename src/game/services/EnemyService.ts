@@ -14,7 +14,7 @@ export class EnemyService {
     }
 
     public updateEnemies() {
-        const activeRoom = this.world.getWorldItemsByName('room').find(room => room.isActive);
+        const activeRoom = this.world.getWorldItemsByType('room').find(room => room.isActive);
 
         if (activeRoom) {
             const enemies = activeRoom.children
