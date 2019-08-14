@@ -1,7 +1,7 @@
-import { VectorModel } from '../../model/core/VectorModel';
+import { Vector3 } from 'babylonjs';
 
 export interface MotionStrategy {
-    calcNextPositionDelta(elapsedTime: number): VectorModel;
+    calcNextPositionDelta(elapsedTime: number): Vector3;
     calcNextRotationDelta(elapsedTime: number): number;
     isIdle(): boolean;
 }

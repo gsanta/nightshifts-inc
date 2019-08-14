@@ -1,5 +1,4 @@
-import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine, Mesh } from 'babylonjs';
-import { Vector2Model } from '../utils/Vector2Model';
+import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine, Mesh, Vector2 } from 'babylonjs';
 import { Tool } from '../../tools/Tool';
 import { GameObject } from './GameObject';
 
@@ -12,7 +11,7 @@ export class World {
     canvas: HTMLCanvasElement;
     engine: Engine;
     hemisphericLight: Light;
-    dimensions: Vector2Model;
+    dimensions: Vector2;
     worldItems: GameObject[];
     floor: GameObject;
     enemies: GameObject[] = [];

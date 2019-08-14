@@ -1,6 +1,5 @@
 import { Mesh, Skeleton, Vector3 } from 'babylonjs';
 import { Point, Shape } from '@nightshifts.inc/geometry';
-import { VectorModel } from '../core/VectorModel';
 
 
 export interface GameObjectConfig {
@@ -54,7 +53,7 @@ export class GameObject {
         this.skeleton = worldItemConfig.skeleton;
     }
 
-    setPosition(position: VectorModel): void {
+    setPosition(position: Vector3): void {
         this.meshes[0].setAbsolutePosition(new Vector3(position.x, this.meshes[0].getAbsolutePosition().y, position.z));
         const center = this.meshes[0].getBoundingInfo().boundingSphere.centerWorld;
         this.boundingBox = this.boundingBox.setPosition(new Point(center.x, center.z));
@@ -71,7 +70,7 @@ export class GameObject {
     setBoudingBox(shape: Shape) {
         this.boundingBox = shape;
         const center = shape.getBoundingCenter();
-        this.setPosition(new VectorModel(center.x, this.meshes[0].position.y, center.y));
+        this.setPosition(new Vector3(center.x, this.meshes[0].position.y, center.y));
         this.boundingBox = shape;
     }
 }

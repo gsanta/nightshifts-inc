@@ -1,5 +1,4 @@
-import { Scene, RayHelper, Ray, Color3 } from 'babylonjs';
-import { VectorModel, toVector3 } from '../../model/core/VectorModel';
+import { Scene, RayHelper, Ray, Color3, Vector3 } from 'babylonjs';
 import { GameObject } from '../../model/game_objects/GameObject';
 declare const DEBUG: boolean;
 
@@ -11,15 +10,13 @@ export class RayCaster {
         this.scene = scene;
     }
 
-    public testCollision(from: VectorModel, to: VectorModel, creatureToTestForCollision: GameObject) {
-        const fromPosition = toVector3(from);
-        const toPosition = toVector3(to);
+    public testCollision(from: Vector3, to: Vector3, creatureToTestForCollision: GameObject) {
 
         if (this.prevRayHelper) {
             this.prevRayHelper.dispose();
         }
 
-        const ray = new Ray(fromPosition, toPosition.subtract(fromPosition), 100);
+        const ray = new Ray(from, to.subtract(from), 100);
         const hit = this.scene.pickWithRay(ray, null);
 
         if (DEBUG) {

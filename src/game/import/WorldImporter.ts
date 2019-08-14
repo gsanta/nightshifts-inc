@@ -1,7 +1,6 @@
-import { Scene } from 'babylonjs';
+import { Scene, Vector2 } from 'babylonjs';
 import { BabylonConverter, BabylonImporter, WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { Promise } from 'es6-promise';
-import { Vector2Model } from '../model/utils/Vector2Model';
 import { FlashlightTool } from '../tools/FlashlightTool';
 import { ThermometerTool } from '../tools/ThermometerTool';
 import { World } from '../model/game_objects/World';
@@ -22,7 +21,7 @@ export class WorldImporter {
         let world = new World();
 
         world.scene = this.scene;
-        world.dimensions = new Vector2Model(rootWorldItem[0].dimensions.getBoundingInfo().extent[0], rootWorldItem[0].dimensions.getBoundingInfo().extent[1]);
+        world.dimensions = new Vector2(rootWorldItem[0].dimensions.getBoundingInfo().extent[0], rootWorldItem[0].dimensions.getBoundingInfo().extent[1]);
 
         world.worldItems = this.createWorldItems(rootWorldItem, world);
 

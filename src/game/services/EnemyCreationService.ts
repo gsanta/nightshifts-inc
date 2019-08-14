@@ -1,9 +1,8 @@
 import { World } from '../model/game_objects/World';
 import { GameObject } from '../model/game_objects/GameObject';
-import { StandardMaterial, Color3 } from 'babylonjs';
+import { StandardMaterial, Color3, Vector3 } from 'babylonjs';
 import find from 'lodash/find';
 import { Polygon } from '@nightshifts.inc/geometry';
-import { VectorModel } from '../model/core/VectorModel';
 
 export class EnemyCreationService {
     private world: World;
@@ -31,7 +30,7 @@ export class EnemyCreationService {
         emptyArea.meshes[0].material = material;
 
         const centerPoint = emptyArea.boundingBox.getBoundingCenter();
-        const vector3 = new VectorModel(centerPoint.x, 0, centerPoint.y);
+        const vector3 = new Vector3(centerPoint.x, 0, centerPoint.y);
         const enemyPosition = vector3;
 
         const rect = Polygon.createRectangle(enemyPosition.x, enemyPosition.z, 1, 1);

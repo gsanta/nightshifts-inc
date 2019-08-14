@@ -1,6 +1,5 @@
-import { VectorModel } from '../../model/core/VectorModel';
 import { CollisionDetector } from '../collision_detection/CollisionDetector';
-import { Scene } from 'babylonjs';
+import { Scene, Vector3 } from 'babylonjs';
 import { GameObject } from '../../model/game_objects/GameObject';
 import { RotationDirection, MoveDirection } from '../KeyboardHandler';
 
@@ -26,11 +25,11 @@ export class ManualMotionStrategy {
         this.direction = direction;
         const distance = elapsedTime / this.interval * this.distanceByInterval;
 
-        let delta = new VectorModel(0, 0, 0);
+        let delta = new Vector3(0, 0, 0);
         if (direction === 'FORWARD') {
-            delta = new VectorModel(0, 0, -1).scale(distance);
+            delta = new Vector3(0, 0, -1).scale(distance);
         } else if (direction === 'BACKWARD') {
-            delta = new VectorModel(0, 0, 1).scale(distance);
+            delta = new Vector3(0, 0, 1).scale(distance);
         }
 
         delta = this.calcNextPositionDeltaConsideringRotation(delta);
@@ -75,11 +74,11 @@ export class ManualMotionStrategy {
         // }
     }
 
-    private calcNextPositionDeltaConsideringRotation(delta: VectorModel) {
+    private calcNextPositionDeltaConsideringRotation(delta: Vector3) {
         let rotation = this.player.meshes[0].rotationQuaternion.toEulerAngles().y;
         const verticalDirection = Math.sin(rotation) * delta.z;
         const horizontalDirection = Math.cos(rotation) * delta.z;
 
-        return new VectorModel(verticalDirection, 0, horizontalDirection);
+        return new Vector3(verticalDirection, 0, horizontalDirection);
     }
 }

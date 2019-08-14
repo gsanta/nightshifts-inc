@@ -1,8 +1,7 @@
 import { GameObject } from '../model/game_objects/GameObject';
-import { VectorModel } from '../model/core/VectorModel';
 import { ServiceFacade } from './ServiceFacade';
 import { World } from '../model/game_objects/World';
-import { Axis, Space } from 'babylonjs';
+import { Axis, Space, Vector3 } from 'babylonjs';
 
 export class PlayerService {
     private player: GameObject;
@@ -13,9 +12,9 @@ export class PlayerService {
         this.services = serviceFacade;
     }
 
-    public move(delta: VectorModel) {
+    public move(delta: Vector3) {
         const absolutePos = this.player.meshes[0].getAbsolutePosition();
-        const pos = new VectorModel(absolutePos.x, absolutePos.y, absolutePos.z);
+        const pos = new Vector3(absolutePos.x, absolutePos.y, absolutePos.z);
         this.player.setPosition(pos.add(delta));
 
         this.services.actionableObjectService.calcClosestActionableObject();

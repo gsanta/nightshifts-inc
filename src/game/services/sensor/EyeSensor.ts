@@ -1,6 +1,5 @@
-import { Scene } from 'babylonjs';
+import { Scene, Vector3 } from 'babylonjs';
 import { Sensor } from './Sensor';
-import { VectorModel } from '../../model/core/VectorModel';
 import { RayCaster } from '../collision_detection/RayCaster';
 import { GameObject } from '../../model/game_objects/GameObject';
 
@@ -29,23 +28,31 @@ export class EyeSensor implements Sensor {
     private isInsideVisibleRange(enemy: GameObject): boolean {
         const playerCenter = this.player.boundingBox.getBoundingCenter();
         const enemyCenter = enemy.boundingBox.getBoundingCenter();
-        const playerVector = new VectorModel(playerCenter.x, 0, playerCenter.y);
-        const enemyVector = new VectorModel(enemyCenter.x, 0, enemyCenter.y);
+        const playerVector = new Vector3(playerCenter.x, 0, playerCenter.y);
+        const enemyVector = new Vector3(enemyCenter.x, 0, enemyCenter.y);
         const playerToEnemyVector = enemyVector.subtract(playerVector);
-        const negativeZUnitVector = new VectorModel(0, 0, -1);
+        const negativeZUnitVector = new Vector3(0, 0, -1);
 
-        const angle = negativeZUnitVector.getAngleToVectorOnXZPlane(playerToEnemyVector);
+        const angle = this.getAngleToVectorOnXZPlane(negativeZUnitVector, playerToEnemyVector);
 
         const eulerAngles = this.player.meshes[0].rotationQuaternion.toEulerAngles();
 
         return EyeSensor.isAngleBetweenFieldOfView(eulerAngles.y, this.fieldOfViewAngle, angle);
     }
 
+    private getAngleToVectorOnXZPlane(vector1: Vector3, vector2: Vector3): number {
+        return Vector3.GetAngleBetweenVectors(
+            new Vector3(vector1.x, vector1.y, vector1.z),
+            new Vector3(vector2.x, vector2.y, vector2.z),
+            new Vector3(0, 1, 0)
+        );
+    }
+
     private thereIsNoObstacleBetweenEnemyAndPlayer(enemy: GameObject):  boolean {
         const playerCenter = this.player.boundingBox.getBoundingCenter();
         const enemyCenter = enemy.boundingBox.getBoundingCenter();
-        const playerVector = new VectorModel(playerCenter.x, 0, playerCenter.y);
-        const enemyVector = new VectorModel(enemyCenter.x, 0, enemyCenter.y);
+        const playerVector = new Vector3(playerCenter.x, 0, playerCenter.y);
+        const enemyVector = new Vector3(enemyCenter.x, 0, enemyCenter.y);
         return this.rayCaster.testCollision(playerVector, enemyVector, enemy);
     }
 
