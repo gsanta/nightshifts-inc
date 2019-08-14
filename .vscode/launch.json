@@ -7,30 +7,17 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "name": "Jest Current File",
+            "program": "${workspaceFolder}/node_modules/.bin/jest",
             "args": [
-                "--require", "ts-node/register",
-                "-u", "tdd",
-                "--timeout", "999999",
-                "--colors", "--recursive",
-                "${workspaceFolder}/src/**/*.test.ts"
+              "${fileBasenameNoExtension}"
             ],
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Jasmine Tests",
-            "program": "${workspaceFolder}/node_modules/.bin/jasmine",
-            "args": [
-                "--require", "ts-node/register --transpile-only",
-                "-u", "tdd",
-                "--timeout", "999999",
-                "--colors", "--recursive",
-                "${workspaceFolder}/src/**/*Spec.ts"
-            ],
-            "internalConsoleOptions": "openOnSessionStart"
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true,
+            "windows": {
+              "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+            }
         },
         {
             "type": "node",

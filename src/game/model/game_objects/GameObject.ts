@@ -55,7 +55,7 @@ export class GameObject {
     }
 
     setPosition(position: VectorModel): void {
-        this.meshes[0].position = new Vector3(position.x, this.meshes[0].getAbsolutePosition().y, position.z);
+        this.meshes[0].setAbsolutePosition(new Vector3(position.x, this.meshes[0].getAbsolutePosition().y, position.z));
         const center = this.meshes[0].getBoundingInfo().boundingSphere.centerWorld;
         this.boundingBox = this.boundingBox.setPosition(new Point(center.x, center.z));
 

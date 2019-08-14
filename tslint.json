@@ -43,7 +43,7 @@
         //
         "eofline": true,
         "indent": [true, "spaces"],
-        "max-line-length": [true, 160],
+        "max-line-length": [true, 180],
         "no-require-imports": false, // would be nice to enable
         "no-trailing-whitespace": true,
 

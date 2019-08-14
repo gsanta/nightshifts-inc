@@ -9,7 +9,7 @@ describe('EyeSensor', () => {
                 const angle = 2.3;
 
                 const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
-                expect(isBetween).toBeFalsy();
+                expect(isBetween).toBeTruthy();
             });
 
             it ('returns false if angle is below FOV', () => {
@@ -56,7 +56,7 @@ describe('EyeSensor', () => {
                 const angle = 2.4;
 
                 const isBetween = EyeSensor.isAngleBetweenFieldOfView(center, fow, angle);
-                expect(isBetween).toBeTruthy();
+                expect(isBetween).toBeFalsy();
             });
 
             it ('returns false if angle is above FOV', () => {
