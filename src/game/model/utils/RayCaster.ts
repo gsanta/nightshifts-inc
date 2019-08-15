@@ -33,7 +33,7 @@ export class RayCaster {
             this.prevRayCast.dispose();
         }
 
-        // this.prevRayCast =  this.babylonFactory.RayHelper.CreateAndShow(ray, this.scene, new BABYLON.Color3(1, 1, 0.1));
+        this.prevRayCast =  this.babylonFactory.RayHelper.CreateAndShow(ray, this.scene, new BABYLON.Color3(1, 1, 0.1));
 
         return hit;
     }

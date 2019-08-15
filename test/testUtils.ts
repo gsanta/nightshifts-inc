@@ -1,6 +1,6 @@
 import { World } from '../src/game/model/game_objects/World';
 import { GameObject } from '../src/game/model/game_objects/GameObject';
-import { Quaternion, Mesh, Vector3, PickingInfo, AbstractMesh, Scene, Ray } from 'babylonjs';
+import { Quaternion, Mesh, Vector3, PickingInfo, AbstractMesh, Scene, Ray, RayHelper } from 'babylonjs';
 import { WorldItemInfoFactory, WorldParser, transformators, parsers, WorldItemInfo, BabylonConverter } from '@nightshifts.inc/world-generator';
 import { Polygon } from '@nightshifts.inc/geometry';
 import { GameObjectFactory } from '../src/game/import/GameObjectFactory';
@@ -128,11 +128,9 @@ export function mockVectorUtils(): typeof VectorUtils {
 
 export function mockBabylonFactory(): typeof BabylonFactory {
     sinon.stub(BabylonFactory, 'Ray').callsFake((origin: Vector3, direction: Vector3, length: number) => ({origin, direction, length}));
-    sinon.stub(BabylonFactory, 'RayHelper').returns({
-        CreateAndShow: () => ({
-            dispose: sinon.stub()
-        })
-    });
+    sinon.stub(BabylonFactory.RayHelper, 'CreateAndShow').returns(<RayHelper> {
+            dispose: <any> sinon.stub()
+    })
 
     return BabylonFactory;
 }
