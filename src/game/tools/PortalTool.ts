@@ -1,42 +1,8 @@
-import { Mesh, PickingInfo, RayHelper, Scene, Vector3 } from 'babylonjs';
+import { Mesh, Vector3 } from 'babylonjs';
 import { GameObject } from '../model/game_objects/GameObject';
 import { World } from '../model/game_objects/World';
-import { BabylonFactory } from '../model/utils/BabylonFactory';
-import { globalToLocalVector } from '../model/utils/Vector';
 import { Tool } from './Tool';
-
-export class RayCaster {
-    private scene: Scene;
-    private prevRayCast: RayHelper;
-    private babylonFactory: typeof BabylonFactory;
-
-    constructor(scene: Scene, babylonFactory: typeof BabylonFactory) {
-        this.scene = scene;
-        this.babylonFactory = babylonFactory;
-    }
-
-    castRay(gameObject: GameObject, direction: Vector3): PickingInfo {
-        const origin = gameObject.meshes[0].position;
-
-        direction = globalToLocalVector(direction, gameObject.meshes[0]);
-        direction = direction.subtract(<any> origin);
-        direction = Vector3.Normalize(direction);
-
-        let length = 100;
-
-        let ray = new this.babylonFactory.Ray(origin, direction, length);
-
-        let hit = this.scene.pickWithRay(ray);
-
-        if (this.prevRayCast) {
-            this.prevRayCast.dispose();
-        }
-
-        this.prevRayCast = RayHelper.CreateAndShow(ray, this.scene, new BABYLON.Color3(1, 1, 0.1));
-
-        return hit;
-    }
-}
+import { RayCaster } from '../model/utils/RayCaster';
 
 export class PortalTool implements Tool {
     name = 'portal';
@@ -47,7 +13,7 @@ export class PortalTool implements Tool {
     private pickedGameObject: GameObject;
     private rayCaster: RayCaster;
 
-    constructor(world: World, rayCaster: RayCaster = new RayCaster(world.scene, BabylonFactory)) {
+    constructor(world: World, rayCaster: RayCaster = new RayCaster(world.scene)) {
         this.world = world;
         this.portal = world.getWorldItemsByType('portal')[0];
         this.player = world.getWorldItemsByType('player')[0];

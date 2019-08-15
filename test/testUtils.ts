@@ -1,24 +1,15 @@
 import { World } from '../src/game/model/game_objects/World';
 import { GameObject } from '../src/game/model/game_objects/GameObject';
-import { Quaternion, Mesh, Vector3, PickingInfo, AbstractMesh } from 'babylonjs';
-import { RayCaster } from '../src/game/tools/PortalTool';
+import { Quaternion, Mesh, Vector3, PickingInfo, AbstractMesh, Scene, Ray } from 'babylonjs';
 import { WorldItemInfoFactory, WorldParser, transformators, parsers, WorldItemInfo, BabylonConverter } from '@nightshifts.inc/world-generator';
 import { Polygon } from '@nightshifts.inc/geometry';
-import * as sinon from 'sinon';
 import { GameObjectFactory } from '../src/game/import/GameObjectFactory';
 import { Border } from '../src/game/model/game_objects/Border';
 import { Room } from '../src/game/model/game_objects/Room';
-import { pointToVector } from '../src/game/model/utils/Vector';
-
-
-function mockRotationQuaternion(): Quaternion {
-    return <Quaternion> {
-        x: 0,
-        y: 0,
-        z: 0,
-        w: 1
-    }
-}
+import { pointToVector, VectorUtils } from '../src/game/model/utils/VectorUtils';
+import { RayCaster } from '../src/game/model/utils/RayCaster';
+import * as sinon from 'sinon';
+import { BabylonFactory } from '../src/game/model/utils/BabylonFactory';
 
 export function mockWorld(strWorld: string): World {
     const options = { xScale: 1, yScale: 2};
@@ -73,21 +64,6 @@ export function mockWorld(strWorld: string): World {
                 return [mesh];
             })
         ]
-
-
-            // [<Mesh> {
-            //     getBoundingInfo() {
-            //         return {
-            //             boundingSphere: {
-            //                 centerWorld: pointToVector(worldItem.dimensions.getBoundingCenter())
-            //             }
-            //         };
-            //     },
-            //     position: pointToVector(worldItem.dimensions.getBoundingCenter()),
-            //     getAbsolutePosition: () => pointToVector(worldItem.dimensions.getBoundingCenter()),
-            //     rotationQuaternion: new Quaternion(0, worldItem.rotation, 0, 1)
-            // }])
-        // ]
     ).parse(strWorld);
 
     const gameObjects: GameObject[] = [];
@@ -111,35 +87,6 @@ export function mockWorld(strWorld: string): World {
     const world = new World();
     world.worldItems = gameObjects;
 
-    // world.worldItems = [
-    //     <GameObject> {
-    //         type: 'player',
-    //         meshes: [
-    //             <Mesh> {
-
-    //             }
-    //         ]
-    //     },
-    //     <GameObject> {
-    //         type: 'portal',
-    //         meshes: [
-    //             <Mesh> {
-    //                 rotationQuaternion: mockRotationQuaternion(),
-    //                 position: new Vector3(0, 0, 0)
-    //             }
-    //         ]
-    //     },
-    //     <GameObject> {
-    //         type: 'wall',
-    //         meshes: [
-    //             <Mesh> {
-    //                 rotationQuaternion: mockRotationQuaternion(),
-    //                 position: new Vector3(0, 0, 0)
-    //             }
-    //         ]
-    //     }
-    // ];
-
     return world;
 }
 
@@ -154,4 +101,38 @@ export function mockRayCaster(getHit: (gameObject: GameObject, direction: Vector
             };
         }
     };
+}
+
+export class SceneStubs {
+    static pickWithRay: sinon.SinonStub;
+}
+
+export function mockScene(): [Scene, typeof SceneStubs] {
+    const pickWithRay = sinon.stub().returns({hit: true});
+
+    return [
+        <Scene> {
+            pickWithRay: (ray: Ray) => <any> pickWithRay(ray)
+        },
+        <typeof SceneStubs> {
+            pickWithRay
+        }
+    ];
+}
+
+export function mockVectorUtils(): typeof VectorUtils {
+    return <typeof VectorUtils> {
+        globalToLocalVector: (vector: Vector3, mesh: Mesh) => new Vector3(vector.x, - vector.y * 100, vector.z)
+    };
+}
+
+export function mockBabylonFactory(): typeof BabylonFactory {
+    sinon.stub(BabylonFactory, 'Ray').callsFake((origin: Vector3, direction: Vector3, length: number) => ({origin, direction, length}));
+    sinon.stub(BabylonFactory, 'RayHelper').returns({
+        CreateAndShow: () => ({
+            dispose: sinon.stub()
+        })
+    });
+
+    return BabylonFactory;
 }
