@@ -13,7 +13,7 @@ export class PortalTool implements Tool {
     private pickedGameObject: GameObject;
     private rayCaster: RayCaster;
 
-    constructor(world: World, rayCaster: RayCaster = new RayCaster(world.scene)) {
+    constructor(world: World, rayCaster: RayCaster = new RayCaster(world)) {
         this.world = world;
         this.portal = world.getWorldItemsByType('portal')[0];
         this.player = world.getWorldItemsByType('player')[0];
@@ -35,17 +35,26 @@ export class PortalTool implements Tool {
     update() {
         const pickingInfo = this.rayCaster.castRay(this.player, new Vector3(0, 0, -1));
 
-        if (pickingInfo.hit) {
-            const gameObject = this.world.getGameObjectForMesh(<Mesh> pickingInfo.pickedMesh);
+        if (pickingInfo.intersectionPoint) {
 
-            if (gameObject && gameObject !== this.pickedGameObject) {
-                const centerPoint = gameObject.boundingBox.getBoundingCenter();
-                const position = new Vector3(centerPoint.x, 8, centerPoint.y);
-                this.portal.setPosition(position);
-                this.portal.meshes[0].position.y = 8;
+            const position = new Vector3(pickingInfo.intersectionPoint.x, 8, pickingInfo.intersectionPoint.y);
+            this.portal.setPosition(position);
+            // this.portal.meshes[0].position.y = 8;
+            this.portal.meshes[0].rotationQuaternion = pickingInfo.pickedGameObject.meshes[0].rotationQuaternion;
 
-                this.portal.meshes[0].rotationQuaternion = pickingInfo.pickedMesh.rotationQuaternion;
-            }
+
+            // const
+
+            // const gameObject = this.world.getGameObjectForMesh(<Mesh> pickingInfo.pickedMesh);
+
+            // if (gameObject && gameObject !== this.pickedGameObject) {
+            //     const centerPoint = gameObject.boundingBox.getBoundingCenter();
+            //     const position = new Vector3(centerPoint.x, 8, centerPoint.y);
+            //     this.portal.setPosition(position);
+            //     this.portal.meshes[0].position.y = 8;
+
+            //     this.portal.meshes[0].rotationQuaternion = pickingInfo.pickedMesh.rotationQuaternion;
+            // }
         }
     }
 }

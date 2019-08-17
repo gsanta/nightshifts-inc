@@ -6,7 +6,7 @@ import { Polygon } from '@nightshifts.inc/geometry';
 import { GameObjectFactory } from '../src/game/import/GameObjectFactory';
 import { Border } from '../src/game/model/game_objects/Border';
 import { Room } from '../src/game/model/game_objects/Room';
-import { pointToVector, VectorUtils } from '../src/game/model/utils/VectorUtils';
+import { VectorUtils } from '../src/game/model/utils/VectorUtils';
 import { RayCaster } from '../src/game/model/utils/RayCaster';
 import * as sinon from 'sinon';
 import { BabylonFactory } from '../src/game/model/utils/BabylonFactory';
@@ -56,8 +56,8 @@ export function mockWorld(strWorld: string): World {
                     setAbsolutePosition(vector: Vector3) {
                         this.position = vector;
                     },
-                    position: pointToVector(worldItem.dimensions.getBoundingCenter()),
-                    getAbsolutePosition: () => pointToVector(worldItem.dimensions.getBoundingCenter()),
+                    position: VectorUtils.pointToVector(worldItem.dimensions.getBoundingCenter()),
+                    getAbsolutePosition: () => VectorUtils.pointToVector(worldItem.dimensions.getBoundingCenter()),
                     rotationQuaternion: new Quaternion(0, worldItem.rotation, 0, 1)
                 };
 

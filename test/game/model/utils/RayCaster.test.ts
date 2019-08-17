@@ -2,6 +2,7 @@ import { PickingInfo, Vector3 } from 'babylonjs';
 import { GameObject } from '../../../../src/game/model/game_objects/GameObject';
 import { RayCaster } from '../../../../src/game/model/utils/RayCaster';
 import { mockBabylonFactory, mockScene, mockVectorUtils } from '../../../testUtils';
+import { World } from '../../../../src/game/model/game_objects/World';
 
 describe(`RayCaster`, () => {
     describe(`castRay`, () => {
@@ -18,7 +19,7 @@ describe(`RayCaster`, () => {
                 ]
             }
 
-            const rayCaster = new RayCaster(scene, vectorUtils, babylonFatory);
+            const rayCaster = new RayCaster(<World> {scene}, vectorUtils, babylonFatory);
 
             const hit = rayCaster.castRay(gameObject, new Vector3(0, 1, 0));
 

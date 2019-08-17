@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import { HealthWidget } from '../../../../../src/client/components/widgets/health_widget/HealthWidget';
 import { useState } from 'react';
+import { HealthWidget } from '../src/gui/components/widgets/health_widget/HealthWidget';
 
 const Wrapper = () => {
     const [health, setHealth] = useState(75);
