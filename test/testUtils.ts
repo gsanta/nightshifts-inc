@@ -2,16 +2,72 @@ import { World } from '../src/game/model/game_objects/World';
 import { GameObject } from '../src/game/model/game_objects/GameObject';
 import { Quaternion, Mesh, Vector3, PickingInfo, AbstractMesh, Scene, Ray, RayHelper } from 'babylonjs';
 import { WorldItemInfoFactory, WorldParser, transformators, parsers, WorldItemInfo, BabylonConverter } from '@nightshifts.inc/world-generator';
-import { Polygon } from '@nightshifts.inc/geometry';
+import { Polygon, Point } from '@nightshifts.inc/geometry';
 import { GameObjectFactory } from '../src/game/import/GameObjectFactory';
 import { Border } from '../src/game/model/game_objects/Border';
 import { Room } from '../src/game/model/game_objects/Room';
 import { VectorUtils } from '../src/game/model/utils/VectorUtils';
-import { RayCaster } from '../src/game/model/utils/RayCaster';
+import { RayCaster, HitInfo } from '../src/game/model/utils/RayCaster';
 import * as sinon from 'sinon';
 import { BabylonFactory } from '../src/game/model/utils/BabylonFactory';
+import SignupActions from '../src/gui/state/settings_state/actions/SignupActions';
 
-export function mockWorld(strWorld: string): World {
+const defaultStrWorld = `
+map \`
+
+WWWWWWWWWWWWWWWWWWWWWWWWW
+W###############W#######W
+W#####DD########W#######W
+W###############W#######W
+W###############W#######W
+WWWWWWWWWWWWWWWWWWWWWWWWW
+W###############W#######W
+W###############W#######W
+W###############W#######W
+W###############W#######W
+WWWWWWWWWWWWWWWWWWWWWWWWW
+
+\`
+
+definitions \`
+
+W = wall
+# = empty
+X = player
+D = portal
+C = cupboard
+I = window
+T = table
+B = bathtub
+S = washbasin
+E = bed
+H = chair
+
+\`
+`;
+
+export class SceneStubs {
+    static pickWithRay: sinon.SinonStub;
+}
+
+export function mockScene(): [Scene, typeof SceneStubs] {
+    const pickWithRay = sinon.stub().returns({hit: true});
+
+    return [
+        <Scene> {
+            pickWithRay: (ray: Ray) => <any> pickWithRay(ray)
+        },
+        <typeof SceneStubs> {
+            pickWithRay
+        }
+    ];
+}
+
+export class WorldStubs {
+    scene: typeof SceneStubs;
+}
+
+export function mockWorld(strWorld = defaultStrWorld): [World, WorldStubs] {
     const options = { xScale: 1, yScale: 2};
     const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E', 'H', 'P', 'W', 'D'];
     const roomSeparatorCharacters = ['#'];
@@ -84,46 +140,35 @@ export function mockWorld(strWorld: string): World {
         });
 
 
+    const worldStubs = <WorldStubs> {};
+
     const world = new World();
     world.worldItems = gameObjects;
 
-    return world;
+    const [scene, sceneStubs] = mockScene();
+    world.scene = scene;
+    worldStubs.scene = sceneStubs;
+
+    return [world, worldStubs];
 }
 
-export function mockRayCaster(getHit: (gameObject: GameObject, direction: Vector3) => AbstractMesh): RayCaster {
+export function mockRayCaster(getHit: (gameObject: GameObject, direction: Vector3) => [GameObject, Point]): RayCaster {
     return <RayCaster> {
         castRay(gameObject: GameObject, direction: Vector3) {
-            const mesh = getHit(gameObject, direction);
+            const [pickedGameObject, intersectionPoint] = getHit(gameObject, direction);
 
-            return <PickingInfo> {
-                hit: !!mesh,
-                pickedMesh: mesh
+            return <HitInfo> {
+                pickedGameObject,
+                intersectionPoint
             };
         }
     };
 }
 
-export class SceneStubs {
-    static pickWithRay: sinon.SinonStub;
-}
-
-export function mockScene(): [Scene, typeof SceneStubs] {
-    const pickWithRay = sinon.stub().returns({hit: true});
-
-    return [
-        <Scene> {
-            pickWithRay: (ray: Ray) => <any> pickWithRay(ray)
-        },
-        <typeof SceneStubs> {
-            pickWithRay
-        }
-    ];
-}
-
 export function mockVectorUtils(): typeof VectorUtils {
-    return <typeof VectorUtils> {
-        globalToLocalVector: (vector: Vector3, mesh: Mesh) => new Vector3(vector.x, - vector.y * 100, vector.z)
-    };
+    sinon.stub(VectorUtils, 'localNormalDirection').callsFake((vector: Vector3, mesh: Mesh) => vector);
+
+    return VectorUtils;
 }
 
 export function mockBabylonFactory(): typeof BabylonFactory {

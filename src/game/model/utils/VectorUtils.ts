@@ -13,4 +13,15 @@ export class VectorUtils {
     static vectorToPoint(vector: Vector3): Point {
         return new Point(vector.x, vector.z);
     }
+
+    /**
+     * Converts a global direction to a normalized local one of the originMesh.
+     */
+    static localNormalDirection(globalDirection: Vector3, originMesh: Mesh) {
+        let direction = this.globalToLocalVector(globalDirection, originMesh);
+        direction = direction.subtract(<any> origin);
+        direction = Vector3.Normalize(direction);
+
+        return direction;
+    }
 }

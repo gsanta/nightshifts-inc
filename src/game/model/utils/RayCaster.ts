@@ -26,21 +26,16 @@ export class RayCaster {
     castRay(gameObject: GameObject, direction: Vector3): HitInfo {
         const origin = gameObject.meshes[0].position;
 
-        direction = this.vectorUtils.globalToLocalVector(direction, gameObject.meshes[0]);
-        direction = direction.subtract(<any> origin);
-        direction = Vector3.Normalize(direction);
+        direction = this.vectorUtils.localNormalDirection(direction, gameObject.meshes[0]);
 
         let length = 100;
 
         let ray = new this.babylonFactory.Ray(origin, direction, length);
 
         let pickingInfo = this.world.scene.pickWithRay(ray);
-        const pickedGameObject = this.findPickedGameObject(pickingInfo);
-        let intersectionPoint = null;
 
-        if (pickingInfo.hit && this.world.getGameObjectForMesh(<Mesh> pickingInfo.pickedMesh)) {
-            intersectionPoint = this.getIntersectionPoint(ray, this.world.getGameObjectForMesh(<Mesh> pickingInfo.pickedMesh));
-        }
+        const pickedGameObject = this.findPickedGameObject(pickingInfo);
+        let intersectionPoint = pickedGameObject ? this.getIntersectionPoint(ray, pickedGameObject) : null;
 
         if (this.prevRayCast) {
             this.prevRayCast.dispose();
@@ -81,19 +76,9 @@ export class RayCaster {
                     intersetionPoint = intersection;
                     distance = dist;
                 }
-                // console.log('intersection! ' + intersection);
             }
         }
 
         return intersetionPoint;
-        // for (let i = 0; i < sides.length; i++) {
-        //     const vector1 = this.vectorUtils.pointToVector(sides[i].getPoints()[0]);
-        //     const vector2 = this.vectorUtils.pointToVector(sides[i].getPoints()[1]);
-        //     const dist = ray.intersectionSegment(vector1, vector2, 5)
-        //     if (dist !== -1) {
-        //         console.log('intersection! ' + dist);
-        //     }
-        // }
-        // const rayLine = Line.fromTwoPoints(origin.boundingBox.getBoundingCenter(), pickedGameObject.)
     }
 }
