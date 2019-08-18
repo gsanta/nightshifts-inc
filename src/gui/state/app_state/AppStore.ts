@@ -12,9 +12,6 @@ import LoginActions from '../settings_state/actions/LoginActions';
 import SignupActions from '../settings_state/actions/SignupActions';
 import UpdatePasswordActions from '../settings_state/actions/UpdatePasswordActions';
 import UpdateSettingsActions from '../settings_state/actions/UpdateSettingsActions';
-import ActivateToolActions from '../tools_state/tools_actions/ActivateToolActions';
-import DeactivateToolActions from '../tools_state/tools_actions/DeactivateToolActions';
-import ReleaseToolActions from '../tools_state/tools_actions/ReleaseToolActions';
 import GetWorldActions from '../world_state/world_actions/GetWorldActions';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -34,14 +31,10 @@ sagaMiddleware.run(function* rootSaga() {
         SignupActions.watch(),
         UpdatePasswordActions.watch(),
         UpdateSettingsActions.watch(),
-        // UpdateWorldActions.watch(),
         GetWorldActions.watch(),
         TurnOnAllLigthsActions.watch(),
         ShowRoomLabelsActions.watch(),
         ShowBoundingBoxesAction.watch(),
-        ActivateToolActions.watch(),
-        DeactivateToolActions.watch(),
-        ReleaseToolActions.watch()
     ]);
 });
 

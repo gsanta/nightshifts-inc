@@ -13,8 +13,9 @@ import '../../../translations/config';
 import { ApplicationSettingsRoute } from '../dialogs/application_settings/ApplicationSettingsRoute';
 import { AppStore } from '../../state/app_state/AppStore';
 import { AppState, AppLoadingState } from '../../state/app_state/AppState';
-import { ControllerFacade } from '../../controller/ControllerFacade';
+import { ControllerFacade, ControllerConfig } from '../../controller/ControllerFacade';
 import { render } from '../../index';
+import { ControllerContext } from './Context';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -23,9 +24,15 @@ const mapStateToProps = (state: AppState) => {
     };
 };
 
-export const ControllerContext = React.createContext(null);
 
 class App extends React.Component<any, AppComponentState> {
+    static contextType = ControllerContext;
+    context: ControllerFacade;
+
+    componentDidMount() {
+        this.context.renderController.setRender(() => this.forceUpdate());
+    }
+
 
     constructor(props: any) {
         super(props);
@@ -49,7 +56,6 @@ class App extends React.Component<any, AppComponentState> {
         }
 
         return (
-            <ControllerContext.Provider value={new ControllerFacade({render: () => this.forceUpdate()})}>
             <div>
                 <Header/>
 
@@ -61,7 +67,6 @@ class App extends React.Component<any, AppComponentState> {
                 <Route exact path="/signup" component={SignupRoute}/>
                 <Route exact path="/debug" component={DebugRoute}/>
             </div>
-            </ControllerContext.Provider>
         );
     }
 
@@ -76,19 +81,16 @@ class App extends React.Component<any, AppComponentState> {
 
 const RouterApp = withRouter(connect(mapStateToProps)(App));
 
-export default () => {
-    return (
-        <Provider store={AppStore}>
-            <RouterApp/>
-        </Provider>
-    );
-};
+export default class TheApp extends React.Component<{}, {}> {
+    render() {
+        return (
+            <Provider store={AppStore}>
+                <RouterApp/>
+            </Provider>
+        );
+    }
+}
 
 export interface AppComponentState {
     user: User | null;
 }
-
-export interface AppProps {
-    appLoadingState: AppLoadingState;
-}
-

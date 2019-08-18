@@ -51,11 +51,13 @@ export class ToolController {
 
     activateTool(tool: ToolIcon) {
         tool.isActive = true;
+        this.controllers.gameController.activateTool(tool);
         this.controllers.renderController.reRender();
     }
 
     deactivateTool(tool: ToolIcon) {
         tool.isActive = false;
+        this.controllers.gameController.deActivateTool(tool);
         this.controllers.renderController.reRender();
     }
 }

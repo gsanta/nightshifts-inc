@@ -1,5 +1,6 @@
 import { ToolController } from './ToolController';
 import { RenderController } from './RenderController';
+import { GameController } from './GameController';
 
 
 export interface ControllerConfig {
@@ -9,11 +10,11 @@ export interface ControllerConfig {
 export class ControllerFacade {
     toolController: ToolController;
     renderController: RenderController;
+    gameController: GameController;
 
-    constructor(config: ControllerConfig) {
+    constructor() {
         this.toolController = new ToolController(this);
-        this.renderController = new RenderController(config.render);
+        this.renderController = new RenderController();
+        this.gameController = new GameController();
     }
-
-
 }

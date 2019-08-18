@@ -1,13 +1,15 @@
 
 
 export class RenderController {
-    private readonly rerender: () => void;
+    private render: () => void;
 
-    constructor(rerender: () => void) {
-        this.rerender = rerender;
+    setRender(render: () => void) {
+        this.render = render;
     }
 
     reRender(): void {
-        this.rerender();
+        if (this.render) {
+            this.render();
+        }
     }
 }

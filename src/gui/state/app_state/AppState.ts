@@ -17,7 +17,6 @@ export interface AppState {
     };
     world: World;
     settings: ApplicationSettings;
-    tools: ToolIcon[];
 
     widgetInfo: number;
 

@@ -13,7 +13,7 @@
     },
     "include": [
       "src/**/*.ts",
-      "test/**/*.ts", "src/gui/controller/ToolController.tsx"
+      "test/**/*.ts", "src/gui/controller/ToolController.ts"
     ],
     "exclude": [
       "node_modules",

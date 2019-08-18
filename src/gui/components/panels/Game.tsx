@@ -11,9 +11,6 @@ import { HealthWidget } from '../widgets/health_widget/HealthWidget';
 import styled from 'styled-components';
 import { Widgetbar } from '../widgets/Widgetbar';
 import { ToolIcon } from '../dialogs/inventory/tools_icons/ToolIcon';
-import { ToolWidget } from '../widgets/tool_widget/ToolWidget';
-import ActivateToolActions from '../../state/tools_state/tools_actions/ActivateToolActions';
-import DeactivateToolActions from '../../state/tools_state/tools_actions/DeactivateToolActions';
 import { WorldSetup } from '../../../game/setup/WorldSetup';
 import { CameraSetup } from '../../../game/setup/CameraSetup';
 import { MainLightSetup } from '../../../game/setup/MainLightSetup';
@@ -23,6 +20,8 @@ import GetWorldActions from '../../state/world_state/world_actions/GetWorldActio
 import UpdateWorldActions from '../../state/world_state/world_actions/UpdateWorldActions';
 import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
 import WidgetAction from '../../state/world_state/world_actions/WidgetAction';
+import { ControllerFacade } from '../../controller/ControllerFacade';
+import { ControllerContext } from './Context';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
 
@@ -30,8 +29,7 @@ const mapStateToProps = (state: AppState) => {
     return {
         world: state.world,
         services: state.services,
-        widgetInfo: state.widgetInfo,
-        tools: state.tools
+        widgetInfo: state.widgetInfo
     };
 };
 
@@ -40,8 +38,6 @@ const mapDispatchToProps = dispatch => ({
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
     setWorld: (world: World, services: ServiceFacade) => dispatch(SetWorldAction.request(world, services)),
     setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health)),
-    activateTool: (tool: ToolIcon) => dispatch(ActivateToolActions.request(tool)),
-    deactivateTool: (tool: ToolIcon) => dispatch(DeactivateToolActions.request(tool)),
 });
 
 const WidgetContainer = styled.div`
@@ -51,9 +47,11 @@ const WidgetContainer = styled.div`
 `;
 
 class Game extends React.Component<GameProps, GameState> {
+    // static contextTyp  = ControllerContext;
     private intervalTimeout: NodeJS.Timeout;
     private isInitialized = false;
     private services: ServiceFacade;
+    context: ControllerFacade;
 
     constructor(props: GameProps) {
         super(props);
@@ -86,7 +84,7 @@ class Game extends React.Component<GameProps, GameState> {
                 world = worldSetup.setup(world);
                 this.services = new ServiceFacade(world, {openInventory: this.props.openInventory});
                 this.props.setWorld(world, this.services);
-
+                this.context.gameController.setGameServices(this.services);
 
                 document.addEventListener('keydown', (event: KeyboardEvent) => this.services.keyboardHandler.onKeyDown(event));
                 document.addEventListener('keyup', (event: KeyboardEvent) => this.services.keyboardHandler.onKeyUp(event));
@@ -114,7 +112,6 @@ class Game extends React.Component<GameProps, GameState> {
     public render() {
         return (
             <div>
-
                 <canvas ref={this.state.canvasRef}></canvas>
                 <WidgetContainer>
                     <HealthWidget health={this.props.widgetInfo}/>
@@ -125,6 +122,7 @@ class Game extends React.Component<GameProps, GameState> {
     }
 }
 
+Game.contextType = ControllerContext;
 export interface GameProps {
     loadGame(): void;
     updateGame(world: World): void;
@@ -136,6 +134,7 @@ export interface GameProps {
     openInventory(): void;
     activateTool(tool: ToolIcon): void;
     deactivateTool(tool: ToolIcon): void;
+    contoller?: ControllerFacade;
 }
 
 export interface GameState {

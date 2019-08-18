@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import { ControllerContext } from '../panels/App';
 import { ToolWidget } from './tool_widget/ToolWidget';
 import { ControllerFacade } from '../../controller/ControllerFacade';
+import { ControllerContext } from '../panels/Context';
 
 const WidgetbarStyled = styled.div`
     position: absolute;
