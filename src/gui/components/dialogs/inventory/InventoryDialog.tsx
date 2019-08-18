@@ -9,6 +9,7 @@ import colors from '../../miscellaneous/colors';
 import { INVENTORY_ITEM_SIZE, InventoryItem } from './InventoryItem';
 import * as _ from 'lodash';
 import { PlaceholderItem } from './PlaceholderItem';
+import { ToolController } from '../../../controller/ToolController';
 
 const PickedToolsSection = styled.div`
     min-height: ${INVENTORY_ITEM_SIZE + 10}px;
@@ -29,20 +30,20 @@ const InventoryDialog = (props: InventoryDialogProps) => {
 
     const onDrop = React.useCallback(
         (toolName: string, storageIndex: number) => {
-            props.grabTool(_.find(props.tools, (tool) => tool.name === toolName), storageIndex);
+            props.toolController.grabTool(_.find(props.toolController.tools, (tool) => tool.name === toolName), storageIndex);
         },
         [],
     );
 
     const maxPickedTools = 2;
     const carriedTools = _.range(0, maxPickedTools).map((storageIndex: number) => {
-        const tool = _.find(props.tools, t => t.storageIndex === storageIndex);
+        const tool = _.find(props.toolController.tools, t => t.storageIndex === storageIndex);
         return tool ?
-            <InventoryItem key={tool.name} tool={tool} close={() => props.releaseTool(tool)}/> :
+            <InventoryItem key={tool.name} tool={tool} close={() => props.toolController.releaseTool(tool)}/> :
             <PlaceholderItem onDrop={onDrop} storageIndex={storageIndex}/>;
     });
 
-    const restOfTheTools = props.tools
+    const restOfTheTools = props.toolController.tools
                             .filter(tool => !tool.isCarrying)
                             .map(tool =>  <InventoryItem key={tool.name} draggable={true} tool={tool}/>);
 
@@ -70,7 +71,7 @@ export default withDialog(InventoryDialog, {
 
 
 export interface InventoryDialogProps extends DialogTemplateProps {
-    tools: ToolIcon[];
+    toolController: ToolController;
     grabTool(tool: ToolIcon, index: number);
     releaseTool(tool: ToolIcon);
 }

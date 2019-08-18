@@ -7,6 +7,9 @@ import * as React from 'react';
 import InventoryDialog, { InventoryDialogProps } from './InventoryDialog';
 import ReleaseToolActions from '../../../state/tools_state/tools_actions/ReleaseToolActions';
 import { AppState } from '../../../state/app_state/AppState';
+import { ControllerContext } from '../../panels/App';
+import { ToolController } from '../../../controller/ToolController';
+import { ControllerFacade } from '../../../controller/ControllerFacade';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -26,7 +29,13 @@ export const InventoryRoute = withRouter(connect(mapStateToProps, mapDispatchToP
     };
 
     return (
-        <InventoryDialog {...props} headerOptions={headerOptions}/>
+        <ControllerContext.Consumer>
+            {
+                (controllers: ControllerFacade) => (
+                    <InventoryDialog {...props} toolController={controllers.toolController} headerOptions={headerOptions}/>
+                )
+            }
+        </ControllerContext.Consumer>
     );
 }));
 

@@ -19,7 +19,7 @@ export class VectorUtils {
      */
     static localNormalDirection(globalDirection: Vector3, originMesh: Mesh) {
         let direction = this.globalToLocalVector(globalDirection, originMesh);
-        direction = direction.subtract(<any> origin);
+        direction = direction.subtract(originMesh.position);
         direction = Vector3.Normalize(direction);
 
         return direction;

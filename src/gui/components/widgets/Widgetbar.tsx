@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import * as React from 'react';
+import { ControllerContext } from '../panels/App';
+import { ToolWidget } from './tool_widget/ToolWidget';
+import { ControllerFacade } from '../../controller/ControllerFacade';
 
 const WidgetbarStyled = styled.div`
     position: absolute;
@@ -14,12 +17,23 @@ const WidgetbarStyled = styled.div`
     }
 `;
 
-export const Widgetbar = (props: WidgetbarProps) => {
+export const Widgetbar = () => {
     return (
-        <WidgetbarStyled>{props.children}</WidgetbarStyled>
+        <ControllerContext.Consumer>
+        {
+            (controllers: ControllerFacade) => {
+
+                const widgets = controllers.toolController.tools
+                    .filter(tool => tool.isCarrying)
+                    .map(tool => <ToolWidget
+                            onClick={t => t.isActive ? controllers.toolController.deactivateTool(t) : controllers.toolController.activateTool(t)}
+                            tool={tool}
+                        />
+                    );
+
+                return <WidgetbarStyled>{widgets}</WidgetbarStyled>
+            }
+        }
+        </ControllerContext.Consumer>
     );
 };
-
-export interface WidgetbarProps {
-    children: JSX.Element[];
-}

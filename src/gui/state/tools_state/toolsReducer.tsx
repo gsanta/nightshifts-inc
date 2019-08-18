@@ -16,18 +16,7 @@ export const ThermometerIconStyled = styled.div`
     background-repeat: no-repeat;
 `;
 
-const initialState = [
-    {
-        name: 'thermometer',
-        isCarrying: false,
-        isActive: false,
-        storageIndex: null,
-        getIcon(iconSize: number): JSX.Element {
-            return (
-                <ThermometerIconStyled size={iconSize}/>
-            );
-        }
-    },
+const initialState: ToolIcon[] = [
     {
         name: 'flashlight',
         isCarrying: false,
@@ -40,13 +29,13 @@ const initialState = [
         }
     },
     {
-        name: 'camera',
+        name: 'portal',
         isCarrying: false,
         isActive: false,
         storageIndex: null,
         getIcon(iconSize: number): JSX.Element {
             return (
-                <PhotoCamera style={{width: `${iconSize - 6}px`, height: `${iconSize - 6}px`, padding: '3px'}}/>
+                <Highlight style={{width: `${iconSize - 6}px`, height: `${iconSize - 6}px`, padding: '3px'}}/>
             );
         }
     }

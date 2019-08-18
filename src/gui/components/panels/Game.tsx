@@ -112,14 +112,6 @@ class Game extends React.Component<GameProps, GameState> {
     }
 
     public render() {
-        const widgets = this.props.tools
-            .filter(tool => tool.isCarrying)
-            .map(tool => <ToolWidget
-                    onClick={t => t.isActive ? this.props.deactivateTool(t) : this.props.activateTool(t)}
-                    tool={tool}
-                />
-            );
-
         return (
             <div>
 
@@ -127,7 +119,7 @@ class Game extends React.Component<GameProps, GameState> {
                 <WidgetContainer>
                     <HealthWidget health={this.props.widgetInfo}/>
                 </WidgetContainer>
-                <Widgetbar>{widgets}</Widgetbar>
+                <Widgetbar/>
             </div>
         );
     }

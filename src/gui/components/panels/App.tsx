@@ -13,6 +13,8 @@ import '../../../translations/config';
 import { ApplicationSettingsRoute } from '../dialogs/application_settings/ApplicationSettingsRoute';
 import { AppStore } from '../../state/app_state/AppStore';
 import { AppState, AppLoadingState } from '../../state/app_state/AppState';
+import { ControllerFacade } from '../../controller/ControllerFacade';
+import { render } from '../../index';
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -20,6 +22,8 @@ const mapStateToProps = (state: AppState) => {
         appLoadingState: state.appLoadingState,
     };
 };
+
+export const ControllerContext = React.createContext(null);
 
 class App extends React.Component<any, AppComponentState> {
 
@@ -45,6 +49,7 @@ class App extends React.Component<any, AppComponentState> {
         }
 
         return (
+            <ControllerContext.Provider value={new ControllerFacade({render: () => this.forceUpdate()})}>
             <div>
                 <Header/>
 
@@ -56,6 +61,7 @@ class App extends React.Component<any, AppComponentState> {
                 <Route exact path="/signup" component={SignupRoute}/>
                 <Route exact path="/debug" component={DebugRoute}/>
             </div>
+            </ControllerContext.Provider>
         );
     }
 
@@ -73,9 +79,7 @@ const RouterApp = withRouter(connect(mapStateToProps)(App));
 export default () => {
     return (
         <Provider store={AppStore}>
-            {/* <I18nextProvider i18n={config}> */}
-                <RouterApp/>
-            {/* </I18nextProvider> */}
+            <RouterApp/>
         </Provider>
     );
 };
