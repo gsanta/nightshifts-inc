@@ -63,32 +63,32 @@ describe('PortalTool', () => {
 
             portalTool.update();
 
-            expect(portal.meshes[0].position).toEqual(new Vector3(walls[0].boundingBox.getBoundingCenter().x, 8, walls[0].boundingBox.getBoundingCenter().y));
+            expect(portal.meshes[0].position).toEqual(new Vector3(walls[0].boundingBox.getBoundingCenter().x, 0, walls[0].boundingBox.getBoundingCenter().y));
             expect(portal.meshes[0].rotationQuaternion).toEqual(walls[0].meshes[0].rotationQuaternion);
             expect(portal.boundingBox.getBoundingCenter()).toEqual(walls[0].boundingBox.getBoundingCenter());
 
             portalTool.update();
 
-            expect(portal.meshes[0].position).toEqual(new Vector3(walls[1].boundingBox.getBoundingCenter().x, 8, walls[1].boundingBox.getBoundingCenter().y));
+            expect(portal.meshes[0].position).toEqual(new Vector3(walls[1].boundingBox.getBoundingCenter().x, 0, walls[1].boundingBox.getBoundingCenter().y));
             expect(portal.meshes[0].rotationQuaternion).toEqual(walls[1].meshes[0].rotationQuaternion);
             expect(portal.boundingBox.getBoundingCenter()).toEqual(walls[1].boundingBox.getBoundingCenter());
         });
 
-        // it ('does not modify the Portal\'s position if no hits were found for Portal placement', () => {
-        //     const rayCaster = mockRayCaster(() => [null, new Point(0, 0)]);
+        it ('does not modify the Portal\'s position if no hits were found for Portal placement', () => {
+            const rayCaster = mockRayCaster(() => [null, null]);
 
-        //     const portalTool = new PortalTool(world, rayCaster);
-        //     const portal = world.getWorldItemsByType('portal')[0];
+            const portalTool = new PortalTool(world, rayCaster);
+            const portal = world.getWorldItemsByType('portal')[0];
 
-        //     expect(portal.meshes[0].position).toEqual(new Vector3(7, 0, 5));
-        //     expect(portal.meshes[0].rotationQuaternion).toEqual(new Quaternion(0, 0, 0, 1));
-        //     expect(portal.boundingBox.getBoundingCenter()).toEqual(new Point(7, 5));
+            expect(portal.meshes[0].position).toEqual(new Vector3(7, 0, 5));
+            expect(portal.meshes[0].rotationQuaternion).toEqual(new Quaternion(0, 0, 0, 1));
+            expect(portal.boundingBox.getBoundingCenter()).toEqual(new Point(7, 5));
 
-        //     portalTool.update();
+            portalTool.update();
 
-        //     expect(portal.meshes[0].position).toEqual(new Vector3(7, 0, 5));
-        //     expect(portal.meshes[0].rotationQuaternion).toEqual(new Quaternion(0, 0, 0, 1));
-        //     expect(portal.boundingBox.getBoundingCenter()).toEqual(new Point(7, 5));
-        // });
+            expect(portal.meshes[0].position).toEqual(new Vector3(7, 0, 5));
+            expect(portal.meshes[0].rotationQuaternion).toEqual(new Quaternion(0, 0, 0, 1));
+            expect(portal.boundingBox.getBoundingCenter()).toEqual(new Point(7, 5));
+        });
     });
 });
