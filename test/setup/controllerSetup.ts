@@ -1,7 +1,7 @@
 import { ControllerFacade } from '../../src/gui/controller/ControllerFacade';
 
 
-export function mockController(): ControllerFacade {
+export function mockControllers(): ControllerFacade {
 
     const controller = new ControllerFacade();
 

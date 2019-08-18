@@ -17,7 +17,7 @@ export class GameController {
         this.gameServices.toolServices.activateTool(tool);
     }
 
-    deActivateTool(tool: ToolIcon) {
+    deactivateTool(tool: ToolIcon) {
         this.checkIfGameServicesSet();
         this.gameServices.toolServices.deactivateTool(tool);
     }

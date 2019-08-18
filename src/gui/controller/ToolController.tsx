@@ -57,7 +57,7 @@ export class ToolController {
 
     deactivateTool(tool: ToolIcon) {
         tool.isActive = false;
-        this.controllers.gameController.deActivateTool(tool);
+        this.controllers.gameController.deactivateTool(tool);
         this.controllers.renderController.reRender();
     }
 }
