@@ -3,9 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './en.json';
 import hu from './hu.json';
 import { initReactI18next } from 'react-i18next';
-import UpdateSettingsActions from '../gui/state/settings_state/actions/UpdateSettingsActions';
 import _ from 'lodash';
-import { AppStore } from '../gui/state/app_state/AppStore';
 
 const supportedLanguages: {abbr: string, file: any}[] = [
     {
@@ -46,7 +44,7 @@ i18n
         },
         () => {
             const language = _.find(i18n.languages, (lan) => _.find(supportedLanguages, (suppLan) => suppLan.abbr === lan));
-            AppStore.dispatch(UpdateSettingsActions.request({ language: <'en' | 'hu'> language || 'en' }));
+            // AppStore.dispatch(UpdateSettingsActions.request({ language: <'en' | 'hu'> language || 'en' }));
         }
     );
 

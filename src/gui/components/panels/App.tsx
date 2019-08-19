@@ -1,31 +1,18 @@
+import * as Mousetrap from 'mousetrap';
 import * as React from 'react';
-import { connect, Provider } from 'react-redux';
-import { Redirect, Route, withRouter } from 'react-router-dom';
-import { User } from '../../state/settings_state/model/User';
-import Game from './Game';
-import Header from './Header';
+import { Route, withRouter } from 'react-router-dom';
+import '../../../translations/config';
+import { ControllerFacade } from '../../controller/ControllerFacade';
+import { ApplicationSettingsRoute } from '../dialogs/application_settings/ApplicationSettingsRoute';
+import { DebugRoute } from '../dialogs/debug/DebugRoute';
 import { InventoryRoute } from '../dialogs/inventory/InventoryRoute';
 import { LoginRoute } from '../dialogs/login/LoginRoute';
-import * as Mousetrap from 'mousetrap';
 import { SignupRoute } from '../dialogs/signup/SignupRoute';
-import { DebugRoute } from '../dialogs/debug/DebugRoute';
-import '../../../translations/config';
-import { ApplicationSettingsRoute } from '../dialogs/application_settings/ApplicationSettingsRoute';
-import { AppStore } from '../../state/app_state/AppStore';
-import { AppState, AppLoadingState } from '../../state/app_state/AppState';
-import { ControllerFacade, ControllerConfig } from '../../controller/ControllerFacade';
-import { render } from '../../index';
 import { ControllerContext } from './Context';
+import Game from './Game';
+import Header from './Header';
 
-const mapStateToProps = (state: AppState) => {
-    return {
-        user: state.settings.user,
-        appLoadingState: state.appLoadingState,
-    };
-};
-
-
-class App extends React.Component<any, AppComponentState> {
+class App extends React.Component<any, null> {
     static contextType = ControllerContext;
     context: ControllerFacade;
 
@@ -44,10 +31,6 @@ class App extends React.Component<any, AppComponentState> {
         Mousetrap.bind('shift+d', () => {
             props.history.push('/debug');
         });
-
-        this.state = {
-            user: null
-        };
     }
 
     public render() {
@@ -71,26 +54,11 @@ class App extends React.Component<any, AppComponentState> {
     }
 
     private shouldRedirectToLoginPage() {
-        return this.props.appLoadingState !== 'loading' &&
-            this.props.user === null &&
+        return !this.context.userController.user &&
             this.props.history.location.pathname !== '/login' &&
             this.props.history.location.pathname !== '/signup';
     }
 }
 
 
-const RouterApp = withRouter(connect(mapStateToProps)(App));
-
-export default class TheApp extends React.Component<{}, {}> {
-    render() {
-        return (
-            <Provider store={AppStore}>
-                <RouterApp/>
-            </Provider>
-        );
-    }
-}
-
-export interface AppComponentState {
-    user: User | null;
-}
+export default withRouter(App);

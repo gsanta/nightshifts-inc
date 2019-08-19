@@ -1,12 +1,9 @@
 
-import { connect } from 'react-redux';
-import { ToolIcon } from './tools_icons/ToolIcon';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
-import InventoryDialog, { InventoryDialogProps } from './InventoryDialog';
-import { AppState } from '../../../state/app_state/AppState';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ControllerFacade } from '../../../controller/ControllerFacade';
 import { ControllerContext } from '../../panels/Context';
+import InventoryDialog, { InventoryDialogProps } from './InventoryDialog';
 
 export const InventoryRoute = withRouter(((props: RouteComponentProps & InventoryDialogProps) => {
     const headerOptions = {

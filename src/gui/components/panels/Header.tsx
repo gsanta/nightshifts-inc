@@ -1,13 +1,12 @@
-import styled from 'styled-components';
-import * as React from 'react';
-import colors from '../miscellaneous/colors';
-import { User } from '../../state/settings_state/model/User';
 import withStyles from '@material-ui/styles/withStyles';
-import { connect } from 'react-redux';
-import SignoutActions from '../../state/settings_state/actions/SignoutActions';
-import SignoutIcon from '../icons/SignoutIcon';
+import * as React from 'react';
+import styled from 'styled-components';
+import { User } from '../../model/User';
 import SettingsIcon from '../icons/SettingsIcon';
-import { AppState } from '../../state/app_state/AppState';
+import SignoutIcon from '../icons/SignoutIcon';
+import colors from '../miscellaneous/colors';
+import { ControllerContext } from './Context';
+import { ControllerFacade } from '../../controller/ControllerFacade';
 
 const HeaderDiv = styled.div`
     width: 100%;
@@ -27,18 +26,6 @@ const styles = theme => ({
     } as any
 });
 
-const mapStateToProps = (state: AppState) => {
-    return {
-        user: state.settings.user
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        signout: () => dispatch(SignoutActions.request()),
-    };
-};
-
 class Header extends React.Component<HeaderProps, HeaderState> {
     constructor(props: HeaderProps) {
         super(props);
@@ -54,22 +41,30 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     public render() {
-        const user = this.props.user;
-
-        const getProfileSection = () => {
-            return (
-                <ProfileSection>
-                    <SettingsIcon activate={() => null}/>
-                    <SignoutIcon activate={this.props.signout}/>
-                </ProfileSection>
-            );
-        };
-
         return (
-            <HeaderDiv>
-                {user ? getProfileSection() : null}
-            </HeaderDiv>
-        );
+            <ControllerContext.Consumer>
+                {
+                    (controllers: ControllerFacade) => {
+                        const user = controllers.userController.user;
+
+                        const getProfileSection = () => {
+                            return (
+                                <ProfileSection>
+                                    <SettingsIcon activate={() => null}/>
+                                    <SignoutIcon activate={() => controllers.userController.logout()}/>
+                                </ProfileSection>
+                            );
+                        };
+
+                        return (
+                            <HeaderDiv>
+                                {user ? getProfileSection() : null}
+                            </HeaderDiv>
+                        );
+                    }
+                }
+            </ControllerContext.Consumer>
+        )
     }
 
     private handleClick(event: React.SyntheticEvent<HTMLElement>) {
@@ -88,22 +83,19 @@ class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     private handleSignOut() {
-        // this.props.userActions.signOut();
         this.setState({ anchorElement: null });
     }
 }
 
 const StyledHeader = withStyles(styles)(Header);
 
-export default connect(mapStateToProps, mapDispatchToProps)(StyledHeader);
+export default StyledHeader;
 
 export interface HeaderState {
     anchorElement: HTMLElement | null;
 }
 
 export interface HeaderProps {
-    classes: any;
-    history: any;
-    user: User;
-    signout(): void;
+    classes?: any;
+    history?: any;
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import withDialog, { DialogTemplateProps } from '../dialog_template/withDialog';
 import { useState } from 'react';
-import { User } from '../../../state/settings_state/model/User';
 import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 import styled from 'styled-components';
 import colors from '../../miscellaneous/colors';
@@ -11,8 +10,9 @@ import Button from '../../forms/Button';
 import { PasswordUpdateSection } from './PasswordUpdateSection';
 import TextField from '../../forms/text_field/TextField';
 import { LanguageSelector } from './LanguageSelector';
-import { ApplicationSettings } from '../../../state/settings_state/model/ApplicationSettings';
 import { useTranslation } from 'react-i18next';
+import { UserController } from '../../../controller/UserController';
+import { SettingsController } from '../../../controller/SettingsController';
 
 const ControlLabelStyled = styled.div`
     font-size: 12px;
@@ -61,13 +61,13 @@ const ApplicationSettingsMainContentStyled = styled.div`
 
 const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) => {
     const { t, i18n } = useTranslation();
-    const {user} = props.settings;
+    const user = props.userController.user;
 
     const [didUserPropsArrive, setDidUserPropsArrive] = useState(user ? true : false);
 
     const [email, setEmail] = useState(user ? user.email : null);
     const [authStrategy, setAuthStrategy] = useState(user ? user.authStrategy : null);
-    const [language, setLanguage] = useState(props.settings.language);
+    const [language, setLanguage] = useState(props.settingsController.language);
 
     if (user && !didUserPropsArrive) {
         setEmail(user.email);
@@ -76,7 +76,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
     }
 
     const updatePassword = (newPassword: string, oldPassword: string) => {
-        props.updatePassword({...user, email: email}, newPassword, oldPassword);
+        props.userController.updatePassword({...user, email: email}, newPassword, oldPassword);
     };
 
     return (
@@ -98,7 +98,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
                     {authStrategy === 'facebook' ?
                         renderLoggedInWithFacebookText() :
                         <PasswordUpdateSection
-                            errors={props.errors}
+                            errors={props.userController.errors}
                             updatePassword={updatePassword}
                         />
                     }
@@ -115,8 +115,7 @@ const ApplicationSettingsDialogBody = (props: ApplicationSettingsDialogProps) =>
                     label={t('settings.save')}
                     onClick={
                         () => {
-                            const updatedUser = {...user, email: email};
-                            props.updateSettings({...props.settings, user: updatedUser, language: language});
+                            props.settingsController.setLanguage(language);
                         }
                     }
                 />
@@ -146,8 +145,6 @@ export default withDialog(ApplicationSettingsDialogBody, {
 
 
 export interface ApplicationSettingsDialogProps extends DialogTemplateProps {
-    settings: ApplicationSettings;
-    errors: ErrorMessage[];
-    updatePassword(user: User, newPassword: string, oldPassword: string);
-    updateSettings(settings: ApplicationSettings);
+    userController: UserController;
+    settingsController: SettingsController;
 }

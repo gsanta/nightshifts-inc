@@ -1,16 +1,15 @@
-import { World } from '../src/game/model/game_objects/World';
-import { GameObject } from '../src/game/model/game_objects/GameObject';
-import { Quaternion, Mesh, Vector3, PickingInfo, AbstractMesh, Scene, Ray, RayHelper } from 'babylonjs';
-import { WorldItemInfoFactory, WorldParser, transformators, parsers, WorldItemInfo, BabylonConverter } from '@nightshifts.inc/world-generator';
-import { Polygon, Point } from '@nightshifts.inc/geometry';
+import { Point, Polygon } from '@nightshifts.inc/geometry';
+import { BabylonConverter, parsers, transformators, WorldItemInfo, WorldItemInfoFactory, WorldParser } from '@nightshifts.inc/world-generator';
+import { Mesh, Quaternion, Ray, RayHelper, Scene, Vector3 } from 'babylonjs';
+import * as sinon from 'sinon';
 import { GameObjectFactory } from '../src/game/import/GameObjectFactory';
 import { Border } from '../src/game/model/game_objects/Border';
+import { GameObject } from '../src/game/model/game_objects/GameObject';
 import { Room } from '../src/game/model/game_objects/Room';
-import { VectorUtils } from '../src/game/model/utils/VectorUtils';
-import { RayCaster, HitInfo } from '../src/game/model/utils/RayCaster';
-import * as sinon from 'sinon';
+import { World } from '../src/game/model/game_objects/World';
 import { BabylonFactory } from '../src/game/model/utils/BabylonFactory';
-import SignupActions from '../src/gui/state/settings_state/actions/SignupActions';
+import { HitInfo, RayCaster } from '../src/game/model/utils/RayCaster';
+import { VectorUtils } from '../src/game/model/utils/VectorUtils';
 
 const defaultStrWorld = `
 map \`

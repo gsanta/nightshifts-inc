@@ -8,13 +8,12 @@ import Button from '../../forms/Button';
 import Link from '../../forms/link/Link';
 import { FacebookLoginButton } from '../../forms/facebook_button/FacebookLoginButton';
 import { Redirect } from 'react-router-dom';
-import { User } from '../../../state/settings_state/model/User';
 import { useState } from 'react';
-import { ErrorMessage } from '../../miscellaneous/ErrorMessage';
 import find from 'lodash/find';
 import StandaloneErrorLabel from '../../miscellaneous/StandaloneErrorLabel';
 import TextField from '../../forms/text_field/TextField';
 import { useTranslation } from 'react-i18next';
+import { UserController } from '../../../controller/UserController';
 
 const InputSectionStyled = styled.div`
     margin-left: 10px;
@@ -57,7 +56,7 @@ const TextFieldWithValidationStyled = styled.div`
 `;
 
 const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps) => {
-    if (props.user) {
+    if (props.userController.user) {
         return <Redirect to="/"/>;
     }
 
@@ -66,10 +65,10 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
-    const emailError = find(props.errors, error => error.properties.indexOf('email') !== -1);
+    const emailError = find(props.userController.errors, error => error.properties.indexOf('email') !== -1);
     const emailErrorMessage = emailError ? <StandaloneErrorLabel>{emailError.message}</StandaloneErrorLabel> : null;
 
-    const passwordError = find(props.errors, error => error.properties.indexOf('password') !== -1);
+    const passwordError = find(props.userController.errors, error => error.properties.indexOf('password') !== -1);
     const passwordErrorMessage = passwordError ? <StandaloneErrorLabel>{passwordError.message}</StandaloneErrorLabel> : null;
 
     return (
@@ -97,21 +96,17 @@ const SignupDialogBody: React.SFC<SignupDialogProps> = (props: SignupDialogProps
                 </TextFieldWithValidationStyled>
             </InputSectionStyled>
             <ButtonLine>
-                <LoginButtonStyled label={t('signup.create')} onClick={() => props.signup(email, password)}/>
+                <LoginButtonStyled label={t('signup.create')} onClick={() => props.userController.signup(email, password)}/>
             </ButtonLine>
             <TitleLine>{t('signup.orCreateWith') as string}</TitleLine>
             <ButtonLine>
-                <FacebookButtonStyled callback={(event: {accessToken: string}) => props.loginFacebook(event.accessToken)}/>
+                <FacebookButtonStyled callback={(event: {accessToken: string}) => props.userController.loginFacebook(event.accessToken)}/>
             </ButtonLine>
             <BottomLine>
                 <GotoLoginLinkStyled>{t('signup.alreadyHaveAnAccount')} <Link to="/login">{t('signup.goToLogin')}</Link></GotoLoginLinkStyled>
             </BottomLine>
         </div>
     );
-};
-
-SignupDialogBody.defaultProps = {
-    errors: []
 };
 
 export default withDialog(SignupDialogBody, {
@@ -123,8 +118,5 @@ export default withDialog(SignupDialogBody, {
 });
 
 export interface SignupDialogProps extends DialogTemplateProps {
-    loginFacebook(accessToken: string): void;
-    signup(email: string, password: string): void;
-    user: User;
-    errors: ErrorMessage[];
+    userController: UserController;
 }

@@ -1,41 +1,19 @@
+import { Color4, Engine, Scene } from 'babylonjs';
 import * as React from 'react';
-import { GameEngine } from '../../../game/GameEngine';
-import {connect} from 'react-redux';
-import { World } from '../../../game/model/game_objects/World';
-import colors from '../miscellaneous/colors';
-import { Color4, CannonJSPlugin, Vector3, OimoJSPlugin, PhysicsViewer } from 'babylonjs';
-import { WorldImporter } from '../../../game/import/WorldImporter';
-import { Engine } from 'babylonjs';
-import { Scene } from 'babylonjs';
-import { HealthWidget } from '../widgets/health_widget/HealthWidget';
 import styled from 'styled-components';
-import { Widgetbar } from '../widgets/Widgetbar';
-import { ToolIcon } from '../dialogs/inventory/tools_icons/ToolIcon';
-import { WorldSetup } from '../../../game/setup/WorldSetup';
+import { GameEngine } from '../../../game/GameEngine';
+import { WorldImporter } from '../../../game/import/WorldImporter';
+import { ServiceFacade } from '../../../game/services/ServiceFacade';
 import { CameraSetup } from '../../../game/setup/CameraSetup';
 import { MainLightSetup } from '../../../game/setup/MainLightSetup';
-import { ServiceFacade } from '../../../game/services/ServiceFacade';
-import { AppState } from '../../state/app_state/AppState';
-import GetWorldActions from '../../state/world_state/world_actions/GetWorldActions';
-import UpdateWorldActions from '../../state/world_state/world_actions/UpdateWorldActions';
-import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
+import { WorldSetup } from '../../../game/setup/WorldSetup';
 import { ControllerFacade } from '../../controller/ControllerFacade';
+import colors from '../miscellaneous/colors';
+import { HealthWidget } from '../widgets/health_widget/HealthWidget';
+import { Widgetbar } from '../widgets/Widgetbar';
 import { ControllerContext } from './Context';
 
 const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
-
-const mapStateToProps = (state: AppState) => {
-    return {
-        world: state.world,
-        services: state.services
-    };
-};
-
-const mapDispatchToProps = dispatch => ({
-    loadGame: () => dispatch(GetWorldActions.request()),
-    updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
-    setWorld: (world: World, services: ServiceFacade) => dispatch(SetWorldAction.request(world, services)),
-});
 
 const WidgetContainer = styled.div`
     position: absolute;
@@ -61,8 +39,6 @@ class Game extends React.Component<GameProps, GameState> {
     }
 
     public componentDidMount() {
-        this.props.loadGame();
-
         const canvas = this.state.canvasRef.current;
         const engine = new Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
         const scene = new Scene(engine);
@@ -80,7 +56,6 @@ class Game extends React.Component<GameProps, GameState> {
                 const worldSetup = new WorldSetup(new CameraSetup(), new MainLightSetup());
                 world = worldSetup.setup(world);
                 this.services = new ServiceFacade(world, {openInventory: this.props.openInventory});
-                this.props.setWorld(world, this.services);
                 this.context.gameController.setGameServices(this.services);
 
                 document.addEventListener('keydown', (event: KeyboardEvent) => this.services.keyboardHandler.onKeyDown(event));
@@ -121,15 +96,7 @@ class Game extends React.Component<GameProps, GameState> {
 
 Game.contextType = ControllerContext;
 export interface GameProps {
-    loadGame(): void;
-    updateGame(world: World): void;
-    setWorld(world: World, services: ServiceFacade): void;
-    world: World;
-    tools: ToolIcon[];
     openInventory(): void;
-    activateTool(tool: ToolIcon): void;
-    deactivateTool(tool: ToolIcon): void;
-    contoller?: ControllerFacade;
 }
 
 export interface GameState {
@@ -138,5 +105,5 @@ export interface GameState {
     gameEngine: GameEngine;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default Game;
 
