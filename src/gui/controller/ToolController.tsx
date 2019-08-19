@@ -40,24 +40,24 @@ export class ToolController {
     grabTool(tool: ToolIcon, storageIndex: number) {
         tool.isCarrying = true;
         tool.storageIndex = storageIndex;
-        this.controllers.renderController.reRender();
+        this.controllers.renderController.render();
     }
 
     releaseTool(tool: ToolIcon) {
         tool.isCarrying = false;
         tool.storageIndex = null;
-        this.controllers.renderController.reRender();
+        this.controllers.renderController.render();
     }
 
     activateTool(tool: ToolIcon) {
         tool.isActive = true;
         this.controllers.gameController.activateTool(tool);
-        this.controllers.renderController.reRender();
+        this.controllers.renderController.render();
     }
 
     deactivateTool(tool: ToolIcon) {
         tool.isActive = false;
         this.controllers.gameController.deactivateTool(tool);
-        this.controllers.renderController.reRender();
+        this.controllers.renderController.render();
     }
 }

@@ -3,7 +3,7 @@ import { ServiceFacade } from '../../../src/game/services/ServiceFacade';
 import * as sinon from 'sinon';
 import { ToolService } from '../../../src/game/services/ToolService';
 import { ToolIcon } from '../../../src/gui/components/dialogs/inventory/tools_icons/ToolIcon';
-import { mockControllers } from '../../setup/controllerSetup';
+import { mockControllers } from '../../mocks/controllerMocks';
 
 
 describe('GameController', () => {

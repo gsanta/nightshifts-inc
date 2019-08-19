@@ -2,17 +2,11 @@ import { DebugOptions } from '../components/dialogs/debug/DebugOptions';
 import { ControllerFacade } from './ControllerFacade';
 
 
-const initialState: DebugOptions = {
-    areAllLightsTurnedOn: false,
-    showRoomLabels: true,
-    showBoundingBoxes: false
-};
-
 export class DebugController {
     readonly controllers: ControllerFacade;
-    isRoofDisplayed: boolean;
-    allLightsOn: boolean;
-    isBoundingBoxDisplayed: boolean;
+    isRoofDisplayed = true;
+    allLightsOn = false;
+    isBoundingBoxDisplayed = false;
 
     constructor(controllers: ControllerFacade) {
         this.controllers = controllers;
@@ -26,7 +20,7 @@ export class DebugController {
             this.isRoofDisplayed = false;
             this.controllers.gameController.getGameServices().debugServices.hideRoofs();
         }
-        this.controllers.renderController.reRender();
+        this.controllers.renderController.render();
     }
 
     switchlAllLights(on: boolean) {
@@ -37,14 +31,17 @@ export class DebugController {
             this.allLightsOn = false;
             this.controllers.gameController.getGameServices().debugServices.turnOffAllLights();
         }
-        this.controllers.renderController.reRender();
+        this.controllers.renderController.render();
     }
 
     displayBoundingBoxes(on: boolean) {
         if (on) {
+            this.isBoundingBoxDisplayed = true;
             this.controllers.gameController.getGameServices().debugServices.displayBoundingBoxes();
         } else {
+            this.isBoundingBoxDisplayed = false;
             this.controllers.gameController.getGameServices().debugServices.hideBoundingBoxes();
         }
+        this.controllers.renderController.render();
     }
 }

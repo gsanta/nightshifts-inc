@@ -1,15 +1,15 @@
 
 
 export class RenderController {
-    private render: () => void;
+    private renderFunc: () => void;
 
     setRender(render: () => void) {
-        this.render = render;
+        this.renderFunc = render;
     }
 
-    reRender(): void {
-        if (this.render) {
-            this.render();
+    render(): void {
+        if (this.renderFunc) {
+            this.renderFunc();
         }
     }
 }

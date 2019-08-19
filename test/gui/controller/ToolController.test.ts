@@ -1,4 +1,4 @@
-import { mockControllers as mockControllers } from '../../setup/controllerSetup';
+import { mockControllers as mockControllers } from '../../mocks/controllerMocks';
 import * as sinon from 'sinon';
 import { GameController } from '../../../src/gui/controller/GameController';
 
