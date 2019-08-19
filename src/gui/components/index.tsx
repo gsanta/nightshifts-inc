@@ -6,13 +6,13 @@ import { IntlProvider } from 'react-intl';
 import { addLocaleData } from 'react-intl';
 import localeHu from 'react-intl/locale-data/hu';
 import localeEn from 'react-intl/locale-data/en';
-import App from './components/panels/App';
-import { ControllerContext } from './components/panels/Context';
-import { ControllerFacade } from './controller/ControllerFacade';
+import App from './panels/App';
+import { ControllerContext } from './panels/Context';
+import { ControllerFacade } from '../controller/ControllerFacade';
 
 addLocaleData([...localeEn, ...localeHu]);
 
-const messagesHu = require('../translations/hu.json');
+const messagesHu = require('../../translations/hu.json');
 
 const messages = {
     hu: messagesHu
@@ -50,4 +50,4 @@ export function render() {
     );
 }
 
-export {GameEngine} from '../game/GameEngine';
+export {GameEngine} from '../../game/GameEngine';
