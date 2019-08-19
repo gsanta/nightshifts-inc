@@ -3,56 +3,37 @@ import colors from '../../miscellaneous/colors';
 import * as React from 'react';
 import { DebugOptions } from './DebugOptions';
 import styled from 'styled-components';
+import { GameController } from '../../../controller/GameController';
+import { DebugController } from '../../../controller/DebugController';
 
 const SettingsRow = styled.div`
     display: flex;
 `;
 
 const DebugDialog = (props: DebugDialogProps) => {
-    const handleTurnOnAllLights = React.useCallback(
-        (e: React.ChangeEvent<any>) => {
-            props.setAreAllLightsTurnedOn((event.target as any).checked);
-        },
-        [],
-    );
-
-    const handleShowRoomLabels = React.useCallback(
-        (e: React.ChangeEvent<any>) => {
-            props.setShowRoomLabels((event.target as any).checked);
-        },
-        [],
-    );
-
-    const handleShowBoundingBoxes = React.useCallback(
-        (e: React.ChangeEvent<any>) => {
-            props.setShowBoundingBoxes((event.target as any).checked);
-        },
-        [],
-    );
-
     return (
         <div>
             <SettingsRow>
                 <input
                     type="checkbox"
-                    checked={props.debugOptions.areAllLightsTurnedOn}
-                    onChange={handleTurnOnAllLights}
+                    checked={props.debugController.allLightsOn}
+                    onChange={(e: React.ChangeEvent<any>) => props.debugController.switchlAllLights((e.target as any).checked)}
                 />
                 Turn on all lights
             </SettingsRow>
             <SettingsRow>
                 <input
                     type="checkbox"
-                    checked={props.debugOptions.showRoomLabels}
-                    onChange={handleShowRoomLabels}
+                    checked={props.debugController.isRoofDisplayed}
+                    onChange={(e: React.ChangeEvent<any>) => props.debugController.displayRoof((e.target as any).checked)}
                 />
                 Display ceiling
             </SettingsRow>
             <SettingsRow>
                 <input
                     type="checkbox"
-                    checked={props.debugOptions.showBoundingBoxes}
-                    onChange={handleShowBoundingBoxes}
+                    checked={props.debugController.isBoundingBoxDisplayed}
+                    onChange={(e: React.ChangeEvent<any>) => props.debugController.displayBoundingBoxes((e.target as any).checked)}
                 />
                 Display bounding boxes
             </SettingsRow>
@@ -71,8 +52,5 @@ export default withDialog(DebugDialog, {
 });
 
 export interface DebugDialogProps extends DialogTemplateProps {
-    debugOptions: DebugOptions;
-    setAreAllLightsTurnedOn(areTurnedOn: boolean): void;
-    setShowRoomLabels(showRoomLabels: boolean): void;
-    setShowBoundingBoxes(showBoundingBoxes: boolean): void;
+    debugController: DebugController;
 }

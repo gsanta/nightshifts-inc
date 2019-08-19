@@ -1,6 +1,4 @@
 import { World } from '../../../game/model/game_objects/World';
-import { DebugOptions } from '../../../gui/components/dialogs/debug/DebugOptions';
-import { ToolIcon } from '../../../gui/components/dialogs/inventory/tools_icons/ToolIcon';
 import { ErrorMessage } from '../../../gui/components/miscellaneous/ErrorMessage';
 import { ServiceFacade } from '../../../game/services/ServiceFacade';
 import { UserRequests } from '../settings_state/UserRequests';
@@ -18,9 +16,6 @@ export interface AppState {
     world: World;
     settings: ApplicationSettings;
 
-    widgetInfo: number;
-
-    debugOptions: DebugOptions;
     appLoadingState: AppLoadingState;
     errors: ErrorMessage[];
 

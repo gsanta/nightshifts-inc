@@ -19,7 +19,6 @@ import { AppState } from '../../state/app_state/AppState';
 import GetWorldActions from '../../state/world_state/world_actions/GetWorldActions';
 import UpdateWorldActions from '../../state/world_state/world_actions/UpdateWorldActions';
 import SetWorldAction from '../../state/world_state/world_actions/SetWorldAction';
-import WidgetAction from '../../state/world_state/world_actions/WidgetAction';
 import { ControllerFacade } from '../../controller/ControllerFacade';
 import { ControllerContext } from './Context';
 
@@ -28,8 +27,7 @@ const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm
 const mapStateToProps = (state: AppState) => {
     return {
         world: state.world,
-        services: state.services,
-        widgetInfo: state.widgetInfo
+        services: state.services
     };
 };
 
@@ -37,7 +35,6 @@ const mapDispatchToProps = dispatch => ({
     loadGame: () => dispatch(GetWorldActions.request()),
     updateGame: (world: World) => dispatch(UpdateWorldActions.request(world)),
     setWorld: (world: World, services: ServiceFacade) => dispatch(SetWorldAction.request(world, services)),
-    setWidgetUpdate: (health: number) => dispatch(WidgetAction.request(health)),
 });
 
 const WidgetContainer = styled.div`
@@ -114,7 +111,7 @@ class Game extends React.Component<GameProps, GameState> {
             <div>
                 <canvas ref={this.state.canvasRef}></canvas>
                 <WidgetContainer>
-                    <HealthWidget health={this.props.widgetInfo}/>
+                    <HealthWidget health={80}/>
                 </WidgetContainer>
                 <Widgetbar/>
             </div>
@@ -129,8 +126,6 @@ export interface GameProps {
     setWorld(world: World, services: ServiceFacade): void;
     world: World;
     tools: ToolIcon[];
-    widgetInfo: number;
-    setWidgetUpdate(health: number): void;
     openInventory(): void;
     activateTool(tool: ToolIcon): void;
     deactivateTool(tool: ToolIcon): void;

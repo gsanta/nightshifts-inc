@@ -2,9 +2,6 @@ import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import appReducer from './appReducer';
 import { all } from 'redux-saga/effects';
-import TurnOnAllLigthsActions from '../debug_state/debug_actions/TurnOnAllLigthsActions';
-import ShowRoomLabelsActions from '../debug_state/debug_actions/ShowRoomLabelsActions';
-import ShowBoundingBoxesAction from '../debug_state/debug_actions/ShowBoundingBoxesActions';
 import LoginFacebookActions from '../settings_state/actions/LoginFacebookActions';
 import GetUserActions from '../settings_state/actions/GetUserActions';
 import SignoutActions from '../settings_state/actions/SignoutActions';
@@ -31,10 +28,7 @@ sagaMiddleware.run(function* rootSaga() {
         SignupActions.watch(),
         UpdatePasswordActions.watch(),
         UpdateSettingsActions.watch(),
-        GetWorldActions.watch(),
-        TurnOnAllLigthsActions.watch(),
-        ShowRoomLabelsActions.watch(),
-        ShowBoundingBoxesAction.watch(),
+        GetWorldActions.watch()
     ]);
 });
 

@@ -1,32 +1,26 @@
 import { RouteComponentProps, withRouter } from 'react-router';
 import DebugDialog, { DebugDialogProps } from './DebugDialog';
-import { connect } from 'react-redux';
 import React = require('react');
-import TurnOnAllLigthsActions from '../../../state/debug_state/debug_actions/TurnOnAllLigthsActions';
-import ShowRoomLabelsActions from '../../../state/debug_state/debug_actions/ShowRoomLabelsActions';
-import ShowBoundingBoxesActions from '../../../state/debug_state/debug_actions/ShowBoundingBoxesActions';
-import { AppState } from '../../../state/app_state/AppState';
+import { ControllerContext } from '../../panels/Context';
+import { ControllerFacade } from '../../../controller/ControllerFacade';
 
-const mapStateToProps = (state: AppState) => {
-    return {
-        debugOptions: state.debugOptions
-    };
-};
 
-const mapDispatchToProps = dispatch => ({
-    setAreAllLightsTurnedOn: (areLightsOn: boolean) => dispatch(TurnOnAllLigthsActions.request(areLightsOn)),
-    setShowRoomLabels: (showRoomLabels: boolean) => dispatch(ShowRoomLabelsActions.request(showRoomLabels)),
-    setShowBoundingBoxes: (showBoundingBoxes: boolean) => dispatch(ShowBoundingBoxesActions.request(showBoundingBoxes))
-});
-
-export const DebugRoute = withRouter(connect(mapStateToProps, mapDispatchToProps)((props: RouteComponentProps & DebugDialogProps) => {
+export const DebugRoute = withRouter((props: RouteComponentProps & DebugDialogProps, context: ControllerFacade) => {
     const headerOptions = {
         close: () => props.history.push('/'),
         title: 'debug'
     };
 
     return (
-        <DebugDialog {...props} headerOptions={headerOptions}/>
+        <ControllerContext.Consumer>
+        {
+            (controllers: ControllerFacade) => (
+                <DebugDialog headerOptions={headerOptions} debugController={controllers.debugController}/>
+            )
+        }
+    </ControllerContext.Consumer>
     );
-}));
+});
+
+DebugRoute.contextType = ControllerContext;
 

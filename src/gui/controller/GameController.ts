@@ -12,6 +12,10 @@ export class GameController {
         this.gameServices = gameServices;
     }
 
+    getGameServices(): ServiceFacade {
+        return this.gameServices;
+    }
+
     activateTool(tool: ToolIcon) {
         this.checkIfGameServicesSet();
         this.gameServices.toolServices.activateTool(tool);
@@ -20,6 +24,14 @@ export class GameController {
     deactivateTool(tool: ToolIcon) {
         this.checkIfGameServicesSet();
         this.gameServices.toolServices.deactivateTool(tool);
+    }
+
+    displayRoofs(display: boolean) {
+        if (display) {
+            this.gameServices.debugServices.displayRoofs();
+        } else {
+            this.gameServices.debugServices.hideRoofs();
+        }
     }
 
     private checkIfGameServicesSet() {
