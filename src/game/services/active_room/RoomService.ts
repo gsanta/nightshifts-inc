@@ -5,58 +5,48 @@ import _ from 'lodash';
 import { Polygon } from '@nightshifts.inc/geometry';
 import { Room } from '../../model/game_objects/Room';
 
-export class ActiveRoomService {
+export class RoomService {
     private world: World;
-    private rooms: GameObject[];
-    private activeRoom: GameObject;
+    private activeRoom: Room;
 
     private lightSwitcher: NormalLightSwitcher;
     public isShowRoofs = true;
 
     constructor(world: World) {
         this.world = world;
-        this.rooms = world.getWorldItemsByType('room');
         this.lightSwitcher = new NormalLightSwitcher();
 
-        world.getWorldItemsByType('room').forEach(room => this.lightSwitcher.off(<Room> room, world));
+        world.rooms.forEach(room => this.lightSwitcher.off(<Room> room, world));
 
         this.updateActiveRoom();
     }
 
 
     public updateActiveRoom() {
-        const newActiveRoom = this.rooms.find(room => (<Polygon> room.boundingBox).intersect(<Polygon> this.world.player.boundingBox));
+        const newActiveRoom = this.world.rooms.find(room => (<Polygon> room.boundingBox).intersect(<Polygon> this.world.player.boundingBox));
         const prevActiveRoom = this.activeRoom;
 
         if (newActiveRoom !== prevActiveRoom) {
             if (prevActiveRoom) {
                 this.turnOffLight(prevActiveRoom);
-                this.displayRoof(prevActiveRoom);
+                prevActiveRoom.displayRoof();
             }
 
             if (newActiveRoom) {
                 this.turnOnLight(newActiveRoom);
                 this.activeRoom = newActiveRoom;
                 this.activeRoom.isActive = true;
-                this.hideRoof(newActiveRoom);
+                newActiveRoom.hideRoof();
             }
         }
     }
 
-    private turnOffLight(room: GameObject) {
+    private turnOffLight(room: Room) {
         room.isActive = false;
         this.lightSwitcher.off(<Room> room, this.world);
     }
 
-    private turnOnLight(room: GameObject) {
+    private turnOnLight(room: Room) {
         this.lightSwitcher.on(<Room> room, this.world);
-    }
-
-    private displayRoof(room: GameObject) {
-        room.meshes[1].isVisible = true;
-    }
-
-    private hideRoof(room: GameObject) {
-        room.meshes[1].isVisible = false;
     }
 }

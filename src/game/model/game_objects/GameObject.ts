@@ -22,8 +22,6 @@ export class GameObject {
 
     label: string;
 
-    isActive: boolean;
-
     meshes: Mesh[];
     animatedMeshes: Mesh[] = [];
     skeleton?: Skeleton;

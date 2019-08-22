@@ -3,6 +3,7 @@ import { GameObject } from '../model/game_objects/GameObject';
 import { LightSwitcher } from './active_room/LightSwitcher';
 import { NormalLightSwitcher } from './active_room/NormalLightSwitcher';
 import { ServiceFacade } from './ServiceFacade';
+import { Room } from '../model/game_objects/Room';
 
 export class DebugServices {
     private world: World;
@@ -20,7 +21,7 @@ export class DebugServices {
         this.services.activeRoomService.updateActiveRoom();
 
         this.world.getWorldItemsByType('room')
-        .filter(room => !room.isActive)
+        .filter((room: Room) => !room.isActive)
         .forEach((room: GameObject) => {
             room.meshes[1].isVisible = true;
         });

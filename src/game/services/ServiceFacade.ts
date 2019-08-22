@@ -2,7 +2,7 @@ import { World } from '../model/game_objects/World';
 import { PlayerService } from './PlayerService';
 import { KeyboardHandler } from './KeyboardHandler';
 import { ToolService } from './ToolService';
-import { ActiveRoomService } from './active_room/ActiveRoomService';
+import { RoomService } from './active_room/RoomService';
 import { ActionableObjectService } from './ActionableObjectService';
 import { DebugServices } from './DebugServices';
 import { ManualMotionStrategy } from './motion/ManualMotionStrategy';
@@ -18,7 +18,7 @@ export const defaultServiceOptions: ServiceOptions = {
 
 export class ServiceFacade {
     private world: World;
-    public activeRoomService: ActiveRoomService;
+    public activeRoomService: RoomService;
     public playerService: PlayerService;
     public enemyCreationService: EnemyCreationService;
     public actionableObjectService: ActionableObjectService;
@@ -29,7 +29,7 @@ export class ServiceFacade {
     constructor(world: World, options: Partial<ServiceOptions> = {}) {
         options = {...defaultServiceOptions, ...options};
 
-        this.activeRoomService = new ActiveRoomService(world);
+        this.activeRoomService = new RoomService(world);
         this.playerService = new PlayerService(this, world);
         this.enemyCreationService = new EnemyCreationService(world);
         this.keyboardHandler = new KeyboardHandler(this, new ManualMotionStrategy(world.player, world.scene), world);

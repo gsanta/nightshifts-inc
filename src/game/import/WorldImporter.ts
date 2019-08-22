@@ -24,6 +24,7 @@ export class WorldImporter {
         world.dimensions = new Vector2(rootWorldItem[0].dimensions.getBoundingInfo().extent[0], rootWorldItem[0].dimensions.getBoundingInfo().extent[1]);
 
         world.worldItems = this.createWorldItems(rootWorldItem, world);
+        world.rooms = <Room[]> world.getWorldItemsByType('room');
 
         world.tools = [
             new PortalTool(world),

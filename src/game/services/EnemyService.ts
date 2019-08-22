@@ -1,5 +1,6 @@
 import { World } from '../model/game_objects/World';
 import { GameObject } from '../model/game_objects/GameObject';
+import { Room } from '../model/game_objects/Room';
 
 type enemyMotionState = 'idle' | 'attacking' | 'returning';
 
@@ -13,7 +14,7 @@ export class EnemyService {
     }
 
     public updateEnemies() {
-        const activeRoom = this.world.getWorldItemsByType('room').find(room => room.isActive);
+        const activeRoom = this.world.getWorldItemsByType('room').find((room: Room) => room.isActive);
 
         if (activeRoom) {
             const enemies = activeRoom.children

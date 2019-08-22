@@ -1,6 +1,7 @@
 import { FollowCamera, Light, Scene, SpotLight, StandardMaterial, Engine, Mesh, Vector2 } from 'babylonjs';
 import { Tool } from '../../tools/Tool';
 import { GameObject } from './GameObject';
+import { Room } from './Room';
 
 export interface WorldConfig {
     displayBoundingBoxes: boolean;
@@ -16,7 +17,7 @@ export class World {
     floor: GameObject;
     enemies: GameObject[] = [];
     player: GameObject = null;
-    rooms: GameObject[];
+    rooms: Room[];
 
     camera: FollowCamera;
 
