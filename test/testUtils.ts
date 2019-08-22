@@ -68,8 +68,8 @@ export class WorldStubs {
 
 export function mockWorld(strWorld = defaultStrWorld): [World, WorldStubs] {
     const options = { xScale: 1, yScale: 2};
-    const furnitureCharacters = ['X', 'C', 'T', 'B', 'S', 'E', 'H', 'P', 'W', 'D'];
-    const roomSeparatorCharacters = ['#'];
+    const furnitureCharacters = ['player', 'cupboard', 'table', 'bathtub', 'washbasin', 'bed', 'chair', 'portal'];
+    const roomSeparatorCharacters = ['wall', 'door', 'window'];
 
     const worldItemInfoFactory = new WorldItemInfoFactory();
     const worldItems = WorldParser.createWithCustomWorldItemGenerator(
@@ -88,7 +88,7 @@ export function mockWorld(strWorld = defaultStrWorld): [World, WorldStubs] {
             new transformators.BorderItemSegmentingTransformator(worldItemInfoFactory, ['wall', 'door', 'window'], { xScale: options.xScale, yScale: options.yScale }),
             new transformators.HierarchyBuildingTransformator(),
             new transformators.BorderItemAddingTransformator(['wall', 'door', 'window']),
-            new transformators.BorderItemsToLinesTransformator({ xScale: options.xScale, yScale: options.yScale }),
+            new transformators.BorderItemsToLinesTransformator(),
             new transformators.BorderItemWidthToRealWidthTransformator([{name: 'window', width: 2}, {name: 'door', width: 2.7}]),
             new transformators.FurnitureRealSizeTransformator(
                 {

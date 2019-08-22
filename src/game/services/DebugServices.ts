@@ -17,13 +17,19 @@ export class DebugServices {
 
     public displayRoofs() {
         this.services.activeRoomService.isShowRoofs = true;
-        this.services.activeRoomService.calcActiveRoomAtPoint(this.world.player.meshes[0].getAbsolutePosition());
+        this.services.activeRoomService.updateActiveRoom();
+
+        this.world.getWorldItemsByType('room')
+        .filter(room => !room.isActive)
+        .forEach((room: GameObject) => {
+            room.meshes[1].isVisible = true;
+        });
     }
 
     public hideRoofs() {
         this.world.getWorldItemsByType('room')
             .forEach((room: GameObject) => {
-                room.children.filter(child => child.type === 'room-label').forEach(roomLabel => roomLabel.meshes[0].isVisible = false);
+                room.meshes[1].isVisible = false;
             });
         this.services.activeRoomService.isShowRoofs = false;
     }

@@ -1,8 +1,6 @@
 import { GameObject } from '../../model/game_objects/GameObject';
-import { Vector3 } from 'babylonjs';
 import { World } from '../../model/game_objects/World';
 import { NormalLightSwitcher } from './NormalLightSwitcher';
-import { FlashingLightSwitcher } from './FlashingLightSwitcher';
 import _ from 'lodash';
 import { Polygon } from '@nightshifts.inc/geometry';
 import { Room } from '../../model/game_objects/Room';
@@ -13,35 +11,34 @@ export class ActiveRoomService {
     private activeRoom: GameObject;
 
     private lightSwitcher: NormalLightSwitcher;
-    private flashingLightSwitcher: FlashingLightSwitcher;
     public isShowRoofs = true;
 
     constructor(world: World) {
         this.world = world;
         this.rooms = world.getWorldItemsByType('room');
         this.lightSwitcher = new NormalLightSwitcher();
-        this.flashingLightSwitcher = new FlashingLightSwitcher(this.lightSwitcher);
 
-        world.getWorldItemsByType('room').forEach(room => {
-            this.lightSwitcher.off(<Room> room, world);
-        });
+        world.getWorldItemsByType('room').forEach(room => this.lightSwitcher.off(<Room> room, world));
 
-        this.calcActiveRoomAtPoint(this.world.player.meshes[0].getAbsolutePosition());
+        this.updateActiveRoom();
     }
 
 
-    public calcActiveRoomAtPoint(point: Vector3) {
-        const newActiveRoom = this.getActiveRoomAtPoint(point);
+    public updateActiveRoom() {
+        const newActiveRoom = this.rooms.find(room => (<Polygon> room.boundingBox).intersect(<Polygon> this.world.player.boundingBox));
+        const prevActiveRoom = this.activeRoom;
 
-        if (newActiveRoom && newActiveRoom !== this.activeRoom) {
-            if (this.activeRoom) {
-                this.turnOffLight(this.activeRoom)
+        if (newActiveRoom !== prevActiveRoom) {
+            if (prevActiveRoom) {
+                this.turnOffLight(prevActiveRoom);
+                this.displayRoof(prevActiveRoom);
             }
-            this.turnOnLight(newActiveRoom);
-            this.activeRoom = newActiveRoom;
-            this.activeRoom.isActive = true;
-            if (this.isShowRoofs) {
-                this.handleShowRoomLabels(this.world);
+
+            if (newActiveRoom) {
+                this.turnOnLight(newActiveRoom);
+                this.activeRoom = newActiveRoom;
+                this.activeRoom.isActive = true;
+                this.hideRoof(newActiveRoom);
             }
         }
     }
@@ -55,26 +52,11 @@ export class ActiveRoomService {
         this.lightSwitcher.on(<Room> room, this.world);
     }
 
-    private handleShowRoomLabels(world: World) {
-        const rooms = <GameObject[]> world.getWorldItemsByType('room');
-        const activeRoom = _.find(rooms, room => room.isActive);
-        _.chain(world.getWorldItemsByType('room'))
-            .without(activeRoom)
-            .forEach((room: GameObject) => {
-                room.meshes[1].isVisible = true;
-            })
-            .value();
-
-        activeRoom.meshes[1].isVisible = false;
+    private displayRoof(room: GameObject) {
+        room.meshes[1].isVisible = true;
     }
 
-    private deactivatePrevActiveRoom() {
-        this.rooms.filter(room => room.isActive).forEach(room => room.isActive = false);
-    }
-
-    private getActiveRoomAtPoint(point: Vector3): GameObject {
-        const rooms = this.rooms.filter(room => (<Polygon> room.boundingBox).intersect(<Polygon> this.world.player.boundingBox));
-        // return this.rooms.find(room => room.mesh.intersectsPoint(point));
-        return rooms[rooms.length - 1];
+    private hideRoof(room: GameObject) {
+        room.meshes[1].isVisible = false;
     }
 }

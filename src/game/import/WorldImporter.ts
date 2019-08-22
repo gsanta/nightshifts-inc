@@ -94,6 +94,7 @@ export class WorldImporter {
                     {
                         type: 'window',
                         name: 'mesh-descriptor' as 'mesh-descriptor',
+                        translateY: -0.5,
                         details: {
                             name: 'file-descriptor' as 'file-descriptor',
                             path: 'models/',

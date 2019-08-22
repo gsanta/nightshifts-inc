@@ -18,7 +18,7 @@ export class PlayerService {
         this.player.setPosition(pos.add(delta));
 
         this.services.actionableObjectService.calcClosestActionableObject();
-        this.services.activeRoomService.calcActiveRoomAtPoint(this.player.meshes[0].getAbsolutePosition());
+        this.services.activeRoomService.updateActiveRoom();
     }
 
     public rotate(rotationDelta: number) {
