@@ -14,8 +14,9 @@ export class WorldSetup {
 
     public setup(world: World): World {
         world.camera = this.cameraSetup.createCamera(world.scene, world.player);
-        world.hemisphericLight = this.lightSetup.createLight(world.scene);
-
+        world.environmentLight = this.lightSetup.createEnvironmentLight(world);
+        world.roomLight = this.lightSetup.createRoomLight(world.scene);
+        world.roomLight.intensity = 1;
         return world;
     }
 }

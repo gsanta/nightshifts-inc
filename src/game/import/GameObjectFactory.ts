@@ -2,11 +2,13 @@ import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { GameObject } from '../model/game_objects/GameObject';
 import { Border } from '../model/game_objects/Border';
 import { Room } from '../model/game_objects/Room';
-import { MeshBuilder, Mesh } from 'babylonjs';
+import { Mesh } from 'babylonjs';
+import { World } from '../model/game_objects/World';
 
 export class GameObjectFactory {
+    private roomCounter = 0;
 
-    getInstance(worldItemInfo: WorldItemInfo): GameObject {
+    getInstance(worldItemInfo: WorldItemInfo, world: World): GameObject {
         switch (worldItemInfo.name) {
             case 'root':
                 return new GameObject(null, null, {type: 'floor'});
@@ -24,7 +26,13 @@ export class GameObjectFactory {
                 player.health = 100;
                 return player;
             case 'room':
-                return new Room(worldItemInfo.meshTemplate.meshes, worldItemInfo.dimensions);
+                this.roomCounter++;
+                const room = new Room(worldItemInfo.meshTemplate.meshes, worldItemInfo.dimensions, world);
+
+                if (this.roomCounter > 5) {
+                    room.lightsWorking = false;
+                }
+                return room;
             case 'empty':
                 return new GameObject(worldItemInfo.meshTemplate.meshes, worldItemInfo.dimensions, {type: 'empty'});
             case 'washbasin':

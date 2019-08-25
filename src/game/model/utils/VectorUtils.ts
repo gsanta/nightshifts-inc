@@ -6,8 +6,8 @@ export class VectorUtils {
         return Vector3.TransformCoordinates(vector, mesh.getWorldMatrix());
     }
 
-    static pointToVector(point: Point): Vector3 {
-        return new Vector3(point.x, 0, point.y);
+    static pointToVector(point: Point, y = 0): Vector3 {
+        return new Vector3(point.x, y, point.y);
     }
 
     static vectorToPoint(vector: Vector3): Point {

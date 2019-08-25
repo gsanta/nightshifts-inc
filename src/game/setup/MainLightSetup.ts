@@ -1,25 +1,24 @@
 import { Scene, HemisphericLight, Vector3, Color3, PointLight, Light } from 'babylonjs';
 import { GameObject } from '../model/game_objects/GameObject';
+import { World } from '../model/game_objects/World';
 
 export class MainLightSetup {
 
-    public createLight(scene: Scene): HemisphericLight {
-        const light = new HemisphericLight('main-light', new Vector3(0, 1, 0), scene);
+    public createEnvironmentLight(world: World): HemisphericLight {
+        const light = new HemisphericLight('main-light', new Vector3(0, 1, 0), world.scene);
         light.diffuse = new Color3(1, 1, 1);
         light.intensity = 1;
+        world.environmentLight = light;
+
+        world.rooms.forEach(room => room.switchLights(false));
+
         return light;
     }
 
-    public createRoomLight(room: GameObject, scene: Scene): Light {
-        const dimensions = room.boundingBox;
+    public createRoomLight(scene: Scene): PointLight {
         console.log('Creating light');
-        console.log(dimensions);
-        const center = {
-            x: dimensions.getBoundingCenter().x,
-            y: dimensions.getBoundingCenter().y
-        };
-        console.log(center);
-        const light: PointLight = new PointLight('light', new Vector3(center.x, 3, center.y), scene);
+
+        const light: PointLight = new PointLight('light', new Vector3(0, 20, 0), scene);
         light.setEnabled(true);
         light.range = 30;
         return light;

@@ -122,12 +122,13 @@ export function mockWorld(strWorld = defaultStrWorld): [World, WorldStubs] {
     ).parse(strWorld);
 
     const gameObjects: GameObject[] = [];
+    const world = new World();
 
     const gameObjectFactory = new GameObjectFactory();
     new BabylonConverter<GameObject>().convert(
         worldItems,
         (worldItemInfo: WorldItemInfo) => {
-            const gameObject = gameObjectFactory.getInstance(worldItemInfo);
+            const gameObject = gameObjectFactory.getInstance(worldItemInfo, world);
             gameObjects.push(gameObject);
             return gameObject;
         },
@@ -141,7 +142,6 @@ export function mockWorld(strWorld = defaultStrWorld): [World, WorldStubs] {
 
     const worldStubs = <WorldStubs> {};
 
-    const world = new World();
     world.worldItems = gameObjects;
 
     const [scene, sceneStubs] = mockScene();

@@ -4,6 +4,7 @@ import { NormalLightSwitcher } from './NormalLightSwitcher';
 import _ from 'lodash';
 import { Polygon } from '@nightshifts.inc/geometry';
 import { Room } from '../../model/game_objects/Room';
+import { VectorUtils } from '../../model/utils/VectorUtils';
 
 export class RoomService {
     private world: World;
@@ -28,25 +29,38 @@ export class RoomService {
 
         if (newActiveRoom !== prevActiveRoom) {
             if (prevActiveRoom) {
-                this.turnOffLight(prevActiveRoom);
-                prevActiveRoom.displayRoof();
+                this.leaveRoom(prevActiveRoom);
             }
 
             if (newActiveRoom) {
-                this.turnOnLight(newActiveRoom);
-                this.activeRoom = newActiveRoom;
-                this.activeRoom.isActive = true;
-                newActiveRoom.hideRoof();
+                this.enterRoom(newActiveRoom);
             }
         }
     }
 
+    private leaveRoom(room: Room) {
+        this.turnOffLight(room);
+        room.displayRoof();
+    }
+
+    private enterRoom(room: Room) {
+        if (room.lightsWorking) {
+            this.turnOnLight(room);
+        }
+        this.world.roomLight.position = VectorUtils.pointToVector(room.boundingBox.getBoundingCenter(), 10);
+        this.activeRoom = room;
+        this.activeRoom.isActive = true;
+        room.hideRoof();
+    }
+
     private turnOffLight(room: Room) {
         room.isActive = false;
-        this.lightSwitcher.off(<Room> room, this.world);
+        // room.switchLights(false);
+        // this.lightSwitcher.off(<Room> room, this.world);
     }
 
     private turnOnLight(room: Room) {
-        this.lightSwitcher.on(<Room> room, this.world);
+        // room.switchLights(true);
+        // this.lightSwitcher.on(<Room> room, this.world);
     }
 }

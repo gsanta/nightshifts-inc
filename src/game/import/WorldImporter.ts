@@ -42,7 +42,7 @@ export class WorldImporter {
         new BabylonConverter<GameObject>().convert(
             rootWorldItem,
             (worldItemInfo: WorldItemInfo) => {
-                const gameObject = gameObjectFactory.getInstance(worldItemInfo);
+                const gameObject = gameObjectFactory.getInstance(worldItemInfo, world);
                 gameObjects.push(gameObject);
                 return gameObject;
             },

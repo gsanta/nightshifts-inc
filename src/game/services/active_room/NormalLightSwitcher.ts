@@ -43,18 +43,20 @@ export class NormalLightSwitcher implements LightSwitcher {
     private excludeMeshesForWorldItem(meshes: AbstractMesh[], world: World) {
         meshes.filter(mesh => mesh.name !== 'room-label')
             .forEach(mesh => {
-                const index = world.hemisphericLight.excludedMeshes.indexOf(mesh);
+                const index = world.environmentLight.excludedMeshes.indexOf(mesh);
 
                 if (index !== -1) {
-                    world.hemisphericLight.excludedMeshes.splice(index, 1);
+                    world.environmentLight.excludedMeshes.splice(index, 1);
                 }
             });
     }
 
     public off(room: Room, world: World): Promise<void> {
-        const childMeshes = _.chain([room, ...room.children]).map(item => [item.meshes[0]]).flatten().value();
+        const childMeshes = _.chain([room, ...room.children]).map(item => [...item.meshes]).flatten().value();
+        const borderMeshes = _.chain(room.borders).map(item => [...item.meshes]).flatten().value();
 
         this.includeMeshesForWorldItem([...childMeshes], world);
+        this.includeMeshesForWorldItem([...borderMeshes], world);
 
         return Promise.resolve();
     }
@@ -62,10 +64,10 @@ export class NormalLightSwitcher implements LightSwitcher {
     private includeMeshesForWorldItem(meshes: AbstractMesh[], world: World) {
         meshes.filter(mesh => mesh.name !== 'room-label')
         .forEach(mesh => {
-            const index = world.hemisphericLight.excludedMeshes.indexOf(mesh);
+            const index = world.environmentLight.excludedMeshes.indexOf(mesh);
 
             if (index === -1) {
-                world.hemisphericLight.excludedMeshes.push(mesh);
+                world.environmentLight.excludedMeshes.push(mesh);
             }
         });
     }
