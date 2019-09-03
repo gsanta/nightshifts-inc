@@ -1,5 +1,5 @@
 import { Point, Polygon } from '@nightshifts.inc/geometry';
-import { BabylonConverter, parsers, transformators, WorldItemInfo, WorldItemInfoFactory, WorldParser } from '@nightshifts.inc/world-generator';
+import { BabylonConverter, parsers, transformators, WorldItemInfo, WorldItemInfoFactory, WorldParser, BabylonWorldGenerator, WorldItem, WorldConfig } from '@nightshifts.inc/world-generator';
 import { Mesh, Quaternion, Ray, RayHelper, Scene, Vector3 } from 'babylonjs';
 import * as sinon from 'sinon';
 import { GameObjectFactory } from '../src/game/import/GameObjectFactory';
@@ -10,6 +10,7 @@ import { World } from '../src/game/model/game_objects/World';
 import { BabylonFactory } from '../src/game/model/utils/BabylonFactory';
 import { HitInfo, RayCaster } from '../src/game/model/utils/RayCaster';
 import { VectorUtils } from '../src/game/model/utils/VectorUtils';
+import { testMeshDescriptors } from './_setup/testMeshDescriptors';
 
 const defaultStrWorld = `
 map \`
@@ -70,6 +71,26 @@ export function mockWorld(strWorld = defaultStrWorld): [World, WorldStubs] {
     const options = { xScale: 1, yScale: 2};
     const furnitureCharacters = ['player', 'cupboard', 'table', 'bathtub', 'washbasin', 'bed', 'chair', 'portal'];
     const roomSeparatorCharacters = ['wall', 'door', 'window'];
+
+    const worldConfig: WorldConfig = {
+        meshDescriptors: testMeshDescriptors,
+        borders: ['door', 'window', 'wall'],
+        furnitures: ['player', 'cupboard', 'table', 'bathtub', 'washbasin', 'bed', 'chair', 'portal'],
+        xScale: 1,
+        yScale: 2
+    }
+    new BabylonWorldGenerator(null).generate(strWorld, worldConfig, {
+        convert(worldItem: WorldItem): any {
+            if (worldItem.name === 'room') {
+                // worldItem.meshTemplate.meshes[1].isVisible = false;
+            }
+        },
+        addChildren(parent: any, children: any[]): void {},
+        addBorders(item: any, borders: any[]): void {},
+        done() {
+            engine.runRenderLoop(() => scene.render());
+        }
+    });
 
     const worldItemInfoFactory = new WorldItemInfoFactory();
     const worldItems = WorldParser.createWithCustomWorldItemGenerator(
