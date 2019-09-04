@@ -14,7 +14,7 @@ describe('PortalTool', () => {
 
         WWWWWWWWWWWWWWWWWWWWWWWWW
         W###############W#######W
-        W#####DD########W#######W
+        W#####PP########W#######W
         W###############W#######W
         W###############W#######W
         WWWWWWWWWWWWWWWWWWWWWWWWW
@@ -31,7 +31,7 @@ describe('PortalTool', () => {
         W = wall
         # = empty
         X = player
-        D = portal
+        P = portal
         C = cupboard
         I = window
         T = table

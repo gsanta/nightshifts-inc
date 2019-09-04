@@ -10,6 +10,40 @@ import { PortalTool } from '../tools/PortalTool';
 import { BabylonWorldGenerator, WorldItem } from '@nightshifts.inc/world-generator';
 import { meshDescriptors } from './meshDescriptors';
 
+class GameObjectConverter {
+    private onReady: (world: World) => void;
+    private gameObjectFactory = new GameObjectFactory();
+    private world = new World();
+
+    constructor(onReady: (world: World) => void) {
+        this.onReady = onReady;
+    }
+
+    convert(worldItem: WorldItem): any {
+        if (worldItem.name === 'root') {
+            this.world.dimensions = new Vector2(worldItem.dimensions.getBoundingInfo().extent[0], worldItem.dimensions.getBoundingInfo().extent[1]);
+
+        }
+        const gameObject = this.gameObjectFactory.getInstance(worldItem, this.world);
+        this.world.worldItems.push(gameObject);
+        return gameObject;
+    }
+
+    addChildren(parent: GameObject, children: GameObject[]): void {
+        parent.children = children;
+    }
+
+    addBorders(item: GameObject, borders: GameObject[]): void {
+        (<Room> item).borders = <Border[]> borders;
+    }
+
+    done() {
+        this.onReady(this.world);
+
+        this.world = new World();
+    }
+}
+
 export class WorldImporter {
     private scene: Scene;
 
@@ -17,12 +51,9 @@ export class WorldImporter {
         this.scene = scene;
     }
 
-    public import(strWorld: string): void {
-        let world = new World();
-        const gameObjects: GameObject[] = [];
-        const gameObjectFactory = new GameObjectFactory();
-
-        new BabylonWorldGenerator(this.scene)
+    public import(strWorld: string): Promise<World> {
+        return new Promise((resolve, reject) => {
+            new BabylonWorldGenerator(this.scene)
             .generate(
                 strWorld,
                 {
@@ -32,40 +63,23 @@ export class WorldImporter {
                     xScale: 1,
                     yScale: 2
                 },
-                {
-                    convert(worldItem: WorldItem): any {
-                        if (worldItem.name === 'root') {
-                            world.dimensions = new Vector2(worldItem.dimensions.getBoundingInfo().extent[0], worldItem.dimensions.getBoundingInfo().extent[1]);
-
-                        }
-                        const gameObject = gameObjectFactory.getInstance(worldItem, world);
-                        gameObjects.push(gameObject);
-                        return gameObject;
-                    },
-                    addChildren(parent: GameObject, children: GameObject[]): void {
-                        parent.children = children;
-                    },
-                    addBorders(item: GameObject, borders: GameObject[]): void {
-                        (<Room> item).borders = <Border[]> borders;
-                    },
-                    done() {
-                        world.worldItems = gameObjects;
-                        world.floor = world.worldItems.filter(mesh => mesh.type === 'floor')[0];
-                        world.player = world.worldItems.filter(mesh => mesh.type === 'player')[0];
-                        world.scene = this.scene;
-
-                        world.rooms = <Room[]> world.getWorldItemsByType('room');
-
-                        world.tools = [
-                            new PortalTool(world),
-                            new ThermometerTool(this.scene, world.player),
-                            new FlashlightTool(this.scene, world)
-                        ];
-
-
-                        this.setupWorld(world);
-                    }
-                }
+                new GameObjectConverter((world: World) => resolve(world))
             );
+        })
+        .then((world: World) => {
+            world.floor = world.worldItems.filter(mesh => mesh.type === 'floor')[0];
+            world.player = world.worldItems.filter(mesh => mesh.type === 'player')[0];
+            world.scene = this.scene;
+
+            world.rooms = <Room[]> world.getWorldItemsByType('room');
+
+            world.tools = [
+                new PortalTool(world),
+                new ThermometerTool(this.scene, world.player),
+                new FlashlightTool(this.scene, world)
+            ];
+
+            return world;
+        });
     }
 }

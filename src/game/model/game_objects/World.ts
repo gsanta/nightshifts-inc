@@ -14,7 +14,7 @@ export class World {
     environmentLight: Light;
     roomLight: PointLight;
     dimensions: Vector2;
-    worldItems: GameObject[];
+    worldItems: GameObject[] = [];
     floor: GameObject;
     enemies: GameObject[] = [];
     player: GameObject = null;

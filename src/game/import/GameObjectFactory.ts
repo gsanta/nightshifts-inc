@@ -1,14 +1,14 @@
-import { WorldItemInfo } from '@nightshifts.inc/world-generator';
 import { GameObject } from '../model/game_objects/GameObject';
 import { Border } from '../model/game_objects/Border';
 import { Room } from '../model/game_objects/Room';
 import { Mesh } from 'babylonjs';
 import { World } from '../model/game_objects/World';
+import { WorldItem } from '@nightshifts.inc/world-generator';
 
 export class GameObjectFactory {
     private roomCounter = 0;
 
-    getInstance(worldItemInfo: WorldItemInfo, world: World): GameObject {
+    getInstance(worldItemInfo: WorldItem, world: World): GameObject {
         switch (worldItemInfo.name) {
             case 'root':
                 return new GameObject(null, null, {type: 'floor'});
