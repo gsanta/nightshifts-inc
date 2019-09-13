@@ -7,14 +7,14 @@ export const meshDescriptors = [
             name: 'file-descriptor' as 'file-descriptor',
             path: 'models/player/',
             fileName: 'player.babylon',
-            materials: [
-                'models/player/material/0.jpg',
-                'models/player/material/1.jpg',
-                'models/player/material/2.jpg',
-                'models/player/material/3.jpg'
-            ],
             scale: 0.28
-        }
+        },
+        materials: [
+            'models/player/material/0.jpg',
+            'models/player/material/1.jpg',
+            'models/player/material/2.jpg',
+            'models/player/material/3.jpg'
+        ],
     },
     {
         type: 'door',
@@ -23,8 +23,12 @@ export const meshDescriptors = [
             name: 'file-descriptor' as 'file-descriptor',
             path: 'models/',
             fileName: 'door.babylon',
-            materials: [],
             scale: 1
+        },
+        materials: [],
+        realDimensions: {
+            name: 'border-dimensions-descriptor' as 'border-dimensions-descriptor',
+            width: 2.7
         }
     },
     {
@@ -35,21 +39,27 @@ export const meshDescriptors = [
             name: 'file-descriptor' as 'file-descriptor',
             path: 'models/',
             fileName: 'window.babylon',
-            materials: [],
             scale: 1
+        },
+        materials: [
+            '#FFFFFF'
+        ],
+        realDimensions: {
+            name: 'border-dimensions-descriptor' as 'border-dimensions-descriptor',
+            width: 2
         }
     },
-    {
-        type: 'bed',
-        name: 'mesh-descriptor' as 'mesh-descriptor',
-        details: {
-            name: 'file-descriptor' as 'file-descriptor',
-            path: 'models/furniture_1/',
-            fileName: 'bed.babylon',
-            materials: ['models/furniture_1/material/beds.png'],
-            scale: 0.03
-        }
-    },
+    // {
+    //     type: 'bed',
+    //     name: 'mesh-descriptor' as 'mesh-descriptor',
+    //     details: {
+    //         name: 'file-descriptor' as 'file-descriptor',
+    //         path: 'models/furniture_1/',
+    //         fileName: 'bed.babylon',
+    //         scale: 0.03
+    //     },
+    //     materials: ['models/furniture_1/material/beds.png'],
+    // },
     {
         type: 'washbasin',
         name: 'mesh-descriptor' as 'mesh-descriptor',
@@ -57,9 +67,9 @@ export const meshDescriptors = [
             name: 'file-descriptor' as 'file-descriptor',
             path: 'models/furniture_3/',
             fileName: 'wash_basin.babylon',
-            materials: ['models/furniture_3/material/bathroom.png'],
             scale: 3
-        }
+        },
+        materials: ['models/furniture_3/material/bathroom.png'],
     },
     {
         type: 'bathtub',
@@ -68,9 +78,9 @@ export const meshDescriptors = [
             name: 'file-descriptor' as 'file-descriptor',
             path: 'models/furniture_3/',
             fileName: 'bathtub.babylon',
-            materials: ['models/furniture_3/material/bathroom.png'],
             scale: 3
-        }
+        },
+        materials: ['models/furniture_3/material/bathroom.png'],
     },
     {
         type: 'chair',
@@ -79,9 +89,9 @@ export const meshDescriptors = [
             name: 'file-descriptor' as 'file-descriptor',
             path: 'models/furniture_3/',
             fileName: 'chair.babylon',
-            materials: ['models/furniture_3/material/bathroom.png'],
             scale: 3
-        }
+        },
+        materials: ['models/furniture_3/material/bathroom.png'],
     },
     {
         type: 'table',
@@ -90,9 +100,9 @@ export const meshDescriptors = [
             name: 'file-descriptor' as 'file-descriptor',
             path: 'models/furniture_2/',
             fileName: 'table.babylon',
-            materials: ['models/furniture_2/material/furniture.png'],
             scale: 0.03
-        }
+        },
+        materials: ['models/furniture_2/material/furniture.png'],
     },
     {
         type: 'cupboard',
@@ -101,9 +111,9 @@ export const meshDescriptors = [
             name: 'file-descriptor' as 'file-descriptor',
             path: 'models/furniture_2/',
             fileName: 'cupboard.babylon',
-            materials: ['models/furniture_2/material/furniture.png'],
             scale: 0.03
-        }
+        },
+        materials: ['models/furniture_2/material/furniture.png'],
     },
     {
         type: 'room',
@@ -129,9 +139,28 @@ export const meshDescriptors = [
         details: {
             name: 'shape-descriptor' as 'shape-descriptor',
             shape: 'rect',
-            conditionalMaterial: {
-                name: 'parent-based-material'
+        },
+        conditionalMaterials: [
+            {
+                name: 'parent-room-based-material-descriptor' as 'parent-room-based-material-descriptor',
+                parentId: 'root-1',
+                path: './assets/textures/brick.jpeg'
             }
-        }
+        ],
+        materials: [
+            '#FFFFFF'
+        ],
+    },
+    {
+        type: 'bed',
+        name: 'mesh-descriptor' as 'mesh-descriptor',
+        details: {
+            name: 'file-descriptor' as 'file-descriptor',
+            path: 'models/',
+            fileName: 'bed.babylon',
+            scale: 3
+
+        },
+        materials: ['models/bed_material.png'],
     },
 ];
