@@ -30,7 +30,11 @@ class GameObjectConverter {
     }
 
     addChildren(parent: GameObject, children: GameObject[]): void {
-        parent.children = children;
+        if (parent.type === 'wall') {
+            (<Border> parent).sides = [children[0], children[1]];
+        } else {
+            parent.children = children;
+        }
     }
 
     addBorders(item: GameObject, borders: GameObject[]): void {

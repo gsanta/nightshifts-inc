@@ -21,7 +21,7 @@ export class MainLightSetup {
         const light: PointLight = new PointLight('light', new Vector3(0, 20, 0), scene);
 
         light.setEnabled(true);
-        light.range = 50;
+        light.range = 100;
         return light;
     }
 }

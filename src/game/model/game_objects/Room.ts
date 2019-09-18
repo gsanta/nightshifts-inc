@@ -19,11 +19,11 @@ export class Room extends GameObject {
     }
 
     displayRoof() {
-        this.meshes[1].isVisible = true;
+        // this.meshes[1].isVisible = true;
     }
 
     hideRoof() {
-        this.meshes[1].isVisible = false;
+        // this.meshes[1].isVisible = false;
     }
 
     switchLights(on: boolean) {

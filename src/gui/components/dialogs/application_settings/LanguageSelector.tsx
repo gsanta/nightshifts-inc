@@ -9,7 +9,7 @@ export const LanguageSelector = (props: LanguageSelector) => {
 
     const changeLanguage = (event: React.ChangeEvent<any>) => {
         props.changeLanguage(event.target.value);
-        i18n.changeLanguage(event.target.value);
+        // i18n.changeLanguage(event.target.value);
     };
 
     return (

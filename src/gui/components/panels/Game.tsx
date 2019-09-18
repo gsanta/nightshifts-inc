@@ -13,7 +13,7 @@ import { HealthWidget } from '../widgets/health_widget/HealthWidget';
 import { Widgetbar } from '../widgets/Widgetbar';
 import { ControllerContext } from './Context';
 
-const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.gwm');
+const gwmGameWorldMap = require('../../../../assets/world_maps/new_world_map.2.gwm');
 
 const WidgetContainer = styled.div`
     position: absolute;

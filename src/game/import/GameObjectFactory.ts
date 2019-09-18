@@ -42,9 +42,21 @@ export class GameObjectFactory {
             case 'chair':
             case 'bed':
             case 'portal':
-                return new GameObject(worldItemInfo.meshTemplate.meshes, worldItemInfo.dimensions, {type: worldItemInfo.name});
+                const gameObject = new GameObject(worldItemInfo.meshTemplate.meshes, worldItemInfo.dimensions, {type: worldItemInfo.name});
+                gameObject.meshes[0].isVisible = false;
+                return gameObject;
             default:
                 throw new Error('Unsupported type: ' + worldItemInfo.name);
+        }
+    }
+
+    private getWall(worldItemInfo: WorldItem): GameObject {
+        if (worldItemInfo.children.length === 2) {
+            const border = new Border(worldItemInfo.meshTemplate.meshes, worldItemInfo.dimensions, {type: 'wall'});
+            border.meshes.forEach(mesh => mesh.isVisible = false);
+            return border;
+        } else {
+            return new GameObject(worldItemInfo.meshTemplate.meshes, worldItemInfo.dimensions, {type: 'wall'});
         }
     }
 

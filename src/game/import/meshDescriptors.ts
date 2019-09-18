@@ -21,14 +21,15 @@ export const meshDescriptors = [
         name: 'mesh-descriptor' as 'mesh-descriptor',
         details: {
             name: 'file-descriptor' as 'file-descriptor',
-            path: 'models/',
+            path: 'models/door/',
             fileName: 'door.babylon',
-            scale: 1
+            scale: 3
         },
-        materials: [],
+        translateY: -4,
+        materials: ['models/door/door_material.png'],
         realDimensions: {
             name: 'border-dimensions-descriptor' as 'border-dimensions-descriptor',
-            width: 2.7
+            width: 3
         }
     },
     {
@@ -162,5 +163,14 @@ export const meshDescriptors = [
 
         },
         materials: ['models/bed_material.png'],
+    },
+    {
+        type: 'empty',
+        name: 'mesh-descriptor' as 'mesh-descriptor',
+        materials: [],
+        details: {
+            name: 'shape-descriptor' as 'shape-descriptor',
+            shape: 'plane',
+        },
     },
 ];
