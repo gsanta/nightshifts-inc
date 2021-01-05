@@ -91,7 +91,7 @@
     "@types/redux-saga": "^0.10.5",
     "@types/request": "^2.48.3",
     "@types/styled-components": "^4.1.19",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "babel-jest": "^24.9.0",
     "babylonjs": "^4.0.3",
     "babylonjs-loaders": "^4.0.3",
