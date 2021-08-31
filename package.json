@@ -131,6 +131,6 @@
     "redux-saga": "^1.1.1",
     "request": "^2.88.0",
     "styled-components": "^4.3.2",
-    "tar": "^4.4.11"
+    "tar": "^4.4.18"
   }
 }
